@@ -156,6 +156,9 @@
       margin-bottom: 1rem;
       color: #666;
     }
+    .modal-open {
+      overflow: hidden !important;
+    }
     .section-nav {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem; margin: 2rem 0;
@@ -479,7 +482,7 @@
      `;
      
      content.innerHTML = `
-       <button onclick="this.closest('div').remove()" style="
+       <button onclick="closeModal(this)" style="
          position: absolute; top: 1rem; right: 1rem; background: #dc3545;
          color: white; border: none; border-radius: 50%; width: 30px; height: 30px;
          cursor: pointer; font-size: 1.2rem;
@@ -709,10 +712,31 @@ print(f"\nGradients match: {np.allclose(gradients, manual_gradients)}")</code></
      modal.appendChild(content);
      document.body.appendChild(modal);
      
+     // Prevent body scroll when modal is open
+     document.body.classList.add('modal-open');
+     
+     // Add click outside to close
+     modal.addEventListener('click', function(e) {
+       if (e.target === modal) {
+         closeModal(modal);
+       }
+     });
+     
      // Initialize Prism highlighting
      if (typeof Prism !== 'undefined') {
        Prism.highlightAll();
      }
+   }
+
+   // Function to properly close modal
+   function closeModal(element) {
+     const modal = element.closest('[style*="position: fixed"]') || element;
+     if (modal && modal.parentNode) {
+       modal.parentNode.removeChild(modal);
+     }
+     // Restore body scroll and remove modal class
+     document.body.classList.remove('modal-open');
+     document.body.style.overflow = '';
    }
 
    // Function to copy code to clipboard
