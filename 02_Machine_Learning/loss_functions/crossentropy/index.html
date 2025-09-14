@@ -349,27 +349,27 @@
                 <p>CrossEntropy naturally arises from Maximum Likelihood Estimation (MLE). Let's derive it step by step:</p>
                 
                 <h4>Problem Setup</h4>
-                <p>Given a dataset with true labels <span class="math-inline">$y^{(i)} \in \{1, 2, ..., C\}$</span> and model predictions <span class="math-inline">$\hat{p}^{(i)} = [\hat{p}_1^{(i)}, \hat{p}_2^{(i)}, ..., \hat{p}_C^{(i)}]$</span>, we want to find the model parameters that maximize the likelihood of observing the data.</p>
+                <p>Given a dataset with true labels <span class="math-inline">$y^{(i)} \in \{1, 2, ..., C\}$</span> and model predictions <span class="math-inline">$\hat{y}^{(i)} = [\hat{y}_1^{(i)}, \hat{y}_2^{(i)}, ..., \hat{y}_C^{(i)}]$</span>, we want to find the model parameters that maximize the likelihood of observing the data.</p>
                 
                 <div class="math-display">
                     <strong>Likelihood function:</strong><br><br>
-                    $$L(\theta) = \prod_{i=1}^{N} \hat{p}_{y^{(i)}}^{(i)}$$
+                    $$L(\theta) = \prod_{i=1}^{N} \hat{y}_{y^{(i)}}^{(i)}$$
                 </div>
                 
-                <p>Where <span class="math-inline">$y^{(i)}$</span> is the true class index for sample <span class="math-inline">$i$</span>, and <span class="math-inline">$\hat{p}_{y^{(i)}}^{(i)}$</span> is the predicted probability for the true class.</p>
+                <p>Where <span class="math-inline">$y^{(i)}$</span> is the true class index for sample <span class="math-inline">$i$</span>, and <span class="math-inline">$\hat{y}_{y^{(i)}}^{(i)}$</span> is the predicted probability for the true class.</p>
                 
                 <h4>Log-Likelihood</h4>
                 <p>Taking the logarithm (which preserves the maximum):</p>
                 
                 <div class="math-display">
-                    $$\log L(\theta) = \sum_{i=1}^{N} \log(\hat{p}_{y^{(i)}}^{(i)})$$
+                    $$\log L(\theta) = \sum_{i=1}^{N} \log(\hat{y}_{y^{(i)}}^{(i)})$$
                 </div>
                 
                 <h4>Negative Log-Likelihood</h4>
                 <p>To convert maximization to minimization (standard in optimization):</p>
                 
                 <div class="math-display">
-                    $$-\log L(\theta) = -\sum_{i=1}^{N} \log(\hat{p}_{y^{(i)}}^{(i)})$$
+                    $$-\log L(\theta) = -\sum_{i=1}^{N} \log(\hat{y}_{y^{(i)}}^{(i)})$$
                 </div>
                 
                 <h4>CrossEntropy Loss</h4>
