@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression - AI Learning Hub</title>
+
+  <!-- MathJax Configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    header {
+      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo { font-size: 1.5rem; font-weight: bold; color: #667eea; text-decoration: none; }
+    .breadcrumb { font-size: 0.9rem; color: #666; }
+    .breadcrumb a { color: #667eea; text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    main { padding: 2rem 0; }
+    .content-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px; padding: 2rem; margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);
+    }
+    h1 { color: #667eea; margin-bottom: 1rem; font-size: 2.5rem; }
+    h2 {
+      color: #667eea; margin: 2rem 0 1rem 0; font-size: 1.8rem;
+      border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;
+    }
+    h3 { color: #555; margin: 1.5rem 0 0.5rem 0; font-size: 1.3rem; }
+    .overview {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
+    }
+    .overview h3 { color: white; margin-top: 0; }
+    .math-display {
+      margin: 1.5rem 0; text-align: center; font-size: 1.2rem;
+    }
+    .math-inline {
+      font-size: 1rem;
+    }
+    .learning-objectives {
+      background: linear-gradient(135deg, #4ecdc4, #44a08d);
+      color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
+    }
+    .learning-objectives h3 { color: white; margin-top: 0; }
+    .learning-objectives ul { list-style: none; padding-left: 0; }
+    .learning-objectives li { margin: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+    .learning-objectives li::before {
+      content: "✓"; position: absolute; left: 0; color: #fff; font-weight: bold;
+    }
+    .estimated-time {
+      background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;
+      padding: 1rem; margin: 1rem 0; color: #856404;
+    }
+    .estimated-time strong { color: #667eea; }
+    .back-button {
+      display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 25px;
+      font-weight: bold; transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.4); margin-bottom: 2rem;
+    }
+    .back-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
+    table {
+      width: 100%; border-collapse: collapse; margin: 1rem 0; background: white;
+      border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    thead tr { background: #667eea; color: white; }
+    th, td { padding: 12px; }
+    th { text-align: left; }
+    td.center { text-align: center; }
+    .chart-container {
+      position: relative; height: 400px; margin: 2rem 0;
+      background: white; border-radius: 10px; padding: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .comparison-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem; margin: 2rem 0;
+    }
+    .comparison-card {
+      background: white; border-radius: 10px; padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .comparison-card h4 {
+      color: #667eea; margin-bottom: 1rem; font-size: 1.2rem;
+    }
+    .code-container {
+      position: relative; margin: 1rem 0;
+    }
+    .code-header {
+      background: #667eea; color: white; padding: 0.5rem 1rem;
+      border-radius: 8px 8px 0 0; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white; padding: 0.25rem 0.75rem; border-radius: 4px;
+      cursor: pointer; font-size: 0.8rem; transition: all 0.3s ease;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.3); }
+    .copy-btn.copied { background: #28a745; border-color: #28a745; }
+    pre[class*="language-"] {
+      margin: 0; border-radius: 0 0 8px 8px;
+      border: 1px solid #e9ecef; border-top: none;
+    }
+    .section-nav {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem; margin: 2rem 0;
+    }
+    .section-card {
+      background: #f8f9fa; border-radius: 10px; padding: 1.5rem; text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+    }
+    .section-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .section-card h4 { color: #667eea; margin-bottom: 0.5rem; }
+    .section-card p { color: #666; font-size: 0.9rem; }
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .content-card { padding: 1.5rem; }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .section-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav class="container">
+    <a href="/AILearningHub/" class="logo">🤖 AI Learning Hub</a>
+    <div class="breadcrumb">
+      <a href="/AILearningHub/">Home</a> /
+      <a href="/AILearningHub/02_Machine_Learning/">Machine Learning</a> /
+      Linear Regression
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
+    <a href="/AILearningHub/02_Machine_Learning/" class="back-button">← Back to Machine Learning</a>
+
+    <div class="content-card">
+      <h1>Linear Regression</h1>
+
+      <div class="overview">
+        <h3>📋 Overview</h3>
+        <p>Linear Regression is the foundation of machine learning and statistical modeling. It models the relationship between a dependent variable and independent variables using a linear approach. Despite being simple, it's powerful and widely applicable.</p>
+      </div>
+
+      <div class="learning-objectives">
+        <h3>🎯 Learning Objectives</h3>
+        <ul>
+          <li>Understand the mathematical foundation of linear regression</li>
+          <li>Implement linear regression from scratch and using libraries</li>
+          <li>Visualize regression results and interpret coefficients</li>
+          <li>Apply linear regression to real-world problems</li>
+          <li>Understand assumptions and limitations</li>
+        </ul>
+      </div>
+
+      <div class="estimated-time">
+        <strong>⏱️ Estimated Time:</strong> 20–25 minutes reading + 45 minutes practice
+      </div>
+
+      <h2>Mathematical Foundation</h2>
+      <p>Linear Regression models the relationship between a dependent variable <span class="math-inline">$y$</span> and one or more independent variables <span class="math-inline">$x_1, x_2, ..., x_n$</span> using a linear function.</p>
+
+      <h3>Simple Linear Regression</h3>
+      <div class="math-display">
+        <strong>Model:</strong><br><br>
+        $$y = w_0 + w_1 x + \varepsilon$$
+      </div>
+
+      <p>Where:
+        <ul>
+          <li><span class="math-inline">$y$</span> is the dependent variable (target)</li>
+          <li><span class="math-inline">$x$</span> is the independent variable (feature)</li>
+          <li><span class="math-inline">$w_0$</span> is the intercept (bias term)</li>
+          <li><span class="math-inline">$w_1$</span> is the slope (coefficient)</li>
+          <li><span class="math-inline">$\varepsilon$</span> is the error term (residuals)</li>
+        </ul>
+      </p>
+
+      <h3>Multiple Linear Regression</h3>
+      <div class="math-display">
+        <strong>Model:</strong><br><br>
+        $$y = w_0 + w_1 x_1 + w_2 x_2 + ... + w_n x_n + \varepsilon$$
+      </div>
+
+      <h3>Matrix Form</h3>
+      <p>For multiple features, we can express linear regression in matrix form:</p>
+
+      <div class="math-display">
+        <strong>Vectorized Form:</strong><br><br>
+        $$\boldsymbol{y} = \boldsymbol{X}\boldsymbol{w} + \boldsymbol{\varepsilon}$$
+      </div>
+
+      <p>Where:
+        <ul>
+          <li><span class="math-inline">$\boldsymbol{y}$</span> is the target vector <span class="math-inline">$(n \times 1)$</span></li>
+          <li><span class="math-inline">$\boldsymbol{X}$</span> is the feature matrix <span class="math-inline">$(n \times p)$</span></li>
+          <li><span class="math-inline">$\boldsymbol{w}$</span> is the coefficient vector <span class="math-inline">$(p \times 1)$</span></li>
+          <li><span class="math-inline">$\boldsymbol{\varepsilon}$</span> is the error vector <span class="math-inline">$(n \times 1)$</span></li>
+        </ul>
+      </p>
+
+      <h2>Theoretical Foundation: Maximum Likelihood Estimation</h2>
+      
+      <p>Before diving into the cost function, let's understand why we use the sum of squared residuals. This comes from <strong>Maximum Likelihood Estimation (MLE)</strong>.</p>
+      
+      <h3>MLE Derivation</h3>
+      <p>We assume that the errors <span class="math-inline">$\varepsilon_i$</span> are independently and identically distributed (i.i.d.) following a normal distribution with mean 0 and variance <span class="math-inline">$\sigma^2$</span>:</p>
+      
+      <div class="math-display">
+        $$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$
+      </div>
+      
+      <p>This means:</p>
+      <div class="math-display">
+        $$y_i | \boldsymbol{x}_i \sim \mathcal{N}(\boldsymbol{x}_i^T \boldsymbol{w}, \sigma^2)$$
+      </div>
+      
+      <p>The likelihood function for all <span class="math-inline">$n$</span> observations is:</p>
+      <div class="math-display">
+        $$L(\boldsymbol{w}, \sigma^2) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - \boldsymbol{x}_i^T \boldsymbol{w})^2}{2\sigma^2}\right)$$
+      </div>
+      
+      <p>Taking the negative log-likelihood (to minimize instead of maximize):</p>
+      <div class="math-display">
+        $$-\log L(\boldsymbol{w}, \sigma^2) = \frac{n}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i - \boldsymbol{x}_i^T \boldsymbol{w})^2$$
+      </div>
+      
+      <p>Since we only care about finding <span class="math-inline">$\boldsymbol{w}$</span>, we can ignore the first term and the constant <span class="math-inline">$\frac{1}{2\sigma^2}$</span>. This gives us the <strong>MSE cost function</strong>:</p>
+      
+      <h3>Objective Function</h3>
+      <p>The goal is to find the parameters <span class="math-inline">$\boldsymbol{w}$</span> that minimize the sum of squared residuals:</p>
+
+      <div class="math-display">
+        <strong>Cost Function (MSE):</strong><br><br>
+        $$J(\boldsymbol{w}) = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \boldsymbol{x}_i^T \boldsymbol{w})^2$$
+      </div>
+
+      <div class="math-display">
+        <strong>Matrix Form:</strong><br><br>
+        $$J(\boldsymbol{w}) = \frac{1}{2n} ||\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}||^2$$
+      </div>
+
+      <h3>Normal Equation (Closed-form Solution)</h3>
+      <p>Taking the derivative and setting it to zero gives us the normal equation:</p>
+
+      <div class="math-display">
+        <strong>Normal Equation:</strong><br><br>
+        $$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$$
+      </div>
+
+      <p><strong>Derivation:</strong></p>
+      <div class="math-display">
+        $$\frac{\partial J}{\partial \boldsymbol{w}} = \frac{1}{n}\boldsymbol{X}^T(\boldsymbol{X}\boldsymbol{w} - \boldsymbol{y}) = 0$$
+      </div>
+
+      <div class="math-display">
+        $$\boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$$
+      </div>
+
+      <div class="math-display">
+        $$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$$
+      </div>
+
+      <h3>Gradient Descent (Iterative Solution)</h3>
+      <p>For large datasets, we can use gradient descent:</p>
+
+      <div class="math-display">
+        <strong>Gradient:</strong><br><br>
+        $$\nabla J(\boldsymbol{w}) = \frac{1}{n}\boldsymbol{X}^T(\boldsymbol{X}\boldsymbol{w} - \boldsymbol{y})$$
+      </div>
+
+      <div class="math-display">
+        <strong>Update Rule:</strong><br><br>
+        $$\boldsymbol{w}^{(t+1)} = \boldsymbol{w}^{(t)} - \alpha \nabla J(\boldsymbol{w}^{(t)})$$
+      </div>
+
+      <p>Where <span class="math-inline">$\alpha$</span> is the learning rate.</p>
+
+      <h2>Key Assumptions</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h4>📊 Linear Relationship</h4>
+          <p>The relationship between independent and dependent variables should be linear.</p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>🎯 Independence</h4>
+          <p>Observations should be independent of each other (no autocorrelation).</p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>📈 Homoscedasticity</h4>
+          <p>Residuals should have constant variance (homoscedasticity).</p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>🔔 Normality</h4>
+          <p>Residuals should be normally distributed.</p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>🚫 No Multicollinearity</h4>
+          <p>Independent variables should not be highly correlated with each other.</p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>✅ No Outliers</h4>
+          <p>The model should not be unduly influenced by extreme values.</p>
+        </div>
+      </div>
+
+      <h2>Applications</h2>
+      <ul>
+        <li><strong>Economics:</strong> Demand forecasting, price prediction, GDP modeling</li>
+        <li><strong>Healthcare:</strong> Medical diagnosis, treatment outcome prediction, drug effectiveness</li>
+        <li><strong>Business:</strong> Sales forecasting, risk assessment, customer lifetime value</li>
+        <li><strong>Engineering:</strong> Quality control, system modeling, performance optimization</li>
+        <li><strong>Social Sciences:</strong> Policy analysis, behavioral studies, demographic modeling</li>
+      </ul>
+
+      <h2>Interactive Visualization</h2>
+      <p>Explore how linear regression fits a line through data points:</p>
+      
+      <div class="chart-container">
+        <canvas id="regressionChart"></canvas>
+      </div>
+
+      <h2>Model Evaluation</h2>
+      
+      <h3>R-squared (Coefficient of Determination)</h3>
+      <div class="math-display">
+        $$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2}$$
+      </div>
+
+      <h3>Mean Squared Error (MSE)</h3>
+      <div class="math-display">
+        $$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$
+      </div>
+
+      <h3>Root Mean Squared Error (RMSE)</h3>
+      <div class="math-display">
+        $$\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
+      </div>
+
+      <h3>Mean Absolute Error (MAE)</h3>
+      <div class="math-display">
+        $$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|y_i - \hat{y}_i|$$
+      </div>
+    </div>
+
+    <div class="section-nav">
+      <div class="section-card">
+        <h4>💻 Code Examples</h4>
+        <p>NumPy, scikit-learn, and PyTorch implementations</p>
+      </div>
+      <div class="section-card">
+        <h4>📊 Advanced Topics</h4>
+        <p>Ridge, Lasso, and Elastic Net regression</p>
+      </div>
+      <div class="section-card">
+        <h4>🏋️ Exercises</h4>
+        <p>Hands-on practice problems</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Detailed Example: House Price Prediction</h2>
+      <p>Let's work through a practical example of predicting house prices based on size and number of bedrooms.</p>
+
+      <h3>Sample Data</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>House</th>
+            <th class="center">Size (sq ft)</th>
+            <th class="center">Bedrooms</th>
+            <th class="center">Price ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td class="center">2100</td>
+            <td class="center">3</td>
+            <td class="center">399,900</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td class="center">1600</td>
+            <td class="center">3</td>
+            <td class="center">329,900</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td class="center">2400</td>
+            <td class="center">3</td>
+            <td class="center">369,000</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td class="center">1416</td>
+            <td class="center">2</td>
+            <td class="center">232,000</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td class="center">3000</td>
+            <td class="center">4</td>
+            <td class="center">539,900</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Model Setup</h3>
+      <p>We want to predict price based on size and bedrooms:</p>
+
+      <div class="math-display">
+        $$\text{Price} = w_0 + w_1 \times \text{Size} + w_2 \times \text{Bedrooms} + \varepsilon$$
+      </div>
+
+      <h3>Matrix Formulation</h3>
+      <div class="math-display">
+        $$\boldsymbol{X} = \begin{bmatrix}
+        1 & 2100 & 3 \\
+        1 & 1600 & 3 \\
+        1 & 2400 & 3 \\
+        1 & 1416 & 2 \\
+        1 & 3000 & 4
+        \end{bmatrix}, \quad
+        \boldsymbol{y} = \begin{bmatrix}
+        399900 \\
+        329900 \\
+        369000 \\
+        232000 \\
+        539900
+        \end{bmatrix}$$
+      </div>
+
+      <h3>Solution</h3>
+      <p>Using the normal equation:</p>
+
+      <div class="math-display">
+        $$\boldsymbol{\beta} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$$
+      </div>
+
+      <div class="math-display">
+        $$\boldsymbol{w} = \begin{bmatrix}
+        w_0 \\
+        w_1 \\
+        w_2
+        \end{bmatrix} = \begin{bmatrix}
+        89597.05 \\
+        139.21 \\
+        -8738.02
+        \end{bmatrix}$$
+      </div>
+
+      <h3>Final Model</h3>
+      <div class="math-display">
+        $$\text{Price} = 89597.05 + 139.21 \times \text{Size} - 8738.02 \times \text{Bedrooms}$$
+      </div>
+
+      <h3>Interpretation</h3>
+      <ul>
+        <li><strong>Intercept $w_0$ ($89,597):</strong> Base price when size and bedrooms are zero</li>
+        <li><strong>Size coefficient $w_1$ ($139.21):</strong> Each additional square foot adds $139.21 to the price</li>
+        <li><strong>Bedrooms coefficient $w_2$ (-$8,738):</strong> Each additional bedroom decreases price by $8,738 (counterintuitive, possibly due to correlation with other factors)</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Initialize regression visualization chart
+  function initRegressionChart() {
+    const ctx = document.getElementById('regressionChart').getContext('2d');
+    
+    // Sample data for house prices
+    const houseData = [
+      { size: 2100, bedrooms: 3, price: 399900 },
+      { size: 1600, bedrooms: 3, price: 329900 },
+      { size: 2400, bedrooms: 3, price: 369000 },
+      { size: 1416, bedrooms: 2, price: 232000 },
+      { size: 3000, bedrooms: 4, price: 539900 }
+    ];
+    
+    // Calculate regression line (simplified: just using size vs price)
+    const sizes = houseData.map(d => d.size);
+    const prices = houseData.map(d => d.price);
+    
+    // Simple linear regression calculation
+    const n = sizes.length;
+    const sumX = sizes.reduce((a, b) => a + b, 0);
+    const sumY = prices.reduce((a, b) => a + b, 0);
+    const sumXY = sizes.reduce((sum, x, i) => sum + x * prices[i], 0);
+    const sumXX = sizes.reduce((sum, x) => sum + x * x, 0);
+    
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+    
+    // Generate regression line points
+    const minSize = Math.min(...sizes);
+    const maxSize = Math.max(...sizes);
+    const lineX = [minSize, maxSize];
+    const lineY = lineX.map(x => slope * x + intercept);
+    
+    new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'House Data',
+          data: houseData.map(d => ({ x: d.size, y: d.price })),
+          backgroundColor: '#667eea',
+          borderColor: '#667eea',
+          pointRadius: 8,
+          pointHoverRadius: 10
+        }, {
+          label: 'Regression Line',
+          data: lineX.map((x, i) => ({ x: x, y: lineY[i] })),
+          type: 'line',
+          borderColor: '#ff6b6b',
+          backgroundColor: 'transparent',
+          borderWidth: 3,
+          pointRadius: 0,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'House Price vs Size: Linear Regression',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'House Size (sq ft)'
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Price ($)'
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            },
+            ticks: {
+              callback: function(value) {
+                return '$' + value.toLocaleString();
+              }
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        }
+      }
+    });
+  }
+
+  // Function to show code examples
+  function showCodeExamples() {
+    const modal = document.createElement('div');
+    modal.id = 'code-modal';
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
+      justify-content: center; align-items: center; padding: 2rem;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+      background: white; border-radius: 15px; max-width: 90%; max-height: 90%;
+      overflow-y: auto; padding: 2rem; position: relative;
+    `;
+    
+    content.innerHTML = `
+      <button onclick="closeModal(this)" style="
+        position: absolute; top: 1rem; right: 1rem; background: #dc3545;
+        color: white; border: none; border-radius: 50%; width: 30px; height: 30px;
+        cursor: pointer; font-size: 1.2rem;
+      ">×</button>
+      
+      <h2 style="color: #667eea; margin-bottom: 2rem;">💻 Code Examples</h2>
+      
+      <div class="code-section">
+        <h3>1. NumPy Implementation (From Scratch)</h3>
+        <p>Implementing linear regression using only NumPy:</p>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span>linear_regression_numpy.py</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code class="language-python">import numpy as np
+
+class LinearRegression:
+    def __init__(self):
+        self.coefficients = None
+        self.intercept = None
+    
+    def fit(self, X, y):
+        """
+        Fit linear regression model using normal equation.
+        
+        Args:
+            X: Feature matrix (n_samples, n_features)
+            y: Target vector (n_samples,)
+        """
+        # Add intercept term (column of ones)
+        X_with_intercept = np.column_stack([np.ones(X.shape[0]), X])
+        
+        # Normal equation: β = (X^T X)^(-1) X^T y
+        self.coefficients = np.linalg.inv(X_with_intercept.T @ X_with_intercept) @ X_with_intercept.T @ y
+        
+        # Extract intercept and coefficients
+        self.intercept = self.coefficients[0]
+        self.coefficients = self.coefficients[1:]
+    
+    def predict(self, X):
+        """Make predictions using fitted model."""
+        return X @ self.coefficients + self.intercept
+    
+    def score(self, X, y):
+        """Calculate R-squared score."""
+        y_pred = self.predict(X)
+        ss_res = np.sum((y - y_pred) ** 2)
+        ss_tot = np.sum((y - np.mean(y)) ** 2)
+        return 1 - (ss_res / ss_tot)
+
+# Example usage
+np.random.seed(42)
+X = np.random.randn(100, 2)  # 100 samples, 2 features
+y = 3 * X[:, 0] + 2 * X[:, 1] + 1 + np.random.randn(100) * 0.1
+
+# Fit model
+model = LinearRegression()
+model.fit(X, y)
+
+# Make predictions
+y_pred = model.predict(X)
+print(f"R² Score: {model.score(X, y):.4f}")
+print(f"Intercept: {model.intercept:.4f}")
+print(f"Coefficients: {model.coefficients}")</code></pre>
+        </div>
+      </div>
+
+      <div class="code-section">
+        <h3>2. Scikit-learn Implementation</h3>
+        <p>Using the popular scikit-learn library:</p>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span>linear_regression_sklearn.py</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code class="language-python">from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+
+# Generate sample data
+np.random.seed(42)
+X = np.random.randn(1000, 3)  # 1000 samples, 3 features
+y = 2 * X[:, 0] + 3 * X[:, 1] - X[:, 2] + 1 + np.random.randn(1000) * 0.5
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create and fit model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred_train = model.predict(X_train)
+y_pred_test = model.predict(X_test)
+
+# Evaluate model
+print("Training Results:")
+print(f"R² Score: {r2_score(y_train, y_pred_train):.4f}")
+print(f"RMSE: {np.sqrt(mean_squared_error(y_train, y_pred_train)):.4f}")
+
+print("\nTest Results:")
+print(f"R² Score: {r2_score(y_test, y_pred_test):.4f}")
+print(f"RMSE: {np.sqrt(mean_squared_error(y_test, y_pred_test)):.4f}")
+
+print(f"\nModel Parameters:")
+print(f"Intercept: {model.intercept_:.4f}")
+print(f"Coefficients: {model.coefficients_}")</code></pre>
+        </div>
+      </div>
+
+      <div class="code-section">
+        <h3>3. PyTorch Implementation</h3>
+        <p>Using PyTorch for neural network-style linear regression:</p>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span>linear_regression_pytorch.py</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+
+class LinearRegressionModel(nn.Module):
+    def __init__(self, input_size):
+        super().__init__()
+        self.linear = nn.Linear(input_size, 1)
+    
+    def forward(self, x):
+        return self.linear(x)
+
+# Generate data
+np.random.seed(42)
+X = torch.randn(1000, 3, dtype=torch.float32)
+y = 2 * X[:, 0] + 3 * X[:, 1] - X[:, 2] + 1 + torch.randn(1000) * 0.5
+y = y.unsqueeze(1)  # Add dimension for output
+
+# Create model
+model = LinearRegressionModel(input_size=3)
+criterion = nn.MSELoss()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+# Training loop
+epochs = 1000
+for epoch in range(epochs):
+    # Forward pass
+    outputs = model(X)
+    loss = criterion(outputs, y)
+    
+    # Backward pass
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    
+    if (epoch + 1) % 200 == 0:
+        print(f'Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}')
+
+# Print learned parameters
+print(f"Learned weights: {model.linear.weight.data}")
+print(f"Learned bias: {model.linear.bias.data}")
+
+# Make predictions
+with torch.no_grad():
+    predictions = model(X)
+    mse = criterion(predictions, y)
+    print(f"Final MSE: {mse.item():.4f}")</code></pre>
+        </div>
+      </div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Prevent body scroll when modal is open
+    document.body.classList.add('modal-open');
+    
+    // Add click outside to close
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal(modal);
+      }
+    });
+    
+    // Initialize Prism highlighting
+    if (typeof Prism !== 'undefined') {
+      Prism.highlightAll();
+    }
+  }
+
+  // Function to properly close modal
+  function closeModal(element) {
+    let modal = document.getElementById('code-modal');
+    
+    if (!modal && element && element.closest) {
+      modal = element.closest('#code-modal');
+    }
+    
+    if (!modal) {
+      const modals = document.querySelectorAll('div[style*="position: fixed"][style*="z-index: 10000"]');
+      modal = modals[modals.length - 1];
+    }
+    
+    if (modal) {
+      modal.remove();
+    }
+    
+    // Restore body scroll and remove modal class
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    
+    // Force cleanup - remove any remaining modals
+    const remainingModals = document.querySelectorAll('div[style*="position: fixed"][style*="z-index: 10000"]');
+    remainingModals.forEach(m => m.remove());
+  }
+
+  // Function to copy code to clipboard
+  function copyCode(button) {
+    const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+    const text = codeBlock.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('copied');
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove('copied');
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+      button.textContent = 'Failed';
+    });
+  }
+
+  // Click handlers for the section cards
+  document.querySelectorAll('.section-card').forEach(card => {
+    card.addEventListener('click', function () {
+      const title = this.querySelector('h4').textContent;
+      switch (title) {
+        case '💻 Code Examples':
+          showCodeExamples();
+          break;
+        case '📊 Advanced Topics':
+          alert('Advanced Topics: Ridge, Lasso, and Elastic Net regression will be implemented here...');
+          break;
+        case '🏋️ Exercises':
+          alert('Exercises: Hands-on practice problems will be implemented here...');
+          break;
+      }
+    });
+  });
+
+  // Initialize when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    initRegressionChart();
+  });
+
+  // Smooth scrolling for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
