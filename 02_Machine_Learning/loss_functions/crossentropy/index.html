@@ -468,7 +468,14 @@
  <script>
    // Function to show code examples
    function showCodeExamples() {
+     // Remove any existing modal first
+     const existingModal = document.getElementById('code-modal');
+     if (existingModal) {
+       existingModal.remove();
+     }
+     
      const modal = document.createElement('div');
+     modal.id = 'code-modal';
      modal.style.cssText = `
        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
        background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
@@ -730,13 +737,32 @@ print(f"\nGradients match: {np.allclose(gradients, manual_gradients)}")</code></
 
    // Function to properly close modal
    function closeModal(element) {
-     const modal = element.closest('[style*="position: fixed"]') || element;
-     if (modal && modal.parentNode) {
-       modal.parentNode.removeChild(modal);
+     // Try to find modal by ID first
+     let modal = document.getElementById('code-modal');
+     
+     // If not found by ID, try to find by traversing up
+     if (!modal && element && element.closest) {
+       modal = element.closest('#code-modal');
      }
+     
+     // If still not found, search for any modal with our specific style
+     if (!modal) {
+       const modals = document.querySelectorAll('div[style*="position: fixed"][style*="z-index: 10000"]');
+       modal = modals[modals.length - 1];
+     }
+     
+     // Remove the modal if found
+     if (modal) {
+       modal.remove();
+     }
+     
      // Restore body scroll and remove modal class
      document.body.classList.remove('modal-open');
      document.body.style.overflow = '';
+     
+     // Force cleanup - remove any remaining modals
+     const remainingModals = document.querySelectorAll('div[style*="position: fixed"][style*="z-index: 10000"]');
+     remainingModals.forEach(m => m.remove());
    }
 
    // Function to copy code to clipboard
