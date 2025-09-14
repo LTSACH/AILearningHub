@@ -178,78 +178,181 @@
         </ul>
       </p>
 
-      <h2>Theoretical Foundation: MLE Derivation</h2>
+
+        <h2>Theoretical Foundation of MSE</h2>
       
-      <h3>Maximum Likelihood Estimation Perspective</h3>
-      <p>MSE naturally arises from Maximum Likelihood Estimation under the assumption of Gaussian noise. Let's derive it step by step:</p>
+        <!-- MLE Part -->
+        <h3>1) Maximum Likelihood Estimation (MLE) Perspective</h3>
+        <p>
+          MSE naturally arises from Maximum Likelihood Estimation under the assumption
+          of Gaussian noise. Let's derive it step by step:
+        </p>
       
-      <h4>Problem Setup</h4>
-      <p>Assume we have a regression model $f(x; \theta)$ that predicts continuous values. The true relationship is:</p>
+        <h4>Problem Setup</h4>
+        <p>Assume we have a regression model $f(x; \theta)$ that predicts continuous values. The true relationship is:</p>
       
-      <div class="math-display">
-        $$y^{(i)} = f(x^{(i)}; \theta) + \epsilon^{(i)}$$
-      </div>
+        <div class="math-display">
+          $$y^{(i)} = f(x^{(i)}; \theta) + \epsilon^{(i)}$$
+        </div>
       
-      <p>Where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$ is Gaussian noise with mean 0 and variance $\sigma^2$.</p>
+        <p>Where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$ is Gaussian noise with mean 0 and variance $\sigma^2$.</p>
       
-      <h4>Likelihood Function</h4>
-      <p>The likelihood of observing the data given the model parameters is:</p>
+        <h4>Likelihood Function</h4>
+        <div class="math-display">
+          $$L(\theta) = \prod_{i=1}^{n} p(y^{(i)} | x^{(i)}, \theta)$$
+        </div>
       
-      <div class="math-display">
-        $$L(\theta) = \prod_{i=1}^{n} p(y^{(i)} | x^{(i)}, \theta)$$
-      </div>
+        <div class="math-display">
+          $$p(y^{(i)} | x^{(i)}, \theta) = \frac{1}{\sqrt{2\pi\sigma^2}}
+          \exp\!\left(-\frac{(y^{(i)} - f(x^{(i)}; \theta))^2}{2\sigma^2}\right)$$
+        </div>
       
-      <p>Since each $y^{(i)}$ follows a normal distribution centered at $f(x^{(i)}; \theta)$:</p>
+        <h4>Log-Likelihood</h4>
+        <div class="math-display">
+          $$\log L(\theta) = -\frac{n}{2}\log(2\pi\sigma^2)
+          - \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+        </div>
       
-      <div class="math-display">
-        $$p(y^{(i)} | x^{(i)}, \theta) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y^{(i)} - f(x^{(i)}; \theta))^2}{2\sigma^2}\right)$$
-      </div>
+        <h4>Negative Log-Likelihood</h4>
+        <div class="math-display">
+          $$-\log L(\theta) = \frac{n}{2}\log(2\pi\sigma^2)
+          + \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+        </div>
       
-      <h4>Log-Likelihood</h4>
-      <p>Taking the logarithm (which preserves the maximum):</p>
+        <h4>Connection to MSE</h4>
+        <p>
+          Since $\sigma^2$ is constant and does not depend on $\theta$, maximizing likelihood
+          is equivalent to minimizing the sum of squared errors. Dividing by $n$ gives the Mean Squared Error:
+        </p>
       
-      <div class="math-display">
-        $$\log L(\theta) = \sum_{i=1}^{n} \log p(y^{(i)} | x^{(i)}, \theta)$$
-      </div>
+        <div class="math-display">
+          $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+        </div>
       
-      <div class="math-display">
-        $$= \sum_{i=1}^{n} \left[-\frac{1}{2}\log(2\pi\sigma^2) - \frac{(y^{(i)} - f(x^{(i)}; \theta))^2}{2\sigma^2}\right]$$
-      </div>
+        <p><strong>Key insight:</strong> MSE is the negative log-likelihood (up to constants)
+        under Gaussian noise. This explains why MSE is the “natural” loss function for regression.</p>
       
-      <div class="math-display">
-        $$= -\frac{n}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
-      </div>
+        <!-- Information Theory Part -->
+        <h3>2) Information Theory Perspective</h3>
+        <p>
+          MSE can also be understood from an information-theoretic perspective. 
+          Suppose the true distribution of an observation is Gaussian 
+          $\mathcal{N}(y, \sigma^2)$, while the model’s predicted distribution 
+          is $\mathcal{N}(\hat{y}, \sigma^2)$, both with the same variance $\sigma^2$.
+        </p>
+        
+        <h4>KL Divergence Definition</h4>
+        <p>
+          The Kullback–Leibler (KL) divergence between two distributions $p$ and $q$ is:
+        </p>
+        
+        <div class="math-display">
+          $$D_{\mathrm{KL}}(p \,\|\, q) = \int p(x) \log \frac{p(x)}{q(x)} \, dx.$$
+        </div>
+        
+        <h4>KL Divergence Between Gaussians</h4>
+        <p>
+          Let $p(x) = \mathcal{N}(\mu_1,\sigma^2)$ and $q(x) = \mathcal{N}(\mu_2,\sigma^2)$. 
+          Then:
+        </p>
+        
+        <div class="math-display">
+          $$\frac{p(x)}{q(x)} 
+            = \exp\!\left(\frac{(x-\mu_2)^2 - (x-\mu_1)^2}{2\sigma^2}\right).$$
+        </div>
+        
+        <p>
+          Taking the log and expectation under $p(x)$:
+        </p>
+        
+        <div class="math-display">
+          $$D_{\mathrm{KL}}(p \,\|\, q) 
+            = \mathbb{E}_{p(x)}\!\left[\frac{(x-\mu_2)^2 - (x-\mu_1)^2}{2\sigma^2}\right].$$
+        </div>
+        
+        <p>
+          Since $x \sim \mathcal{N}(\mu_1, \sigma^2)$:
+        </p>
+        
+        <ul>
+          <li>$\mathbb{E}[(x-\mu_1)^2] = \sigma^2$</li>
+          <li>$\mathbb{E}[(x-\mu_2)^2] = \sigma^2 + (\mu_1-\mu_2)^2$</li>
+        </ul>
+        
+        <p>
+          Substituting back:
+        </p>
+        
+        <div class="math-display">
+          $$D_{\mathrm{KL}}(p \,\|\, q) 
+            = \frac{(\mu_1 - \mu_2)^2}{2\sigma^2}.$$
+        </div>
+        
+        <h4>Substitution for Regression</h4>
+        <p>
+          Setting $\mu_1 = y$ (true value) and $\mu_2 = \hat{y}$ (prediction), we get:
+        </p>
+        
+        <div class="math-display">
+          $$D_{\mathrm{KL}}\!\left(\mathcal{N}(y, \sigma^2) \,\|\, \mathcal{N}(\hat{y}, \sigma^2)\right) 
+          = \frac{(y - \hat{y})^2}{2\sigma^2}.$$
+        </div>
+        
+        <h4>Cross-Entropy Relation</h4>
+        <p>
+          Cross-entropy between two distributions is related to KL divergence:
+        </p>
+        
+        <div class="math-display">
+          $$H(p, q) = H(p) + D_{\mathrm{KL}}(p \,\|\, q).$$
+        </div>
+        
+        <p>
+          Here $H(p)$ is the entropy of the true distribution and does not depend on model parameters.
+          Therefore, minimizing the cross-entropy is equivalent to minimizing the KL divergence.
+        </p>
+        
+        <h4>Connection to MSE</h4>
+        <p>
+          Since $D_{\mathrm{KL}}$ between the true Gaussian and predicted Gaussian reduces to the squared error scaled by $1/(2\sigma^2)$, minimizing KL divergence is the same as minimizing:
+        </p>
+        
+        <div class="math-display">
+          $$\sum_{i=1}^n (y^{(i)} - \hat{y}^{(i)})^2.$$
+        </div>
+        
+        <p>
+          Normalizing by $n$ gives the familiar Mean Squared Error:
+        </p>
+        
+        <div class="math-display">
+          $$\text{MSE} = \frac{1}{n} \sum_{i=1}^n (y^{(i)} - \hat{y}^{(i)})^2.$$
+        </div>
+        
+        <p>
+          <strong>Key insight:</strong> MSE is proportional to the KL divergence between the true data-generating Gaussian and the model’s predicted Gaussian. 
+          Thus, MSE can be viewed not only as the maximum likelihood loss under Gaussian noise 
+          but also as the cross-entropy (up to constants) between two Gaussian distributions.
+        </p>
       
-      <h4>Negative Log-Likelihood</h4>
-      <p>To convert maximization to minimization (standard in optimization):</p>
+        <h3>3) Bias–Variance Decomposition</h3>
+        <p>For any estimator $\hat{y}$ of $y$, MSE decomposes into bias and variance:</p>
       
-      <div class="math-display">
-        $$-\log L(\theta) = \frac{n}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
-      </div>
+        <div class="math-display">
+          $$\mathrm{MSE} = \mathbb{E}[(y-\hat{y})^2] = \mathrm{Var}(y-\hat{y}) + [\mathbb{E}(y-\hat{y})]^2.$$
+        </div>
       
-      <h4>Connection to MSE</h4>
-      <p>Since $\sigma^2$ is constant and doesn't depend on $\theta$, maximizing likelihood is equivalent to minimizing:</p>
+        <p>
+          This shows MSE captures both variance (fluctuations of predictions) and squared bias (systematic error).
+        </p>
       
-      <div class="math-display">
-        $$\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
-      </div>
-      
-      <p>This is exactly the sum of squared errors! Normalizing by the number of samples gives us MSE:</p>
-      
-      <div class="math-display">
-        $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
-      </div>
-      
-      <p><strong>Key insight:</strong> MSE is the negative log-likelihood (up to constants) under the assumption of Gaussian noise. This explains why MSE is so widely used in regression - it's the natural loss function when we assume our model errors follow a normal distribution.</p>
-      
-      <h3>Information Theory Perspective</h3>
-      <p>MSE can also be understood through information theory. When we assume Gaussian noise, MSE represents the amount of information lost due to imperfect predictions.</p>
-      
-      <div class="math-display">
-        $$\text{MSE} = \mathbb{E}[(y - \hat{y})^2] = \text{Var}(y - \hat{y}) + [\mathbb{E}(y - \hat{y})]^2$$
-      </div>
-      
-      <p>The first term is the variance of the prediction error, and the second term is the bias squared. MSE naturally balances both bias and variance in our predictions.</p>
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li><strong>Statistical view:</strong> MSE is the NLL under Gaussian noise.</li>
+          <li><strong>Information-theoretic view:</strong> MSE is proportional to KL divergence between two Gaussians with the same variance.</li>
+          <li><strong>Bias–variance tradeoff:</strong> MSE balances variance and bias in predictions.</li>
+        </ul>
+     
 
       <h2>Key Properties</h2>
       <ul>
