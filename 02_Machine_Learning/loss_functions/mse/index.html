@@ -189,44 +189,44 @@
         </p>
       
         <h4>Problem Setup</h4>
-        <p>Assume we have a regression model $f(x; \theta)$ that predicts continuous values. The true relationship is:</p>
+        <p>Assume we have a regression model $f(\boldsymbol{x}; \boldsymbol{\theta})$ that predicts continuous values. The true relationship is:</p>
       
         <div class="math-display">
-          $$y^{(i)} = f(x^{(i)}; \theta) + \epsilon^{(i)}$$
+          $$y^{(i)} = f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}) + \epsilon^{(i)}$$
         </div>
       
         <p>Where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$ is Gaussian noise with mean 0 and variance $\sigma^2$.</p>
       
         <h4>Likelihood Function</h4>
         <div class="math-display">
-          $$L(\theta) = \prod_{i=1}^{n} p(y^{(i)} | x^{(i)}, \theta)$$
+          $$L(\boldsymbol{\theta}) = \prod_{i=1}^{n} p(y^{(i)} | \boldsymbol{x}^{(i)}, \boldsymbol{\theta})$$
         </div>
       
         <div class="math-display">
-          $$p(y^{(i)} | x^{(i)}, \theta) = \frac{1}{\sqrt{2\pi\sigma^2}}
-          \exp\!\left(-\frac{(y^{(i)} - f(x^{(i)}; \theta))^2}{2\sigma^2}\right)$$
+          $$p(y^{(i)} | \boldsymbol{x}^{(i)}, \boldsymbol{\theta}) = \frac{1}{\sqrt{2\pi\sigma^2}}
+          \exp\!\left(-\frac{(y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}))^2}{2\sigma^2}\right)$$
         </div>
       
         <h4>Log-Likelihood</h4>
         <div class="math-display">
-          $$\log L(\theta) = -\frac{n}{2}\log(2\pi\sigma^2)
-          - \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+          $$\log L(\boldsymbol{\theta}) = -\frac{n}{2}\log(2\pi\sigma^2)
+          - \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}))^2$$
         </div>
       
         <h4>Negative Log-Likelihood</h4>
         <div class="math-display">
-          $$-\log L(\theta) = \frac{n}{2}\log(2\pi\sigma^2)
-          + \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+          $$-\log L(\boldsymbol{\theta}) = \frac{n}{2}\log(2\pi\sigma^2)
+          + \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}))^2$$
         </div>
       
         <h4>Connection to MSE</h4>
         <p>
-          Since $\sigma^2$ is constant and does not depend on $\theta$, maximizing likelihood
+          Since $\sigma^2$ is constant and does not depend on $\boldsymbol{\theta}$, maximizing likelihood
           is equivalent to minimizing the sum of squared errors. Dividing by $n$ gives the Mean Squared Error:
         </p>
       
         <div class="math-display">
-          $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+          $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}))^2$$
         </div>
       
         <p><strong>Key insight:</strong> MSE is the negative log-likelihood (up to constants)
