@@ -178,12 +178,87 @@
         </ul>
       </p>
 
+      <h2>Theoretical Foundation: MLE Derivation</h2>
+      
+      <h3>Maximum Likelihood Estimation Perspective</h3>
+      <p>MSE naturally arises from Maximum Likelihood Estimation under the assumption of Gaussian noise. Let's derive it step by step:</p>
+      
+      <h4>Problem Setup</h4>
+      <p>Assume we have a regression model $f(x; \theta)$ that predicts continuous values. The true relationship is:</p>
+      
+      <div class="math-display">
+        $$y^{(i)} = f(x^{(i)}; \theta) + \epsilon^{(i)}$$
+      </div>
+      
+      <p>Where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$ is Gaussian noise with mean 0 and variance $\sigma^2$.</p>
+      
+      <h4>Likelihood Function</h4>
+      <p>The likelihood of observing the data given the model parameters is:</p>
+      
+      <div class="math-display">
+        $$L(\theta) = \prod_{i=1}^{n} p(y^{(i)} | x^{(i)}, \theta)$$
+      </div>
+      
+      <p>Since each $y^{(i)}$ follows a normal distribution centered at $f(x^{(i)}; \theta)$:</p>
+      
+      <div class="math-display">
+        $$p(y^{(i)} | x^{(i)}, \theta) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y^{(i)} - f(x^{(i)}; \theta))^2}{2\sigma^2}\right)$$
+      </div>
+      
+      <h4>Log-Likelihood</h4>
+      <p>Taking the logarithm (which preserves the maximum):</p>
+      
+      <div class="math-display">
+        $$\log L(\theta) = \sum_{i=1}^{n} \log p(y^{(i)} | x^{(i)}, \theta)$$
+      </div>
+      
+      <div class="math-display">
+        $$= \sum_{i=1}^{n} \left[-\frac{1}{2}\log(2\pi\sigma^2) - \frac{(y^{(i)} - f(x^{(i)}; \theta))^2}{2\sigma^2}\right]$$
+      </div>
+      
+      <div class="math-display">
+        $$= -\frac{n}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+      </div>
+      
+      <h4>Negative Log-Likelihood</h4>
+      <p>To convert maximization to minimization (standard in optimization):</p>
+      
+      <div class="math-display">
+        $$-\log L(\theta) = \frac{n}{2}\log(2\pi\sigma^2) + \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+      </div>
+      
+      <h4>Connection to MSE</h4>
+      <p>Since $\sigma^2$ is constant and doesn't depend on $\theta$, maximizing likelihood is equivalent to minimizing:</p>
+      
+      <div class="math-display">
+        $$\sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+      </div>
+      
+      <p>This is exactly the sum of squared errors! Normalizing by the number of samples gives us MSE:</p>
+      
+      <div class="math-display">
+        $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y^{(i)} - f(x^{(i)}; \theta))^2$$
+      </div>
+      
+      <p><strong>Key insight:</strong> MSE is the negative log-likelihood (up to constants) under the assumption of Gaussian noise. This explains why MSE is so widely used in regression - it's the natural loss function when we assume our model errors follow a normal distribution.</p>
+      
+      <h3>Information Theory Perspective</h3>
+      <p>MSE can also be understood through information theory. When we assume Gaussian noise, MSE represents the amount of information lost due to imperfect predictions.</p>
+      
+      <div class="math-display">
+        $$\text{MSE} = \mathbb{E}[(y - \hat{y})^2] = \text{Var}(y - \hat{y}) + [\mathbb{E}(y - \hat{y})]^2$$
+      </div>
+      
+      <p>The first term is the variance of the prediction error, and the second term is the bias squared. MSE naturally balances both bias and variance in our predictions.</p>
+
       <h2>Key Properties</h2>
       <ul>
         <li><strong>Non-negative:</strong> MSE is always ≥ 0, equals 0 only when predictions are perfect</li>
         <li><strong>Quadratic penalty:</strong> Large errors are penalized more heavily than small errors</li>
         <li><strong>Differentiable:</strong> Smooth gradient for optimization algorithms</li>
         <li><strong>Scale-dependent:</strong> MSE units are the square of the target variable units</li>
+        <li><strong>MLE-derived:</strong> Natural loss function under Gaussian noise assumption</li>
+        <li><strong>Bias-variance decomposition:</strong> Balances prediction bias and variance</li>
       </ul>
 
       <h2>Gradient Analysis</h2>
