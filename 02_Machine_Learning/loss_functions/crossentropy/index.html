@@ -22,6 +22,11 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -63,17 +68,6 @@
     .math-inline {
       font-size: 1rem;
     }
-    .section-nav {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem; margin: 2rem 0;
-    }
-    .section-card {
-      background: #f8f9fa; border-radius: 10px; padding: 1.5rem; text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
-    }
-    .section-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    .section-card h4 { color: #667eea; margin-bottom: 0.5rem; }
-    .section-card p { color: #666; font-size: 0.9rem; }
     .learning-objectives {
       background: linear-gradient(135deg, #4ecdc4, #44a08d);
       color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
@@ -109,6 +103,70 @@
       .section-nav { grid-template-columns: 1fr; }
       .content-card { padding: 1.5rem; }
     }
+    .interpretation-list {
+      margin-left: 1rem;
+      padding-left: 1rem;
+    }
+    .code-container {
+      position: relative;
+      margin: 1rem 0;
+    }
+    .code-header {
+      background: #667eea;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px 8px 0 0;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .copy-btn.copied {
+      background: #28a745;
+      border-color: #28a745;
+    }
+    pre[class*="language-"] {
+      margin: 0;
+      border-radius: 0 0 8px 8px;
+      border: 1px solid #e9ecef;
+      border-top: none;
+    }
+    .code-section {
+      margin: 2rem 0;
+    }
+    .code-section h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+    .code-section p {
+      margin-bottom: 1rem;
+      color: #666;
+    }
+    .section-nav {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem; margin: 2rem 0;
+    }
+    .section-card {
+      background: #f8f9fa; border-radius: 10px; padding: 1.5rem; text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+    }
+    .section-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .section-card h4 { color: #667eea; margin-bottom: 0.5rem; }
+    .section-card p { color: #666; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -186,13 +244,55 @@
       <p><strong>Key insight:</strong> CrossEntropy is the negative log-likelihood whether $y$ is one-hot (hard) or a soft distribution.</p>
 
       <h3>2. Information Theory Perspective</h3>
-      <p>CrossEntropy also measures the expected code length of data from $y$ when using a code optimized for $\hat{y}$.</p>
+      <p>
+        In information theory, <strong>CrossEntropy</strong> 
+        <span class="math-inline">$H(y,\hat{y})$</span> represents the expected code length
+        for data sampled from the true distribution 
+        <span class="math-inline">$y$</span> when using a code optimized for the 
+        predicted distribution <span class="math-inline">$\hat{y}$</span>.
+      </p>
 
       <div class="math-display">
-        $$H(y,\hat{y}) = H(y) + D_{\mathrm{KL}}(y\,\|\,\hat{y}).$$
+        $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \log \hat{y}_i$$
       </div>
 
-      <p>Since $H(y)$ is constant w.r.t. model parameters, minimizing CrossEntropy is equivalent to minimizing the KL divergence $D_{\mathrm{KL}}(y\,\|\,\hat{y})$.</p>
+      <p>
+        CrossEntropy is related to the entropy of the true distribution 
+        and the KL divergence as:
+      </p>
+
+      <div class="math-display">
+        $$H(y,\hat{y}) = H(y) + D_{\mathrm{KL}}(y \,\|\, \hat{y}).$$
+      </div>
+
+      <p>
+        Here:
+      </p>
+
+      <div class="math-display">
+        $$H(y) = -\sum_{i=1}^{C} y_i \log y_i \quad \text{(Entropy)}$$
+      </div>
+
+      <div class="math-display">
+        $$D_{\mathrm{KL}}(y \,\|\, \hat{y}) 
+          = \sum_{i=1}^{C} y_i \log \frac{y_i}{\hat{y}_i} 
+          = \sum_{i=1}^{C} y_i \log y_i - \sum_{i=1}^{C} y_i \log \hat{y}_i 
+          = -H(y) + H(y,\hat{y}).$$
+      </div>
+
+        <strong>Interpretation:</strong>
+        <ul class="interpretation-list">
+          <li><span class="math-inline">$H(y,\hat{y})$</span> is the cross-entropy between the true and predicted distributions.</li>
+          <li><span class="math-inline">$H(y)$</span> measures the inherent uncertainty of the true distribution.</li>
+          <li><span class="math-inline">$D_{\mathrm{KL}}(y \,\|\, \hat{y}) \geq 0$</span> and equals zero iff 
+              <span class="math-inline">$y = \hat{y}$</span>.</li>
+              It quantifies the inefficiency (extra code length) incurred when 
+              using <span class="math-inline">$\hat{y}$</span> instead of 
+              <span class="math-inline">$y$</span>.
+          <li>Since <span class="math-inline">$H(y)$</span> is constant w.r.t. model 
+              parameters, minimizing CrossEntropy is exactly equivalent to minimizing 
+              KL divergence.</li>
+        </ul>
 
       <h3>3. Gradient Analysis</h3>
       <p>Let $\hat{y} = \mathrm{softmax}(z)$. The gradient of CrossEntropy w.r.t. the logits $z$ is:</p>
@@ -236,10 +336,6 @@
     </div>
 
     <div class="section-nav">
-      <div class="section-card">
-        <h4>📚 Mathematical Foundation</h4>
-        <p>Derivations and theory (MLE & information)</p>
-      </div>
       <div class="section-card">
         <h4>💻 Code Examples</h4>
         <p>NumPy, PyTorch, TensorFlow implementations</p>
@@ -366,40 +462,309 @@
   </div>
 </main>
 
-<script>
-  // Click handlers for the section cards (placeholder)
-  document.querySelectorAll('.section-card').forEach(card => {
-    card.addEventListener('click', function () {
-      const title = this.querySelector('h4').textContent;
-      let content = '';
-      switch (title) {
-        case '📚 Mathematical Foundation':
-          content = 'Mathematical Foundation content will be implemented here...';
-          break;
-        case '💻 Code Examples':
-          content = 'Code Examples will be implemented here...';
-          break;
-        case '📊 Visualizations':
-          content = 'Visualizations will be implemented here...';
-          break;
-        case '🏋️ Exercises':
-          content = 'Exercises will be implemented here...';
-          break;
-      }
-      alert(`${title}\n\n${content}`);
-    });
-  });
+ <script>
+   // Function to show code examples
+   function showCodeExamples() {
+     const modal = document.createElement('div');
+     modal.style.cssText = `
+       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+       background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
+       justify-content: center; align-items: center; padding: 2rem;
+     `;
+     
+     const content = document.createElement('div');
+     content.style.cssText = `
+       background: white; border-radius: 15px; max-width: 90%; max-height: 90%;
+       overflow-y: auto; padding: 2rem; position: relative;
+     `;
+     
+     content.innerHTML = `
+       <button onclick="this.closest('div').remove()" style="
+         position: absolute; top: 1rem; right: 1rem; background: #dc3545;
+         color: white; border: none; border-radius: 50%; width: 30px; height: 30px;
+         cursor: pointer; font-size: 1.2rem;
+       ">×</button>
+       
+       <h2 style="color: #667eea; margin-bottom: 2rem;">💻 Code Examples</h2>
+       
+       <div class="code-section">
+         <h3>1. NumPy Implementation</h3>
+         <p>Pure NumPy implementation of CrossEntropy loss for educational purposes:</p>
+         
+         <div class="code-container">
+           <div class="code-header">
+             <span>crossentropy_numpy.py</span>
+             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+           </div>
+           <pre><code class="language-python">import numpy as np
 
-  // Smooth scrolling for internal links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-</script>
+def crossentropy_loss(y_true, y_pred, epsilon=1e-15):
+    """
+    Compute CrossEntropy loss between true and predicted distributions.
+    
+    Args:
+        y_true: True labels (one-hot or soft) shape (N, C)
+        y_pred: Predicted probabilities shape (N, C)
+        epsilon: Small value to avoid log(0)
+    
+    Returns:
+        CrossEntropy loss (scalar)
+    """
+    # Clip predictions to avoid log(0)
+    y_pred = np.clip(y_pred, epsilon, 1 - epsilon)
+    
+    # Compute CrossEntropy: -sum(y_true * log(y_pred))
+    loss = -np.sum(y_true * np.log(y_pred), axis=1)
+    
+    # Return mean loss across samples
+    return np.mean(loss)
+
+# Example usage
+y_true = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])  # One-hot
+y_pred = np.array([[0.8, 0.1, 0.1], [0.3, 0.4, 0.3], [0.2, 0.3, 0.5]])
+
+loss = crossentropy_loss(y_true, y_pred)
+print(f"CrossEntropy Loss: {loss:.4f}")</code></pre>
+         </div>
+       </div>
+
+       <div class="code-section">
+         <h3>2. PyTorch Implementation</h3>
+         <p>PyTorch implementation with automatic differentiation:</p>
+         
+         <div class="code-container">
+           <div class="code-header">
+             <span>crossentropy_pytorch.py</span>
+             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+           </div>
+           <pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class CrossEntropyLoss(nn.Module):
+    """Custom CrossEntropy loss implementation"""
+    
+    def __init__(self, reduction='mean'):
+        super().__init__()
+        self.reduction = reduction
+    
+    def forward(self, y_pred, y_true):
+        """
+        Args:
+            y_pred: Logits or probabilities shape (N, C)
+            y_true: True labels shape (N,) or (N, C)
+        """
+        if y_true.dim() == 1:
+            # Convert class indices to one-hot
+            y_true = F.one_hot(y_true, num_classes=y_pred.size(1)).float()
+        
+        # Compute CrossEntropy
+        loss = -torch.sum(y_true * F.log_softmax(y_pred, dim=1), dim=1)
+        
+        if self.reduction == 'mean':
+            return torch.mean(loss)
+        elif self.reduction == 'sum':
+            return torch.sum(loss)
+        else:
+            return loss
+
+# Example usage
+model = nn.Linear(10, 3)  # 10 features, 3 classes
+criterion = CrossEntropyLoss()
+
+# Sample data
+x = torch.randn(32, 10)  # 32 samples, 10 features
+y_true = torch.randint(0, 3, (32,))  # Class indices
+
+# Forward pass
+logits = model(x)
+loss = criterion(logits, y_true)
+
+print(f"Loss: {loss.item():.4f}")
+
+# Backward pass
+loss.backward()</code></pre>
+         </div>
+       </div>
+
+       <div class="code-section">
+         <h3>3. TensorFlow/Keras Implementation</h3>
+         <p>TensorFlow implementation using built-in functions:</p>
+         
+         <div class="code-container">
+           <div class="code-header">
+             <span>crossentropy_tensorflow.py</span>
+             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+           </div>
+           <pre><code class="language-python">import tensorflow as tf
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.losses import CategoricalCrossentropy
+
+# Method 1: Using Keras built-in loss
+def build_model():
+    model = Sequential([
+        Dense(64, activation='relu', input_shape=(10,)),
+        Dense(32, activation='relu'),
+        Dense(3, activation='softmax')  # 3 classes
+    ])
+    
+    # Use built-in CrossEntropy loss
+    model.compile(
+        optimizer='adam',
+        loss=CategoricalCrossentropy(),
+        metrics=['accuracy']
+    )
+    return model
+
+# Method 2: Custom implementation
+def custom_crossentropy(y_true, y_pred):
+    """Custom CrossEntropy loss function"""
+    # Clip to avoid log(0)
+    y_pred = tf.clip_by_value(y_pred, 1e-15, 1 - 1e-15)
+    
+    # Compute CrossEntropy
+    loss = -tf.reduce_sum(y_true * tf.math.log(y_pred), axis=1)
+    return tf.reduce_mean(loss)
+
+# Example usage
+model = build_model()
+
+# Sample data
+x_train = tf.random.normal((1000, 10))
+y_train = tf.one_hot(tf.random.uniform((1000,), 0, 3, dtype=tf.int32), 3)
+
+# Train model
+model.fit(x_train, y_train, epochs=10, batch_size=32)
+
+# Evaluate
+x_test = tf.random.normal((100, 10))
+y_test = tf.one_hot(tf.random.uniform((100,), 0, 3, dtype=tf.int32), 3)
+loss, accuracy = model.evaluate(x_test, y_test)
+
+print(f"Test Loss: {loss:.4f}, Test Accuracy: {accuracy:.4f}")</code></pre>
+         </div>
+       </div>
+
+       <div class="code-section">
+         <h3>4. Gradient Computation</h3>
+         <p>Manual computation of CrossEntropy gradients:</p>
+         
+         <div class="code-container">
+           <div class="code-header">
+             <span>crossentropy_gradients.py</span>
+             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+           </div>
+           <pre><code class="language-python">import numpy as np
+
+def softmax(x):
+    """Compute softmax probabilities"""
+    exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
+    return exp_x / np.sum(exp_x, axis=1, keepdims=True)
+
+def crossentropy_gradient(y_true, logits):
+    """
+    Compute gradient of CrossEntropy loss w.r.t. logits.
+    
+    Key result: ∂L/∂z_i = y_pred_i - y_true_i
+    """
+    # Convert logits to probabilities
+    y_pred = softmax(logits)
+    
+    # Gradient: y_pred - y_true
+    gradient = y_pred - y_true
+    
+    return gradient
+
+# Example usage
+np.random.seed(42)
+
+# Sample data
+N, C = 5, 3  # 5 samples, 3 classes
+logits = np.random.randn(N, C)
+y_true = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 0, 0], [0, 1, 0]])
+
+# Compute gradients
+gradients = crossentropy_gradient(y_true, logits)
+
+print("Logits:")
+print(logits)
+print("\nTrue labels:")
+print(y_true)
+print("\nPredicted probabilities:")
+print(softmax(logits))
+print("\nGradients (∂L/∂z):")
+print(gradients)
+
+# Verify: gradients should equal (y_pred - y_true)
+y_pred = softmax(logits)
+manual_gradients = y_pred - y_true
+print("\nManual gradients (y_pred - y_true):")
+print(manual_gradients)
+print(f"\nGradients match: {np.allclose(gradients, manual_gradients)}")</code></pre>
+         </div>
+       </div>
+     `;
+     
+     modal.appendChild(content);
+     document.body.appendChild(modal);
+     
+     // Initialize Prism highlighting
+     if (typeof Prism !== 'undefined') {
+       Prism.highlightAll();
+     }
+   }
+
+   // Function to copy code to clipboard
+   function copyCode(button) {
+     const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+     const text = codeBlock.textContent;
+     
+     navigator.clipboard.writeText(text).then(() => {
+       const originalText = button.textContent;
+       button.textContent = 'Copied!';
+       button.classList.add('copied');
+       
+       setTimeout(() => {
+         button.textContent = originalText;
+         button.classList.remove('copied');
+       }, 2000);
+     }).catch(err => {
+       console.error('Failed to copy: ', err);
+       button.textContent = 'Failed';
+     });
+   }
+
+   // Click handlers for the section cards
+   document.querySelectorAll('.section-card').forEach(card => {
+     card.addEventListener('click', function () {
+       const title = this.querySelector('h4').textContent;
+       let content = '';
+       switch (title) {
+         case '💻 Code Examples':
+           showCodeExamples();
+           return;
+         case '📊 Visualizations':
+           content = 'Visualizations will be implemented here...';
+           break;
+         case '🏋️ Exercises':
+           content = 'Exercises will be implemented here...';
+           break;
+       }
+       alert(`${title}\n\n${content}`);
+     });
+   });
+
+   // Smooth scrolling for internal links
+   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+     anchor.addEventListener('click', function (e) {
+       e.preventDefault();
+       const target = document.querySelector(this.getAttribute('href'));
+       if (target) {
+         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+       }
+     });
+   });
+ </script>
 </body>
 </html>
