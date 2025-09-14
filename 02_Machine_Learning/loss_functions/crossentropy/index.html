@@ -307,20 +307,20 @@
                 
                 <div class="math-display">
                     <strong>Binary CrossEntropy:</strong><br><br>
-                    $$H(p,q) = -[p \cdot \log(q) + (1-p) \cdot \log(1-q)]$$
+                    $$H(y,\hat{y}) = -[y \cdot \log(\hat{y}) + (1-y) \cdot \log(1-\hat{y})]$$
                 </div>
                 
                 <div class="math-display">
                     <strong>Multi-class CrossEntropy:</strong><br><br>
-                    $$H(p,q) = -\sum_{i=1}^{C} p_i \cdot \log(q_i)$$
+                    $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \cdot \log(\hat{y}_i)$$
                 </div>
 
                 <p>Where:
                     <ul>
-                        <li><span class="math-inline">$p$</span> is the true probability distribution</li>
-                        <li><span class="math-inline">$q$</span> is the predicted probability distribution</li>
+                        <li><span class="math-inline">$y$</span> is the true probability distribution (target)</li>
+                        <li><span class="math-inline">$\hat{y}$</span> is the predicted probability distribution (model output)</li>
                         <li><span class="math-inline">$C$</span> is the number of classes</li>
-                        <li><span class="math-inline">$p_i$</span> and <span class="math-inline">$q_i$</span> are the probabilities for class <span class="math-inline">$i$</span></li>
+                        <li><span class="math-inline">$y_i$</span> and <span class="math-inline">$\hat{y}_i$</span> are the probabilities for class <span class="math-inline">$i$</span></li>
                     </ul>
                 </p>
 
@@ -376,13 +376,13 @@
                 <p>For a single sample, this becomes:</p>
                 
                 <div class="math-display">
-                    $$H(p, q) = -\sum_{j=1}^{C} p_j \log(q_j)$$
+                    $$H(y, \hat{y}) = -\sum_{j=1}^{C} y_j \log(\hat{y}_j)$$
                 </div>
                 
-                <p><strong>Connection to MLE:</strong> If we represent the true label as a one-hot vector <span class="math-inline">$p = [0, 0, ..., 1, ..., 0]$</span> where the <span class="math-inline">$1$</span> is at position <span class="math-inline">$y^{(i)}$</span>, then:</p>
+                <p><strong>Connection to MLE:</strong> If we represent the true label as a one-hot vector <span class="math-inline">$y = [0, 0, ..., 1, ..., 0]$</span> where the <span class="math-inline">$1$</span> is at position <span class="math-inline">$y^{(i)}$</span>, then:</p>
                 
                 <div class="math-display">
-                    $$H(p, q) = -\sum_{j=1}^{C} p_j \log(q_j) = -\log(q_{y^{(i)}})$$
+                    $$H(y, \hat{y}) = -\sum_{j=1}^{C} y_j \log(\hat{y}_j) = -\log(\hat{y}_{y^{(i)}})$$
                 </div>
                 
                 <p>This matches exactly with our negative log-likelihood!</p>
@@ -396,7 +396,7 @@
                 <p>The entropy of a probability distribution measures the average information content (in bits):</p>
                 
                 <div class="math-display">
-                    $$H(p) = -\sum_{i=1}^{C} p_i \log_2(p_i)$$
+                    $$H(y) = -\sum_{i=1}^{C} y_i \log_2(y_i)$$
                 </div>
                 
                 <p><strong>Interpretation:</strong> 
@@ -407,24 +407,24 @@
                 </p>
                 
                 <h4>CrossEntropy: Expected Code Length</h4>
-                <p>CrossEntropy measures the expected number of bits needed to encode data from distribution <span class="math-inline">$p$</span> using a code optimized for distribution <span class="math-inline">$q$</span>:</p>
+                <p>CrossEntropy measures the expected number of bits needed to encode data from distribution <span class="math-inline">$y$</span> using a code optimized for distribution <span class="math-inline">$\hat{y}$</span>:</p>
                 
                 <div class="math-display">
-                    $$H(p,q) = -\sum_{i=1}^{C} p_i \log_2(q_i)$$
+                    $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \log_2(\hat{y}_i)$$
                 </div>
                 
                 <h4>Kullback-Leibler Divergence</h4>
                 <p>The difference between CrossEntropy and Entropy is the KL divergence:</p>
                 
                 <div class="math-display">
-                    $$D_{KL}(p||q) = H(p,q) - H(p) = \sum_{i=1}^{C} p_i \log\left(\frac{p_i}{q_i}\right)$$
+                    $$D_{KL}(y||\hat{y}) = H(y,\hat{y}) - H(y) = \sum_{i=1}^{C} y_i \log\left(\frac{y_i}{\hat{y}_i}\right)$$
                 </div>
                 
                 <p><strong>Properties:</strong>
                 <ul>
-                    <li><span class="math-inline">$D_{KL}(p||q) \geq 0$</span> (always non-negative)</li>
-                    <li><span class="math-inline">$D_{KL}(p||q) = 0$</span> if and only if <span class="math-inline">$p = q$</span></li>
-                    <li>Measures how much information is lost when using <span class="math-inline">$q$</span> to approximate <span class="math-inline">$p$</span></li>
+                    <li><span class="math-inline">$D_{KL}(y||\hat{y}) \geq 0$</span> (always non-negative)</li>
+                    <li><span class="math-inline">$D_{KL}(y||\hat{y}) = 0$</span> if and only if <span class="math-inline">$y = \hat{y}$</span></li>
+                    <li>Measures how much information is lost when using <span class="math-inline">$\hat{y}$</span> to approximate <span class="math-inline">$y$</span></li>
                 </ul>
                 </p>
                 
@@ -432,23 +432,23 @@
                 <p>In practice, we minimize CrossEntropy instead of KL divergence because:</p>
                 
                 <div class="math-display">
-                    $$H(p,q) = H(p) + D_{KL}(p||q)$$
+                    $$H(y,\hat{y}) = H(y) + D_{KL}(y||\hat{y})$$
                 </div>
                 
-                <p>Since <span class="math-inline">$H(p)$</span> is constant (doesn't depend on model parameters), minimizing CrossEntropy is equivalent to minimizing KL divergence!</p>
+                <p>Since <span class="math-inline">$H(y)$</span> is constant (doesn't depend on model parameters), minimizing CrossEntropy is equivalent to minimizing KL divergence!</p>
 
                 <h3>3. Gradient Analysis</h3>
                 <p>The gradient of CrossEntropy with respect to the logits reveals why it's so effective for training:</p>
                 
                 <div class="math-display">
-                    $$\frac{\partial H}{\partial z_i} = q_i - p_i$$
+                    $$\frac{\partial H}{\partial z_i} = \hat{y}_i - y_i$$
                 </div>
                 
                 <p><strong>Beautiful properties:</strong>
                 <ul>
-                    <li><strong>Correct prediction:</strong> When <span class="math-inline">$q_i = p_i$</span>, gradient is zero (no update needed)</li>
-                    <li><strong>Overconfident:</strong> When <span class="math-inline">$q_i > p_i$</span>, negative gradient reduces confidence</li>
-                    <li><strong>Underconfident:</strong> When <span class="math-inline">$q_i < p_i$</span>, positive gradient increases confidence</li>
+                    <li><strong>Correct prediction:</strong> When <span class="math-inline">$\hat{y}_i = y_i$</span>, gradient is zero (no update needed)</li>
+                    <li><strong>Overconfident:</strong> When <span class="math-inline">$\hat{y}_i > y_i$</span>, negative gradient reduces confidence</li>
+                    <li><strong>Underconfident:</strong> When <span class="math-inline">$\hat{y}_i < y_i$</span>, positive gradient increases confidence</li>
                     <li><strong>No vanishing gradients:</strong> Gradient is proportional to prediction error</li>
                 </ul>
                 </p>
@@ -470,9 +470,9 @@
                 
                 <div class="math-display">
                     <strong>For 3-class problem:</strong><br><br>
-                    True class = Class 1: <span class="math-inline">$p = [1, 0, 0]$</span><br>
-                    True class = Class 2: <span class="math-inline">$p = [0, 1, 0]$</span><br>
-                    True class = Class 3: <span class="math-inline">$p = [0, 0, 1]$</span>
+                    True class = Class 1: <span class="math-inline">$y = [1, 0, 0]$</span><br>
+                    True class = Class 2: <span class="math-inline">$y = [0, 1, 0]$</span><br>
+                    True class = Class 3: <span class="math-inline">$y = [0, 0, 1]$</span>
                 </div>
 
                 <h3>Soft Labels (Probability distributions)</h3>
@@ -480,9 +480,9 @@
                 
                 <div class="math-display">
                     <strong>Example soft labels:</strong><br><br>
-                    Uncertain case: <span class="math-inline">$p = [0.7, 0.2, 0.1]$</span><br>
-                    Very uncertain: <span class="math-inline">$p = [0.4, 0.3, 0.3]$</span><br>
-                    Almost certain: <span class="math-inline">$p = [0.95, 0.03, 0.02]$</span>
+                    Uncertain case: <span class="math-inline">$y = [0.7, 0.2, 0.1]$</span><br>
+                    Very uncertain: <span class="math-inline">$y = [0.4, 0.3, 0.3]$</span><br>
+                    Almost certain: <span class="math-inline">$y = [0.95, 0.03, 0.02]$</span>
                 </div>
 
                 <h3>CrossEntropy with Different Label Types</h3>
@@ -490,10 +490,10 @@
                 
                 <div class="math-display">
                     <strong>Formula remains the same:</strong><br><br>
-                    $$H(p,q) = -\sum_{i=1}^{C} p_i \log(q_i)$$
+                    $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \log(\hat{y}_i)$$
                 </div>
 
-                <p><strong>Key insight:</strong> CrossEntropy measures how well the predicted distribution <span class="math-inline">$q$</span> matches the true distribution <span class="math-inline">$p$</span>, regardless of whether <span class="math-inline">$p$</span> is hard or soft.</p>
+                <p><strong>Key insight:</strong> CrossEntropy measures how well the predicted distribution <span class="math-inline">$\hat{y}$</span> matches the true distribution <span class="math-inline">$y$</span>, regardless of whether <span class="math-inline">$y$</span> is hard or soft.</p>
             </div>
 
             <div class="section-nav">
@@ -614,20 +614,20 @@
 
                 <div class="math-display">
                     <strong>Calculation for Sample 1 (Hard Label):</strong><br><br>
-                    $$H(p,q) = -[1 \cdot \log(0.8) + 0 \cdot \log(0.1) + 0 \cdot \log(0.1)]$$<br>
-                    $$H(p,q) = -\log(0.8) = 0.223$$
+                    $$H(y,\hat{y}) = -[1 \cdot \log(0.8) + 0 \cdot \log(0.1) + 0 \cdot \log(0.1)]$$<br>
+                    $$H(y,\hat{y}) = -\log(0.8) = 0.223$$
                 </div>
 
                 <div class="math-display">
                     <strong>Calculation for Sample 6 (Soft Label):</strong><br><br>
-                    $$H(p,q) = -[0.7 \cdot \log(0.6) + 0.2 \cdot \log(0.3) + 0.1 \cdot \log(0.1)]$$<br>
-                    $$H(p,q) = -[0.7 \cdot (-0.511) + 0.2 \cdot (-1.204) + 0.1 \cdot (-2.303)]$$<br>
-                    $$H(p,q) = 0.358 + 0.241 + 0.230 = 0.829$$
+                    $$H(y,\hat{y}) = -[0.7 \cdot \log(0.6) + 0.2 \cdot \log(0.3) + 0.1 \cdot \log(0.1)]$$<br>
+                    $$H(y,\hat{y}) = -[0.7 \cdot (-0.511) + 0.2 \cdot (-1.204) + 0.1 \cdot (-2.303)]$$<br>
+                    $$H(y,\hat{y}) = 0.358 + 0.241 + 0.230 = 0.829$$
                 </div>
 
                 <h3>Key Observations</h3>
                 <ul>
-                    <li><strong>Perfect prediction:</strong> When <span class="math-inline">$p = q$</span>, CrossEntropy equals the entropy of the true distribution</li>
+                    <li><strong>Perfect prediction:</strong> When <span class="math-inline">$y = \hat{y}$</span>, CrossEntropy equals the entropy of the true distribution</li>
                     <li><strong>Wrong prediction:</strong> Loss increases exponentially when the model is confident but wrong</li>
                     <li><strong>Uncertain prediction:</strong> Moderate loss when the model is uncertain (close to uniform distribution)</li>
                     <li><strong>Soft labels:</strong> Allow modeling uncertainty in the ground truth, useful for noisy labels or expert disagreement</li>
