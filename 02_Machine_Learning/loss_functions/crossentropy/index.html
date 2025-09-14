@@ -349,27 +349,27 @@
                 <p>CrossEntropy naturally arises from Maximum Likelihood Estimation (MLE). Let's derive it step by step:</p>
                 
                 <h4>Problem Setup</h4>
-                <p>Given a dataset with true labels <span class="math-inline">$y^{(i)} \in \{1, 2, ..., C\}$</span> and model predictions <span class="math-inline">$\hat{y}^{(i)} = [\hat{p}_1^{(i)}, \hat{p}_2^{(i)}, ..., \hat{p}_C^{(i)}]$</span>, we want to find the model parameters that maximize the likelihood of observing the data.</p>
+                <p>Given a dataset with true labels <span class="math-inline">$y^{(i)} \in \{1, 2, ..., C\}$</span> and model predictions <span class="math-inline">$\hat{p}^{(i)} = [\hat{p}_1^{(i)}, \hat{p}_2^{(i)}, ..., \hat{p}_C^{(i)}]$</span>, we want to find the model parameters that maximize the likelihood of observing the data.</p>
                 
                 <div class="math-display">
                     <strong>Likelihood function:</strong><br><br>
-                    $$L(\theta) = \prod_{i=1}^{N} \prod_{j=1}^{C} (\hat{p}_j^{(i)})^{y_j^{(i)}}$$
+                    $$L(\theta) = \prod_{i=1}^{N} \hat{p}_{y^{(i)}}^{(i)}$$
                 </div>
                 
-                <p>Where <span class="math-inline">$y_j^{(i)} = 1$</span> if sample <span class="math-inline">$i$</span> belongs to class <span class="math-inline">$j$</span>, and <span class="math-inline">$0$</span> otherwise.</p>
+                <p>Where <span class="math-inline">$y^{(i)}$</span> is the true class index for sample <span class="math-inline">$i$</span>, and <span class="math-inline">$\hat{p}_{y^{(i)}}^{(i)}$</span> is the predicted probability for the true class.</p>
                 
                 <h4>Log-Likelihood</h4>
                 <p>Taking the logarithm (which preserves the maximum):</p>
                 
                 <div class="math-display">
-                    $$\log L(\theta) = \sum_{i=1}^{N} \sum_{j=1}^{C} y_j^{(i)} \log(\hat{p}_j^{(i)})$$
+                    $$\log L(\theta) = \sum_{i=1}^{N} \log(\hat{p}_{y^{(i)}}^{(i)})$$
                 </div>
                 
                 <h4>Negative Log-Likelihood</h4>
                 <p>To convert maximization to minimization (standard in optimization):</p>
                 
                 <div class="math-display">
-                    $$-\log L(\theta) = -\sum_{i=1}^{N} \sum_{j=1}^{C} y_j^{(i)} \log(\hat{p}_j^{(i)})$$
+                    $$-\log L(\theta) = -\sum_{i=1}^{N} \log(\hat{p}_{y^{(i)}}^{(i)})$$
                 </div>
                 
                 <h4>CrossEntropy Loss</h4>
@@ -378,6 +378,14 @@
                 <div class="math-display">
                     $$H(p, q) = -\sum_{j=1}^{C} p_j \log(q_j)$$
                 </div>
+                
+                <p><strong>Connection to MLE:</strong> If we represent the true label as a one-hot vector <span class="math-inline">$p = [0, 0, ..., 1, ..., 0]$</span> where the <span class="math-inline">$1$</span> is at position <span class="math-inline">$y^{(i)}$</span>, then:</p>
+                
+                <div class="math-display">
+                    $$H(p, q) = -\sum_{j=1}^{C} p_j \log(q_j) = -\log(q_{y^{(i)}})$$
+                </div>
+                
+                <p>This matches exactly with our negative log-likelihood!</p>
                 
                 <p><strong>Key insight:</strong> Minimizing CrossEntropy is equivalent to maximizing the likelihood of the observed data under the model's predicted distribution.</p>
 
