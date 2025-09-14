@@ -195,7 +195,13 @@
       </div>
 
       <h2>Mathematical Foundation</h2>
-      <p>Linear Regression models the relationship between a dependent variable <span class="math-inline">$y$</span> and one or more independent variables <span class="math-inline">$x_1, x_2, ..., x_n$</span> using a linear function.</p>
+      <p>Linear Regression models the relationship between a dependent variable <span class="math-inline">$y$</span> and one or more independent variables <span class="math-inline">$x_1, x_2, ..., x_n$</span> using a <strong>linear function of the model parameters</strong>.</p>
+      
+      <div class="overview">
+        <h3>🔍 Key Insight: "Linear" vs "Non-linear" Relationships</h3>
+        <p><strong>"Linear"</strong> refers to the relationship being linear in the model parameters <span class="math-inline">$\boldsymbol{w}$</span>, not necessarily in the input features <span class="math-inline">$\boldsymbol{x}$</span>.</p>
+        <p>Through <strong>feature engineering</strong>, we can transform input features to capture non-linear relationships while keeping the model linear in parameters.</p>
+      </div>
 
       <h3>Simple Linear Regression</h3>
       <div class="math-display">
@@ -345,6 +351,45 @@
           <p>The model should not be unduly influenced by extreme values.</p>
         </div>
       </div>
+
+      <h2>Feature Engineering: Capturing Non-linear Relationships</h2>
+      
+      <p>Although Linear Regression is "linear" in parameters, it can model complex non-linear relationships through feature engineering:</p>
+      
+      <h3>Polynomial Features</h3>
+      <p>Transform input features to polynomial terms:</p>
+      <div class="math-display">
+        <strong>Quadratic:</strong><br><br>
+        $$y = w_0 + w_1 x + w_2 x^2 + \varepsilon$$
+      </div>
+      
+      <div class="math-display">
+        <strong>Cubic:</strong><br><br>
+        $$y = w_0 + w_1 x + w_2 x^2 + w_3 x^3 + \varepsilon$$
+      </div>
+      
+      <h3>Interaction Terms</h3>
+      <p>Include products of features to capture interactions:</p>
+      <div class="math-display">
+        $$y = w_0 + w_1 x_1 + w_2 x_2 + w_3 x_1 x_2 + \varepsilon$$
+      </div>
+      
+      <h3>Basis Functions</h3>
+      <p>Use various basis functions for flexible modeling:</p>
+      <div class="math-display">
+        $$y = w_0 + w_1 \sin(x) + w_2 \cos(x) + w_3 \log(x) + \varepsilon$$
+      </div>
+      
+      <h3>Example: House Price with Non-linear Features</h3>
+      <div class="math-display">
+        $$\text{Price} = w_0 + w_1 \text{Size} + w_2 \text{Size}^2 + w_3 \text{Bedrooms} + w_4 \text{Size} \times \text{Bedrooms} + \varepsilon$$
+      </div>
+      
+      <p>This model can capture:</p>
+      <ul>
+        <li><strong>Size²:</strong> Diminishing returns (price increase slows as size grows)</li>
+        <li><strong>Size × Bedrooms:</strong> Interaction between size and bedroom count</li>
+      </ul>
 
       <h2>Applications</h2>
       <ul>
