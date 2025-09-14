@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSE Loss Function - AI Learning Hub</title>
+
+  <!-- MathJax Configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    header {
+      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo { font-size: 1.5rem; font-weight: bold; color: #667eea; text-decoration: none; }
+    .breadcrumb { font-size: 0.9rem; color: #666; }
+    .breadcrumb a { color: #667eea; text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    main { padding: 2rem 0; }
+    .content-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px; padding: 2rem; margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);
+    }
+    h1 { color: #667eea; margin-bottom: 1rem; font-size: 2.5rem; }
+    h2 {
+      color: #667eea; margin: 2rem 0 1rem 0; font-size: 1.8rem;
+      border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;
+    }
+    h3 { color: #555; margin: 1.5rem 0 0.5rem 0; font-size: 1.3rem; }
+    .overview {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
+    }
+    .overview h3 { color: white; margin-top: 0; }
+    .math-display {
+      margin: 1.5rem 0; text-align: center; font-size: 1.2rem;
+    }
+    .math-inline {
+      font-size: 1rem;
+    }
+    .learning-objectives {
+      background: linear-gradient(135deg, #4ecdc4, #44a08d);
+      color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
+    }
+    .learning-objectives h3 { color: white; margin-top: 0; }
+    .learning-objectives ul { list-style: none; padding-left: 0; }
+    .learning-objectives li { margin: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+    .learning-objectives li::before {
+      content: "✓"; position: absolute; left: 0; color: #fff; font-weight: bold;
+    }
+    .estimated-time {
+      background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;
+      padding: 1rem; margin: 1rem 0; color: #856404;
+    }
+    .estimated-time strong { color: #667eea; }
+    .back-button {
+      display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 25px;
+      font-weight: bold; transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.4); margin-bottom: 2rem;
+    }
+    .back-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
+    table {
+      width: 100%; border-collapse: collapse; margin: 1rem 0; background: white;
+      border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    thead tr { background: #667eea; color: white; }
+    th, td { padding: 12px; }
+    th { text-align: left; }
+    td.center { text-align: center; }
+    .chart-container {
+      position: relative; height: 400px; margin: 2rem 0;
+      background: white; border-radius: 10px; padding: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .comparison-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem; margin: 2rem 0;
+    }
+    .comparison-card {
+      background: white; border-radius: 10px; padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .comparison-card h4 {
+      color: #667eea; margin-bottom: 1rem; font-size: 1.2rem;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .content-card { padding: 1.5rem; }
+      .comparison-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav class="container">
+    <a href="/AILearningHub/" class="logo">🤖 AI Learning Hub</a>
+    <div class="breadcrumb">
+      <a href="/AILearningHub/">Home</a> /
+      <a href="/AILearningHub/02_Machine_Learning/">Machine Learning</a> /
+      MSE Loss
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
+    <a href="/AILearningHub/02_Machine_Learning/" class="back-button">← Back to Machine Learning</a>
+
+    <div class="content-card">
+      <h1>MSE Loss Function</h1>
+
+      <div class="overview">
+        <h3>📋 Overview</h3>
+        <p>Mean Squared Error (MSE) is the fundamental loss function for regression problems. This page covers the mathematical foundation, properties, and practical applications of MSE loss.</p>
+      </div>
+
+      <div class="learning-objectives">
+        <h3>🎯 Learning Objectives</h3>
+        <ul>
+          <li>Understand when to use MSE vs. other loss functions</li>
+          <li>Implement MSE from scratch in different frameworks</li>
+          <li>Visualize MSE behavior and compare with other losses</li>
+          <li>Apply MSE in real regression problems</li>
+        </ul>
+      </div>
+
+      <div class="estimated-time">
+        <strong>⏱️ Estimated Time:</strong> 15–20 minutes reading + 30 minutes practice
+      </div>
+
+      <h2>Mathematical Foundation</h2>
+      <p>MSE measures the average squared differences between predicted and actual values:</p>
+
+      <div class="math-display">
+        <strong>MSE Formula:</strong><br><br>
+        $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+      </div>
+
+      <p>Where:
+        <ul>
+          <li><span class="math-inline">$y_i$</span> is the true value for sample <span class="math-inline">$i$</span></li>
+          <li><span class="math-inline">$\hat{y}_i$</span> is the predicted value for sample <span class="math-inline">$i$</span></li>
+          <li><span class="math-inline">$n$</span> is the number of samples</li>
+        </ul>
+      </p>
+
+      <h2>Key Properties</h2>
+      <ul>
+        <li><strong>Non-negative:</strong> MSE is always ≥ 0, equals 0 only when predictions are perfect</li>
+        <li><strong>Quadratic penalty:</strong> Large errors are penalized more heavily than small errors</li>
+        <li><strong>Differentiable:</strong> Smooth gradient for optimization algorithms</li>
+        <li><strong>Scale-dependent:</strong> MSE units are the square of the target variable units</li>
+      </ul>
+
+      <h2>Gradient Analysis</h2>
+      <p>The gradient of MSE with respect to predictions is:</p>
+
+      <div class="math-display">
+        $$\frac{\partial \text{MSE}}{\partial \hat{y}_i} = \frac{2}{n} (\hat{y}_i - y_i) = \frac{2}{n} \cdot \text{error}_i$$
+      </div>
+
+      <p><strong>Key insights:</strong>
+        <ul>
+          <li>Gradient is proportional to the prediction error</li>
+          <li>Larger errors produce stronger gradients (faster learning)</li>
+          <li>Gradient direction pushes predictions toward true values</li>
+        </ul>
+      </p>
+
+      <h2>MSE vs. Other Loss Functions</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h4>📊 MSE vs. MAE</h4>
+          <p><strong>MSE (Mean Squared Error):</strong></p>
+          <ul>
+            <li>Penalizes large errors heavily</li>
+            <li>Sensitive to outliers</li>
+            <li>Smooth gradients</li>
+            <li>Good for normal distributions</li>
+          </ul>
+          <p><strong>MAE (Mean Absolute Error):</strong></p>
+          <ul>
+            <li>Linear penalty for all errors</li>
+            <li>Robust to outliers</li>
+            <li>Non-smooth at zero error</li>
+            <li>Good for skewed distributions</li>
+          </ul>
+        </div>
+
+        <div class="comparison-card">
+          <h4>🎯 MSE vs. CrossEntropy</h4>
+          <p><strong>MSE:</strong></p>
+          <ul>
+            <li>For regression (continuous values)</li>
+            <li>Outputs can be any real number</li>
+            <li>Quadratic penalty</li>
+            <li>No probability interpretation</li>
+          </ul>
+          <p><strong>CrossEntropy:</strong></p>
+          <ul>
+            <li>For classification (discrete classes)</li>
+            <li>Outputs are probabilities [0,1]</li>
+            <li>Logarithmic penalty</li>
+            <li>Probability interpretation</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Applications in Regression</h2>
+      <ul>
+        <li><strong>Linear Regression:</strong> Classic use case for MSE</li>
+        <li><strong>Neural Network Regression:</strong> Predicting house prices, stock prices</li>
+        <li><strong>Time Series Forecasting:</strong> Weather prediction, sales forecasting</li>
+        <li><strong>Computer Vision:</strong> Image denoising, super-resolution</li>
+        <li><strong>Signal Processing:</strong> Audio reconstruction, sensor calibration</li>
+      </ul>
+
+      <h2>Interactive Visualization</h2>
+      <p>Explore how MSE behaves with different prediction errors:</p>
+      
+      <div class="chart-container">
+        <canvas id="mseChart"></canvas>
+      </div>
+
+      <h2>Detailed Calculation Examples</h2>
+      <p>Let's work through several examples to understand MSE behavior:</p>
+
+      <h3>Example 1: Perfect Predictions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sample</th>
+            <th class="center">True Value ($y$)</th>
+            <th class="center">Prediction ($\hat{y}$)</th>
+            <th class="center">Error ($y - \hat{y}$)</th>
+            <th class="center">Squared Error</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td class="center">10.0</td>
+            <td class="center">10.0</td>
+            <td class="center">0.0</td>
+            <td class="center">0.0</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td class="center">5.0</td>
+            <td class="center">5.0</td>
+            <td class="center">0.0</td>
+            <td class="center">0.0</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td class="center">8.0</td>
+            <td class="center">8.0</td>
+            <td class="center">0.0</td>
+            <td class="center">0.0</td>
+          </tr>
+          <tr style="background: #f8f9fa; font-weight: bold;">
+            <td><strong>MSE</strong></td>
+            <td class="center">-</td>
+            <td class="center">-</td>
+            <td class="center">-</td>
+            <td class="center">0.0</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Example 2: Some Errors</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sample</th>
+            <th class="center">True Value ($y$)</th>
+            <th class="center">Prediction ($\hat{y}$)</th>
+            <th class="center">Error ($y - \hat{y}$)</th>
+            <th class="center">Squared Error</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td class="center">10.0</td>
+            <td class="center">9.0</td>
+            <td class="center">1.0</td>
+            <td class="center">1.0</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td class="center">5.0</td>
+            <td class="center">6.0</td>
+            <td class="center">-1.0</td>
+            <td class="center">1.0</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td class="center">8.0</td>
+            <td class="center">7.5</td>
+            <td class="center">0.5</td>
+            <td class="center">0.25</td>
+          </tr>
+          <tr style="background: #f8f9fa; font-weight: bold;">
+            <td><strong>MSE</strong></td>
+            <td class="center">-</td>
+            <td class="center">-</td>
+            <td class="center">-</td>
+            <td class="center">0.75</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="math-display">
+        <strong>Calculation for Example 2:</strong><br><br>
+        $$\text{MSE} = \frac{1}{3} \times (1.0 + 1.0 + 0.25) = \frac{2.25}{3} = 0.75$$
+      </div>
+
+      <h3>Example 3: Large Errors (Outliers)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sample</th>
+            <th class="center">True Value ($y$)</th>
+            <th class="center">Prediction ($\hat{y}$)</th>
+            <th class="center">Error ($y - \hat{y}$)</th>
+            <th class="center">Squared Error</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td class="center">10.0</td>
+            <td class="center">8.0</td>
+            <td class="center">2.0</td>
+            <td class="center">4.0</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td class="center">5.0</td>
+            <td class="center">5.0</td>
+            <td class="center">0.0</td>
+            <td class="center">0.0</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td class="center">8.0</td>
+            <td class="center">15.0</td>
+            <td class="center">-7.0</td>
+            <td class="center">49.0</td>
+          </tr>
+          <tr style="background: #f8f9fa; font-weight: bold;">
+            <td><strong>MSE</strong></td>
+            <td class="center">-</td>
+            <td class="center">-</td>
+            <td class="center">-</td>
+            <td class="center">17.67</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Key observation:</strong> The large error (-7.0) in sample 3 contributes 49.0 to the MSE, showing how MSE is sensitive to outliers.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Initialize MSE visualization chart
+  function initMSEChart() {
+    const ctx = document.getElementById('mseChart').getContext('2d');
+    
+    // Generate data for MSE visualization
+    const errors = [];
+    const mseValues = [];
+    const maeValues = [];
+    
+    for (let i = -5; i <= 5; i += 0.5) {
+      errors.push(i);
+      mseValues.push(i * i); // MSE = error^2
+      maeValues.push(Math.abs(i)); // MAE = |error|
+    }
+    
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: errors,
+        datasets: [{
+          label: 'MSE (Quadratic)',
+          data: mseValues,
+          borderColor: '#667eea',
+          backgroundColor: 'rgba(102, 126, 234, 0.1)',
+          borderWidth: 3,
+          tension: 0.1
+        }, {
+          label: 'MAE (Linear)',
+          data: maeValues,
+          borderColor: '#ff6b6b',
+          backgroundColor: 'rgba(255, 107, 107, 0.1)',
+          borderWidth: 3,
+          tension: 0.1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'MSE vs MAE: Penalty for Prediction Errors',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Prediction Error (y - ŷ)'
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Loss Value'
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        }
+      }
+    });
+  }
+
+  // Initialize when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    initMSEChart();
+  });
+
+  // Smooth scrolling for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
