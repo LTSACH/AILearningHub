@@ -1,687 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrossEntropy Loss Function - AI Learning Hub</title>
-    
-    <!-- MathJax Configuration -->
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true,
-                processEnvironments: true
-            },
-            options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-            }
-        };
-    </script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrossEntropy Loss Function - AI Learning Hub</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
+  <!-- MathJax Configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .breadcrumb {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .breadcrumb a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        main {
-            padding: 2rem 0;
-        }
-
-        .content-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
-        }
-
-        h2 {
-            color: #667eea;
-            margin: 2rem 0 1rem 0;
-            font-size: 1.8rem;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
-
-        h3 {
-            color: #555;
-            margin: 1.5rem 0 0.5rem 0;
-            font-size: 1.3rem;
-        }
-
-        .overview {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .overview h3 {
-            color: white;
-            margin-top: 0;
-        }
-
-        .math-formula {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        .math-display {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        .math-inline {
-            background: #e3f2fd;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .section-nav {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .section-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .section-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-card h4 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-card p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .learning-objectives {
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
-            color: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .learning-objectives h3 {
-            color: white;
-            margin-top: 0;
-        }
-
-        .learning-objectives ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .learning-objectives li {
-            margin: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .learning-objectives li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .estimated-time {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            color: #856404;
-        }
-
-        .estimated-time strong {
-            color: #667eea;
-        }
-
-        .back-button {
-            display: inline-block;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            margin-bottom: 2rem;
-        }
-
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .section-nav {
-                grid-template-columns: 1fr;
-            }
-            
-            .content-card {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    header {
+      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo { font-size: 1.5rem; font-weight: bold; color: #667eea; text-decoration: none; }
+    .breadcrumb { font-size: 0.9rem; color: #666; }
+    .breadcrumb a { color: #667eea; text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    main { padding: 2rem 0; }
+    .content-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px; padding: 2rem; margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);
+    }
+    h1 { color: #667eea; margin-bottom: 1rem; font-size: 2.5rem; }
+    h2 {
+      color: #667eea; margin: 2rem 0 1rem 0; font-size: 1.8rem;
+      border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;
+    }
+    h3 { color: #555; margin: 1.5rem 0 0.5rem 0; font-size: 1.3rem; }
+    .overview {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
+    }
+    .overview h3 { color: white; margin-top: 0; }
+    .math-display {
+      background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px;
+      padding: 1.5rem; margin: 1.5rem 0; text-align: center; font-size: 1.2rem;
+    }
+    .math-inline {
+      background: #e3f2fd; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 1rem;
+    }
+    .section-nav {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem; margin: 2rem 0;
+    }
+    .section-card {
+      background: #f8f9fa; border-radius: 10px; padding: 1.5rem; text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+    }
+    .section-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .section-card h4 { color: #667eea; margin-bottom: 0.5rem; }
+    .section-card p { color: #666; font-size: 0.9rem; }
+    .learning-objectives {
+      background: linear-gradient(135deg, #4ecdc4, #44a08d);
+      color: white; border-radius: 10px; padding: 1.5rem; margin: 1rem 0;
+    }
+    .learning-objectives h3 { color: white; margin-top: 0; }
+    .learning-objectives ul { list-style: none; padding-left: 0; }
+    .learning-objectives li { margin: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+    .learning-objectives li::before {
+      content: "✓"; position: absolute; left: 0; color: #fff; font-weight: bold;
+    }
+    .estimated-time {
+      background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;
+      padding: 1rem; margin: 1rem 0; color: #856404;
+    }
+    .estimated-time strong { color: #667eea; }
+    .back-button {
+      display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 25px;
+      font-weight: bold; transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.4); margin-bottom: 2rem;
+    }
+    .back-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
+    table {
+      width: 100%; border-collapse: collapse; margin: 1rem 0; background: white;
+      border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    thead tr { background: #667eea; color: white; }
+    th, td { padding: 12px; }
+    th { text-align: left; }
+    td.center { text-align: center; }
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .section-nav { grid-template-columns: 1fr; }
+      .content-card { padding: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="/AILearningHub/" class="logo">🤖 AI Learning Hub</a>
-            <div class="breadcrumb">
-                <a href="/AILearningHub/">Home</a> / 
-                <a href="/AILearningHub/02_Machine_Learning/">Machine Learning</a> / 
-                CrossEntropy Loss
-            </div>
-        </nav>
-    </header>
+<header>
+  <nav class="container">
+    <a href="/AILearningHub/" class="logo">🤖 AI Learning Hub</a>
+    <div class="breadcrumb">
+      <a href="/AILearningHub/">Home</a> /
+      <a href="/AILearningHub/02_Machine_Learning/">Machine Learning</a> /
+      CrossEntropy Loss
+    </div>
+  </nav>
+</header>
 
-    <main>
-        <div class="container">
-            <a href="/AILearningHub/" class="back-button">← Back to AI Learning Hub</a>
-            
-            <div class="content-card">
-                <h1>CrossEntropy Loss Function</h1>
-                
-                <div class="overview">
-                    <h3>📋 Overview</h3>
-                    <p>CrossEntropy loss is one of the most important loss functions in machine learning, particularly for classification problems. This module covers the mathematical foundation, implementation, and practical applications of CrossEntropy loss.</p>
-                </div>
+<main>
+  <div class="container">
+    <a href="/AILearningHub/" class="back-button">← Back to AI Learning Hub</a>
 
-                <div class="learning-objectives">
-                    <h3>🎯 Learning Objectives</h3>
-                    <ul>
-                        <li>Understand the mathematical derivation of CrossEntropy</li>
-                        <li>Learn why CrossEntropy is ideal for classification</li>
-                        <li>Implement CrossEntropy from scratch</li>
-                        <li>Visualize how CrossEntropy behaves with different inputs</li>
-                        <li>Apply CrossEntropy in real classification problems</li>
-                    </ul>
-                </div>
+    <div class="content-card">
+      <h1>CrossEntropy Loss Function</h1>
 
-                <div class="estimated-time">
-                    <strong>⏱️ Estimated Time:</strong> 15-20 minutes of focused reading + 30 minutes of hands-on practice
-                </div>
+      <div class="overview">
+        <h3>📋 Overview</h3>
+        <p>CrossEntropy is a fundamental loss function for classification. This page covers the mathematical foundation (MLE & information theory), gradients, and worked examples.</p>
+      </div>
 
-                <h2>Mathematical Foundation</h2>
-                <p>CrossEntropy loss measures the difference between two probability distributions. For classification problems, it measures how well our model's predicted probabilities match the true distribution.</p>
-                
-                <div class="math-display">
-                    <strong>Binary CrossEntropy:</strong><br><br>
-                    $$H(y,\hat{y}) = -[y \cdot \log(\hat{y}) + (1-y) \cdot \log(1-\hat{y})]$$
-                </div>
-                
-                <div class="math-display">
-                    <strong>Multi-class CrossEntropy:</strong><br><br>
-                    $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \cdot \log(\hat{y}_i)$$
-                </div>
+      <div class="learning-objectives">
+        <h3>🎯 Learning Objectives</h3>
+        <ul>
+          <li>Understand why CrossEntropy arises from MLE</li>
+          <li>Use CrossEntropy consistently with hard and soft labels</li>
+           <li>Recall the key gradient result <span class="math-inline">$\frac{\partial \mathcal{L}}{\partial z} = \hat{y} - y$</span></li>
+          <li>Apply CrossEntropy to real classification problems</li>
+        </ul>
+      </div>
 
-                <p>Where:
-                    <ul>
-                        <li><span class="math-inline">$y$</span> is the true probability distribution (target)</li>
-                        <li><span class="math-inline">$\hat{y}$</span> is the predicted probability distribution (model output)</li>
-                        <li><span class="math-inline">$C$</span> is the number of classes</li>
-                        <li><span class="math-inline">$y_i$</span> and <span class="math-inline">$\hat{y}_i$</span> are the probabilities for class <span class="math-inline">$i$</span></li>
-                    </ul>
-                </p>
+      <div class="estimated-time">
+        <strong>⏱️ Estimated Time:</strong> 15–20 minutes reading + 30 minutes practice
+      </div>
 
-                <h2>Applications in Classification Problems</h2>
-                <p>CrossEntropy loss is widely used in machine learning for classification tasks:</p>
-                
-                <ul>
-                    <li><strong>Image Classification:</strong> Recognizing objects in images (cats vs dogs, handwritten digits)</li>
-                    <li><strong>Text Classification:</strong> Sentiment analysis, spam detection, topic classification</li>
-                    <li><strong>Medical Diagnosis:</strong> Disease classification from symptoms or medical images</li>
-                    <li><strong>Recommendation Systems:</strong> User preference prediction, content categorization</li>
-                    <li><strong>Natural Language Processing:</strong> Named entity recognition, part-of-speech tagging</li>
-                </ul>
+      <h2>Mathematical Foundation</h2>
+      <p>CrossEntropy measures the discrepancy between the <span class="math-inline">$y$</span> (target distribution) and <span class="math-inline">$\hat{y}$</span> (predicted distribution).</p>
 
-                <h2>Why CrossEntropy for Classification?</h2>
-                <ul>
-                    <li><strong>Probability Interpretation:</strong> Works directly with probability distributions</li>
-                    <li><strong>Gradient Properties:</strong> Provides strong gradients when predictions are wrong</li>
-                    <li><strong>Convexity:</strong> Guarantees global minimum for logistic regression</li>
-                    <li><strong>Information Theory:</strong> Based on entropy and information theory principles</li>
-                </ul>
+       <div class="math-display">
+         <strong>Binary CrossEntropy (Bernoulli):</strong><br><br>
+         $$\mathcal{L}(y,\hat{y}) = -\big[ y\,\log\hat{y} + (1-y)\,\log(1-\hat{y}) \big],\quad y\in[0,1]$$
+       </div>
 
-                <h2>Theoretical Foundations</h2>
-                
-                <h3>1. Maximum Likelihood Estimation Perspective</h3>
-                <p>CrossEntropy naturally arises from Maximum Likelihood Estimation (MLE). Let's derive it step by step:</p>
-                
-                <h4>Problem Setup</h4>
-                <p>Given a dataset with true labels <span class="math-inline">$y^{(i)} \in \{1, 2, ..., C\}$</span> (scalar class indices) and model predictions <span class="math-inline">$\hat{y}^{(i)} = [\hat{y}_1^{(i)}, \hat{y}_2^{(i)}, ..., \hat{y}_C^{(i)}]$</span> (probability distributions), we want to find the model parameters that maximize the likelihood of observing the data.</p>
-                
-                <div class="math-display">
-                    <strong>Likelihood function:</strong><br><br>
-                    $$L(\theta) = \prod_{i=1}^{N} \prod_{j=1}^{C} (\hat{y}_j^{(i)})^{y_j^{(i)}}$$
-                </div>
-                
-                <p>Where <span class="math-inline">$y_j^{(i)} = 1$</span> if sample <span class="math-inline">$i$</span> belongs to class <span class="math-inline">$j$</span> (one-hot encoding), and <span class="math-inline">$0$</span> otherwise. This is equivalent to:</p>
-                
-                <div class="math-display">
-                    $$L(\theta) = \prod_{i=1}^{N} \hat{y}_{y^{(i)}}^{(i)}$$
-                </div>
-                
-                <p>Where <span class="math-inline">$y^{(i)}$</span> is the scalar class index, and <span class="math-inline">$\hat{y}_{y^{(i)}}^{(i)}$</span> is the predicted probability for the true class.</p>
-                
-                <h4>Log-Likelihood</h4>
-                <p>Taking the logarithm (which preserves the maximum):</p>
-                
-                <div class="math-display">
-                    $$\log L(\theta) = \sum_{i=1}^{N} \sum_{j=1}^{C} y_j^{(i)} \log(\hat{y}_j^{(i)}) = \sum_{i=1}^{N} \log(\hat{y}_{y^{(i)}}^{(i)})$$
-                </div>
-                
-                <h4>Negative Log-Likelihood</h4>
-                <p>To convert maximization to minimization (standard in optimization):</p>
-                
-                <div class="math-display">
-                    $$-\log L(\theta) = -\sum_{i=1}^{N} \sum_{j=1}^{C} y_j^{(i)} \log(\hat{y}_j^{(i)}) = -\sum_{i=1}^{N} \log(\hat{y}_{y^{(i)}}^{(i)})$$
-                </div>
-                
-                <h4>CrossEntropy Loss</h4>
-                <p>For a single sample, this becomes:</p>
-                
-                <div class="math-display">
-                    $$H(y, \hat{y}) = -\sum_{j=1}^{C} y_j \log(\hat{y}_j)$$
-                </div>
-                
-                <p><strong>Connection to MLE:</strong> If we represent the true label as a one-hot vector <span class="math-inline">$y = [y_1, y_2, ..., y_C]$</span> where <span class="math-inline">$y_j = 1$</span> for the true class and <span class="math-inline">$y_j = 0$</span> otherwise, then:</p>
-                
-                <div class="math-display">
-                    $$H(y, \hat{y}) = -\sum_{j=1}^{C} y_j \log(\hat{y}_j) = -\log(\hat{y}_{y^{(i)}})$$
-                </div>
-                
-                <p>This matches exactly with our negative log-likelihood! The CrossEntropy loss is the negative log-likelihood for a single sample.</p>
-                
-                <p><strong>Key insight:</strong> Minimizing CrossEntropy is equivalent to maximizing the likelihood of the observed data under the model's predicted distribution.</p>
+       <div class="math-display">
+         <strong>Multi-class CrossEntropy (Categorical):</strong><br><br>
+         $$\mathcal{L}(y, \hat{y}) = - \sum_{i=1}^{C} y_i\,\log \hat{y}_i$$
+         <p>where $y$ is the target distribution (hard or soft) and $\hat{y}$ is the predicted distribution (e.g., softmax output).</p>
+       </div>
 
-                <h3>2. Information Theory Perspective</h3>
-                <p>CrossEntropy has deep roots in information theory, measuring the amount of information needed to encode data.</p>
-                
-                <h4>Entropy: Information Content</h4>
-                <p>The entropy of a probability distribution measures the average information content (in bits):</p>
-                
-                <div class="math-display">
-                    $$H(y) = -\sum_{i=1}^{C} y_i \log_2(y_i)$$
-                </div>
-                
-                <p><strong>Interpretation:</strong> 
-                <ul>
-                    <li>High entropy: High uncertainty, more information needed to specify an outcome</li>
-                    <li>Low entropy: Low uncertainty, less information needed</li>
-                </ul>
-                </p>
-                
-                <h4>CrossEntropy: Expected Code Length</h4>
-                <p>CrossEntropy measures the expected number of bits needed to encode data from distribution <span class="math-inline">$y$</span> using a code optimized for distribution <span class="math-inline">$\hat{y}$</span>:</p>
-                
-                <div class="math-display">
-                    $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \log_2(\hat{y}_i)$$
-                </div>
-                
-                <h4>Kullback-Leibler Divergence</h4>
-                <p>The difference between CrossEntropy and Entropy is the KL divergence:</p>
-                
-                <div class="math-display">
-                    $$D_{KL}(y||\hat{y}) = H(y,\hat{y}) - H(y) = \sum_{i=1}^{C} y_i \log\left(\frac{y_i}{\hat{y}_i}\right)$$
-                </div>
-                
-                <p><strong>Properties:</strong>
-                <ul>
-                    <li><span class="math-inline">$D_{KL}(y||\hat{y}) \geq 0$</span> (always non-negative)</li>
-                    <li><span class="math-inline">$D_{KL}(y||\hat{y}) = 0$</span> if and only if <span class="math-inline">$y = \hat{y}$</span></li>
-                    <li>Measures how much information is lost when using <span class="math-inline">$\hat{y}$</span> to approximate <span class="math-inline">$y$</span></li>
-                </ul>
-                </p>
-                
-                <h4>Why CrossEntropy Instead of KL Divergence?</h4>
-                <p>In practice, we minimize CrossEntropy instead of KL divergence because:</p>
-                
-                <div class="math-display">
-                    $$H(y,\hat{y}) = H(y) + D_{KL}(y||\hat{y})$$
-                </div>
-                
-                <p>Since <span class="math-inline">$H(y)$</span> is constant (doesn't depend on model parameters), minimizing CrossEntropy is equivalent to minimizing KL divergence!</p>
+      <h2>Theoretical Foundations</h2>
 
-                <h3>3. Gradient Analysis</h3>
-                <p>The gradient of CrossEntropy with respect to the logits reveals why it's so effective for training:</p>
-                
-                <div class="math-display">
-                    $$\frac{\partial H}{\partial z_i} = \hat{y}_i - y_i$$
-                </div>
-                
-                <p><strong>Beautiful properties:</strong>
-                <ul>
-                    <li><strong>Correct prediction:</strong> When <span class="math-inline">$\hat{y}_i = y_i$</span>, gradient is zero (no update needed)</li>
-                    <li><strong>Overconfident:</strong> When <span class="math-inline">$\hat{y}_i > y_i$</span>, negative gradient reduces confidence</li>
-                    <li><strong>Underconfident:</strong> When <span class="math-inline">$\hat{y}_i < y_i$</span>, positive gradient increases confidence</li>
-                    <li><strong>No vanishing gradients:</strong> Gradient is proportional to prediction error</li>
-                </ul>
-                </p>
+      <h3>1. Maximum Likelihood Estimation (MLE) Perspective</h3>
+      <p>Assume we have $N$ samples. The target for sample $n$ is a distribution $y^{(n)} = [y^{(n)}_1,\ldots,y^{(n)}_C]$ (hard one-hot or soft). The model predicts $\hat{y}^{(n)} = [\hat{y}^{(n)}_1,\ldots,\hat{y}^{(n)}_C]$ with $\sum_i \hat{y}^{(n)}_i = 1$.</p>
 
-                <h3>4. Connection Between Both Perspectives</h3>
-                <p>Both perspectives lead to the same loss function, but provide different insights:</p>
-                
-                <div class="math-display">
-                    <strong>Maximum Likelihood:</strong> Find parameters that make observed data most probable<br><br>
-                    <strong>Information Theory:</strong> Minimize the extra information needed due to imperfect predictions
-                </div>
-                
-                <p>This dual interpretation explains why CrossEntropy is so fundamental and widely used in machine learning!</p>
+      <div class="math-display">
+        <strong>Likelihood:</strong><br><br>
+        $$L(\theta) = \prod_{n=1}^N \prod_{i=1}^C \big(\hat{y}^{(n)}_i\big)^{\,y^{(n)}_i}$$
+      </div>
 
-                <h2>Understanding Hard Labels vs Soft Labels</h2>
-                
-                <h3>Hard Labels (One-hot encoding)</h3>
-                <p>Hard labels represent the true class with certainty. Each sample belongs to exactly one class:</p>
-                
-                <div class="math-display">
-                    <strong>For 3-class problem:</strong><br><br>
-                    True class = Class 1: <span class="math-inline">$y = [1, 0, 0]$</span><br>
-                    True class = Class 2: <span class="math-inline">$y = [0, 1, 0]$</span><br>
-                    True class = Class 3: <span class="math-inline">$y = [0, 0, 1]$</span>
-                </div>
+      <p>Taking logs:</p>
+      <div class="math-display">
+        $$\log L(\theta) = \sum_{n=1}^N \sum_{i=1}^C y^{(n)}_i \log \hat{y}^{(n)}_i.$$
+      </div>
 
-                <h3>Soft Labels (Probability distributions)</h3>
-                <p>Soft labels represent uncertainty or confidence in the true class. The probabilities sum to 1:</p>
-                
-                <div class="math-display">
-                    <strong>Example soft labels:</strong><br><br>
-                    Uncertain case: <span class="math-inline">$y = [0.7, 0.2, 0.1]$</span><br>
-                    Very uncertain: <span class="math-inline">$y = [0.4, 0.3, 0.3]$</span><br>
-                    Almost certain: <span class="math-inline">$y = [0.95, 0.03, 0.02]$</span>
-                </div>
+      <p>Minimizing the negative log-likelihood (NLL) gives exactly the CrossEntropy:</p>
+      <div class="math-display">
+        $$\mathcal{L}_{\text{NLL}}(\theta) = -\log L(\theta) = -\sum_{n=1}^N \sum_{i=1}^C y^{(n)}_i \log \hat{y}^{(n)}_i.$$
+      </div>
 
-                <h3>CrossEntropy with Different Label Types</h3>
-                <p>CrossEntropy works with both hard and soft labels:</p>
-                
-                <div class="math-display">
-                    <strong>Formula remains the same:</strong><br><br>
-                    $$H(y,\hat{y}) = -\sum_{i=1}^{C} y_i \log(\hat{y}_i)$$
-                </div>
+      <p><strong>Key insight:</strong> CrossEntropy is the negative log-likelihood whether $y$ is one-hot (hard) or a soft distribution.</p>
 
-                <p><strong>Key insight:</strong> CrossEntropy measures how well the predicted distribution <span class="math-inline">$\hat{y}$</span> matches the true distribution <span class="math-inline">$y$</span>, regardless of whether <span class="math-inline">$y$</span> is hard or soft.</p>
-            </div>
+      <h3>2. Information Theory Perspective</h3>
+      <p>CrossEntropy also measures the expected code length of data from $y$ when using a code optimized for $\hat{y}$.</p>
 
-            <div class="section-nav">
-                <div class="section-card">
-                    <h4>📚 Mathematical Foundation</h4>
-                    <p>Deep dive into the mathematical derivation and theoretical background</p>
-                </div>
-                
-                <div class="section-card">
-                    <h4>💻 Code Examples</h4>
-                    <p>Implementations in NumPy, PyTorch, and TensorFlow</p>
-                </div>
-                
-                <div class="section-card">
-                    <h4>📊 Visualizations</h4>
-                    <p>Interactive plots showing loss curves and gradient behavior</p>
-                </div>
-                
-                <div class="section-card">
-                    <h4>🏋️ Exercises</h4>
-                    <p>Hands-on practice problems to reinforce understanding</p>
-                </div>
-            </div>
+      <div class="math-display">
+        $$H(y,\hat{y}) = H(y) + D_{\mathrm{KL}}(y\,\|\,\hat{y}).$$
+      </div>
 
-            <div class="content-card">
-                <h2>Detailed Calculation Examples</h2>
-                <p>Let's work through several examples to understand how CrossEntropy loss behaves with different scenarios.</p>
-                
-                <h3>Hard Label Examples</h3>
-                <p>The following table shows CrossEntropy calculations for hard labels (one-hot encoding):</p>
-                
-                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <thead>
-                        <tr style="background: #667eea; color: white;">
-                            <th style="padding: 12px; text-align: left;">Sample</th>
-                            <th style="padding: 12px; text-align: center;">True Label (p)</th>
-                            <th style="padding: 12px; text-align: center;">Prediction (q)</th>
-                            <th style="padding: 12px; text-align: center;">CrossEntropy Loss</th>
-                            <th style="padding: 12px; text-align: center;">Interpretation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px; font-weight: bold;">1</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[1, 0, 0]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.8, 0.1, 0.1]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.223$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #28a745;">Good prediction</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px; font-weight: bold;">2</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0, 1, 0]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.3, 0.4, 0.3]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.916$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #ffc107;">Uncertain prediction</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px; font-weight: bold;">3</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0, 0, 1]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.9, 0.05, 0.05]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$2.996$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #dc3545;">Wrong prediction</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px; font-weight: bold;">4</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[1, 0, 0]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.99, 0.005, 0.005]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.010$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #28a745;">Excellent prediction</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; font-weight: bold;">5</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0, 1, 0]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.33, 0.33, 0.34]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$1.099$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #ffc107;">Random prediction</td>
-                        </tr>
-                    </tbody>
-                </table>
+      <p>Since $H(y)$ is constant w.r.t. model parameters, minimizing CrossEntropy is equivalent to minimizing the KL divergence $D_{\mathrm{KL}}(y\,\|\,\hat{y})$.</p>
 
-                <h3>Soft Label Examples</h3>
-                <p>Now let's see how CrossEntropy works with soft labels (probability distributions):</p>
-                
-                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <thead>
-                        <tr style="background: #667eea; color: white;">
-                            <th style="padding: 12px; text-align: left;">Sample</th>
-                            <th style="padding: 12px; text-align: center;">True Label (p)</th>
-                            <th style="padding: 12px; text-align: center;">Prediction (q)</th>
-                            <th style="padding: 12px; text-align: center;">CrossEntropy Loss</th>
-                            <th style="padding: 12px; text-align: center;">Interpretation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px; font-weight: bold;">6</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.7, 0.2, 0.1]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.6, 0.3, 0.1]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.511$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #28a745;">Close match</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px; font-weight: bold;">7</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.4, 0.3, 0.3]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.8, 0.1, 0.1]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.891$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #ffc107;">Overconfident</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; font-weight: bold;">8</td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.95, 0.03, 0.02]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.93, 0.04, 0.03]$</span></td>
-                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.021$</span></td>
-                            <td style="padding: 12px; text-align: center; color: #28a745;">Excellent match</td>
-                        </tr>
-                    </tbody>
-                </table>
+      <h3>3. Gradient Analysis</h3>
+      <p>Let $\hat{y} = \mathrm{softmax}(z)$. The gradient of CrossEntropy w.r.t. the logits $z$ is:</p>
+      <div class="math-display">
+        $$\frac{\partial \mathcal{L}}{\partial z_i} = \hat{y}_i - y_i.$$
+      </div>
+      <p>This holds for both hard and soft labels.</p>
 
-                <div class="math-display">
-                    <strong>Calculation for Sample 1 (Hard Label):</strong><br><br>
-                    $$H(y,\hat{y}) = -[1 \cdot \log(0.8) + 0 \cdot \log(0.1) + 0 \cdot \log(0.1)]$$<br>
-                    $$H(y,\hat{y}) = -\log(0.8) = 0.223$$
-                </div>
+      <h2>Understanding Hard vs. Soft Labels</h2>
 
-                <div class="math-display">
-                    <strong>Calculation for Sample 6 (Soft Label):</strong><br><br>
-                    $$H(y,\hat{y}) = -[0.7 \cdot \log(0.6) + 0.2 \cdot \log(0.3) + 0.1 \cdot \log(0.1)]$$<br>
-                    $$H(y,\hat{y}) = -[0.7 \cdot (-0.511) + 0.2 \cdot (-1.204) + 0.1 \cdot (-2.303)]$$<br>
-                    $$H(y,\hat{y}) = 0.358 + 0.241 + 0.230 = 0.829$$
-                </div>
+      <h3>Hard Labels (one-hot)</h3>
+      <div class="math-display">
+        For 3 classes: <br><br>
+        Class 1: $y = [1, 0, 0]$ &nbsp;&nbsp;
+        Class 2: $y = [0, 1, 0]$ &nbsp;&nbsp;
+        Class 3: $y = [0, 0, 1]$
+      </div>
 
-                <h3>Key Observations</h3>
-                <ul>
-                    <li><strong>Perfect prediction:</strong> When <span class="math-inline">$y = \hat{y}$</span>, CrossEntropy equals the entropy of the true distribution</li>
-                    <li><strong>Wrong prediction:</strong> Loss increases exponentially when the model is confident but wrong</li>
-                    <li><strong>Uncertain prediction:</strong> Moderate loss when the model is uncertain (close to uniform distribution)</li>
-                    <li><strong>Soft labels:</strong> Allow modeling uncertainty in the ground truth, useful for noisy labels or expert disagreement</li>
-                </ul>
-            </div>
-        </div>
-    </main>
+      <h3>Soft Labels (probability distributions)</h3>
+      <div class="math-display">
+        Examples: <br><br>
+        $y = [0.7, 0.2, 0.1]$, &nbsp; $y = [0.4, 0.3, 0.3]$, &nbsp; $y = [0.95, 0.03, 0.02]$
+      </div>
 
-    <script>
-        // Add click handlers for section cards
-        document.querySelectorAll('.section-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const title = this.querySelector('h4').textContent;
-                
-                // Create placeholder content based on section
-                let content = '';
-                switch(title) {
-                    case '📚 Mathematical Foundation':
-                        content = 'Mathematical Foundation content will be implemented here...';
-                        break;
-                    case '💻 Code Examples':
-                        content = 'Code Examples will be implemented here...';
-                        break;
-                    case '📊 Visualizations':
-                        content = 'Visualizations will be implemented here...';
-                        break;
-                    case '🏋️ Exercises':
-                        content = 'Exercises will be implemented here...';
-                        break;
-                }
-                
-                alert(`${title}\n\n${content}`);
-            });
-        });
+      <h2>Applications in Classification</h2>
+      <ul>
+        <li><strong>Image:</strong> object recognition, handwritten digits</li>
+        <li><strong>Text:</strong> sentiment analysis, spam detection</li>
+        <li><strong>Medical:</strong> diagnosis from images/symptoms</li>
+        <li><strong>Recommenders:</strong> preference/category prediction</li>
+        <li><strong>NLP:</strong> NER, POS tagging</li>
+      </ul>
 
-        // Smooth scrolling for any internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+      <h2>Why CrossEntropy?</h2>
+      <ul>
+        <li><strong>Probabilistic:</strong> directly compares distributions $y$ vs. $\hat{y}$</li>
+        <li><strong>Useful gradients:</strong> strong updates when predictions are wrong</li>
+        <li><strong>Convex for logistic regression</strong></li>
+        <li><strong>Information-theoretic meaning</strong></li>
+      </ul>
+    </div>
+
+    <div class="section-nav">
+      <div class="section-card">
+        <h4>📚 Mathematical Foundation</h4>
+        <p>Derivations and theory (MLE & information)</p>
+      </div>
+      <div class="section-card">
+        <h4>💻 Code Examples</h4>
+        <p>NumPy, PyTorch, TensorFlow implementations</p>
+      </div>
+      <div class="section-card">
+        <h4>📊 Visualizations</h4>
+        <p>Loss curves and gradient behavior</p>
+      </div>
+      <div class="section-card">
+        <h4>🏋️ Exercises</h4>
+        <p>Hands-on practice problems</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Detailed Calculation Examples</h2>
+      <p>Worked examples to see how CrossEntropy behaves.</p>
+
+      <h3>Hard Label Examples</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sample</th>
+            <th class="center">True Label (y)</th>
+             <th class="center">Prediction ($\hat{y}$)</th>
+            <th class="center">CrossEntropy</th>
+            <th class="center">Interpretation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #eee;">
+            <td><strong>1</strong></td>
+            <td class="center"><span class="math-inline">$[1, 0, 0]$</span></td>
+            <td class="center"><span class="math-inline">$[0.8, 0.1, 0.1]$</span></td>
+            <td class="center"><span class="math-inline">$0.223$</span></td>
+            <td class="center" style="color:#28a745;">Good prediction</td>
+          </tr>
+          <tr style="border-bottom:1px solid #eee;">
+            <td><strong>2</strong></td>
+            <td class="center"><span class="math-inline">$[0, 1, 0]$</span></td>
+            <td class="center"><span class="math-inline">$[0.3, 0.4, 0.3]$</span></td>
+            <td class="center"><span class="math-inline">$0.916$</span></td>
+            <td class="center" style="color:#ffc107;">Uncertain prediction</td>
+          </tr>
+          <tr style="border-bottom:1px solid #eee;">
+            <td><strong>3</strong></td>
+            <td class="center"><span class="math-inline">$[0, 0, 1]$</span></td>
+            <td class="center"><span class="math-inline">$[0.9, 0.05, 0.05]$</span></td>
+            <td class="center"><span class="math-inline">$2.996$</span></td>
+            <td class="center" style="color:#dc3545;">Wrong prediction</td>
+          </tr>
+          <tr style="border-bottom:1px solid #eee;">
+            <td><strong>4</strong></td>
+            <td class="center"><span class="math-inline">$[1, 0, 0]$</span></td>
+            <td class="center"><span class="math-inline">$[0.99, 0.005, 0.005]$</span></td>
+            <td class="center"><span class="math-inline">$0.010$</span></td>
+            <td class="center" style="color:#28a745;">Excellent prediction</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td class="center"><span class="math-inline">$[0, 1, 0]$</span></td>
+            <td class="center"><span class="math-inline">$[0.33, 0.33, 0.34]$</span></td>
+            <td class="center"><span class="math-inline">$1.099$</span></td>
+            <td class="center" style="color:#ffc107;">Random prediction</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Soft Label Examples</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sample</th>
+            <th class="center">True Label (y)</th>
+             <th class="center">Prediction ($\hat{y}$)</th>
+            <th class="center">CrossEntropy</th>
+            <th class="center">Interpretation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #eee;">
+            <td><strong>6</strong></td>
+            <td class="center"><span class="math-inline">$[0.7, 0.2, 0.1]$</span></td>
+            <td class="center"><span class="math-inline">$[0.6, 0.3, 0.1]$</span></td>
+            <td class="center"><span class="math-inline">$0.829$</span></td>
+            <td class="center" style="color:#28a745;">Close match</td>
+          </tr>
+          <tr style="border-bottom:1px solid #eee;">
+            <td><strong>7</strong></td>
+            <td class="center"><span class="math-inline">$[0.4, 0.3, 0.3]$</span></td>
+            <td class="center"><span class="math-inline">$[0.8, 0.1, 0.1]$</span></td>
+            <td class="center"><span class="math-inline">$0.891$</span></td>
+            <td class="center" style="color:#ffc107;">Overconfident</td>
+          </tr>
+          <tr>
+            <td><strong>8</strong></td>
+            <td class="center"><span class="math-inline">$[0.95, 0.03, 0.02]$</span></td>
+            <td class="center"><span class="math-inline">$[0.93, 0.04, 0.03]$</span></td>
+            <td class="center"><span class="math-inline">$0.021$</span></td>
+            <td class="center" style="color:#28a745;">Excellent match</td>
+          </tr>
+        </tbody>
+      </table>
+
+       <div class="math-display">
+         <strong>Calculation for Sample 1 (hard):</strong><br><br>
+         $$\mathcal{L}(y,\hat{y}) = -[1\cdot\log(0.8) + 0\cdot\log(0.1) + 0\cdot\log(0.1)] = -\log(0.8) = 0.223.$$
+       </div>
+
+       <div class="math-display">
+         <strong>Calculation for Sample 6 (soft):</strong><br><br>
+         $$\mathcal{L}(y,\hat{y}) = -[0.7\log(0.6) + 0.2\log(0.3) + 0.1\log(0.1)]$$
+         $$= -[0.7(-0.511) + 0.2(-1.204) + 0.1(-2.303)] = 0.829.$$
+       </div>
+
+      <h3>Key Observations</h3>
+      <ul>
+        <li><strong>Perfect prediction:</strong> If $y=\hat{y}$, CE equals the entropy $H(y)$</li>
+        <li><strong>Confident & wrong:</strong> CE grows quickly when the model is confidently wrong</li>
+        <li><strong>Uncertain:</strong> Near-uniform predictions give moderate loss</li>
+        <li><strong>Soft labels:</strong> Naturally handled by the same CE formula</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Click handlers for the section cards (placeholder)
+  document.querySelectorAll('.section-card').forEach(card => {
+    card.addEventListener('click', function () {
+      const title = this.querySelector('h4').textContent;
+      let content = '';
+      switch (title) {
+        case '📚 Mathematical Foundation':
+          content = 'Mathematical Foundation content will be implemented here...';
+          break;
+        case '💻 Code Examples':
+          content = 'Code Examples will be implemented here...';
+          break;
+        case '📊 Visualizations':
+          content = 'Visualizations will be implemented here...';
+          break;
+        case '🏋️ Exercises':
+          content = 'Exercises will be implemented here...';
+          break;
+      }
+      alert(`${title}\n\n${content}`);
+    });
+  });
+
+  // Smooth scrolling for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
 </body>
 </html>
