@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossEntropy Loss Function - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #555;
+            margin: 1.5rem 0 0.5rem 0;
+            font-size: 1.3rem;
+        }
+
+        .overview {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .overview h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .math-formula {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .section-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .section-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .learning-objectives {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .learning-objectives h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .learning-objectives ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .learning-objectives li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .learning-objectives li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .estimated-time {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #856404;
+        }
+
+        .estimated-time strong {
+            color: #667eea;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-nav {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="/AILearningHub/" class="logo">🤖 AI Learning Hub</a>
+            <div class="breadcrumb">
+                <a href="/AILearningHub/">Home</a> / 
+                <a href="/AILearningHub/02_Machine_Learning/">Machine Learning</a> / 
+                CrossEntropy Loss
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="/AILearningHub/" class="back-button">← Back to AI Learning Hub</a>
+            
+            <div class="content-card">
+                <h1>CrossEntropy Loss Function</h1>
+                
+                <div class="overview">
+                    <h3>📋 Overview</h3>
+                    <p>CrossEntropy loss is one of the most important loss functions in machine learning, particularly for classification problems. This module covers the mathematical foundation, implementation, and practical applications of CrossEntropy loss.</p>
+                </div>
+
+                <div class="learning-objectives">
+                    <h3>🎯 Learning Objectives</h3>
+                    <ul>
+                        <li>Understand the mathematical derivation of CrossEntropy</li>
+                        <li>Learn why CrossEntropy is ideal for classification</li>
+                        <li>Implement CrossEntropy from scratch</li>
+                        <li>Visualize how CrossEntropy behaves with different inputs</li>
+                        <li>Apply CrossEntropy in real classification problems</li>
+                    </ul>
+                </div>
+
+                <div class="estimated-time">
+                    <strong>⏱️ Estimated Time:</strong> 15-20 minutes of focused reading + 30 minutes of hands-on practice
+                </div>
+
+                <h2>Mathematical Foundation</h2>
+                <p>CrossEntropy loss measures the difference between two probability distributions. For classification problems, it measures how well our model's predicted probabilities match the true distribution.</p>
+                
+                <div class="math-formula">
+                    <strong>Binary CrossEntropy:</strong><br>
+                    H(p,q) = -[p·log(q) + (1-p)·log(1-q)]
+                </div>
+                
+                <div class="math-formula">
+                    <strong>Multi-class CrossEntropy:</strong><br>
+                    H(p,q) = -∑(i=1 to C) p_i · log(q_i)
+                </div>
+
+                <h2>Why CrossEntropy for Classification?</h2>
+                <ul>
+                    <li><strong>Probability Interpretation:</strong> Works directly with probability distributions</li>
+                    <li><strong>Gradient Properties:</strong> Provides strong gradients when predictions are wrong</li>
+                    <li><strong>Convexity:</strong> Guarantees global minimum for logistic regression</li>
+                    <li><strong>Information Theory:</strong> Based on entropy and information theory principles</li>
+                </ul>
+            </div>
+
+            <div class="section-nav">
+                <div class="section-card">
+                    <h4>📚 Mathematical Foundation</h4>
+                    <p>Deep dive into the mathematical derivation and theoretical background</p>
+                </div>
+                
+                <div class="section-card">
+                    <h4>💻 Code Examples</h4>
+                    <p>Implementations in NumPy, PyTorch, and TensorFlow</p>
+                </div>
+                
+                <div class="section-card">
+                    <h4>📊 Visualizations</h4>
+                    <p>Interactive plots showing loss curves and gradient behavior</p>
+                </div>
+                
+                <div class="section-card">
+                    <h4>🏋️ Exercises</h4>
+                    <p>Hands-on practice problems to reinforce understanding</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2>Quick Example</h2>
+                <p>Here's a simple example of how CrossEntropy loss works:</p>
+                
+                <div class="math-formula">
+                    <strong>True label:</strong> [0, 1, 0] (class 1)<br>
+                    <strong>Model prediction:</strong> [0.1, 0.8, 0.1]<br>
+                    <strong>CrossEntropy loss:</strong> -log(0.8) ≈ 0.223
+                </div>
+                
+                <p>When the model is confident and correct, the loss is low. When the model is wrong or uncertain, the loss increases exponentially.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add click handlers for section cards
+        document.querySelectorAll('.section-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h4').textContent;
+                
+                // Create placeholder content based on section
+                let content = '';
+                switch(title) {
+                    case '📚 Mathematical Foundation':
+                        content = 'Mathematical Foundation content will be implemented here...';
+                        break;
+                    case '💻 Code Examples':
+                        content = 'Code Examples will be implemented here...';
+                        break;
+                    case '📊 Visualizations':
+                        content = 'Visualizations will be implemented here...';
+                        break;
+                    case '🏋️ Exercises':
+                        content = 'Exercises will be implemented here...';
+                        break;
+                }
+                
+                alert(`${title}\n\n${content}`);
+            });
+        });
+
+        // Smooth scrolling for any internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
