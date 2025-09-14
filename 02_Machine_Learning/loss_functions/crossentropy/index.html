@@ -324,6 +324,17 @@
                     </ul>
                 </p>
 
+                <h2>Applications in Classification Problems</h2>
+                <p>CrossEntropy loss is widely used in machine learning for classification tasks:</p>
+                
+                <ul>
+                    <li><strong>Image Classification:</strong> Recognizing objects in images (cats vs dogs, handwritten digits)</li>
+                    <li><strong>Text Classification:</strong> Sentiment analysis, spam detection, topic classification</li>
+                    <li><strong>Medical Diagnosis:</strong> Disease classification from symptoms or medical images</li>
+                    <li><strong>Recommendation Systems:</strong> User preference prediction, content categorization</li>
+                    <li><strong>Natural Language Processing:</strong> Named entity recognition, part-of-speech tagging</li>
+                </ul>
+
                 <h2>Why CrossEntropy for Classification?</h2>
                 <ul>
                     <li><strong>Probability Interpretation:</strong> Works directly with probability distributions</li>
@@ -352,6 +363,38 @@
                 </div>
 
                 <p>This elegant gradient form makes CrossEntropy ideal for neural network training!</p>
+
+                <h2>Understanding Hard Labels vs Soft Labels</h2>
+                
+                <h3>Hard Labels (One-hot encoding)</h3>
+                <p>Hard labels represent the true class with certainty. Each sample belongs to exactly one class:</p>
+                
+                <div class="math-display">
+                    <strong>For 3-class problem:</strong><br><br>
+                    True class = Class 1: <span class="math-inline">$p = [1, 0, 0]$</span><br>
+                    True class = Class 2: <span class="math-inline">$p = [0, 1, 0]$</span><br>
+                    True class = Class 3: <span class="math-inline">$p = [0, 0, 1]$</span>
+                </div>
+
+                <h3>Soft Labels (Probability distributions)</h3>
+                <p>Soft labels represent uncertainty or confidence in the true class. The probabilities sum to 1:</p>
+                
+                <div class="math-display">
+                    <strong>Example soft labels:</strong><br><br>
+                    Uncertain case: <span class="math-inline">$p = [0.7, 0.2, 0.1]$</span><br>
+                    Very uncertain: <span class="math-inline">$p = [0.4, 0.3, 0.3]$</span><br>
+                    Almost certain: <span class="math-inline">$p = [0.95, 0.03, 0.02]$</span>
+                </div>
+
+                <h3>CrossEntropy with Different Label Types</h3>
+                <p>CrossEntropy works with both hard and soft labels:</p>
+                
+                <div class="math-display">
+                    <strong>Formula remains the same:</strong><br><br>
+                    $$H(p,q) = -\sum_{i=1}^{C} p_i \log(q_i)$$
+                </div>
+
+                <p><strong>Key insight:</strong> CrossEntropy measures how well the predicted distribution <span class="math-inline">$q$</span> matches the true distribution <span class="math-inline">$p$</span>, regardless of whether <span class="math-inline">$p$</span> is hard or soft.</p>
             </div>
 
             <div class="section-nav">
@@ -377,17 +420,119 @@
             </div>
 
             <div class="content-card">
-                <h2>Quick Example</h2>
-                <p>Here's a simple example of how CrossEntropy loss works:</p>
+                <h2>Detailed Calculation Examples</h2>
+                <p>Let's work through several examples to understand how CrossEntropy loss behaves with different scenarios.</p>
                 
+                <h3>Hard Label Examples</h3>
+                <p>The following table shows CrossEntropy calculations for hard labels (one-hot encoding):</p>
+                
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 12px; text-align: left;">Sample</th>
+                            <th style="padding: 12px; text-align: center;">True Label (p)</th>
+                            <th style="padding: 12px; text-align: center;">Prediction (q)</th>
+                            <th style="padding: 12px; text-align: center;">CrossEntropy Loss</th>
+                            <th style="padding: 12px; text-align: center;">Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; font-weight: bold;">1</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[1, 0, 0]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.8, 0.1, 0.1]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.223$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #28a745;">Good prediction</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; font-weight: bold;">2</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0, 1, 0]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.3, 0.4, 0.3]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.916$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #ffc107;">Uncertain prediction</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; font-weight: bold;">3</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0, 0, 1]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.9, 0.05, 0.05]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$2.996$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #dc3545;">Wrong prediction</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; font-weight: bold;">4</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[1, 0, 0]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.99, 0.005, 0.005]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.010$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #28a745;">Excellent prediction</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; font-weight: bold;">5</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0, 1, 0]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.33, 0.33, 0.34]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$1.099$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #ffc107;">Random prediction</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Soft Label Examples</h3>
+                <p>Now let's see how CrossEntropy works with soft labels (probability distributions):</p>
+                
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 12px; text-align: left;">Sample</th>
+                            <th style="padding: 12px; text-align: center;">True Label (p)</th>
+                            <th style="padding: 12px; text-align: center;">Prediction (q)</th>
+                            <th style="padding: 12px; text-align: center;">CrossEntropy Loss</th>
+                            <th style="padding: 12px; text-align: center;">Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; font-weight: bold;">6</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.7, 0.2, 0.1]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.6, 0.3, 0.1]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.511$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #28a745;">Close match</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; font-weight: bold;">7</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.4, 0.3, 0.3]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.8, 0.1, 0.1]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.891$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #ffc107;">Overconfident</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; font-weight: bold;">8</td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.95, 0.03, 0.02]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$[0.93, 0.04, 0.03]$</span></td>
+                            <td style="padding: 12px; text-align: center;"><span class="math-inline">$0.021$</span></td>
+                            <td style="padding: 12px; text-align: center; color: #28a745;">Excellent match</td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <div class="math-display">
-                    <strong>Example:</strong><br><br>
-                    True label: <span class="math-inline">$[0, 1, 0]$</span> (class 1)<br><br>
-                    Model prediction: <span class="math-inline">$[0.1, 0.8, 0.1]$</span><br><br>
-                    CrossEntropy loss: <span class="math-inline">$-\log(0.8) \approx 0.223$</span>
+                    <strong>Calculation for Sample 1 (Hard Label):</strong><br><br>
+                    $$H(p,q) = -[1 \cdot \log(0.8) + 0 \cdot \log(0.1) + 0 \cdot \log(0.1)]$$<br>
+                    $$H(p,q) = -\log(0.8) = 0.223$$
                 </div>
-                
-                <p>When the model is confident and correct, the loss is low. When the model is wrong or uncertain, the loss increases exponentially.</p>
+
+                <div class="math-display">
+                    <strong>Calculation for Sample 6 (Soft Label):</strong><br><br>
+                    $$H(p,q) = -[0.7 \cdot \log(0.6) + 0.2 \cdot \log(0.3) + 0.1 \cdot \log(0.1)]$$<br>
+                    $$H(p,q) = -[0.7 \cdot (-0.511) + 0.2 \cdot (-1.204) + 0.1 \cdot (-2.303)]$$<br>
+                    $$H(p,q) = 0.358 + 0.241 + 0.230 = 0.829$$
+                </div>
+
+                <h3>Key Observations</h3>
+                <ul>
+                    <li><strong>Perfect prediction:</strong> When <span class="math-inline">$p = q$</span>, CrossEntropy equals the entropy of the true distribution</li>
+                    <li><strong>Wrong prediction:</strong> Loss increases exponentially when the model is confident but wrong</li>
+                    <li><strong>Uncertain prediction:</strong> Moderate loss when the model is uncertain (close to uniform distribution)</li>
+                    <li><strong>Soft labels:</strong> Allow modeling uncertainty in the ground truth, useful for noisy labels or expert disagreement</li>
+                </ul>
             </div>
         </div>
     </main>
