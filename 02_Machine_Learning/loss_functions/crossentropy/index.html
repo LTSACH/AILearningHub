@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrossEntropy Loss Function - AI Learning Hub</title>
+    
+    <!-- MathJax Configuration -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -114,10 +132,26 @@
             border-radius: 8px;
             padding: 1rem;
             margin: 1rem 0;
-            font-family: 'Courier New', monospace;
             text-align: center;
             font-size: 1.1rem;
             color: #333;
+        }
+
+        .math-display {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .math-inline {
+            background: #e3f2fd;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
         }
 
         .section-nav {
@@ -271,15 +305,24 @@
                 <h2>Mathematical Foundation</h2>
                 <p>CrossEntropy loss measures the difference between two probability distributions. For classification problems, it measures how well our model's predicted probabilities match the true distribution.</p>
                 
-                <div class="math-formula">
-                    <strong>Binary CrossEntropy:</strong><br>
-                    H(p,q) = -[p·log(q) + (1-p)·log(1-q)]
+                <div class="math-display">
+                    <strong>Binary CrossEntropy:</strong><br><br>
+                    $$H(p,q) = -[p \cdot \log(q) + (1-p) \cdot \log(1-q)]$$
                 </div>
                 
-                <div class="math-formula">
-                    <strong>Multi-class CrossEntropy:</strong><br>
-                    H(p,q) = -∑(i=1 to C) p_i · log(q_i)
+                <div class="math-display">
+                    <strong>Multi-class CrossEntropy:</strong><br><br>
+                    $$H(p,q) = -\sum_{i=1}^{C} p_i \cdot \log(q_i)$$
                 </div>
+
+                <p>Where:
+                    <ul>
+                        <li><span class="math-inline">$p$</span> is the true probability distribution</li>
+                        <li><span class="math-inline">$q$</span> is the predicted probability distribution</li>
+                        <li><span class="math-inline">$C$</span> is the number of classes</li>
+                        <li><span class="math-inline">$p_i$</span> and <span class="math-inline">$q_i$</span> are the probabilities for class <span class="math-inline">$i$</span></li>
+                    </ul>
+                </p>
 
                 <h2>Why CrossEntropy for Classification?</h2>
                 <ul>
@@ -288,6 +331,27 @@
                     <li><strong>Convexity:</strong> Guarantees global minimum for logistic regression</li>
                     <li><strong>Information Theory:</strong> Based on entropy and information theory principles</li>
                 </ul>
+
+                <h3>Derivation from Information Theory</h3>
+                <p>CrossEntropy comes from information theory. The entropy of a probability distribution is:</p>
+                
+                <div class="math-display">
+                    $$H(p) = -\sum_{i=1}^{C} p_i \log(p_i)$$
+                </div>
+
+                <p>CrossEntropy measures the additional information needed to encode data using the wrong distribution:</p>
+                
+                <div class="math-display">
+                    $$H(p,q) = -\sum_{i=1}^{C} p_i \log(q_i)$$
+                </div>
+
+                <p>The gradient of CrossEntropy with respect to the logits <span class="math-inline">$z_i$</span> is:</p>
+                
+                <div class="math-display">
+                    $$\frac{\partial H}{\partial z_i} = q_i - p_i$$
+                </div>
+
+                <p>This elegant gradient form makes CrossEntropy ideal for neural network training!</p>
             </div>
 
             <div class="section-nav">
@@ -316,10 +380,11 @@
                 <h2>Quick Example</h2>
                 <p>Here's a simple example of how CrossEntropy loss works:</p>
                 
-                <div class="math-formula">
-                    <strong>True label:</strong> [0, 1, 0] (class 1)<br>
-                    <strong>Model prediction:</strong> [0.1, 0.8, 0.1]<br>
-                    <strong>CrossEntropy loss:</strong> -log(0.8) ≈ 0.223
+                <div class="math-display">
+                    <strong>Example:</strong><br><br>
+                    True label: <span class="math-inline">$[0, 1, 0]$</span> (class 1)<br><br>
+                    Model prediction: <span class="math-inline">$[0.1, 0.8, 0.1]$</span><br><br>
+                    CrossEntropy loss: <span class="math-inline">$-\log(0.8) \approx 0.223$</span>
                 </div>
                 
                 <p>When the model is confident and correct, the loss is low. When the model is wrong or uncertain, the loss increases exponentially.</p>
