@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBC News Dataset - EDA Report with Interactive Tutorials</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    
+    <!-- Prism.js for Code Syntax Highlighting -->
+    <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .control-buttons {
+            background: #f8f9fa;
+            padding: 15px 40px;
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            padding: 10px 25px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .control-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .control-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .theme-toggle.dark-mode {
+            background: #2d2d2d;
+            color: white;
+            border-color: #2d2d2d;
+        }
+        
+        .theme-toggle.dark-mode:hover {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+        }
+        
+        /* Dark theme code containers ONLY */
+        body.dark-theme .code-tab-content {
+            background: #2d2d2d !important;
+            border-color: #404040 !important;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 40px;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .section h2:hover {
+            color: #667eea;
+        }
+        
+        .section h2::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            font-size: 0.7em;
+            transition: transform 0.3s ease;
+        }
+        
+        .section h2.collapsed::after {
+            transform: rotate(-90deg);
+        }
+        
+        .section-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-tutorial {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-tutorial:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-copy {
+            background: linear-gradient(135deg, #43e97b 0%, #38d9a9 100%);
+            color: white;
+        }
+        
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+        }
+        
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #38d9a9 0%, #20c997 100%);
+        }
+        
+        .section-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 10000px;
+            opacity: 1;
+        }
+        
+        .section-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+        }
+        
+        .tutorial-panel {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .tutorial-panel.active {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tutorial-explanation {
+            margin-bottom: 25px;
+        }
+        
+        .tutorial-explanation h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .tutorial-explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .tutorial-explanation strong {
+            color: #667eea;
+        }
+        
+        .code-tabs {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .code-tabs-header {
+            display: flex;
+            background: #2d2d2d;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .code-tab-button {
+            flex: 1;
+            padding: 12px 20px;
+            background: #2d2d2d;
+            color: #999;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .code-tab-button:hover {
+            background: #3d3d3d;
+            color: #ccc;
+        }
+        
+        .code-tab-button.active {
+            background: #3d3d3d;
+            color: white;
+        }
+        
+        .code-tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .code-tab-content {
+            display: none;
+            position: relative;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0;
+            max-height: none !important;
+            overflow: visible !important;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .code-tab-content.active {
+            display: block;
+        }
+        
+        .code-copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .code-copy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .code-copy-button.copied {
+            background: linear-gradient(135deg, #43e97b 0%, #38d9a9 100%);
+        }
+        
+        pre {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: visible !important;
+            max-height: none !important;
+        }
+        
+        pre code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            background: transparent !important;
+            border: none !important;
+            padding: 15px !important;
+            margin: 0 !important;
+            display: block;
+            overflow: visible !important;
+        }
+        
+        .loading-message {
+            padding: 20px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            color: #856404;
+            margin: 10px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+            overflow: hidden;
+            background: white !important;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Fix Chart.js extra padding/space */
+        .chartjs-render-monitor {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        /* Remove extra space from Chart.js */
+        canvas[style*="display: block"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .table th,
+        .table td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .table tbody tr:hover {
+            background: #e8eaf6;
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+        
+        .samples {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .samples h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .sample-text {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .section-header-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .section-buttons {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📰 BBC News Dataset</h1>
+            <div class="subtitle">Exploratory Data Analysis Report with Interactive Tutorials</div>
+        </div>
+        
+        <div class="control-buttons">
+            <button id="collapseAllBtn" class="control-btn">📦 Collapse All</button>
+            <button id="expandAllBtn" class="control-btn">📂 Expand All</button>
+            <span style="margin: 0 10px; color: #ccc;">|</span>
+            <button id="themeToggleBtn" class="control-btn theme-toggle">
+                <span id="themeIcon">☀️</span> <span id="themeText">Light Code</span>
+            </button>
+        </div>
+        
+        <div class="content">
+            
+            <!-- Methodology -->
+            <div class="section">
+                <h2>📚 Analysis Methodology</h2>
+                <div class="section-content">
+                <p style="color: #666; margin-bottom: 20px;">
+                    This report uses two types of text processing approaches depending on the analysis goal:
+                </p>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <table class="table">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                <th>Analysis Type</th>
+                                <th>🔴 Raw Data</th>
+                                <th>🟢 Stopwords Removed</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Basic Statistics</strong><br><small>(Word/Character counts)</small></td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td><small>Measure actual document size</small></td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td><strong>Stop Words Analysis</strong></td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td><small>Analyze stopword frequency</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Word Frequency</strong><br><small>(Top overall words)</small></td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td><small>Find meaningful keywords</small></td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td><strong>Category Keywords</strong></td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td><small>Category-specific terms</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vocabulary Richness</strong></td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td><small>Content vocabulary diversity</small></td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td><strong>TF-IDF Terms</strong></td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td><small>Most distinctive terms</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong>N-grams (Bigrams)</strong></td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td><small>Meaningful phrase patterns</small></td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td><strong>Distributions</strong><br><small>(Word/Char histograms)</small></td>
+                                <td style="text-align: center; font-size: 24px;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td><small>Show actual text lengths</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 8px;">
+                    <strong>💡 Key Principle:</strong> Use <strong>raw data</strong> for size/distribution analysis, 
+                    use <strong>filtered data</strong> (stopwords removed) for content/semantic analysis.
+                </div>
+                </div>
+            </div>
+            
+            <!-- Summary Statistics -->
+            <div class="section">
+                <h2>📊 Dataset Overview</h2>
+                <div class="section-content">
+                <p style="color: #666; margin-bottom: 20px; font-style: italic;">
+                    <strong>Note:</strong> Statistics include all words (before stop words removal)
+                </p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">2225</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">384</div>
+                        <div class="stat-label">Avg Words/Article (All)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2260</div>
+                        <div class="stat-label">Avg Chars/Article</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 📈 Category Distribution -->
+            <div class="section" id="category_distribution">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('category_distribution')" style="cursor: pointer;">📈 Category Distribution</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('category_distribution')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('category_distribution')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="category_distribution-tutorial" class="tutorial-panel">
+                        <div id="category_distribution-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="category_distribution-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="category_distribution-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('category_distribution', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('category_distribution', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('category_distribution', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="category_distribution-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_distribution', 'plotly')">📋 Copy</button>
+                                <pre><code id="category_distribution-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="category_distribution-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_distribution', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="category_distribution-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="category_distribution-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_distribution', 'seaborn')">📋 Copy</button>
+                                <pre><code id="category_distribution-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container"><canvas id="categoryChart"></canvas></div>
+                <table class="table" id="categoryTable">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Count</th>
+                            <th>Percentage</th>
+                            <th>Avg Words</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoryTableBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            
+            <!-- 🚫 Stop Words Analysis -->
+            <div class="section" id="stop_words">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('stop_words')" style="cursor: pointer;">🚫 Stop Words Analysis</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('stop_words')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('stop_words')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #f093fb; font-weight: bold;">🔴 Raw Data</span> - Analyzing stopword frequency from original text</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="stop_words-tutorial" class="tutorial-panel">
+                        <div id="stop_words-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="stop_words-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="stop_words-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('stop_words', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('stop_words', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('stop_words', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="stop_words-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('stop_words', 'plotly')">📋 Copy</button>
+                                <pre><code id="stop_words-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="stop_words-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('stop_words', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="stop_words-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="stop_words-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('stop_words', 'seaborn')">📋 Copy</button>
+                                <pre><code id="stop_words-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                <div id="stopWordsInfo"></div>
+                <div class="chart-container">
+                    <canvas id="stopWordsChart"></canvas>
+                </div>
+                <div class="samples">
+                    <h3>Stop Words List</h3>
+                    <p id="stopWordsList" style="padding: 15px; color: #555; line-height: 2; font-family: 'Courier New', monospace;">
+                    </p>
+            </div>
+                </div>
+            </div>
+            
+            <!-- 📊 Word Count Distribution -->
+            <div class="section" id="word_count_distribution">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('word_count_distribution')" style="cursor: pointer;">📊 Word Count Distribution</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('word_count_distribution')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('word_count_distribution')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #f093fb; font-weight: bold;">🔴 Raw Data</span> - Distribution of actual document sizes</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="word_count_distribution-tutorial" class="tutorial-panel">
+                        <div id="word_count_distribution-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="word_count_distribution-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="word_count_distribution-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('word_count_distribution', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('word_count_distribution', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('word_count_distribution', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="word_count_distribution-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('word_count_distribution', 'plotly')">📋 Copy</button>
+                                <pre><code id="word_count_distribution-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="word_count_distribution-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('word_count_distribution', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="word_count_distribution-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="word_count_distribution-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('word_count_distribution', 'seaborn')">📋 Copy</button>
+                                <pre><code id="word_count_distribution-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container"><canvas id="wordCountDistChart"></canvas></div>
+                </div>
+            </div>
+            
+            <!-- 📏 Character Count Distribution -->
+            <div class="section" id="char_count_distribution">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('char_count_distribution')" style="cursor: pointer;">📏 Character Count Distribution</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('char_count_distribution')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('char_count_distribution')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #f093fb; font-weight: bold;">🔴 Raw Data</span> - Distribution of actual character counts</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="char_count_distribution-tutorial" class="tutorial-panel">
+                        <div id="char_count_distribution-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="char_count_distribution-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="char_count_distribution-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('char_count_distribution', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('char_count_distribution', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('char_count_distribution', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="char_count_distribution-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('char_count_distribution', 'plotly')">📋 Copy</button>
+                                <pre><code id="char_count_distribution-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="char_count_distribution-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('char_count_distribution', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="char_count_distribution-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="char_count_distribution-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('char_count_distribution', 'seaborn')">📋 Copy</button>
+                                <pre><code id="char_count_distribution-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container"><canvas id="charCountDistChart"></canvas></div>
+                </div>
+            </div>
+            
+            <!-- 📚 Vocabulary Richness by Category -->
+            <div class="section" id="vocabulary_richness">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('vocabulary_richness')" style="cursor: pointer;">📚 Vocabulary Richness by Category</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('vocabulary_richness')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('vocabulary_richness')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #43e97b; font-weight: bold;">🟢 Stopwords Removed</span> - Measuring content vocabulary diversity</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="vocabulary_richness-tutorial" class="tutorial-panel">
+                        <div id="vocabulary_richness-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="vocabulary_richness-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="vocabulary_richness-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('vocabulary_richness', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('vocabulary_richness', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('vocabulary_richness', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="vocabulary_richness-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('vocabulary_richness', 'plotly')">📋 Copy</button>
+                                <pre><code id="vocabulary_richness-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="vocabulary_richness-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('vocabulary_richness', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="vocabulary_richness-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="vocabulary_richness-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('vocabulary_richness', 'seaborn')">📋 Copy</button>
+                                <pre><code id="vocabulary_richness-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container"><canvas id="vocabRichnessChart"></canvas></div>
+                <table class="table" id="vocabRichnessTable">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Total Words</th>
+                            <th>Unique Words</th>
+                            <th>Articles</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vocabRichnessTableBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            
+            <!-- 🔑 Top 50 Words by Category -->
+            <div class="section" id="category_keywords">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('category_keywords')" style="cursor: pointer;">🔑 Top 50 Words by Category</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('category_keywords')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('category_keywords')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #43e97b; font-weight: bold;">🟢 Stopwords Removed</span> - Category-specific meaningful keywords</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="category_keywords-tutorial" class="tutorial-panel">
+                        <div id="category_keywords-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="category_keywords-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="category_keywords-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('category_keywords', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('category_keywords', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('category_keywords', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="category_keywords-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_keywords', 'plotly')">📋 Copy</button>
+                                <pre><code id="category_keywords-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="category_keywords-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_keywords', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="category_keywords-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="category_keywords-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_keywords', 'seaborn')">📋 Copy</button>
+                                <pre><code id="category_keywords-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="keywordCharts"><!-- Charts populated by JavaScript --></div>
+                </div>
+            </div>
+            
+            <!-- 🎯 TF-IDF Top Terms by Category -->
+            <div class="section" id="tfidf_terms">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('tfidf_terms')" style="cursor: pointer;">🎯 TF-IDF Top Terms by Category</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('tfidf_terms')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('tfidf_terms')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #43e97b; font-weight: bold;">🟢 Stopwords Removed</span> - Most distinctive terms per category</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="tfidf_terms-tutorial" class="tutorial-panel">
+                        <div id="tfidf_terms-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="tfidf_terms-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="tfidf_terms-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('tfidf_terms', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('tfidf_terms', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('tfidf_terms', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="tfidf_terms-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('tfidf_terms', 'plotly')">📋 Copy</button>
+                                <pre><code id="tfidf_terms-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="tfidf_terms-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('tfidf_terms', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="tfidf_terms-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="tfidf_terms-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('tfidf_terms', 'seaborn')">📋 Copy</button>
+                                <pre><code id="tfidf_terms-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tfidfCharts"><!-- Charts populated by JavaScript --></div>
+                </div>
+            </div>
+            
+            <!-- 🔗 N-gram Analysis (Bigrams) -->
+            <div class="section" id="ngram_analysis">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('ngram_analysis')" style="cursor: pointer;">🔗 N-gram Analysis (Bigrams)</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('ngram_analysis')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('ngram_analysis')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #43e97b; font-weight: bold;">🟢 Stopwords Removed</span> - Meaningful phrase patterns (TF-IDF weighted)</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="ngram_analysis-tutorial" class="tutorial-panel">
+                        <div id="ngram_analysis-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="ngram_analysis-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="ngram_analysis-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('ngram_analysis', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('ngram_analysis', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('ngram_analysis', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="ngram_analysis-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('ngram_analysis', 'plotly')">📋 Copy</button>
+                                <pre><code id="ngram_analysis-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="ngram_analysis-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('ngram_analysis', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="ngram_analysis-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="ngram_analysis-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('ngram_analysis', 'seaborn')">📋 Copy</button>
+                                <pre><code id="ngram_analysis-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="ngramCharts"><!-- Charts populated by JavaScript --></div>
+                </div>
+            </div>
+            
+            <!-- 🔄 Category Similarity Matrix -->
+            <div class="section" id="category_similarity">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('category_similarity')" style="cursor: pointer;">🔄 Category Similarity Matrix</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('category_similarity')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('category_similarity')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #43e97b; font-weight: bold;">🟢 Stopwords Removed</span> - Content-based category similarity (mean pairwise)</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="category_similarity-tutorial" class="tutorial-panel">
+                        <div id="category_similarity-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="category_similarity-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="category_similarity-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('category_similarity', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('category_similarity', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('category_similarity', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="category_similarity-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_similarity', 'plotly')">📋 Copy</button>
+                                <pre><code id="category_similarity-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="category_similarity-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_similarity', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="category_similarity-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="category_similarity-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('category_similarity', 'seaborn')">📋 Copy</button>
+                                <pre><code id="category_similarity-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                <div id="categorySimilarityHeatmap" style="width:100%; height:500px; margin: 20px 0;"></div>
+                <div class="samples" style="margin-top: 30px;">
+                    <h3>Interpretation Guide</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="background: #ec4899; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5em; font-weight: bold;">1.000</div>
+                            <div style="font-size: 0.9em; margin-top: 5px;">Same category<br>(Perfect match)</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #c084fc 0%, #f472b6 100%); color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5em; font-weight: bold;">0.45 - 0.80</div>
+                            <div style="font-size: 0.9em; margin-top: 5px;">High similarity<br>(⚠️ Potential confusion)</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5em; font-weight: bold;">0.15 - 0.45</div>
+                            <div style="font-size: 0.9em; margin-top: 5px;">Moderate similarity<br>(Acceptable)</div>
+                        </div>
+                        <div style="background: #4c1d95; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5em; font-weight: bold;">0.00 - 0.15</div>
+                            <div style="font-size: 0.9em; margin-top: 5px;">Low similarity<br>(✓ Easy to distinguish)</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px; color: #856404;">
+                        <strong>💡 Key Insight:</strong> Lower similarity scores are better for classification! 
+                        Categories with high similarity may be harder for models to distinguish.
+                    </p>
+            </div>
+                </div>
+            </div>
+            
+            <!-- 🔤 Most Frequent Words (Overall) -->
+            <div class="section" id="word_frequency">
+                <div class="section-header-wrapper">
+                    <h2 onclick="toggleSection('word_frequency')" style="cursor: pointer;">🔤 Most Frequent Words (Overall)</h2>
+                    <div class="section-buttons">
+                        <button class="btn btn-tutorial" onclick="toggleTutorial('word_frequency')">
+                            📚 Tutorial
+                        </button>
+                        <button class="btn btn-copy" onclick="copyCodeQuick('word_frequency')">
+                            📋 Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p style="color: #666; margin-bottom: 20px;"><span style="color: #43e97b; font-weight: bold;">🟢 Stopwords Removed</span> - Overall meaningful content words</p>
+                    
+                    <!-- Tutorial Panel (loaded dynamically from JSON) -->
+                    <div id="word_frequency-tutorial" class="tutorial-panel">
+                        <div id="word_frequency-loading" class="loading-message">
+                            ⏳ Loading tutorial content...
+                        </div>
+                        <div id="word_frequency-explanation" class="tutorial-explanation" style="display:none;"></div>
+                        
+                        <div class="code-tabs" id="word_frequency-code-tabs" style="display:none;">
+                            <div class="code-tabs-header">
+                                <button class="code-tab-button active" onclick="switchTab('word_frequency', 'plotly')">Plotly</button>
+                                <button class="code-tab-button" onclick="switchTab('word_frequency', 'matplotlib')">Matplotlib</button>
+                                <button class="code-tab-button" onclick="switchTab('word_frequency', 'seaborn')">Seaborn</button>
+                            </div>
+                            
+                            <div id="word_frequency-plotly" class="code-tab-content active">
+                                <button class="code-copy-button" onclick="copyCodeBlock('word_frequency', 'plotly')">📋 Copy</button>
+                                <pre><code id="word_frequency-plotly-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="word_frequency-matplotlib" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('word_frequency', 'matplotlib')">📋 Copy</button>
+                                <pre><code id="word_frequency-matplotlib-code" class="language-python"></code></pre>
+                            </div>
+                            
+                            <div id="word_frequency-seaborn" class="code-tab-content">
+                                <button class="code-copy-button" onclick="copyCodeBlock('word_frequency', 'seaborn')">📋 Copy</button>
+                                <pre><code id="word_frequency-seaborn-code" class="language-python"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container"><canvas id="wordFreqChart"></canvas></div>
+                </div>
+            </div>
+            
+            <!-- Text Length Distribution -->
+            <div class="section">
+                <h2>📏 Text Statistics</h2>
+                <div class="section-content">
+                <p style="color: #666; margin-bottom: 20px; font-style: italic;">
+                    <strong>Note:</strong> All statistics based on raw text (before stop words removal)
+                </p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">89</div>
+                        <div class="stat-label">Min Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4432</div>
+                        <div class="stat-label">Max Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">332</div>
+                        <div class="stat-label">Median Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">238</div>
+                        <div class="stat-label">Std Dev</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sample Texts -->
+            <div class="section">
+                <h2>📝 Sample Articles</h2>
+                <div class="section-content">                <div class="samples">
+                    <h3>Business</h3>                    <div class="sample-text">
+                        <strong>Sample 1:</strong> UK economy facing 'major risks' The UK manufacturing sector will continue to face "serious challenges" over the next two years, the British Chamber of Commerce (BCC) has said. The group's quarterly su...
+                    </div>                    <div class="sample-text">
+                        <strong>Sample 2:</strong> Aids and climate top Davos agenda Climate change and the fight against Aids are leading the list of concerns for the first day of the World Economic Forum in the Swiss resort of Davos. Some 2,000 busi...
+                    </div>                </div>                <div class="samples">
+                    <h3>Entertainment</h3>                    <div class="sample-text">
+                        <strong>Sample 1:</strong> Musicians to tackle US red tape Musicians' groups are to tackle US visa regulations which are blamed for hindering British acts' chances of succeeding across the Atlantic. A singer hoping to perform i...
+                    </div>                    <div class="sample-text">
+                        <strong>Sample 2:</strong> U2's desire to be number one U2, who have won three prestigious Grammy Awards for their hit Vertigo, are stubbornly clinging to their status as one of the biggest bands in the world. The most popular ...
+                    </div>                </div>                <div class="samples">
+                    <h3>Politics</h3>                    <div class="sample-text">
+                        <strong>Sample 1:</strong> Baron Kinnock makes Lords debut Former Labour leader Neil Kinnock has officially been made a life peer during a ceremony in the House of Lords. He will be known Baron Kinnock of Bedwellty - after his ...
+                    </div>                    <div class="sample-text">
+                        <strong>Sample 2:</strong> Howard taunts Blair over splits Tony Blair's feud with Gordon Brown is damaging the way the UK is governed, Tory leader Michael Howard has claimed in a heated prime minister's questions. Mr Howard ask...
+                    </div>                </div>                <div class="samples">
+                    <h3>Sport</h3>                    <div class="sample-text">
+                        <strong>Sample 1:</strong> Fuming Robinson blasts officials England coach Andy Robinson insisted he was "livid" after his side were denied two tries in Sunday's 19-13 Six Nations loss to Ireland in Dublin. Mark Cueto's first-ha...
+                    </div>                    <div class="sample-text">
+                        <strong>Sample 2:</strong> Veteran Martinez wins Thai title Conchita Martinez won her first title in almost five years with victory over Anna-Lena Groenefeld at the Volvo Women's Open in Pattaya, Thailand. The 32-year-old Spani...
+                    </div>                </div>                <div class="samples">
+                    <h3>Tech</h3>                    <div class="sample-text">
+                        <strong>Sample 1:</strong> Mobiles rack up 20 years of use Mobile phones in the UK are celebrating their 20th anniversary this weekend. Britain's first mobile phone call was made across the Vodafone network on 1 January 1985 by...
+                    </div>                    <div class="sample-text">
+                        <strong>Sample 2:</strong> Broadband steams ahead in the US More and more Americans are joining the internet's fast lane, according to official figures. The number of people and business connected to broadband jumped by 38% in ...
+                    </div>                </div>                </div>
+            </div>
+            
+            <!-- Key Insights -->
+            <div class="section">
+                <h2>💡 Key Insights</h2>
+                <div class="section-content">
+                <div class="samples">
+                    <h3>Dataset Characteristics</h3>
+                    <ul style="padding-left: 20px; line-height: 2;">
+                        <li><strong>Balanced Dataset:</strong> Categories are relatively well-balanced (17-23% each)</li>
+                        <li><strong>Article Length:</strong> Average 384 words per article (all words included)</li>
+                        <li><strong>Vocabulary:</strong> Rich vocabulary with diverse topics</li>
+                        <li><strong>Quality:</strong> Professional news articles with consistent formatting</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 20px;">Data Processing Notes</h3>
+                    <ul style="padding-left: 20px; line-height: 2;">
+                        <li><strong>Raw Statistics:</strong> Word/character counts include ALL words (the, and, for, ...)</li>
+                        <li><strong>Vocabulary Analysis:</strong> Word frequency and unique words calculated AFTER removing ~40 common stop words</li>
+                        <li><strong>Stop Words Removed:</strong> the, and, for, that, with, was, has, are, been, will, said, etc.</li>
+                        <li><strong>Why Mixed Approach:</strong> Length stats show real article size; frequency stats show meaningful vocabulary</li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+                <div class="footer">
+            <p><strong>BBC News Dataset - EDA Report with Interactive Tutorials</strong></p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Developed by Thanh-Sach LE with AI Assistance
+            </p>
+        </div>
+    </div>
+    
+    <!-- Embedded Code Examples (for local testing) -->
+    <script id="embedded-code-examples" type="application/json">
+{
+  "category_distribution": {
+    "title": "Category Distribution",
+    "explanation": {
+      "what": "Category distribution shows how articles are spread across different news categories. This visualization helps us understand dataset balance and potential bias.",
+      "why": "Understanding category distribution is crucial for detecting class imbalance, deciding on sampling techniques, and choosing appropriate evaluation metrics.",
+      "how": "Look for balanced distribution (all categories similar counts) or imbalanced classes (some much larger). Imbalance may require techniques like oversampling, undersampling, or class weights."
+    },
+    "plotly": "# Load data from URL or upload\nimport pandas as pd\nimport plotly.graph_objects as go\n\n# Option 1: Load from URL\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Option 2: Upload in Google Colab\n# from google.colab import files\n# uploaded = files.upload()\n# df = pd.read_csv('bbc-news.csv')\n\n# Count articles per category\ncategory_counts = df['label'].value_counts().sort_index()\n\n# Create pie chart\nfig = go.Figure(data=[go.Pie(\n    labels=category_counts.index,\n    values=category_counts.values,\n    hole=0.3,  # Makes it a donut chart\n    marker=dict(colors=['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']),\n    textinfo='label+percent',\n    textfont_size=14\n)])\n\nfig.update_layout(\n    title='Category Distribution',\n    showlegend=True,\n    width=600,\n    height=400\n)\n\nfig.show()\n\n# Print statistics\nprint(\"Category Distribution:\")\nprint(category_counts)\nprint(f\"\\nTotal articles: {len(df)}\")\nprint(f\"Most common: {category_counts.idxmax()} ({category_counts.max()} articles)\")\nprint(f\"Least common: {category_counts.idxmin()} ({category_counts.min()} articles)\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\n\n# Load data (same options as Plotly)\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Count articles per category\ncategory_counts = df['label'].value_counts().sort_index()\n\n# Create pie chart\nfig, ax = plt.subplots(figsize=(10, 6))\ncolors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']\n\nwedges, texts, autotexts = ax.pie(\n    category_counts.values, \n    labels=category_counts.index,\n    autopct='%1.1f%%',\n    colors=colors,\n    startangle=90,\n    textprops={'fontsize': 12}\n)\n\n# Make percentage text bold\nfor autotext in autotexts:\n    autotext.set_color('white')\n    autotext.set_fontweight('bold')\n\nax.set_title('Category Distribution', fontsize=16, pad=20)\nplt.tight_layout()\nplt.show()\n\n# Print statistics\nprint(\"Category Distribution:\")\nprint(category_counts)\nprint(f\"\\nTotal articles: {len(df)}\")",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Count articles per category\ncategory_counts = df['label'].value_counts().sort_index()\n\n# Create bar plot with seaborn\nfig, ax = plt.subplots(figsize=(10, 6))\ncolors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']\n\nsns.barplot(x=category_counts.index, \n           y=category_counts.values,\n           palette=colors,\n           ax=ax)\n\nax.set_title('Category Distribution', fontsize=16, pad=20)\nax.set_xlabel('Category', fontsize=12)\nax.set_ylabel('Number of Articles', fontsize=12)\n\n# Add value labels on bars\nfor i, v in enumerate(category_counts.values):\n    ax.text(i, v + 10, str(v), ha='center', va='bottom', fontsize=10, fontweight='bold')\n\nplt.xticks(rotation=0)\nplt.tight_layout()\nplt.show()\n\n# Print statistics\nprint(\"Category Distribution:\")\nfor cat, count in category_counts.items():\n    pct = (count / len(df)) * 100\n    print(f\"{cat:15s}: {count:4d} articles ({pct:5.1f}%)\")"
+  },
+  "stop_words": {
+    "title": "Stop Words Analysis",
+    "explanation": {
+      "what": "Stop words are common words (the, and, for, etc.) that appear frequently but carry little meaning. This analysis shows which stop words dominate the dataset.",
+      "why": "Understanding stop word distribution helps decide preprocessing strategy. Removing stop words reduces dimensionality and focuses on meaningful content.",
+      "how": "High stop word percentage (30-50%) is normal for natural text. If much higher, check data quality. If lower, text might be pre-processed already."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Count stop words\nall_words = ' '.join(df['text']).lower().split()\nstop_word_counts = Counter([word for word in all_words if word in stop_words])\ntop_stop_words = stop_word_counts.most_common(20)\n\nwords = [word for word, count in top_stop_words]\ncounts = [count for word, count in top_stop_words]\n\n# Create bar chart\nfig = go.Figure(data=[go.Bar(\n    x=words,\n    y=counts,\n    marker_color='#764ba2',\n    text=counts,\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title='Top 20 Stop Words',\n    xaxis_title='Stop Words',\n    yaxis_title='Frequency',\n    width=900,\n    height=400,\n    showlegend=False\n)\n\nfig.show()\n\n# Statistics\ntotal_words = len(all_words)\ntotal_stop_words = sum(stop_word_counts.values())\nprint(f\"Total words: {total_words:,}\")\nprint(f\"Stop words: {total_stop_words:,} ({total_stop_words/total_words*100:.1f}%)\")\nprint(f\"Unique stop words found: {len(stop_word_counts)}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Count stop words\nall_words = ' '.join(df['text']).lower().split()\nstop_word_counts = Counter([word for word in all_words if word in stop_words])\ntop_stop_words = stop_word_counts.most_common(20)\n\nwords = [word for word, count in top_stop_words]\ncounts = [count for word, count in top_stop_words]\n\n# Create bar chart\nfig, ax = plt.subplots(figsize=(12, 6))\nax.bar(words, counts, color='#764ba2', alpha=0.7)\n\nax.set_title('Top 20 Stop Words', fontsize=16, pad=20)\nax.set_xlabel('Stop Words', fontsize=12)\nax.set_ylabel('Frequency', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\nplt.xticks(rotation=45, ha='right')\nplt.tight_layout()\nplt.show()\n\n# Statistics\ntotal_words = len(all_words)\ntotal_stop_words = sum(stop_word_counts.values())\nprint(f\"Stop words: {total_stop_words:,} ({total_stop_words/total_words*100:.1f}%)\")",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Count stop words\nall_words = ' '.join(df['text']).lower().split()\nstop_word_counts = Counter([word for word in all_words if word in stop_words])\ntop_stop_words = stop_word_counts.most_common(20)\n\n# Create DataFrame for seaborn\nstop_df = pd.DataFrame(top_stop_words, columns=['word', 'count'])\n\n# Create bar plot\nfig, ax = plt.subplots(figsize=(12, 6))\nsns.barplot(data=stop_df, x='word', y='count', color='#764ba2', ax=ax)\n\nax.set_title('Top 20 Stop Words', fontsize=16, pad=20)\nax.set_xlabel('Stop Words', fontsize=12)\nax.set_ylabel('Frequency', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\nplt.xticks(rotation=45, ha='right')\nplt.tight_layout()\nplt.show()"
+  },
+  "word_count_distribution": {
+    "title": "Word Count Distribution",
+    "explanation": {
+      "what": "Distribution of document lengths measured in words. Shows how article lengths vary across the dataset.",
+      "why": "Important for setting max_length in models (BERT, etc.), identifying outliers, and understanding memory requirements.",
+      "how": "Look for the peak (most common length), range (min/max), and outliers. Use percentiles to set reasonable max_length."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate word counts\ndf['word_count'] = df['text'].str.split().str.len()\n\n# Create histogram bins\nbins = np.arange(0, df['word_count'].max() + 100, 100)\nhist, bin_edges = np.histogram(df['word_count'], bins=bins)\n\n# Format bin labels\nbin_labels = [f\"{int(bin_edges[i])}-{int(bin_edges[i+1])}\" for i in range(len(hist))]\n\n# Create histogram\nfig = go.Figure(data=[go.Bar(\n    x=bin_labels,\n    y=hist,\n    marker_color='#667eea',\n    text=hist,\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title='Word Count Distribution',\n    xaxis_title='Word Count Ranges',\n    yaxis_title='Number of Articles',\n    width=900,\n    height=400,\n    showlegend=False,\n    xaxis={'tickangle': 45}\n)\n\nfig.show()\n\n# Print statistics\nprint(f\"Mean: {df['word_count'].mean():.2f}\")\nprint(f\"Median: {df['word_count'].median():.2f}\")\nprint(f\"Min: {df['word_count'].min()}\")\nprint(f\"Max: {df['word_count'].max()}\")\nprint(f\"\\nPercentiles:\")\nfor p in [25, 50, 75, 90, 95, 99]:\n    print(f\"  {p}th: {df['word_count'].quantile(p/100):.0f}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate word counts\ndf['word_count'] = df['text'].str.split().str.len()\n\n# Create histogram\nfig, ax = plt.subplots(figsize=(12, 6))\n\nn, bins, patches = ax.hist(df['word_count'], bins=45, color='#667eea', \n                            alpha=0.7, edgecolor='black')\n\nax.set_title('Word Count Distribution', fontsize=16, pad=20)\nax.set_xlabel('Word Count', fontsize=12)\nax.set_ylabel('Number of Articles', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\n# Add vertical line for mean and median\nax.axvline(df['word_count'].mean(), color='red', linestyle='--', \n          linewidth=2, label=f'Mean: {df[\"word_count\"].mean():.0f}')\nax.axvline(df['word_count'].median(), color='green', linestyle='--', \n          linewidth=2, label=f'Median: {df[\"word_count\"].median():.0f}')\nax.legend()\n\nplt.tight_layout()\nplt.show()\n\n# Print statistics\nprint(f\"Mean: {df['word_count'].mean():.2f}\")\nprint(f\"Median: {df['word_count'].median():.2f}\")\nprint(f\"Std: {df['word_count'].std():.2f}\")",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate word counts\ndf['word_count'] = df['text'].str.split().str.len()\n\n# Create histogram with KDE\nfig, ax = plt.subplots(figsize=(12, 6))\n\nsns.histplot(data=df, x='word_count', bins=45, color='#667eea', \n            kde=True, ax=ax, alpha=0.7)\n\nax.set_title('Word Count Distribution', fontsize=16, pad=20)\nax.set_xlabel('Word Count', fontsize=12)\nax.set_ylabel('Number of Articles', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\n# Add vertical lines\nax.axvline(df['word_count'].mean(), color='red', linestyle='--', \n          linewidth=2, label=f'Mean: {df[\"word_count\"].mean():.0f}')\nax.axvline(df['word_count'].median(), color='green', linestyle='--', \n          linewidth=2, label=f'Median: {df[\"word_count\"].median():.0f}')\nax.legend()\n\nplt.tight_layout()\nplt.show()"
+  },
+  "char_count_distribution": {
+    "title": "Character Count Distribution",
+    "explanation": {
+      "what": "Distribution of document lengths measured in characters (including spaces).",
+      "why": "Useful for storage estimation, API limits (OpenAI has character limits), and processing time prediction.",
+      "how": "Compare with word count to estimate average word length. Use for capacity planning."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate character counts\ndf['char_count'] = df['text'].str.len()\n\n# Create histogram bins\nbins = np.arange(0, df['char_count'].max() + 500, 500)\nhist, bin_edges = np.histogram(df['char_count'], bins=bins)\n\nbin_labels = [f\"{int(bin_edges[i])}-{int(bin_edges[i+1])}\" for i in range(len(hist))]\n\n# Create histogram\nfig = go.Figure(data=[go.Bar(\n    x=bin_labels,\n    y=hist,\n    marker_color='#f093fb',\n    text=hist,\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title='Character Count Distribution',\n    xaxis_title='Character Count Ranges',\n    yaxis_title='Number of Articles',\n    width=900,\n    height=400,\n    showlegend=False,\n    xaxis={'tickangle': 45}\n)\n\nfig.show()\n\n# Print statistics\nprint(f\"Mean: {df['char_count'].mean():.2f}\")\nprint(f\"Median: {df['char_count'].median():.2f}\")\nprint(f\"Min: {df['char_count'].min()}\")\nprint(f\"Max: {df['char_count'].max()}\")\n\n# Estimate average word length\navg_word_length = df['char_count'].sum() / df['text'].str.split().str.len().sum()\nprint(f\"\\nAverage word length: {avg_word_length:.2f} characters\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate character counts\ndf['char_count'] = df['text'].str.len()\n\n# Create histogram\nfig, ax = plt.subplots(figsize=(12, 6))\n\nax.hist(df['char_count'], bins=50, color='#f093fb', alpha=0.7, edgecolor='black')\n\nax.set_title('Character Count Distribution', fontsize=16, pad=20)\nax.set_xlabel('Character Count', fontsize=12)\nax.set_ylabel('Number of Articles', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\n# Print statistics\nprint(f\"Mean: {df['char_count'].mean():.2f}\")\nprint(f\"Median: {df['char_count'].median():.2f}\")\nprint(f\"Max: {df['char_count'].max()}\")",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate character counts\ndf['char_count'] = df['text'].str.len()\n\n# Create histogram with KDE\nfig, ax = plt.subplots(figsize=(12, 6))\n\nsns.histplot(data=df, x='char_count', bins=50, color='#f093fb', \n            kde=True, ax=ax, alpha=0.7)\n\nax.set_title('Character Count Distribution', fontsize=16, pad=20)\nax.set_xlabel('Character Count', fontsize=12)\nax.set_ylabel('Number of Articles', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\nplt.tight_layout()\nplt.show()"
+  },
+  "vocabulary_richness": {
+    "title": "Vocabulary Richness by Category",
+    "explanation": {
+      "what": "Measures vocabulary diversity: total words vs unique words per category. Type-Token Ratio (TTR) = unique/total.",
+      "why": "Indicates content complexity and writing style. Higher TTR = more diverse vocabulary. Useful for comparing categories.",
+      "how": "Compare unique word counts across categories. Higher values suggest more specialized or diverse content."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate vocabulary richness per category\nvocab_stats = []\nfor category in sorted(df['label'].unique()):\n    cat_df = df[df['label'] == category]\n    \n    # Get all words, remove stop words\n    import re\n    all_text = ' '.join(cat_df['text']).lower()\n    # Use regex to match words >= 3 characters (same as report)\n    words = re.findall(r'\b[a-z]{3,}\b', all_text)\n    words = [w for w in words if w not in stop_words]\n    \n    unique_words = len(set(words))\n    total_words = len(words)\n    ttr = unique_words / total_words if total_words > 0 else 0\n    \n    vocab_stats.append({\n        'category': category,\n        'unique_words': unique_words,\n        'total_words': total_words,\n        'ttr': ttr,\n        'articles': len(cat_df)\n    })\n\nvocab_df = pd.DataFrame(vocab_stats)\n\n# Create bar chart\nfig = go.Figure()\n\nfig.add_trace(go.Bar(\n    x=vocab_df['category'],\n    y=vocab_df['unique_words'],\n    name='Unique Words',\n    marker_color='#4facfe'\n))\n\nfig.update_layout(\n    title='Vocabulary Richness by Category',\n    xaxis_title='Category',\n    yaxis_title='Unique Words Count',\n    width=800,\n    height=400\n)\n\nfig.show()\n\n# Print statistics\nprint(\"\\nVocabulary Richness Statistics:\")\nprint(vocab_df.to_string(index=False))",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate vocabulary richness\nimport re\nvocab_stats = {}\nfor category in sorted(df['label'].unique()):\n    cat_df = df[df['label'] == category]\n    all_text = ' '.join(cat_df['text']).lower()\n    # Use regex to match words >= 3 characters (same as report)\n    words = re.findall(r'\b[a-z]{3,}\b', all_text)\n    words = [w for w in words if w not in stop_words]\n    vocab_stats[category] = len(set(words))\n\n# Create bar chart\nfig, ax = plt.subplots(figsize=(10, 6))\n\ncategories = list(vocab_stats.keys())\nvalues = list(vocab_stats.values())\n\nax.bar(categories, values, color='#4facfe', alpha=0.7)\n\nax.set_title('Vocabulary Richness by Category', fontsize=16, pad=20)\nax.set_xlabel('Category', fontsize=12)\nax.set_ylabel('Unique Words Count', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\n# Add values on bars\nfor i, v in enumerate(values):\n    ax.text(i, v + 100, f'{v:,}', ha='center', fontweight='bold')\n\nplt.tight_layout()\nplt.show()",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Calculate vocabulary richness\nvocab_data = []\nfor category in sorted(df['label'].unique()):\n    cat_df = df[df['label'] == category]\n    all_text = ' '.join(cat_df['text']).lower()\n    words = [w for w in all_text.split() if w.isalpha() and w not in stop_words]\n    vocab_data.append({\n        'Category': category,\n        'Unique Words': len(set(words))\n    })\n\nvocab_df = pd.DataFrame(vocab_data)\n\n# Create bar plot\nfig, ax = plt.subplots(figsize=(10, 6))\nsns.barplot(data=vocab_df, x='Category', y='Unique Words', color='#4facfe', ax=ax)\n\nax.set_title('Vocabulary Richness by Category', fontsize=16, pad=20)\nax.set_xlabel('Category', fontsize=12)\nax.set_ylabel('Unique Words Count', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\nplt.tight_layout()\nplt.show()"
+  },
+  "category_keywords": {
+    "title": "Top 50 Words by Category",
+    "explanation": {
+      "what": "Shows the most frequent words in each category after removing stop words. These are the words that appear most often in each news topic.",
+      "why": "Helps understand what each category talks about and identify key terms that distinguish categories from each other.",
+      "how": "Compare word frequencies across categories. High-frequency words reveal main themes. If same words appear in multiple categories, they may not be good discriminators."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Download stop words\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Select a category to analyze\ncategory = 'business'  # Change to: business, entertainment, politics, sport, tech\ncat_df = df[df['label'] == category]\n\n# Get word frequencies (remove stop words)\nimport re\n\nall_text = ' '.join(cat_df['text']).lower()\n# Use regex to match words >= 3 characters (same as report)\nwords = re.findall(r'\b[a-z]{3,}\b', all_text)\nwords = [w for w in words if w not in stop_words]\nword_counts = Counter(words).most_common(20)\n\nwords_list = [word for word, count in word_counts]\ncounts_list = [count for word, count in word_counts]\n\n# Create horizontal bar chart\nfig = go.Figure(data=[go.Bar(\n    x=counts_list,\n    y=words_list,\n    orientation='h',\n    marker_color='#667eea',\n    text=counts_list,\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title=f'Top 20 Words in {category.capitalize()} Articles',\n    xaxis_title='Frequency',\n    yaxis_title='Words',\n    width=800,\n    height=600,\n    yaxis={'autorange': 'reversed'}  # Top word at top\n)\n\nfig.show()\n\n# Print statistics\nprint(f\"\\nTop words in {category}:\")\nfor word, count in word_counts[:10]:\n    print(f\"  {word:15s}: {count:4d}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Analyze all categories\nfig, axes = plt.subplots(2, 3, figsize=(15, 10))\nfig.suptitle('Top 10 Words by Category', fontsize=16, y=0.995)\n\ncategories = sorted(df['label'].unique())\ncolors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']\n\nfor idx, category in enumerate(categories):\n    ax = axes[idx // 3, idx % 3]\n    \n    # Get word frequencies\n    cat_df = df[df['label'] == category]\n    all_text = ' '.join(cat_df['text']).lower()\n    import re\n    words = re.findall(r'\b[a-z]{3,}\b', all_text)\n    words = [w for w in words if w not in stop_words]\n    word_counts = Counter(words).most_common(10)\n    \n    words_list = [word for word, count in word_counts]\n    counts_list = [count for word, count in word_counts]\n    \n    # Create horizontal bar chart\n    ax.barh(words_list, counts_list, color=colors[idx], alpha=0.7)\n    ax.set_title(category.capitalize(), fontsize=12, fontweight='bold')\n    ax.set_xlabel('Frequency')\n    ax.invert_yaxis()  # Top word at top\n    ax.grid(axis='x', alpha=0.3)\n\n# Remove empty subplot\nfig.delaxes(axes[1, 2])\n\nplt.tight_layout()\nplt.show()",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Get top words for one category\ncategory = 'tech'  # Change category here\ncat_df = df[df['label'] == category]\n\n# Get word frequencies\nall_text = ' '.join(cat_df['text']).lower()\nwords = [w for w in all_text.split() if w.isalpha() and w not in stop_words]\nword_counts = Counter(words).most_common(15)\n\n# Create DataFrame for seaborn\nwords_df = pd.DataFrame(word_counts, columns=['word', 'count'])\n\n# Create bar plot\nfig, ax = plt.subplots(figsize=(10, 8))\nsns.barplot(data=words_df, y='word', x='count', \n           color='#43e97b', ax=ax, alpha=0.8)\n\nax.set_title(f'Top 15 Words in {category.capitalize()} Articles', \n            fontsize=14, fontweight='bold')\nax.set_xlabel('Frequency', fontsize=12)\nax.set_ylabel('Words', fontsize=12)\nax.grid(axis='x', alpha=0.3)\n\n# Add value labels\nfor i, (word, count) in enumerate(word_counts[:15]):\n    ax.text(count + 5, i, f'{count}', va='center', fontsize=9)\n\nplt.tight_layout()\nplt.show()"
+  },
+  "tfidf_terms": {
+    "title": "TF-IDF Top Terms by Category",
+    "explanation": {
+      "what": "TF-IDF (Term Frequency-Inverse Document Frequency) finds words that are both frequent in a category AND rare in other categories. These are the most distinctive words.",
+      "why": "Better than simple word frequency because it identifies category-specific terms. 'Film' has high TF-IDF in Entertainment but low in Sport, making it a good discriminator.",
+      "how": "High TF-IDF = important AND unique to category. These are the best features for classification models. Compare across categories to find distinctive vocabulary."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Select category\ncategory = 'sport'  # Change to: business, entertainment, politics, sport, tech\n\n# Calculate TF-IDF on ALL documents in dataset (same as report)\nvectorizer = TfidfVectorizer(max_features=5000, stop_words=list(stop_words))\ntfidf_matrix = vectorizer.fit_transform(df['text'])\nfeature_names = vectorizer.get_feature_names_out()\n\n# Get indices of documents in selected category\ncat_indices = df[df['label'] == category].index\n\n# Get TF-IDF scores for documents in this category\ncat_tfidf = tfidf_matrix[cat_indices]\n\n# Calculate MEAN TF-IDF score for each term (same as report)\nmean_scores = np.array(cat_tfidf.mean(axis=0)).flatten()\n\n# Get top 20 terms\ntop_indices = mean_scores.argsort()[-20:][::-1]\ntop_words = [feature_names[i] for i in top_indices]\ntop_scores = [mean_scores[i] for i in top_indices]\n\n# Create horizontal bar chart\nfig = go.Figure(data=[go.Bar(\n    x=top_scores,\n    y=top_words,\n    orientation='h',\n    marker_color='#764ba2',\n    text=[f'{score:.4f}' for score in top_scores],\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title=f'Top 20 TF-IDF Terms in {category.capitalize()}',\n    xaxis_title='TF-IDF Score',\n    yaxis_title='Terms',\n    width=800,\n    height=600,\n    yaxis={'autorange': 'reversed'}\n)\n\nfig.show()\n\n# Print top terms\nprint(f\"\\nTop TF-IDF terms in {category}:\")\nfor word, score in zip(top_words[:10], top_scores[:10]):\n    print(f\"  {word:20s}: {score:.4f}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Calculate TF-IDF on ALL documents first (same as report)\nvectorizer = TfidfVectorizer(max_features=5000, stop_words=list(stop_words))\ntfidf_matrix = vectorizer.fit_transform(df['text'])\nfeature_names = vectorizer.get_feature_names_out()\n\n# Analyze all categories\nfig, axes = plt.subplots(2, 3, figsize=(16, 10))\nfig.suptitle('Top 10 TF-IDF Terms by Category', fontsize=16, y=0.995)\n\ncategories = sorted(df['label'].unique())\ncolors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']\n\nfor idx, category in enumerate(categories):\n    ax = axes[idx // 3, idx % 3]\n    \n    # Get TF-IDF for this category\n    cat_indices = df[df['label'] == category].index\n    cat_tfidf = tfidf_matrix[cat_indices]\n    \n    # Calculate mean TF-IDF scores\n    mean_scores = np.array(cat_tfidf.mean(axis=0)).flatten()\n    \n    # Get top 10\n    top_indices = mean_scores.argsort()[-10:][::-1]\n    top_words = [feature_names[i] for i in top_indices]\n    top_scores = [mean_scores[i] for i in top_indices]\n    \n    # Plot\n    ax.barh(top_words, top_scores, color=colors[idx], alpha=0.7)\n    ax.set_title(category.capitalize(), fontsize=12, fontweight='bold')\n    ax.set_xlabel('TF-IDF Score', fontsize=10)\n    ax.invert_yaxis()\n    ax.grid(axis='x', alpha=0.3)\n\n# Remove empty subplot\nfig.delaxes(axes[1, 2])\n\nplt.tight_layout()\nplt.show()",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Select category\ncategory = 'entertainment'  # Change category here\n\n# Calculate TF-IDF on ALL documents (same as report)\nvectorizer = TfidfVectorizer(max_features=5000, stop_words=list(stop_words))\ntfidf_matrix = vectorizer.fit_transform(df['text'])\nfeature_names = vectorizer.get_feature_names_out()\n\n# Get indices of documents in this category\ncat_indices = df[df['label'] == category].index\ncat_tfidf = tfidf_matrix[cat_indices]\n\n# Calculate MEAN TF-IDF scores for this category\nmean_scores = np.array(cat_tfidf.mean(axis=0)).flatten()\n\n# Get top 15 terms\ntop_indices = mean_scores.argsort()[-15:][::-1]\ntfidf_df = pd.DataFrame({\n    'term': [feature_names[i] for i in top_indices],\n    'tfidf_score': [mean_scores[i] for i in top_indices]\n})\n\n# Create bar plot\nfig, ax = plt.subplots(figsize=(10, 8))\nsns.barplot(data=tfidf_df, y='term', x='tfidf_score', \n           color='#f093fb', ax=ax, alpha=0.8)\n\nax.set_title(f'Top 15 TF-IDF Terms in {category.capitalize()}', \n            fontsize=14, fontweight='bold')\nax.set_xlabel('TF-IDF Score', fontsize=12)\nax.set_ylabel('Terms', fontsize=12)\nax.grid(axis='x', alpha=0.3)\n\nplt.tight_layout()\nplt.show()"
+  },
+  "ngram_analysis": {
+    "title": "N-gram Analysis (Bigrams)",
+    "explanation": {
+      "what": "N-grams are sequences of N consecutive words. Bigrams (2-word phrases) reveal common phrases and collocations like 'prime minister' or 'box office'.",
+      "why": "Captures phrase-level patterns that single words miss. 'New York' means something different than 'new' and 'york' separately. Important for understanding context.",
+      "how": "High-frequency bigrams show common phrases in each category. Use TF-IDF on bigrams to find category-specific phrases. Useful for feature engineering."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Select category\ncategory = 'politics'  # Change to: business, entertainment, politics, sport, tech\ncat_df = df[df['label'] == category]\n\n# Combine all articles in category into ONE text (same as report)\ncombined_text = ' '.join(cat_df['text'].values)\n\n# Extract bigrams using TF-IDF on the combined text\nvectorizer = TfidfVectorizer(\n    ngram_range=(2, 2),  # Bigrams only\n    max_features=50,\n    stop_words=list(stop_words)\n)\n# Fit on single combined text (returns 1 row)\ntfidf_matrix = vectorizer.fit_transform([combined_text])\n\n# Get TF-IDF scores (single row, so no need for mean)\nfeature_names = vectorizer.get_feature_names_out()\ntfidf_scores = tfidf_matrix.toarray()[0]\n\n# Get top 15 bigrams\ntop_indices = tfidf_scores.argsort()[-15:][::-1]\ntop_bigrams = [feature_names[i] for i in top_indices]\ntop_scores = [tfidf_scores[i] for i in top_indices]\n\n# Create horizontal bar chart\nfig = go.Figure(data=[go.Bar(\n    x=top_scores,\n    y=top_bigrams,\n    orientation='h',\n    marker_color='#4facfe',\n    text=[f'{score:.4f}' for score in top_scores],\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title=f'Top 15 Bigrams in {category.capitalize()} (TF-IDF)',\n    xaxis_title='TF-IDF Score',\n    yaxis_title='Bigrams',\n    width=900,\n    height=600,\n    yaxis={'autorange': 'reversed'}\n)\n\nfig.show()\n\n# Print results\nprint(f\"\\nTop bigrams in {category}:\")\nfor bigram, score in zip(top_bigrams[:10], top_scores[:10]):\n    print(f\"  {bigram:25s}: {score:.4f}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Analyze all categories\nfig, axes = plt.subplots(2, 3, figsize=(16, 10))\nfig.suptitle('Top 10 Bigrams by Category (TF-IDF)', fontsize=16, y=0.995)\n\ncategories = sorted(df['label'].unique())\ncolors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']\n\nfor idx, category in enumerate(categories):\n    ax = axes[idx // 3, idx % 3]\n    \n    # Extract bigrams for this category\n    cat_df = df[df['label'] == category]\n    # Combine all articles into one text (same as report)\n    combined_text = ' '.join(cat_df['text'].values)\n    \n    vectorizer = TfidfVectorizer(\n        ngram_range=(2, 2),\n        max_features=30,\n        stop_words=list(stop_words)\n    )\n    # Fit on single combined text\n    tfidf_matrix = vectorizer.fit_transform([combined_text])\n    \n    # Get scores (single row)\n    feature_names = vectorizer.get_feature_names_out()\n    tfidf_scores = tfidf_matrix.toarray()[0]\n    \n    # Get top 10\n    top_indices = tfidf_scores.argsort()[-10:][::-1]\n    top_bigrams = [feature_names[i] for i in top_indices]\n    top_scores = [tfidf_scores[i] for i in top_indices]\n    \n    # Plot\n    ax.barh(top_bigrams, top_scores, color=colors[idx], alpha=0.7)\n    ax.set_title(category.capitalize(), fontsize=12, fontweight='bold')\n    ax.set_xlabel('TF-IDF Score', fontsize=9)\n    ax.invert_yaxis()\n    ax.grid(axis='x', alpha=0.3)\n    ax.tick_params(axis='y', labelsize=8)\n\n# Remove empty subplot\nfig.delaxes(axes[1, 2])\n\nplt.tight_layout()\nplt.show()",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Select category\ncategory = 'sport'  # Change category here\ncat_df = df[df['label'] == category]\n\n# Combine all articles into ONE text (same as report)\ncombined_text = ' '.join(cat_df['text'].values)\n\n# Extract bigrams using TF-IDF on combined text\nvectorizer = TfidfVectorizer(\n    ngram_range=(2, 2),  # Bigrams only\n    max_features=50,\n    stop_words=list(stop_words)\n)\n# Fit on single combined text\ntfidf_matrix = vectorizer.fit_transform([combined_text])\n\n# Get TF-IDF scores (single row)\nfeature_names = vectorizer.get_feature_names_out()\ntfidf_scores = tfidf_matrix.toarray()[0]\n\n# Get top 15 bigrams\ntop_indices = tfidf_scores.argsort()[-15:][::-1]\nbigram_df = pd.DataFrame({\n    'bigram': [feature_names[i] for i in top_indices],\n    'tfidf_score': [tfidf_scores[i] for i in top_indices]\n})\n\n# Create bar plot\nfig, ax = plt.subplots(figsize=(10, 8))\nsns.barplot(data=bigram_df, y='bigram', x='tfidf_score', \n           color='#4facfe', ax=ax, alpha=0.8)\n\nax.set_title(f'Top 15 Bigrams in {category.capitalize()}', \n            fontsize=14, fontweight='bold')\nax.set_xlabel('TF-IDF Score', fontsize=12)\nax.set_ylabel('Bigrams', fontsize=12)\nax.grid(axis='x', alpha=0.3)\n\nplt.tight_layout()\nplt.show()"
+  },
+  "category_similarity": {
+    "title": "Category Similarity Matrix",
+    "explanation": {
+      "what": "Cosine similarity matrix shows how similar categories are based on TF-IDF vectors. Computed as MEAN similarity across all document pairs between categories.",
+      "why": "Predicts classification difficulty. High similarity means categories use similar vocabulary, making them harder for ML models to distinguish.",
+      "how": "Diagonal shows average within-category similarity (typically 0.04-0.07). Off-diagonal shows cross-category similarity. Lower values = easier to distinguish. Values > 0.02 between different categories may indicate confusion."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Calculate TF-IDF on ALL documents (not combined per category)\ncategories = sorted(df['label'].unique())\nvectorizer = TfidfVectorizer(max_features=5000, stop_words=list(stop_words))\ntfidf_matrix = vectorizer.fit_transform(df['text'])\n\n# Calculate mean similarity between each pair of categories\nn_cats = len(categories)\nsimilarity_matrix = np.zeros((n_cats, n_cats))\n\nfor i, cat1 in enumerate(categories):\n    cat1_indices = df[df['label'] == cat1].index\n    cat1_vectors = tfidf_matrix[cat1_indices]\n    \n    for j, cat2 in enumerate(categories):\n        cat2_indices = df[df['label'] == cat2].index\n        cat2_vectors = tfidf_matrix[cat2_indices]\n        \n        # Compute pairwise similarities between all document pairs\n        pairwise_sim = cosine_similarity(cat1_vectors, cat2_vectors)\n        \n        # Take mean similarity (this is why diagonal != 1.0)\n        similarity_matrix[i, j] = np.mean(pairwise_sim)\n\n# Create heatmap\nfig = go.Figure(data=go.Heatmap(\n    z=similarity_matrix,\n    x=categories,\n    y=categories,\n    colorscale='Purples',\n    text=similarity_matrix,\n    texttemplate='%{text:.3f}',\n    textfont={\"size\": 12},\n    colorbar=dict(title=\"Similarity\")\n))\n\nfig.update_layout(\n    title='Category Similarity Matrix (Cosine Similarity)',\n    xaxis_title='Category',\n    yaxis_title='Category',\n    width=700,\n    height=600,\n    yaxis={'autorange': 'reversed'}\n)\n\nfig.show()\n\n# Print similarity matrix\nprint(\"\\nCategory Similarity Matrix:\")\nprint(\"Note: Diagonal is NOT 1.0 because it's MEAN similarity between documents\")\nprint(\"within same category, not self-similarity\\n\")\n\nfor i, cat1 in enumerate(categories):\n    print(f\"{cat1:15s}: {similarity_matrix[i][i]:.3f} (within-category)\")\n    for j, cat2 in enumerate(categories):\n        if i < j:  # Cross-category only\n            sim = similarity_matrix[i][j]\n            status = \"⚠️ High\" if sim > 0.02 else \"✓ Low\"\n            print(f\"  vs {cat2:15s}: {sim:.3f} {status}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Calculate TF-IDF on ALL documents\ncategories = sorted(df['label'].unique())\nvectorizer = TfidfVectorizer(max_features=5000, stop_words=list(stop_words))\ntfidf_matrix = vectorizer.fit_transform(df['text'])\n\n# Calculate mean similarity between each pair of categories\nn_cats = len(categories)\nsimilarity_matrix = np.zeros((n_cats, n_cats))\n\nfor i, cat1 in enumerate(categories):\n    cat1_indices = df[df['label'] == cat1].index\n    cat1_vectors = tfidf_matrix[cat1_indices]\n    \n    for j, cat2 in enumerate(categories):\n        cat2_indices = df[df['label'] == cat2].index\n        cat2_vectors = tfidf_matrix[cat2_indices]\n        \n        # Compute pairwise similarities\n        pairwise_sim = cosine_similarity(cat1_vectors, cat2_vectors)\n        \n        # Take mean (diagonal != 1.0)\n        similarity_matrix[i, j] = np.mean(pairwise_sim)\n\n# Create heatmap\nfig, ax = plt.subplots(figsize=(10, 8))\nim = ax.imshow(similarity_matrix, cmap='Purples', aspect='auto')\n\n# Set ticks and labels\nax.set_xticks(np.arange(len(categories)))\nax.set_yticks(np.arange(len(categories)))\nax.set_xticklabels(categories)\nax.set_yticklabels(categories)\n\n# Rotate x labels\nplt.setp(ax.get_xticklabels(), rotation=45, ha=\"right\")\n\n# Add colorbar\ncbar = plt.colorbar(im, ax=ax)\ncbar.set_label('Similarity Score', rotation=270, labelpad=20)\n\n# Add text annotations\nfor i in range(len(categories)):\n    for j in range(len(categories)):\n        text = ax.text(j, i, f'{similarity_matrix[i, j]:.3f}',\n                      ha=\"center\", va=\"center\", \n                      color=\"white\" if similarity_matrix[i, j] > 0.5 else \"black\",\n                      fontsize=10, fontweight='bold')\n\nax.set_title('Category Similarity Matrix', fontsize=16, pad=20)\nax.set_xlabel('Category', fontsize=12)\nax.set_ylabel('Category', fontsize=12)\n\nplt.tight_layout()\nplt.show()",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Setup stopwords (same as web report)\nstop_words = set(ENGLISH_STOP_WORDS)\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Calculate TF-IDF on ALL documents (not combined)\ncategories = sorted(df['label'].unique())\nvectorizer = TfidfVectorizer(max_features=5000, stop_words=list(stop_words))\ntfidf_matrix = vectorizer.fit_transform(df['text'])\n\n# Calculate mean similarity between each pair of categories\nn_cats = len(categories)\nsimilarity_matrix = np.zeros((n_cats, n_cats))\n\nfor i, cat1 in enumerate(categories):\n    cat1_indices = df[df['label'] == cat1].index\n    cat1_vectors = tfidf_matrix[cat1_indices]\n    \n    for j, cat2 in enumerate(categories):\n        cat2_indices = df[df['label'] == cat2].index\n        cat2_vectors = tfidf_matrix[cat2_indices]\n        \n        # Pairwise similarities between all document pairs\n        pairwise_sim = cosine_similarity(cat1_vectors, cat2_vectors)\n        \n        # Mean similarity (diagonal is mean within-category similarity, not 1.0)\n        similarity_matrix[i, j] = np.mean(pairwise_sim)\n\n# Create DataFrame for better labels\nsimilarity_df = pd.DataFrame(\n    similarity_matrix,\n    index=categories,\n    columns=categories\n)\n\n# Create heatmap with seaborn\nfig, ax = plt.subplots(figsize=(10, 8))\n\nsns.heatmap(similarity_df, \n           annot=True,          # Show values\n           fmt='.3f',           # 3 decimal places\n           cmap='Purples',      # Color scheme\n           square=True,         # Square cells\n           linewidths=0.5,      # Cell borders\n           cbar_kws={'label': 'Similarity Score'},\n           ax=ax)\n\nax.set_title('Category Similarity Matrix', fontsize=16, pad=20)\nax.set_xlabel('Category', fontsize=12)\nax.set_ylabel('Category', fontsize=12)\n\nplt.tight_layout()\nplt.show()\n\n# Print interpretation\nprint(\"\\nInterpretation (for MEAN pairwise similarity):\")\nprint(\"  Diagonal (0.04-0.07): Within-category similarity\")\nprint(\"  Off-diagonal:\")\nprint(\"    0.00-0.015: Very low (excellent separation)\")\nprint(\"    0.015-0.025: Low (good separation)\")\nprint(\"    0.025+: Higher (potential confusion)\")\nprint(\"\\nNote: These are MUCH lower than document-to-document similarity\")\nprint(\"because we average across many document pairs!\")"
+  },
+  "word_frequency": {
+    "title": "Most Frequent Words (Overall)",
+    "explanation": {
+      "what": "Shows the most common words across ALL categories after removing stop words. These are the general terms that appear frequently throughout the entire dataset.",
+      "why": "Helps understand the overall vocabulary and common themes across all news articles. Words appearing here are general terms, not category-specific.",
+      "how": "Compare with category-specific keywords. If a word appears in overall frequency AND in a category's top words, it's common across dataset. Category-specific words appear in category analysis but not here."
+    },
+    "plotly": "import pandas as pd\nimport plotly.graph_objects as go\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Download stop words\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Get all words (remove stop words)\nimport re\n\nall_text = ' '.join(df['text']).lower()\n# Use regex to match words >= 3 characters (same as report)\nwords = re.findall(r'\b[a-z]{3,}\b', all_text)\nwords = [w for w in words if w not in stop_words]\nword_counts = Counter(words).most_common(25)\n\nwords_list = [word for word, count in word_counts]\ncounts_list = [count for word, count in word_counts]\n\n# Create bar chart\nfig = go.Figure(data=[go.Bar(\n    x=words_list,\n    y=counts_list,\n    marker_color='#43e97b',\n    text=counts_list,\n    textposition='outside'\n)])\n\nfig.update_layout(\n    title='Top 25 Most Frequent Words (Overall)',\n    xaxis_title='Words',\n    yaxis_title='Frequency',\n    width=900,\n    height=500,\n    xaxis={'tickangle': 45}\n)\n\nfig.show()\n\n# Print statistics\nprint(\"\\nTop 20 words across all categories:\")\nfor word, count in word_counts[:20]:\n    print(f\"  {word:15s}: {count:5d}\")\n    \nprint(f\"\\nTotal unique words (no stop words): {len(set(words)):,}\")\nprint(f\"Total words (no stop words): {len(words):,}\")",
+    "matplotlib": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Get all words (remove stop words)\nall_text = ' '.join(df['text']).lower()\nwords = [w for w in all_text.split() if w.isalpha() and w not in stop_words]\nword_counts = Counter(words).most_common(20)\n\nwords_list = [word for word, count in word_counts]\ncounts_list = [count for word, count in word_counts]\n\n# Create bar chart\nfig, ax = plt.subplots(figsize=(12, 6))\n\nax.bar(words_list, counts_list, color='#43e97b', alpha=0.7, edgecolor='black')\n\nax.set_title('Top 20 Most Frequent Words (Overall)', fontsize=16, pad=20)\nax.set_xlabel('Words', fontsize=12)\nax.set_ylabel('Frequency', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\n# Add value labels on bars\nfor i, (word, count) in enumerate(word_counts):\n    ax.text(i, count + 30, f'{count}', ha='center', fontsize=9)\n\nplt.xticks(rotation=45, ha='right')\nplt.tight_layout()\nplt.show()\n\n# Print statistics\nprint(f\"Total unique words: {len(set(words)):,}\")\nprint(f\"Total words: {len(words):,}\")",
+    "seaborn": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n# No need for nltk - using sklearn stop words\n\n# Use sklearn stop words + custom news stopwords (same as report)\nfrom sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\nstop_words = set(ENGLISH_STOP_WORDS)\n# Add custom news stopwords\ncustom_news_stopwords = ['said', 'mr', 'ms', 'mrs', 'told', 'says', 'say', \n                         'according', 'year', 'years', 'new', 'old', 'like', \n                         'just', 'going', 'got', 'use', 'used', 'make', 'made']\nstop_words.update(custom_news_stopwords)\n\n# Load data\nurl = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv'\ndf = pd.read_csv(url)\n\n# Get all words (remove stop words)\nall_text = ' '.join(df['text']).lower()\nwords = [w for w in all_text.split() if w.isalpha() and w not in stop_words]\nword_counts = Counter(words).most_common(20)\n\n# Create DataFrame\nwords_df = pd.DataFrame(word_counts, columns=['word', 'count'])\n\n# Create bar plot\nfig, ax = plt.subplots(figsize=(12, 6))\n\nsns.barplot(data=words_df, x='word', y='count', \n           color='#43e97b', ax=ax, alpha=0.8)\n\nax.set_title('Top 20 Most Frequent Words (Overall)', \n            fontsize=16, pad=20)\nax.set_xlabel('Words', fontsize=12)\nax.set_ylabel('Frequency', fontsize=12)\nax.grid(axis='y', alpha=0.3)\n\n# Add value labels\nfor i, row in words_df.iterrows():\n    ax.text(i, row['count'] + 30, f\"{row['count']}\", \n           ha='center', fontsize=9)\n\nplt.xticks(rotation=45, ha='right')\nplt.tight_layout()\nplt.show()"
+  }
+}
+    </script>
+    
+    <script>
+        // Path to code examples JSON file (for production)
+        const CODE_JSON_PATH = 'eda_tutorial_code_examples.json';
+    </script>
+    
+    
+    <script>
+        // ===== Code Examples Management =====
+        let codeExamples = {};
+        let codeLoaded = false;
+        
+        // Load code examples (try embedded first, then fetch)
+        async function loadCodeExamples() {
+            // Try embedded JSON first (for local testing)
+            try {
+                const embeddedScript = document.getElementById('embedded-code-examples');
+                if (embeddedScript && embeddedScript.textContent.trim()) {
+                    const embeddedData = JSON.parse(embeddedScript.textContent);
+                    if (Object.keys(embeddedData).length > 0) {
+                        codeExamples = embeddedData;
+                        codeLoaded = true;
+                        console.log('✓ Code examples loaded from embedded data');
+                        console.log(`Loaded ${Object.keys(codeExamples).length} sections`);
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.warn('Could not load embedded code examples:', error);
+            }
+            
+            // Fallback to fetching external JSON (for production)
+            try {
+                const response = await fetch(CODE_JSON_PATH);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                codeExamples = await response.json();
+                codeLoaded = true;
+                console.log('✓ Code examples loaded from external JSON');
+                console.log(`Loaded ${Object.keys(codeExamples).length} sections`);
+            } catch (error) {
+                console.error('Failed to load code examples:', error);
+                console.error('Tried both embedded and external JSON');
+                codeLoaded = false;
+            }
+        }
+        
+        // Load code examples on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCodeExamples();
+            
+            // Initialize collapsible sections
+            initCollapsibleSections();
+            
+            // Populate tables
+            populateCategoryTable();
+            if (typeof populateVocabRichnessTable === 'function') {
+                populateVocabRichnessTable();
+            }
+            
+            // Highlight code blocks
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+            }
+            
+            // Collapse/Expand All buttons
+            document.getElementById('collapseAllBtn').addEventListener('click', collapseAll);
+            document.getElementById('expandAllBtn').addEventListener('click', expandAll);
+            
+            // Theme toggle button
+            document.getElementById('themeToggleBtn').addEventListener('click', toggleCodeTheme);
+            
+            // Load saved theme preference
+            loadThemePreference();
+        });
+        
+        // ===== Tutorial Functions =====
+        function toggleTutorial(sectionId) {
+            const tutorial = document.getElementById(`${sectionId}-tutorial`);
+            if (!tutorial) return;
+            
+            const isActive = tutorial.classList.contains('active');
+            
+            if (!isActive) {
+                // Load code first time
+                if (codeLoaded) {
+                    loadTutorialContent(sectionId);
+                } else {
+                    // Show error message
+                    const loading = document.getElementById(`${sectionId}-loading`);
+                    if (loading) {
+                        loading.innerHTML = '❌ Failed to load code examples. Please check console for details.';
+                        loading.style.background = '#f8d7da';
+                        loading.style.borderLeft = '4px solid #dc3545';
+                        loading.style.color = '#721c24';
+                    }
+                }
+            }
+            
+            tutorial.classList.toggle('active');
+        }
+        
+        function loadTutorialContent(sectionId) {
+            const example = codeExamples[sectionId];
+            if (!example) {
+                console.warn(`No code example found for section: ${sectionId}`);
+                return;
+            }
+            
+            // Hide loading message
+            const loading = document.getElementById(`${sectionId}-loading`);
+            if (loading) loading.style.display = 'none';
+            
+            // Show explanation
+            const explanationDiv = document.getElementById(`${sectionId}-explanation`);
+            if (explanationDiv && example.explanation) {
+                explanationDiv.innerHTML = `
+                    <h3>📖 ${example.title || 'Tutorial'}</h3>
+                    ${example.explanation.what ? `<p><strong>What:</strong> ${example.explanation.what}</p>` : ''}
+                    ${example.explanation.why ? `<p><strong>Why:</strong> ${example.explanation.why}</p>` : ''}
+                    ${example.explanation.how ? `<p><strong>How:</strong> ${example.explanation.how}</p>` : ''}
+                `;
+                explanationDiv.style.display = 'block';
+            }
+            
+            // Show code tabs
+            const codeTabs = document.getElementById(`${sectionId}-code-tabs`);
+            if (codeTabs) codeTabs.style.display = 'block';
+            
+            // Load code for each library
+            ['plotly', 'matplotlib', 'seaborn'].forEach(lib => {
+                const codeElement = document.getElementById(`${sectionId}-${lib}-code`);
+                if (codeElement && example[lib]) {
+                    codeElement.textContent = example[lib];
+                    if (typeof Prism !== 'undefined') {
+                        Prism.highlightElement(codeElement);
+                    }
+                }
+            });
+        }
+        
+        function switchTab(sectionId, library) {
+            // Hide all tabs
+            ['plotly', 'matplotlib', 'seaborn'].forEach(lib => {
+                const tab = document.getElementById(`${sectionId}-${lib}`);
+                if (tab) tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(`${sectionId}-${library}`);
+            if (selectedTab) selectedTab.classList.add('active');
+            
+            // Update button states
+            const buttons = document.querySelectorAll(`#${sectionId}-code-tabs .code-tab-button`);
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(library)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        function copyCodeQuick(sectionId) {
+            const example = codeExamples[sectionId];
+            if (!example || !example.plotly) {
+                alert('Code example not loaded yet. Please open the tutorial first.');
+                return;
+            }
+            
+            copyToClipboard(example.plotly);
+            showCopyFeedback(event.target);
+        }
+        
+        function copyCodeBlock(sectionId, library) {
+            const example = codeExamples[sectionId];
+            if (!example || !example[library]) {
+                console.error(`No code found for ${sectionId} - ${library}`);
+                return;
+            }
+            
+            copyToClipboard(example[library]);
+            showCopyFeedback(event.target);
+        }
+        
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text);
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        function collapseAll() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const header = section.querySelector('h2');
+                const content = section.querySelector('.section-content');
+                
+                if (header && content) {
+                    // Ensure both class and style are synchronized
+                    header.classList.add('collapsed');
+                    content.style.display = 'none';
+                    content.classList.add('collapsed');
+                }
+            });
+        }
+        
+        function expandAll() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const header = section.querySelector('h2');
+                const content = section.querySelector('.section-content');
+                
+                if (header && content) {
+                    // Ensure both class and style are synchronized
+                    header.classList.remove('collapsed');
+                    content.style.display = 'block';
+                    content.classList.remove('collapsed');
+                }
+            });
+        }
+        
+        // ===== Section Toggle Functions =====
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            
+            const header = section.querySelector('h2');
+            const content = section.querySelector('.section-content');
+            
+            if (header && content) {
+                // Check both class and display style for accurate state
+                const isCollapsed = header.classList.contains('collapsed') || 
+                                  content.style.display === 'none';
+                
+                if (isCollapsed) {
+                    // Expand
+                    header.classList.remove('collapsed');
+                    content.style.display = 'block';
+                } else {
+                    // Collapse
+                    header.classList.add('collapsed');
+                    content.style.display = 'none';
+                }
+            }
+        }
+        
+        // ===== Theme Switcher Functions =====
+        function toggleCodeTheme() {
+            const themeLink = document.getElementById('prism-theme');
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            const currentTheme = themeLink.href;
+            
+            if (currentTheme.includes('prism-coy')) {
+                // Switch to dark theme
+                themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
+                themeBtn.classList.add('dark-mode');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark Code';
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('codeTheme', 'dark');
+            } else {
+                // Switch to light theme
+                themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css';
+                themeBtn.classList.remove('dark-mode');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light Code';
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('codeTheme', 'light');
+            }
+            
+            // Re-highlight all code blocks with new theme
+            if (typeof Prism !== 'undefined') {
+                setTimeout(() => {
+                    Prism.highlightAll();
+                }, 100);
+            }
+        }
+        
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('codeTheme');
+            const themeLink = document.getElementById('prism-theme');
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (savedTheme === 'dark') {
+                // Apply dark theme
+                themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
+                themeBtn.classList.add('dark-mode');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark Code';
+                document.body.classList.add('dark-theme');
+            }
+            // If no saved preference or 'light', keep default (already set to coy)
+        }
+        
+        function showCopyFeedback(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ Copied!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        function initCollapsibleSections() {
+            document.querySelectorAll('.section').forEach(function(section) {
+                const h2 = section.querySelector('h2');
+                if (!h2) return;
+                
+                // Skip if already has event listener
+                if (h2.dataset.initialized) return;
+                h2.dataset.initialized = 'true';
+                
+                const sectionContent = section.querySelector('.section-content');
+                if (!sectionContent) return;
+                
+                h2.addEventListener('click', function(e) {
+                    // Don't collapse if clicking on buttons
+                    if (e.target.classList.contains('btn') || e.target.closest('.btn')) {
+                        return;
+                    }
+                    
+                    h2.classList.toggle('collapsed');
+                    sectionContent.classList.toggle('collapsed');
+                });
+            });
+        }
+            
+
+        // ===== Chart Generation =====
+        
+        // Category Distribution Chart
+        const categoryCtx = document.getElementById('categoryChart');
+        if (categoryCtx) {
+            new Chart(categoryCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ["business", "entertainment", "politics", "sport", "tech"],
+                datasets: [{
+                    data: [510, 386, 417, 511, 401],
+                        backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                            labels: { font: { size: 14 } }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Articles per Category',
+                            font: { size: 18 }
+                    }
+                }
+            }
+        });
+        }
+        
+        function populateCategoryTable() {
+            const tbody = document.getElementById('categoryTableBody');
+            if (!tbody) return;
+            
+            const categories = ["business", "entertainment", "politics", "sport", "tech"];
+            const counts = [510, 386, 417, 511, 401];
+            const total = counts.reduce((a, b) => a + b, 0);
+            
+            categories.forEach((cat, i) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><strong>${cat.charAt(0).toUpperCase() + cat.slice(1)}</strong></td>
+                    <td>${counts[i]}</td>
+                    <td>${(counts[i]/total*100).toFixed(1)}%</td>
+                    <td>-</td>
+                `;
+            });
+        }
+        
+        // Word Frequency Chart
+        const wordFreqCtx = document.getElementById('wordFreqChart');
+        if (wordFreqCtx) {
+            new Chart(wordFreqCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ["people", "time", "world", "government", "best", "film", "game", "music", "labour", "bbc", "set", "number", "way", "added", "market", "company", "home", "election", "good", "party"],
+                datasets: [{
+                    label: 'Frequency',
+                    data: [2045, 1322, 1201, 1160, 974, 890, 871, 839, 804, 767, 762, 760, 740, 733, 702, 686, 663, 662, 646, 630],
+                    backgroundColor: 'rgba(67, 233, 123, 0.7)',
+                    borderColor: 'rgba(67, 233, 123, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                        layout: {
+                            padding: 0
+                        },
+                plugins: {
+                            legend: { display: false },
+                            title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                            title: { display: true, text: 'Frequency' }
+                    },
+                    x: {
+                            title: { display: true, text: 'Words' },
+                            ticks: { maxRotation: 45, minRotation: 45 }
+                        }
+                    }
+                    }
+                });
+            }
+    
+        // Stop Words Chart
+        const stopWordsCtx = document.getElementById('stopWordsChart');
+        if (stopWordsCtx) {
+            new Chart(stopWordsCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ["the", "and", "for", "that", "said", "was", "with", "has", "have", "will", "but", "are", "from", "not", "they", "his", "this", "which", "would", "had"],
+                datasets: [{
+                    label: 'Frequency',
+                    data: [52636, 18611, 8945, 8257, 7255, 6028, 5354, 4957, 4772, 4473, 4421, 4401, 3535, 3484, 3085, 3026, 2847, 2585, 2581, 2580],
+                    backgroundColor: 'rgba(118, 75, 162, 0.7)',
+                    borderColor: 'rgba(118, 75, 162, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                        layout: {
+                            padding: 0
+                        },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Frequency' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Stop Words' },
+                        ticks: { maxRotation: 45, minRotation: 45 }
+                    }
+                }
+            }
+        });
+        }
+        
+        // Populate stop words info
+        const stopWordsInfo = document.getElementById('stopWordsInfo');
+        if (stopWordsInfo) {
+            stopWordsInfo.innerHTML = `
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">268522</div>
+                    <div class="stat-label">Total Stop Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">39.4%</div>
+                    <div class="stat-label">Of All Words</div>
+                </div>
+            </div>
+        `;
+        }
+        
+        // Populate stop words list
+        const stopWordsList = document.getElementById('stopWordsList');
+        if (stopWordsList) {
+            stopWordsList.innerHTML = 'a, about, above, according, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides';
+        }
+        
+        // Word Count Distribution Chart
+        const wordCountDistCtx = document.getElementById('wordCountDistChart');
+        if (wordCountDistCtx) {
+            new Chart(wordCountDistCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ["0-99", "100-199", "200-299", "300-399", "400-499", "500-599", "600-699", "700-799", "800-899", "900-999", "1000-1099", "1100-1199", "1200-1299", "1300-1399", "1400-1499", "1500-1599", "1600-1699", "1700-1799", "1800-1899", "1900-1999", "2000-2099", "2100-2199", "2200-2299", "2300-2399", "2400-2499", "2500-2599", "2600-2699", "2700-2799", "2800-2899", "2900-2999", "3000-3099", "3100-3199", "3200-3299", "3300-3399", "3400-3499", "3500-3599", "3600-3699", "3700-3799", "3800-3899", "3900-3999", "4000-4099", "4100-4199", "4200-4299", "4300-4399", "4400-4499"],
+                datasets: [{
+                    label: 'Number of Articles',
+                    data: [1, 270, 660, 478, 353, 215, 117, 52, 45, 10, 8, 1, 2, 4, 0, 1, 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                        layout: {
+                            padding: 0
+                        },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Articles' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Word Count Ranges' },
+                        ticks: { maxRotation: 45, minRotation: 45 }
+                    }
+                }
+            }
+            });
+        }
+        
+        // Character Count Distribution Chart
+        const charCountDistCtx = document.getElementById('charCountDistChart');
+        if (charCountDistCtx) {
+            new Chart(charCountDistCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ["0-499", "500-999", "1000-1499", "1500-1999", "2000-2499", "2500-2999", "3000-3499", "3500-3999", "4000-4499", "4500-4999", "5000-5499", "5500-5999", "6000-6499", "6500-6999", "7000-7499", "7500-7999", "8000-8499", "8500-8999", "9000-9499", "9500-9999", "10000-10499", "10500-10999", "11000-11499", "11500-11999", "12000-12499", "12500-12999", "13000-13499", "13500-13999", "14000-14499", "14500-14999", "15000-15499", "15500-15999", "16000-16499", "16500-16999", "17000-17499", "17500-17999", "18000-18499", "18500-18999", "19000-19499", "19500-19999", "20000-20499", "20500-20999", "21000-21499", "21500-21999", "22000-22499", "22500-22999", "23000-23499", "23500-23999", "24000-24499", "24500-24999", "25000-25499"],
+                datasets: [{
+                    label: 'Number of Articles',
+                    data: [1, 137, 484, 526, 354, 285, 180, 108, 63, 34, 26, 7, 4, 1, 3, 3, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                    backgroundColor: 'rgba(240, 147, 251, 0.7)',
+                    borderColor: 'rgba(240, 147, 251, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                        layout: {
+                            padding: 0
+                        },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Articles' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Character Count Ranges' },
+                        ticks: { maxRotation: 45, minRotation: 45 }
+                    }
+                }
+            }
+            });
+        }
+        
+        // Vocabulary Richness Chart
+        const vocabRichnessCtx = document.getElementById('vocabRichnessChart');
+        if (vocabRichnessCtx) {
+            new Chart(vocabRichnessCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ["business", "entertainment", "politics", "sport", "tech"],
+                datasets: [{
+                    label: 'Unique Words',
+                    data: [10639, 10848, 10436, 9842, 11243],
+                    backgroundColor: 'rgba(79, 172, 254, 0.7)',
+                    borderColor: 'rgba(79, 172, 254, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                        layout: {
+                            padding: 0
+                        },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Unique Words Count' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Categories' }
+                    }
+                }
+            }
+        });
+        }
+        
+        function populateVocabRichnessTable() {
+            const tbody = document.getElementById('vocabRichnessTableBody');
+            if (!tbody) return;
+            
+            const vocabData = {"business": {"total_words": 83986, "unique_words": 10639, "type_token_ratio": 0.12667587455052032, "articles": 510}, "entertainment": {"total_words": 63661, "unique_words": 10848, "type_token_ratio": 0.17040260127864784, "articles": 386}, "politics": {"total_words": 88694, "unique_words": 10436, "type_token_ratio": 0.11766297607504453, "articles": 417}, "sport": {"total_words": 79904, "unique_words": 9842, "type_token_ratio": 0.1231728073688426, "articles": 511}, "tech": {"total_words": 96203, "unique_words": 11243, "type_token_ratio": 0.11686745735579972, "articles": 401}};
+            
+            Object.keys(vocabData).forEach(category => {
+                const row = tbody.insertRow();
+                const data = vocabData[category];
+                row.innerHTML = `
+                    <td><strong>${category.charAt(0).toUpperCase() + category.slice(1)}</strong></td>
+                    <td>${data.total_words.toLocaleString()}</td>
+                    <td>${data.unique_words.toLocaleString()}</td>
+                    <td>${data.articles}</td>
+                `;
+            });
+        }
+        
+        
+        // ===== Category Keywords Charts =====
+        const keywordChartsContainer = document.getElementById('keywordCharts');
+        if (keywordChartsContainer) {
+        const categoryKeywords = {"business": [["market", 434], ["company", 416], ["growth", 385], ["firm", 362], ["economy", 359], ["government", 341], ["bank", 335], ["sales", 317], ["economic", 310], ["oil", 296], ["shares", 265], ["world", 252], ["prices", 246], ["chief", 240], ["china", 225], ["business", 223], ["expected", 213], ["companies", 212], ["analysts", 209], ["deal", 206], ["rise", 203], ["state", 201], ["yukos", 200], ["group", 199], ["financial", 199], ["firms", 193], ["dollar", 188], ["time", 178], ["december", 178], ["country", 175], ["president", 172], ["months", 171], ["stock", 171], ["people", 170], ["rate", 167], ["month", 165], ["european", 164], ["quarter", 162], ["trade", 161], ["tax", 157], ["profits", 156], ["investment", 154], ["biggest", 153], ["india", 152], ["demand", 151], ["figures", 149], ["rates", 148], ["executive", 148], ["high", 148], ["spending", 146]], "entertainment": [["film", 788], ["best", 619], ["music", 435], ["awards", 273], ["award", 244], ["won", 233], ["number", 227], ["star", 222], ["band", 215], ["director", 214], ["people", 205], ["actor", 203], ["british", 194], ["time", 190], ["album", 188], ["films", 188], ["bbc", 183], ["song", 166], ["including", 164], ["actress", 158], ["million", 152], ["singer", 150], ["oscar", 148], ["festival", 145], ["chart", 142], ["world", 138], ["comedy", 133], ["stars", 129], ["series", 126], ["prize", 125], ["movie", 121], ["rock", 119], ["record", 112], ["day", 111], ["man", 111], ["london", 110], ["hit", 110], ["office", 110], ["role", 109], ["life", 107], ["second", 103], ["box", 103], ["took", 102], ["aviator", 102], ["nominated", 102], ["place", 101], ["week", 101], ["nominations", 101], ["think", 100], ["musical", 98]], "politics": [["labour", 767], ["government", 732], ["people", 623], ["election", 608], ["party", 586], ["blair", 578], ["minister", 436], ["brown", 387], ["public", 322], ["howard", 319], ["plans", 311], ["prime", 283], ["tory", 273], ["secretary", 267], ["tax", 265], ["britain", 263], ["chancellor", 250], ["bbc", 250], ["leader", 249], ["tories", 243], ["lord", 239], ["home", 235], ["general", 232], ["time", 224], ["campaign", 204], ["tony", 195], ["police", 195], ["mps", 193], ["law", 192], ["spokesman", 190], ["british", 186], ["country", 183], ["lib", 180], ["added", 175], ["liberal", 170], ["work", 170], ["issue", 169], ["michael", 168], ["local", 166], ["way", 164], ["vote", 155], ["council", 152], ["saying", 152], ["think", 152], ["political", 151], ["want", 151], ["week", 146], ["rights", 146], ["parties", 140], ["report", 138]], "sport": [["game", 482], ["england", 461], ["time", 423], ["win", 419], ["world", 388], ["players", 308], ["team", 302], ["play", 296], ["cup", 292], ["second", 276], ["match", 272], ["ireland", 270], ["half", 269], ["final", 265], ["wales", 265], ["good", 258], ["club", 258], ["set", 250], ["won", 241], ["season", 234], ["coach", 228], ["france", 227], ["injury", 222], ["rugby", 210], ["think", 204], ["chelsea", 201], ["added", 200], ["great", 191], ["open", 184], ["victory", 180], ["best", 180], ["nations", 179], ["league", 174], ["games", 172], ["player", 171], ["way", 168], ["united", 166], ["minutes", 165], ["played", 162], ["start", 162], ["international", 157], ["champion", 157], ["arsenal", 156], ["scotland", 154], ["playing", 151], ["williams", 151], ["liverpool", 150], ["right", 148], ["goal", 147], ["did", 143]], "tech": [["people", 961], ["technology", 504], ["mobile", 494], ["users", 408], ["games", 406], ["music", 388], ["digital", 373], ["software", 373], ["net", 371], ["game", 326], ["phone", 318], ["computer", 318], ["online", 309], ["time", 307], ["world", 300], ["video", 285], ["service", 282], ["way", 273], ["microsoft", 271], ["internet", 254], ["million", 253], ["high", 248], ["broadband", 245], ["using", 242], ["data", 242], ["information", 239], ["services", 233], ["phones", 223], ["market", 216], ["security", 212], ["number", 206], ["players", 203], ["content", 201], ["firm", 198], ["apple", 198], ["work", 194], ["search", 194], ["media", 193], ["firms", 193], ["web", 191], ["based", 190], ["news", 185], ["research", 182], ["companies", 182], ["mail", 179], ["networks", 176], ["site", 174], ["company", 172], ["set", 172], ["access", 169]]};
+        const colors = ["#667eea", "#764ba2", "#f093fb", "#4facfe", "#43e97b"];
+        
+        Object.keys(categoryKeywords).forEach((category, index) => {
+            const chartDiv = document.createElement('div');
+            chartDiv.innerHTML = `
+                <h3>${category.charAt(0).toUpperCase() + category.slice(1)} Keywords</h3>
+                <div style="height: 300px; margin-bottom: 30px;">
+                    <canvas id="keywords-${category}"></canvas>
+                </div>
+            `;
+            keywordChartsContainer.appendChild(chartDiv);
+            
+            const ctx = document.getElementById(`keywords-${category}`).getContext('2d');
+            const keywords = categoryKeywords[category];
+            const labels = keywords.map(item => item[0]);
+            const values = keywords.map(item => item[1]);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.slice(0, 15),
+                    datasets: [{
+                        label: 'Frequency',
+                        data: values.slice(0, 15),
+                        backgroundColor: colors[index % colors.length] + '80',
+                        borderColor: colors[index % colors.length],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                        layout: {
+                            padding: 0
+                        },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Frequency' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Keywords' }
+                        }
+                    }
+                }
+            });
+            });
+        }
+        
+        
+        // ===== TF-IDF Charts =====
+        const tfidfChartsContainer = document.getElementById('tfidfCharts');
+        if (tfidfChartsContainer) {
+        const tfidfTerms = {"business": [["growth", 0.03460554989064834], ["economy", 0.03266823520131932], ["bank", 0.03155767014518001], ["market", 0.031024740322908986], ["company", 0.030163540153134657], ["sales", 0.028716940475485266], ["oil", 0.02770549962967632], ["firm", 0.027667968256289283], ["shares", 0.02694355335788665], ["economic", 0.026205805622197213], ["2004", 0.023488806737214336], ["prices", 0.023250849418557595], ["government", 0.021557868958440418], ["china", 0.021486984406301948], ["dollar", 0.019937736568079404], ["yukos", 0.019902063277519498], ["analysts", 0.01855449111163966], ["rise", 0.01796790495243529], ["profits", 0.01768882912437936], ["stock", 0.01734812647364343]], "entertainment": [["film", 0.0889573205994145], ["best", 0.04820094870231498], ["music", 0.03665923035656145], ["awards", 0.03293508583681993], ["band", 0.03201505401639544], ["award", 0.031024726721985522], ["star", 0.028201948374102608], ["festival", 0.027877896504493543], ["album", 0.027325599348172313], ["actor", 0.026609958520459866], ["tv", 0.025954153439954827], ["films", 0.025335682119230266], ["singer", 0.024186781141207318], ["oscar", 0.02300306795807323], ["actress", 0.021837186468209934], ["chart", 0.02149118239500925], ["number", 0.02134581052260928], ["director", 0.020633297545178984], ["comedy", 0.020602829892311277], ["won", 0.02031336341563924]], "politics": [["labour", 0.06774941965792675], ["election", 0.05727815710675117], ["blair", 0.05698879552414739], ["party", 0.05065437504331374], ["government", 0.04802372790168154], ["brown", 0.040866024742027204], ["minister", 0.03534586308408764], ["howard", 0.03389175986315722], ["people", 0.031084270769482107], ["tory", 0.0285135063135682], ["prime", 0.027801271150077182], ["chancellor", 0.027227282298684867], ["tories", 0.02648822306691091], ["tax", 0.02625243578884518], ["public", 0.02472387829971287], ["lord", 0.024700716914914884], ["plans", 0.02466417135748117], ["secretary", 0.024627783622923154], ["leader", 0.023200807101559213], ["britain", 0.023001313086393388]], "sport": [["england", 0.03664883372015024], ["game", 0.03615286365069678], ["win", 0.032183750244021606], ["cup", 0.029651542360973643], ["match", 0.02750142058972689], ["team", 0.026550744365274378], ["injury", 0.02529735219025071], ["players", 0.024753973634089314], ["club", 0.024485125870920103], ["play", 0.024477797733998562], ["world", 0.023903424576327287], ["season", 0.023881648825251824], ["final", 0.023480156692225515], ["coach", 0.02329229088429418], ["chelsea", 0.023277650792322503], ["wales", 0.023277165552184127], ["ireland", 0.023137742564374827], ["rugby", 0.022517069101566766], ["time", 0.02226917754714639], ["france", 0.020241088455780903]], "tech": [["people", 0.046262859974033115], ["mobile", 0.042705803109829646], ["technology", 0.03626286721989196], ["software", 0.03501992459151913], ["users", 0.0344234915053269], ["digital", 0.03195903707452602], ["games", 0.03084126201952107], ["computer", 0.029706918940421958], ["net", 0.02935354219940454], ["music", 0.028965842978194156], ["phone", 0.02861577583657976], ["microsoft", 0.028555548573934303], ["broadband", 0.026724820010977302], ["online", 0.02656813073343144], ["game", 0.023794570839003493], ["video", 0.023260689568346152], ["service", 0.02257587914389596], ["phones", 0.022125732247342694], ["internet", 0.022081618086914185], ["apple", 0.021304854451361554]]};
+        const colors2 = ["#667eea", "#764ba2", "#f093fb", "#4facfe", "#43e97b"];
+        
+        Object.keys(tfidfTerms).forEach((category, index) => {
+            const chartDiv = document.createElement('div');
+            chartDiv.innerHTML = `
+                <h3>${category.charAt(0).toUpperCase() + category.slice(1)} TF-IDF Terms</h3>
+                <div style="height: 300px; margin-bottom: 30px;">
+                    <canvas id="tfidf-${category}"></canvas>
+                </div>
+            `;
+            tfidfChartsContainer.appendChild(chartDiv);
+            
+            const ctx = document.getElementById(`tfidf-${category}`).getContext('2d');
+            const terms = tfidfTerms[category];
+            const labels = terms.map(item => item[0]);
+            const values = terms.map(item => item[1]);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.slice(0, 15),
+                    datasets: [{
+                        label: 'TF-IDF Score',
+                        data: values.slice(0, 15),
+                        backgroundColor: colors2[index % colors2.length] + '80',
+                        borderColor: colors2[index % colors2.length],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                        layout: {
+                            padding: 0
+                        },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'TF-IDF Score' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Terms' }
+                        }
+                    }
+                }
+            });
+            });
+        }
+        
+        
+        // ===== N-gram Charts =====
+        const ngramChartsContainer = document.getElementById('ngramCharts');
+        if (ngramChartsContainer) {
+        const ngramResults = {"business": {"bigrams": [["chief executive", 0.37185964946849015], ["economic growth", 0.2339117149882438], ["stock market", 0.23091284684736887], ["deutsche boerse", 0.19492642915686983], ["oil prices", 0.18592982473424507], ["stock exchange", 0.15594114332549586], ["consumer spending", 0.12895133005762158], ["fourth quarter", 0.12895133005762158], ["news agency", 0.11395698935324698], ["sri lanka", 0.11395698935324698], ["bank england", 0.11095812121237206], ["housing market", 0.09896264864887237], ["000 jobs", 0.09596378050799746], ["world biggest", 0.09296491236712254], ["long term", 0.09296491236712254]], "trigrams": [["london stock exchange", 0.2136828897185981], ["securities exchange commission", 0.20397003109502546], ["reuters news agency", 0.1651185966007349], ["gross domestic product", 0.15540573797716226], ["chief financial officer", 0.13598002073001697], ["international monetary fund", 0.13598002073001697], ["current account deficit", 0.12626716210644434], ["high oil prices", 0.12626716210644434], ["chapter 11 bankruptcy", 0.1165543034828717], ["president george bush", 0.1165543034828717], ["world trade organisation", 0.10684144485929906], ["fraud tax evasion", 0.10684144485929906], ["founder mikhail khodorkovsky", 0.10684144485929906], ["pre tax profits", 0.09712858623572641], ["slowdown housing market", 0.08741572761215377]]}, "entertainment": {"bigrams": [["box office", 0.2919217466285365], ["los angeles", 0.18164019790220048], ["million dollar", 0.1783966229396612], ["won best", 0.1751530479771219], ["dollar baby", 0.1719094730145826], ["best film", 0.16542232308950403], ["named best", 0.16217874812696473], ["vera drake", 0.14920444827680754], ["best director", 0.14271729835172894], ["film festival", 0.14271729835172894], ["best actress", 0.13947372338918965], ["best actor", 0.11676869865141459], ["jamie foxx", 0.11676869865141459], ["martin scorsese", 0.11028154872633601], ["hip hop", 0.11028154872633601]], "trigrams": [["million dollar baby", 0.4526278831263858], ["actor jamie foxx", 0.17080297476467388], ["best supporting actor", 0.1451825285499728], ["best song 25", 0.1366423798117391], ["berlin film festival", 0.1281022310735054], ["jamie foxx actress", 0.11956208233527171], ["sunshine spotless mind", 0.11956208233527171], ["best supporting actress", 0.11956208233527171], ["eternal sunshine spotless", 0.11956208233527171], ["director martin scorsese", 0.11102193359703802], ["da vinci code", 0.10248178485880433], ["uk singles chart", 0.09394163612057063], ["celebrity big brother", 0.09394163612057063], ["actress hilary swank", 0.09394163612057063], ["band aid 20", 0.09394163612057063]]}, "politics": {"bigrams": [["prime minister", 0.4569292194375749], ["tony blair", 0.2963417763743692], ["general election", 0.26985312597219097], ["michael howard", 0.2152202845176983], ["kilroy silk", 0.1821094715149755], ["home secretary", 0.17879839021470323], ["human rights", 0.17714284956456708], ["lib dems", 0.16886514631388638], ["gordon brown", 0.16720960566375023], ["liberal democrats", 0.1539652804626611], ["lib dem", 0.129132170710619], ["tory leader", 0.12416554876021058], ["bbc radio", 0.12416554876021058], ["labour party", 0.12251000811007443], ["council tax", 0.10429906095857688]], "trigrams": [["leader michael howard", 0.31789055090570456], ["radio today programme", 0.25212009209762776], ["bbc radio today", 0.24663922053028803], ["tory leader michael", 0.22471573426092908], ["leader charles kennedy", 0.17538789015487147], ["minister tony blair", 0.14250266075083307], ["prime minister tony", 0.14250266075083307], ["chancellor gordon brown", 0.14250266075083307], ["robert kilroy silk", 0.1315409176161536], ["secretary charles clarke", 0.12057917448147415], ["secretary jack straw", 0.12057917448147415], ["foreign secretary jack", 0.12057917448147415], ["uk independence party", 0.1150983029141344], ["home secretary david", 0.1150983029141344], ["home secretary charles", 0.1150983029141344]]}, "sport": {"bigrams": [["world cup", 0.24868581752708976], ["grand slam", 0.23422733976388685], ["champions league", 0.21398547089540282], ["australian open", 0.19374360202691876], ["bbc sport", 0.1908519064742782], ["manchester united", 0.1763934287110753], ["second half", 0.16482664650051299], ["davis cup", 0.15036816873731007], ["half time", 0.14458477763202893], ["world number", 0.13880138652674776], ["fly half", 0.1214512132109043], ["cross country", 0.11566782210562314], ["real madrid", 0.10988443100034198], ["south africa", 0.10120934434242025], ["don know", 0.09831764878977967]], "trigrams": [["coach andy robinson", 0.22818349951152264], ["sir alex ferguson", 0.17747605517562873], ["european indoor championships", 0.16902481445297973], ["world cross country", 0.15212233300768177], ["sir clive woodward", 0.14367109228503278], ["bbc radio live", 0.13521985156238378], ["mark lewis francis", 0.1267686108397348], ["anti doping agency", 0.1267686108397348], ["french open champion", 0.11831737011708582], ["england coach andy", 0.11831737011708582], ["performance enhancing drugs", 0.11831737011708582], ["international rugby board", 0.10986612939443682], ["coach mike ruddock", 0.10986612939443682], ["kenteris katerina thanou", 0.10141488867178784], ["coach bernard laporte", 0.10141488867178784]]}, "tech": {"bigrams": [["bbc news", 0.25646903306698465], ["mobile phone", 0.2509535699902753], ["high definition", 0.23716491229850195], ["news website", 0.2206185230683739], ["mobile phones", 0.19855667076153652], ["anti virus", 0.15167523460950705], ["wi fi", 0.14891750307115237], ["digital music", 0.14340203999444304], ["mac mini", 0.14064430845608836], ["high speed", 0.135128845379379], ["consumer electronics", 0.126855650764315], ["peer peer", 0.11858245614925098], ["file sharing", 0.1158247246108963], ["music players", 0.10755152999583227], ["open source", 0.09927833538076826]], "trigrams": [["bbc news website", 0.5835841460432113], ["digital music players", 0.16778044198742326], ["bbc world service", 0.1386012346852627], ["open source software", 0.09483242373202184], ["peer peer networks", 0.09483242373202184], ["anti virus firm", 0.0875376219064817], ["anti virus software", 0.0875376219064817], ["high definition tv", 0.0875376219064817], ["consumer electronics las", 0.08024282008094157], ["digital rights management", 0.08024282008094157], ["electronics las vegas", 0.08024282008094157], ["digital video recorders", 0.08024282008094157], ["service programme digital", 0.07294801825540141], ["high definition dvds", 0.07294801825540141], ["pew internet american", 0.07294801825540141]]}};
+        const colors3 = ["#667eea", "#764ba2", "#f093fb", "#4facfe", "#43e97b"];
+        
+        Object.keys(ngramResults).forEach((category, index) => {
+            const chartDiv = document.createElement('div');
+            chartDiv.innerHTML = `
+                <h3>${category.charAt(0).toUpperCase() + category.slice(1)} N-grams</h3>
+                <div style="height: 300px; margin-bottom: 30px;">
+                    <canvas id="ngram-${category}"></canvas>
+                </div>
+            `;
+            ngramChartsContainer.appendChild(chartDiv);
+            
+            const ctx = document.getElementById(`ngram-${category}`).getContext('2d');
+                const ngrams = ngramResults[category].bigrams || [];
+            const labels = ngrams.map(item => item[0]);
+            const values = ngrams.map(item => item[1]);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.slice(0, 10),
+                    datasets: [{
+                        label: 'TF-IDF Score',
+                        data: values.slice(0, 10),
+                        backgroundColor: colors3[index % colors3.length] + '80',
+                        borderColor: colors3[index % colors3.length],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                        layout: {
+                            padding: 0
+                        },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'TF-IDF Score' }
+                        },
+                        y: {
+                            title: { display: true, text: 'N-grams' }
+                        }
+                    }
+                }
+            });
+        });
+        }
+        
+        
+        // ===== Category Similarity Heatmap =====
+        const similarityDiv = document.getElementById('categorySimilarityHeatmap');
+        if (similarityDiv) {
+            var similarityData = {"categories": ["business", "entertainment", "politics", "sport", "tech"], "matrix": [[0.0479518461197581, 0.015368225235811132, 0.022463909118648928, 0.013648711210630396, 0.020759929935335937], [0.015368225235811127, 0.055674629101337636, 0.01790757424549915, 0.017222154237901837, 0.020069851605031122], [0.022463909118648928, 0.017907574245499155, 0.06772206276191571, 0.0164507027660411, 0.01991903419389259], [0.013648711210630396, 0.017222154237901837, 0.016450702766041107, 0.051311341319599774, 0.01536838097443941], [0.020759929935335944, 0.02006985160503112, 0.01991903419389259, 0.01536838097443941, 0.058024509093013196]]};
+            var categories = similarityData.categories.map(cat => cat.charAt(0).toUpperCase() + cat.slice(1));
+            var matrix = similarityData.matrix;
+            
+            // Create text annotations for values
+            var annotations = [];
+            for (var i = 0; i < matrix.length; i++) {
+                for (var j = 0; j < matrix[i].length; j++) {
+                    annotations.push({
+                        x: j,
+                        y: i,
+                        text: matrix[i][j].toFixed(3),
+                        showarrow: false,
+                        font: {
+                            color: matrix[i][j] > 0.035 ? 'white' : 'black',
+                            size: 12,
+                            family: 'Arial, sans-serif',
+                            weight: 'bold'
+                        }
+                });
+            }
+        }
+        
+            var heatmapData = [{
+                z: matrix,
+                x: categories,
+                y: categories,
+                type: 'heatmap',
+                colorscale: [
+                    [0, '#4c1d95'],
+                    [0.2, '#7c3aed'],
+                    [0.4, '#a855f7'],
+                    [0.6, '#c084fc'],
+                    [0.8, '#f472b6'],
+                    [1, '#ec4899']
+                ],
+                showscale: true,
+                colorbar: {
+                    title: 'Similarity Score',
+                    titleside: 'right',
+                    thickness: 15,
+                    len: 0.8
+                },
+                hoverongaps: false,
+                hovertemplate: '<b>%{y}</b> vs <b>%{x}</b><br>' +
+                              'Similarity: <b>%{z:.3f}</b><br>' +
+                              '<extra></extra>'
+            }];
+            
+            var layout = {
+                title: {
+                    text: 'Interactive Category Similarity Matrix',
+                    x: 0.5,
+                    font: {size: 18, family: 'Segoe UI, sans-serif'}
+                },
+                xaxis: {
+                    title: 'Predicted Category',
+                    side: 'bottom',
+                    tickangle: 0,
+                    tickfont: {size: 12}
+                },
+                yaxis: {
+                    title: 'True Category',
+                    tickangle: 0,
+                    autorange: 'reversed',
+                    tickfont: {size: 12}
+                },
+                annotations: annotations,
+                font: {
+                    family: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
+                },
+                plot_bgcolor: 'white',
+                paper_bgcolor: 'white',
+                margin: {
+                    l: 100,
+                    r: 100,
+                    t: 80,
+                    b: 80
+                }
+            };
+            
+            var config = {
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d', 'zoom2d'],
+                displaylogo: false,
+                responsive: true
+            };
+            
+            Plotly.newPlot('categorySimilarityHeatmap', heatmapData, layout, config);
+        }
+        
+    </script>
+</body>
+</html>

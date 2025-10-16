@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploratory Data Analysis (EDA) - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            margin-bottom: 3rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .breadcrumb {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .info-box h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .example-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .example-card h3 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .example-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .example-card .features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-card .features li {
+            padding: 0.5rem 0;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .example-card .features li:last-child {
+            border-bottom: none;
+        }
+
+        .example-card .features li::before {
+            content: "✓ ";
+            color: #43e97b;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .techniques-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .techniques-section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .technique-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .technique-item h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .technique-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .techniques-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">📈 EDA</div>
+            <div class="breadcrumb">
+                <a href="/AILearningHub/">Home</a> / 
+                <a href="/AILearningHub/01_Data_Analysis/">Data Analysis</a> / 
+                EDA
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>📈 Exploratory Data Analysis (EDA)</h1>
+            <p>
+                Exploratory Data Analysis is the critical first step in any data science project. 
+                It's the process of analyzing datasets to summarize their main characteristics, 
+                often using statistical graphics and visualization techniques.
+            </p>
+            <p>
+                Through EDA, you'll discover patterns, spot anomalies, test hypotheses, and check 
+                assumptions before applying machine learning models.
+            </p>
+            <div class="info-box">
+                <h3>💡 Why is EDA Important?</h3>
+                <p>
+                    EDA helps you understand what your data can tell you beyond formal modeling. 
+                    It prevents "garbage in, garbage out" scenarios and guides feature engineering 
+                    and model selection decisions.
+                </p>
+            </div>
+        </section>
+
+        <section class="examples-grid">
+            <div class="example-card">
+                <h3>📰 BBC News Text Classification</h3>
+                <p>
+                    Comprehensive EDA tutorial for text classification datasets using BBC News articles. 
+                    Features interactive visualizations and code examples in Plotly, Matplotlib, and Seaborn.
+                </p>
+                <ul class="features">
+                    <li>Category distribution analysis</li>
+                    <li>Text statistics and distributions</li>
+                    <li>Word frequency and TF-IDF analysis</li>
+                    <li>N-gram patterns and bigrams</li>
+                    <li>Category similarity matrix</li>
+                    <li>Interactive tutorials with copy-paste code</li>
+                </ul>
+                <a href="/AILearningHub/01_Data_Analysis/01_EDA/bbcnews_text_classification/eda_report_tutorial.html" class="cta-button">
+                    🚀 View Interactive Report
+                </a>
+            </div>
+
+            <div class="example-card" style="opacity: 0.6;">
+                <h3>🌸 Iris Dataset (Tabular Data)</h3>
+                <p>
+                    Learn EDA techniques for structured tabular data with the classic Iris dataset. 
+                    Perfect for beginners to understand statistical summaries and visualizations.
+                </p>
+                <ul class="features">
+                    <li>Statistical summaries</li>
+                    <li>Distribution analysis</li>
+                    <li>Correlation matrices</li>
+                    <li>Pair plots and scatter matrices</li>
+                    <li>Outlier detection</li>
+                </ul>
+                <span style="display: inline-block; background: #f093fb; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: bold;">
+                    ⏳ Coming Soon
+                </span>
+            </div>
+        </section>
+
+        <section class="techniques-section">
+            <h2>🛠️ Common EDA Techniques</h2>
+            <div class="techniques-grid">
+                <div class="technique-item">
+                    <h4>📊 Univariate Analysis</h4>
+                    <p>Analyze single variables to understand their distribution, central tendency, and spread.</p>
+                </div>
+                <div class="technique-item">
+                    <h4>🔗 Bivariate Analysis</h4>
+                    <p>Examine relationships between two variables using scatter plots and correlation coefficients.</p>
+                </div>
+                <div class="technique-item">
+                    <h4>📈 Multivariate Analysis</h4>
+                    <p>Understand interactions among multiple variables simultaneously using heatmaps and pair plots.</p>
+                </div>
+                <div class="technique-item">
+                    <h4>📉 Missing Data Analysis</h4>
+                    <p>Identify patterns in missing values and decide on appropriate imputation strategies.</p>
+                </div>
+                <div class="technique-item">
+                    <h4>🎯 Outlier Detection</h4>
+                    <p>Find anomalies and extreme values using statistical methods and visualizations.</p>
+                </div>
+                <div class="technique-item">
+                    <h4>🔤 Feature Distribution</h4>
+                    <p>Analyze how features are distributed using histograms, box plots, and density plots.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AI Learning Hub. Exploratory Data Analysis Resources.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

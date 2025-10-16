@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            margin-bottom: 3rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .breadcrumb {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .topic-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .topic-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .topic-card h3 {
+            color: #667eea;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .topic-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .topic-card .examples {
+            list-style: none;
+        }
+
+        .topic-card .examples li {
+            background: #f8f9fa;
+            margin: 0.5rem 0;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .topic-card .examples li::before {
+            content: "📌 ";
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .status-available {
+            background: linear-gradient(135deg, #43e97b 0%, #38d9a9 100%);
+            color: white;
+        }
+
+        .status-coming-soon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">📊 Data Analysis</div>
+            <div class="breadcrumb">
+                <a href="/AILearningHub/">Home</a> / Data Analysis
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>📊 Data Analysis</h1>
+            <p>
+                Master essential data exploration, cleaning, and visualization techniques that form the foundation 
+                of successful machine learning projects. Learn how to understand your data before applying any models.
+            </p>
+        </section>
+
+        <section class="topics-grid">
+            <a href="/AILearningHub/01_Data_Analysis/01_EDA/">
+                <div class="topic-card">
+                    <h3>📈 Exploratory Data Analysis (EDA)</h3>
+                    <p>
+                        Learn systematic approaches to explore datasets, uncover patterns, detect anomalies, 
+                        and understand data distributions before modeling.
+                    </p>
+                    <ul class="examples">
+                        <li>BBC News Text Classification Dataset</li>
+                        <li>Statistical summaries and distributions</li>
+                        <li>Data visualization techniques</li>
+                        <li>Interactive tutorial with code examples</li>
+                    </ul>
+                    <span class="status-badge status-available">✓ Available</span>
+                </div>
+            </a>
+
+            <div class="topic-card">
+                <h3>🧹 Data Cleaning</h3>
+                <p>
+                    Handle missing values, outliers, duplicates, and inconsistencies to prepare high-quality 
+                    datasets for analysis and modeling.
+                </p>
+                <ul class="examples">
+                    <li>Missing value imputation strategies</li>
+                    <li>Outlier detection and treatment</li>
+                    <li>Data type conversions</li>
+                    <li>Handling duplicates</li>
+                </ul>
+                <span class="status-badge status-coming-soon">⏳ Coming Soon</span>
+            </div>
+
+            <div class="topic-card">
+                <h3>⚙️ Feature Engineering</h3>
+                <p>
+                    Transform raw data into meaningful features that improve model performance through 
+                    encoding, scaling, and creating new features.
+                </p>
+                <ul class="examples">
+                    <li>Categorical encoding techniques</li>
+                    <li>Numerical feature scaling</li>
+                    <li>Feature creation and extraction</li>
+                    <li>Feature selection methods</li>
+                </ul>
+                <span class="status-badge status-coming-soon">⏳ Coming Soon</span>
+            </div>
+
+            <div class="topic-card">
+                <h3>📊 Statistical Analysis</h3>
+                <p>
+                    Apply statistical methods to understand relationships, test hypotheses, and validate 
+                    assumptions in your data.
+                </p>
+                <ul class="examples">
+                    <li>Descriptive statistics</li>
+                    <li>Hypothesis testing</li>
+                    <li>Correlation analysis</li>
+                    <li>Statistical distributions</li>
+                </ul>
+                <span class="status-badge status-coming-soon">⏳ Coming Soon</span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AI Learning Hub. Data Analysis Learning Resources.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
