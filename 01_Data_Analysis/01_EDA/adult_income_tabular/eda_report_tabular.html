@@ -517,8 +517,8 @@
         <div class="content">
 
             <!-- Methodology -->
-            <div class="section">
-                <h2>📚 Analysis Methodology</h2>
+            <div class="section" id="methodology">
+                <h2 onclick="toggleSection('methodology')" style="cursor: pointer;">📚 Analysis Methodology</h2>
                 <div class="section-content">
                 <p style="color: #666; margin-bottom: 20px;">
                     This report analyzes tabular data (structured CSV format) with focus on data quality, 
@@ -572,8 +572,8 @@
 
 
             <!-- Dataset Overview -->
-            <div class="section">
-                <h2>📊 Dataset Overview</h2>
+            <div class="section" id="overview">
+                <h2 onclick="toggleSection('overview')" style="cursor: pointer;">📊 Dataset Overview</h2>
                 <div class="section-content">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -1175,8 +1175,8 @@
 
 
             <!-- Sample Rows -->
-            <div class="section">
-                <h2>📝 Sample Data Rows</h2>
+            <div class="section" id="samples">
+                <h2 onclick="toggleSection('samples')" style="cursor: pointer;">📝 Sample Data Rows</h2>
                 <div class="section-content">
 
                 <div class="samples">
@@ -1218,8 +1218,8 @@
 
 
             <!-- Key Insights -->
-            <div class="section">
-                <h2>💡 Key Insights</h2>
+            <div class="section" id="insights">
+                <h2 onclick="toggleSection('insights')" style="cursor: pointer;">💡 Key Insights</h2>
                 <div class="section-content">
                 <div class="samples">
                     <h3>Dataset Characteristics</h3>
@@ -1980,11 +1980,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         // Categorical Distribution Charts
-        console.log('🔍 Looking for categoricalChartsContainer...');
         const catContainer = document.getElementById('categoricalChartsContainer');
-        console.log('catContainer found:', catContainer);
         if (catContainer) {
-            console.log('✅ Creating categorical charts...');
 
             // workclass Distribution
             const chartDiv0 = document.createElement('div');
@@ -2337,19 +2334,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            console.log('✅ All categorical charts created');
-        } else {
-            console.error('❌ categoricalChartsContainer not found!');
         }
 
 
         // Correlation Heatmap
-        console.log('🔍 Looking for correlationHeatmap...');
         const corrDiv = document.getElementById('correlationHeatmap');
-        console.log('corrDiv found:', corrDiv);
         if (corrDiv) {
-            console.log('✅ Creating correlation heatmap...');
-
             var annotations = [];
 var features = ["age", "fnlwgt", "education_num", "capital_gain", "capital_loss", "hours_per_week"];
 var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.0776744981659941, 0.057774539478974145, 0.06875570750955742], [-0.07664586787504064, 1.0, -0.04319463273302273, 0.00043188579188680327, -0.010251711675330953, -0.01876849061074513], [0.036527189464106324, -0.04319463273302273, 1.0, 0.12263011469222229, 0.07992295668664588, 0.1481227326229115], [0.0776744981659941, 0.00043188579188680327, 0.12263011469222229, 1.0, -0.03161506295222775, 0.07840861539013491], [0.057774539478974145, -0.010251711675330953, 0.07992295668664588, -0.03161506295222775, 1.0, 0.05425636227265108], [0.06875570750955742, -0.01876849061074513, 0.1481227326229115, 0.07840861539013491, 0.05425636227265108, 1.0]];
@@ -2412,9 +2402,6 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
             };
             
             Plotly.newPlot('correlationHeatmap', heatmapData, layout, config);
-            console.log('✅ Correlation heatmap created');
-        } else {
-            console.error('❌ correlationHeatmap div not found!');
         }
 
 
