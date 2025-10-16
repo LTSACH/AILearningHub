@@ -432,6 +432,39 @@
         }
     
         
+        .loading-message {
+            padding: 20px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            color: #856404;
+            margin: 10px 0;
+        }
+        
+        .samples {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .samples h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .sample-text {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #555;
+        }
+    
+        
         @media (max-width: 768px) {
             .content {
                 padding: 20px;
@@ -1941,8 +1974,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         // Categorical Distribution Charts
+        console.log('🔍 Looking for categoricalChartsContainer...');
         const catContainer = document.getElementById('categoricalChartsContainer');
+        console.log('catContainer found:', catContainer);
         if (catContainer) {
+            console.log('✅ Creating categorical charts...');
 
             // workclass Distribution
             const chartDiv0 = document.createElement('div');
@@ -2295,12 +2331,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
+            console.log('✅ All categorical charts created');
+        } else {
+            console.error('❌ categoricalChartsContainer not found!');
         }
 
 
         // Correlation Heatmap
+        console.log('🔍 Looking for correlationHeatmap...');
         const corrDiv = document.getElementById('correlationHeatmap');
+        console.log('corrDiv found:', corrDiv);
         if (corrDiv) {
+            console.log('✅ Creating correlation heatmap...');
+
             var annotations = [];
 var features = ["age", "fnlwgt", "education_num", "capital_gain", "capital_loss", "hours_per_week"];
 var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.0776744981659941, 0.057774539478974145, 0.06875570750955742], [-0.07664586787504064, 1.0, -0.04319463273302273, 0.00043188579188680327, -0.010251711675330953, -0.01876849061074513], [0.036527189464106324, -0.04319463273302273, 1.0, 0.12263011469222229, 0.07992295668664588, 0.1481227326229115], [0.0776744981659941, 0.00043188579188680327, 0.12263011469222229, 1.0, -0.03161506295222775, 0.07840861539013491], [0.057774539478974145, -0.010251711675330953, 0.07992295668664588, -0.03161506295222775, 1.0, 0.05425636227265108], [0.06875570750955742, -0.01876849061074513, 0.1481227326229115, 0.07840861539013491, 0.05425636227265108, 1.0]];
@@ -2363,6 +2406,9 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
             };
             
             Plotly.newPlot('correlationHeatmap', heatmapData, layout, config);
+            console.log('✅ Correlation heatmap created');
+        } else {
+            console.error('❌ correlationHeatmap div not found!');
         }
 
 
