@@ -260,6 +260,74 @@
             color: #667eea;
         }
         
+        /* Outlier Detection Tutorial Styles */
+        .outlier-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .method-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .method-box:first-child {
+            border-left: 4px solid #667eea;
+        }
+        
+        .method-box:nth-child(2) {
+            border-left: 4px solid #f093fb;
+        }
+        
+        .method-box:last-child {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8b2 100%);
+            border-left: 4px solid #fa709a;
+        }
+        
+        .method-box strong {
+            color: #667eea;
+            font-size: 1.05em;
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        .method-box:nth-child(2) strong {
+            color: #f093fb;
+        }
+        
+        .method-box:last-child strong {
+            color: #fa709a;
+        }
+        
+        .formula {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            font-weight: 600;
+            margin: 8px 0;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+        }
+        
+        .method-box:nth-child(2) .formula {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 2px 6px rgba(240, 147, 251, 0.3);
+        }
+        
+        .method-box p {
+            margin: 10px 0 0 0;
+            color: #555;
+            line-height: 1.6;
+        }
+        
         .code-tabs {
             background: white;
             border-radius: 8px;
