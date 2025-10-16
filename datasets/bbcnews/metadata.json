@@ -1,0 +1,131 @@
+{
+  "name": "BBC News Classification Dataset",
+  "version": "1.0.0",
+  "description": "Text classification dataset containing news articles from BBC News, categorized by topic",
+  "type": "text_classification",
+  "format": "csv",
+  "language": "en",
+  "license": "Public Domain (Educational Use)",
+  "created": "2025-10-16",
+  "updated": "2025-10-16",
+  
+  "statistics": {
+    "total_samples": 2225,
+    "num_classes": 5,
+    "classes": [
+      "business",
+      "entertainment", 
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "class_distribution": {
+      "business": 510,
+      "entertainment": 386,
+      "politics": 417,
+      "sport": 511,
+      "tech": 401
+    },
+    "avg_text_length": 380,
+    "vocabulary_size": 29000
+  },
+  
+  "splits": {
+    "train": {
+      "samples": 1558,
+      "percentage": 70.0,
+      "file": "data/train.csv"
+    },
+    "validation": {
+      "samples": 335,
+      "percentage": 15.0,
+      "file": "data/val.csv"
+    },
+    "test": {
+      "samples": 335,
+      "percentage": 15.0,
+      "file": "data/test.csv"
+    }
+  },
+  
+  "files": {
+    "full_dataset": {
+      "name": "bbc-news.csv",
+      "path": "data/bbc-news.csv",
+      "size_mb": 4.9,
+      "samples": 2225,
+      "url": "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/bbc-news.csv"
+    },
+    "train": {
+      "name": "train.csv",
+      "path": "data/train.csv",
+      "size_mb": 3.4,
+      "samples": 1558,
+      "url": "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/train.csv"
+    },
+    "validation": {
+      "name": "val.csv",
+      "path": "data/val.csv",
+      "size_mb": 0.73,
+      "samples": 335,
+      "url": "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/val.csv"
+    },
+    "test": {
+      "name": "test.csv",
+      "path": "data/test.csv",
+      "size_mb": 0.76,
+      "samples": 335,
+      "url": "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/bbcnews/data/test.csv"
+    }
+  },
+  
+  "schema": {
+    "columns": [
+      {
+        "name": "text",
+        "type": "string",
+        "description": "Full article text"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Article category",
+        "values": ["business", "entertainment", "politics", "sport", "tech"]
+      }
+    ]
+  },
+  
+  "benchmarks": {
+    "naive_bayes_tfidf": {
+      "accuracy": 0.97,
+      "model": "MultinomialNB + TfidfVectorizer"
+    },
+    "svm_tfidf": {
+      "accuracy": 0.98,
+      "model": "SVM + TfidfVectorizer"
+    },
+    "bert_finetuned": {
+      "accuracy": 0.99,
+      "model": "BERT base fine-tuned"
+    }
+  },
+  
+  "tasks": [
+    "text_classification",
+    "multi_class_classification",
+    "natural_language_processing",
+    "feature_extraction",
+    "transfer_learning"
+  ],
+  
+  "citation": {
+    "bibtex": "@misc{bbcnews2025,\n  title={BBC News Classification Dataset},\n  author={AI Learning Hub},\n  year={2025},\n  url={https://github.com/LTSACH/AILearningHub/tree/main/datasets/bbcnews}\n}"
+  },
+  
+  "links": {
+    "github": "https://github.com/LTSACH/AILearningHub/tree/main/datasets/bbcnews",
+    "tutorial": "https://ltsach.github.io/AILearningHub/02_Machine_Learning/",
+    "homepage": "https://ltsach.github.io/AILearningHub/"
+  }
+}
+
