@@ -1539,14 +1539,20 @@
             const content = section.querySelector('.section-content');
             
             if (header && content) {
-                const isCollapsed = header.classList.contains('collapsed');
+                // Check both class and display style for accurate state
+                const isCollapsed = header.classList.contains('collapsed') || 
+                                  content.style.display === 'none';
                 
                 if (isCollapsed) {
+                    // Expand
                     header.classList.remove('collapsed');
                     content.style.display = 'block';
+                    content.classList.remove('collapsed');
                 } else {
+                    // Collapse
                     header.classList.add('collapsed');
                     content.style.display = 'none';
+                    content.classList.add('collapsed');
                 }
             }
         }
