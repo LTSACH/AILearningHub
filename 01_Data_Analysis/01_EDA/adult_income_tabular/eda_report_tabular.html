@@ -1670,9 +1670,11 @@
 
 
 
-        // age Distribution
-        const container0 = document.getElementById('numericalChartsContainer');
-        if (container0) {
+        // Numerical Distribution Charts
+        const numContainer = document.getElementById('numericalChartsContainer');
+        if (numContainer) {
+
+            // age Distribution
             const chartDiv0 = document.createElement('div');
             chartDiv0.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Age Distribution</h3>
@@ -1680,7 +1682,7 @@
                     <canvas id="numChart0"></canvas>
                 </div>
             `;
-            container0.appendChild(chartDiv0);
+            numContainer.appendChild(chartDiv0);
             
             const ctx0 = document.getElementById('numChart0').getContext('2d');
             new Chart(ctx0, {
@@ -1713,12 +1715,9 @@
                     }
                 }
             });
-        }
 
 
-        // fnlwgt Distribution
-        const container1 = document.getElementById('numericalChartsContainer');
-        if (container1) {
+            // fnlwgt Distribution
             const chartDiv1 = document.createElement('div');
             chartDiv1.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Fnlwgt Distribution</h3>
@@ -1726,7 +1725,7 @@
                     <canvas id="numChart1"></canvas>
                 </div>
             `;
-            container1.appendChild(chartDiv1);
+            numContainer.appendChild(chartDiv1);
             
             const ctx1 = document.getElementById('numChart1').getContext('2d');
             new Chart(ctx1, {
@@ -1759,12 +1758,9 @@
                     }
                 }
             });
-        }
 
 
-        // education_num Distribution
-        const container2 = document.getElementById('numericalChartsContainer');
-        if (container2) {
+            // education_num Distribution
             const chartDiv2 = document.createElement('div');
             chartDiv2.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Education Num Distribution</h3>
@@ -1772,7 +1768,7 @@
                     <canvas id="numChart2"></canvas>
                 </div>
             `;
-            container2.appendChild(chartDiv2);
+            numContainer.appendChild(chartDiv2);
             
             const ctx2 = document.getElementById('numChart2').getContext('2d');
             new Chart(ctx2, {
@@ -1805,12 +1801,9 @@
                     }
                 }
             });
-        }
 
 
-        // capital_gain Distribution
-        const container3 = document.getElementById('numericalChartsContainer');
-        if (container3) {
+            // capital_gain Distribution
             const chartDiv3 = document.createElement('div');
             chartDiv3.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Capital Gain Distribution</h3>
@@ -1818,7 +1811,7 @@
                     <canvas id="numChart3"></canvas>
                 </div>
             `;
-            container3.appendChild(chartDiv3);
+            numContainer.appendChild(chartDiv3);
             
             const ctx3 = document.getElementById('numChart3').getContext('2d');
             new Chart(ctx3, {
@@ -1851,12 +1844,9 @@
                     }
                 }
             });
-        }
 
 
-        // capital_loss Distribution
-        const container4 = document.getElementById('numericalChartsContainer');
-        if (container4) {
+            // capital_loss Distribution
             const chartDiv4 = document.createElement('div');
             chartDiv4.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Capital Loss Distribution</h3>
@@ -1864,7 +1854,7 @@
                     <canvas id="numChart4"></canvas>
                 </div>
             `;
-            container4.appendChild(chartDiv4);
+            numContainer.appendChild(chartDiv4);
             
             const ctx4 = document.getElementById('numChart4').getContext('2d');
             new Chart(ctx4, {
@@ -1897,12 +1887,9 @@
                     }
                 }
             });
-        }
 
 
-        // hours_per_week Distribution
-        const container5 = document.getElementById('numericalChartsContainer');
-        if (container5) {
+            // hours_per_week Distribution
             const chartDiv5 = document.createElement('div');
             chartDiv5.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Hours Per Week Distribution</h3>
@@ -1910,7 +1897,7 @@
                     <canvas id="numChart5"></canvas>
                 </div>
             `;
-            container5.appendChild(chartDiv5);
+            numContainer.appendChild(chartDiv5);
             
             const ctx5 = document.getElementById('numChart5').getContext('2d');
             new Chart(ctx5, {
@@ -1943,13 +1930,15 @@
                     }
                 }
             });
+
         }
 
 
+        // Categorical Distribution Charts
+        const catContainer = document.getElementById('categoricalChartsContainer');
+        if (catContainer) {
 
-        // workclass Distribution
-        const catContainer0 = document.getElementById('categoricalChartsContainer');
-        if (catContainer0) {
+            // workclass Distribution
             const chartDiv0 = document.createElement('div');
             chartDiv0.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Workclass Distribution</h3>
@@ -1958,7 +1947,7 @@
                     <canvas id="catChart0"></canvas>
                 </div>
             `;
-            catContainer0.appendChild(chartDiv0);
+            catContainer.appendChild(chartDiv0);
             
             const ctx0 = document.getElementById('catChart0').getContext('2d');
             new Chart(ctx0, {
@@ -1994,9 +1983,7 @@
         }
 
 
-        // education Distribution
-        const catContainer1 = document.getElementById('categoricalChartsContainer');
-        if (catContainer1) {
+            // education Distribution
             const chartDiv1 = document.createElement('div');
             chartDiv1.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Education Distribution</h3>
@@ -2005,7 +1992,7 @@
                     <canvas id="catChart1"></canvas>
                 </div>
             `;
-            catContainer1.appendChild(chartDiv1);
+            catContainer.appendChild(chartDiv1);
             
             const ctx1 = document.getElementById('catChart1').getContext('2d');
             new Chart(ctx1, {
@@ -2041,9 +2028,7 @@
         }
 
 
-        // marital_status Distribution
-        const catContainer2 = document.getElementById('categoricalChartsContainer');
-        if (catContainer2) {
+            // marital_status Distribution
             const chartDiv2 = document.createElement('div');
             chartDiv2.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Marital Status Distribution</h3>
@@ -2052,7 +2037,7 @@
                     <canvas id="catChart2"></canvas>
                 </div>
             `;
-            catContainer2.appendChild(chartDiv2);
+            catContainer.appendChild(chartDiv2);
             
             const ctx2 = document.getElementById('catChart2').getContext('2d');
             new Chart(ctx2, {
@@ -2088,9 +2073,7 @@
         }
 
 
-        // occupation Distribution
-        const catContainer3 = document.getElementById('categoricalChartsContainer');
-        if (catContainer3) {
+            // occupation Distribution
             const chartDiv3 = document.createElement('div');
             chartDiv3.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Occupation Distribution</h3>
@@ -2099,7 +2082,7 @@
                     <canvas id="catChart3"></canvas>
                 </div>
             `;
-            catContainer3.appendChild(chartDiv3);
+            catContainer.appendChild(chartDiv3);
             
             const ctx3 = document.getElementById('catChart3').getContext('2d');
             new Chart(ctx3, {
@@ -2135,9 +2118,7 @@
         }
 
 
-        // relationship Distribution
-        const catContainer4 = document.getElementById('categoricalChartsContainer');
-        if (catContainer4) {
+            // relationship Distribution
             const chartDiv4 = document.createElement('div');
             chartDiv4.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Relationship Distribution</h3>
@@ -2146,7 +2127,7 @@
                     <canvas id="catChart4"></canvas>
                 </div>
             `;
-            catContainer4.appendChild(chartDiv4);
+            catContainer.appendChild(chartDiv4);
             
             const ctx4 = document.getElementById('catChart4').getContext('2d');
             new Chart(ctx4, {
@@ -2182,9 +2163,7 @@
         }
 
 
-        // race Distribution
-        const catContainer5 = document.getElementById('categoricalChartsContainer');
-        if (catContainer5) {
+            // race Distribution
             const chartDiv5 = document.createElement('div');
             chartDiv5.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Race Distribution</h3>
@@ -2193,7 +2172,7 @@
                     <canvas id="catChart5"></canvas>
                 </div>
             `;
-            catContainer5.appendChild(chartDiv5);
+            catContainer.appendChild(chartDiv5);
             
             const ctx5 = document.getElementById('catChart5').getContext('2d');
             new Chart(ctx5, {
@@ -2229,9 +2208,7 @@
         }
 
 
-        // sex Distribution
-        const catContainer6 = document.getElementById('categoricalChartsContainer');
-        if (catContainer6) {
+            // sex Distribution
             const chartDiv6 = document.createElement('div');
             chartDiv6.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Sex Distribution</h3>
@@ -2240,7 +2217,7 @@
                     <canvas id="catChart6"></canvas>
                 </div>
             `;
-            catContainer6.appendChild(chartDiv6);
+            catContainer.appendChild(chartDiv6);
             
             const ctx6 = document.getElementById('catChart6').getContext('2d');
             new Chart(ctx6, {
@@ -2276,9 +2253,7 @@
         }
 
 
-        // native_country Distribution
-        const catContainer7 = document.getElementById('categoricalChartsContainer');
-        if (catContainer7) {
+            // native_country Distribution
             const chartDiv7 = document.createElement('div');
             chartDiv7.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Native Country Distribution</h3>
@@ -2287,7 +2262,7 @@
                     <canvas id="catChart7"></canvas>
                 </div>
             `;
-            catContainer7.appendChild(chartDiv7);
+            catContainer.appendChild(chartDiv7);
             
             const ctx7 = document.getElementById('catChart7').getContext('2d');
             new Chart(ctx7, {
@@ -2322,6 +2297,7 @@
             });
         }
 
+        }
 
 
         // Correlation Heatmap
@@ -2393,9 +2369,11 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
 
 
 
-        // workclass vs Target
+        // Target vs Features Charts
         const targetVsContainer = document.getElementById('targetVsFeaturesContainer');
         if (targetVsContainer) {
+
+            // workclass vs Target
             const chartDiv0 = document.createElement('div');
             chartDiv0.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Income by Workclass</h3>
@@ -2448,12 +2426,9 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
                     }
                 }
             });
-        }
 
 
-        // education vs Target
-        const targetVsContainer = document.getElementById('targetVsFeaturesContainer');
-        if (targetVsContainer) {
+            // education vs Target
             const chartDiv1 = document.createElement('div');
             chartDiv1.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Income by Education</h3>
@@ -2506,12 +2481,9 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
                     }
                 }
             });
-        }
 
 
-        // marital_status vs Target
-        const targetVsContainer = document.getElementById('targetVsFeaturesContainer');
-        if (targetVsContainer) {
+            // marital_status vs Target
             const chartDiv2 = document.createElement('div');
             chartDiv2.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Income by Marital Status</h3>
@@ -2564,12 +2536,9 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
                     }
                 }
             });
-        }
 
 
-        // occupation vs Target
-        const targetVsContainer = document.getElementById('targetVsFeaturesContainer');
-        if (targetVsContainer) {
+            // occupation vs Target
             const chartDiv3 = document.createElement('div');
             chartDiv3.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Income by Occupation</h3>
@@ -2622,12 +2591,9 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
                     }
                 }
             });
-        }
 
 
-        // relationship vs Target
-        const targetVsContainer = document.getElementById('targetVsFeaturesContainer');
-        if (targetVsContainer) {
+            // relationship vs Target
             const chartDiv4 = document.createElement('div');
             chartDiv4.innerHTML = `
                 <h3 style="color: #667eea; margin-top: 30px;">Income by Relationship</h3>
@@ -2680,8 +2646,8 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
                     }
                 }
             });
-        }
 
+        }
 </script>
 </body>
 </html>
