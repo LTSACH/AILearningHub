@@ -539,6 +539,67 @@
             font-weight: 600;
             display: inline-block;
         }
+        
+        /* Sample Data Table */
+        .sample-table-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .sample-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.85em;
+        }
+        
+        .sample-data-table thead tr {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .sample-data-table th {
+            padding: 12px 10px;
+            font-weight: 600;
+            text-align: left;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        
+        .sample-data-table td {
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+        }
+        
+        .sample-data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Sample Row Hover Effect */
+        .sample-row {
+            transition: all 0.3s ease;
+        }
+        
+        .sample-row:hover {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 100%);
+            transform: translateX(5px);
+            box-shadow: -4px 0 0 0 #fa709a;
+        }
+        
+        .sample-row:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        .sample-row:nth-child(even):hover {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 100%);
+        }
     
         
         @media (max-width: 768px) {
@@ -1345,38 +1406,164 @@
                 <h2 onclick="toggleSection('samples')" style="cursor: pointer;">📝 Sample Data Rows</h2>
                 <div class="section-content">
 
-                <div class="samples">
-                    <h3><=50K</h3>
-
-                    <div class="sample-text">
-                        <strong>Sample 1:</strong><br><strong>age:</strong> 39<br><strong>workclass:</strong> State-gov<br><strong>fnlwgt:</strong> 77516<br><strong>education:</strong> Bachelors<br><strong>education_num:</strong> 13<br><strong>marital_status:</strong> Never-married<br><strong>occupation:</strong> Adm-clerical<br><strong>relationship:</strong> Not-in-family
+                <div class="sample-table-container">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📊 Samples for: <span style="color: #fa709a;"><=50K</span></h3>
+                    <div style="overflow-x: auto;">
+                        <table class="sample-data-table">
+                            <thead>
+                                <tr>
+                                    <th>age</th>
+                                    <th>workclass</th>
+                                    <th>fnlwgt</th>
+                                    <th>education</th>
+                                    <th>education_num</th>
+                                    <th>marital_status</th>
+                                    <th>occupation</th>
+                                    <th>relationship</th>
+                                    <th>race</th>
+                                    <th>sex</th>
+                                    <th>capital_gain</th>
+                                    <th>capital_loss</th>
+                                    <th>hours_per_week</th>
+                                    <th>native_country</th>
+                                    <th>income</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="sample-row">
+                                    <td>39</td>
+                                    <td>State-gov</td>
+                                    <td>77516</td>
+                                    <td>Bachelors</td>
+                                    <td>13</td>
+                                    <td>Never-married</td>
+                                    <td>Adm-clerical</td>
+                                    <td>Not-in-family</td>
+                                    <td>White</td>
+                                    <td>Male</td>
+                                    <td>2174</td>
+                                    <td>0</td>
+                                    <td>40</td>
+                                    <td>United-States</td>
+                                    <td><=50K</td>
+                                </tr>
+                                <tr class="sample-row">
+                                    <td>50</td>
+                                    <td>Self-emp-not-inc</td>
+                                    <td>83311</td>
+                                    <td>Bachelors</td>
+                                    <td>13</td>
+                                    <td>Married-civ-spouse</td>
+                                    <td>Exec-managerial</td>
+                                    <td>Husband</td>
+                                    <td>White</td>
+                                    <td>Male</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>13</td>
+                                    <td>United-States</td>
+                                    <td><=50K</td>
+                                </tr>
+                                <tr class="sample-row">
+                                    <td>38</td>
+                                    <td>Private</td>
+                                    <td>215646</td>
+                                    <td>HS-grad</td>
+                                    <td>9</td>
+                                    <td>Divorced</td>
+                                    <td>Handlers-cleaners</td>
+                                    <td>Not-in-family</td>
+                                    <td>White</td>
+                                    <td>Male</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>40</td>
+                                    <td>United-States</td>
+                                    <td><=50K</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="sample-text">
-                        <strong>Sample 2:</strong><br><strong>age:</strong> 50<br><strong>workclass:</strong> Self-emp-not-inc<br><strong>fnlwgt:</strong> 83311<br><strong>education:</strong> Bachelors<br><strong>education_num:</strong> 13<br><strong>marital_status:</strong> Married-civ-spouse<br><strong>occupation:</strong> Exec-managerial<br><strong>relationship:</strong> Husband
-                    </div>
-
-                    <div class="sample-text">
-                        <strong>Sample 3:</strong><br><strong>age:</strong> 38<br><strong>workclass:</strong> Private<br><strong>fnlwgt:</strong> 215646<br><strong>education:</strong> HS-grad<br><strong>education_num:</strong> 9<br><strong>marital_status:</strong> Divorced<br><strong>occupation:</strong> Handlers-cleaners<br><strong>relationship:</strong> Not-in-family
-                    </div>
-
                 </div>
 
-                <div class="samples">
-                    <h3>>50K</h3>
-
-                    <div class="sample-text">
-                        <strong>Sample 1:</strong><br><strong>age:</strong> 52<br><strong>workclass:</strong> Self-emp-not-inc<br><strong>fnlwgt:</strong> 209642<br><strong>education:</strong> HS-grad<br><strong>education_num:</strong> 9<br><strong>marital_status:</strong> Married-civ-spouse<br><strong>occupation:</strong> Exec-managerial<br><strong>relationship:</strong> Husband
+                <div class="sample-table-container">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📊 Samples for: <span style="color: #fa709a;">>50K</span></h3>
+                    <div style="overflow-x: auto;">
+                        <table class="sample-data-table">
+                            <thead>
+                                <tr>
+                                    <th>age</th>
+                                    <th>workclass</th>
+                                    <th>fnlwgt</th>
+                                    <th>education</th>
+                                    <th>education_num</th>
+                                    <th>marital_status</th>
+                                    <th>occupation</th>
+                                    <th>relationship</th>
+                                    <th>race</th>
+                                    <th>sex</th>
+                                    <th>capital_gain</th>
+                                    <th>capital_loss</th>
+                                    <th>hours_per_week</th>
+                                    <th>native_country</th>
+                                    <th>income</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="sample-row">
+                                    <td>52</td>
+                                    <td>Self-emp-not-inc</td>
+                                    <td>209642</td>
+                                    <td>HS-grad</td>
+                                    <td>9</td>
+                                    <td>Married-civ-spouse</td>
+                                    <td>Exec-managerial</td>
+                                    <td>Husband</td>
+                                    <td>White</td>
+                                    <td>Male</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>45</td>
+                                    <td>United-States</td>
+                                    <td>>50K</td>
+                                </tr>
+                                <tr class="sample-row">
+                                    <td>31</td>
+                                    <td>Private</td>
+                                    <td>45781</td>
+                                    <td>Masters</td>
+                                    <td>14</td>
+                                    <td>Never-married</td>
+                                    <td>Prof-specialty</td>
+                                    <td>Not-in-family</td>
+                                    <td>White</td>
+                                    <td>Female</td>
+                                    <td>14084</td>
+                                    <td>0</td>
+                                    <td>50</td>
+                                    <td>United-States</td>
+                                    <td>>50K</td>
+                                </tr>
+                                <tr class="sample-row">
+                                    <td>42</td>
+                                    <td>Private</td>
+                                    <td>159449</td>
+                                    <td>Bachelors</td>
+                                    <td>13</td>
+                                    <td>Married-civ-spouse</td>
+                                    <td>Exec-managerial</td>
+                                    <td>Husband</td>
+                                    <td>White</td>
+                                    <td>Male</td>
+                                    <td>5178</td>
+                                    <td>0</td>
+                                    <td>40</td>
+                                    <td>United-States</td>
+                                    <td>>50K</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="sample-text">
-                        <strong>Sample 2:</strong><br><strong>age:</strong> 31<br><strong>workclass:</strong> Private<br><strong>fnlwgt:</strong> 45781<br><strong>education:</strong> Masters<br><strong>education_num:</strong> 14<br><strong>marital_status:</strong> Never-married<br><strong>occupation:</strong> Prof-specialty<br><strong>relationship:</strong> Not-in-family
-                    </div>
-
-                    <div class="sample-text">
-                        <strong>Sample 3:</strong><br><strong>age:</strong> 42<br><strong>workclass:</strong> Private<br><strong>fnlwgt:</strong> 159449<br><strong>education:</strong> Bachelors<br><strong>education_num:</strong> 13<br><strong>marital_status:</strong> Married-civ-spouse<br><strong>occupation:</strong> Exec-managerial<br><strong>relationship:</strong> Husband
-                    </div>
-
                 </div>
 
                 </div>
