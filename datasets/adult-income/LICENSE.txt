@@ -1,0 +1,217 @@
+Adult Income Dataset - License Information
+
+================================================================================
+SOURCE & ATTRIBUTION
+================================================================================
+
+Original Source: UCI Machine Learning Repository
+Dataset URL: https://archive.ics.uci.edu/ml/datasets/adult
+Maintainer: UCI Machine Learning Repository
+
+Original Authors:
+  - Ron Kohavi (Data Mining and Visualization, Silicon Graphics)
+  - Barry Becker (Data Mining and Visualization, Silicon Graphics)
+  - Email: ronnyk@sgi.com
+
+Data Source: United States Census Bureau
+Census Year: 1994
+Extraction Date: 1996
+
+================================================================================
+LICENSE
+================================================================================
+
+This dataset is licensed under:
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Full License Text: https://creativecommons.org/licenses/by/4.0/
+Legal Code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+================================================================================
+PERMISSIONS
+================================================================================
+
+You are free to:
+
+  ✓ Share — copy and redistribute the material in any medium or format
+  ✓ Adapt — remix, transform, and build upon the material
+            for any purpose, even commercially
+
+Under the following terms:
+
+  • Attribution — You must give appropriate credit, provide a link to the 
+    license, and indicate if changes were made. You may do so in any 
+    reasonable manner, but not in any way that suggests the licensor 
+    endorses you or your use.
+
+  • No additional restrictions — You may not apply legal terms or 
+    technological measures that legally restrict others from doing anything 
+    the license permits.
+
+================================================================================
+ATTRIBUTION REQUIREMENT
+================================================================================
+
+When using this dataset, please provide attribution as follows:
+
+Text Citation:
+```
+Ron Kohavi and Barry Becker
+Adult Income Dataset
+UCI Machine Learning Repository, 1996
+https://archive.ics.uci.edu/ml/datasets/adult
+```
+
+BibTeX Format:
+```
+@misc{kohavi1996adult,
+  author = {Kohavi, Ron and Becker, Barry},
+  title = {Adult Income Dataset},
+  year = {1996},
+  publisher = {UCI Machine Learning Repository},
+  url = {https://archive.ics.uci.edu/ml/datasets/adult}
+}
+```
+
+Original Paper:
+```
+@inproceedings{kohavi1996scaling,
+  title={Scaling Up the Accuracy of Naive-Bayes Classifiers: A Decision-Tree Hybrid},
+  author={Kohavi, Ron},
+  booktitle={Proceedings of the Second International Conference on 
+             Knowledge Discovery and Data Mining (KDD-96)},
+  pages={202--207},
+  year={1996},
+  publisher={AAAI Press}
+}
+```
+
+================================================================================
+DATASET INFORMATION
+================================================================================
+
+Extraction Method:
+  The data was extracted from the 1994 Census database using the following 
+  conditions:
+  ((AAGE>16) && (AGI>100) && (AFNLWGT>1) && (HRSWK>0))
+
+Prediction Task:
+  Determine whether a person makes over $50,000 per year.
+
+Dataset Statistics:
+  - Total instances: 48,842
+  - Training set: 32,561 samples
+  - Test set: 16,281 samples
+  - Features: 14 (6 numerical + 8 categorical)
+  - Target: Binary classification (<=50K, >50K)
+
+Missing Data:
+  - Total instances with unknown values: 3,620
+  - Instances without unknown values: 45,222
+  - Duplicate or conflicting instances: 6
+
+Class Distribution:
+  - Probability for '>50K': 23.93% / 24.78% (without unknowns)
+  - Probability for '<=50K': 76.07% / 75.22% (without unknowns)
+
+================================================================================
+DATA PREPROCESSING (THIS REPOSITORY)
+================================================================================
+
+The CSV files in this repository have been preprocessed for convenience:
+
+Changes Applied:
+  1. Added column names (original data has no headers)
+  2. Replaced '?' with NaN for missing values
+  3. Removed extra whitespace from all string columns
+  4. Standardized target labels (removed trailing '.' from test set)
+  5. Converted to standard CSV format
+
+Original Data Format:
+  - No column headers
+  - Missing values encoded as ' ?'
+  - Extra whitespace after commas
+  - Test set has '<=50K.' and '>50K.' (with dots)
+
+Preprocessing Script:
+  Available in the project repository at:
+  adult_income/scripts/preprocessing/prepare_data.py
+
+================================================================================
+ETHICAL CONSIDERATIONS
+================================================================================
+
+Important Notes:
+  ⚠️ This dataset contains sensitive demographic attributes (sex, race, 
+     native country) from 1994 US Census data.
+  
+  ⚠️ Historical bias: The data reflects societal conditions and biases 
+     from 1994, which may not represent current demographics or economics.
+  
+  ⚠️ Use responsibly: This dataset should be used for educational and 
+     research purposes with awareness of potential biases.
+  
+  ⚠️ Fairness considerations: When building models, consider fairness 
+     metrics beyond accuracy, especially regarding protected attributes.
+
+Recommended Practices:
+  - Analyze bias in model predictions across demographic groups
+  - Use fairness-aware machine learning techniques
+  - Consider ethical implications of income prediction models
+  - Document limitations and potential biases in your work
+
+================================================================================
+DISCLAIMER
+================================================================================
+
+This dataset is provided "as is" without warranty of any kind, express or 
+implied. The data has been extracted and processed for educational purposes. 
+While efforts have been made to ensure accuracy, no guarantees are made 
+regarding completeness, accuracy, or fitness for any particular purpose.
+
+The inclusion of demographic attributes is for research and educational 
+purposes only. Users must comply with all applicable laws and regulations 
+regarding data privacy and anti-discrimination when using this dataset.
+
+================================================================================
+CITATION INFORMATION
+================================================================================
+
+If you publish results using this dataset, please cite both:
+
+1. The original dataset:
+   Kohavi, R. & Becker, B. (1996). Adult Income Dataset. UCI Machine 
+   Learning Repository. https://archive.ics.uci.edu/ml/datasets/adult
+
+2. The original paper (if applicable):
+   Kohavi, R. (1996). Scaling Up the Accuracy of Naive-Bayes Classifiers: 
+   A Decision-Tree Hybrid. In Proceedings of KDD-96, pages 202-207.
+
+================================================================================
+VERSION HISTORY
+================================================================================
+
+- v1.0 (January 2025): Initial release
+  - Preprocessed CSV files with headers
+  - Cleaned missing value encoding
+  - Standardized format for easy use
+  - Comprehensive documentation
+
+================================================================================
+CONTACT & SUPPORT
+================================================================================
+
+For questions about this dataset:
+  - UCI ML Repository: https://archive.ics.uci.edu/ml/
+  - This repository: https://github.com/LTSACH/AILearningHub
+
+For questions about the preprocessing:
+  - See adult_income/scripts/preprocessing/prepare_data.py
+  - GitHub Issues: https://github.com/LTSACH/AILearningHub/issues
+
+================================================================================
+
+Last Updated: January 2025
+Repository: https://github.com/LTSACH/AILearningHub
+Hosted by: AI Learning Hub
+

@@ -1,0 +1,66 @@
+================================================================================
+ADULT INCOME DATASET - INFORMATION
+================================================================================
+
+SOURCE
+--------------------------------------------------------------------------------
+UCI Machine Learning Repository
+https://archive.ics.uci.edu/ml/datasets/adult
+
+DATASET SIZE
+--------------------------------------------------------------------------------
+Training set: 32,561 samples
+Test set:     16,281 samples
+Total:        48,842 samples
+
+FEATURES
+--------------------------------------------------------------------------------
+Total columns: 15
+
+ 1. age                  [int64]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+ 2. workclass            [object]
+    Missing - Train:  1836 ( 5.64%)  Test:   963 ( 5.91%)
+ 3. fnlwgt               [int64]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+ 4. education            [object]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+ 5. education_num        [int64]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+ 6. marital_status       [object]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+ 7. occupation           [object]
+    Missing - Train:  1843 ( 5.66%)  Test:   966 ( 5.93%)
+ 8. relationship         [object]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+ 9. race                 [object]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+10. sex                  [object]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+11. capital_gain         [int64]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+12. capital_loss         [int64]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+13. hours_per_week       [int64]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+14. native_country       [object]
+    Missing - Train:   583 ( 1.79%)  Test:   274 ( 1.68%)
+15. income               [object]
+    Missing - Train:     0 ( 0.00%)  Test:     0 ( 0.00%)
+
+TARGET DISTRIBUTION
+--------------------------------------------------------------------------------
+Training set:
+  <=50K     : 24,720 (75.92%)
+  >50K      :  7,841 (24.08%)
+
+Test set:
+  <=50K     : 12,435 (76.38%)
+  >50K      :  3,846 (23.62%)
+
+MISSING VALUES SUMMARY
+--------------------------------------------------------------------------------
+Columns with missing values:
+  - workclass           : Train  1836, Test   963
+  - occupation          : Train  1843, Test   966
+  - native_country      : Train   583, Test   274
