@@ -1594,6 +1594,12 @@
 <script>
 // ===== Chart Generation =====
 
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Wait for DOM to be fully loaded before creating charts
+
+    
+
 
         // Target Distribution Chart
         const targetCtx = document.getElementById('targetChart');
@@ -2640,6 +2646,8 @@ var matrix = [[1.0, -0.07664586787504064, 0.036527189464106324, 0.07767449816599
             });
 
         }
+
+});  // End DOMContentLoaded
 </script>
 </body>
 </html>

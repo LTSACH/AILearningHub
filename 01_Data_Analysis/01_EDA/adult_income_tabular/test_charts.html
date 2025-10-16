@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <h1>Test Categorical Charts</h1>
+    <div id="categoricalChartsContainer" style="background: #f0f0f0; padding: 20px;"></div>
+    
+    <h1 style="margin-top: 40px;">Test Correlation Heatmap</h1>
+    <div id="correlationHeatmap" style="width:100%; height:600px; background: #f0f0f0;"></div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM Content Loaded');
+        
+        // Test Categorical Chart
+        const catContainer = document.getElementById('categoricalChartsContainer');
+        console.log('catContainer:', catContainer);
+        
+        if (catContainer) {
+            const chartDiv = document.createElement('div');
+            chartDiv.innerHTML = `
+                <h3>Test Workclass Distribution</h3>
+                <div style="height: 400px; margin-bottom: 20px;">
+                    <canvas id="testChart"></canvas>
+                </div>
+            `;
+            catContainer.appendChild(chartDiv);
+            
+            const ctx = document.getElementById('testChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Private", "Self-emp", "Local-gov"],
+                    datasets: [{
+                        label: 'Count',
+                        data: [22696, 2541, 2093],
+                        backgroundColor: '#667eea',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y'
+                }
+            });
+            console.log('✅ Categorical chart created');
+        } else {
+            console.error('❌ catContainer not found!');
+        }
+        
+        // Test Correlation Heatmap
+        const corrDiv = document.getElementById('correlationHeatmap');
+        console.log('corrDiv:', corrDiv);
+        
+        if (corrDiv) {
+            var features = ["age", "education_num", "hours"];
+            var matrix = [[1.0, 0.15, 0.07], [0.15, 1.0, 0.15], [0.07, 0.15, 1.0]];
+            
+            var heatmapData = [{
+                z: matrix,
+                x: features,
+                y: features,
+                type: 'heatmap',
+                colorscale: 'RdBu_r'
+            }];
+            
+            var layout = {
+                title: 'Test Correlation Matrix',
+                width: 600,
+                height: 600
+            };
+            
+            Plotly.newPlot('correlationHeatmap', heatmapData, layout);
+            console.log('✅ Correlation heatmap created');
+        } else {
+            console.error('❌ corrDiv not found!');
+        }
+    });
+    </script>
+</body>
+</html>
+
