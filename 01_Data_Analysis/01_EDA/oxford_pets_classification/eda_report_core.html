@@ -34903,16 +34903,17 @@
       },
       "colors": {
         "rgb_means": {
-          "r": 123.51455744638724,
-          "g": 114.08051856891356,
-          "b": 97.10148834250889
+          "r": 120.50979428681686,
+          "g": 110.77697478905458,
+          "b": 98.70196672150644
         },
         "rgb_stds": {
-          "r": 56.528763637332844,
-          "g": 54.50471352638977,
-          "b": 54.89028284691708
+          "r": 58.79835904080548,
+          "g": 56.89202608159301,
+          "b": 56.7103490806817
         }
-      }
+      },
+      "num_images": 7349
     };
     
     </script>
@@ -35522,9 +35523,7 @@
         
         // Update overview section with stats
         function updateOverviewStats() {
-            console.log('🔍 Updating overview stats...');
             const stats = window.CORE_STATS || {};
-            console.log('📊 Stats available:', !!stats.dimensions);
             
             if (stats.dimensions) {
                 const dimStats = stats.dimensions.stats;
@@ -35533,32 +35532,19 @@
                 const totalSpeciesEl = document.getElementById('total-species');
                 const datasetSizeEl = document.getElementById('dataset-size');
                 
-                console.log('🎯 Elements found:', {
-                    totalImages: !!totalImagesEl,
-                    totalBreeds: !!totalBreedsEl,
-                    totalSpecies: !!totalSpeciesEl,
-                    datasetSize: !!datasetSizeEl
-                });
-                
                 if (totalImagesEl) {
                     totalImagesEl.textContent = stats.num_images || '-';
-                    console.log('✅ Updated total-images:', stats.num_images);
                 }
                 if (totalBreedsEl) {
                     totalBreedsEl.textContent = '37';
-                    console.log('✅ Updated total-breeds: 37');
                 }
                 if (totalSpeciesEl) {
                     totalSpeciesEl.textContent = '2';
-                    console.log('✅ Updated total-species: 2');
                 }
                 if (datasetSizeEl) {
                     const size = stats.file_sizes ? `${(stats.file_sizes.stats.total_mb || 0).toFixed(1)} MB` : '-';
                     datasetSizeEl.textContent = size;
-                    console.log('✅ Updated dataset-size:', size);
                 }
-            } else {
-                console.log('❌ No stats.dimensions found');
             }
         }
         
