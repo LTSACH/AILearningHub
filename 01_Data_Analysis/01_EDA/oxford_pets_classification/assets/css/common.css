@@ -614,6 +614,15 @@ tr:hover {
   font-weight: 600;
 }
 
+/* Gallery sections */
+.gallery-section {
+  margin-bottom: 3rem;
+}
+
+.gallery-section:last-child {
+  margin-bottom: 0;
+}
+
 /* Responsive image gallery */
 @media (max-width: 768px) {
   .image-gallery {
