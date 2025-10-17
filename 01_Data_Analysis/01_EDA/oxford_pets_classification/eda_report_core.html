@@ -12,12 +12,17 @@
     <!-- Scripts (head) -->
     
             <style>
-            .section {
-                margin-bottom: 3px !important;
-                border: 1px solid #e0e0e0;
-                border-radius: 8px;
-                overflow: hidden;
-            }
+                .section {
+                    margin-bottom: 3px !important;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+                
+                .section.collapsed {
+                    border: none !important;
+                    margin-bottom: 1px !important;
+                }
             
             .section h2 {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -34903,14 +34908,14 @@
       },
       "colors": {
         "rgb_means": {
-          "r": 124.88066856097065,
-          "g": 112.15647144802985,
-          "b": 96.50678993894688
+          "r": 119.99176242236419,
+          "g": 113.3647770442763,
+          "b": 101.98149986368806
         },
         "rgb_stds": {
-          "r": 59.76283932647499,
-          "g": 58.96577090315271,
-          "b": 59.44548229252038
+          "r": 58.49267850960999,
+          "g": 56.586581515962905,
+          "b": 56.96881376875019
         }
       },
       "num_images": 7349
@@ -35407,49 +35412,53 @@
     <!-- Scripts (footer) -->
     
             <script>
-            function toggleSection(sectionId) {
-                const section = document.getElementById(sectionId);
-                if (!section) return;
-                
-                const header = section.querySelector('h2');
-                const content = section.querySelector('.section-content');
-                
-                if (header && content) {
-                    const isCollapsed = header.classList.contains('collapsed');
+                function toggleSection(sectionId) {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
                     
-                    if (isCollapsed) {
-                        header.classList.remove('collapsed');
-                        content.classList.remove('collapsed');
-                    } else {
-                        header.classList.add('collapsed');
-                        content.classList.add('collapsed');
+                    const header = section.querySelector('h2');
+                    const content = section.querySelector('.section-content');
+                    
+                    if (header && content) {
+                        const isCollapsed = header.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        } else {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
                     }
                 }
-            }
             
-            function collapseAll() {
-                document.querySelectorAll('.section').forEach(section => {
-                    const header = section.querySelector('h2');
-                    const content = section.querySelector('.section-content');
-                    
-                    if (header && content) {
-                        header.classList.add('collapsed');
-                        content.classList.add('collapsed');
-                    }
-                });
-            }
-            
-            function expandAll() {
-                document.querySelectorAll('.section').forEach(section => {
-                    const header = section.querySelector('h2');
-                    const content = section.querySelector('.section-content');
-                    
-                    if (header && content) {
-                        header.classList.remove('collapsed');
-                        content.classList.remove('collapsed');
-                    }
-                });
-            }
+                function collapseAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    });
+                }
+                
+                function expandAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        }
+                    });
+                }
             
             // Add control buttons and ensure sections are expanded by default
             document.addEventListener('DOMContentLoaded', function() {
