@@ -34903,14 +34903,14 @@
       },
       "colors": {
         "rgb_means": {
-          "r": 118.51068859658386,
-          "g": 111.05004544528214,
-          "b": 98.42759470851715
+          "r": 121.13303473291612,
+          "g": 112.63166203878355,
+          "b": 100.83816232090858
         },
         "rgb_stds": {
-          "r": 58.64380324961085,
-          "g": 58.34674849385848,
-          "b": 59.06969883598855
+          "r": 62.0193508602808,
+          "g": 60.80721841381865,
+          "b": 60.74448142250114
         }
       }
     };
@@ -35450,8 +35450,11 @@
                 });
             }
             
-            // Add control buttons
+            // Add control buttons and ensure sections are expanded by default
             document.addEventListener('DOMContentLoaded', function() {
+                // Ensure all sections are expanded by default
+                expandAll();
+                
                 const controls = document.createElement('div');
                 controls.className = 'section-controls';
                 controls.innerHTML = `

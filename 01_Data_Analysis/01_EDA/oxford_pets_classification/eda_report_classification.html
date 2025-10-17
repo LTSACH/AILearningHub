@@ -4939,8 +4939,11 @@
                 });
             }
             
-            // Add control buttons
+            // Add control buttons and ensure sections are expanded by default
             document.addEventListener('DOMContentLoaded', function() {
+                // Ensure all sections are expanded by default
+                expandAll();
+                
                 const controls = document.createElement('div');
                 controls.className = 'section-controls';
                 controls.innerHTML = `
