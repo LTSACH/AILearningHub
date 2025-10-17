@@ -3732,19 +3732,20 @@
                 const bbox = parseBboxLabel(imgData.bbox_label);
 
                 if (bbox) {
-                    html += `
-                    <div class="image-item" style="position: relative;">
-                        <canvas class="detection-canvas" 
-                                data-src="${imgPath}" 
-                                data-bbox="${JSON.stringify(bbox)}"
-                                style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;">
-                        </canvas>
-                        <div class="image-caption">
-                            <div style="font-weight: 600;">${breed.replace(/_/g, ' ')}</div>
-                            <div style="font-size: 0.85rem; opacity: 0.8;">Bbox: ${(bbox.width * bbox.height * 100).toFixed(1)}% area</div>
-                        </div>
-                    </div>
-                    `;
+                    const bboxStr = bbox.x_center + ',' + bbox.y_center + ',' + bbox.width + ',' + bbox.height;
+                    const areaPercent = (bbox.width * bbox.height * 100).toFixed(1);
+
+                    html += '<div class="image-item" style="position: relative;">' +
+                            '<canvas class="detection-canvas" ' +
+                            'data-src="' + imgPath + '" ' +
+                            'data-bbox="' + bboxStr + '" ' +
+                            'style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;">' +
+                            '</canvas>' +
+                            '<div class="image-caption">' +
+                            '<div style="font-weight: 600;">' + breed.replace(/_/g, ' ') + '</div>' +
+                            '<div style="font-size: 0.85rem; opacity: 0.8;">Bbox: ' + areaPercent + '% area</div>' +
+                            '</div>' +
+                            '</div>';
                 }
             });
         });
@@ -3754,7 +3755,16 @@
         // Load images and draw bboxes
         grid.querySelectorAll('.detection-canvas').forEach(canvas => {
             const img = new Image();
-            const bbox = JSON.parse(canvas.dataset.bbox);
+            const bboxStr = canvas.dataset.bbox;
+
+            // Parse bbox from comma-separated string
+            const parts = bboxStr.split(',');
+            const bbox = {
+                x_center: parseFloat(parts[0]),
+                y_center: parseFloat(parts[1]),
+                width: parseFloat(parts[2]),
+                height: parseFloat(parts[3])
+            };
 
             img.onload = function() {
                 drawBboxOnCanvas(canvas, img, bbox);

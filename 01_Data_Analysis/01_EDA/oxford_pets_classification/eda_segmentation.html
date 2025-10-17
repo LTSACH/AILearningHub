@@ -1102,19 +1102,20 @@
 
                 if (polygon) {
                     const numPoints = polygon.polygon.length;
-                    html += `
-                    <div class="image-item" style="position: relative;">
-                        <canvas class="segmentation-canvas" 
-                                data-src="${imgPath}" 
-                                data-polygon="${JSON.stringify(polygon)}"
-                                style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;">
-                        </canvas>
-                        <div class="image-caption">
-                            <div style="font-weight: 600;">${breed.replace(/_/g, ' ')}</div>
-                            <div style="font-size: 0.85rem; opacity: 0.8;">Polygon: ${numPoints} points</div>
-                        </div>
-                    </div>
-                    `;
+                    // Encode polygon as comma-separated string: x1,y1,x2,y2,...
+                    const polygonStr = polygon.polygon.map(p => p.x + ',' + p.y).join(',');
+
+                    html += '<div class="image-item" style="position: relative;">' +
+                            '<canvas class="segmentation-canvas" ' +
+                            'data-src="' + imgPath + '" ' +
+                            'data-polygon="' + polygonStr + '" ' +
+                            'style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;">' +
+                            '</canvas>' +
+                            '<div class="image-caption">' +
+                            '<div style="font-weight: 600;">' + breed.replace(/_/g, ' ') + '</div>' +
+                            '<div style="font-size: 0.85rem; opacity: 0.8;">Polygon: ' + numPoints + ' points</div>' +
+                            '</div>' +
+                            '</div>';
                 }
             });
         });
@@ -1124,7 +1125,23 @@
         // Load images and draw polygons
         grid.querySelectorAll('.segmentation-canvas').forEach(canvas => {
             const img = new Image();
-            const polygon = JSON.parse(canvas.dataset.polygon);
+            const polygonStr = canvas.dataset.polygon;
+
+            // Parse polygon from comma-separated string: x1,y1,x2,y2,...
+            const coords = polygonStr.split(',').map(parseFloat);
+            const polygon = {
+                class_id: 0,
+                polygon: []
+            };
+
+            for (let i = 0; i < coords.length; i += 2) {
+                if (i + 1 < coords.length) {
+                    polygon.polygon.push({
+                        x: coords[i],
+                        y: coords[i + 1]
+                    });
+                }
+            }
 
             img.onload = function() {
                 drawPolygonOnCanvas(canvas, img, polygon);
