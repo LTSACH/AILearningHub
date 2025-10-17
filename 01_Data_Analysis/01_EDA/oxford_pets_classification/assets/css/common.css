@@ -834,9 +834,15 @@ tr:hover {
     }
 
     .breed-images {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      display: flex;
+      flex-wrap: wrap;
       gap: 1rem;
+      justify-content: flex-start;
+    }
+
+    .breed-images .image-item {
+      flex: 0 0 calc(25% - 0.75rem);
+      min-width: 200px;
     }
 
     .interactive-gallery .image-item {
@@ -933,9 +939,9 @@ tr:hover {
         text-align: center;
       }
 
-      .breed-images {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
+      .breed-images .image-item {
+        flex: 0 0 calc(50% - 0.5rem);
+        min-width: 150px;
       }
 
       .breed-row {
@@ -952,9 +958,9 @@ tr:hover {
         grid-template-columns: 1fr;
       }
 
-      .breed-images {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
+      .breed-images .image-item {
+        flex: 0 0 calc(100% - 0.5rem);
+        min-width: 100%;
       }
 
       .species-section {
