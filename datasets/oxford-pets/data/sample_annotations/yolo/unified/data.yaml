@@ -1,0 +1,24 @@
+# Oxford-IIIT Pets - Unified (YOLO format)
+# Sample dataset: 370 images, Detection + Segmentation
+
+# Dataset paths
+path: /workspace/AI/AITraining/oxford_pets_classification/../github-sync/datasets/oxford-pets/data/sample_images
+train: cats
+val: dogs
+
+# Classes
+names:
+  0: pet
+
+nc: 1
+task: segment
+
+# Note: Labels in ../sample_annotations/yolo/unified/labels/
+# Format: <class> <x_center> <y_center> <width> <height> <x1> <y1> ... <xn> <yn>
+# First 5 values: bbox, Remaining: polygon
+
+# Training example:
+#   from ultralytics import YOLO
+#   model = YOLO('yolov8n-seg.pt')  # Segmentation model
+#   model.train(data='data.yaml', epochs=100, imgsz=640)
+#   # Model uses both bbox and polygon for better performance

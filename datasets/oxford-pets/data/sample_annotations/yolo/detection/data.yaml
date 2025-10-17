@@ -1,0 +1,22 @@
+# Oxford-IIIT Pets - Detection (YOLO format)
+# Sample dataset: 370 images, 1 class (pet head)
+
+# Dataset paths
+path: /workspace/AI/AITraining/oxford_pets_classification/../github-sync/datasets/oxford-pets/data/sample_images
+train: cats  # All cats images
+val: dogs    # All dogs images (or use custom train.txt)
+
+# Classes
+names:
+  0: pet
+
+nc: 1
+task: detect
+
+# Note: Labels in ../sample_annotations/yolo/detection/labels/
+# Each label file: <class> <x_center> <y_center> <width> <height>
+
+# Training example:
+#   from ultralytics import YOLO
+#   model = YOLO('yolov8n.pt')
+#   model.train(data='data.yaml', epochs=100, imgsz=640)

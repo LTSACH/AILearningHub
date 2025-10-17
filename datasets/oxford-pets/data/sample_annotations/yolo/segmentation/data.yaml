@@ -1,0 +1,22 @@
+# Oxford-IIIT Pets - Segmentation (YOLO format)
+# Sample dataset: 370 images, 1 class (pet foreground)
+
+# Dataset paths
+path: /workspace/AI/AITraining/oxford_pets_classification/../github-sync/datasets/oxford-pets/data/sample_images
+train: cats
+val: dogs
+
+# Classes
+names:
+  0: pet
+
+nc: 1
+task: segment
+
+# Note: Labels in ../sample_annotations/yolo/segmentation/labels/
+# Each label file: <class> <x1> <y1> <x2> <y2> ... <xn> <yn>
+
+# Training example:
+#   from ultralytics import YOLO
+#   model = YOLO('yolov8n-seg.pt')
+#   model.train(data='data.yaml', epochs=100, imgsz=640)
