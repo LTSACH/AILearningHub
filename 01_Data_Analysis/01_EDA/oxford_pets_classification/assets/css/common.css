@@ -580,10 +580,14 @@ tr:hover {
   transform: translateY(100%);
   transition: transform 0.3s ease;
   backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
 }
 
 .image-item:hover .image-overlay {
   transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .image-caption {
