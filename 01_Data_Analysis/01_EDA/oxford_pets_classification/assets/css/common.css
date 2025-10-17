@@ -760,13 +760,83 @@ tr:hover {
       font-weight: 600;
     }
 
+    /* Collapsible panels */
+    .collapsible-content {
+      margin-top: 1rem;
+    }
+
+    .collapsible-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .collapsible-btn:hover {
+      background: #2980b9;
+      transform: translateY(-1px);
+    }
+
+    .collapsible-icon {
+      font-size: 0.8rem;
+      transition: transform 0.2s ease;
+    }
+
+    .collapsible-text {
+      flex: 1;
+      text-align: left;
+    }
+
+    .collapsible-panel {
+      display: none; /* Hidden by default */
+      transition: all 0.3s ease;
+    }
+
+    .collapsible-panel.show {
+      display: grid;
+    }
+
     /* Interactive image grid */
     .interactive-gallery .image-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
       transition: all 0.3s ease;
       min-height: 200px;
+    }
+
+    /* Breed rows */
+    .breed-row {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e9ecef;
+    }
+
+    .breed-row-title {
+      margin: 0 0 1rem 0;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #3498db;
+    }
+
+    .breed-images {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
     }
 
     .interactive-gallery .image-item {
@@ -863,9 +933,17 @@ tr:hover {
         text-align: center;
       }
 
-      .interactive-gallery .image-grid {
+      .breed-images {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
+      }
+
+      .breed-row {
+        padding: 1rem;
+      }
+
+      .breed-row-title {
+        font-size: 1rem;
       }
     }
 
@@ -874,7 +952,7 @@ tr:hover {
         grid-template-columns: 1fr;
       }
 
-      .interactive-gallery .image-grid {
+      .breed-images {
         grid-template-columns: 1fr;
         gap: 0.5rem;
       }
@@ -885,6 +963,14 @@ tr:hover {
 
       .breed-selector {
         padding: 1rem;
+      }
+
+      .breed-row {
+        padding: 0.75rem;
+      }
+
+      .breed-row-title {
+        font-size: 0.9rem;
       }
     }
 
