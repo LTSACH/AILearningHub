@@ -4359,13 +4359,13 @@
       </div>
     </nav>
 
-    <section class="section">
+    <section class="section" id="section-overview">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Classification Overview</h2>
-      <p class="section-description">37-class fine-grained breed classification task</p>
-    </div>
-        <div class="stat-cards">
+        <h2 class="section-title" onclick="toggleSection('section-overview')">Classification Overview</h2>
+        <p class="section-description">37-class fine-grained breed classification task</p>
+
+        <div class="section-content">
+          <div class="stat-cards">
         <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
       <h3>2,941</h3>
       <p>Total Images</p>
@@ -4387,39 +4387,39 @@
       <p style="font-size: 0.875rem; margin-top: 0.5rem;">cat images</p>
     </div>
     </div>
+        </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="section-distribution">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Class Distribution</h2>
-      <p class="section-description">Analysis of breed distribution and class balance</p>
-    </div>
+        <h2 class="section-title" onclick="toggleSection('section-distribution')">Class Distribution</h2>
+        <p class="section-description">Analysis of breed distribution and class balance</p>
 
-        <div class="grid grid-2">
-          <div>
-            <div class="chart-container">
+        <div class="section-content">
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
       <h3 class="chart-title">Breed Distribution</h3>
       <div class="chart-wrapper" style="height: 450px;">
         <canvas id="class-dist-bar"></canvas>
       </div>
 
     </div>
-          </div>
-          <div>
-            <div class="chart-container">
+            </div>
+            <div>
+              <div class="chart-container">
       <h3 class="chart-title">Species Distribution</h3>
       <div class="chart-wrapper" style="height: 450px;">
         <canvas id="species-pie"></canvas>
       </div>
 
     </div>
+            </div>
           </div>
-        </div>
 
-        <div style="margin-top: 30px;">
-          <div class="card">
+          <div style="margin-top: 30px;">
+            <div class="card">
       <h3>Class Balance Analysis</h3>
       <div style="margin-top: 15px;">
         <div style="display: flex; justify-content: space-between; padding: 10px; background: #10b98115; border-left: 4px solid #10b981; border-radius: 4px; margin-bottom: 15px;">
@@ -4447,80 +4447,80 @@
         </table>
       </div>
     </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="section-hierarchy">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Hierarchical Structure</h2>
-      <p class="section-description">Two-level hierarchy: Species (Cat/Dog) → Breeds</p>
-    </div>
+        <h2 class="section-title" onclick="toggleSection('section-hierarchy')">Hierarchical Structure</h2>
+        <p class="section-description">Two-level hierarchy: Species (Cat/Dog) → Breeds</p>
 
-        <div class="card">
-          <h3>Species → Breeds Tree</h3>
-          <div id="hierarchy-tree" style="min-height: 400px; margin-top: 20px;"></div>
-          <p class="text-center text-muted" style="margin-top: 15px;">
-            Interactive tree visualization (D3.js)
-          </p>
+        <div class="section-content">
+          <div class="card">
+            <h3>Species → Breeds Tree</h3>
+            <div id="hierarchy-tree" style="min-height: 400px; margin-top: 20px;"></div>
+            <p class="text-center text-muted" style="margin-top: 15px;">
+              Interactive tree visualization (D3.js)
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="section-features">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Feature Visualization</h2>
-      <p class="section-description">Dimensionality reduction: t-SNE and UMAP for breed feature visualization</p>
-    </div>
+        <h2 class="section-title" onclick="toggleSection('section-features')">Feature Visualization</h2>
+        <p class="section-description">Dimensionality reduction: t-SNE and UMAP for breed feature visualization</p>
 
-        <div class="alert alert-info">
+        <div class="section-content">
+          <div class="alert alert-info">
       Features extracted using ResNet50 pretrained on ImageNet
 
     </div>
 
-        <div class="grid grid-2" style="margin-top: 20px;">
-          <div class="card">
-            <h3>t-SNE 2D Projection</h3>
-            <div id="tsne-plot" style="height: 500px; margin-top: 15px;"></div>
+          <div class="grid grid-2" style="margin-top: 20px;">
+            <div class="card">
+              <h3>t-SNE 2D Projection</h3>
+              <div id="tsne-plot" style="height: 500px; margin-top: 15px;"></div>
+            </div>
+
+            <div class="card">
+              <h3>UMAP 2D Projection</h3>
+              <div id="umap-plot" style="height: 500px; margin-top: 15px;"></div>
+            </div>
           </div>
 
-          <div class="card">
-            <h3>UMAP 2D Projection</h3>
-            <div id="umap-plot" style="height: 500px; margin-top: 15px;"></div>
-          </div>
-        </div>
-
-        <div style="margin-top: 30px;">
-          <div class="chart-container">
+          <div style="margin-top: 30px;">
+            <div class="chart-container">
       <h3 class="chart-title">PCA Explained Variance</h3>
       <div class="chart-wrapper" style="height: 350px;">
         <canvas id="pca-variance"></canvas>
       </div>
       <p class="text-center text-muted">Cumulative variance explained by principal components</p>
     </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="section-similarity">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Breed Similarity Analysis</h2>
-      <p class="section-description">Feature-based similarity between breeds using cosine distance</p>
-    </div>
+        <h2 class="section-title" onclick="toggleSection('section-similarity')">Breed Similarity Analysis</h2>
+        <p class="section-description">Feature-based similarity between breeds using cosine distance</p>
 
-        <div class="card">
-          <h3>Similarity Matrix Heatmap</h3>
-          <div id="similarity-heatmap" style="height: 700px; margin-top: 15px;"></div>
-          <p class="text-center text-muted" style="margin-top: 15px;">
-            Hover to see pairwise similarities. Diagonal = 1.0 (breed vs itself)
-          </p>
-        </div>
-
-        <div class="grid grid-2" style="margin-top: 30px;">
+        <div class="section-content">
           <div class="card">
+            <h3>Similarity Matrix Heatmap</h3>
+            <div id="similarity-heatmap" style="height: 700px; margin-top: 15px;"></div>
+            <p class="text-center text-muted" style="margin-top: 15px;">
+              Hover to see pairwise similarities. Diagonal = 1.0 (breed vs itself)
+            </p>
+          </div>
+
+          <div class="grid grid-2" style="margin-top: 30px;">
+            <div class="card">
       <h3>Most Similar Breed Pairs</h3>
       <table style="margin-top: 15px;">
         <thead>
@@ -4636,22 +4636,22 @@
       </table>
     </div>
 
-          <div class="card">
-            <h3>Similarity Insights</h3>
-            <div class="alert alert-info" style="margin-top: 15px;">
-              <strong>High Similarity (>0.8):</strong> Breeds may be visually very similar - challenging to classify
+            <div class="card">
+              <h3>Similarity Insights</h3>
+              <div class="alert alert-info" style="margin-top: 15px;">
+                <strong>High Similarity (>0.8):</strong> Breeds may be visually very similar - challenging to classify
+              </div>
+              <div class="alert alert-warning">
+                <strong>Low Similarity (<0.5):</strong> Distinct breeds - easier to distinguish
+              </div>
+              <p style="margin-top: 15px; color: #6b7280;">
+                Similarity computed from ResNet50 features using cosine distance.
+                Higher values indicate more similar visual characteristics.
+              </p>
             </div>
-            <div class="alert alert-warning">
-              <strong>Low Similarity (<0.5):</strong> Distinct breeds - easier to distinguish
-            </div>
-            <p style="margin-top: 15px; color: #6b7280;">
-              Similarity computed from ResNet50 features using cosine distance.
-              Higher values indicate more similar visual characteristics.
-            </p>
           </div>
-        </div>
 
-        <div style="margin-top: 30px;">
+          <div style="margin-top: 30px;">
           <div>
       <h3>Breed Clusters</h3>
       <div class="grid grid-2" style="margin-top: 20px;">
@@ -4688,22 +4688,22 @@
       </div>
     </div>
         </div>
+        </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="section-gallery">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Sample Gallery</h2>
-      <p class="section-description">Sample images from each breed (5 per class)</p>
-    </div>
+        <h2 class="section-title" onclick="toggleSection('section-gallery')">Sample Gallery</h2>
+        <p class="section-description">Sample images from each breed (5 per class)</p>
 
-        <div class="alert alert-info">
+        <div class="section-content">
+          <div class="alert alert-info">
       Images will be displayed after dataset download
 
     </div>
 
-        <div class="grid grid-2" style="margin-top: 20px;">
+          <div class="grid grid-2" style="margin-top: 20px;">
           <div class="card">
             <h4>american_pit_bull_terrier</h4>
             <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
@@ -4834,25 +4834,25 @@
               5 of 74 images
             </p>
           </div>
-        </div>
+          </div>
 
-        <p class="text-center" style="margin-top: 30px;">
-          <em>Showing top 10 breeds. Full gallery includes all 37 breeds.</em>
-        </p>
+          <p class="text-center" style="margin-top: 30px;">
+            <em>Showing top 10 breeds. Full gallery includes all 37 breeds.</em>
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="section-insights">
       <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Key Insights</h2>
-      <p class="section-description">Important findings and recommendations</p>
-    </div>
+        <h2 class="section-title" onclick="toggleSection('section-insights')">Key Insights</h2>
+        <p class="section-description">Important findings and recommendations</p>
 
-        <div class="grid grid-2">
-          <div>
-            <h3>Dataset Characteristics</h3>
-            <div class="alert alert-success">
+        <div class="section-content">
+          <div class="grid grid-2">
+            <div>
+              <h3>Dataset Characteristics</h3>
+              <div class="alert alert-success">
             <strong>✓ Well-Balanced Dataset:</strong> Classes are fairly balanced with imbalance ratio < 2.0
           </div>
     <div class="alert alert-info">
@@ -4861,24 +4861,25 @@
     <div class="alert alert-warning">
           <strong>Classification Challenge:</strong> Fine-grained classification with 37 breeds requires deep learning models
         </div>
-          </div>
-
-          <div>
-            <h3>Recommendations</h3>
-            <div class="alert alert-info">
-              <strong>Model Selection:</strong>
-              <ul style="margin: 10px 0 0 20px;">
-                <li>Transfer Learning (ResNet, EfficientNet)</li>
-                <li>Fine-tune on Pet dataset</li>
-                <li>Data augmentation (rotation, flip, color jitter)</li>
-              </ul>
             </div>
-            <div class="alert alert-success" style="margin-top: 15px;">
-              <strong>Expected Performance:</strong>
-              <ul style="margin: 10px 0 0 20px;">
-                <li>ResNet50: ~85-90% accuracy</li>
-                <li>EfficientNet: ~90-93% accuracy</li>
-              </ul>
+
+            <div>
+              <h3>Recommendations</h3>
+              <div class="alert alert-info">
+                <strong>Model Selection:</strong>
+                <ul style="margin: 10px 0 0 20px;">
+                  <li>Transfer Learning (ResNet, EfficientNet)</li>
+                  <li>Fine-tune on Pet dataset</li>
+                  <li>Data augmentation (rotation, flip, color jitter)</li>
+                </ul>
+              </div>
+              <div class="alert alert-success" style="margin-top: 15px;">
+                <strong>Expected Performance:</strong>
+                <ul style="margin: 10px 0 0 20px;">
+                  <li>ResNet50: ~85-90% accuracy</li>
+                  <li>EfficientNet: ~90-93% accuracy</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
