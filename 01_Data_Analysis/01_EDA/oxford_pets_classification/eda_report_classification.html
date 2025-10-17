@@ -322,6 +322,265 @@
           }
         }
       },
+      "species_split_bar": {
+        "type": "bar",
+        "data": {
+          "labels": [
+            "Dog",
+            "Cat"
+          ],
+          "datasets": [
+            {
+              "label": "Train",
+              "data": [
+                1992,
+                949
+              ],
+              "backgroundColor": "#3b82f6",
+              "borderColor": "#2563eb",
+              "borderWidth": 1
+            },
+            {
+              "label": "Val",
+              "data": [
+                500,
+                239
+              ],
+              "backgroundColor": "#10b981",
+              "borderColor": "#059669",
+              "borderWidth": 1
+            },
+            {
+              "label": "Test",
+              "data": [
+                2486,
+                1183
+              ],
+              "backgroundColor": "#f59e0b",
+              "borderColor": "#d97706",
+              "borderWidth": 1
+            }
+          ]
+        },
+        "options": {
+          "responsive": true,
+          "maintainAspectRatio": false,
+          "plugins": {
+            "title": {
+              "display": false
+            },
+            "legend": {
+              "display": true,
+              "position": "top"
+            },
+            "tooltip": {
+              "callbacks": {
+                "label": "function(context) { return context.dataset.label + ': ' + context.parsed.y + ' images'; }"
+              }
+            }
+          },
+          "scales": {
+            "x": {
+              "title": {
+                "display": true,
+                "text": "Species"
+              }
+            },
+            "y": {
+              "title": {
+                "display": true,
+                "text": "Number of Images"
+              },
+              "beginAtZero": true
+            }
+          }
+        }
+      },
+      "breed_split_bar": {
+        "type": "bar",
+        "data": {
+          "labels": [
+            "american pit bull terrier",
+            "Maine Coon",
+            "havanese",
+            "leonberger",
+            "Russian Blue",
+            "saint bernard",
+            "basset hound",
+            "chihuahua",
+            "shiba inu",
+            "beagle",
+            "Persian",
+            "British Shorthair",
+            "pug",
+            "yorkshire terrier",
+            "Sphynx"
+          ],
+          "datasets": [
+            {
+              "label": "Train",
+              "data": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ],
+              "backgroundColor": "#3b82f6",
+              "borderColor": "#2563eb",
+              "borderWidth": 1,
+              "stack": "stack0"
+            },
+            {
+              "label": "Val",
+              "data": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "backgroundColor": "#10b981",
+              "borderColor": "#059669",
+              "borderWidth": 1,
+              "stack": "stack0"
+            },
+            {
+              "label": "Test",
+              "data": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "backgroundColor": "#f59e0b",
+              "borderColor": "#d97706",
+              "borderWidth": 1,
+              "stack": "stack0"
+            }
+          ]
+        },
+        "options": {
+          "responsive": true,
+          "maintainAspectRatio": false,
+          "plugins": {
+            "title": {
+              "display": false
+            },
+            "legend": {
+              "display": true,
+              "position": "top"
+            },
+            "tooltip": {
+              "mode": "index",
+              "callbacks": {
+                "label": "function(context) { return context.dataset.label + ': ' + context.parsed.y + ' images'; }",
+                "footer": "function(items) { var sum = 0; items.forEach(function(item) { sum += item.parsed.y; }); return 'Total: ' + sum + ' images'; }"
+              }
+            }
+          },
+          "scales": {
+            "x": {
+              "title": {
+                "display": true,
+                "text": "Breed"
+              },
+              "ticks": {
+                "autoSkip": false,
+                "maxRotation": 90,
+                "minRotation": 45
+              }
+            },
+            "y": {
+              "title": {
+                "display": true,
+                "text": "Number of Images"
+              },
+              "stacked": true,
+              "beginAtZero": true
+            }
+          }
+        }
+      },
+      "split_percentage_pie": {
+        "type": "doughnut",
+        "data": {
+          "labels": [
+            "Train",
+            "Val",
+            "Test"
+          ],
+          "datasets": [
+            {
+              "data": [
+                40.01905021091305,
+                10.055789903388217,
+                49.92515988569873
+              ],
+              "backgroundColor": [
+                "#3b82f6",
+                "#10b981",
+                "#f59e0b"
+              ],
+              "borderColor": [
+                "#2563eb",
+                "#059669",
+                "#d97706"
+              ],
+              "borderWidth": 2
+            }
+          ]
+        },
+        "options": {
+          "responsive": true,
+          "maintainAspectRatio": false,
+          "plugins": {
+            "title": {
+              "display": false
+            },
+            "legend": {
+              "display": true,
+              "position": "bottom"
+            },
+            "tooltip": {
+              "callbacks": {
+                "label": "function(context) { return context.label + ': ' + context.parsed.toFixed(1) + '%'; }"
+              }
+            }
+          }
+        }
+      },
       "tsne_plot": {
         "data": [
           {
@@ -4447,6 +4706,76 @@
         </table>
       </div>
     </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section-split-distribution">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-split-distribution')">Train/Val/Test Split Distribution</h2>
+        <p class="section-description">Distribution of images across train, validation, and test splits for both species and breeds</p>
+
+        <div class="section-content">
+
+        <div class="grid grid-3" style="margin-bottom: 30px;">
+          <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+            <h3>2,941</h3>
+            <p>Train Images</p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem;">40.0%</p>
+          </div>
+          <div class="stat-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            <h3>739</h3>
+            <p>Val Images</p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem;">10.1%</p>
+          </div>
+          <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+            <h3>3,669</h3>
+            <p>Test Images</p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem;">49.9%</p>
+          </div>
+        </div>
+
+
+
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Species-Level Split Distribution</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="species-split-bar"></canvas>
+      </div>
+      <p class="text-center text-muted">Train/Val/Test distribution for Dog vs Cat classification</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Overall Split Ratio</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="split-percentage-pie"></canvas>
+      </div>
+      <p class="text-center text-muted">Percentage of images in each split</p>
+    </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px;">
+            <div class="chart-container">
+      <h3 class="chart-title">Breed-Level Split Distribution (Top 15)</h3>
+      <div class="chart-wrapper" style="height: 500px;">
+        <canvas id="breed-split-bar"></canvas>
+      </div>
+      <p class="text-center text-muted">Stacked bar chart showing train/val/test distribution for each breed</p>
+    </div>
+          </div>
+
+          <div class="alert alert-info" style="margin-top: 20px;">
+            <strong>💡 Split Quality Indicators:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Good split:</strong> Each breed has ~60-70% train, ~10-15% val, ~20-30% test</li>
+              <li><strong>Warning:</strong> Breeds with < 5% val or < 10% test may have insufficient validation/test samples</li>
+              <li><strong>Species balance:</strong> Check if Dog/Cat ratio is consistent across splits</li>
+            </ul>
           </div>
         </div>
       </div>
