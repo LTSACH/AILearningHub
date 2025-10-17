@@ -17,6 +17,14 @@
     // Get data from window
     const charts = window.CLASSIFICATION_CHARTS || {};
     const stats = window.CLASSIFICATION_STATS || {};
+    
+    // Debug: Log available charts
+    console.log('Available charts:', Object.keys(charts));
+    console.log('Total charts count:', Object.keys(charts).length);
+    if (Object.keys(charts).length > 0) {
+      console.log('First chart key:', Object.keys(charts)[0]);
+      console.log('First chart data:', charts[Object.keys(charts)[0]]);
+    }
 
     // Initialize Chart.js charts
     initializeChartJSCharts(charts);
@@ -37,7 +45,32 @@
    * Initialize Chart.js charts
    */
   function initializeChartJSCharts(charts) {
-    // Class distribution bar chart
+    console.log('initializeChartJSCharts called with', Object.keys(charts).length, 'charts');
+    
+    // Try to initialize ANY chart found in charts object
+    for (const [chartKey, chartConfig] of Object.entries(charts)) {
+      console.log(`Trying to initialize chart: ${chartKey}`);
+      
+      // Convert chart key to canvas ID (e.g., 'bbox_size_chart' -> 'bbox-size-chart')
+      const canvasId = chartKey.replace(/_/g, '-');
+      const ctx = document.getElementById(canvasId);
+      
+      console.log(`  Canvas ID: ${canvasId}, Found: ${!!ctx}`);
+      
+      if (ctx && chartConfig.type) {
+        try {
+          new Chart(ctx, chartConfig);
+          console.log(`  ✓ Chart ${chartKey} initialized successfully`);
+        } catch (e) {
+          console.error(`  ✗ Error initializing chart ${chartKey}:`, e);
+        }
+      } else {
+        if (!ctx) console.warn(`  ⚠️  Canvas element not found: ${canvasId}`);
+        if (!chartConfig.type) console.warn(`  ⚠️  Chart config missing type`);
+      }
+    }
+    
+    // Class distribution bar chart (legacy support)
     if (charts.class_dist_bar) {
       const ctx = document.getElementById('class-dist-bar');
       if (ctx) {
