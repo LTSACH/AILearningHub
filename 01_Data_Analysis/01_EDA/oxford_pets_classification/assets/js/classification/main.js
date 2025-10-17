@@ -51,8 +51,18 @@
     for (const [chartKey, chartConfig] of Object.entries(charts)) {
       console.log(`Trying to initialize chart: ${chartKey}`);
       
-      // Convert chart key to canvas ID (e.g., 'bbox_size_chart' -> 'bbox-size-chart')
-      const canvasId = chartKey.replace(/_/g, '-');
+      // Skip if this is a Plotly chart (has layout instead of type)
+      if (chartConfig.layout && !chartConfig.type) {
+        console.log(`  Skipping ${chartKey} - Plotly chart (handled separately)`);
+        continue;
+      }
+      
+      // Convert chart key to canvas ID (e.g., 'bbox_size' -> 'bbox-size-chart')
+      // Add '-chart' suffix to match HTML canvas IDs
+      let canvasId = chartKey.replace(/_/g, '-');
+      if (!canvasId.endsWith('-chart')) {
+        canvasId += '-chart';
+      }
       const ctx = document.getElementById(canvasId);
       
       console.log(`  Canvas ID: ${canvasId}, Found: ${!!ctx}`);
@@ -127,8 +137,39 @@
    * Initialize Plotly charts
    */
   function initializePlotlyCharts(charts) {
-    // t-SNE plot
-    if (charts.tsne_plot && typeof Plotly !== 'undefined') {
+    if (typeof Plotly === 'undefined') {
+      console.warn('⚠️  Plotly not loaded');
+      return;
+    }
+    
+    console.log('initializePlotlyCharts called');
+    
+    // Auto-initialize all Plotly charts (have layout property)
+    for (const [chartKey, chartConfig] of Object.entries(charts)) {
+      if (chartConfig.layout) {
+        console.log(`Trying to initialize Plotly chart: ${chartKey}`);
+        
+        // Convert chart key to div ID
+        let divId = chartKey.replace(/_/g, '-');
+        const container = document.getElementById(divId);
+        
+        console.log(`  Div ID: ${divId}, Found: ${!!container}`);
+        
+        if (container) {
+          try {
+            Plotly.newPlot(divId, chartConfig.data, chartConfig.layout, chartConfig.config || {});
+            console.log(`  ✓ Plotly chart ${chartKey} initialized`);
+          } catch (e) {
+            console.error(`  ✗ Error initializing Plotly chart ${chartKey}:`, e);
+          }
+        } else {
+          console.warn(`  ⚠️  Container not found: ${divId}`);
+        }
+      }
+    }
+    
+    // Legacy support for specific charts
+    if (charts.tsne_plot) {
       const container = document.getElementById('tsne-plot');
       if (container) {
         Plotly.newPlot('tsne-plot', charts.tsne_plot.data, charts.tsne_plot.layout, charts.tsne_plot.config);
@@ -136,8 +177,7 @@
       }
     }
 
-    // UMAP plot
-    if (charts.umap_plot && typeof Plotly !== 'undefined') {
+    if (charts.umap_plot) {
       const container = document.getElementById('umap-plot');
       if (container) {
         Plotly.newPlot('umap-plot', charts.umap_plot.data, charts.umap_plot.layout, charts.umap_plot.config);
@@ -145,8 +185,7 @@
       }
     }
 
-    // Similarity heatmap
-    if (charts.similarity_heatmap && typeof Plotly !== 'undefined') {
+    if (charts.similarity_heatmap) {
       const container = document.getElementById('similarity-heatmap');
       if (container) {
         Plotly.newPlot('similarity-heatmap', charts.similarity_heatmap.data, charts.similarity_heatmap.layout, charts.similarity_heatmap.config);
