@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford Pets EDA - Image Classification</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .reports {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .report-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .report-card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .report-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .report-card a {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+        .report-card a:hover {
+            opacity: 0.9;
+        }
+        .info {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+        .footer {
+            text-align: center;
+            color: #666;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐕 🐈 Oxford-IIIT Pets Classification</h1>
+        <div class="subtitle">Exploratory Data Analysis for Image Classification</div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Sample Images</div>
+                <div class="stat-value">370</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Breeds</div>
+                <div class="stat-value">37</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Cats</div>
+                <div class="stat-value">120</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Dogs</div>
+                <div class="stat-value">250</div>
+            </div>
+        </div>
+        
+        <div class="info">
+            <strong>📊 About this project:</strong> This is an educational demonstration of 
+            exploratory data analysis techniques applied to the Oxford-IIIT Pet Dataset. 
+            The reports showcase various visualization and analysis methods for image classification tasks.
+        </div>
+        
+        <div class="reports">
+            <div class="report-card">
+                <h2>📈 Core EDA Report</h2>
+                <p>
+                    Basic dataset statistics, image properties, dimension distributions, 
+                    color analysis, and sample visualizations.
+                </p>
+                <a href="eda_report_core.html">View Core Report →</a>
+            </div>
+            
+            <div class="report-card">
+                <h2>🏷️ Classification EDA Report</h2>
+                <p>
+                    Class distribution, breed analysis, feature extraction (ResNet50), 
+                    similarity matrix, and clustering insights.
+                </p>
+                <a href="eda_report_classification.html">View Classification Report →</a>
+            </div>
+        </div>
+        
+        <div class="info">
+            <strong>🎓 Dataset Attribution:</strong> 
+            Sample images from the <a href="https://www.robots.ox.ac.uk/~vgg/data/pets/" target="_blank">Oxford-IIIT Pet Dataset</a>.
+            Parkhi, O. M., Vedaldi, A., Zisserman, A., & Jawahar, C. V. (2012). 
+            <em>Cats and Dogs</em>. IEEE CVPR.
+            See <a href="ATTRIBUTION.md">ATTRIBUTION.md</a> for full details.
+        </div>
+        
+        <div class="footer">
+            <p>Part of AI Learning Hub - Data Analysis & EDA Collection</p>
+            <p><a href="https://github.com/LTSACH/AILearningHub" target="_blank">View on GitHub</a></p>
+        </div>
+    </div>
+</body>
+</html>

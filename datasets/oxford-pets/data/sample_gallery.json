@@ -1,0 +1,1926 @@
+{
+  "Abyssinian": [
+    {
+      "name": "Abyssinian_142",
+      "path": "sample_images/cats/Abyssinian_142.jpg",
+      "url": "sample_images/cats/Abyssinian_142.jpg"
+    },
+    {
+      "name": "Abyssinian_158",
+      "path": "sample_images/cats/Abyssinian_158.jpg",
+      "url": "sample_images/cats/Abyssinian_158.jpg"
+    },
+    {
+      "name": "Abyssinian_12",
+      "path": "sample_images/cats/Abyssinian_12.jpg",
+      "url": "sample_images/cats/Abyssinian_12.jpg"
+    },
+    {
+      "name": "Abyssinian_101",
+      "path": "sample_images/cats/Abyssinian_101.jpg",
+      "url": "sample_images/cats/Abyssinian_101.jpg"
+    },
+    {
+      "name": "Abyssinian_14",
+      "path": "sample_images/cats/Abyssinian_14.jpg",
+      "url": "sample_images/cats/Abyssinian_14.jpg"
+    },
+    {
+      "name": "Abyssinian_130",
+      "path": "sample_images/cats/Abyssinian_130.jpg",
+      "url": "sample_images/cats/Abyssinian_130.jpg"
+    },
+    {
+      "name": "Abyssinian_13",
+      "path": "sample_images/cats/Abyssinian_13.jpg",
+      "url": "sample_images/cats/Abyssinian_13.jpg"
+    },
+    {
+      "name": "Abyssinian_128",
+      "path": "sample_images/cats/Abyssinian_128.jpg",
+      "url": "sample_images/cats/Abyssinian_128.jpg"
+    },
+    {
+      "name": "Abyssinian_135",
+      "path": "sample_images/cats/Abyssinian_135.jpg",
+      "url": "sample_images/cats/Abyssinian_135.jpg"
+    },
+    {
+      "name": "Abyssinian_164",
+      "path": "sample_images/cats/Abyssinian_164.jpg",
+      "url": "sample_images/cats/Abyssinian_164.jpg"
+    }
+  ],
+  "Bengal": [
+    {
+      "name": "Bengal_149",
+      "path": "sample_images/cats/Bengal_149.jpg",
+      "url": "sample_images/cats/Bengal_149.jpg"
+    },
+    {
+      "name": "Bengal_16",
+      "path": "sample_images/cats/Bengal_16.jpg",
+      "url": "sample_images/cats/Bengal_16.jpg"
+    },
+    {
+      "name": "Bengal_123",
+      "path": "sample_images/cats/Bengal_123.jpg",
+      "url": "sample_images/cats/Bengal_123.jpg"
+    },
+    {
+      "name": "Bengal_107",
+      "path": "sample_images/cats/Bengal_107.jpg",
+      "url": "sample_images/cats/Bengal_107.jpg"
+    },
+    {
+      "name": "Bengal_109",
+      "path": "sample_images/cats/Bengal_109.jpg",
+      "url": "sample_images/cats/Bengal_109.jpg"
+    },
+    {
+      "name": "Bengal_145",
+      "path": "sample_images/cats/Bengal_145.jpg",
+      "url": "sample_images/cats/Bengal_145.jpg"
+    },
+    {
+      "name": "Bengal_135",
+      "path": "sample_images/cats/Bengal_135.jpg",
+      "url": "sample_images/cats/Bengal_135.jpg"
+    },
+    {
+      "name": "Bengal_142",
+      "path": "sample_images/cats/Bengal_142.jpg",
+      "url": "sample_images/cats/Bengal_142.jpg"
+    },
+    {
+      "name": "Bengal_167",
+      "path": "sample_images/cats/Bengal_167.jpg",
+      "url": "sample_images/cats/Bengal_167.jpg"
+    },
+    {
+      "name": "Bengal_169",
+      "path": "sample_images/cats/Bengal_169.jpg",
+      "url": "sample_images/cats/Bengal_169.jpg"
+    }
+  ],
+  "Birman": [
+    {
+      "name": "Birman_169",
+      "path": "sample_images/cats/Birman_169.jpg",
+      "url": "sample_images/cats/Birman_169.jpg"
+    },
+    {
+      "name": "Birman_149",
+      "path": "sample_images/cats/Birman_149.jpg",
+      "url": "sample_images/cats/Birman_149.jpg"
+    },
+    {
+      "name": "Birman_144",
+      "path": "sample_images/cats/Birman_144.jpg",
+      "url": "sample_images/cats/Birman_144.jpg"
+    },
+    {
+      "name": "Birman_142",
+      "path": "sample_images/cats/Birman_142.jpg",
+      "url": "sample_images/cats/Birman_142.jpg"
+    },
+    {
+      "name": "Birman_162",
+      "path": "sample_images/cats/Birman_162.jpg",
+      "url": "sample_images/cats/Birman_162.jpg"
+    },
+    {
+      "name": "Birman_125",
+      "path": "sample_images/cats/Birman_125.jpg",
+      "url": "sample_images/cats/Birman_125.jpg"
+    },
+    {
+      "name": "Birman_121",
+      "path": "sample_images/cats/Birman_121.jpg",
+      "url": "sample_images/cats/Birman_121.jpg"
+    },
+    {
+      "name": "Birman_15",
+      "path": "sample_images/cats/Birman_15.jpg",
+      "url": "sample_images/cats/Birman_15.jpg"
+    },
+    {
+      "name": "Birman_153",
+      "path": "sample_images/cats/Birman_153.jpg",
+      "url": "sample_images/cats/Birman_153.jpg"
+    },
+    {
+      "name": "Birman_166",
+      "path": "sample_images/cats/Birman_166.jpg",
+      "url": "sample_images/cats/Birman_166.jpg"
+    }
+  ],
+  "Bombay": [
+    {
+      "name": "Bombay_153",
+      "path": "sample_images/cats/Bombay_153.jpg",
+      "url": "sample_images/cats/Bombay_153.jpg"
+    },
+    {
+      "name": "Bombay_125",
+      "path": "sample_images/cats/Bombay_125.jpg",
+      "url": "sample_images/cats/Bombay_125.jpg"
+    },
+    {
+      "name": "Bombay_121",
+      "path": "sample_images/cats/Bombay_121.jpg",
+      "url": "sample_images/cats/Bombay_121.jpg"
+    },
+    {
+      "name": "Bombay_10",
+      "path": "sample_images/cats/Bombay_10.jpg",
+      "url": "sample_images/cats/Bombay_10.jpg"
+    },
+    {
+      "name": "Bombay_160",
+      "path": "sample_images/cats/Bombay_160.jpg",
+      "url": "sample_images/cats/Bombay_160.jpg"
+    },
+    {
+      "name": "Bombay_123",
+      "path": "sample_images/cats/Bombay_123.jpg",
+      "url": "sample_images/cats/Bombay_123.jpg"
+    },
+    {
+      "name": "Bombay_140",
+      "path": "sample_images/cats/Bombay_140.jpg",
+      "url": "sample_images/cats/Bombay_140.jpg"
+    },
+    {
+      "name": "Bombay_151",
+      "path": "sample_images/cats/Bombay_151.jpg",
+      "url": "sample_images/cats/Bombay_151.jpg"
+    },
+    {
+      "name": "Bombay_156",
+      "path": "sample_images/cats/Bombay_156.jpg",
+      "url": "sample_images/cats/Bombay_156.jpg"
+    },
+    {
+      "name": "Bombay_167",
+      "path": "sample_images/cats/Bombay_167.jpg",
+      "url": "sample_images/cats/Bombay_167.jpg"
+    }
+  ],
+  "British_Shorthair": [
+    {
+      "name": "British_Shorthair_161",
+      "path": "sample_images/cats/British_Shorthair_161.jpg",
+      "url": "sample_images/cats/British_Shorthair_161.jpg"
+    },
+    {
+      "name": "British_Shorthair_122",
+      "path": "sample_images/cats/British_Shorthair_122.jpg",
+      "url": "sample_images/cats/British_Shorthair_122.jpg"
+    },
+    {
+      "name": "British_Shorthair_113",
+      "path": "sample_images/cats/British_Shorthair_113.jpg",
+      "url": "sample_images/cats/British_Shorthair_113.jpg"
+    },
+    {
+      "name": "British_Shorthair_10",
+      "path": "sample_images/cats/British_Shorthair_10.jpg",
+      "url": "sample_images/cats/British_Shorthair_10.jpg"
+    },
+    {
+      "name": "British_Shorthair_176",
+      "path": "sample_images/cats/British_Shorthair_176.jpg",
+      "url": "sample_images/cats/British_Shorthair_176.jpg"
+    },
+    {
+      "name": "British_Shorthair_139",
+      "path": "sample_images/cats/British_Shorthair_139.jpg",
+      "url": "sample_images/cats/British_Shorthair_139.jpg"
+    },
+    {
+      "name": "British_Shorthair_144",
+      "path": "sample_images/cats/British_Shorthair_144.jpg",
+      "url": "sample_images/cats/British_Shorthair_144.jpg"
+    },
+    {
+      "name": "British_Shorthair_180",
+      "path": "sample_images/cats/British_Shorthair_180.jpg",
+      "url": "sample_images/cats/British_Shorthair_180.jpg"
+    },
+    {
+      "name": "British_Shorthair_166",
+      "path": "sample_images/cats/British_Shorthair_166.jpg",
+      "url": "sample_images/cats/British_Shorthair_166.jpg"
+    },
+    {
+      "name": "British_Shorthair_115",
+      "path": "sample_images/cats/British_Shorthair_115.jpg",
+      "url": "sample_images/cats/British_Shorthair_115.jpg"
+    }
+  ],
+  "Egyptian_Mau": [
+    {
+      "name": "Egyptian_Mau_140",
+      "path": "sample_images/cats/Egyptian_Mau_140.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_140.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_161",
+      "path": "sample_images/cats/Egyptian_Mau_161.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_161.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_160",
+      "path": "sample_images/cats/Egyptian_Mau_160.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_160.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_138",
+      "path": "sample_images/cats/Egyptian_Mau_138.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_138.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_101",
+      "path": "sample_images/cats/Egyptian_Mau_101.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_101.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_136",
+      "path": "sample_images/cats/Egyptian_Mau_136.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_136.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_15",
+      "path": "sample_images/cats/Egyptian_Mau_15.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_15.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_152",
+      "path": "sample_images/cats/Egyptian_Mau_152.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_152.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_164",
+      "path": "sample_images/cats/Egyptian_Mau_164.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_164.jpg"
+    },
+    {
+      "name": "Egyptian_Mau_10",
+      "path": "sample_images/cats/Egyptian_Mau_10.jpg",
+      "url": "sample_images/cats/Egyptian_Mau_10.jpg"
+    }
+  ],
+  "Maine_Coon": [
+    {
+      "name": "Maine_Coon_115",
+      "path": "sample_images/cats/Maine_Coon_115.jpg",
+      "url": "sample_images/cats/Maine_Coon_115.jpg"
+    },
+    {
+      "name": "Maine_Coon_144",
+      "path": "sample_images/cats/Maine_Coon_144.jpg",
+      "url": "sample_images/cats/Maine_Coon_144.jpg"
+    },
+    {
+      "name": "Maine_Coon_18",
+      "path": "sample_images/cats/Maine_Coon_18.jpg",
+      "url": "sample_images/cats/Maine_Coon_18.jpg"
+    },
+    {
+      "name": "Maine_Coon_13",
+      "path": "sample_images/cats/Maine_Coon_13.jpg",
+      "url": "sample_images/cats/Maine_Coon_13.jpg"
+    },
+    {
+      "name": "Maine_Coon_143",
+      "path": "sample_images/cats/Maine_Coon_143.jpg",
+      "url": "sample_images/cats/Maine_Coon_143.jpg"
+    },
+    {
+      "name": "Maine_Coon_150",
+      "path": "sample_images/cats/Maine_Coon_150.jpg",
+      "url": "sample_images/cats/Maine_Coon_150.jpg"
+    },
+    {
+      "name": "Maine_Coon_136",
+      "path": "sample_images/cats/Maine_Coon_136.jpg",
+      "url": "sample_images/cats/Maine_Coon_136.jpg"
+    },
+    {
+      "name": "Maine_Coon_139",
+      "path": "sample_images/cats/Maine_Coon_139.jpg",
+      "url": "sample_images/cats/Maine_Coon_139.jpg"
+    },
+    {
+      "name": "Maine_Coon_155",
+      "path": "sample_images/cats/Maine_Coon_155.jpg",
+      "url": "sample_images/cats/Maine_Coon_155.jpg"
+    },
+    {
+      "name": "Maine_Coon_119",
+      "path": "sample_images/cats/Maine_Coon_119.jpg",
+      "url": "sample_images/cats/Maine_Coon_119.jpg"
+    }
+  ],
+  "Persian": [
+    {
+      "name": "Persian_106",
+      "path": "sample_images/cats/Persian_106.jpg",
+      "url": "sample_images/cats/Persian_106.jpg"
+    },
+    {
+      "name": "Persian_128",
+      "path": "sample_images/cats/Persian_128.jpg",
+      "url": "sample_images/cats/Persian_128.jpg"
+    },
+    {
+      "name": "Persian_175",
+      "path": "sample_images/cats/Persian_175.jpg",
+      "url": "sample_images/cats/Persian_175.jpg"
+    },
+    {
+      "name": "Persian_163",
+      "path": "sample_images/cats/Persian_163.jpg",
+      "url": "sample_images/cats/Persian_163.jpg"
+    },
+    {
+      "name": "Persian_114",
+      "path": "sample_images/cats/Persian_114.jpg",
+      "url": "sample_images/cats/Persian_114.jpg"
+    },
+    {
+      "name": "Persian_134",
+      "path": "sample_images/cats/Persian_134.jpg",
+      "url": "sample_images/cats/Persian_134.jpg"
+    },
+    {
+      "name": "Persian_14",
+      "path": "sample_images/cats/Persian_14.jpg",
+      "url": "sample_images/cats/Persian_14.jpg"
+    },
+    {
+      "name": "Persian_143",
+      "path": "sample_images/cats/Persian_143.jpg",
+      "url": "sample_images/cats/Persian_143.jpg"
+    },
+    {
+      "name": "Persian_165",
+      "path": "sample_images/cats/Persian_165.jpg",
+      "url": "sample_images/cats/Persian_165.jpg"
+    },
+    {
+      "name": "Persian_131",
+      "path": "sample_images/cats/Persian_131.jpg",
+      "url": "sample_images/cats/Persian_131.jpg"
+    }
+  ],
+  "Ragdoll": [
+    {
+      "name": "Ragdoll_174",
+      "path": "sample_images/cats/Ragdoll_174.jpg",
+      "url": "sample_images/cats/Ragdoll_174.jpg"
+    },
+    {
+      "name": "Ragdoll_10",
+      "path": "sample_images/cats/Ragdoll_10.jpg",
+      "url": "sample_images/cats/Ragdoll_10.jpg"
+    },
+    {
+      "name": "Ragdoll_165",
+      "path": "sample_images/cats/Ragdoll_165.jpg",
+      "url": "sample_images/cats/Ragdoll_165.jpg"
+    },
+    {
+      "name": "Ragdoll_114",
+      "path": "sample_images/cats/Ragdoll_114.jpg",
+      "url": "sample_images/cats/Ragdoll_114.jpg"
+    },
+    {
+      "name": "Ragdoll_135",
+      "path": "sample_images/cats/Ragdoll_135.jpg",
+      "url": "sample_images/cats/Ragdoll_135.jpg"
+    },
+    {
+      "name": "Ragdoll_177",
+      "path": "sample_images/cats/Ragdoll_177.jpg",
+      "url": "sample_images/cats/Ragdoll_177.jpg"
+    },
+    {
+      "name": "Ragdoll_100",
+      "path": "sample_images/cats/Ragdoll_100.jpg",
+      "url": "sample_images/cats/Ragdoll_100.jpg"
+    },
+    {
+      "name": "Ragdoll_126",
+      "path": "sample_images/cats/Ragdoll_126.jpg",
+      "url": "sample_images/cats/Ragdoll_126.jpg"
+    },
+    {
+      "name": "Ragdoll_143",
+      "path": "sample_images/cats/Ragdoll_143.jpg",
+      "url": "sample_images/cats/Ragdoll_143.jpg"
+    },
+    {
+      "name": "Ragdoll_115",
+      "path": "sample_images/cats/Ragdoll_115.jpg",
+      "url": "sample_images/cats/Ragdoll_115.jpg"
+    }
+  ],
+  "Russian_Blue": [
+    {
+      "name": "Russian_Blue_101",
+      "path": "sample_images/cats/Russian_Blue_101.jpg",
+      "url": "sample_images/cats/Russian_Blue_101.jpg"
+    },
+    {
+      "name": "Russian_Blue_108",
+      "path": "sample_images/cats/Russian_Blue_108.jpg",
+      "url": "sample_images/cats/Russian_Blue_108.jpg"
+    },
+    {
+      "name": "Russian_Blue_150",
+      "path": "sample_images/cats/Russian_Blue_150.jpg",
+      "url": "sample_images/cats/Russian_Blue_150.jpg"
+    },
+    {
+      "name": "Russian_Blue_100",
+      "path": "sample_images/cats/Russian_Blue_100.jpg",
+      "url": "sample_images/cats/Russian_Blue_100.jpg"
+    },
+    {
+      "name": "Russian_Blue_111",
+      "path": "sample_images/cats/Russian_Blue_111.jpg",
+      "url": "sample_images/cats/Russian_Blue_111.jpg"
+    },
+    {
+      "name": "Russian_Blue_139",
+      "path": "sample_images/cats/Russian_Blue_139.jpg",
+      "url": "sample_images/cats/Russian_Blue_139.jpg"
+    },
+    {
+      "name": "Russian_Blue_128",
+      "path": "sample_images/cats/Russian_Blue_128.jpg",
+      "url": "sample_images/cats/Russian_Blue_128.jpg"
+    },
+    {
+      "name": "Russian_Blue_168",
+      "path": "sample_images/cats/Russian_Blue_168.jpg",
+      "url": "sample_images/cats/Russian_Blue_168.jpg"
+    },
+    {
+      "name": "Russian_Blue_106",
+      "path": "sample_images/cats/Russian_Blue_106.jpg",
+      "url": "sample_images/cats/Russian_Blue_106.jpg"
+    },
+    {
+      "name": "Russian_Blue_112",
+      "path": "sample_images/cats/Russian_Blue_112.jpg",
+      "url": "sample_images/cats/Russian_Blue_112.jpg"
+    }
+  ],
+  "Siamese": [
+    {
+      "name": "Siamese_153",
+      "path": "sample_images/cats/Siamese_153.jpg",
+      "url": "sample_images/cats/Siamese_153.jpg"
+    },
+    {
+      "name": "Siamese_115",
+      "path": "sample_images/cats/Siamese_115.jpg",
+      "url": "sample_images/cats/Siamese_115.jpg"
+    },
+    {
+      "name": "Siamese_175",
+      "path": "sample_images/cats/Siamese_175.jpg",
+      "url": "sample_images/cats/Siamese_175.jpg"
+    },
+    {
+      "name": "Siamese_108",
+      "path": "sample_images/cats/Siamese_108.jpg",
+      "url": "sample_images/cats/Siamese_108.jpg"
+    },
+    {
+      "name": "Siamese_109",
+      "path": "sample_images/cats/Siamese_109.jpg",
+      "url": "sample_images/cats/Siamese_109.jpg"
+    },
+    {
+      "name": "Siamese_158",
+      "path": "sample_images/cats/Siamese_158.jpg",
+      "url": "sample_images/cats/Siamese_158.jpg"
+    },
+    {
+      "name": "Siamese_142",
+      "path": "sample_images/cats/Siamese_142.jpg",
+      "url": "sample_images/cats/Siamese_142.jpg"
+    },
+    {
+      "name": "Siamese_17",
+      "path": "sample_images/cats/Siamese_17.jpg",
+      "url": "sample_images/cats/Siamese_17.jpg"
+    },
+    {
+      "name": "Siamese_173",
+      "path": "sample_images/cats/Siamese_173.jpg",
+      "url": "sample_images/cats/Siamese_173.jpg"
+    },
+    {
+      "name": "Siamese_151",
+      "path": "sample_images/cats/Siamese_151.jpg",
+      "url": "sample_images/cats/Siamese_151.jpg"
+    }
+  ],
+  "Sphynx": [
+    {
+      "name": "Sphynx_155",
+      "path": "sample_images/cats/Sphynx_155.jpg",
+      "url": "sample_images/cats/Sphynx_155.jpg"
+    },
+    {
+      "name": "Sphynx_111",
+      "path": "sample_images/cats/Sphynx_111.jpg",
+      "url": "sample_images/cats/Sphynx_111.jpg"
+    },
+    {
+      "name": "Sphynx_14",
+      "path": "sample_images/cats/Sphynx_14.jpg",
+      "url": "sample_images/cats/Sphynx_14.jpg"
+    },
+    {
+      "name": "Sphynx_169",
+      "path": "sample_images/cats/Sphynx_169.jpg",
+      "url": "sample_images/cats/Sphynx_169.jpg"
+    },
+    {
+      "name": "Sphynx_127",
+      "path": "sample_images/cats/Sphynx_127.jpg",
+      "url": "sample_images/cats/Sphynx_127.jpg"
+    },
+    {
+      "name": "Sphynx_152",
+      "path": "sample_images/cats/Sphynx_152.jpg",
+      "url": "sample_images/cats/Sphynx_152.jpg"
+    },
+    {
+      "name": "Sphynx_128",
+      "path": "sample_images/cats/Sphynx_128.jpg",
+      "url": "sample_images/cats/Sphynx_128.jpg"
+    },
+    {
+      "name": "Sphynx_131",
+      "path": "sample_images/cats/Sphynx_131.jpg",
+      "url": "sample_images/cats/Sphynx_131.jpg"
+    },
+    {
+      "name": "Sphynx_176",
+      "path": "sample_images/cats/Sphynx_176.jpg",
+      "url": "sample_images/cats/Sphynx_176.jpg"
+    },
+    {
+      "name": "Sphynx_143",
+      "path": "sample_images/cats/Sphynx_143.jpg",
+      "url": "sample_images/cats/Sphynx_143.jpg"
+    }
+  ],
+  "american_bulldog": [
+    {
+      "name": "american_bulldog_123",
+      "path": "sample_images/dogs/american_bulldog_123.jpg",
+      "url": "sample_images/dogs/american_bulldog_123.jpg"
+    },
+    {
+      "name": "american_bulldog_106",
+      "path": "sample_images/dogs/american_bulldog_106.jpg",
+      "url": "sample_images/dogs/american_bulldog_106.jpg"
+    },
+    {
+      "name": "american_bulldog_140",
+      "path": "sample_images/dogs/american_bulldog_140.jpg",
+      "url": "sample_images/dogs/american_bulldog_140.jpg"
+    },
+    {
+      "name": "american_bulldog_141",
+      "path": "sample_images/dogs/american_bulldog_141.jpg",
+      "url": "sample_images/dogs/american_bulldog_141.jpg"
+    },
+    {
+      "name": "american_bulldog_117",
+      "path": "sample_images/dogs/american_bulldog_117.jpg",
+      "url": "sample_images/dogs/american_bulldog_117.jpg"
+    },
+    {
+      "name": "american_bulldog_115",
+      "path": "sample_images/dogs/american_bulldog_115.jpg",
+      "url": "sample_images/dogs/american_bulldog_115.jpg"
+    },
+    {
+      "name": "american_bulldog_168",
+      "path": "sample_images/dogs/american_bulldog_168.jpg",
+      "url": "sample_images/dogs/american_bulldog_168.jpg"
+    },
+    {
+      "name": "american_bulldog_181",
+      "path": "sample_images/dogs/american_bulldog_181.jpg",
+      "url": "sample_images/dogs/american_bulldog_181.jpg"
+    },
+    {
+      "name": "american_bulldog_121",
+      "path": "sample_images/dogs/american_bulldog_121.jpg",
+      "url": "sample_images/dogs/american_bulldog_121.jpg"
+    },
+    {
+      "name": "american_bulldog_173",
+      "path": "sample_images/dogs/american_bulldog_173.jpg",
+      "url": "sample_images/dogs/american_bulldog_173.jpg"
+    }
+  ],
+  "american_pit_bull_terrier": [
+    {
+      "name": "american_pit_bull_terrier_146",
+      "path": "sample_images/dogs/american_pit_bull_terrier_146.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_146.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_158",
+      "path": "sample_images/dogs/american_pit_bull_terrier_158.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_158.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_114",
+      "path": "sample_images/dogs/american_pit_bull_terrier_114.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_114.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_150",
+      "path": "sample_images/dogs/american_pit_bull_terrier_150.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_150.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_154",
+      "path": "sample_images/dogs/american_pit_bull_terrier_154.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_154.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_13",
+      "path": "sample_images/dogs/american_pit_bull_terrier_13.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_13.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_169",
+      "path": "sample_images/dogs/american_pit_bull_terrier_169.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_169.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_140",
+      "path": "sample_images/dogs/american_pit_bull_terrier_140.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_140.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_156",
+      "path": "sample_images/dogs/american_pit_bull_terrier_156.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_156.jpg"
+    },
+    {
+      "name": "american_pit_bull_terrier_125",
+      "path": "sample_images/dogs/american_pit_bull_terrier_125.jpg",
+      "url": "sample_images/dogs/american_pit_bull_terrier_125.jpg"
+    }
+  ],
+  "basset_hound": [
+    {
+      "name": "basset_hound_117",
+      "path": "sample_images/dogs/basset_hound_117.jpg",
+      "url": "sample_images/dogs/basset_hound_117.jpg"
+    },
+    {
+      "name": "basset_hound_142",
+      "path": "sample_images/dogs/basset_hound_142.jpg",
+      "url": "sample_images/dogs/basset_hound_142.jpg"
+    },
+    {
+      "name": "basset_hound_144",
+      "path": "sample_images/dogs/basset_hound_144.jpg",
+      "url": "sample_images/dogs/basset_hound_144.jpg"
+    },
+    {
+      "name": "basset_hound_123",
+      "path": "sample_images/dogs/basset_hound_123.jpg",
+      "url": "sample_images/dogs/basset_hound_123.jpg"
+    },
+    {
+      "name": "basset_hound_149",
+      "path": "sample_images/dogs/basset_hound_149.jpg",
+      "url": "sample_images/dogs/basset_hound_149.jpg"
+    },
+    {
+      "name": "basset_hound_170",
+      "path": "sample_images/dogs/basset_hound_170.jpg",
+      "url": "sample_images/dogs/basset_hound_170.jpg"
+    },
+    {
+      "name": "basset_hound_110",
+      "path": "sample_images/dogs/basset_hound_110.jpg",
+      "url": "sample_images/dogs/basset_hound_110.jpg"
+    },
+    {
+      "name": "basset_hound_107",
+      "path": "sample_images/dogs/basset_hound_107.jpg",
+      "url": "sample_images/dogs/basset_hound_107.jpg"
+    },
+    {
+      "name": "basset_hound_11",
+      "path": "sample_images/dogs/basset_hound_11.jpg",
+      "url": "sample_images/dogs/basset_hound_11.jpg"
+    },
+    {
+      "name": "basset_hound_106",
+      "path": "sample_images/dogs/basset_hound_106.jpg",
+      "url": "sample_images/dogs/basset_hound_106.jpg"
+    }
+  ],
+  "beagle": [
+    {
+      "name": "beagle_143",
+      "path": "sample_images/dogs/beagle_143.jpg",
+      "url": "sample_images/dogs/beagle_143.jpg"
+    },
+    {
+      "name": "beagle_117",
+      "path": "sample_images/dogs/beagle_117.jpg",
+      "url": "sample_images/dogs/beagle_117.jpg"
+    },
+    {
+      "name": "beagle_107",
+      "path": "sample_images/dogs/beagle_107.jpg",
+      "url": "sample_images/dogs/beagle_107.jpg"
+    },
+    {
+      "name": "beagle_111",
+      "path": "sample_images/dogs/beagle_111.jpg",
+      "url": "sample_images/dogs/beagle_111.jpg"
+    },
+    {
+      "name": "beagle_10",
+      "path": "sample_images/dogs/beagle_10.jpg",
+      "url": "sample_images/dogs/beagle_10.jpg"
+    },
+    {
+      "name": "beagle_171",
+      "path": "sample_images/dogs/beagle_171.jpg",
+      "url": "sample_images/dogs/beagle_171.jpg"
+    },
+    {
+      "name": "beagle_121",
+      "path": "sample_images/dogs/beagle_121.jpg",
+      "url": "sample_images/dogs/beagle_121.jpg"
+    },
+    {
+      "name": "beagle_173",
+      "path": "sample_images/dogs/beagle_173.jpg",
+      "url": "sample_images/dogs/beagle_173.jpg"
+    },
+    {
+      "name": "beagle_128",
+      "path": "sample_images/dogs/beagle_128.jpg",
+      "url": "sample_images/dogs/beagle_128.jpg"
+    },
+    {
+      "name": "beagle_164",
+      "path": "sample_images/dogs/beagle_164.jpg",
+      "url": "sample_images/dogs/beagle_164.jpg"
+    }
+  ],
+  "boxer": [
+    {
+      "name": "boxer_157",
+      "path": "sample_images/dogs/boxer_157.jpg",
+      "url": "sample_images/dogs/boxer_157.jpg"
+    },
+    {
+      "name": "boxer_133",
+      "path": "sample_images/dogs/boxer_133.jpg",
+      "url": "sample_images/dogs/boxer_133.jpg"
+    },
+    {
+      "name": "boxer_112",
+      "path": "sample_images/dogs/boxer_112.jpg",
+      "url": "sample_images/dogs/boxer_112.jpg"
+    },
+    {
+      "name": "boxer_144",
+      "path": "sample_images/dogs/boxer_144.jpg",
+      "url": "sample_images/dogs/boxer_144.jpg"
+    },
+    {
+      "name": "boxer_162",
+      "path": "sample_images/dogs/boxer_162.jpg",
+      "url": "sample_images/dogs/boxer_162.jpg"
+    },
+    {
+      "name": "boxer_145",
+      "path": "sample_images/dogs/boxer_145.jpg",
+      "url": "sample_images/dogs/boxer_145.jpg"
+    },
+    {
+      "name": "boxer_147",
+      "path": "sample_images/dogs/boxer_147.jpg",
+      "url": "sample_images/dogs/boxer_147.jpg"
+    },
+    {
+      "name": "boxer_140",
+      "path": "sample_images/dogs/boxer_140.jpg",
+      "url": "sample_images/dogs/boxer_140.jpg"
+    },
+    {
+      "name": "boxer_129",
+      "path": "sample_images/dogs/boxer_129.jpg",
+      "url": "sample_images/dogs/boxer_129.jpg"
+    },
+    {
+      "name": "boxer_143",
+      "path": "sample_images/dogs/boxer_143.jpg",
+      "url": "sample_images/dogs/boxer_143.jpg"
+    }
+  ],
+  "chihuahua": [
+    {
+      "name": "chihuahua_12",
+      "path": "sample_images/dogs/chihuahua_12.jpg",
+      "url": "sample_images/dogs/chihuahua_12.jpg"
+    },
+    {
+      "name": "chihuahua_122",
+      "path": "sample_images/dogs/chihuahua_122.jpg",
+      "url": "sample_images/dogs/chihuahua_122.jpg"
+    },
+    {
+      "name": "chihuahua_109",
+      "path": "sample_images/dogs/chihuahua_109.jpg",
+      "url": "sample_images/dogs/chihuahua_109.jpg"
+    },
+    {
+      "name": "chihuahua_134",
+      "path": "sample_images/dogs/chihuahua_134.jpg",
+      "url": "sample_images/dogs/chihuahua_134.jpg"
+    },
+    {
+      "name": "chihuahua_132",
+      "path": "sample_images/dogs/chihuahua_132.jpg",
+      "url": "sample_images/dogs/chihuahua_132.jpg"
+    },
+    {
+      "name": "chihuahua_166",
+      "path": "sample_images/dogs/chihuahua_166.jpg",
+      "url": "sample_images/dogs/chihuahua_166.jpg"
+    },
+    {
+      "name": "chihuahua_106",
+      "path": "sample_images/dogs/chihuahua_106.jpg",
+      "url": "sample_images/dogs/chihuahua_106.jpg"
+    },
+    {
+      "name": "chihuahua_16",
+      "path": "sample_images/dogs/chihuahua_16.jpg",
+      "url": "sample_images/dogs/chihuahua_16.jpg"
+    },
+    {
+      "name": "chihuahua_107",
+      "path": "sample_images/dogs/chihuahua_107.jpg",
+      "url": "sample_images/dogs/chihuahua_107.jpg"
+    },
+    {
+      "name": "chihuahua_131",
+      "path": "sample_images/dogs/chihuahua_131.jpg",
+      "url": "sample_images/dogs/chihuahua_131.jpg"
+    }
+  ],
+  "english_cocker_spaniel": [
+    {
+      "name": "english_cocker_spaniel_136",
+      "path": "sample_images/dogs/english_cocker_spaniel_136.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_136.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_165",
+      "path": "sample_images/dogs/english_cocker_spaniel_165.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_165.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_151",
+      "path": "sample_images/dogs/english_cocker_spaniel_151.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_151.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_128",
+      "path": "sample_images/dogs/english_cocker_spaniel_128.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_128.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_130",
+      "path": "sample_images/dogs/english_cocker_spaniel_130.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_130.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_143",
+      "path": "sample_images/dogs/english_cocker_spaniel_143.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_143.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_161",
+      "path": "sample_images/dogs/english_cocker_spaniel_161.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_161.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_166",
+      "path": "sample_images/dogs/english_cocker_spaniel_166.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_166.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_109",
+      "path": "sample_images/dogs/english_cocker_spaniel_109.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_109.jpg"
+    },
+    {
+      "name": "english_cocker_spaniel_149",
+      "path": "sample_images/dogs/english_cocker_spaniel_149.jpg",
+      "url": "sample_images/dogs/english_cocker_spaniel_149.jpg"
+    }
+  ],
+  "english_setter": [
+    {
+      "name": "english_setter_149",
+      "path": "sample_images/dogs/english_setter_149.jpg",
+      "url": "sample_images/dogs/english_setter_149.jpg"
+    },
+    {
+      "name": "english_setter_162",
+      "path": "sample_images/dogs/english_setter_162.jpg",
+      "url": "sample_images/dogs/english_setter_162.jpg"
+    },
+    {
+      "name": "english_setter_168",
+      "path": "sample_images/dogs/english_setter_168.jpg",
+      "url": "sample_images/dogs/english_setter_168.jpg"
+    },
+    {
+      "name": "english_setter_113",
+      "path": "sample_images/dogs/english_setter_113.jpg",
+      "url": "sample_images/dogs/english_setter_113.jpg"
+    },
+    {
+      "name": "english_setter_123",
+      "path": "sample_images/dogs/english_setter_123.jpg",
+      "url": "sample_images/dogs/english_setter_123.jpg"
+    },
+    {
+      "name": "english_setter_126",
+      "path": "sample_images/dogs/english_setter_126.jpg",
+      "url": "sample_images/dogs/english_setter_126.jpg"
+    },
+    {
+      "name": "english_setter_132",
+      "path": "sample_images/dogs/english_setter_132.jpg",
+      "url": "sample_images/dogs/english_setter_132.jpg"
+    },
+    {
+      "name": "english_setter_153",
+      "path": "sample_images/dogs/english_setter_153.jpg",
+      "url": "sample_images/dogs/english_setter_153.jpg"
+    },
+    {
+      "name": "english_setter_144",
+      "path": "sample_images/dogs/english_setter_144.jpg",
+      "url": "sample_images/dogs/english_setter_144.jpg"
+    },
+    {
+      "name": "english_setter_169",
+      "path": "sample_images/dogs/english_setter_169.jpg",
+      "url": "sample_images/dogs/english_setter_169.jpg"
+    }
+  ],
+  "german_shorthaired": [
+    {
+      "name": "german_shorthaired_153",
+      "path": "sample_images/dogs/german_shorthaired_153.jpg",
+      "url": "sample_images/dogs/german_shorthaired_153.jpg"
+    },
+    {
+      "name": "german_shorthaired_117",
+      "path": "sample_images/dogs/german_shorthaired_117.jpg",
+      "url": "sample_images/dogs/german_shorthaired_117.jpg"
+    },
+    {
+      "name": "german_shorthaired_100",
+      "path": "sample_images/dogs/german_shorthaired_100.jpg",
+      "url": "sample_images/dogs/german_shorthaired_100.jpg"
+    },
+    {
+      "name": "german_shorthaired_125",
+      "path": "sample_images/dogs/german_shorthaired_125.jpg",
+      "url": "sample_images/dogs/german_shorthaired_125.jpg"
+    },
+    {
+      "name": "german_shorthaired_151",
+      "path": "sample_images/dogs/german_shorthaired_151.jpg",
+      "url": "sample_images/dogs/german_shorthaired_151.jpg"
+    },
+    {
+      "name": "german_shorthaired_157",
+      "path": "sample_images/dogs/german_shorthaired_157.jpg",
+      "url": "sample_images/dogs/german_shorthaired_157.jpg"
+    },
+    {
+      "name": "german_shorthaired_103",
+      "path": "sample_images/dogs/german_shorthaired_103.jpg",
+      "url": "sample_images/dogs/german_shorthaired_103.jpg"
+    },
+    {
+      "name": "german_shorthaired_124",
+      "path": "sample_images/dogs/german_shorthaired_124.jpg",
+      "url": "sample_images/dogs/german_shorthaired_124.jpg"
+    },
+    {
+      "name": "german_shorthaired_15",
+      "path": "sample_images/dogs/german_shorthaired_15.jpg",
+      "url": "sample_images/dogs/german_shorthaired_15.jpg"
+    },
+    {
+      "name": "german_shorthaired_127",
+      "path": "sample_images/dogs/german_shorthaired_127.jpg",
+      "url": "sample_images/dogs/german_shorthaired_127.jpg"
+    }
+  ],
+  "great_pyrenees": [
+    {
+      "name": "great_pyrenees_142",
+      "path": "sample_images/dogs/great_pyrenees_142.jpg",
+      "url": "sample_images/dogs/great_pyrenees_142.jpg"
+    },
+    {
+      "name": "great_pyrenees_129",
+      "path": "sample_images/dogs/great_pyrenees_129.jpg",
+      "url": "sample_images/dogs/great_pyrenees_129.jpg"
+    },
+    {
+      "name": "great_pyrenees_145",
+      "path": "sample_images/dogs/great_pyrenees_145.jpg",
+      "url": "sample_images/dogs/great_pyrenees_145.jpg"
+    },
+    {
+      "name": "great_pyrenees_118",
+      "path": "sample_images/dogs/great_pyrenees_118.jpg",
+      "url": "sample_images/dogs/great_pyrenees_118.jpg"
+    },
+    {
+      "name": "great_pyrenees_150",
+      "path": "sample_images/dogs/great_pyrenees_150.jpg",
+      "url": "sample_images/dogs/great_pyrenees_150.jpg"
+    },
+    {
+      "name": "great_pyrenees_101",
+      "path": "sample_images/dogs/great_pyrenees_101.jpg",
+      "url": "sample_images/dogs/great_pyrenees_101.jpg"
+    },
+    {
+      "name": "great_pyrenees_168",
+      "path": "sample_images/dogs/great_pyrenees_168.jpg",
+      "url": "sample_images/dogs/great_pyrenees_168.jpg"
+    },
+    {
+      "name": "great_pyrenees_158",
+      "path": "sample_images/dogs/great_pyrenees_158.jpg",
+      "url": "sample_images/dogs/great_pyrenees_158.jpg"
+    },
+    {
+      "name": "great_pyrenees_103",
+      "path": "sample_images/dogs/great_pyrenees_103.jpg",
+      "url": "sample_images/dogs/great_pyrenees_103.jpg"
+    },
+    {
+      "name": "great_pyrenees_135",
+      "path": "sample_images/dogs/great_pyrenees_135.jpg",
+      "url": "sample_images/dogs/great_pyrenees_135.jpg"
+    }
+  ],
+  "havanese": [
+    {
+      "name": "havanese_169",
+      "path": "sample_images/dogs/havanese_169.jpg",
+      "url": "sample_images/dogs/havanese_169.jpg"
+    },
+    {
+      "name": "havanese_119",
+      "path": "sample_images/dogs/havanese_119.jpg",
+      "url": "sample_images/dogs/havanese_119.jpg"
+    },
+    {
+      "name": "havanese_14",
+      "path": "sample_images/dogs/havanese_14.jpg",
+      "url": "sample_images/dogs/havanese_14.jpg"
+    },
+    {
+      "name": "havanese_140",
+      "path": "sample_images/dogs/havanese_140.jpg",
+      "url": "sample_images/dogs/havanese_140.jpg"
+    },
+    {
+      "name": "havanese_120",
+      "path": "sample_images/dogs/havanese_120.jpg",
+      "url": "sample_images/dogs/havanese_120.jpg"
+    },
+    {
+      "name": "havanese_100",
+      "path": "sample_images/dogs/havanese_100.jpg",
+      "url": "sample_images/dogs/havanese_100.jpg"
+    },
+    {
+      "name": "havanese_15",
+      "path": "sample_images/dogs/havanese_15.jpg",
+      "url": "sample_images/dogs/havanese_15.jpg"
+    },
+    {
+      "name": "havanese_117",
+      "path": "sample_images/dogs/havanese_117.jpg",
+      "url": "sample_images/dogs/havanese_117.jpg"
+    },
+    {
+      "name": "havanese_130",
+      "path": "sample_images/dogs/havanese_130.jpg",
+      "url": "sample_images/dogs/havanese_130.jpg"
+    },
+    {
+      "name": "havanese_164",
+      "path": "sample_images/dogs/havanese_164.jpg",
+      "url": "sample_images/dogs/havanese_164.jpg"
+    }
+  ],
+  "japanese_chin": [
+    {
+      "name": "japanese_chin_170",
+      "path": "sample_images/dogs/japanese_chin_170.jpg",
+      "url": "sample_images/dogs/japanese_chin_170.jpg"
+    },
+    {
+      "name": "japanese_chin_17",
+      "path": "sample_images/dogs/japanese_chin_17.jpg",
+      "url": "sample_images/dogs/japanese_chin_17.jpg"
+    },
+    {
+      "name": "japanese_chin_116",
+      "path": "sample_images/dogs/japanese_chin_116.jpg",
+      "url": "sample_images/dogs/japanese_chin_116.jpg"
+    },
+    {
+      "name": "japanese_chin_155",
+      "path": "sample_images/dogs/japanese_chin_155.jpg",
+      "url": "sample_images/dogs/japanese_chin_155.jpg"
+    },
+    {
+      "name": "japanese_chin_140",
+      "path": "sample_images/dogs/japanese_chin_140.jpg",
+      "url": "sample_images/dogs/japanese_chin_140.jpg"
+    },
+    {
+      "name": "japanese_chin_141",
+      "path": "sample_images/dogs/japanese_chin_141.jpg",
+      "url": "sample_images/dogs/japanese_chin_141.jpg"
+    },
+    {
+      "name": "japanese_chin_167",
+      "path": "sample_images/dogs/japanese_chin_167.jpg",
+      "url": "sample_images/dogs/japanese_chin_167.jpg"
+    },
+    {
+      "name": "japanese_chin_109",
+      "path": "sample_images/dogs/japanese_chin_109.jpg",
+      "url": "sample_images/dogs/japanese_chin_109.jpg"
+    },
+    {
+      "name": "japanese_chin_133",
+      "path": "sample_images/dogs/japanese_chin_133.jpg",
+      "url": "sample_images/dogs/japanese_chin_133.jpg"
+    },
+    {
+      "name": "japanese_chin_121",
+      "path": "sample_images/dogs/japanese_chin_121.jpg",
+      "url": "sample_images/dogs/japanese_chin_121.jpg"
+    }
+  ],
+  "keeshond": [
+    {
+      "name": "keeshond_142",
+      "path": "sample_images/dogs/keeshond_142.jpg",
+      "url": "sample_images/dogs/keeshond_142.jpg"
+    },
+    {
+      "name": "keeshond_128",
+      "path": "sample_images/dogs/keeshond_128.jpg",
+      "url": "sample_images/dogs/keeshond_128.jpg"
+    },
+    {
+      "name": "keeshond_130",
+      "path": "sample_images/dogs/keeshond_130.jpg",
+      "url": "sample_images/dogs/keeshond_130.jpg"
+    },
+    {
+      "name": "keeshond_119",
+      "path": "sample_images/dogs/keeshond_119.jpg",
+      "url": "sample_images/dogs/keeshond_119.jpg"
+    },
+    {
+      "name": "keeshond_139",
+      "path": "sample_images/dogs/keeshond_139.jpg",
+      "url": "sample_images/dogs/keeshond_139.jpg"
+    },
+    {
+      "name": "keeshond_143",
+      "path": "sample_images/dogs/keeshond_143.jpg",
+      "url": "sample_images/dogs/keeshond_143.jpg"
+    },
+    {
+      "name": "keeshond_111",
+      "path": "sample_images/dogs/keeshond_111.jpg",
+      "url": "sample_images/dogs/keeshond_111.jpg"
+    },
+    {
+      "name": "keeshond_135",
+      "path": "sample_images/dogs/keeshond_135.jpg",
+      "url": "sample_images/dogs/keeshond_135.jpg"
+    },
+    {
+      "name": "keeshond_123",
+      "path": "sample_images/dogs/keeshond_123.jpg",
+      "url": "sample_images/dogs/keeshond_123.jpg"
+    },
+    {
+      "name": "keeshond_158",
+      "path": "sample_images/dogs/keeshond_158.jpg",
+      "url": "sample_images/dogs/keeshond_158.jpg"
+    }
+  ],
+  "leonberger": [
+    {
+      "name": "leonberger_167",
+      "path": "sample_images/dogs/leonberger_167.jpg",
+      "url": "sample_images/dogs/leonberger_167.jpg"
+    },
+    {
+      "name": "leonberger_123",
+      "path": "sample_images/dogs/leonberger_123.jpg",
+      "url": "sample_images/dogs/leonberger_123.jpg"
+    },
+    {
+      "name": "leonberger_15",
+      "path": "sample_images/dogs/leonberger_15.jpg",
+      "url": "sample_images/dogs/leonberger_15.jpg"
+    },
+    {
+      "name": "leonberger_170",
+      "path": "sample_images/dogs/leonberger_170.jpg",
+      "url": "sample_images/dogs/leonberger_170.jpg"
+    },
+    {
+      "name": "leonberger_131",
+      "path": "sample_images/dogs/leonberger_131.jpg",
+      "url": "sample_images/dogs/leonberger_131.jpg"
+    },
+    {
+      "name": "leonberger_160",
+      "path": "sample_images/dogs/leonberger_160.jpg",
+      "url": "sample_images/dogs/leonberger_160.jpg"
+    },
+    {
+      "name": "leonberger_158",
+      "path": "sample_images/dogs/leonberger_158.jpg",
+      "url": "sample_images/dogs/leonberger_158.jpg"
+    },
+    {
+      "name": "leonberger_106",
+      "path": "sample_images/dogs/leonberger_106.jpg",
+      "url": "sample_images/dogs/leonberger_106.jpg"
+    },
+    {
+      "name": "leonberger_152",
+      "path": "sample_images/dogs/leonberger_152.jpg",
+      "url": "sample_images/dogs/leonberger_152.jpg"
+    },
+    {
+      "name": "leonberger_13",
+      "path": "sample_images/dogs/leonberger_13.jpg",
+      "url": "sample_images/dogs/leonberger_13.jpg"
+    }
+  ],
+  "miniature_pinscher": [
+    {
+      "name": "miniature_pinscher_114",
+      "path": "sample_images/dogs/miniature_pinscher_114.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_114.jpg"
+    },
+    {
+      "name": "miniature_pinscher_123",
+      "path": "sample_images/dogs/miniature_pinscher_123.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_123.jpg"
+    },
+    {
+      "name": "miniature_pinscher_111",
+      "path": "sample_images/dogs/miniature_pinscher_111.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_111.jpg"
+    },
+    {
+      "name": "miniature_pinscher_119",
+      "path": "sample_images/dogs/miniature_pinscher_119.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_119.jpg"
+    },
+    {
+      "name": "miniature_pinscher_130",
+      "path": "sample_images/dogs/miniature_pinscher_130.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_130.jpg"
+    },
+    {
+      "name": "miniature_pinscher_104",
+      "path": "sample_images/dogs/miniature_pinscher_104.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_104.jpg"
+    },
+    {
+      "name": "miniature_pinscher_15",
+      "path": "sample_images/dogs/miniature_pinscher_15.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_15.jpg"
+    },
+    {
+      "name": "miniature_pinscher_146",
+      "path": "sample_images/dogs/miniature_pinscher_146.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_146.jpg"
+    },
+    {
+      "name": "miniature_pinscher_124",
+      "path": "sample_images/dogs/miniature_pinscher_124.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_124.jpg"
+    },
+    {
+      "name": "miniature_pinscher_122",
+      "path": "sample_images/dogs/miniature_pinscher_122.jpg",
+      "url": "sample_images/dogs/miniature_pinscher_122.jpg"
+    }
+  ],
+  "newfoundland": [
+    {
+      "name": "newfoundland_113",
+      "path": "sample_images/dogs/newfoundland_113.jpg",
+      "url": "sample_images/dogs/newfoundland_113.jpg"
+    },
+    {
+      "name": "newfoundland_139",
+      "path": "sample_images/dogs/newfoundland_139.jpg",
+      "url": "sample_images/dogs/newfoundland_139.jpg"
+    },
+    {
+      "name": "newfoundland_10",
+      "path": "sample_images/dogs/newfoundland_10.jpg",
+      "url": "sample_images/dogs/newfoundland_10.jpg"
+    },
+    {
+      "name": "newfoundland_159",
+      "path": "sample_images/dogs/newfoundland_159.jpg",
+      "url": "sample_images/dogs/newfoundland_159.jpg"
+    },
+    {
+      "name": "newfoundland_102",
+      "path": "sample_images/dogs/newfoundland_102.jpg",
+      "url": "sample_images/dogs/newfoundland_102.jpg"
+    },
+    {
+      "name": "newfoundland_151",
+      "path": "sample_images/dogs/newfoundland_151.jpg",
+      "url": "sample_images/dogs/newfoundland_151.jpg"
+    },
+    {
+      "name": "newfoundland_136",
+      "path": "sample_images/dogs/newfoundland_136.jpg",
+      "url": "sample_images/dogs/newfoundland_136.jpg"
+    },
+    {
+      "name": "newfoundland_164",
+      "path": "sample_images/dogs/newfoundland_164.jpg",
+      "url": "sample_images/dogs/newfoundland_164.jpg"
+    },
+    {
+      "name": "newfoundland_142",
+      "path": "sample_images/dogs/newfoundland_142.jpg",
+      "url": "sample_images/dogs/newfoundland_142.jpg"
+    },
+    {
+      "name": "newfoundland_110",
+      "path": "sample_images/dogs/newfoundland_110.jpg",
+      "url": "sample_images/dogs/newfoundland_110.jpg"
+    }
+  ],
+  "pomeranian": [
+    {
+      "name": "pomeranian_134",
+      "path": "sample_images/dogs/pomeranian_134.jpg",
+      "url": "sample_images/dogs/pomeranian_134.jpg"
+    },
+    {
+      "name": "pomeranian_169",
+      "path": "sample_images/dogs/pomeranian_169.jpg",
+      "url": "sample_images/dogs/pomeranian_169.jpg"
+    },
+    {
+      "name": "pomeranian_124",
+      "path": "sample_images/dogs/pomeranian_124.jpg",
+      "url": "sample_images/dogs/pomeranian_124.jpg"
+    },
+    {
+      "name": "pomeranian_135",
+      "path": "sample_images/dogs/pomeranian_135.jpg",
+      "url": "sample_images/dogs/pomeranian_135.jpg"
+    },
+    {
+      "name": "pomeranian_161",
+      "path": "sample_images/dogs/pomeranian_161.jpg",
+      "url": "sample_images/dogs/pomeranian_161.jpg"
+    },
+    {
+      "name": "pomeranian_129",
+      "path": "sample_images/dogs/pomeranian_129.jpg",
+      "url": "sample_images/dogs/pomeranian_129.jpg"
+    },
+    {
+      "name": "pomeranian_151",
+      "path": "sample_images/dogs/pomeranian_151.jpg",
+      "url": "sample_images/dogs/pomeranian_151.jpg"
+    },
+    {
+      "name": "pomeranian_132",
+      "path": "sample_images/dogs/pomeranian_132.jpg",
+      "url": "sample_images/dogs/pomeranian_132.jpg"
+    },
+    {
+      "name": "pomeranian_150",
+      "path": "sample_images/dogs/pomeranian_150.jpg",
+      "url": "sample_images/dogs/pomeranian_150.jpg"
+    },
+    {
+      "name": "pomeranian_158",
+      "path": "sample_images/dogs/pomeranian_158.jpg",
+      "url": "sample_images/dogs/pomeranian_158.jpg"
+    }
+  ],
+  "pug": [
+    {
+      "name": "pug_112",
+      "path": "sample_images/dogs/pug_112.jpg",
+      "url": "sample_images/dogs/pug_112.jpg"
+    },
+    {
+      "name": "pug_127",
+      "path": "sample_images/dogs/pug_127.jpg",
+      "url": "sample_images/dogs/pug_127.jpg"
+    },
+    {
+      "name": "pug_166",
+      "path": "sample_images/dogs/pug_166.jpg",
+      "url": "sample_images/dogs/pug_166.jpg"
+    },
+    {
+      "name": "pug_145",
+      "path": "sample_images/dogs/pug_145.jpg",
+      "url": "sample_images/dogs/pug_145.jpg"
+    },
+    {
+      "name": "pug_140",
+      "path": "sample_images/dogs/pug_140.jpg",
+      "url": "sample_images/dogs/pug_140.jpg"
+    },
+    {
+      "name": "pug_142",
+      "path": "sample_images/dogs/pug_142.jpg",
+      "url": "sample_images/dogs/pug_142.jpg"
+    },
+    {
+      "name": "pug_17",
+      "path": "sample_images/dogs/pug_17.jpg",
+      "url": "sample_images/dogs/pug_17.jpg"
+    },
+    {
+      "name": "pug_139",
+      "path": "sample_images/dogs/pug_139.jpg",
+      "url": "sample_images/dogs/pug_139.jpg"
+    },
+    {
+      "name": "pug_16",
+      "path": "sample_images/dogs/pug_16.jpg",
+      "url": "sample_images/dogs/pug_16.jpg"
+    },
+    {
+      "name": "pug_168",
+      "path": "sample_images/dogs/pug_168.jpg",
+      "url": "sample_images/dogs/pug_168.jpg"
+    }
+  ],
+  "saint_bernard": [
+    {
+      "name": "saint_bernard_124",
+      "path": "sample_images/dogs/saint_bernard_124.jpg",
+      "url": "sample_images/dogs/saint_bernard_124.jpg"
+    },
+    {
+      "name": "saint_bernard_100",
+      "path": "sample_images/dogs/saint_bernard_100.jpg",
+      "url": "sample_images/dogs/saint_bernard_100.jpg"
+    },
+    {
+      "name": "saint_bernard_13",
+      "path": "sample_images/dogs/saint_bernard_13.jpg",
+      "url": "sample_images/dogs/saint_bernard_13.jpg"
+    },
+    {
+      "name": "saint_bernard_162",
+      "path": "sample_images/dogs/saint_bernard_162.jpg",
+      "url": "sample_images/dogs/saint_bernard_162.jpg"
+    },
+    {
+      "name": "saint_bernard_171",
+      "path": "sample_images/dogs/saint_bernard_171.jpg",
+      "url": "sample_images/dogs/saint_bernard_171.jpg"
+    },
+    {
+      "name": "saint_bernard_161",
+      "path": "sample_images/dogs/saint_bernard_161.jpg",
+      "url": "sample_images/dogs/saint_bernard_161.jpg"
+    },
+    {
+      "name": "saint_bernard_125",
+      "path": "sample_images/dogs/saint_bernard_125.jpg",
+      "url": "sample_images/dogs/saint_bernard_125.jpg"
+    },
+    {
+      "name": "saint_bernard_129",
+      "path": "sample_images/dogs/saint_bernard_129.jpg",
+      "url": "sample_images/dogs/saint_bernard_129.jpg"
+    },
+    {
+      "name": "saint_bernard_117",
+      "path": "sample_images/dogs/saint_bernard_117.jpg",
+      "url": "sample_images/dogs/saint_bernard_117.jpg"
+    },
+    {
+      "name": "saint_bernard_140",
+      "path": "sample_images/dogs/saint_bernard_140.jpg",
+      "url": "sample_images/dogs/saint_bernard_140.jpg"
+    }
+  ],
+  "samoyed": [
+    {
+      "name": "samoyed_151",
+      "path": "sample_images/dogs/samoyed_151.jpg",
+      "url": "sample_images/dogs/samoyed_151.jpg"
+    },
+    {
+      "name": "samoyed_11",
+      "path": "sample_images/dogs/samoyed_11.jpg",
+      "url": "sample_images/dogs/samoyed_11.jpg"
+    },
+    {
+      "name": "samoyed_160",
+      "path": "sample_images/dogs/samoyed_160.jpg",
+      "url": "sample_images/dogs/samoyed_160.jpg"
+    },
+    {
+      "name": "samoyed_108",
+      "path": "sample_images/dogs/samoyed_108.jpg",
+      "url": "sample_images/dogs/samoyed_108.jpg"
+    },
+    {
+      "name": "samoyed_144",
+      "path": "sample_images/dogs/samoyed_144.jpg",
+      "url": "sample_images/dogs/samoyed_144.jpg"
+    },
+    {
+      "name": "samoyed_167",
+      "path": "sample_images/dogs/samoyed_167.jpg",
+      "url": "sample_images/dogs/samoyed_167.jpg"
+    },
+    {
+      "name": "samoyed_114",
+      "path": "sample_images/dogs/samoyed_114.jpg",
+      "url": "sample_images/dogs/samoyed_114.jpg"
+    },
+    {
+      "name": "samoyed_169",
+      "path": "sample_images/dogs/samoyed_169.jpg",
+      "url": "sample_images/dogs/samoyed_169.jpg"
+    },
+    {
+      "name": "samoyed_12",
+      "path": "sample_images/dogs/samoyed_12.jpg",
+      "url": "sample_images/dogs/samoyed_12.jpg"
+    },
+    {
+      "name": "samoyed_14",
+      "path": "sample_images/dogs/samoyed_14.jpg",
+      "url": "sample_images/dogs/samoyed_14.jpg"
+    }
+  ],
+  "scottish_terrier": [
+    {
+      "name": "scottish_terrier_126",
+      "path": "sample_images/dogs/scottish_terrier_126.jpg",
+      "url": "sample_images/dogs/scottish_terrier_126.jpg"
+    },
+    {
+      "name": "scottish_terrier_147",
+      "path": "sample_images/dogs/scottish_terrier_147.jpg",
+      "url": "sample_images/dogs/scottish_terrier_147.jpg"
+    },
+    {
+      "name": "scottish_terrier_136",
+      "path": "sample_images/dogs/scottish_terrier_136.jpg",
+      "url": "sample_images/dogs/scottish_terrier_136.jpg"
+    },
+    {
+      "name": "scottish_terrier_138",
+      "path": "sample_images/dogs/scottish_terrier_138.jpg",
+      "url": "sample_images/dogs/scottish_terrier_138.jpg"
+    },
+    {
+      "name": "scottish_terrier_104",
+      "path": "sample_images/dogs/scottish_terrier_104.jpg",
+      "url": "sample_images/dogs/scottish_terrier_104.jpg"
+    },
+    {
+      "name": "scottish_terrier_163",
+      "path": "sample_images/dogs/scottish_terrier_163.jpg",
+      "url": "sample_images/dogs/scottish_terrier_163.jpg"
+    },
+    {
+      "name": "scottish_terrier_114",
+      "path": "sample_images/dogs/scottish_terrier_114.jpg",
+      "url": "sample_images/dogs/scottish_terrier_114.jpg"
+    },
+    {
+      "name": "scottish_terrier_109",
+      "path": "sample_images/dogs/scottish_terrier_109.jpg",
+      "url": "sample_images/dogs/scottish_terrier_109.jpg"
+    },
+    {
+      "name": "scottish_terrier_10",
+      "path": "sample_images/dogs/scottish_terrier_10.jpg",
+      "url": "sample_images/dogs/scottish_terrier_10.jpg"
+    },
+    {
+      "name": "scottish_terrier_166",
+      "path": "sample_images/dogs/scottish_terrier_166.jpg",
+      "url": "sample_images/dogs/scottish_terrier_166.jpg"
+    }
+  ],
+  "shiba_inu": [
+    {
+      "name": "shiba_inu_16",
+      "path": "sample_images/dogs/shiba_inu_16.jpg",
+      "url": "sample_images/dogs/shiba_inu_16.jpg"
+    },
+    {
+      "name": "shiba_inu_146",
+      "path": "sample_images/dogs/shiba_inu_146.jpg",
+      "url": "sample_images/dogs/shiba_inu_146.jpg"
+    },
+    {
+      "name": "shiba_inu_126",
+      "path": "sample_images/dogs/shiba_inu_126.jpg",
+      "url": "sample_images/dogs/shiba_inu_126.jpg"
+    },
+    {
+      "name": "shiba_inu_147",
+      "path": "sample_images/dogs/shiba_inu_147.jpg",
+      "url": "sample_images/dogs/shiba_inu_147.jpg"
+    },
+    {
+      "name": "shiba_inu_162",
+      "path": "sample_images/dogs/shiba_inu_162.jpg",
+      "url": "sample_images/dogs/shiba_inu_162.jpg"
+    },
+    {
+      "name": "shiba_inu_136",
+      "path": "sample_images/dogs/shiba_inu_136.jpg",
+      "url": "sample_images/dogs/shiba_inu_136.jpg"
+    },
+    {
+      "name": "shiba_inu_159",
+      "path": "sample_images/dogs/shiba_inu_159.jpg",
+      "url": "sample_images/dogs/shiba_inu_159.jpg"
+    },
+    {
+      "name": "shiba_inu_155",
+      "path": "sample_images/dogs/shiba_inu_155.jpg",
+      "url": "sample_images/dogs/shiba_inu_155.jpg"
+    },
+    {
+      "name": "shiba_inu_172",
+      "path": "sample_images/dogs/shiba_inu_172.jpg",
+      "url": "sample_images/dogs/shiba_inu_172.jpg"
+    },
+    {
+      "name": "shiba_inu_118",
+      "path": "sample_images/dogs/shiba_inu_118.jpg",
+      "url": "sample_images/dogs/shiba_inu_118.jpg"
+    }
+  ],
+  "staffordshire_bull_terrier": [
+    {
+      "name": "staffordshire_bull_terrier_103",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_103.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_103.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_100",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_100.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_100.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_116",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_116.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_116.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_115",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_115.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_115.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_137",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_137.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_137.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_131",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_131.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_131.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_159",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_159.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_159.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_158",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_158.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_158.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_135",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_135.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_135.jpg"
+    },
+    {
+      "name": "staffordshire_bull_terrier_149",
+      "path": "sample_images/dogs/staffordshire_bull_terrier_149.jpg",
+      "url": "sample_images/dogs/staffordshire_bull_terrier_149.jpg"
+    }
+  ],
+  "wheaten_terrier": [
+    {
+      "name": "wheaten_terrier_159",
+      "path": "sample_images/dogs/wheaten_terrier_159.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_159.jpg"
+    },
+    {
+      "name": "wheaten_terrier_167",
+      "path": "sample_images/dogs/wheaten_terrier_167.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_167.jpg"
+    },
+    {
+      "name": "wheaten_terrier_140",
+      "path": "sample_images/dogs/wheaten_terrier_140.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_140.jpg"
+    },
+    {
+      "name": "wheaten_terrier_169",
+      "path": "sample_images/dogs/wheaten_terrier_169.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_169.jpg"
+    },
+    {
+      "name": "wheaten_terrier_162",
+      "path": "sample_images/dogs/wheaten_terrier_162.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_162.jpg"
+    },
+    {
+      "name": "wheaten_terrier_11",
+      "path": "sample_images/dogs/wheaten_terrier_11.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_11.jpg"
+    },
+    {
+      "name": "wheaten_terrier_171",
+      "path": "sample_images/dogs/wheaten_terrier_171.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_171.jpg"
+    },
+    {
+      "name": "wheaten_terrier_111",
+      "path": "sample_images/dogs/wheaten_terrier_111.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_111.jpg"
+    },
+    {
+      "name": "wheaten_terrier_110",
+      "path": "sample_images/dogs/wheaten_terrier_110.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_110.jpg"
+    },
+    {
+      "name": "wheaten_terrier_143",
+      "path": "sample_images/dogs/wheaten_terrier_143.jpg",
+      "url": "sample_images/dogs/wheaten_terrier_143.jpg"
+    }
+  ],
+  "yorkshire_terrier": [
+    {
+      "name": "yorkshire_terrier_100",
+      "path": "sample_images/dogs/yorkshire_terrier_100.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_100.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_168",
+      "path": "sample_images/dogs/yorkshire_terrier_168.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_168.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_142",
+      "path": "sample_images/dogs/yorkshire_terrier_142.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_142.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_158",
+      "path": "sample_images/dogs/yorkshire_terrier_158.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_158.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_118",
+      "path": "sample_images/dogs/yorkshire_terrier_118.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_118.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_113",
+      "path": "sample_images/dogs/yorkshire_terrier_113.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_113.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_146",
+      "path": "sample_images/dogs/yorkshire_terrier_146.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_146.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_147",
+      "path": "sample_images/dogs/yorkshire_terrier_147.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_147.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_110",
+      "path": "sample_images/dogs/yorkshire_terrier_110.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_110.jpg"
+    },
+    {
+      "name": "yorkshire_terrier_171",
+      "path": "sample_images/dogs/yorkshire_terrier_171.jpg",
+      "url": "sample_images/dogs/yorkshire_terrier_171.jpg"
+    }
+  ]
+}
