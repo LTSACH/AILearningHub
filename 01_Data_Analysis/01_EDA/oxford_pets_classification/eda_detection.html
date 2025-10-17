@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Detection EDA - Oxford Pets</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/classification.css">
+
+    <!-- Scripts (head) -->
+    
+            <style>
+                .section {
+                    margin-bottom: 3px !important;
+                    border: none !important;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                    padding: 0 !important;  /* Override common.css padding */
+                }
+                
+                .section.collapsed {
+                    margin-bottom: 1px !important;
+                    box-shadow: none !important;
+                    padding: 0 !important;
+                }
+            
+            .section h2 {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px 20px;
+                margin: 0;
+                font-size: 1.4em;
+                cursor: pointer;
+                user-select: none;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .section h2:hover {
+                background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            }
+            
+            .section h2::after {
+                content: '▼';
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: transform 0.3s ease;
+            }
+            
+            .section h2.collapsed::after {
+                transform: translateY(-50%) rotate(-90deg);
+            }
+            
+            .section-content {
+                padding: 20px;
+                background: white;
+                transition: all 0.3s ease;
+                overflow: hidden;
+            }
+            
+            .section-content.collapsed {
+                max-height: 0;
+                padding: 0 20px;
+                opacity: 0;
+            }
+            
+            .section-controls {
+                text-align: center;
+                margin: 20px 0;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 8px;
+            }
+            
+            .control-btn {
+                background: #667eea;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                margin: 0 5px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: background 0.3s ease;
+            }
+            
+            .control-btn:hover {
+                background: #5a6fd8;
+            }
+            
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            
+            .table th, .table td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .table th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            .table-striped tbody tr:nth-child(odd) {
+                background-color: #f8f9fa;
+            }
+            
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin: 20px 0;
+            }
+            
+            .stat-card {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            
+            .stat-value {
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .stat-label {
+                font-size: 0.9em;
+                opacity: 0.9;
+            }
+            </style>
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="eda_report_core.html">Core</a>
+          <a href="eda_report_classification.html">Classification</a>
+          <a href="eda_detection.html" class="active">Detection</a>
+          <a href="eda_segmentation.html">Segmentation</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section" id="section-detection-overview">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-detection-overview')">📦 Detection Overview</h2>
+        <p class="section-description">Overview of bounding box annotations and detection task statistics</p>
+
+        <div class="section-content">
+          <div class="stat-cards">
+            <div class="stat-card">
+              <h3>0</h3>
+              <p>Total Bounding Boxes</p>
+            </div>
+            <div class="stat-card">
+              <h3>0</h3>
+              <p>Images with Annotations</p>
+            </div>
+            <div class="stat-card">
+              <h3>0.0</h3>
+              <p>Avg Boxes per Image</p>
+            </div>
+            <div class="stat-card">
+              <h3>1</h3>
+              <p>Object Class (Pet Head)</p>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🎯 Detection Task:</strong> Pet head detection using bounding box annotations in Pascal VOC format.
+            Each image contains one pet head with precise bounding box coordinates.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section-bbox-properties">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-bbox-properties')">📏 Bounding Box Properties</h2>
+        <p class="section-description">Analysis of bounding box dimensions, aspect ratios, and area distributions</p>
+
+        <div class="section-content">
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Size Statistics</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="bbox-size-chart"></canvas>
+      </div>
+      <p class="text-center text-muted">Mean and median width/height of bounding boxes</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Aspect Ratio Distribution</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="aspect-ratio-chart"></canvas>
+      </div>
+      <p class="text-center text-muted">Distribution of wide, square, and tall bounding boxes</p>
+    </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Area Distribution</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="area-distribution-chart"></canvas>
+      </div>
+      <p class="text-center text-muted">Distribution of normalized bounding box areas</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Size Categories</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="size-category-chart"></canvas>
+      </div>
+      <p class="text-center text-muted">COCO-style size categorization (small/medium/large)</p>
+    </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>📊 Key Insights:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Size Categories:</strong> Based on diagonal length (small: &lt;32px, medium: 32-96px, large: &gt;96px)</li>
+              <li><strong>Aspect Ratios:</strong> Wide (&gt;1.5), Square (0.8-1.2), Tall (&lt;0.67)</li>
+              <li><strong>Normalized Areas:</strong> Bounding box area relative to image area</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section-spatial-distribution">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-spatial-distribution')">🗺️ Spatial Distribution</h2>
+        <p class="section-description">Analysis of bounding box positions and spatial patterns within images</p>
+
+        <div class="section-content">
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Position Heatmap</h3>
+      <div class="chart-wrapper" style="height: 500px;">
+        <canvas id="position-heatmap"></canvas>
+      </div>
+      <p class="text-center text-muted">Density map of bounding box center positions</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Center Bias Analysis</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <canvas id="center-bias-chart"></canvas>
+      </div>
+      <p class="text-center text-muted">Distribution between center and edge regions</p>
+    </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px;">
+            <div class="chart-container">
+      <h3 class="chart-title">3x3 Grid Distribution</h3>
+      <div class="chart-wrapper" style="height: 400px;">
+        <canvas id="grid-distribution-chart"></canvas>
+      </div>
+      <p class="text-center text-muted">Distribution of bounding boxes across image regions</p>
+    </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🎯 Spatial Analysis:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Center Bias:</strong> Tendency for objects to appear in image center</li>
+              <li><strong>Position Heatmap:</strong> Visual density of bounding box centers</li>
+              <li><strong>Grid Analysis:</strong> Distribution across 3x3 image regions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section-quality-analysis">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-quality-analysis')">✅ Quality Analysis</h2>
+        <p class="section-description">Assessment of bounding box annotation quality and potential issues</p>
+
+        <div class="section-content">
+          <div class="card">
+            <h3>Quality Metrics</h3>
+            <div style="margin-top: 15px;">
+              <div style="display: flex; justify-content: space-between; padding: 10px; background: #10b98115; border-left: 4px solid #ef4444; border-radius: 4px; margin-bottom: 15px;">
+                <span style="font-weight: 600;">Overall Quality Score:</span>
+                <span style="color: #ef4444; font-weight: 700;">Poor (0.00)</span>
+              </div>
+
+              <table style="width: 100%; margin: 0;">
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Invalid Boxes</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Tiny Boxes (&lt;100px²)</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Large Boxes (&gt;90% image)</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Extreme Aspect Ratios</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🔍 Quality Indicators:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Invalid Boxes:</strong> Negative dimensions or zero area</li>
+              <li><strong>Tiny Boxes:</strong> Too small for reliable detection</li>
+              <li><strong>Large Boxes:</strong> Cover most of the image (potential annotation error)</li>
+              <li><strong>Extreme Ratios:</strong> Very wide or very tall boxes (ratio &gt;10 or &lt;0.1)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section-sample-visualizations">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-sample-visualizations')">🖼️ Sample Visualizations</h2>
+        <p class="section-description">Sample images with bounding box annotations overlaid</p>
+
+        <div class="section-content">
+          <div class="alert alert-info">
+            <strong>📸 Sample Gallery:</strong> Interactive gallery showing sample images with bounding box annotations.
+            Each image displays the pet head detection with precise bounding box coordinates.
+          </div>
+
+          <div id="sample-gallery" style="margin-top: 20px;">
+            <!-- Sample images will be loaded here -->
+            <p style="text-align: center; color: #6b7280; padding: 40px;">
+              Sample visualizations will be displayed here
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Oxford Pets Classification | Generated by EDA System</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Detection Analysis</p>
+      </div>
+    </footer>
+
+    <!-- Scripts (footer) -->
+    
+            <script>
+                function toggleSection(sectionId) {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
+                    
+                    const header = section.querySelector('h2');
+                    const content = section.querySelector('.section-content');
+                    
+                    if (header && content) {
+                        const isCollapsed = header.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        } else {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    }
+                }
+            
+                function collapseAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    });
+                }
+                
+                function expandAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        }
+                    });
+                }
+            
+            // Add control buttons and ensure sections are expanded by default
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ensure all sections are expanded by default
+                expandAll();
+                
+                const controls = document.createElement('div');
+                controls.className = 'section-controls';
+                controls.innerHTML = `
+                    <button onclick="expandAll()" class="control-btn">📂 Expand All</button>
+                    <button onclick="collapseAll()" class="control-btn">📦 Collapse All</button>
+                `;
+                
+                // Insert controls after the main header
+                const mainHeader = document.querySelector('.section-header');
+                if (mainHeader) {
+                    mainHeader.parentNode.insertBefore(controls, mainHeader.nextSibling);
+                }
+            });
+            </script>
+    <script src="assets/js/common/utils.js"></script>
+    <script src="assets/js/common/data-loader.js"></script>
+    <script src="assets/js/classification/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js"></script>
+  </body>
+</html>
