@@ -1,181 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Pets EDA - Image Classification</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        .reports {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .report-card {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 12px;
-            border: 2px solid #e9ecef;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .report-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .report-card h2 {
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-        .report-card p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-        .report-card a {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: opacity 0.3s;
-        }
-        .report-card a:hover {
-            opacity: 0.9;
-        }
-        .info {
-            background: #e7f3ff;
-            border-left: 4px solid #2196F3;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 4px;
-        }
-        .footer {
-            text-align: center;
-            color: #666;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e9ecef;
-        }
-        .footer a {
-            color: #667eea;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🐕 🐈 Oxford-IIIT Pets Classification</h1>
-        <div class="subtitle">Exploratory Data Analysis for Image Classification</div>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-label">Sample Images</div>
-                <div class="stat-value">370</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Breeds</div>
-                <div class="stat-value">37</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Cats</div>
-                <div class="stat-value">120</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Dogs</div>
-                <div class="stat-value">250</div>
-            </div>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Oxford-IIIT Pets Classification - EDA Reports</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/common.css">
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
+        <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+          <a href="eda_report_core.html">Core</a>
+          <a href="eda_report_classification.html">Classification</a>
+          <a href="eda_detection.html">Detection</a>
+          <a href="eda_segmentation.html">Segmentation</a>
         </div>
-        
-        <div class="info">
-            <strong>📊 About this project:</strong> This is an educational demonstration of 
-            exploratory data analysis techniques applied to the Oxford-IIIT Pet Dataset. 
-            The reports showcase various visualization and analysis methods for image classification tasks.
+      </div>
+    </nav>
+
+    <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+      <div class="container">
+        <div class="section-header">
+          <h1 class="section-title" style="color: white; font-size: 3rem; margin-bottom: 1rem;">
+            🐕🐈 Oxford-IIIT Pets Classification
+          </h1>
+          <p class="section-description" style="color: rgba(255,255,255,0.9); font-size: 1.25rem; max-width: 800px;">
+            Exploratory Data Analysis for Image Classification
+          </p>
         </div>
-        
-        <div class="reports">
-            <div class="report-card">
-                <h2>📈 Core EDA Report</h2>
-                <p>
-                    Basic dataset statistics, image properties, dimension distributions, 
-                    color analysis, and sample visualizations.
-                </p>
-                <a href="eda_report_core.html">View Core Report →</a>
-            </div>
-            
-            <div class="report-card">
-                <h2>🏷️ Classification EDA Report</h2>
-                <p>
-                    Class distribution, breed analysis, feature extraction (ResNet50), 
-                    similarity matrix, and clustering insights.
-                </p>
-                <a href="eda_report_classification.html">View Classification Report →</a>
-            </div>
-        </div>
-        
-        <div class="info">
-            <strong>🎓 Dataset Attribution:</strong> 
-            Sample images from the <a href="https://www.robots.ox.ac.uk/~vgg/data/pets/" target="_blank">Oxford-IIIT Pet Dataset</a>.
-            Parkhi, O. M., Vedaldi, A., Zisserman, A., & Jawahar, C. V. (2012). 
-            <em>Cats and Dogs</em>. IEEE CVPR.
-            See <a href="ATTRIBUTION.md">ATTRIBUTION.md</a> for full details.
-        </div>
-        
-        <div class="footer">
-            <p>Part of AI Learning Hub - Data Analysis & EDA Collection</p>
-            <p><a href="https://github.com/LTSACH/AILearningHub" target="_blank">View on GitHub</a></p>
-        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+      <h2 class="section-title">Key Statistics Overview</h2>
+      <p class="section-description">Dataset composition and scale</p>
     </div>
-</body>
+        <div class="stat-cards">
+        <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+      <h3>7,393</h3>
+      <p>Sample Images</p>
+
+    </div>
+      <div class="stat-card" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+      <h3>37</h3>
+      <p>Breeds</p>
+
+    </div>
+      <div class="stat-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+      <h3>12</h3>
+      <p>Cats</p>
+
+    </div>
+      <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+      <h3>25</h3>
+      <p>Dogs</p>
+
+    </div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="background-color: #f8fafc;">
+      <div class="container">
+        <div class="card">
+          <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+            <div style="font-size: 2rem; margin-right: 1rem;">📊</div>
+            <h3 style="margin: 0;">About This Project</h3>
+          </div>
+          <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 0;">
+            This is an educational demonstration of exploratory data analysis techniques applied to the Oxford-IIIT Pet Dataset. 
+            The reports showcase various visualization and analysis methods for image classification tasks, including 
+            feature extraction, dimensionality reduction, and similarity analysis.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+      <h2 class="section-title">Available Reports</h2>
+      <p class="section-description">Comprehensive analysis across multiple computer vision tasks</p>
+    </div>
+
+            <div class="grid grid-2" style="gap: 2rem;">
+
+                <div class="card" style="height: 100%; position: relative;">
+                  <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 2rem; margin-right: 1rem;">📊</div>
+                    <div style="flex: 1;">
+                      <h3 style="margin: 0 0 0.5rem 0;">Core EDA Report</h3>
+                      <span class="badge badge-ready" style="
+                        background: #10b981;
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 1rem;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                      ">✅ Ready</span>
+                    </div>
+                  </div>
+
+                  <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Basic dataset statistics, image properties, dimension distributions, color analysis, and sample visualizations.
+                  </p>
+
+                  <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: #374151;">Key Features:</h4>
+                    <ul style="margin: 0; padding-left: 1.25rem; color: #6b7280;">
+                      <li>Image Statistics</li><li>Dimension Analysis</li><li>Color Distribution</li><li>Sample Gallery</li>
+                    </ul>
+                  </div>
+
+                  <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;">
+                    <a href="eda_report_core.html" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">View Core Report →</a>
+                  </div>
+                </div>
+
+                <div class="card" style="height: 100%; position: relative;">
+                  <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 2rem; margin-right: 1rem;">🏷️</div>
+                    <div style="flex: 1;">
+                      <h3 style="margin: 0 0 0.5rem 0;">Classification EDA Report</h3>
+                      <span class="badge badge-ready" style="
+                        background: #10b981;
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 1rem;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                      ">✅ Ready</span>
+                    </div>
+                  </div>
+
+                  <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Class distribution, breed analysis, feature extraction (ResNet50), similarity matrix, and clustering insights.
+                  </p>
+
+                  <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: #374151;">Key Features:</h4>
+                    <ul style="margin: 0; padding-left: 1.25rem; color: #6b7280;">
+                      <li>37 Breeds Analysis</li><li>t-SNE Visualization</li><li>Similarity Matrix</li><li>Feature Extraction</li>
+                    </ul>
+                  </div>
+
+                  <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;">
+                    <a href="eda_report_classification.html" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">View Classification Report →</a>
+                  </div>
+                </div>
+
+                <div class="card" style="height: 100%; position: relative;">
+                  <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 2rem; margin-right: 1rem;">🎯</div>
+                    <div style="flex: 1;">
+                      <h3 style="margin: 0 0 0.5rem 0;">Detection EDA Report</h3>
+                      <span class="badge badge-pending" style="
+                        background: #f59e0b;
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 1rem;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                      ">🚧 Pending</span>
+                    </div>
+                  </div>
+
+                  <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Bounding box analysis, spatial distribution, scale variation, and detection challenges.
+                  </p>
+
+                  <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: #374151;">Key Features:</h4>
+                    <ul style="margin: 0; padding-left: 1.25rem; color: #6b7280;">
+                      <li>Bbox Statistics</li><li>Spatial Analysis</li><li>Scale Variation</li><li>Detection Challenges</li>
+                    </ul>
+                  </div>
+
+                  <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;">
+                    <div class="btn" style="width: 100%; text-align: center; display: block; background: #e5e7eb; color: #9ca3af; cursor: not-allowed;">Coming Soon</div>
+                  </div>
+                </div>
+
+                <div class="card" style="height: 100%; position: relative;">
+                  <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 2rem; margin-right: 1rem;">🎨</div>
+                    <div style="flex: 1;">
+                      <h3 style="margin: 0 0 0.5rem 0;">Segmentation EDA Report</h3>
+                      <span class="badge badge-pending" style="
+                        background: #f59e0b;
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 1rem;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                      ">🚧 Pending</span>
+                    </div>
+                  </div>
+
+                  <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Tri-map analysis, pixel distribution, boundary quality, and segmentation challenges.
+                  </p>
+
+                  <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: #374151;">Key Features:</h4>
+                    <ul style="margin: 0; padding-left: 1.25rem; color: #6b7280;">
+                      <li>Mask Statistics</li><li>Pixel Analysis</li><li>Boundary Quality</li><li>Segmentation Challenges</li>
+                    </ul>
+                  </div>
+
+                  <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;">
+                    <div class="btn" style="width: 100%; text-align: center; display: block; background: #e5e7eb; color: #9ca3af; cursor: not-allowed;">Coming Soon</div>
+                  </div>
+                </div>
+
+            </div>
+
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Oxford Pets Classification | Generated by EDA System</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Comprehensive EDA Analysis</p>
+      </div>
+    </footer>
+
+    <!-- Scripts (footer) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+    <script src="assets/js/common/utils.js" defer></script>
+    <script>
+    
+    // Initialize landing page interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Initializing landing page...');
+        
+        // Add hover effects to report cards
+        const reportCards = document.querySelectorAll('.card');
+        reportCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+                this.style.transition = 'transform 0.2s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Smooth scroll for navigation
+        const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        console.log('✓ Landing page initialized');
+    });
+    
+    </script>
+  </body>
 </html>
