@@ -4788,11 +4788,51 @@
 
         <div class="section-content">
           <div class="card">
-            <h3>Species → Breeds Tree</h3>
-            <div id="hierarchy-tree" style="min-height: 400px; margin-top: 20px;"></div>
-            <p class="text-center text-muted" style="margin-top: 15px;">
-              Interactive tree visualization (D3.js)
-            </p>
+            <h3>Species → Breeds Hierarchy</h3>
+            <div style="margin-top: 20px;">
+              <div class="species-node" style="margin-bottom: 30px;">
+                <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                  <h4 style="margin: 0; font-size: 1.2em;">🐕 Dogs (25 breeds)</h4>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-left: 20px;">
+                  <span class="breed-tag">American Bulldog</span>
+              <span class="breed-tag">American Pit Bull Terrier</span>
+              <span class="breed-tag">Basset Hound</span>
+              <span class="breed-tag">Beagle</span>
+              <span class="breed-tag">Boxer</span>
+              <span class="breed-tag">Chihuahua</span>
+              <span class="breed-tag">English Cocker Spaniel</span>
+              <span class="breed-tag">English Setter</span>
+                  <span class="breed-tag" style="background: #e5e7eb; color: #6b7280;">+ 17 more breeds</span>
+                </div>
+              </div>
+
+              <div class="species-node">
+                <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                  <h4 style="margin: 0; font-size: 1.2em;">🐈 Cats (12 breeds)</h4>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-left: 20px;">
+                  <span class="breed-tag">Abyssinian</span>
+              <span class="breed-tag">Bengal</span>
+              <span class="breed-tag">Birman</span>
+              <span class="breed-tag">Bombay</span>
+              <span class="breed-tag">British Shorthair</span>
+              <span class="breed-tag">Egyptian Mau</span>
+              <span class="breed-tag">Maine Coon</span>
+              <span class="breed-tag">Persian</span>
+                  <span class="breed-tag" style="background: #e5e7eb; color: #6b7280;">+ 4 more breeds</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info" style="margin-top: 20px;">
+            <strong>📊 Hierarchy Levels:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Level 1:</strong> 2-class classification (Dog vs Cat) - Coarse-grained</li>
+              <li><strong>Level 2:</strong> 37-class classification (All breeds) - Fine-grained</li>
+              <li><strong>Multi-task:</strong> Can train hierarchical models that predict both levels</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -5017,157 +5057,6 @@
       </div>
     </div>
         </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="section-gallery">
-      <div class="container">
-        <h2 class="section-title" onclick="toggleSection('section-gallery')">Sample Gallery</h2>
-        <p class="section-description">Sample images from each breed (5 per class)</p>
-
-        <div class="section-content">
-          <div class="alert alert-info">
-      Images will be displayed after dataset download
-
-    </div>
-
-          <div class="grid grid-2" style="margin-top: 20px;">
-          <div class="card">
-            <h4>american_pit_bull_terrier</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/american_pit_bull_terrier_158.jpg" alt="american_pit_bull_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/american_pit_bull_terrier_12.jpg" alt="american_pit_bull_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/american_pit_bull_terrier_117.jpg" alt="american_pit_bull_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/american_pit_bull_terrier_120.jpg" alt="american_pit_bull_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/american_pit_bull_terrier_156.jpg" alt="american_pit_bull_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>Maine_Coon</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Maine_Coon_144.jpg" alt="Maine_Coon" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Maine_Coon_102.jpg" alt="Maine_Coon" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Maine_Coon_161.jpg" alt="Maine_Coon" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Maine_Coon_142.jpg" alt="Maine_Coon" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Maine_Coon_155.jpg" alt="Maine_Coon" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>keeshond</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/keeshond_128.jpg" alt="keeshond" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/keeshond_16.jpg" alt="keeshond" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/keeshond_136.jpg" alt="keeshond" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/keeshond_171.jpg" alt="keeshond" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/keeshond_123.jpg" alt="keeshond" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>havanese</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/havanese_119.jpg" alt="havanese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/havanese_161.jpg" alt="havanese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/havanese_153.jpg" alt="havanese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/havanese_132.jpg" alt="havanese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/havanese_130.jpg" alt="havanese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>scottish_terrier</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/scottish_terrier_147.jpg" alt="scottish_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/scottish_terrier_170.jpg" alt="scottish_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/scottish_terrier_14.jpg" alt="scottish_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/scottish_terrier_168.jpg" alt="scottish_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/scottish_terrier_10.jpg" alt="scottish_terrier" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>leonberger</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/leonberger_123.jpg" alt="leonberger" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/leonberger_171.jpg" alt="leonberger" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/leonberger_17.jpg" alt="leonberger" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/leonberger_102.jpg" alt="leonberger" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/leonberger_152.jpg" alt="leonberger" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>Russian_Blue</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Russian_Blue_108.jpg" alt="Russian_Blue" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Russian_Blue_122.jpg" alt="Russian_Blue" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Russian_Blue_135.jpg" alt="Russian_Blue" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Russian_Blue_10.jpg" alt="Russian_Blue" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Russian_Blue_106.jpg" alt="Russian_Blue" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>Siamese</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Siamese_115.jpg" alt="Siamese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Siamese_101.jpg" alt="Siamese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Siamese_141.jpg" alt="Siamese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Siamese_133.jpg" alt="Siamese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Siamese_173.jpg" alt="Siamese" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 79 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>saint_bernard</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/saint_bernard_100.jpg" alt="saint_bernard" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/saint_bernard_167.jpg" alt="saint_bernard" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/saint_bernard_123.jpg" alt="saint_bernard" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/saint_bernard_108.jpg" alt="saint_bernard" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/dogs/saint_bernard_117.jpg" alt="saint_bernard" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 80 images
-            </p>
-          </div>
-          <div class="card">
-            <h4>Egyptian_Mau</h4>
-            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Egyptian_Mau_138.jpg" alt="Egyptian_Mau" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Egyptian_Mau_11.jpg" alt="Egyptian_Mau" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Egyptian_Mau_176.jpg" alt="Egyptian_Mau" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Egyptian_Mau_153.jpg" alt="Egyptian_Mau" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-              <img src="../../../datasets/oxford-pets/data/sample_images/cats/Egyptian_Mau_140.jpg" alt="Egyptian_Mau" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px;">
-            </div>
-            <p style="margin-top: 10px; font-size: 0.875rem; color: #6b7280;">
-              5 of 74 images
-            </p>
-          </div>
-          </div>
-
-          <p class="text-center" style="margin-top: 30px;">
-            <em>Showing top 10 breeds. Full gallery includes all 37 breeds.</em>
-          </p>
         </div>
       </div>
     </section>

@@ -63,6 +63,31 @@
         console.log('✓ PCA variance chart initialized');
       }
     }
+
+    // Split distribution charts
+    if (charts.species_split_bar) {
+      const ctx = document.getElementById('species-split-bar');
+      if (ctx) {
+        new Chart(ctx, charts.species_split_bar);
+        console.log('✓ Species split chart initialized');
+      }
+    }
+
+    if (charts.breed_split_bar) {
+      const ctx = document.getElementById('breed-split-bar');
+      if (ctx) {
+        new Chart(ctx, charts.breed_split_bar);
+        console.log('✓ Breed split chart initialized');
+      }
+    }
+
+    if (charts.split_percentage_pie) {
+      const ctx = document.getElementById('split-percentage-pie');
+      if (ctx) {
+        new Chart(ctx, charts.split_percentage_pie);
+        console.log('✓ Split percentage pie initialized');
+      }
+    }
   }
 
   /**
