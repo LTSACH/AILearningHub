@@ -189,7 +189,7 @@ pre code {
   gap: var(--spacing-lg);
 }
 
-.grid-2 {
+.interactive-gallery .image-grid.grid-2 {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 1rem !important;
