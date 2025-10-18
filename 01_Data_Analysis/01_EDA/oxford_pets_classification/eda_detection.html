@@ -3097,55 +3097,97 @@
       "grid_distribution": {
         "data": [
           {
+            "z": [
+              [
+                0.16344320348678834,
+                0.599291746118224,
+                0.16344320348678834
+              ],
+              [
+                4.086080087169709,
+                51.811495505311896,
+                4.304004358485426
+              ],
+              [
+                4.712612367202397,
+                30.83628439117407,
+                3.3233451375646963
+              ]
+            ],
             "x": [
-              "Region 1,1",
-              "Region 1,2",
-              "Region 1,3",
-              "Region 2,1",
-              "Region 2,2",
-              "Region 2,3",
-              "Region 3,1",
-              "Region 3,2",
-              "Region 3,3"
+              "Left",
+              "Center",
+              "Right"
             ],
             "y": [
-              4.712612367202397,
-              30.83628439117407,
-              3.3233451375646963,
-              4.086080087169709,
-              51.811495505311896,
-              4.304004358485426,
-              0.16344320348678834,
-              0.599291746118224,
-              0.16344320348678834
+              "Bottom",
+              "Middle",
+              "Top"
             ],
-            "type": "bar",
-            "marker": {
-              "color": [
-                "rgba(59, 130, 246, 0.33298828657041674)",
-                "rgba(59, 130, 246, 0.5158539907382185)",
-                "rgba(59, 130, 246, 0.3232634159629528)",
-                "rgba(59, 130, 246, 0.32860256061018794)",
-                "rgba(59, 130, 246, 0.6626804685371832)",
-                "rgba(59, 130, 246, 0.330128030509398)",
-                "rgba(59, 130, 246, 0.30114410242440753)",
-                "rgba(59, 130, 246, 0.30419504222282756)",
-                "rgba(59, 130, 246, 0.30114410242440753)"
-              ]
+            "type": "heatmap",
+            "colorscale": "Blues",
+            "showscale": true,
+            "colorbar": {
+              "title": "Density (%)",
+              "titleside": "right"
             },
-            "name": "Distribution (%)"
+            "text": [
+              [
+                "0.2%",
+                "0.6%",
+                "0.2%"
+              ],
+              [
+                "4.1%",
+                "51.8%",
+                "4.3%"
+              ],
+              [
+                "4.7%",
+                "30.8%",
+                "3.3%"
+              ]
+            ],
+            "texttemplate": "%{text}",
+            "textfont": {
+              "size": 16,
+              "color": "white"
+            },
+            "hovertemplate": "%{y} - %{x}<br>Density: %{z:.1f}%<extra></extra>"
           }
         ],
         "layout": {
           "title": "3x3 Grid Distribution",
           "xaxis": {
-            "title": "Image Regions"
+            "title": "Horizontal Position",
+            "side": "bottom",
+            "tickmode": "array",
+            "tickvals": [
+              0,
+              1,
+              2
+            ],
+            "ticktext": [
+              "Left",
+              "Center",
+              "Right"
+            ]
           },
           "yaxis": {
-            "title": "Percentage (%)",
-            "rangemode": "tozero"
+            "title": "Vertical Position",
+            "tickmode": "array",
+            "tickvals": [
+              0,
+              1,
+              2
+            ],
+            "ticktext": [
+              "Bottom",
+              "Middle",
+              "Top"
+            ],
+            "autorange": true
           },
-          "showlegend": false,
           "template": "plotly_white",
           "height": 400
         }
