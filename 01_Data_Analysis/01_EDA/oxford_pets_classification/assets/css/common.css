@@ -607,8 +607,9 @@ tr:hover {
 }
 
 .image-caption div {
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  color: #1f2937;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+  font-weight: 600;
 }
 
 .image-caption strong {
@@ -915,8 +916,9 @@ tr:hover {
     }
 
     .interactive-gallery .image-caption div {
-      color: white;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      color: #1f2937;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+      font-weight: 600;
     }
 
     .interactive-gallery .image-caption strong {
