@@ -42,7 +42,7 @@
       { id: 'bbox-size-chart', key: 'bbox_size', name: 'Bbox Size' },
       { id: 'aspect-ratio-chart', key: 'aspect_ratio', name: 'Aspect Ratio' },
       { id: 'area-distribution-chart', key: 'area_distribution', name: 'Area Distribution' },
-      { id: 'size-category-chart', key: 'size_categories', name: 'Size Categories' },
+      { id: 'size-category-chart', key: 'size_category', name: 'Size Categories' },
       { id: 'center-bias-chart', key: 'center_bias', name: 'Center Bias' },
       { id: 'grid-distribution-chart', key: 'grid_distribution', name: 'Grid Distribution' }
     ];
