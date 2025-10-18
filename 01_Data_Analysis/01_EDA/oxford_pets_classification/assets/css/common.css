@@ -189,10 +189,18 @@ pre code {
   gap: var(--spacing-lg);
 }
 
+/* Gallery specific grid - only for image galleries */
 .interactive-gallery .image-grid.grid-2 {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 1rem !important;
+}
+
+/* Regular grid-2 for other sections - keep original behavior */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
 .grid-3 {
