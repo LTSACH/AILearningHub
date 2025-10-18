@@ -145,205 +145,179 @@
             </style>
     <script>
     
-    window.CLASSIFICATION_CHARTS = {
+    window.DETECTION_CHARTS = {
       "bbox_size": {
-        "type": "bar",
-        "data": {
-          "labels": [
-            "Mean",
-            "Median"
-          ],
-          "datasets": [
-            {
-              "label": "Width (pixels)",
-              "data": [
-                171.83546717515662,
-                155.0
-              ],
-              "backgroundColor": "#3b82f6",
-              "borderColor": "#2563eb",
-              "borderWidth": 1
-            },
-            {
-              "label": "Height (pixels)",
-              "data": [
-                168.16943612094798,
-                152.0
-              ],
-              "backgroundColor": "#10b981",
-              "borderColor": "#059669",
-              "borderWidth": 1
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": true,
-              "text": "Bounding Box Size Statistics",
-              "font": {
-                "size": 16
-              }
-            },
-            "legend": {
-              "display": true,
-              "position": "top"
+        "data": [
+          {
+            "x": [
+              "Mean",
+              "Median"
+            ],
+            "y": [
+              171.83546717515662,
+              155.0
+            ],
+            "name": "Width (pixels)",
+            "type": "bar",
+            "marker": {
+              "color": "#3b82f6"
             }
           },
-          "scales": {
-            "y": {
-              "beginAtZero": true,
-              "title": {
-                "display": true,
-                "text": "Pixels"
-              }
+          {
+            "x": [
+              "Mean",
+              "Median"
+            ],
+            "y": [
+              168.16943612094798,
+              152.0
+            ],
+            "name": "Height (pixels)",
+            "type": "bar",
+            "marker": {
+              "color": "#10b981"
             }
           }
+        ],
+        "layout": {
+          "title": "Bounding Box Size Statistics",
+          "xaxis": {
+            "title": "Statistic"
+          },
+          "yaxis": {
+            "title": "Pixels",
+            "rangemode": "tozero"
+          },
+          "barmode": "group",
+          "showlegend": true,
+          "legend": {
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": 1.02,
+            "xanchor": "right",
+            "x": 1
+          },
+          "template": "plotly_white",
+          "height": 400
         }
       },
       "aspect_ratio": {
-        "type": "doughnut",
-        "data": {
-          "labels": [
-            "Wide",
-            "Square",
-            "Tall"
-          ],
-          "datasets": [
-            {
-              "data": [
-                95,
-                2583,
-                86
-              ],
-              "backgroundColor": [
+        "data": [
+          {
+            "labels": [
+              "Wide",
+              "Square",
+              "Tall"
+            ],
+            "values": [
+              95,
+              2583,
+              86
+            ],
+            "type": "pie",
+            "marker": {
+              "colors": [
                 "#f59e0b",
                 "#10b981",
                 "#ef4444"
-              ],
-              "borderWidth": 2,
-              "borderColor": "#ffffff"
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": true,
-              "text": "Aspect Ratio Distribution",
-              "font": {
-                "size": 16
-              }
+              ]
             },
-            "legend": {
-              "display": true,
-              "position": "bottom"
-            }
+            "hole": 0.4,
+            "textposition": "inside",
+            "textinfo": "label+percent"
           }
+        ],
+        "layout": {
+          "title": "Aspect Ratio Distribution",
+          "showlegend": true,
+          "legend": {
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": -0.2,
+            "xanchor": "center",
+            "x": 0.5
+          },
+          "template": "plotly_white",
+          "height": 400
         }
       },
       "area_distribution": {
-        "type": "bar",
-        "data": {
-          "labels": [
-            "0-0.1",
-            "0.1-0.2",
-            "0.2-0.3",
-            "0.3-0.4",
-            "0.4-0.5",
-            "0.5+"
-          ],
-          "datasets": [
-            {
-              "label": "Number of Bounding Boxes",
-              "data": [
-                25,
-                35,
-                20,
-                15,
-                3,
-                2
-              ],
-              "backgroundColor": "#8b5cf6",
-              "borderColor": "#7c3aed",
-              "borderWidth": 1
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": true,
-              "text": "Normalized Area Distribution",
-              "font": {
-                "size": 16
-              }
-            }
-          },
-          "scales": {
-            "y": {
-              "beginAtZero": true,
-              "title": {
-                "display": true,
-                "text": "Count"
-              }
+        "data": [
+          {
+            "x": [
+              "0-0.1",
+              "0.1-0.2",
+              "0.2-0.3",
+              "0.3-0.4",
+              "0.4-0.5",
+              "0.5+"
+            ],
+            "y": [
+              25,
+              35,
+              20,
+              15,
+              3,
+              2
+            ],
+            "type": "bar",
+            "marker": {
+              "color": "#8b5cf6"
             },
-            "x": {
-              "title": {
-                "display": true,
-                "text": "Normalized Area Range"
-              }
-            }
+            "name": "Number of Bounding Boxes"
           }
+        ],
+        "layout": {
+          "title": "Normalized Area Distribution",
+          "xaxis": {
+            "title": "Normalized Area Range"
+          },
+          "yaxis": {
+            "title": "Count",
+            "rangemode": "tozero"
+          },
+          "showlegend": false,
+          "template": "plotly_white",
+          "height": 400
         }
       },
       "size_category": {
-        "type": "pie",
-        "data": {
-          "labels": [
-            "Small",
-            "Medium",
-            "Large"
-          ],
-          "datasets": [
-            {
-              "data": [
-                0,
-                152,
-                3519
-              ],
-              "backgroundColor": [
+        "data": [
+          {
+            "labels": [
+              "Small",
+              "Medium",
+              "Large"
+            ],
+            "values": [
+              0,
+              152,
+              3519
+            ],
+            "type": "pie",
+            "marker": {
+              "colors": [
                 "#ef4444",
                 "#f59e0b",
                 "#10b981"
-              ],
-              "borderWidth": 2,
-              "borderColor": "#ffffff"
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": true,
-              "text": "Size Category Distribution (COCO-style)",
-              "font": {
-                "size": 16
-              }
+              ]
             },
-            "legend": {
-              "display": true,
-              "position": "bottom"
-            }
+            "textposition": "inside",
+            "textinfo": "label+percent"
           }
+        ],
+        "layout": {
+          "title": "Size Category Distribution (COCO-style)",
+          "showlegend": true,
+          "legend": {
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": -0.2,
+            "xanchor": "center",
+            "x": 0.5
+          },
+          "template": "plotly_white",
+          "height": 400
         }
       },
       "position_heatmap": {
@@ -3079,121 +3053,101 @@
               1
             ]
           },
-          "width": 600,
+          "template": "plotly_white",
           "height": 500
         }
       },
       "center_bias": {
-        "type": "doughnut",
-        "data": {
-          "labels": [
-            "Center Region",
-            "Other Regions"
-          ],
-          "datasets": [
-            {
-              "data": [
-                57.17788068646146,
-                42.82211931353854
-              ],
-              "backgroundColor": [
+        "data": [
+          {
+            "labels": [
+              "Center Region",
+              "Other Regions"
+            ],
+            "values": [
+              57.17788068646146,
+              42.82211931353854
+            ],
+            "type": "pie",
+            "marker": {
+              "colors": [
                 "#10b981",
                 "#e5e7eb"
-              ],
-              "borderWidth": 2,
-              "borderColor": "#ffffff"
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": true,
-              "text": "Center Bias Analysis (Score: 0.81)",
-              "font": {
-                "size": 16
-              }
+              ]
             },
-            "legend": {
-              "display": true,
-              "position": "bottom"
-            }
+            "hole": 0.4,
+            "textposition": "inside",
+            "textinfo": "label+percent"
           }
+        ],
+        "layout": {
+          "title": "Center Bias Analysis (Score: 0.81)",
+          "showlegend": true,
+          "legend": {
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": -0.2,
+            "xanchor": "center",
+            "x": 0.5
+          },
+          "template": "plotly_white",
+          "height": 350
         }
       },
       "grid_distribution": {
-        "type": "bar",
-        "data": {
-          "labels": [
-            "Region 1,1",
-            "Region 1,2",
-            "Region 1,3",
-            "Region 2,1",
-            "Region 2,2",
-            "Region 2,3",
-            "Region 3,1",
-            "Region 3,2",
-            "Region 3,3"
-          ],
-          "datasets": [
-            {
-              "label": "Distribution (%)",
-              "data": [
-                4.712612367202397,
-                30.83628439117407,
-                3.3233451375646963,
-                4.086080087169709,
-                51.811495505311896,
-                4.304004358485426,
-                0.16344320348678834,
-                0.599291746118224,
-                0.16344320348678834
-              ],
-              "backgroundColor": [
-                "rgba(59, 130, 246, 0.050980392156862786)",
-                "rgba(59, 130, 246, 0.30980392156862746)",
-                "rgba(59, 130, 246, 0.03529411764705881)",
-                "rgba(59, 130, 246, 0.04313725490196074)",
-                "rgba(59, 130, 246, 0.5215686274509803)",
-                "rgba(59, 130, 246, 0.04313725490196074)",
-                "rgba(59, 130, 246, 0.0039215686274509665)",
-                "rgba(59, 130, 246, 0.007843137254901933)",
-                "rgba(59, 130, 246, 0.0039215686274509665)"
-              ],
-              "borderColor": "#3b82f6",
-              "borderWidth": 1
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": true,
-              "text": "3x3 Grid Distribution",
-              "font": {
-                "size": 16
-              }
-            }
-          },
-          "scales": {
-            "y": {
-              "beginAtZero": true,
-              "title": {
-                "display": true,
-                "text": "Percentage (%)"
-              }
+        "data": [
+          {
+            "x": [
+              "Region 1,1",
+              "Region 1,2",
+              "Region 1,3",
+              "Region 2,1",
+              "Region 2,2",
+              "Region 2,3",
+              "Region 3,1",
+              "Region 3,2",
+              "Region 3,3"
+            ],
+            "y": [
+              4.712612367202397,
+              30.83628439117407,
+              3.3233451375646963,
+              4.086080087169709,
+              51.811495505311896,
+              4.304004358485426,
+              0.16344320348678834,
+              0.599291746118224,
+              0.16344320348678834
+            ],
+            "type": "bar",
+            "marker": {
+              "color": [
+                "rgba(59, 130, 246, 0.33298828657041674)",
+                "rgba(59, 130, 246, 0.5158539907382185)",
+                "rgba(59, 130, 246, 0.3232634159629528)",
+                "rgba(59, 130, 246, 0.32860256061018794)",
+                "rgba(59, 130, 246, 0.6626804685371832)",
+                "rgba(59, 130, 246, 0.330128030509398)",
+                "rgba(59, 130, 246, 0.30114410242440753)",
+                "rgba(59, 130, 246, 0.30419504222282756)",
+                "rgba(59, 130, 246, 0.30114410242440753)"
+              ]
             },
-            "x": {
-              "title": {
-                "display": true,
-                "text": "Image Regions"
-              }
-            }
+            "name": "Distribution (%)"
           }
+        ],
+        "layout": {
+          "title": "3x3 Grid Distribution",
+          "xaxis": {
+            "title": "Image Regions"
+          },
+          "yaxis": {
+            "title": "Percentage (%)",
+            "rangemode": "tozero"
+          },
+          "showlegend": false,
+          "template": "plotly_white",
+          "height": 400
         }
       }
     };
@@ -3263,7 +3217,7 @@
               <div class="chart-container">
       <h3 class="chart-title">Size Statistics</h3>
       <div class="chart-wrapper" style="height: 350px;">
-        <canvas id="bbox-size-chart"></canvas>
+        <div id="bbox-size-chart"></div>
       </div>
       <p class="text-center text-muted">Mean and median width/height of bounding boxes</p>
     </div>
@@ -3272,7 +3226,7 @@
               <div class="chart-container">
       <h3 class="chart-title">Aspect Ratio Distribution</h3>
       <div class="chart-wrapper" style="height: 350px;">
-        <canvas id="aspect-ratio-chart"></canvas>
+        <div id="aspect-ratio-chart"></div>
       </div>
       <p class="text-center text-muted">Distribution of wide, square, and tall bounding boxes</p>
     </div>
@@ -3284,7 +3238,7 @@
               <div class="chart-container">
       <h3 class="chart-title">Area Distribution</h3>
       <div class="chart-wrapper" style="height: 350px;">
-        <canvas id="area-distribution-chart"></canvas>
+        <div id="area-distribution-chart"></div>
       </div>
       <p class="text-center text-muted">Distribution of normalized bounding box areas</p>
     </div>
@@ -3293,7 +3247,7 @@
               <div class="chart-container">
       <h3 class="chart-title">Size Categories</h3>
       <div class="chart-wrapper" style="height: 350px;">
-        <canvas id="size-category-chart"></canvas>
+        <div id="size-category-chart"></div>
       </div>
       <p class="text-center text-muted">COCO-style size categorization (small/medium/large)</p>
     </div>
@@ -3332,7 +3286,7 @@
               <div class="chart-container">
       <h3 class="chart-title">Center Bias Analysis</h3>
       <div class="chart-wrapper" style="height: 350px;">
-        <canvas id="center-bias-chart"></canvas>
+        <div id="center-bias-chart"></div>
       </div>
       <p class="text-center text-muted">Distribution between center and edge regions</p>
     </div>
@@ -3343,7 +3297,7 @@
             <div class="chart-container">
       <h3 class="chart-title">3x3 Grid Distribution</h3>
       <div class="chart-wrapper" style="height: 400px;">
-        <canvas id="grid-distribution-chart"></canvas>
+        <div id="grid-distribution-chart"></div>
       </div>
       <p class="text-center text-muted">Distribution of bounding boxes across image regions</p>
     </div>
@@ -3931,10 +3885,8 @@
                 }
             });
             </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
     <script src="assets/js/common/utils.js" defer></script>
-    <script src="assets/js/common/data-loader.js" defer></script>
-    <script src="assets/js/classification/main.js" defer></script>
+    <script src="assets/js/detection/main.js" defer></script>
   </body>
 </html>
