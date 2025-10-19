@@ -12,14 +12,31 @@
    * Initialize all detection components
    */
   function initializeDetectionReport() {
-    console.log('🔍 Initializing Detection EDA Report (Plotly-only)...');
+    // console.log('🔍 Initializing Detection EDA Report (Plotly-only)...');
 
+    // Wait for data to be loaded
+    if (!window.DETECTION_CHARTS || Object.keys(window.DETECTION_CHARTS).length === 0) {
+      // Data not loaded yet, wait for event
+      window.addEventListener('detection-data-loaded', function(event) {
+        initializeWithData();
+      });
+      return;
+    }
+    
+    // Data already loaded
+    initializeWithData();
+  }
+  
+  /**
+   * Initialize with loaded data
+   */
+  function initializeWithData() {
     // Get data from window
     const charts = window.DETECTION_CHARTS || {};
     const detectionStats = window.DETECTION_STATS || {};
     
     // Debug: Log available data
-    console.log('📊 Available charts:', Object.keys(charts));
+    // console.log('📊 Available charts:', Object.keys(charts));
     
     // Initialize all Plotly charts
     initializePlotlyCharts(charts);
@@ -27,14 +44,14 @@
     // Initialize interactions
     initializeInteractions();
 
-    console.log('✅ Detection report initialized');
+    // console.log('✅ Detection report initialized');
   }
 
   /**
    * Initialize all Plotly charts
    */
   function initializePlotlyCharts(charts) {
-    console.log('📈 Initializing all charts with Plotly...');
+    // console.log('📈 Initializing all charts with Plotly...');
     
     // Define all chart configurations
     const chartConfigs = [
@@ -50,7 +67,7 @@
     // Initialize each chart
     chartConfigs.forEach(config => {
       if (charts[config.key]) {
-        console.log(`📊 Initializing ${config.name}...`);
+        // console.log(`📊 Initializing ${config.name}...`);
         const plotlyDiv = document.getElementById(config.id);
         if (plotlyDiv) {
           try {
@@ -60,15 +77,15 @@
               charts[config.key].layout || {},
               {responsive: true, displayModeBar: false}
             );
-            console.log(`✅ ${config.name} created`);
+            // console.log(`✅ ${config.name} created`);
           } catch (error) {
             console.error(`❌ Error creating ${config.name}:`, error);
           }
         } else {
-          console.log(`❌ ${config.name} div not found: ${config.id}`);
+          // console.log(`❌ ${config.name} div not found: ${config.id}`);
         }
       } else {
-        console.log(`⚠️  ${config.name} data not found`);
+        // console.log(`⚠️  ${config.name} data not found`);
       }
     });
   }
@@ -77,10 +94,10 @@
    * Initialize interactions
    */
   function initializeInteractions() {
-    console.log('🎮 Initializing interactions...');
+    // console.log('🎮 Initializing interactions...');
     
     // Add any interactive features here
-    console.log('✅ Interactions initialized');
+    // console.log('✅ Interactions initialized');
   }
 
   // Initialize when DOM is ready
