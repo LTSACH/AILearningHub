@@ -29,7 +29,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 800px;  /* Match section width */
   margin: 0 auto;
 }
 
@@ -158,6 +158,27 @@
 .dark-code-theme .code-tab-btn:hover {
   background: #5a67d8 !important;
   color: white !important;
+}
+
+/* ====================================
+   CODE THEME TOGGLE
+   ==================================== */
+.dark-code-theme pre,
+.dark-code-theme .code-tab-content pre,
+.dark-code-theme .code-panel pre {
+  background-color: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  border: 1px solid #3c3c3c !important;
+}
+
+.dark-code-theme .code-tab-content {
+  background-color: #1e1e1e !important;
+  border: 1px solid #3c3c3c !important;
+}
+
+.dark-code-theme .code-panel {
+  background-color: #1e1e1e !important;
+  border: 1px solid #3c3c3c !important;
 }
 
 /* ====================================

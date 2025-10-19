@@ -10,9 +10,15 @@ function expandAll() {
     
     document.querySelectorAll('.section').forEach(section => {
         section.classList.add('expanded');
+        section.style.display = 'block';  // Force show
         const toggle = section.querySelector('.section-toggle');
         if (toggle) {
             toggle.textContent = '▼';
+        }
+        // Show content
+        const content = section.querySelector('.section-content');
+        if (content) {
+            content.style.display = 'block';
         }
     });
     
@@ -26,9 +32,15 @@ function collapseAll() {
     
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('expanded');
+        section.style.display = 'block';  // Keep section visible
         const toggle = section.querySelector('.section-toggle');
         if (toggle) {
             toggle.textContent = '▶';
+        }
+        // Hide content
+        const content = section.querySelector('.section-content');
+        if (content) {
+            content.style.display = 'none';
         }
     });
     
