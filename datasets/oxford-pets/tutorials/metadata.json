@@ -1,0 +1,100 @@
+{
+  "version": "1.0",
+  "dataset": "oxford-pets",
+  "last_updated": "2025-01-19",
+  "description": "Tutorial code examples for Oxford-IIIT Pets dataset EDA",
+  
+  "classification": {
+    "dataset_overview": {
+      "title": "Oxford Pets Dataset Overview",
+      "description": "Explore the Oxford-IIIT Pet Dataset structure and statistics",
+      "explanation": {
+        "what": "Dataset overview provides a high-level summary of the Oxford Pets dataset: number of images, breeds, species distribution, and data splits.",
+        "why": "Understanding dataset structure is the first step in image classification EDA. It helps identify class balance, data quality, and potential challenges.",
+        "how": "Load metadata, check total images/breeds, analyze species distribution, examine train/val/test splits. Look for class imbalance that might affect model performance."
+      },
+      "code_files": {
+        "plotly": "classification/dataset_overview_plotly.py",
+        "matplotlib": "classification/dataset_overview_matplotlib.py",
+        "seaborn": "classification/dataset_overview_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv"
+      ],
+      "chart_match": ["species-pie", "split-stats"],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"]
+    },
+    
+    "breed_distribution": {
+      "title": "Breed Distribution Analysis",
+      "description": "Analyze the distribution of 37 breeds and check class balance",
+      "explanation": {
+        "what": "Breed distribution analysis examines how images are distributed across 37 different pet breeds.",
+        "why": "Class imbalance can significantly impact model performance. Understanding distribution helps in choosing appropriate training strategies.",
+        "how": "Count images per breed, calculate class balance metrics (Gini coefficient, entropy), identify overrepresented and underrepresented classes."
+      },
+      "code_files": {
+        "plotly": "classification/breed_distribution_plotly.py",
+        "matplotlib": "classification/breed_distribution_matplotlib.py",
+        "seaborn": "classification/breed_distribution_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv"
+      ],
+      "chart_match": ["class-dist-bar", "balance-metrics"],
+      "requirements": ["pandas", "numpy", "plotly", "matplotlib", "seaborn"]
+    },
+    
+    "feature_extraction": {
+      "title": "Feature Extraction with ResNet50",
+      "description": "Extract deep features and visualize with t-SNE/UMAP",
+      "explanation": {
+        "what": "Feature extraction uses a pretrained ResNet50 model to convert images into 2048-dimensional feature vectors, then reduces to 2D for visualization.",
+        "why": "Deep features capture high-level visual patterns. Dimensionality reduction reveals if breeds are separable in feature space.",
+        "how": "Use pre-computed t-SNE/UMAP coordinates from the full dataset. Visualize 2D projections colored by breed to understand feature space structure."
+      },
+      "code_files": {
+        "plotly": "classification/feature_extraction_plotly.py",
+        "matplotlib": "classification/feature_extraction_matplotlib.py",
+        "seaborn": "classification/feature_extraction_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/tsne_coordinates.csv",
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/umap_coordinates.csv"
+      ],
+      "chart_match": ["tsne-plot", "umap-plot"],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"],
+      "note": "Uses pre-computed features for instant visualization. Advanced version available for computing from scratch."
+    },
+    
+    "similarity_analysis": {
+      "title": "Breed Similarity Analysis",
+      "description": "Compute breed similarity matrix using feature-based cosine distance",
+      "explanation": {
+        "what": "Similarity analysis computes pairwise cosine similarity between breed feature representations to identify visually similar breeds.",
+        "why": "Similar breeds are harder to distinguish. Knowing similarity helps understand classification challenges and potential confusion.",
+        "how": "Use pre-computed similarity matrix (37×37) from averaged breed features. Visualize as heatmap to identify most/least similar breed pairs."
+      },
+      "code_files": {
+        "plotly": "classification/similarity_analysis_plotly.py",
+        "matplotlib": "classification/similarity_analysis_matplotlib.py",
+        "seaborn": "classification/similarity_analysis_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/similarity_matrix.csv"
+      ],
+      "chart_match": ["similarity-heatmap"],
+      "requirements": ["pandas", "numpy", "plotly", "matplotlib", "seaborn"],
+      "note": "Uses pre-computed similarity matrix for instant visualization."
+    }
+  },
+  
+  "detection": {
+    "_note": "Detection tutorials will be added in future updates"
+  },
+  
+  "segmentation": {
+    "_note": "Segmentation tutorials will be added in future updates"
+  }
+}
+
