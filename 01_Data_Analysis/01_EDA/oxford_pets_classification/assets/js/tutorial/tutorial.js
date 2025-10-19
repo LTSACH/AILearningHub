@@ -294,6 +294,7 @@
   
   /**
    * Download code from specific tab - Per-tab action
+   * Fetches content and creates blob for true download
    */
   window.downloadCodeFromTab = async function(sectionId, library) {
     const tutorial = getTutorialMeta(sectionId);
@@ -310,17 +311,34 @@
       return;
     }
     
-    // Download the file
-    const url = TUTORIAL_BASE_URL + filename;
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename.split('/').pop();
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    showCopyFeedback(event.target, `✅ Downloading ${library}...`);
+    try {
+      // Fetch file content
+      const url = TUTORIAL_BASE_URL + filename;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      
+      const code = await response.text();
+      
+      // Create blob and download
+      const blob = new Blob([code], { type: 'text/x-python' });
+      const blobUrl = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename.split('/').pop();
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up blob URL
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+      
+      showCopyFeedback(event.target, `✅ Downloaded ${library}!`);
+    } catch (err) {
+      console.error(`Download failed:`, err);
+      showCopyFeedback(event.target, `❌ Download failed`);
+    }
   };
   
   /**
