@@ -90,7 +90,86 @@
   },
   
   "detection": {
-    "_note": "Detection tutorials will be added in future updates"
+    "bbox_overview": {
+      "title": "Bounding Box Overview",
+      "description": "Overview of bbox annotations and detection task statistics",
+      "explanation": {
+        "what": "Analyze bounding box annotations for pet head detection across 3,671 images (train+val splits).",
+        "why": "Understanding bbox distribution helps assess data quality and prepare for detection model training.",
+        "how": "Load pre-computed bbox statistics from CSV, visualize species distribution, split ratios, and breed coverage."
+      },
+      "code_files": {
+        "plotly": "detection/bbox_overview_plotly.py",
+        "matplotlib": "detection/bbox_overview_matplotlib.py",
+        "seaborn": "detection/bbox_overview_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv"
+      ],
+      "chart_match": ["species-distribution", "split-distribution"],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+    },
+    
+    "bbox_properties": {
+      "title": "Bounding Box Properties Analysis",
+      "description": "Analyze bbox dimensions, aspect ratios, and size distributions",
+      "explanation": {
+        "what": "Detailed analysis of bounding box properties: width, height, area, aspect ratios, and COCO-style size categories.",
+        "why": "Understanding bbox characteristics helps choose appropriate anchor boxes and model architectures for detection.",
+        "how": "Load bbox statistics CSV, compute size distributions, aspect ratio analysis, and categorize by COCO standards (small/medium/large)."
+      },
+      "code_files": {
+        "plotly": "detection/bbox_properties_plotly.py",
+        "matplotlib": "detection/bbox_properties_matplotlib.py",
+        "seaborn": "detection/bbox_properties_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv"
+      ],
+      "chart_match": ["bbox-size-chart", "aspect-ratio-chart", "size-category-chart", "area-distribution-chart"],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+    },
+    
+    "spatial_distribution": {
+      "title": "Spatial Distribution Analysis",
+      "description": "Analyze bbox positions and spatial patterns within images",
+      "explanation": {
+        "what": "Spatial analysis of bounding box positions: center coordinates, position heatmaps, center bias, and grid distribution.",
+        "why": "Spatial patterns reveal if objects are centered, distributed evenly, or biased toward certain regions - important for data augmentation strategies.",
+        "how": "Load spatial distribution CSV with normalized center positions, create heatmaps, calculate distance from center, analyze 3×3 grid distribution."
+      },
+      "code_files": {
+        "plotly": "detection/spatial_distribution_plotly.py",
+        "matplotlib": "detection/spatial_distribution_matplotlib.py",
+        "seaborn": "detection/spatial_distribution_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/spatial_distribution.csv"
+      ],
+      "chart_match": ["position-heatmap", "center-bias-chart", "grid-distribution-chart"],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+    },
+    
+    "quality_analysis": {
+      "title": "Annotation Quality Analysis",
+      "description": "Assess bbox annotation quality and consistency",
+      "explanation": {
+        "what": "Quality assessment of bounding box annotations: size consistency (CV), coverage ratios, outlier detection, and per-breed quality metrics.",
+        "why": "High-quality annotations are crucial for training robust detection models. Identifying inconsistencies helps improve data quality.",
+        "how": "Load quality metrics CSV, calculate coefficient of variation for sizes, detect outliers, assess coverage consistency across breeds."
+      },
+      "code_files": {
+        "plotly": "detection/quality_analysis_plotly.py",
+        "matplotlib": "detection/quality_analysis_matplotlib.py",
+        "seaborn": "detection/quality_analysis_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/quality_metrics.csv",
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv"
+      ],
+      "chart_match": ["quality-score", "consistency-metrics"],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+    }
   },
   
   "segmentation": {
