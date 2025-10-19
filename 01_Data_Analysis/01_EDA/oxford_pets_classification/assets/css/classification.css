@@ -5,6 +5,182 @@
  */
 
 /* ====================================
+   GLOBAL MENUBAR
+   ==================================== */
+.global-menubar {
+  position: sticky;
+  top: 0;
+  background: rgba(248, 249, 250, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(222, 226, 230, 0.5);
+  padding: 12px 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.menubar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menubar-left, .menubar-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.menubar-btn {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.menubar-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.menubar-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-expand {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+}
+
+.btn-expand:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  color: white;
+}
+
+.btn-collapse {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border-color: #f093fb;
+}
+
+.btn-collapse:hover {
+  background: linear-gradient(135deg, #e879f9 0%, #ef4444 100%);
+  color: white;
+}
+
+.btn-theme {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border-color: #4facfe;
+}
+
+.btn-theme:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+  color: white;
+}
+
+/* ====================================
+   NOTIFICATIONS
+   ==================================== */
+.notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.notification-info {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.notification-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+/* ====================================
+   DARK CODE THEME
+   ==================================== */
+.dark-code-theme .code-panel {
+  background: #2d3748 !important;
+  border-color: #4a5568 !important;
+}
+
+.dark-code-theme .code-tab-content pre {
+  background: #1a202c !important;
+  color: #e2e8f0 !important;
+}
+
+.dark-code-theme .code-tab-btn {
+  background: #4a5568 !important;
+  color: #e2e8f0 !important;
+  border-color: #4a5568 !important;
+}
+
+.dark-code-theme .code-tab-btn.active {
+  background: #667eea !important;
+  color: white !important;
+}
+
+.dark-code-theme .code-tab-btn:hover {
+  background: #5a67d8 !important;
+  color: white !important;
+}
+
+/* ====================================
+   RESPONSIVE DESIGN
+   ==================================== */
+@media (max-width: 768px) {
+  .global-menubar {
+    padding: 8px 15px;
+  }
+  
+  .menubar-content {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .menubar-left, .menubar-right {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .menubar-btn {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* ====================================
    BREED CARDS
    ==================================== */
 .breed-card {

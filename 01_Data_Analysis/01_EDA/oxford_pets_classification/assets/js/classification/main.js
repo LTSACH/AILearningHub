@@ -26,9 +26,6 @@
       console.log('First chart data:', charts[Object.keys(charts)[0]]);
     }
 
-    // Initialize Chart.js charts
-    initializeChartJSCharts(charts);
-
     // Initialize Plotly charts
     initializePlotlyCharts(charts);
 

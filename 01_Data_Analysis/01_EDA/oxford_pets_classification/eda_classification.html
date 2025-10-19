@@ -148,56 +148,55 @@
     
     window.CLASSIFICATION_CHARTS = {
       "class_dist_bar": {
-        "type": "bar",
-        "data": {
-          "labels": [
-            "american_pit_bull_terrier",
-            "Maine_Coon",
-            "havanese",
-            "leonberger",
-            "Russian_Blue",
-            "saint_bernard",
-            "basset_hound",
-            "chihuahua",
-            "shiba_inu",
-            "beagle",
-            "Persian",
-            "British_Shorthair",
-            "pug",
-            "yorkshire_terrier",
-            "Sphynx",
-            "pomeranian",
-            "great_pyrenees",
-            "Birman",
-            "wheaten_terrier",
-            "Ragdoll"
-          ],
-          "datasets": [
-            {
-              "label": "Number of Images",
-              "data": [
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200,
-                200
-              ],
-              "backgroundColor": [
+        "data": [
+          {
+            "x": [
+              "american_pit_bull_terrier",
+              "Maine_Coon",
+              "havanese",
+              "leonberger",
+              "Russian_Blue",
+              "saint_bernard",
+              "basset_hound",
+              "chihuahua",
+              "shiba_inu",
+              "beagle",
+              "Persian",
+              "British_Shorthair",
+              "pug",
+              "yorkshire_terrier",
+              "Sphynx",
+              "pomeranian",
+              "great_pyrenees",
+              "Birman",
+              "wheaten_terrier",
+              "Ragdoll"
+            ],
+            "y": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "type": "bar",
+            "marker": {
+              "color": [
                 "hsl(200, 70%, 60%)",
                 "hsl(203, 70%, 60%)",
                 "hsl(206, 70%, 60%)",
@@ -219,375 +218,444 @@
                 "hsl(254, 70%, 60%)",
                 "hsl(257, 70%, 60%)"
               ],
-              "borderColor": [
-                "hsl(200, 70%, 60%)",
-                "hsl(203, 70%, 60%)",
-                "hsl(206, 70%, 60%)",
-                "hsl(209, 70%, 60%)",
-                "hsl(212, 70%, 60%)",
-                "hsl(215, 70%, 60%)",
-                "hsl(218, 70%, 60%)",
-                "hsl(221, 70%, 60%)",
-                "hsl(224, 70%, 60%)",
-                "hsl(227, 70%, 60%)",
-                "hsl(230, 70%, 60%)",
-                "hsl(233, 70%, 60%)",
-                "hsl(236, 70%, 60%)",
-                "hsl(239, 70%, 60%)",
-                "hsl(242, 70%, 60%)",
-                "hsl(245, 70%, 60%)",
-                "hsl(248, 70%, 60%)",
-                "hsl(251, 70%, 60%)",
-                "hsl(254, 70%, 60%)",
-                "hsl(257, 70%, 60%)"
-              ],
-              "borderWidth": 1
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "legend": {
-              "display": false
-            },
-            "title": {
-              "display": true,
-              "text": "Breed Distribution (All 37 Breeds) (Top 20)",
-              "font": {
-                "size": 16,
-                "weight": "bold"
+              "line": {
+                "width": 1,
+                "color": "white"
               }
+            },
+            "text": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "textposition": "outside",
+            "hovertemplate": "<b>%{x}</b><br>Count: %{y}<extra></extra>"
+          }
+        ],
+        "layout": {
+          "title": {
+            "text": "Breed Distribution (All 37 Breeds) (Top 20)",
+            "font": {
+              "size": 18,
+              "weight": "bold"
             }
           },
-          "scales": {
-            "x": {
-              "ticks": {
-                "autoSkip": false,
-                "maxRotation": 45,
-                "minRotation": 45
-              },
-              "grid": {
-                "display": false
-              }
-            },
-            "y": {
-              "title": {
-                "display": true,
-                "text": "Number of Images"
-              },
-              "beginAtZero": true,
-              "grid": {
-                "color": "#f0f0f0"
-              }
-            }
+          "xaxis": {
+            "title": "Breed",
+            "tickangle": -45,
+            "gridcolor": "#f0f0f0"
+          },
+          "yaxis": {
+            "title": "Count",
+            "gridcolor": "#f0f0f0"
+          },
+          "plot_bgcolor": "#ffffff",
+          "paper_bgcolor": "#ffffff",
+          "hovermode": "closest",
+          "margin": {
+            "t": 60,
+            "r": 20,
+            "b": 80,
+            "l": 60
           }
+        },
+        "config": {
+          "responsive": true,
+          "displayModeBar": true,
+          "displaylogo": false
         }
       },
       "species_pie": {
-        "type": "doughnut",
-        "data": {
-          "labels": [
-            "Dog",
-            "Cat"
-          ],
-          "datasets": [
-            {
-              "data": [
-                4978,
-                2371
+        "data": [
+          {
+            "labels": [
+              "dog",
+              "cat"
+            ],
+            "values": [
+              4978,
+              2371
+            ],
+            "type": "pie",
+            "marker": {
+              "colors": [
+                "#667eea",
+                "#f093fb"
               ],
-              "backgroundColor": [
-                "#3b82f6",
-                "#f59e0b"
-              ],
-              "borderWidth": 2,
-              "borderColor": "#ffffff"
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "legend": {
-              "display": true,
-              "position": "bottom",
-              "labels": {
-                "font": {
-                  "size": 14
-                }
+              "line": {
+                "width": 2,
+                "color": "white"
               }
             },
-            "title": {
-              "display": true,
-              "text": "Species Distribution",
-              "font": {
-                "size": 16,
-                "weight": "bold"
-              }
-            }
+            "textinfo": "label+percent",
+            "textposition": "outside",
+            "hovertemplate": "<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}<extra></extra>"
           }
+        ],
+        "layout": {
+          "title": {
+            "text": "Species Distribution",
+            "font": {
+              "size": 18,
+              "weight": "bold"
+            }
+          },
+          "showlegend": true,
+          "legend": {
+            "orientation": "v",
+            "yanchor": "middle",
+            "y": 0.5,
+            "xanchor": "left",
+            "x": 1.02
+          },
+          "margin": {
+            "t": 60,
+            "r": 100,
+            "b": 20,
+            "l": 20
+          }
+        },
+        "config": {
+          "responsive": true,
+          "displayModeBar": true,
+          "displaylogo": false
         }
       },
       "species_split_bar": {
-        "type": "bar",
-        "data": {
-          "labels": [
-            "Dog",
-            "Cat"
-          ],
-          "datasets": [
-            {
-              "label": "Train",
-              "data": [
-                1992,
-                949
-              ],
-              "backgroundColor": "#3b82f6",
-              "borderColor": "#2563eb",
-              "borderWidth": 1
+        "data": [
+          {
+            "x": [
+              "Dog",
+              "Cat"
+            ],
+            "y": [
+              1992,
+              949
+            ],
+            "type": "bar",
+            "name": "Train",
+            "marker": {
+              "color": "#3b82f6"
             },
-            {
-              "label": "Val",
-              "data": [
-                500,
-                239
-              ],
-              "backgroundColor": "#10b981",
-              "borderColor": "#059669",
-              "borderWidth": 1
+            "hovertemplate": "<b>%{x}</b><br>Train: %{y}<extra></extra>"
+          },
+          {
+            "x": [
+              "Dog",
+              "Cat"
+            ],
+            "y": [
+              500,
+              239
+            ],
+            "type": "bar",
+            "name": "Val",
+            "marker": {
+              "color": "#10b981"
             },
-            {
-              "label": "Test",
-              "data": [
-                2486,
-                1183
-              ],
-              "backgroundColor": "#f59e0b",
-              "borderColor": "#d97706",
-              "borderWidth": 1
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": false
+            "hovertemplate": "<b>%{x}</b><br>Val: %{y}<extra></extra>"
+          },
+          {
+            "x": [
+              "Dog",
+              "Cat"
+            ],
+            "y": [
+              2486,
+              1183
+            ],
+            "type": "bar",
+            "name": "Test",
+            "marker": {
+              "color": "#f59e0b"
             },
-            "legend": {
-              "display": true,
-              "position": "top"
-            },
-            "tooltip": {
-              "callbacks": {
-                "label": "function(context) { return context.dataset.label + ': ' + context.parsed.y + ' images'; }"
-              }
+            "hovertemplate": "<b>%{x}</b><br>Test: %{y}<extra></extra>"
+          }
+        ],
+        "layout": {
+          "title": {
+            "text": "Species Split Distribution",
+            "font": {
+              "size": 18,
+              "weight": "bold"
             }
           },
-          "scales": {
-            "x": {
-              "title": {
-                "display": true,
-                "text": "Species"
-              }
-            },
-            "y": {
-              "title": {
-                "display": true,
-                "text": "Number of Images"
-              },
-              "beginAtZero": true
-            }
+          "xaxis": {
+            "title": "Species",
+            "gridcolor": "#f0f0f0"
+          },
+          "yaxis": {
+            "title": "Count",
+            "gridcolor": "#f0f0f0"
+          },
+          "plot_bgcolor": "#ffffff",
+          "paper_bgcolor": "#ffffff",
+          "hovermode": "closest",
+          "barmode": "group",
+          "legend": {
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": -0.3,
+            "xanchor": "center",
+            "x": 0.5
+          },
+          "margin": {
+            "t": 60,
+            "r": 20,
+            "b": 80,
+            "l": 60
           }
+        },
+        "config": {
+          "responsive": true,
+          "displayModeBar": true,
+          "displaylogo": false
         }
       },
       "breed_split_bar": {
-        "type": "bar",
-        "data": {
-          "labels": [
-            "american pit bull terrier",
-            "Maine Coon",
-            "havanese",
-            "leonberger",
-            "Russian Blue",
-            "saint bernard",
-            "basset hound",
-            "chihuahua",
-            "shiba inu",
-            "beagle",
-            "Persian",
-            "British Shorthair",
-            "pug",
-            "yorkshire terrier",
-            "Sphynx"
-          ],
-          "datasets": [
-            {
-              "label": "Train",
-              "data": [
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80,
-                80
-              ],
-              "backgroundColor": "#3b82f6",
-              "borderColor": "#2563eb",
-              "borderWidth": 1,
-              "stack": "stack0"
+        "data": [
+          {
+            "x": [
+              "american_pit_bull_terrier",
+              "Maine_Coon",
+              "havanese",
+              "leonberger",
+              "Russian_Blue",
+              "saint_bernard",
+              "basset_hound",
+              "chihuahua",
+              "shiba_inu",
+              "beagle",
+              "Persian",
+              "British_Shorthair",
+              "pug",
+              "yorkshire_terrier",
+              "Sphynx"
+            ],
+            "y": [
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "type": "bar",
+            "name": "Train",
+            "marker": {
+              "color": "#3b82f6"
             },
-            {
-              "label": "Val",
-              "data": [
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20,
-                20
-              ],
-              "backgroundColor": "#10b981",
-              "borderColor": "#059669",
-              "borderWidth": 1,
-              "stack": "stack0"
+            "hovertemplate": "<b>%{x}</b><br>Train: %{y}<extra></extra>"
+          },
+          {
+            "x": [
+              "american_pit_bull_terrier",
+              "Maine_Coon",
+              "havanese",
+              "leonberger",
+              "Russian_Blue",
+              "saint_bernard",
+              "basset_hound",
+              "chihuahua",
+              "shiba_inu",
+              "beagle",
+              "Persian",
+              "British_Shorthair",
+              "pug",
+              "yorkshire_terrier",
+              "Sphynx"
+            ],
+            "y": [
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "type": "bar",
+            "name": "Val",
+            "marker": {
+              "color": "#10b981"
             },
-            {
-              "label": "Test",
-              "data": [
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100,
-                100
-              ],
-              "backgroundColor": "#f59e0b",
-              "borderColor": "#d97706",
-              "borderWidth": 1,
-              "stack": "stack0"
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": false
+            "hovertemplate": "<b>%{x}</b><br>Val: %{y}<extra></extra>"
+          },
+          {
+            "x": [
+              "american_pit_bull_terrier",
+              "Maine_Coon",
+              "havanese",
+              "leonberger",
+              "Russian_Blue",
+              "saint_bernard",
+              "basset_hound",
+              "chihuahua",
+              "shiba_inu",
+              "beagle",
+              "Persian",
+              "British_Shorthair",
+              "pug",
+              "yorkshire_terrier",
+              "Sphynx"
+            ],
+            "y": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "type": "bar",
+            "name": "Test",
+            "marker": {
+              "color": "#f59e0b"
             },
-            "legend": {
-              "display": true,
-              "position": "top"
-            },
-            "tooltip": {
-              "mode": "index",
-              "callbacks": {
-                "label": "function(context) { return context.dataset.label + ': ' + context.parsed.y + ' images'; }",
-                "footer": "function(items) { var sum = 0; items.forEach(function(item) { sum += item.parsed.y; }); return 'Total: ' + sum + ' images'; }"
-              }
+            "hovertemplate": "<b>%{x}</b><br>Test: %{y}<extra></extra>"
+          }
+        ],
+        "layout": {
+          "title": {
+            "text": "Breed Split Distribution (Top 15)",
+            "font": {
+              "size": 18,
+              "weight": "bold"
             }
           },
-          "scales": {
-            "x": {
-              "title": {
-                "display": true,
-                "text": "Breed"
-              },
-              "ticks": {
-                "autoSkip": false,
-                "maxRotation": 90,
-                "minRotation": 45
-              }
-            },
-            "y": {
-              "title": {
-                "display": true,
-                "text": "Number of Images"
-              },
-              "stacked": true,
-              "beginAtZero": true
-            }
+          "xaxis": {
+            "title": "Breed",
+            "tickangle": -45,
+            "gridcolor": "#f0f0f0"
+          },
+          "yaxis": {
+            "title": "Count",
+            "gridcolor": "#f0f0f0"
+          },
+          "plot_bgcolor": "#ffffff",
+          "paper_bgcolor": "#ffffff",
+          "hovermode": "closest",
+          "barmode": "group",
+          "legend": {
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": -0.3,
+            "xanchor": "center",
+            "x": 0.5
+          },
+          "margin": {
+            "t": 60,
+            "r": 20,
+            "b": 100,
+            "l": 60
           }
+        },
+        "config": {
+          "responsive": true,
+          "displayModeBar": true,
+          "displaylogo": false
         }
       },
       "split_percentage_pie": {
-        "type": "doughnut",
-        "data": {
-          "labels": [
-            "Train",
-            "Val",
-            "Test"
-          ],
-          "datasets": [
-            {
-              "data": [
-                40.01905021091305,
-                10.055789903388217,
-                49.92515988569873
-              ],
-              "backgroundColor": [
+        "data": [
+          {
+            "labels": [
+              "Train",
+              "Val",
+              "Test"
+            ],
+            "values": [
+              40.01905021091305,
+              10.055789903388217,
+              49.92515988569873
+            ],
+            "type": "pie",
+            "marker": {
+              "colors": [
                 "#3b82f6",
                 "#10b981",
                 "#f59e0b"
               ],
-              "borderColor": [
-                "#2563eb",
-                "#059669",
-                "#d97706"
-              ],
-              "borderWidth": 2
-            }
-          ]
-        },
-        "options": {
-          "responsive": true,
-          "maintainAspectRatio": false,
-          "plugins": {
-            "title": {
-              "display": false
-            },
-            "legend": {
-              "display": true,
-              "position": "bottom"
-            },
-            "tooltip": {
-              "callbacks": {
-                "label": "function(context) { return context.label + ': ' + context.parsed.toFixed(1) + '%'; }"
+              "line": {
+                "width": 2,
+                "color": "white"
               }
-            }
+            },
+            "textinfo": "label+percent",
+            "textposition": "outside",
+            "hovertemplate": "<b>%{label}</b><br>Percentage: %{percent}<extra></extra>"
           }
+        ],
+        "layout": {
+          "title": {
+            "text": "Dataset Split Percentages",
+            "font": {
+              "size": 18,
+              "weight": "bold"
+            }
+          },
+          "showlegend": true,
+          "legend": {
+            "orientation": "v",
+            "yanchor": "middle",
+            "y": 0.5,
+            "xanchor": "left",
+            "x": 1.02
+          },
+          "margin": {
+            "t": 60,
+            "r": 100,
+            "b": 20,
+            "l": 20
+          }
+        },
+        "config": {
+          "responsive": true,
+          "displayModeBar": true,
+          "displaylogo": false
         }
       },
       "tsne_plot": {
@@ -6898,19 +6966,6 @@
   </head>
   <body>
 
-<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            color: white; padding: 1rem; margin: 1rem 0; border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-    <strong>📝 Note:</strong> This report uses representative sample images 
-    (~370 images, 37 breeds) for demonstration purposes. 
-    Full dataset available at 
-    <a href="https://www.robots.ox.ac.uk/~vgg/data/pets/" 
-       style="color: #fff; text-decoration: underline;">
-       Oxford-IIIT Pets Dataset
-    </a>.
-</div>
-
-
     <nav class="navbar">
       <div class="container">
         <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
@@ -6992,6 +7047,19 @@
       </div>
     </section>
 
+    <nav class="global-menubar">
+      <div class="menubar-content">
+        <div class="menubar-left">
+          <button onclick="expandAll()" class="menubar-btn btn-expand">📖 Expand All</button>
+          <button onclick="collapseAll()" class="menubar-btn btn-collapse">📚 Collapse All</button>
+        </div>
+
+        <div class="menubar-right">
+          <button onclick="toggleCodeTheme()" class="menubar-btn btn-theme">🌙 Code Theme</button>
+        </div>
+      </div>
+    </nav>
+
     <section class="section" id="section-distribution">
       <div class="container">
         <h2 class="section-title" onclick="toggleSection('section-distribution')">
@@ -7056,34 +7124,29 @@
           </div>
 
           <div style="margin-top: 30px;">
-            <div class="card">
-      <h3>Class Balance Analysis</h3>
-      <div style="margin-top: 15px;">
-        <div style="display: flex; justify-content: space-between; padding: 10px; background: #10b98115; border-left: 4px solid #10b981; border-radius: 4px; margin-bottom: 15px;">
-          <span style="font-weight: 600;">Status:</span>
-          <span style="color: #10b981; font-weight: 700;">Balanced ✓</span>
+
+        <div class="card">
+          <h3>Class Balance Analysis</h3>
+          <div class="balance-metrics">
+            <div class="metric">
+              <span class="metric-label">Max Count:</span>
+              <span class="metric-value">200</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Min Count:</span>
+              <span class="metric-value">184</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Imbalance Ratio:</span>
+              <span class="metric-value">1.1x</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Balance Level:</span>
+              <span class="metric-value success">✅ Balanced</span>
+            </div>
+          </div>
         </div>
 
-        <table style="width: 100%; margin: 0;">
-          <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Imbalance Ratio</strong></td>
-            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">1.09</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Balance Score</strong></td>
-            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0.98</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Min Count</strong></td>
-            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">184</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px;"><strong>Max Count</strong></td>
-            <td style="padding: 8px; text-align: right;">200</td>
-          </tr>
-        </table>
-      </div>
-    </div>
           </div>
         </div>
       </div>
@@ -7623,7 +7686,6 @@
                 }
             });
             </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
@@ -7631,5 +7693,6 @@
     <script src="assets/js/common/data-loader.js" defer></script>
     <script src="assets/js/classification/main.js" defer></script>
     <script src="assets/js/tutorial/tutorial.js" defer></script>
+    <script src="assets/js/global-menubar.js" defer></script>
   </body>
-</html># Force update Sun Oct 19 04:38:54 UTC 2025
+</html>
