@@ -6897,13 +6897,26 @@
   </head>
   <body>
 
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; padding: 1rem; margin: 1rem 0; border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <strong>📝 Note:</strong> This report uses representative sample images 
+    (~370 images, 37 breeds) for demonstration purposes. 
+    Full dataset available at 
+    <a href="https://www.robots.ox.ac.uk/~vgg/data/pets/" 
+       style="color: #fff; text-decoration: underline;">
+       Oxford-IIIT Pets Dataset
+    </a>.
+</div>
+
+
     <nav class="navbar">
       <div class="container">
         <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
         <div class="nav-links">
                 <a href="index.html">Home</a>
-          <a href="eda_report_core.html">Core</a>
-          <a href="eda_report_classification.html" class="active">Classification</a>
+          <a href="eda_core.html">Core</a>
+          <a href="eda_classification.html" class="active">Classification</a>
           <a href="eda_detection.html">Detection</a>
           <a href="eda_segmentation.html">Segmentation</a>
         </div>
@@ -6912,8 +6925,44 @@
 
     <section class="section" id="section-overview">
       <div class="container">
-        <h2 class="section-title" onclick="toggleSection('section-overview')">Classification Overview</h2>
+        <h2 class="section-title" onclick="toggleSection('section-overview')">
+          <span class="section-title-text">📊 Classification Overview</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+          <div class="menu-group">
+            <button class="menu-btn btn-tutorial" onclick="toggleTutorial('dataset_overview'); event.stopPropagation();">
+              📚 Tutorial
+            </button>
+            <button class="menu-btn btn-code" onclick="toggleCode('dataset_overview'); event.stopPropagation();">
+              💻 Code
+            </button>
+            <button class="menu-btn btn-copy" onclick="copyCodeQuick('dataset_overview'); event.stopPropagation();">
+              📋 Copy
+            </button>
+            <button class="menu-btn btn-download" onclick="downloadTutorial('dataset_overview'); event.stopPropagation();">
+              💾 Download
+            </button>
+          </div>
+        </div>
+
         <p class="section-description">37-class fine-grained breed classification task</p>
+
+        <div class="tutorial-panel" id="dataset_overview-tutorial">
+          <div class="tutorial-content"></div>
+        </div>
+
+        <div class="code-panel" id="dataset_overview-code">
+          <div class="code-tabs">
+            <button class="code-tab-btn active" onclick="switchCodeTab('dataset_overview', 'plotly')">Plotly</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('dataset_overview', 'matplotlib')">Matplotlib</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('dataset_overview', 'seaborn')">Seaborn</button>
+          </div>
+          <div class="code-tab-content active" id="dataset_overview-plotly"></div>
+          <div class="code-tab-content" id="dataset_overview-matplotlib"></div>
+          <div class="code-tab-content" id="dataset_overview-seaborn"></div>
+        </div>
 
         <div class="section-content">
           <div class="stat-cards">
@@ -6944,8 +6993,44 @@
 
     <section class="section" id="section-distribution">
       <div class="container">
-        <h2 class="section-title" onclick="toggleSection('section-distribution')">Class Distribution</h2>
+        <h2 class="section-title" onclick="toggleSection('section-distribution')">
+          <span class="section-title-text">📊 Class Distribution</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+          <div class="menu-group">
+            <button class="menu-btn btn-tutorial" onclick="toggleTutorial('breed_distribution'); event.stopPropagation();">
+              📚 Tutorial
+            </button>
+            <button class="menu-btn btn-code" onclick="toggleCode('breed_distribution'); event.stopPropagation();">
+              💻 Code
+            </button>
+            <button class="menu-btn btn-copy" onclick="copyCodeQuick('breed_distribution'); event.stopPropagation();">
+              📋 Copy
+            </button>
+            <button class="menu-btn btn-download" onclick="downloadTutorial('breed_distribution'); event.stopPropagation();">
+              💾 Download
+            </button>
+          </div>
+        </div>
+
         <p class="section-description">Analysis of breed distribution and class balance</p>
+
+        <div class="tutorial-panel" id="breed_distribution-tutorial">
+          <div class="tutorial-content"></div>
+        </div>
+
+        <div class="code-panel" id="breed_distribution-code">
+          <div class="code-tabs">
+            <button class="code-tab-btn active" onclick="switchCodeTab('breed_distribution', 'plotly')">Plotly</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('breed_distribution', 'matplotlib')">Matplotlib</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('breed_distribution', 'seaborn')">Seaborn</button>
+          </div>
+          <div class="code-tab-content active" id="breed_distribution-plotly"></div>
+          <div class="code-tab-content" id="breed_distribution-matplotlib"></div>
+          <div class="code-tab-content" id="breed_distribution-seaborn"></div>
+        </div>
 
         <div class="section-content">
           <div class="grid grid-2">
@@ -7124,8 +7209,44 @@
 
     <section class="section" id="section-features">
       <div class="container">
-        <h2 class="section-title" onclick="toggleSection('section-features')">Feature Visualization</h2>
+        <h2 class="section-title" onclick="toggleSection('section-features')">
+          <span class="section-title-text">🔬 Feature Visualization</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+          <div class="menu-group">
+            <button class="menu-btn btn-tutorial" onclick="toggleTutorial('feature_extraction'); event.stopPropagation();">
+              📚 Tutorial
+            </button>
+            <button class="menu-btn btn-code" onclick="toggleCode('feature_extraction'); event.stopPropagation();">
+              💻 Code
+            </button>
+            <button class="menu-btn btn-copy" onclick="copyCodeQuick('feature_extraction'); event.stopPropagation();">
+              📋 Copy
+            </button>
+            <button class="menu-btn btn-download" onclick="downloadTutorial('feature_extraction'); event.stopPropagation();">
+              💾 Download
+            </button>
+          </div>
+        </div>
+
         <p class="section-description">Dimensionality reduction: t-SNE and UMAP for breed feature visualization</p>
+
+        <div class="tutorial-panel" id="feature_extraction-tutorial">
+          <div class="tutorial-content"></div>
+        </div>
+
+        <div class="code-panel" id="feature_extraction-code">
+          <div class="code-tabs">
+            <button class="code-tab-btn active" onclick="switchCodeTab('feature_extraction', 'plotly')">Plotly</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('feature_extraction', 'matplotlib')">Matplotlib</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('feature_extraction', 'seaborn')">Seaborn</button>
+          </div>
+          <div class="code-tab-content active" id="feature_extraction-plotly"></div>
+          <div class="code-tab-content" id="feature_extraction-matplotlib"></div>
+          <div class="code-tab-content" id="feature_extraction-seaborn"></div>
+        </div>
 
         <div class="section-content">
           <div class="alert alert-info">
@@ -7160,8 +7281,44 @@
 
     <section class="section" id="section-similarity">
       <div class="container">
-        <h2 class="section-title" onclick="toggleSection('section-similarity')">Breed Similarity Analysis</h2>
+        <h2 class="section-title" onclick="toggleSection('section-similarity')">
+          <span class="section-title-text">🔍 Breed Similarity Analysis</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+          <div class="menu-group">
+            <button class="menu-btn btn-tutorial" onclick="toggleTutorial('similarity_analysis'); event.stopPropagation();">
+              📚 Tutorial
+            </button>
+            <button class="menu-btn btn-code" onclick="toggleCode('similarity_analysis'); event.stopPropagation();">
+              💻 Code
+            </button>
+            <button class="menu-btn btn-copy" onclick="copyCodeQuick('similarity_analysis'); event.stopPropagation();">
+              📋 Copy
+            </button>
+            <button class="menu-btn btn-download" onclick="downloadTutorial('similarity_analysis'); event.stopPropagation();">
+              💾 Download
+            </button>
+          </div>
+        </div>
+
         <p class="section-description">Feature-based similarity between breeds using cosine distance</p>
+
+        <div class="tutorial-panel" id="similarity_analysis-tutorial">
+          <div class="tutorial-content"></div>
+        </div>
+
+        <div class="code-panel" id="similarity_analysis-code">
+          <div class="code-tabs">
+            <button class="code-tab-btn active" onclick="switchCodeTab('similarity_analysis', 'plotly')">Plotly</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('similarity_analysis', 'matplotlib')">Matplotlib</button>
+            <button class="code-tab-btn" onclick="switchCodeTab('similarity_analysis', 'seaborn')">Seaborn</button>
+          </div>
+          <div class="code-tab-content active" id="similarity_analysis-plotly"></div>
+          <div class="code-tab-content" id="similarity_analysis-matplotlib"></div>
+          <div class="code-tab-content" id="similarity_analysis-seaborn"></div>
+        </div>
 
         <div class="section-content">
           <div class="card">
@@ -7467,8 +7624,11 @@
             </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
     <script src="assets/js/common/utils.js" defer></script>
     <script src="assets/js/common/data-loader.js" defer></script>
     <script src="assets/js/classification/main.js" defer></script>
+    <script src="assets/js/tutorial/tutorial.js" defer></script>
   </body>
 </html>
