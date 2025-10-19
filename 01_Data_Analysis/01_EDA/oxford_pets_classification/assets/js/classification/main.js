@@ -11,10 +11,10 @@
   /**
    * Initialize all classification components
    */
-  function initializeClassificationReport() {
+  function initializeClassificationCharts() {
     // console.log('Initializing Classification EDA Report...');
 
-    // Get data from window
+    // Get data from window (set by data-loader.js)
     const charts = window.CLASSIFICATION_CHARTS || {};
     const stats = window.CLASSIFICATION_STATS || {};
     
@@ -276,11 +276,8 @@
   }
 
   // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeClassificationReport);
-  } else {
-    initializeClassificationReport();
-  }
+  // Export function for data-loader.js to call
+  window.initializeClassificationCharts = initializeClassificationCharts;
 
 })();
 
