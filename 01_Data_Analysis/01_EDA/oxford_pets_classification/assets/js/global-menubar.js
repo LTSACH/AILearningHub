@@ -6,7 +6,7 @@
 
 // Expand all sections
 function expandAll() {
-    console.log('📖 Expanding all sections...');
+    // console.log('📖 Expanding all sections...');
     
     document.querySelectorAll('.section').forEach(section => {
         section.classList.add('expanded');
@@ -23,12 +23,12 @@ function expandAll() {
     });
     
     // Show success message
-    showNotification('All sections expanded', 'success');
+    // showNotification('All sections expanded', 'success');
 }
 
 // Collapse all sections
 function collapseAll() {
-    console.log('📚 Collapsing all sections...');
+    // console.log('📚 Collapsing all sections...');
     
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('expanded');
@@ -45,12 +45,12 @@ function collapseAll() {
     });
     
     // Show success message
-    showNotification('All sections collapsed', 'success');
+    // showNotification('All sections collapsed', 'success');
 }
 
 // Toggle code theme (dark/light)
 function toggleCodeTheme() {
-    console.log('🌙 Toggling code theme...');
+    // console.log('🌙 Toggling code theme...');
     
     const body = document.body;
     const isDark = body.classList.contains('dark-code-theme');
@@ -61,14 +61,14 @@ function toggleCodeTheme() {
         body.classList.add('light-code-theme');
         localStorage.setItem('code-theme', 'light');
         updateThemeButton('🌙 Code Theme');
-        showNotification('Switched to light theme', 'info');
+        // showNotification('Switched to light theme', 'info');
     } else {
         // Switch to dark theme
         body.classList.remove('light-code-theme');
         body.classList.add('dark-code-theme');
         localStorage.setItem('code-theme', 'dark');
         updateThemeButton('☀️ Code Theme');
-        showNotification('Switched to dark theme', 'info');
+        // showNotification('Switched to dark theme', 'info');
     }
 }
 
@@ -122,7 +122,7 @@ function showNotification(message, type = 'info') {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Global menubar initialized');
+    // console.log('🚀 Global menubar initialized');
     loadSavedTheme();
 });
 

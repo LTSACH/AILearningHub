@@ -12,19 +12,19 @@
    * Initialize all classification components
    */
   function initializeClassificationReport() {
-    console.log('Initializing Classification EDA Report...');
+    // console.log('Initializing Classification EDA Report...');
 
     // Get data from window
     const charts = window.CLASSIFICATION_CHARTS || {};
     const stats = window.CLASSIFICATION_STATS || {};
     
     // Debug: Log available charts
-    console.log('Available charts:', Object.keys(charts));
-    console.log('Total charts count:', Object.keys(charts).length);
-    if (Object.keys(charts).length > 0) {
-      console.log('First chart key:', Object.keys(charts)[0]);
-      console.log('First chart data:', charts[Object.keys(charts)[0]]);
-    }
+    // console.log('Available charts:', Object.keys(charts));
+    // console.log('Total charts count:', Object.keys(charts).length);
+    // if (Object.keys(charts).length > 0) {
+    //   console.log('First chart key:', Object.keys(charts)[0]);
+    //   console.log('First chart data:', charts[Object.keys(charts)[0]]);
+    // }
 
     // Initialize Plotly charts
     initializePlotlyCharts(charts);
@@ -35,7 +35,7 @@
     // Initialize interactions
     initializeInteractions();
 
-    console.log('✓ Classification report initialized');
+    // console.log('✓ Classification report initialized');
   }
 
   /**
@@ -139,7 +139,7 @@
       return;
     }
     
-    console.log('initializePlotlyCharts called with', Object.keys(charts).length, 'charts');
+    // console.log('initializePlotlyCharts called with', Object.keys(charts).length, 'charts');
     
     // Chart key to div ID mapping
     const chartMappings = {
@@ -157,18 +157,18 @@
     // Initialize all Plotly charts
     for (const [chartKey, chartConfig] of Object.entries(charts)) {
       if (chartConfig.data && chartConfig.layout) {
-        console.log(`Trying to initialize Plotly chart: ${chartKey}`);
+        // console.log(`Trying to initialize Plotly chart: ${chartKey}`);
         
         // Get div ID from mapping or convert key
         const divId = chartMappings[chartKey] || chartKey.replace(/_/g, '-');
         const container = document.getElementById(divId);
         
-        console.log(`  Chart key: ${chartKey} → Div ID: ${divId}, Found: ${!!container}`);
+        // console.log(`  Chart key: ${chartKey} → Div ID: ${divId}, Found: ${!!container}`);
         
         if (container) {
           try {
             Plotly.newPlot(divId, chartConfig.data, chartConfig.layout, chartConfig.config || {});
-            console.log(`  ✓ Plotly chart ${chartKey} initialized successfully`);
+            // console.log(`  ✓ Plotly chart ${chartKey} initialized successfully`);
           } catch (e) {
             console.error(`  ✗ Error initializing Plotly chart ${chartKey}:`, e);
           }
@@ -176,7 +176,7 @@
           console.warn(`  ⚠️  Chart container not found: ${divId}`);
         }
       } else {
-        console.log(`  ⚠️  Chart ${chartKey} missing data/layout, skipping`);
+        // console.log(`  ⚠️  Chart ${chartKey} missing data/layout, skipping`);
       }
     }
     
