@@ -18,7 +18,7 @@
    * Initialize tutorial system
    */
   async function initializeTutorials() {
-    console.log('🎓 Initializing Tutorial System...');
+    // console.log('🎓 Initializing Tutorial System...');
     
     try {
       // Load metadata
@@ -28,7 +28,7 @@
       }
       
       tutorialMetadata = await response.json();
-      console.log(`✅ Tutorial metadata loaded: ${Object.keys(tutorialMetadata.classification || {}).length} sections`);
+      // console.log(`✅ Tutorial metadata loaded: ${Object.keys(tutorialMetadata.classification || {}).length} sections`);
       
       // Add CSS for tutorial system
       injectTutorialCSS();

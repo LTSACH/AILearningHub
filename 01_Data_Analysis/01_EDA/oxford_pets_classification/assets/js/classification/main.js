@@ -42,15 +42,15 @@
    * Initialize Chart.js charts
    */
   function initializeChartJSCharts(charts) {
-    console.log('initializeChartJSCharts called with', Object.keys(charts).length, 'charts');
+    // console.log('initializeChartJSCharts called with', Object.keys(charts).length, 'charts');
     
     // Try to initialize ANY chart found in charts object
     for (const [chartKey, chartConfig] of Object.entries(charts)) {
-      console.log(`Trying to initialize chart: ${chartKey}`);
+      // console.log(`Trying to initialize chart: ${chartKey}`);
       
       // Skip if this is a Plotly chart (has layout instead of type)
       if (chartConfig.layout && !chartConfig.type) {
-        console.log(`  Skipping ${chartKey} - Plotly chart (handled separately)`);
+        // console.log(`  Skipping ${chartKey} - Plotly chart (handled separately)`);
         continue;
       }
       
@@ -62,12 +62,12 @@
       }
       const ctx = document.getElementById(canvasId);
       
-      console.log(`  Canvas ID: ${canvasId}, Found: ${!!ctx}`);
+      // console.log(`  Canvas ID: ${canvasId}, Found: ${!!ctx}`);
       
       if (ctx && chartConfig.type) {
         try {
           new Chart(ctx, chartConfig);
-          console.log(`  ✓ Chart ${chartKey} initialized successfully`);
+          // console.log(`  ✓ Chart ${chartKey} initialized successfully`);
         } catch (e) {
           console.error(`  ✗ Error initializing chart ${chartKey}:`, e);
         }
@@ -82,7 +82,7 @@
       const ctx = document.getElementById('class-dist-bar');
       if (ctx) {
         new Chart(ctx, charts.class_dist_bar);
-        console.log('✓ Class distribution chart initialized');
+        // console.log('✓ Class distribution chart initialized');
       }
     }
 
@@ -91,7 +91,7 @@
       const ctx = document.getElementById('species-pie');
       if (ctx) {
         new Chart(ctx, charts.species_pie);
-        console.log('✓ Species pie chart initialized');
+        // console.log('✓ Species pie chart initialized');
       }
     }
 
@@ -100,7 +100,7 @@
       const ctx = document.getElementById('pca-variance');
       if (ctx) {
         new Chart(ctx, charts.pca_variance);
-        console.log('✓ PCA variance chart initialized');
+        // console.log('✓ PCA variance chart initialized');
       }
     }
 
@@ -109,7 +109,7 @@
       const ctx = document.getElementById('species-split-bar');
       if (ctx) {
         new Chart(ctx, charts.species_split_bar);
-        console.log('✓ Species split chart initialized');
+        // console.log('✓ Species split chart initialized');
       }
     }
 
@@ -117,7 +117,7 @@
       const ctx = document.getElementById('breed-split-bar');
       if (ctx) {
         new Chart(ctx, charts.breed_split_bar);
-        console.log('✓ Breed split chart initialized');
+        // console.log('✓ Breed split chart initialized');
       }
     }
 
@@ -125,7 +125,7 @@
       const ctx = document.getElementById('split-percentage-pie');
       if (ctx) {
         new Chart(ctx, charts.split_percentage_pie);
-        console.log('✓ Split percentage pie initialized');
+        // console.log('✓ Split percentage pie initialized');
       }
     }
   }
@@ -185,7 +185,7 @@
       const container = document.getElementById('tsne-plot');
       if (container) {
         Plotly.newPlot('tsne-plot', charts.tsne_plot.data, charts.tsne_plot.layout, charts.tsne_plot.config);
-        console.log('✓ t-SNE plot initialized');
+        // console.log('✓ t-SNE plot initialized');
       }
     }
 
@@ -193,7 +193,7 @@
       const container = document.getElementById('umap-plot');
       if (container) {
         Plotly.newPlot('umap-plot', charts.umap_plot.data, charts.umap_plot.layout, charts.umap_plot.config);
-        console.log('✓ UMAP plot initialized');
+        // console.log('✓ UMAP plot initialized');
       }
     }
 
@@ -201,7 +201,7 @@
       const container = document.getElementById('similarity-heatmap');
       if (container) {
         Plotly.newPlot('similarity-heatmap', charts.similarity_heatmap.data, charts.similarity_heatmap.layout, charts.similarity_heatmap.config);
-        console.log('✓ Similarity heatmap initialized');
+        // console.log('✓ Similarity heatmap initialized');
       }
     }
   }
@@ -215,7 +215,7 @@
       const container = document.getElementById('hierarchy-tree');
       if (container) {
         // Simple tree visualization
-        console.log('✓ D3 hierarchy tree data available');
+        // console.log('✓ D3 hierarchy tree data available');
         // Full D3 implementation would go here
       }
     }
@@ -258,7 +258,7 @@
         });
       });
       
-      console.log(`✓ Image gallery interactions initialized (${galleryImages.length} images)`);
+      // console.log(`✓ Image gallery interactions initialized (${galleryImages.length} images)`);
     }
 
     // Smooth scroll for navigation links
