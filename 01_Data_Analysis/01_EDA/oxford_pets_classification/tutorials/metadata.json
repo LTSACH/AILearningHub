@@ -19,9 +19,9 @@
         ]
       },
       "code_files": {
-        "plotly": "code_examples/core/size_distribution_plotly.py",
-        "matplotlib": "code_examples/core/size_distribution_matplotlib.py",
-        "seaborn": "code_examples/core/size_distribution_seaborn.py"
+        "plotly": "core/size_distribution_plotly.py",
+        "matplotlib": "core/size_distribution_matplotlib.py",
+        "seaborn": "core/size_distribution_seaborn.py"
       }
     }
   },
