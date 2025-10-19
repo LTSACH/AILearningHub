@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/classification.css">
     <link rel="stylesheet" href="assets/css/global-menubar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 
     <!-- Scripts (head) -->
     
@@ -126,75 +127,241 @@
   <body>
 
     <nav class="navbar">
-      <div class="container">
-        <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
-        <div class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="eda_core.html" class="active">Core</a>
-          <a href="eda_classification.html">Classification</a>
-          <a href="eda_detection.html">Detection</a>
-          <a href="eda_segmentation.html">Segmentation</a>
-        </div>
-      </div>
-    </nav>
-
-    <nav class='global-menubar'><div class='menubar-content'><div class='menubar-left'><button onclick='expandAll()' class='menubar-btn btn-expand'>Expand All</button><button onclick='collapseAll()' class='menubar-btn btn-collapse'>Collapse All</button></div><div class='menubar-right'><button onclick='toggleCodeTheme()' class='menubar-btn btn-theme'>Code Theme</button></div></div></nav>
-
-    <div id='loading-indicator' style='display: none; text-align: center; padding: 2rem; background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 8px; margin: 20px;'><p style='color: #1e40af; font-weight: 500;'>⏳ Loading core data...</p></div>
-
-    <div id='error-message' style='display: none; text-align: center; padding: 2rem; background: #fef2f2; border: 2px solid #ef4444; border-radius: 8px; margin: 20px; color: #991b1b; font-weight: 500;'></div>
-
-    <section class='section'>
-      <div class='container'>
-        <!-- Dataset Overview -->
-        <div class='section' id='dataset_overview'>
-          <h2 onclick='toggleSection("dataset_overview")' style='cursor: pointer;'>Dataset Overview</h2>
-          <div class='section-content'>
-            <div class='stats-grid'>
-              <div class='stat-card'>
-                <div class='stat-value' id='total-images'>-</div>
-                <div class='stat-label'>Total Images</div>
+              <div class="container">
+                <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
+                <div class="nav-links">
+                  <a href="index.html">Home</a>
+                  <a href="eda_core.html" class="active">Core</a>
+                  <a href="eda_classification.html">Classification</a>
+                  <a href="eda_detection.html">Detection</a>
+                  <a href="eda_segmentation.html">Segmentation</a>
+                </div>
               </div>
-              <div class='stat-card'>
-                <div class='stat-value' id='total-breeds'>-</div>
-                <div class='stat-label'>Breeds</div>
+            </nav>
+
+    <nav class="global-menubar">
+              <div class="menubar-content">
+                <div class="menubar-left">
+                  <button onclick="expandAll()" class="menubar-btn btn-expand">📖 Expand All</button>
+                  <button onclick="collapseAll()" class="menubar-btn btn-collapse">📚 Collapse All</button>
+                </div>
+
+                <div class="menubar-right">
+                  <button onclick="toggleCodeTheme()" class="menubar-btn btn-theme">🌙 Code Theme</button>
+                </div>
               </div>
-              <div class='stat-card'>
-                <div class='stat-value' id='total-species'>2</div>
-                <div class='stat-label'>Species</div>
-              </div>
-              <div class='stat-card'>
-                <div class='stat-value' id='dataset-size'>-</div>
-                <div class='stat-label'>Dataset Size</div>
-              </div>
+            </nav>
+
+    <div id="loading-indicator" style="display: none; text-align: center; padding: 2rem; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; margin: 1rem 0; color: #6c757d; font-weight: 500;">
+              <span style="font-size: 1.2em; margin-right: 0.5rem;">⏳</span>Loading core data...
             </div>
-          </div>
-        </div>
 
-        <!-- Image Size Distribution -->
-        <div class='section' id='size_distribution'>
-          <h2 onclick='toggleSection("size_distribution")' style='cursor: pointer;'>Image Size Distribution</h2>
-          <div class='section-content'>
-            <div id='size-marginal' style='width: 100%; height: 600px;'></div>
-            <div style='display: flex; gap: 20px;'>
-              <div id='filesize-histogram' style='flex: 1; height: 400px;'><canvas></canvas></div>
-              <div id='aspect-histogram' style='flex: 1; height: 400px;'><canvas></canvas></div>
+    <div id="error-message" style="display: none; text-align: center; padding: 2rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; margin: 1rem 0; color: #721c24; font-weight: 500;">
+              <span style="font-size: 1.2em; margin-right: 0.5rem;">❌</span>Failed to load core data. Please refresh the page.
             </div>
-          </div>
+
+
+        <div class="section" id="dataset_overview">
+            <div class="section-header">
+                <h2>📊 Dataset Overview</h2>
+            </div>
+            <div class="section-content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-images">7,349</div>
+                            <div class="stat-label">Total Images</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-breeds">37</div>
+                            <div class="stat-label">Breeds</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-species">2</div>
+                            <div class="stat-label">Species</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="dataset-size">754.2 MB</div>
+                            <div class="stat-label">Total Size</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h4>Statistical Summary</h4>
+                    <div id="statistics-table">
+                        <!-- Statistics table will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Color Analysis -->
-        <div class='section' id='color_analysis'>
-          <h2 onclick='toggleSection("color_analysis")' style='cursor: pointer;'>Color Space Analysis</h2>
-          <div class='section-content'>
-            <div id='color-space' style='width: 100%; height: 600px;'></div>
-            <div id='quality-metrics' style='width: 100%; height: 400px;'></div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <footer class='footer'><div class='container'><p>Core Dataset Analysis - Oxford Pets EDA</p></div></footer>
+
+        <div class="section" id="size_distribution">
+            <div class="section-header">
+                <h2>📐 Image Size Distribution & Aspect Ratio</h2>
+                <div class="section-actions">
+                    <button onclick="loadTutorial('core.size_distribution')" class="btn btn-primary">📚 Tutorial</button>
+                    <button onclick="loadCode('core.size_distribution')" class="btn btn-secondary">💻 Code</button>
+                </div>
+            </div>
+            <div class="section-content">
+
+            <div class="chart-container">
+                <div class="chart-wrapper" style="height: 600px;">
+                    <div id="size-marginal"></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-wrapper" style="height: 350px;">
+                    <canvas id="filesize-histogram"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-wrapper" style="height: 350px;">
+                    <canvas id="aspect-histogram"></canvas>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="section" id="color_analysis">
+            <div class="section-header">
+                <h2>🎨 Color Space Analysis & Quality Metrics</h2>
+                <div class="section-actions">
+                    <button onclick="loadTutorial('core.color_analysis')" class="btn btn-primary">📚 Tutorial</button>
+                    <button onclick="loadCode('core.color_analysis')" class="btn btn-secondary">💻 Code</button>
+                </div>
+            </div>
+            <div class="section-content">
+
+            <div class="chart-container">
+                <div class="chart-wrapper" style="height: 600px;">
+                    <div id="color-space"></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-wrapper" style="height: 500px;">
+                    <div id="quality-metrics"></div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="section" id="sample_gallery">
+            <div class="section-header">
+                <h2>🖼️ Interactive Sample Gallery</h2>
+            </div>
+            <div class="section-content">
+                <div class="alert alert-info">
+                  Interactive gallery: Select breeds to explore different samples. Default shows 4 breeds per species.
+                </div>
+
+                <div class="interactive-gallery">
+                    <div class="species-section">
+                        <h3 class="species-header">🐱 Cats (12 breeds)</h3>
+                        <div class="breed-selector">
+                            <div class="selector-header">
+                                <span>Select breeds to display:</span>
+                                <button type="button" class="select-all-btn" data-species="cats">Select All</button>
+                                <button type="button" class="select-none-btn" data-species="cats">Select None</button>
+                            </div>
+                            <div class="collapsible-content">
+                                <button class="collapsible-btn" data-species="cats">
+                                    <span class="collapsible-icon">▼</span>
+                                    <span class="collapsible-text">Show/Hide Breed Selection</span>
+                                </button>
+                                <div class="checkbox-grid collapsible-panel" id="panel-cats">
+                                    <label class="breed-checkbox"><input type="checkbox" checked data-breed="Abyssinian" data-species="cats"><span>Abyssinian</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" checked data-breed="Bengal" data-species="cats"><span>Bengal</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" checked data-breed="Birman" data-species="cats"><span>Birman</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" checked data-breed="Bombay" data-species="cats"><span>Bombay</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="British_Shorthair" data-species="cats"><span>British Shorthair</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Egyptian_Mau" data-species="cats"><span>Egyptian Mau</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Maine_Coon" data-species="cats"><span>Maine Coon</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Persian" data-species="cats"><span>Persian</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Ragdoll" data-species="cats"><span>Ragdoll</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Russian_Blue" data-species="cats"><span>Russian Blue</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Siamese" data-species="cats"><span>Siamese</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="Sphynx" data-species="cats"><span>Sphynx</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-grid" id="cats-grid">
+                            <!-- Dynamic content will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="species-section">
+                        <h3 class="species-header">🐶 Dogs (25 breeds)</h3>
+                        <div class="breed-selector">
+                            <div class="selector-header">
+                                <span>Select breeds to display:</span>
+                                <button type="button" class="select-all-btn" data-species="dogs">Select All</button>
+                                <button type="button" class="select-none-btn" data-species="dogs">Select None</button>
+                            </div>
+                            <div class="collapsible-content">
+                                <button class="collapsible-btn" data-species="dogs">
+                                    <span class="collapsible-icon">▼</span>
+                                    <span class="collapsible-text">Show/Hide Breed Selection</span>
+                                </button>
+                                <div class="checkbox-grid collapsible-panel" id="panel-dogs">
+                                    <label class="breed-checkbox"><input type="checkbox" checked data-breed="american_bulldog" data-species="dogs"><span>American Bulldog</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" checked data-breed="american_pit_bull_terrier" data-species="dogs"><span>American Pit Bull Terrier</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="basset_hound" data-species="dogs"><span>Basset Hound</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="beagle" data-species="dogs"><span>Beagle</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="boxer" data-species="dogs"><span>Boxer</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="chihuahua" data-species="dogs"><span>Chihuahua</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="english_cocker_spaniel" data-species="dogs"><span>English Cocker Spaniel</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="english_setter" data-species="dogs"><span>English Setter</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="german_shorthaired" data-species="dogs"><span>German Shorthaired</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="great_pyrenees" data-species="dogs"><span>Great Pyrenees</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="havanese" data-species="dogs"><span>Havanese</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="japanese_chin" data-species="dogs"><span>Japanese Chin</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="keeshond" data-species="dogs"><span>Keeshond</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="leonberger" data-species="dogs"><span>Leonberger</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="miniature_pinscher" data-species="dogs"><span>Miniature Pinscher</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="newfoundland" data-species="dogs"><span>Newfoundland</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="pomeranian" data-species="dogs"><span>Pomeranian</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="pug" data-species="dogs"><span>Pug</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="saint_bernard" data-species="dogs"><span>Saint Bernard</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="samoyed" data-species="dogs"><span>Samoyed</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="scottish_terrier" data-species="dogs"><span>Scottish Terrier</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="shiba_inu" data-species="dogs"><span>Shiba Inu</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="staffordshire_bull_terrier" data-species="dogs"><span>Staffordshire Bull Terrier</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="wheaten_terrier" data-species="dogs"><span>Wheaten Terrier</span></label>
+                                    <label class="breed-checkbox"><input type="checkbox" data-breed="yorkshire_terrier" data-species="dogs"><span>Yorkshire Terrier</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-grid" id="dogs-grid">
+                            <!-- Dynamic content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    <footer class="footer">
+              <div class="container">
+                <p>&copy; 2025 Oxford Pets Classification | Generated by EDA System</p>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem;">Core Dataset Analysis</p>
+              </div>
+            </footer>
 
     <!-- Scripts (footer) -->
     
@@ -255,8 +422,12 @@
             </script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+    <script src="assets/js/tutorial/tutorial.js" defer></script>
+    <script src="assets/js/global-menubar.js" defer></script>
+    <script src="assets/js/common/utils.js" defer></script>
     <script src="assets/js/core/data-loader.js" defer></script>
     <script src="assets/js/core/main.js" defer></script>
-    <script src="assets/js/global-menubar.js" defer></script>
   </body>
 </html>
