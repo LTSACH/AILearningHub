@@ -3,7 +3,6 @@
   "dataset": "oxford-pets",
   "last_updated": "2025-01-19",
   "description": "Tutorial code examples for Oxford-IIIT Pets dataset EDA",
-  
   "classification": {
     "dataset_overview": {
       "title": "Oxford Pets Dataset Overview",
@@ -21,10 +20,17 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv"
       ],
-      "chart_match": ["species-pie", "split-stats"],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"]
+      "chart_match": [
+        "species-pie",
+        "split-stats"
+      ],
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ]
     },
-    
     "breed_distribution": {
       "title": "Breed Distribution Analysis",
       "description": "Analyze the distribution of 37 breeds and check class balance",
@@ -41,10 +47,18 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv"
       ],
-      "chart_match": ["class-dist-bar", "balance-metrics"],
-      "requirements": ["pandas", "numpy", "plotly", "matplotlib", "seaborn"]
+      "chart_match": [
+        "class-dist-bar",
+        "balance-metrics"
+      ],
+      "requirements": [
+        "pandas",
+        "numpy",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ]
     },
-    
     "feature_extraction": {
       "title": "Feature Extraction with ResNet50",
       "description": "Extract deep features and visualize with t-SNE/UMAP",
@@ -62,18 +76,25 @@
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/tsne_coordinates.csv",
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/umap_coordinates.csv"
       ],
-      "chart_match": ["tsne-plot", "umap-plot"],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"],
+      "chart_match": [
+        "tsne-plot",
+        "umap-plot"
+      ],
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ],
       "note": "Uses pre-computed features for instant visualization. Advanced version available for computing from scratch."
     },
-    
     "similarity_analysis": {
       "title": "Breed Similarity Analysis",
       "description": "Compute breed similarity matrix using feature-based cosine distance",
       "explanation": {
         "what": "Similarity analysis computes pairwise cosine similarity between breed feature representations to identify visually similar breeds.",
         "why": "Similar breeds are harder to distinguish. Knowing similarity helps understand classification challenges and potential confusion.",
-        "how": "Use pre-computed similarity matrix (37×37) from averaged breed features. Visualize as heatmap to identify most/least similar breed pairs."
+        "how": "Use pre-computed similarity matrix (37\u00d737) from averaged breed features. Visualize as heatmap to identify most/least similar breed pairs."
       },
       "code_files": {
         "plotly": "classification/similarity_analysis_plotly.py",
@@ -83,12 +104,19 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/similarity_matrix.csv"
       ],
-      "chart_match": ["similarity-heatmap"],
-      "requirements": ["pandas", "numpy", "plotly", "matplotlib", "seaborn"],
+      "chart_match": [
+        "similarity-heatmap"
+      ],
+      "requirements": [
+        "pandas",
+        "numpy",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ],
       "note": "Uses pre-computed similarity matrix for instant visualization."
     }
   },
-  
   "detection": {
     "bbox_overview": {
       "title": "Bounding Box Overview",
@@ -106,10 +134,18 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv"
       ],
-      "chart_match": ["species-distribution", "split-distribution"],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+      "chart_match": [
+        "species-distribution",
+        "split-distribution"
+      ],
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "numpy"
+      ]
     },
-    
     "bbox_properties": {
       "title": "Bounding Box Properties Analysis",
       "description": "Analyze bbox dimensions, aspect ratios, and size distributions",
@@ -126,17 +162,27 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv"
       ],
-      "chart_match": ["bbox-size-chart", "aspect-ratio-chart", "size-category-chart", "area-distribution-chart"],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+      "chart_match": [
+        "bbox-size-chart",
+        "aspect-ratio-chart",
+        "size-category-chart",
+        "area-distribution-chart"
+      ],
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "numpy"
+      ]
     },
-    
     "spatial_distribution": {
       "title": "Spatial Distribution Analysis",
       "description": "Analyze bbox positions and spatial patterns within images",
       "explanation": {
         "what": "Spatial analysis of bounding box positions: center coordinates, position heatmaps, center bias, and grid distribution.",
         "why": "Spatial patterns reveal if objects are centered, distributed evenly, or biased toward certain regions - important for data augmentation strategies.",
-        "how": "Load spatial distribution CSV with normalized center positions, create heatmaps, calculate distance from center, analyze 3×3 grid distribution."
+        "how": "Load spatial distribution CSV with normalized center positions, create heatmaps, calculate distance from center, analyze 3\u00d73 grid distribution."
       },
       "code_files": {
         "plotly": "detection/spatial_distribution_plotly.py",
@@ -146,10 +192,19 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/spatial_distribution.csv"
       ],
-      "chart_match": ["position-heatmap", "center-bias-chart", "grid-distribution-chart"],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+      "chart_match": [
+        "position-heatmap",
+        "center-bias-chart",
+        "grid-distribution-chart"
+      ],
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "numpy"
+      ]
     },
-    
     "quality_analysis": {
       "title": "Annotation Quality Analysis",
       "description": "Assess bbox annotation quality and consistency",
@@ -167,11 +222,19 @@
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/quality_metrics.csv",
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv"
       ],
-      "chart_match": ["quality-score", "consistency-metrics"],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+      "chart_match": [
+        "quality-score",
+        "consistency-metrics"
+      ],
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "numpy"
+      ]
     }
   },
-  
   "segmentation": {
     "mask_overview": {
       "title": "Segmentation Mask Overview",
@@ -189,9 +252,14 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/mask_statistics.csv"
       ],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "numpy"
+      ]
     },
-    
     "pixel_distribution": {
       "title": "Pixel Distribution Analysis",
       "description": "Analyze foreground, boundary, and background pixel distributions",
@@ -208,9 +276,13 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/pixel_distribution.csv"
       ],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"]
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ]
     },
-    
     "mask_quality": {
       "title": "Mask Quality Analysis",
       "description": "Assess segmentation mask quality and consistency",
@@ -228,9 +300,14 @@
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/quality_metrics.csv",
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/mask_statistics.csv"
       ],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "numpy"
+      ]
     },
-    
     "boundary_analysis": {
       "title": "Boundary Analysis",
       "description": "Analyze trimap boundary properties",
@@ -247,8 +324,42 @@
       "data_dependencies": [
         "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/mask_statistics.csv"
       ],
-      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"]
+      "requirements": [
+        "pandas",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ]
+    }
+  },
+  "core": {
+    "size_distribution": {
+      "title": "Image Size Distribution Analysis",
+      "description": "This section analyzes the distribution of image dimensions in the dataset, including width, height, and aspect ratios. Understanding size distributions is crucial for:",
+      "explanation": {
+        "what": "Image size distribution analysis examines width, height, and aspect ratios of all images in the dataset.",
+        "why": "Understanding size patterns helps optimize preprocessing, identify outliers, and plan model input requirements.",
+        "how": "Calculate statistics for width/height/aspect ratios, visualize distributions with histograms and scatter plots, identify common sizes and outliers."
+      },
+      "code_files": {
+        "plotly": "core/size_distribution_plotly.py",
+        "matplotlib": "core/size_distribution_matplotlib.py",
+        "seaborn": "core/size_distribution_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv"
+      ],
+      "chart_match": [
+        "size-dist",
+        "aspect-ratio"
+      ],
+      "requirements": [
+        "pandas",
+        "numpy",
+        "plotly",
+        "matplotlib",
+        "seaborn"
+      ]
     }
   }
 }
-
