@@ -30,36 +30,19 @@
       }
     }
 
-    // Chart 2: File Size Distribution
-    if (charts.file_size_dist) {
-      const ctx2 = document.getElementById('file-size-dist');
+    // Chart 2: File Size Distribution (ChartJS)
+    if (charts.filesize_histogram) {
+      const ctx2 = document.getElementById('filesize-histogram');
       if (ctx2) {
-        Plotly.newPlot(ctx2, charts.file_size_dist.data, charts.file_size_dist.layout, {
-          responsive: true,
-          displayModeBar: true
-        });
+        new Chart(ctx2, charts.filesize_histogram);
       }
     }
 
-    // Chart 3: Color Distribution
-    if (charts.color_dist) {
-      const ctx3 = document.getElementById('color-dist');
+    // Chart 3: Aspect Ratio Distribution (ChartJS)
+    if (charts.aspect_histogram) {
+      const ctx3 = document.getElementById('aspect-histogram');
       if (ctx3) {
-        Plotly.newPlot(ctx3, charts.color_dist.data, charts.color_dist.layout, {
-          responsive: true,
-          displayModeBar: true
-        });
-      }
-    }
-
-    // Chart 4: Aspect Ratio Distribution
-    if (charts.aspect_ratio_dist) {
-      const ctx4 = document.getElementById('aspect-ratio-dist');
-      if (ctx4) {
-        Plotly.newPlot(ctx4, charts.aspect_ratio_dist.data, charts.aspect_ratio_dist.layout, {
-          responsive: true,
-          displayModeBar: true
-        });
+        new Chart(ctx3, charts.aspect_histogram);
       }
     }
 
@@ -85,29 +68,56 @@
       }
     }
 
-    // Chart 7: Statistical Summary Table
+    // Update Data Overview section
+    if (stats) {
+      const totalImagesEl = document.getElementById('total-images');
+      const totalBreedsEl = document.getElementById('total-breeds');
+      const totalSpeciesEl = document.getElementById('total-species');
+      const datasetSizeEl = document.getElementById('dataset-size');
+      
+      if (totalImagesEl && stats.num_images) {
+        totalImagesEl.textContent = stats.num_images.toLocaleString();
+      }
+      if (totalBreedsEl) {
+        totalBreedsEl.textContent = '37';
+      }
+      if (totalSpeciesEl) {
+        totalSpeciesEl.textContent = '2';
+      }
+      if (datasetSizeEl && stats.file_sizes && stats.file_sizes.stats) {
+        const totalMB = stats.file_sizes.stats.total_mb || 0;
+        datasetSizeEl.textContent = `${totalMB.toFixed(1)} MB`;
+      }
+    }
+
+    // Populate Statistical Summary Table
     if (stats && document.getElementById('statistics-table')) {
       const table = document.getElementById('statistics-table');
-      if (table) {
-        // Create statistics table
+      if (table && stats.dimensions && stats.dimensions.stats) {
+        const dimStats = stats.dimensions.stats;
+        const fileStats = stats.file_sizes ? stats.file_sizes.stats : {};
+        
         let tableHTML = '<table class="table table-striped">';
         tableHTML += '<thead><tr><th>Metric</th><th>Value</th></tr></thead>';
         tableHTML += '<tbody>';
         
-        if (stats.num_images) {
-          tableHTML += `<tr><td>Total Images</td><td>${stats.num_images.toLocaleString()}</td></tr>`;
+        if (dimStats.mean_width) {
+          tableHTML += `<tr><td>Mean Width</td><td>${dimStats.mean_width.toFixed(0)} px</td></tr>`;
         }
-        if (stats.avg_width) {
-          tableHTML += `<tr><td>Average Width</td><td>${stats.avg_width.toFixed(1)}px</td></tr>`;
+        if (dimStats.mean_height) {
+          tableHTML += `<tr><td>Mean Height</td><td>${dimStats.mean_height.toFixed(0)} px</td></tr>`;
         }
-        if (stats.avg_height) {
-          tableHTML += `<tr><td>Average Height</td><td>${stats.avg_height.toFixed(1)}px</td></tr>`;
+        if (dimStats.min_width && dimStats.min_height) {
+          tableHTML += `<tr><td>Min Dimensions</td><td>${dimStats.min_width.toFixed(0)} × ${dimStats.min_height.toFixed(0)} px</td></tr>`;
         }
-        if (stats.avg_file_size) {
-          tableHTML += `<tr><td>Average File Size</td><td>${(stats.avg_file_size / 1024).toFixed(1)}KB</td></tr>`;
+        if (dimStats.max_width && dimStats.max_height) {
+          tableHTML += `<tr><td>Max Dimensions</td><td>${dimStats.max_width.toFixed(0)} × ${dimStats.max_height.toFixed(0)} px</td></tr>`;
         }
-        if (stats.avg_aspect_ratio) {
-          tableHTML += `<tr><td>Average Aspect Ratio</td><td>${stats.avg_aspect_ratio.toFixed(2)}</td></tr>`;
+        if (fileStats.mean) {
+          tableHTML += `<tr><td>Mean File Size</td><td>${fileStats.mean.toFixed(1)} KB</td></tr>`;
+        }
+        if (fileStats.total_mb) {
+          tableHTML += `<tr><td>Total Dataset Size</td><td>${fileStats.total_mb.toFixed(1)} MB</td></tr>`;
         }
         
         tableHTML += '</tbody></table>';
@@ -115,7 +125,7 @@
       }
     }
 
-    console.log('Core charts initialized successfully');
+    console.log('✓ Core charts and stats updated successfully');
   }
 
   /**
