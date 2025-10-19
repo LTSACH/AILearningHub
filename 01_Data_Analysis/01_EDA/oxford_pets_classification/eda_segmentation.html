@@ -1049,7 +1049,9 @@
 
             img.src = canvas.dataset.src;
 
-            // Add hover tooltip
+            // Add hover tooltip with visual feedback
+            let currentHover = null;
+
             canvas.addEventListener('mousemove', function(e) {
                 if (!canvas.maskMetadata) return;
 
@@ -1058,8 +1060,8 @@
                 const y = (e.clientY - rect.top) / rect.height;
 
                 // Determine which mask is hovered
-                let maskType = 'None';
-                let maskColor = '#666';
+                let maskType = 'Background';
+                let maskColor = '#94a3b8';
 
                 // Check if inside foreground
                 if (maskSettings.showForeground && foregroundPolygon && isPointInPolygon(x, y, foregroundPolygon.polygon)) {
@@ -1072,14 +1074,71 @@
                     maskColor = '#f59e0b';
                 }
 
-                const breed = canvas.dataset.breed || 'Unknown';
-                const fgPoints = foregroundPolygon ? foregroundPolygon.polygon.length : 0;
-                const bdPoints = boundaryPolygon ? boundaryPolygon.polygon.length : 0;
+                // Only redraw if hover changed
+                if (currentHover !== maskType) {
+                    currentHover = maskType;
 
-                canvas.title = `${breed}\n` +
-                              `Hovered: ${maskType}\n` +
-                              `Foreground: ${fgPoints} points\n` +
-                              `Boundary: ${bdPoints} points`;
+                    // Redraw canvas with highlight
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    img.onload = function() {
+                        drawPolygonOnCanvas(canvas, img, foregroundPolygon, boundaryPolygon);
+
+                        // Draw hover indicator
+                        const breed = canvas.dataset.breed || 'Unknown';
+                        const fgPoints = foregroundPolygon ? foregroundPolygon.polygon.length : 0;
+                        const bdPoints = boundaryPolygon ? boundaryPolygon.polygon.length : 0;
+
+                        // Draw tooltip box
+                        ctx.save();
+                        ctx.font = 'bold 14px Arial';
+                        const lines = [
+                            `${breed}`,
+                            `Hover: ${maskType}`,
+                            `FG: ${fgPoints}pts | BD: ${bdPoints}pts`
+                        ];
+
+                        const padding = 10;
+                        const lineHeight = 18;
+                        const maxWidth = Math.max(...lines.map(l => ctx.measureText(l).width));
+                        const boxWidth = maxWidth + padding * 2;
+                        const boxHeight = lines.length * lineHeight + padding * 2;
+
+                        // Position tooltip at top-left
+                        const tooltipX = 10;
+                        const tooltipY = 10;
+
+                        // Draw semi-transparent background
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                        ctx.fillRect(tooltipX, tooltipY, boxWidth, boxHeight);
+
+                        // Draw colored border
+                        ctx.strokeStyle = maskColor;
+                        ctx.lineWidth = 3;
+                        ctx.strokeRect(tooltipX, tooltipY, boxWidth, boxHeight);
+
+                        // Draw text
+                        ctx.fillStyle = '#ffffff';
+                        lines.forEach((line, i) => {
+                            ctx.fillText(line, tooltipX + padding, tooltipY + padding + (i + 1) * lineHeight);
+                        });
+
+                        ctx.restore();
+                    };
+                    img.src = canvas.dataset.src;
+                }
+            });
+
+            // Clear hover on mouse leave
+            canvas.addEventListener('mouseleave', function() {
+                if (currentHover) {
+                    currentHover = null;
+                    const img = new Image();
+                    img.onload = function() {
+                        drawPolygonOnCanvas(canvas, img, foregroundPolygon, boundaryPolygon);
+                    };
+                    img.src = canvas.dataset.src;
+                }
             });
 
             // Click to enlarge
