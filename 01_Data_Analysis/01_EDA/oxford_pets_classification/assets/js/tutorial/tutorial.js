@@ -187,27 +187,37 @@
     let allCode = '';
     const frameworks = ['plotly', 'matplotlib', 'seaborn'];
     
+    // Fetch all 3 framework codes
     for (const framework of frameworks) {
-      const code = await loadCodeContent(sectionId, framework);
-      if (code) {
-        allCode += `# ========== ${framework.toUpperCase()} ==========\n\n`;
-        allCode += code;
-        allCode += '\n\n';
+      try {
+        const code = await fetchPythonCode(sectionId, framework);
+        if (code) {
+          allCode += `# ${'='.repeat(60)}\n`;
+          allCode += `# ${framework.toUpperCase()}\n`;
+          allCode += `# ${'='.repeat(60)}\n\n`;
+          allCode += code;
+          allCode += '\n\n\n';
+        }
+      } catch (err) {
+        console.error(`Failed to fetch ${framework} code:`, err);
       }
     }
     
-    if (allCode) {
+    if (allCode.trim()) {
       navigator.clipboard.writeText(allCode.trim()).then(() => {
-        showCopyFeedback(event.target, '✅ All frameworks copied!');
+        showCopyFeedback(event.target, '✅ All 3 frameworks copied!');
       }).catch(err => {
         console.error('Copy failed:', err);
         showCopyFeedback(event.target, '❌ Copy failed');
       });
+    } else {
+      showCopyFeedback(event.target, '❌ No code available');
     }
   };
   
   /**
    * Download all tutorial files (all 3 frameworks) - Global action
+   * Opens each file in a new tab for viewing/saving
    */
   window.downloadAllTutorials = async function(sectionId) {
     const tutorial = getTutorialMeta(sectionId);
@@ -217,21 +227,19 @@
     }
     
     const files = tutorial.code_files;
+    const frameworks = ['plotly', 'matplotlib', 'seaborn'];
     
-    // Download all 3 files
-    for (const [library, filename] of Object.entries(files)) {
-      const url = TUTORIAL_BASE_URL + filename;
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename.split('/').pop();
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      await new Promise(resolve => setTimeout(resolve, 300)); // Small delay between downloads
+    // Open all 3 files in new tabs
+    for (const framework of frameworks) {
+      const filename = files[framework];
+      if (filename) {
+        const url = TUTORIAL_BASE_URL + filename;
+        window.open(url, '_blank');
+        await new Promise(resolve => setTimeout(resolve, 300)); // Delay to avoid popup blocker
+      }
     }
     
-    showCopyFeedback(event.target, '✅ Downloading all files...');
+    showCopyFeedback(event.target, '✅ Opening all 3 files in tabs...');
   };
   
   /**
