@@ -4,6 +4,40 @@
  * Handles expand/collapse all sections and code theme toggle
  */
 
+// Toggle individual section
+function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    
+    const isExpanded = section.classList.contains('expanded');
+    
+    if (isExpanded) {
+        // Collapse this section
+        section.classList.remove('expanded');
+        const toggle = section.querySelector('.section-toggle');
+        if (toggle) {
+            toggle.textContent = '▶';
+        }
+        // Hide content
+        const content = section.querySelector('.section-content');
+        if (content) {
+            content.style.display = 'none';
+        }
+    } else {
+        // Expand this section
+        section.classList.add('expanded');
+        const toggle = section.querySelector('.section-toggle');
+        if (toggle) {
+            toggle.textContent = '▼';
+        }
+        // Show content
+        const content = section.querySelector('.section-content');
+        if (content) {
+            content.style.display = 'block';
+        }
+    }
+}
+
 // Expand all sections
 function expandAll() {
     // console.log('📖 Expanding all sections...');
@@ -127,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Export functions for global access
+window.toggleSection = toggleSection;
 window.expandAll = expandAll;
 window.collapseAll = collapseAll;
 window.toggleCodeTheme = toggleCodeTheme;
