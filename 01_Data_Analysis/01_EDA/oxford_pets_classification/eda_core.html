@@ -121,6 +121,9 @@
                 opacity: 0.9;
             }
             </style>
+    <script>
+    window.CORE_TUTORIALS = {"size_distribution": {"tutorial": {"title": "Image Size Distribution Analysis", "explanation": "This section analyzes the distribution of image dimensions in the dataset, including width, height, and aspect ratios. Understanding size distributions is crucial for:", "key_points": ["Identifying common image dimensions in the dataset", "Detecting outliers or unusual sizes", "Understanding aspect ratio patterns", "Planning data preprocessing strategies", "Optimizing model input requirements"], "insights": ["Most images follow standard aspect ratios (4:3, 16:9)", "Width and height distributions show dataset characteristics", "Aspect ratio analysis reveals image orientation patterns", "Size outliers may indicate data quality issues"]}, "code_files": {"plotly": "code_examples/core/size_distribution_plotly.py", "matplotlib": "code_examples/core/size_distribution_matplotlib.py", "seaborn": "code_examples/core/size_distribution_seaborn.py"}}};
+    </script>
   </head>
   <body>
 
@@ -152,22 +155,6 @@
 
     <section class="section">
       <div class="container">
-        <div class="section-header">
-          <h1 class="section-title">🐕🐈 Oxford Pets Dataset - Core Analysis</h1>
-          <p class="section-description">
-            Task-agnostic analysis of dataset properties: image dimensions, file sizes, and color distributions
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-      <h2 class="section-title">Core EDA Analysis</h2>
-      <p class="section-description">Comprehensive analysis of image dataset properties</p>
-    </div>
-
         <!-- Collapsible Sections -->
         <div class="section" id="dataset_overview">
         <h2 onclick="toggleSection('dataset_overview')" style="cursor: pointer;">📊 Dataset Overview</h2>
