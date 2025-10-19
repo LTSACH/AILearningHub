@@ -58,11 +58,13 @@ function toggleCodeTheme() {
     if (isDark) {
         // Switch to light theme
         body.classList.remove('dark-code-theme');
+        body.classList.add('light-code-theme');
         localStorage.setItem('code-theme', 'light');
         updateThemeButton('🌙 Code Theme');
         showNotification('Switched to light theme', 'info');
     } else {
         // Switch to dark theme
+        body.classList.remove('light-code-theme');
         body.classList.add('dark-code-theme');
         localStorage.setItem('code-theme', 'dark');
         updateThemeButton('☀️ Code Theme');
@@ -83,8 +85,11 @@ function loadSavedTheme() {
     const savedTheme = localStorage.getItem('code-theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-code-theme');
+        document.body.classList.remove('light-code-theme');
         updateThemeButton('☀️ Code Theme');
     } else {
+        document.body.classList.add('light-code-theme');
+        document.body.classList.remove('dark-code-theme');
         updateThemeButton('🌙 Code Theme');
     }
 }

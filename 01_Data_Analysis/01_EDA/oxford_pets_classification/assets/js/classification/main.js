@@ -139,29 +139,44 @@
       return;
     }
     
-    console.log('initializePlotlyCharts called');
+    console.log('initializePlotlyCharts called with', Object.keys(charts).length, 'charts');
     
-    // Auto-initialize all Plotly charts (have layout property)
+    // Chart key to div ID mapping
+    const chartMappings = {
+      'class_distribution_bar': 'class-dist-bar',
+      'species_distribution_pie': 'species-pie', 
+      'species_split_bar': 'species-split-bar',
+      'split_percentage_pie': 'split-percentage-pie',
+      'breed_split_bar': 'breed-split-bar',
+      'pca_variance_plot': 'pca-variance',
+      'tsne_plot': 'tsne-plot',
+      'umap_plot': 'umap-plot',
+      'similarity_heatmap': 'similarity-heatmap'
+    };
+    
+    // Initialize all Plotly charts
     for (const [chartKey, chartConfig] of Object.entries(charts)) {
-      if (chartConfig.layout) {
+      if (chartConfig.data && chartConfig.layout) {
         console.log(`Trying to initialize Plotly chart: ${chartKey}`);
         
-        // Convert chart key to div ID
-        let divId = chartKey.replace(/_/g, '-');
+        // Get div ID from mapping or convert key
+        const divId = chartMappings[chartKey] || chartKey.replace(/_/g, '-');
         const container = document.getElementById(divId);
         
-        console.log(`  Div ID: ${divId}, Found: ${!!container}`);
+        console.log(`  Chart key: ${chartKey} → Div ID: ${divId}, Found: ${!!container}`);
         
         if (container) {
           try {
             Plotly.newPlot(divId, chartConfig.data, chartConfig.layout, chartConfig.config || {});
-            console.log(`  ✓ Plotly chart ${chartKey} initialized`);
+            console.log(`  ✓ Plotly chart ${chartKey} initialized successfully`);
           } catch (e) {
             console.error(`  ✗ Error initializing Plotly chart ${chartKey}:`, e);
           }
         } else {
-          console.warn(`  ⚠️  Container not found: ${divId}`);
+          console.warn(`  ⚠️  Chart container not found: ${divId}`);
         }
+      } else {
+        console.log(`  ⚠️  Chart ${chartKey} missing data/layout, skipping`);
       }
     }
     
