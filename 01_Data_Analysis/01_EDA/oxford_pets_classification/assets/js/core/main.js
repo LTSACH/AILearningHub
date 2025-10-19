@@ -10,6 +10,7 @@
 
   /**
    * Initialize all core components
+   * Called by data-loader.js after data is loaded
    */
   function initializeCharts() {
     console.log('Initializing core EDA charts...');
@@ -138,11 +139,8 @@
   // Export function for data-loader.js to call
   window.initializeCharts = initializeCharts;
 
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeCoreReport);
-  } else {
-    initializeCoreReport();
-  }
+  // Note: Initialization is now handled by data-loader.js
+  // which calls window.initializeCharts() after data is loaded
+  // No auto-initialization here to avoid race conditions
 
 })();
