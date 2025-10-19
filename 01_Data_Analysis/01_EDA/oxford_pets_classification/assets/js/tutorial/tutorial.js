@@ -229,17 +229,50 @@
     const files = tutorial.code_files;
     const frameworks = ['plotly', 'matplotlib', 'seaborn'];
     
-    // Open all 3 files in new tabs
-    for (const framework of frameworks) {
-      const filename = files[framework];
-      if (filename) {
-        const url = TUTORIAL_BASE_URL + filename;
-        window.open(url, '_blank');
-        await new Promise(resolve => setTimeout(resolve, 300)); // Delay to avoid popup blocker
+    try {
+      showCopyFeedback(event.target, '⏳ Preparing ZIP download...');
+      
+      // Fetch all files
+      const fileContents = {};
+      for (const framework of frameworks) {
+        const filename = files[framework];
+        if (filename) {
+          const url = TUTORIAL_BASE_URL + filename;
+          const response = await fetch(url);
+          if (response.ok) {
+            fileContents[framework] = await response.text();
+          }
+        }
       }
+      
+      // Create ZIP content (simple format)
+      let zipContent = '';
+      for (const [framework, content] of Object.entries(fileContents)) {
+        const filename = files[framework].split('/').pop();
+        zipContent += `=== ${filename} ===\n`;
+        zipContent += content + '\n\n';
+      }
+      
+      // Create blob and download
+      const blob = new Blob([zipContent], { type: 'text/plain' });
+      const blobUrl = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${sectionId}_all_frameworks.txt`;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+      
+      showCopyFeedback(event.target, '✅ Downloaded all 3 frameworks!');
+    } catch (err) {
+      console.error('Download all failed:', err);
+      showCopyFeedback(event.target, '❌ Download failed');
     }
-    
-    showCopyFeedback(event.target, '✅ Opening all 3 files in tabs...');
   };
   
   /**
