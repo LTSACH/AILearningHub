@@ -74,8 +74,8 @@ def generate_color_palette(n_colors):
 
 print("\n📈 Creating t-SNE visualization (37 breeds, distinct colors)...")
 
-# Get unique breeds (sorted for consistency)
-breed_names = sorted(tsne_df['breed'].unique())
+# Get unique breeds (sorted for consistency) - filter out NaN
+breed_names = sorted([b for b in tsne_df['breed'].unique() if pd.notna(b)])
 colors = generate_color_palette(len(breed_names))
 breed_to_color = {breed: colors[i] for i, breed in enumerate(breed_names)}
 

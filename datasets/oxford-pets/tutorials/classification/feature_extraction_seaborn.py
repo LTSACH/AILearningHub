@@ -35,7 +35,7 @@ def generate_palette(n):
         colors.append(rgb)
     return colors
 
-breed_names = sorted(tsne_df['breed'].unique())
+breed_names = sorted([b for b in tsne_df['breed'].unique() if pd.notna(b)])
 palette = generate_palette(len(breed_names))
 
 # ============================================================================

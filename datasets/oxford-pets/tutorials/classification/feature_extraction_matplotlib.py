@@ -34,7 +34,7 @@ def generate_colors(n):
         colors.append(rgb)
     return colors
 
-breed_names = sorted(tsne_df['breed'].unique())
+breed_names = sorted([b for b in tsne_df['breed'].unique() if pd.notna(b)])
 colors = generate_colors(len(breed_names))
 breed_to_color = {breed: colors[i] for i, breed in enumerate(breed_names)}
 
