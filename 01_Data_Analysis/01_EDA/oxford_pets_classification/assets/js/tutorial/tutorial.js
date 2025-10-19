@@ -1,6 +1,7 @@
 /**
- * Tutorial System for Oxford Pets Classification EDA
+ * Tutorial System for Oxford Pets EDA
  * Handles runtime loading of Python tutorial code from GitHub
+ * Supports: Classification, Detection, Segmentation
  */
 
 (function() {
@@ -13,6 +14,39 @@
   // State
   let tutorialMetadata = null;
   let loadedCode = {}; // Cache for loaded Python code
+  let reportType = null; // Detect report type: classification/detection/segmentation
+  
+  /**
+   * Detect report type from page data
+   */
+  function detectReportType() {
+    if (window.CLASSIFICATION_CHARTS || window.CLASSIFICATION_STATS) {
+      reportType = 'classification';
+    } else if (window.DETECTION_CHARTS || window.DETECTION_STATS) {
+      reportType = 'detection';
+    } else if (window.SEGMENTATION_CHARTS || window.SEGMENTATION_STATS) {
+      reportType = 'segmentation';
+    } else {
+      // Fallback: check page title or URL
+      const title = document.title.toLowerCase();
+      if (title.includes('detection')) {
+        reportType = 'detection';
+      } else if (title.includes('segmentation')) {
+        reportType = 'segmentation';
+      } else {
+        reportType = 'classification';
+      }
+    }
+    // console.log(`📄 Detected report type: ${reportType}`);
+  }
+  
+  /**
+   * Get tutorial metadata for current section
+   */
+  function getTutorialMeta(sectionId) {
+    if (!tutorialMetadata || !reportType) return null;
+    return tutorialMetadata[reportType] ? tutorialMetadata[reportType][sectionId] : null;
+  }
   
   /**
    * Initialize tutorial system
@@ -28,7 +62,11 @@
       }
       
       tutorialMetadata = await response.json();
-      // console.log(`✅ Tutorial metadata loaded: ${Object.keys(tutorialMetadata.classification || {}).length} sections`);
+      
+      // Auto-detect report type from page
+      detectReportType();
+      
+      // console.log(`✅ Tutorial metadata loaded: ${Object.keys(tutorialMetadata[reportType] || {}).length} sections for ${reportType}`);
       
       // Add CSS for tutorial system
       injectTutorialCSS();
@@ -140,12 +178,12 @@
    * Download tutorial files
    */
   window.downloadTutorial = async function(sectionId) {
-    if (!tutorialMetadata || !tutorialMetadata.classification[sectionId]) {
+    const tutorial = getTutorialMeta(sectionId);
+    if (!tutorial) {
       alert('Tutorial not available');
       return;
     }
     
-    const tutorial = tutorialMetadata.classification[sectionId];
     const files = tutorial.code_files;
     
     // Download all 3 files
@@ -173,12 +211,12 @@
     // Check if already loaded
     if (contentDiv.innerHTML.trim()) return;
     
-    if (!tutorialMetadata || !tutorialMetadata.classification[sectionId]) {
+    const tutorial = getTutorialMeta(sectionId);
+    if (!tutorial) {
       contentDiv.innerHTML = '<p class="error">Tutorial content not available</p>';
       return;
     }
     
-    const tutorial = tutorialMetadata.classification[sectionId];
     const explanation = tutorial.explanation;
     
     contentDiv.innerHTML = `
@@ -249,11 +287,11 @@
       return loadedCode[cacheKey];
     }
     
-    if (!tutorialMetadata || !tutorialMetadata.classification[sectionId]) {
+    const tutorial = getTutorialMeta(sectionId);
+    if (!tutorial) {
       return null;
     }
     
-    const tutorial = tutorialMetadata.classification[sectionId];
     const filename = tutorial.code_files[library];
     
     if (!filename) return null;
