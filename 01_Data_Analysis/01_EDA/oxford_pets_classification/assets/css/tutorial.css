@@ -1,0 +1,36 @@
+/* Per-tab action buttons (Copy + Download for each framework) */
+.code-actions-inline {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8fafc;
+}
+
+.code-action-btn-inline {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.code-action-btn-inline.copy-btn {
+    background: #64748b;
+    color: white;
+}
+
+.code-action-btn-inline.copy-btn:hover {
+    background: #475569;
+}
+
+.code-action-btn-inline.download-btn {
+    background: #3b82f6;
+    color: white;
+}
+
+.code-action-btn-inline.download-btn:hover {
+    background: #2563eb;
+}

@@ -175,9 +175,41 @@
   };
   
   /**
-   * Download tutorial files
+   * Copy all code (all 3 frameworks) - Global action
    */
-  window.downloadTutorial = async function(sectionId) {
+  window.copyAllCode = async function(sectionId) {
+    const tutorial = getTutorialMeta(sectionId);
+    if (!tutorial) {
+      alert('Tutorial not available');
+      return;
+    }
+    
+    let allCode = '';
+    const frameworks = ['plotly', 'matplotlib', 'seaborn'];
+    
+    for (const framework of frameworks) {
+      const code = await loadCodeContent(sectionId, framework);
+      if (code) {
+        allCode += `# ========== ${framework.toUpperCase()} ==========\n\n`;
+        allCode += code;
+        allCode += '\n\n';
+      }
+    }
+    
+    if (allCode) {
+      navigator.clipboard.writeText(allCode.trim()).then(() => {
+        showCopyFeedback(event.target, '✅ All frameworks copied!');
+      }).catch(err => {
+        console.error('Copy failed:', err);
+        showCopyFeedback(event.target, '❌ Copy failed');
+      });
+    }
+  };
+  
+  /**
+   * Download all tutorial files (all 3 frameworks) - Global action
+   */
+  window.downloadAllTutorials = async function(sectionId) {
     const tutorial = getTutorialMeta(sectionId);
     if (!tutorial) {
       alert('Tutorial not available');
@@ -192,13 +224,95 @@
       const link = document.createElement('a');
       link.href = url;
       link.download = filename.split('/').pop();
+      link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      await new Promise(resolve => setTimeout(resolve, 500)); // Delay between downloads
+      await new Promise(resolve => setTimeout(resolve, 300)); // Small delay between downloads
     }
     
-    showCopyFeedback(event.target, '✅ Files downloading...');
+    showCopyFeedback(event.target, '✅ Downloading all files...');
+  };
+  
+  /**
+   * Download single tutorial file (current framework only) - Per-tab action
+   */
+  window.downloadTutorial = async function(sectionId) {
+    const tutorial = getTutorialMeta(sectionId);
+    if (!tutorial) {
+      alert('Tutorial not available');
+      return;
+    }
+    
+    // Get current active framework tab
+    const codePanel = document.getElementById(`${sectionId}-code`);
+    if (!codePanel) {
+      console.error('Code panel not found');
+      return;
+    }
+    
+    // Find active tab
+    const activeTabs = codePanel.querySelectorAll('.code-tab-content.active');
+    let activeFramework = 'plotly'; // default
+    
+    if (activeTabs.length > 0) {
+      const activeId = activeTabs[0].id;
+      // Extract framework from id like "dataset_overview-plotly"
+      activeFramework = activeId.split('-').pop();
+    }
+    
+    // Get file for active framework
+    const files = tutorial.code_files;
+    const filename = files[activeFramework];
+    
+    if (!filename) {
+      console.error(`No file found for framework: ${activeFramework}`);
+      return;
+    }
+    
+    // Download only the current framework file
+    const url = TUTORIAL_BASE_URL + filename;
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename.split('/').pop();
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Show feedback
+    showCopyFeedback(event.target, `✅ Downloading ${activeFramework.charAt(0).toUpperCase() + activeFramework.slice(1)}...`);
+  };
+  
+  /**
+   * Download code from specific tab - Per-tab action
+   */
+  window.downloadCodeFromTab = async function(sectionId, library) {
+    const tutorial = getTutorialMeta(sectionId);
+    if (!tutorial) {
+      alert('Tutorial not available');
+      return;
+    }
+    
+    const files = tutorial.code_files;
+    const filename = files[library];
+    
+    if (!filename) {
+      console.error(`No file found for library: ${library}`);
+      return;
+    }
+    
+    // Download the file
+    const url = TUTORIAL_BASE_URL + filename;
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename.split('/').pop();
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    showCopyFeedback(event.target, `✅ Downloading ${library}...`);
   };
   
   /**
@@ -256,11 +370,16 @@
       const code = await fetchPythonCode(sectionId, library);
       
       if (code) {
-        // Create code display
+        // Create code display with per-tab actions
         tabDiv.innerHTML = `
-          <button class="code-copy-btn" onclick="copyCodeFromTab('${sectionId}', '${library}')">
-            📋 Copy Code
-          </button>
+          <div class="code-actions-inline">
+            <button class="code-action-btn-inline copy-btn" onclick="copyCodeFromTab('${sectionId}', '${library}')" title="Copy ${library} code">
+              📋 Copy
+            </button>
+            <button class="code-action-btn-inline download-btn" onclick="downloadCodeFromTab('${sectionId}', '${library}')" title="Download ${library} file">
+              ⬇️ Download
+            </button>
+          </div>
           <pre><code class="language-python">${escapeHtml(code)}</code></pre>
         `;
         
