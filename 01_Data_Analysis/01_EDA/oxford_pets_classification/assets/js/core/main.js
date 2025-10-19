@@ -2,7 +2,7 @@
  * Core EDA - Main JavaScript
  * 
  * Main entry point for core report.
- * Initializes all charts and interactive components.
+ * Uses Plotly exclusively for all charts (consistency with Data Science curriculum).
  */
 
 (function() {
@@ -19,131 +19,119 @@
     const charts = window.CORE_CHARTS || {};
     const stats = window.CORE_STATS || {};
 
-    // Chart 1: 2D Size Marginal Plot
-    if (charts.size_marginal) {
-      const ctx1 = document.getElementById('size-marginal');
-      if (ctx1) {
-        Plotly.newPlot(ctx1, charts.size_marginal.data, charts.size_marginal.layout, {
-          responsive: true,
-          displayModeBar: true
-        });
-      }
-    }
-
-    // Chart 2: File Size Distribution (ChartJS)
-    if (charts.filesize_histogram) {
-      const ctx2 = document.getElementById('filesize-histogram');
-      if (ctx2) {
-        new Chart(ctx2, charts.filesize_histogram);
-      }
-    }
-
-    // Chart 3: Aspect Ratio Distribution (ChartJS)
-    if (charts.aspect_histogram) {
-      const ctx3 = document.getElementById('aspect-histogram');
-      if (ctx3) {
-        new Chart(ctx3, charts.aspect_histogram);
-      }
-    }
-
-    // Chart 5: Color Space Analysis
-    if (charts.color_space) {
-      const ctx5 = document.getElementById('color-space');
-      if (ctx5) {
-        Plotly.newPlot(ctx5, charts.color_space.data, charts.color_space.layout, {
-          responsive: true,
-          displayModeBar: true
-        });
-      }
-    }
-
-    // Chart 6: Image Quality Metrics
-    if (charts.quality_metrics) {
-      const ctx6 = document.getElementById('quality-metrics');
-      if (ctx6) {
-        Plotly.newPlot(ctx6, charts.quality_metrics.data, charts.quality_metrics.layout, {
-          responsive: true,
-          displayModeBar: true
-        });
-      }
-    }
+    // Initialize all Plotly charts
+    initializePlotlyCharts(charts);
 
     // Update Data Overview section
-    if (stats) {
-      const totalImagesEl = document.getElementById('total-images');
-      const totalBreedsEl = document.getElementById('total-breeds');
-      const totalSpeciesEl = document.getElementById('total-species');
-      const datasetSizeEl = document.getElementById('dataset-size');
-      
-      if (totalImagesEl && stats.num_images) {
-        totalImagesEl.textContent = stats.num_images.toLocaleString();
-      }
-      if (totalBreedsEl) {
-        totalBreedsEl.textContent = '37';
-      }
-      if (totalSpeciesEl) {
-        totalSpeciesEl.textContent = '2';
-      }
-      if (datasetSizeEl && stats.file_sizes && stats.file_sizes.stats) {
-        const totalMB = stats.file_sizes.stats.total_mb || 0;
-        datasetSizeEl.textContent = `${totalMB.toFixed(1)} MB`;
-      }
-    }
+    updateDataOverview(stats);
 
     // Populate Statistical Summary Table
-    if (stats && document.getElementById('statistics-table')) {
-      const table = document.getElementById('statistics-table');
-      if (table && stats.dimensions && stats.dimensions.stats) {
-        const dimStats = stats.dimensions.stats;
-        const fileStats = stats.file_sizes ? stats.file_sizes.stats : {};
-        
-        let tableHTML = '<table class="table table-striped">';
-        tableHTML += '<thead><tr><th>Metric</th><th>Value</th></tr></thead>';
-        tableHTML += '<tbody>';
-        
-        if (dimStats.mean_width) {
-          tableHTML += `<tr><td>Mean Width</td><td>${dimStats.mean_width.toFixed(0)} px</td></tr>`;
-        }
-        if (dimStats.mean_height) {
-          tableHTML += `<tr><td>Mean Height</td><td>${dimStats.mean_height.toFixed(0)} px</td></tr>`;
-        }
-        if (dimStats.min_width && dimStats.min_height) {
-          tableHTML += `<tr><td>Min Dimensions</td><td>${dimStats.min_width.toFixed(0)} × ${dimStats.min_height.toFixed(0)} px</td></tr>`;
-        }
-        if (dimStats.max_width && dimStats.max_height) {
-          tableHTML += `<tr><td>Max Dimensions</td><td>${dimStats.max_width.toFixed(0)} × ${dimStats.max_height.toFixed(0)} px</td></tr>`;
-        }
-        if (fileStats.mean) {
-          tableHTML += `<tr><td>Mean File Size</td><td>${fileStats.mean.toFixed(1)} KB</td></tr>`;
-        }
-        if (fileStats.total_mb) {
-          tableHTML += `<tr><td>Total Dataset Size</td><td>${fileStats.total_mb.toFixed(1)} MB</td></tr>`;
-        }
-        
-        tableHTML += '</tbody></table>';
-        table.innerHTML = tableHTML;
-      }
-    }
+    populateStatisticsTable(stats);
 
     console.log('✓ Core charts and stats updated successfully');
   }
 
   /**
-   * Initialize when DOM is ready
+   * Initialize all Plotly charts
    */
-  function initializeCoreReport() {
-    console.log('Initializing core EDA report...');
+  function initializePlotlyCharts(charts) {
+    console.log('📈 Initializing all charts with Plotly...');
     
-    // Wait for Plotly to be available
-    function waitForPlotly() {
-      if (typeof Plotly !== 'undefined') {
-        initializeCharts();
+    // Define all chart configurations
+    const chartConfigs = [
+      { id: 'size-marginal', key: 'size_marginal', name: 'Size Marginal' },
+      { id: 'filesize-histogram', key: 'filesize_histogram', name: 'File Size Histogram' },
+      { id: 'aspect-histogram', key: 'aspect_histogram', name: 'Aspect Ratio Histogram' },
+      { id: 'color-space', key: 'color_space', name: 'Color Space' },
+      { id: 'quality-metrics', key: 'quality_metrics', name: 'Quality Metrics' }
+    ];
+    
+    // Initialize each chart
+    chartConfigs.forEach(config => {
+      if (charts[config.key]) {
+        console.log(`📊 Initializing ${config.name}...`);
+        const plotlyDiv = document.getElementById(config.id);
+        if (plotlyDiv) {
+          try {
+            Plotly.newPlot(
+              plotlyDiv,
+              charts[config.key].data,
+              charts[config.key].layout || {},
+              {responsive: true, displayModeBar: true}
+            );
+            console.log(`✅ ${config.name} created`);
+          } catch (error) {
+            console.error(`❌ Error creating ${config.name}:`, error);
+          }
+        } else {
+          console.warn(`⚠️  Element not found: ${config.id}`);
+        }
       } else {
-        setTimeout(waitForPlotly, 100);
+        console.warn(`⚠️  Chart data not found: ${config.key}`);
       }
+    });
+  }
+
+  /**
+   * Update Data Overview section
+   */
+  function updateDataOverview(stats) {
+    if (!stats) return;
+
+    const totalImagesEl = document.getElementById('total-images');
+    const totalBreedsEl = document.getElementById('total-breeds');
+    const totalSpeciesEl = document.getElementById('total-species');
+    const datasetSizeEl = document.getElementById('dataset-size');
+    
+    if (totalImagesEl && stats.num_images) {
+      totalImagesEl.textContent = stats.num_images.toLocaleString();
+    }
+    if (totalBreedsEl && stats.num_breeds) {
+      totalBreedsEl.textContent = stats.num_breeds;
+    }
+    if (totalSpeciesEl && stats.num_species) {
+      totalSpeciesEl.textContent = stats.num_species;
+    }
+    if (datasetSizeEl && stats.file_sizes && stats.file_sizes.total_mb) {
+      datasetSizeEl.textContent = `${stats.file_sizes.total_mb.toFixed(1)} MB`;
+    }
+  }
+
+  /**
+   * Populate Statistical Summary Table
+   */
+  function populateStatisticsTable(stats) {
+    const table = document.getElementById('statistics-table');
+    if (!table || !stats || !stats.dimensions) return;
+
+    const dimStats = stats.dimensions;
+    const fileStats = stats.file_sizes || {};
+    
+    let tableHTML = '<table class="table table-striped">';
+    tableHTML += '<thead><tr><th>Metric</th><th>Value</th></tr></thead>';
+    tableHTML += '<tbody>';
+    
+    if (dimStats.mean_width) {
+      tableHTML += `<tr><td>Mean Width</td><td>${dimStats.mean_width.toFixed(0)} px</td></tr>`;
+    }
+    if (dimStats.mean_height) {
+      tableHTML += `<tr><td>Mean Height</td><td>${dimStats.mean_height.toFixed(0)} px</td></tr>`;
+    }
+    if (dimStats.min_width && dimStats.min_height) {
+      tableHTML += `<tr><td>Min Dimensions</td><td>${dimStats.min_width} × ${dimStats.min_height} px</td></tr>`;
+    }
+    if (dimStats.max_width && dimStats.max_height) {
+      tableHTML += `<tr><td>Max Dimensions</td><td>${dimStats.max_width} × ${dimStats.max_height} px</td></tr>`;
+    }
+    if (fileStats.mean) {
+      tableHTML += `<tr><td>Mean File Size</td><td>${fileStats.mean.toFixed(1)} KB</td></tr>`;
+    }
+    if (fileStats.total_mb) {
+      tableHTML += `<tr><td>Total Dataset Size</td><td>${fileStats.total_mb.toFixed(1)} MB</td></tr>`;
     }
     
-    waitForPlotly();
+    tableHTML += '</tbody></table>';
+    table.innerHTML = tableHTML;
   }
 
   // Export function for data-loader.js to call
