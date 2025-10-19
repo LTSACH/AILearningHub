@@ -42,7 +42,7 @@ breed_to_color = {breed: colors[i] for i, breed in enumerate(breed_names)}
 # Create Figure
 # ============================================================================
 
-fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+fig, axes = plt.subplots(1, 2, figsize=(16, 6))  # Match web report proportions
 fig.suptitle('Feature Space Visualization (ResNet50 Features)', 
              fontsize=16, fontweight='bold')
 

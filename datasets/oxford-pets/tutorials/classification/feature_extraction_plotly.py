@@ -109,8 +109,8 @@ fig_tsne.update_layout(
     },
     xaxis_title='t-SNE Dimension 1',
     yaxis_title='t-SNE Dimension 2',
-    width=1000,
-    height=700,
+    width=800,  # Match web report card width
+    height=500,  # Match web report height exactly
     template='plotly_white',
     hovermode='closest',
     legend=dict(
@@ -163,8 +163,8 @@ fig_umap.update_layout(
     },
     xaxis_title='UMAP Dimension 1',
     yaxis_title='UMAP Dimension 2',
-    width=1000,
-    height=700,
+    width=800,  # Match web report card width
+    height=500,  # Match web report height exactly
     template='plotly_white',
     hovermode='closest',
     legend=dict(

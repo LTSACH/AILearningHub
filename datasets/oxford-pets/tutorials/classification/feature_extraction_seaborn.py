@@ -42,7 +42,7 @@ palette = generate_palette(len(breed_names))
 # Create Figure
 # ============================================================================
 
-fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+fig, axes = plt.subplots(1, 2, figsize=(16, 6))  # Match web report proportions
 fig.suptitle('Feature Space Visualization (ResNet50)', 
              fontsize=16, fontweight='bold')
 
