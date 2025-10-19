@@ -254,12 +254,12 @@
       }
       
       // Create blob and download
-      const blob = new Blob([zipContent], { type: 'text/plain' });
+      const blob = new Blob([zipContent], { type: 'text/x-python' });
       const blobUrl = URL.createObjectURL(blob);
       
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = `${sectionId}_all_frameworks.txt`;
+      link.download = `${sectionId}_all_frameworks.py`;
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
@@ -688,18 +688,43 @@
         display: block;
       }
       
-      .code-copy-btn {
-        background: #10b981;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-bottom: 10px;
+      .code-actions-inline {
+        display: flex;
+        gap: 8px;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e7eb;
       }
       
-      .code-copy-btn:hover {
+      .code-action-btn-inline {
+        flex: 1;
+        padding: 6px 14px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9em;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .code-action-btn-inline.copy-btn {
+        background: #10b981;
+      }
+      
+      .code-action-btn-inline.copy-btn:hover {
         background: #059669;
+        transform: translateY(-1px);
+      }
+      
+      .code-action-btn-inline.download-btn {
+        background: #f59e0b;
+      }
+      
+      .code-action-btn-inline.download-btn:hover {
+        background: #d97706;
+        transform: translateY(-1px);
       }
       
       .code-loading, .code-error {
