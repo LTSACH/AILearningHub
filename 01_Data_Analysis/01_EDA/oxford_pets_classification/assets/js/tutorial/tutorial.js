@@ -8,7 +8,7 @@
   'use strict';
 
   // Configuration
-  const TUTORIAL_BASE_URL = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/tutorials/';
+  const TUTORIAL_BASE_URL = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/tutorials/';
   const METADATA_URL = TUTORIAL_BASE_URL + 'metadata.json';
   
   // State
