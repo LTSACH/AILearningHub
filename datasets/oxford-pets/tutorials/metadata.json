@@ -173,7 +173,82 @@
   },
   
   "segmentation": {
-    "_note": "Segmentation tutorials will be added in future updates"
+    "mask_overview": {
+      "title": "Segmentation Mask Overview",
+      "description": "Overview of segmentation masks and trimap statistics",
+      "explanation": {
+        "what": "Analyze segmentation mask annotations (3,680 masks from train+val). Examine foreground, boundary, and background pixel distributions.",
+        "why": "Understanding mask composition is essential for semantic segmentation tasks. It reveals class balance at pixel level.",
+        "how": "Load mask statistics CSV, visualize species/split distribution, analyze pixel class percentages (FG/Boundary/BG)."
+      },
+      "code_files": {
+        "plotly": "segmentation/mask_overview_plotly.py",
+        "matplotlib": "segmentation/mask_overview_matplotlib.py",
+        "seaborn": "segmentation/mask_overview_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/mask_statistics.csv"
+      ],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+    },
+    
+    "pixel_distribution": {
+      "title": "Pixel Distribution Analysis",
+      "description": "Analyze foreground, boundary, and background pixel distributions",
+      "explanation": {
+        "what": "Pixel-level distribution analysis across breeds: foreground, boundary, and background percentages.",
+        "why": "Pixel distribution reveals class imbalance at fine-grained level. Important for loss weighting and data augmentation.",
+        "how": "Load pixel distribution CSV (aggregated by breed), visualize mean/std of each class, identify pixel-level imbalances."
+      },
+      "code_files": {
+        "plotly": "segmentation/pixel_distribution_plotly.py",
+        "matplotlib": "segmentation/pixel_distribution_matplotlib.py",
+        "seaborn": "segmentation/pixel_distribution_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/pixel_distribution.csv"
+      ],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"]
+    },
+    
+    "mask_quality": {
+      "title": "Mask Quality Analysis",
+      "description": "Assess segmentation mask quality and consistency",
+      "explanation": {
+        "what": "Quality assessment: coverage consistency (CV), per-breed pixel distribution, outlier detection.",
+        "why": "High-quality masks are crucial for training accurate segmentation models. Identifying inconsistencies improves data quality.",
+        "how": "Load quality metrics CSV, calculate coverage CV, assess pixel distribution consistency, detect anomalies."
+      },
+      "code_files": {
+        "plotly": "segmentation/mask_quality_plotly.py",
+        "matplotlib": "segmentation/mask_quality_matplotlib.py",
+        "seaborn": "segmentation/mask_quality_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/quality_metrics.csv",
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/mask_statistics.csv"
+      ],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn", "numpy"]
+    },
+    
+    "boundary_analysis": {
+      "title": "Boundary Analysis",
+      "description": "Analyze trimap boundary properties",
+      "explanation": {
+        "what": "Analysis of boundary region between foreground and background in trimap masks.",
+        "why": "Boundary quality affects segmentation accuracy, especially for fine details like pet fur.",
+        "how": "Load mask statistics, analyze boundary pixel percentages, assess boundary consistency across breeds."
+      },
+      "code_files": {
+        "plotly": "segmentation/boundary_analysis_plotly.py",
+        "matplotlib": "segmentation/boundary_analysis_matplotlib.py",
+        "seaborn": "segmentation/boundary_analysis_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/segmentation/mask_statistics.csv"
+      ],
+      "requirements": ["pandas", "plotly", "matplotlib", "seaborn"]
+    }
   }
 }
 
