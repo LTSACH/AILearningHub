@@ -10,13 +10,19 @@
 .global-menubar {
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   background: rgba(248, 249, 250, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(222, 226, 230, 0.5);
   padding: 12px 20px;
-  z-index: 1000;
+  z-index: 1001;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  margin: 0;
+  display: block;
+  order: -1;
 }
 
 .menubar-content {
