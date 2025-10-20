@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traditional ML Results - BBC News Classification</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-table {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            overflow-x: auto;
+        }
+        
+        .comparison-table h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .method-name {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .metric-best {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .confusion-matrices {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .matrix-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .matrix-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+        }
+        
+        .matrix-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .matrix-content {
+            padding: 1.5rem;
+        }
+        
+        .cm-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .cm-table th,
+        .cm-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .cm-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .cm-diagonal {
+            background: #d1fae5;
+            font-weight: bold;
+            color: #065f46;
+        }
+        
+        .cm-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .per-class-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .metric-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .metric-card h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .metric-label {
+            color: #666;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔤 Traditional ML Results</h1>
+            <p>BBC News Text Classification - Comparison Report</p>
+        </div>
+        
+        <div class="timestamp">
+            Generated: 2025-10-20 08:31:20
+        </div>
+        
+        
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>4</h3>
+                <p>Methods Compared</p>
+            </div>
+            <div class="summary-card">
+                <h3>334</h3>
+                <p>Test Samples</p>
+            </div>
+            <div class="summary-card">
+                <h3>5</h3>
+                <p>Categories</p>
+            </div>
+            <div class="summary-card">
+                <h3>98.2%</h3>
+                <p>Best Accuracy (Logistic Regression)</p>
+            </div>
+        </div>
+        
+        
+        <div class="comparison-table">
+            <h2>📊 Performance Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                        <th>Train Time</th>
+                        <th>Inference</th>
+                        <th>Model Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td class="method-name">Naive Bayes</td>
+                    <td class="">97.90%</td>
+                    <td>97.92%</td>
+                    <td>97.90%</td>
+                    <td class="">97.88%</td>
+                    <td>~0.0s</td>
+                    <td>~0.0ms</td>
+                    <td>~1MB</td>
+                </tr>
+            
+                <tr>
+                    <td class="method-name">Logistic Regression</td>
+                    <td class="metric-best">98.20% ⭐</td>
+                    <td>98.23%</td>
+                    <td>98.20%</td>
+                    <td class="metric-best">98.20% ⭐</td>
+                    <td>~0.4s</td>
+                    <td>~0.0ms</td>
+                    <td>~3MB</td>
+                </tr>
+            
+                <tr>
+                    <td class="method-name">Svm</td>
+                    <td class="">97.31%</td>
+                    <td>97.35%</td>
+                    <td>97.31%</td>
+                    <td class="">97.31%</td>
+                    <td>~0.1s</td>
+                    <td>~0.0ms</td>
+                    <td>~5MB</td>
+                </tr>
+            
+                <tr>
+                    <td class="method-name">Random Forest</td>
+                    <td class="">96.71%</td>
+                    <td>96.88%</td>
+                    <td>96.71%</td>
+                    <td class="">96.73%</td>
+                    <td>~1.3s</td>
+                    <td>~0.1ms</td>
+                    <td>~25MB</td>
+                </tr>
+            
+                </tbody>
+            </table>
+            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
+                ⭐ = Best performer in this metric
+            </p>
+        </div>
+        
+        
+        <div class="confusion-matrices">
+            <h2 style="margin-bottom: 1.5rem;">🔍 Detailed Results</h2>
+            
+            <div class="matrix-card">
+                <div class="matrix-header">
+                    <h3>Naive Bayes (Accuracy: 97.90%)</h3>
+                </div>
+                <div class="matrix-content">
+                    <h4>Confusion Matrix</h4>
+                    <table class="cm-table"><thead><tr><th></th><th>Business</th><th>Entertainment</th><th>Politics</th><th>Sport</th><th>Tech</th></tr></thead><tbody><tr><th>Business</th><td class="cm-diagonal">76</td><td class="cm-error">1</td><td class="">0</td><td class="">0</td><td class="">0</td></tr><tr><th>Entertainment</th><td class="cm-error">2</td><td class="cm-diagonal">53</td><td class="cm-error">1</td><td class="">0</td><td class="cm-error">2</td></tr><tr><th>Politics</th><td class="cm-error">1</td><td class="">0</td><td class="cm-diagonal">61</td><td class="">0</td><td class="">0</td></tr><tr><th>Sport</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-diagonal">77</td><td class="">0</td></tr><tr><th>Tech</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-diagonal">60</td></tr></tbody></table>
+                    <h4 style="margin-top: 2rem;">Per-Class Metrics</h4>
+                    <div class="per-class-metrics">
+                <div class="metric-card">
+                    <h4>Business</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">96.2%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">98.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">97.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Entertainment</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.1%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">91.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">94.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">58</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Politics</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">62</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Sport</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Tech</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">96.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">60</span>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="matrix-card">
+                <div class="matrix-header">
+                    <h3>Logistic Regression (Accuracy: 98.20%)</h3>
+                </div>
+                <div class="matrix-content">
+                    <h4>Confusion Matrix</h4>
+                    <table class="cm-table"><thead><tr><th></th><th>Business</th><th>Entertainment</th><th>Politics</th><th>Sport</th><th>Tech</th></tr></thead><tbody><tr><th>Business</th><td class="cm-diagonal">75</td><td class="">0</td><td class="cm-error">1</td><td class="">0</td><td class="cm-error">1</td></tr><tr><th>Entertainment</th><td class="cm-error">1</td><td class="cm-diagonal">55</td><td class="cm-error">1</td><td class="">0</td><td class="cm-error">1</td></tr><tr><th>Politics</th><td class="cm-error">1</td><td class="">0</td><td class="cm-diagonal">61</td><td class="">0</td><td class="">0</td></tr><tr><th>Sport</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-diagonal">77</td><td class="">0</td></tr><tr><th>Tech</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-diagonal">60</td></tr></tbody></table>
+                    <h4 style="margin-top: 2rem;">Per-Class Metrics</h4>
+                    <div class="per-class-metrics">
+                <div class="metric-card">
+                    <h4>Business</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">97.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">97.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">97.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Entertainment</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">94.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">97.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">58</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Politics</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">96.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">97.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">62</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Sport</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Tech</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">96.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">60</span>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="matrix-card">
+                <div class="matrix-header">
+                    <h3>Svm (Accuracy: 97.31%)</h3>
+                </div>
+                <div class="matrix-content">
+                    <h4>Confusion Matrix</h4>
+                    <table class="cm-table"><thead><tr><th></th><th>Business</th><th>Entertainment</th><th>Politics</th><th>Sport</th><th>Tech</th></tr></thead><tbody><tr><th>Business</th><td class="cm-diagonal">73</td><td class="cm-error">1</td><td class="cm-error">2</td><td class="">0</td><td class="cm-error">1</td></tr><tr><th>Entertainment</th><td class="">0</td><td class="cm-diagonal">56</td><td class="cm-error">1</td><td class="cm-error">1</td><td class="">0</td></tr><tr><th>Politics</th><td class="cm-error">1</td><td class="">0</td><td class="cm-diagonal">61</td><td class="">0</td><td class="">0</td></tr><tr><th>Sport</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-diagonal">77</td><td class="">0</td></tr><tr><th>Tech</th><td class="">0</td><td class="cm-error">1</td><td class="cm-error">1</td><td class="">0</td><td class="cm-diagonal">58</td></tr></tbody></table>
+                    <h4 style="margin-top: 2rem;">Per-Class Metrics</h4>
+                    <div class="per-class-metrics">
+                <div class="metric-card">
+                    <h4>Business</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">94.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">96.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Entertainment</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">96.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">96.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">96.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">58</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Politics</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">93.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">98.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">96.1%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">62</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Sport</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">99.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Tech</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">96.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">97.5%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">60</span>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="matrix-card">
+                <div class="matrix-header">
+                    <h3>Random Forest (Accuracy: 96.71%)</h3>
+                </div>
+                <div class="matrix-content">
+                    <h4>Confusion Matrix</h4>
+                    <table class="cm-table"><thead><tr><th></th><th>Business</th><th>Entertainment</th><th>Politics</th><th>Sport</th><th>Tech</th></tr></thead><tbody><tr><th>Business</th><td class="cm-diagonal">76</td><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-error">1</td></tr><tr><th>Entertainment</th><td class="cm-error">3</td><td class="cm-diagonal">55</td><td class="">0</td><td class="">0</td><td class="">0</td></tr><tr><th>Politics</th><td class="cm-error">3</td><td class="">0</td><td class="cm-diagonal">58</td><td class="cm-error">1</td><td class="">0</td></tr><tr><th>Sport</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="cm-diagonal">77</td><td class="">0</td></tr><tr><th>Tech</th><td class="cm-error">2</td><td class="">0</td><td class="cm-error">1</td><td class="">0</td><td class="cm-diagonal">57</td></tr></tbody></table>
+                    <h4 style="margin-top: 2rem;">Per-Class Metrics</h4>
+                    <div class="per-class-metrics">
+                <div class="metric-card">
+                    <h4>Business</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">90.5%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">98.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">94.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Entertainment</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">94.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">97.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">58</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Politics</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">93.5%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">95.9%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">62</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Sport</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">100.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">99.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">77</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>Tech</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Precision:</span>
+                        <span class="metric-value">98.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Recall:</span>
+                        <span class="metric-value">95.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">F1-Score:</span>
+                        <span class="metric-value">96.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Support:</span>
+                        <span class="metric-value">60</span>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</body>
+</html>

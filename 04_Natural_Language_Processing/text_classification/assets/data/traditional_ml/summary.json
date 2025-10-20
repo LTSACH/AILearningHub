@@ -1,0 +1,78 @@
+{
+  "timestamp": "2025-10-20T08:31:11.207514",
+  "dataset": {
+    "name": "BBC News",
+    "train_samples": 1557,
+    "test_samples": 334,
+    "num_classes": 5,
+    "classes": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ]
+  },
+  "methods": [
+    {
+      "id": "naive_bayes",
+      "name": "Naive Bayes",
+      "accuracy": 97.90419161676647,
+      "precision": 97.92406928803797,
+      "recall": 97.90419161676647,
+      "f1_score": 97.88469808716201,
+      "train_time": "~0.0s",
+      "inference_time": "~0.0ms",
+      "model_size": "~1MB",
+      "description": "Fast probabilistic classifier, excellent baseline for text",
+      "best_for": "Quick prototyping, interpretability, speed",
+      "data_path": "../naive_bayes/results.json",
+      "status": "available"
+    },
+    {
+      "id": "logistic_regression",
+      "name": "Logistic Regression",
+      "accuracy": 98.20359281437125,
+      "precision": 98.2324138205923,
+      "recall": 98.20359281437125,
+      "f1_score": 98.2001707885549,
+      "train_time": "~0.4s",
+      "inference_time": "~0.0ms",
+      "model_size": "~3MB",
+      "description": "Linear classifier with regularization, balanced performance",
+      "best_for": "Production, interpretability, balanced speed/accuracy",
+      "data_path": "../logistic_regression/results.json",
+      "status": "available"
+    },
+    {
+      "id": "svm",
+      "name": "Svm",
+      "accuracy": 97.30538922155688,
+      "precision": 97.34728928274042,
+      "recall": 97.30538922155688,
+      "f1_score": 97.30539131987211,
+      "train_time": "~0.1s",
+      "inference_time": "~0.0ms",
+      "model_size": "~5MB",
+      "description": "Maximum margin classifier, robust to outliers",
+      "best_for": "High-dimensional data, robust classification",
+      "data_path": "../svm/results.json",
+      "status": "available"
+    },
+    {
+      "id": "random_forest",
+      "name": "Random Forest",
+      "accuracy": 96.7065868263473,
+      "precision": 96.88447813270639,
+      "recall": 96.7065868263473,
+      "f1_score": 96.72550095669341,
+      "train_time": "~1.3s",
+      "inference_time": "~0.1ms",
+      "model_size": "~25MB",
+      "description": "Ensemble of decision trees, provides feature importance",
+      "best_for": "Feature analysis, ensemble learning",
+      "data_path": "../random_forest/results.json",
+      "status": "available"
+    }
+  ]
+}

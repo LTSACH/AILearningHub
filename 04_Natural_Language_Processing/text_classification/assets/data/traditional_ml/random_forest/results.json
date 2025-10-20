@@ -1,0 +1,105 @@
+{
+  "method": "random_forest",
+  "display_name": "Random Forest",
+  "timestamp": "2025-10-20T08:31:11.206809",
+  "metrics": {
+    "accuracy": 0.9670658682634731,
+    "precision": 0.968844781327064,
+    "recall": 0.9670658682634731,
+    "f1_score": 0.9672550095669341
+  },
+  "performance": {
+    "train_time_seconds": 1.3082876205444336,
+    "inference_time_ms_per_sample": 0.05441297314124193,
+    "total_test_samples": 334
+  },
+  "confusion_matrix": [
+    [
+      76,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      3,
+      55,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      0,
+      58,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      2,
+      0,
+      1,
+      0,
+      57
+    ]
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.9047619047619048,
+      "recall": 0.987012987012987,
+      "f1": 0.9440993788819876,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 1.0,
+      "recall": 0.9482758620689655,
+      "f1": 0.9734513274336283,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 0.9830508474576272,
+      "recall": 0.9354838709677419,
+      "f1": 0.9586776859504132,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 0.9871794871794872,
+      "recall": 1.0,
+      "f1": 0.9935483870967742,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 0.9827586206896551,
+      "recall": 0.95,
+      "f1": 0.9661016949152542,
+      "support": 60
+    }
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "model_config": {
+    "feature_extraction": "TF-IDF",
+    "max_features": 5000,
+    "ngram_range": [
+      1,
+      2
+    ]
+  }
+}

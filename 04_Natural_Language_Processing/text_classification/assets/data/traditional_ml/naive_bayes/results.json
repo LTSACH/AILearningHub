@@ -1,0 +1,105 @@
+{
+  "method": "naive_bayes",
+  "display_name": "Naive Bayes",
+  "timestamp": "2025-10-20T08:31:09.395368",
+  "metrics": {
+    "accuracy": 0.9790419161676647,
+    "precision": 0.9792406928803797,
+    "recall": 0.9790419161676647,
+    "f1_score": 0.97884698087162
+  },
+  "performance": {
+    "train_time_seconds": 0.0061070919036865234,
+    "inference_time_ms_per_sample": 0.0019287634752467723,
+    "total_test_samples": 334
+  },
+  "confusion_matrix": [
+    [
+      76,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      53,
+      1,
+      0,
+      2
+    ],
+    [
+      1,
+      0,
+      61,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      60
+    ]
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.9620253164556962,
+      "recall": 0.987012987012987,
+      "f1": 0.9743589743589743,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 0.9814814814814815,
+      "recall": 0.9137931034482759,
+      "f1": 0.9464285714285714,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 0.9838709677419355,
+      "recall": 0.9838709677419355,
+      "f1": 0.9838709677419355,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "f1": 0.9836065573770492,
+      "support": 60
+    }
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "model_config": {
+    "feature_extraction": "TF-IDF",
+    "max_features": 5000,
+    "ngram_range": [
+      1,
+      2
+    ]
+  }
+}
