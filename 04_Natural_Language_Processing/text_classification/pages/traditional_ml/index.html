@@ -37,11 +37,11 @@
         }
         
         .metric-arrow-up {
-            color: #10b981;
+            color: #ff8c00;
         }
         
         .metric-arrow-down {
-            color: #3b82f6;
+            color: #ff8c00;
         }
         
         .navbar {
@@ -326,18 +326,20 @@
         
         .comparison-table th,
         .comparison-table td {
-            padding: 1rem;
+            padding: 0.75rem;
             text-align: center;
             border-bottom: 1px solid #e5e7eb;
+            font-size: 0.9rem;
         }
         
         .comparison-table th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             font-weight: 600;
-            color: white;
+            color: #ff8c00;
             position: sticky;
             top: 0;
             z-index: 10;
+            font-size: 0.9rem;
         }
         
         .comparison-table th:first-child,
@@ -1229,9 +1231,12 @@
             const best = {};
             Object.keys(metrics).forEach(key => {
                 const values = metrics[key].values;
-                best[key] = metrics[key].better === 'higher' 
-                    ? Math.max(...values)
-                    : Math.min(...values.filter(v => v > 0));
+                if (metrics[key].better === 'higher') {
+                    best[key] = Math.max(...values);
+                } else {
+                    // For lower is better (time, model-size), find minimum
+                    best[key] = Math.min(...values.filter(v => v > 0)); // Avoid 0 values
+                }
             });
             
             // Comparison table
