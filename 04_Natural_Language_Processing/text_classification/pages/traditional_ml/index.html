@@ -1235,7 +1235,7 @@
                     best[key] = Math.max(...values);
                 } else {
                     // For lower is better (time, model-size), find minimum
-                    best[key] = Math.min(...values.filter(v => v > 0)); // Avoid 0 values
+                    best[key] = Math.min(...values); // Don't filter out 0 values
                 }
             });
             
