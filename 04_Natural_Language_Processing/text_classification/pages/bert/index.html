@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BERT for Text Classification | BBC News</title>
+    
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- Walkthrough CSS -->
+    <link rel="stylesheet" href="assets/css/walkthrough.css">
+    
+    <!-- Main CSS -->
+    <style>
+        
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f8f9fa;
+    }
+    
+    /* Metric direction arrows */
+    .metric-arrow {
+        font-size: 0.8em;
+        opacity: 0.6;
+        margin-left: 0.25rem;
+    }
+    
+    .metric-arrow-up {
+        color: #ff8c00;
+    }
+    
+    .metric-arrow-down {
+        color: #ff8c00;
+    }
+    
+    /* Navigation */
+    .navbar {
+        background: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .navbar .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: #666;
+        transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+        color: #667eea;
+    }
+    
+    /* Layout */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 2rem;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+    }
+    
+    .page-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .page-header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+    
+    /* Pipeline Flow */
+    .pipeline-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        flex-wrap: wrap;
+    }
+    
+    .step {
+        flex: 1;
+        min-width: 150px;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+    
+    .step-fixed {
+        background: #f3f4f6;
+        border: 2px solid #d1d5db;
+    }
+    
+    .step-interactive {
+        background: #dbeafe;
+        border: 2px dashed #3b82f6;
+    }
+    
+    .step-result {
+        background: #d1fae5;
+        border: 2px solid #10b981;
+    }
+    
+    .step-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .step-title {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+    }
+    
+    .step-badge {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+    }
+    
+    .step-detail {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.5rem;
+    }
+    
+    .arrow {
+        font-size: 2rem;
+        color: #667eea;
+        font-weight: bold;
+    }
+    
+    /* Feature Extractor Container (Nested Box) */
+    .feature-extractor-container {
+        flex: 2.5;
+        background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f4 100%);
+        border: 3px dashed #10b981;
+        border-radius: 16px;
+        padding: 1rem;
+        min-width: 420px;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    }
+    
+    .fe-header {
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+    
+    .fe-icon {
+        font-size: 1.5rem;
+    }
+    
+    .fe-title {
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #059669;
+        letter-spacing: 0.5px;
+        margin: 0 0.5rem;
+    }
+    
+    .fe-badge {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 0.25rem 0.6rem;
+        border-radius: 10px;
+        font-size: 0.7rem;
+    }
+    
+    /* Internal mini-pipeline */
+    .fe-internal-flow {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        gap: 0.5rem;
+        background: white;
+        padding: 0.75rem;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    
+    .fe-substep {
+        flex: 1;
+        padding: 0.75rem 0.5rem;
+        border-radius: 8px;
+        text-align: center;
+        min-width: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .fe-substep.fe-fixed {
+        background: #f3f4f6;
+        border: 2px solid #d1d5db;
+    }
+    
+    .fe-substep.fe-interactive {
+        background: #fef3c7;
+        border: 2px dashed #f59e0b;
+    }
+    
+    .substep-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .substep-name {
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+        color: #333;
+    }
+    
+    .substep-detail {
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.3;
+    }
+    
+    .substep-note {
+        font-size: 0.7rem;
+        color: #999;
+        margin-top: 0.25rem;
+        font-style: italic;
+    }
+    
+    .fe-arrow-small {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        color: #10b981;
+        font-weight: bold;
+    }
+    
+    .fe-output-info {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #059669;
+        font-weight: 500;
+        padding: 0.5rem;
+        background: rgba(16, 185, 129, 0.1);
+        border-radius: 6px;
+    }
+    
+    .step-note {
+        font-size: 0.75rem;
+        color: #999;
+        margin-top: 0.25rem;
+    }
+    
+    /* Method Selector */
+    .method-selector-container {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 2rem 0;
+    }
+    
+    .selector-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .selector-header h3 {
+        color: #333;
+        font-size: 1.5rem;
+    }
+    
+    .selector-actions {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .btn-secondary {
+        padding: 0.5rem 1rem;
+        background: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .btn-secondary:hover {
+        background: #e5e7eb;
+    }
+    
+    .method-checkboxes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin: 0.75rem 0;
+    }
+    
+    .method-checkbox-label {
+        display: block;
+        cursor: pointer;
+    }
+    
+    .method-checkbox-label input[type="checkbox"] {
+        display: none;
+    }
+    
+    .method-card-mini {
+        padding: 1.5rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        transition: all 0.3s;
+    }
+    
+    .method-checkbox-label input:checked + .method-card-mini {
+        border-color: #667eea;
+        background: #f0f4ff;
+    }
+    
+    .method-checkbox-label:hover .method-card-mini {
+        border-color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .method-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    .method-quick-stats {
+        display: flex;
+        gap: 1rem;
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .method-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    .selector-footer {
+        text-align: center;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 2px solid #e5e7eb;
+    }
+    
+    .btn-primary {
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    .text-muted {
+        color: #9ca3af;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Comparison Results */
+    .comparison-results {
+        margin-top: 0.5rem;
+    }
+    
+    .comparison-content {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .comparison-table-container {
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+    
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.75rem;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 0.9rem;
+    }
+    
+    .comparison-table th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-weight: 600;
+        color: #ff8c00;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        font-size: 0.9rem;
+    }
+    
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        text-align: left;
+        position: sticky;
+        left: 0;
+        background: white;
+        z-index: 5;
+    }
+    
+    .comparison-table th:first-child {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        z-index: 15;
+    }
+    
+    .comparison-table tbody tr:hover {
+        background: #f0f4ff;
+    }
+    
+    .comparison-table tbody tr:hover td:first-child {
+        background: #f0f4ff;
+    }
+    
+    .method-name-cell {
+        font-weight: 600;
+        color: #667eea;
+        white-space: nowrap;
+    }
+    
+    .metric-best {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: #78350f;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+    
+    .metric-value {
+        font-weight: 500;
+    }
+    
+    .table-caption {
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+    
+    /* Confusion Matrices */
+    .confusion-matrices-container {
+        margin: 1.5rem 0 0 0;
+    }
+    
+    .confusion-matrix-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 0.75rem 0;
+    }
+    
+    .matrix-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.75rem 1rem;
+    }
+    
+    .matrix-header h5 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+    
+    .matrix-content {
+        padding: 0.75rem;
+    }
+    
+    /* Confusion matrix styling */
+    .cm-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 6px;
+        margin: 1rem 0;
+    }
+    
+    .cm-table th,
+    .cm-table td {
+        padding: 12px;
+        text-align: center;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .cm-table th {
+        background: #667eea;
+        color: white;
+        font-size: 0.9rem;
+    }
+    
+    .cm-table tbody th {
+        background: #667eea;
+        color: white;
+        font-size: 0.9rem;
+    }
+    
+    .cm-table td {
+        background: #f3f4f6;
+        color: #333;
+        font-size: 1.1rem;
+    }
+    
+    .cm-diagonal {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+        color: white !important;
+        font-size: 1.2rem !important;
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+    }
+    
+    .cm-error-low {
+        background: #fef3c7 !important;
+        color: #92400e !important;
+    }
+    
+    .cm-error-medium {
+        background: #fed7aa !important;
+        color: #9a3412 !important;
+    }
+    
+    .cm-error-high {
+        background: #fecaca !important;
+        color: #991b1b !important;
+        font-weight: 600 !important;
+    }
+    
+    .cm-zero {
+        background: #f9fafb !important;
+        color: #d1d5db !important;
+    }
+    
+    .per-class-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.75rem;
+        margin: 0.75rem 0;
+        padding: 0.75rem;
+        background: #f9fafb;
+        border-radius: 8px;
+    }
+    
+    .per-class-item {
+        text-align: center;
+        padding: 0.75rem;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .per-class-label {
+        font-weight: 600;
+        color: #667eea;
+        text-transform: capitalize;
+        margin-bottom: 0.5rem;
+    }
+    
+    .per-class-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #10b981;
+    }
+    
+    /* Matrix view tabs */
+    .matrix-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .matrix-tab-btn {
+        padding: 0.75rem 1.5rem;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #666;
+        transition: all 0.3s;
+    }
+    
+    .matrix-tab-btn:hover {
+        color: #667eea;
+        background: #f8f9fa;
+    }
+    
+    .matrix-tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+        font-weight: 600;
+    }
+    
+    .matrix-view {
+        display: none;
+    }
+    
+    .matrix-view.active {
+        display: block;
+    }
+    
+    /* Configuration tabs */
+    .config-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .config-tab-btn {
+        padding: 0.75rem 1.5rem;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #666;
+        transition: all 0.3s;
+    }
+    
+    .config-tab-btn:hover {
+        color: #667eea;
+        background: #f8f9fa;
+    }
+    
+    .config-tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+        font-weight: 600;
+    }
+    
+    .config-view {
+        display: none;
+    }
+    
+    .config-view.active {
+        display: block;
+    }
+    
+    /* Configuration display */
+    .config-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .config-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        border: 2px solid #e5e7eb;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .config-card h4 {
+        color: #667eea;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .config-table {
+        width: 100%;
+    }
+    
+    .config-table tr {
+        border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .config-table tr:last-child {
+        border-bottom: none;
+    }
+    
+    .config-table td {
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .config-table td:first-child {
+        color: #666;
+        font-weight: 500;
+        width: 60%;
+    }
+    
+    .config-table td:last-child {
+        color: #333;
+        font-weight: 600;
+        text-align: right;
+    }
+    
+    .tfidf-config {
+        background: linear-gradient(135deg, #f0f4ff 0%, #e5edff 100%);
+        border-color: #667eea;
+    }
+    
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../../index.html" class="brand">📰 BBC News Classification</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Overview</a></li>
+                <li><a href="../traditional_ml/index.html">Traditional ML</a></li>
+                <li><a href="#">Pipelines</a></li>
+                <li><a href="#">Zero-shot</a></li>
+                <li><a href="#" style="color: #667eea">BERT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🤖 BERT for Text Classification</h1>
+            <p>State-of-the-art transformer models with multiple pooling strategies</p>
+        </div>
+
+        <!-- Pipeline Visualization -->
+        
+        <div class="pipeline-flow">
+            <!-- Step 1: Text Input -->
+            <div class="step step-fixed">
+                <div class="step-icon">📝</div>
+                <div class="step-title">Text Input</div>
+                <div class="step-detail">"Business news..."</div>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <!-- Step 2: Feature Extractor (Nested) -->
+            <div class="feature-extractor-container">
+                <div class="fe-header">
+                    <span class="fe-icon">🎯</span>
+                    <span class="fe-title">FEATURE EXTRACTOR</span>
+                    <span class="fe-badge">Choose Below</span>
+                </div>
+                
+                <!-- Internal mini-pipeline -->
+                <div class="fe-internal-flow">
+                    <!-- Tokenizer -->
+                    <div class="fe-substep fe-fixed">
+                        <div class="substep-icon">🔤</div>
+                        <div class="substep-name">Tokenizer</div>
+                        <div class="substep-detail">WordPiece</div>
+                    </div>
+                    
+                    <div class="fe-arrow-small">→</div>
+                    
+                    <!-- BERT Encoder (Interactive) -->
+                    <div class="fe-substep fe-interactive">
+                        <div class="substep-icon">🧠</div>
+                        <div class="substep-name">BERT Encoder</div>
+                        <div class="substep-detail">DistilBERT | BERT | TinyBERT</div>
+                        <div class="substep-note">66M | 110M | 14M</div>
+                    </div>
+                    
+                    <div class="fe-arrow-small">→</div>
+                    
+                    <!-- Pooling (Interactive) -->
+                    <div class="fe-substep fe-interactive">
+                        <div class="substep-icon">🎚️</div>
+                        <div class="substep-name">Pooling</div>
+                        <div class="substep-detail">[CLS] | Mean | Max</div>
+                    </div>
+                </div>
+                
+                <!-- Output dimension -->
+                <div class="fe-output-info">
+                    Output: 768-dimensional sentence vector
+                </div>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <!-- Step 3: Task Head -->
+            <div class="step step-fixed">
+                <div class="step-icon">🤖</div>
+                <div class="step-title">Task Head</div>
+                <div class="step-badge">Classification</div>
+                <div class="step-detail">Linear</div>
+                <div class="step-note">768 → 5 classes</div>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <!-- Step 4: Results -->
+            <div class="step step-result">
+                <div class="step-icon">✨</div>
+                <div class="step-title">Results</div>
+                <div class="step-detail">96-98% accuracy</div>
+            </div>
+        </div>
+
+
+        <!-- Method Selector -->
+        <div id="method-selector"></div>
+    </div>
+
+    <!-- Embedded Data -->
+    <script type="application/json" id="summary-data">
+{
+  "timestamp": "2025-10-20T12:50:00",
+  "dataset": {
+    "name": "BBC News",
+    "train_samples": 1557,
+    "val_samples": 334,
+    "test_samples": 334,
+    "num_classes": 5,
+    "classes": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ]
+  },
+  "methods": [
+    {
+      "id": "bert_base_cls_token",
+      "name": "BERT-base + CLS",
+      "model_base": "bert_base",
+      "pooling_strategy": "cls_token",
+      "accuracy": 98.50299401197606,
+      "precision": 98.52447485980419,
+      "recall": 98.50299401197606,
+      "f1_score": 98.50280400874625,
+      "train_time": "~7.8s",
+      "inference_time": "~0.22ms",
+      "model_size": "417.72MB",
+      "num_parameters": "109.5M",
+      "description": "BERT-base + CLS",
+      "data_path": "../bert_base_cls_token/results.json",
+      "status": "available"
+    },
+    {
+      "id": "distilbert_cls_token",
+      "name": "DistilBERT + CLS",
+      "model_base": "distilbert",
+      "pooling_strategy": "cls_token",
+      "accuracy": 98.20359281437125,
+      "precision": 98.21541654905604,
+      "recall": 98.20359281437125,
+      "f1_score": 98.18679423752937,
+      "train_time": "~5.1s",
+      "inference_time": "~0.12ms",
+      "model_size": "253.20MB",
+      "num_parameters": "66.4M",
+      "description": "DistilBERT + CLS",
+      "data_path": "../distilbert_cls_token/results.json",
+      "status": "available"
+    },
+    {
+      "id": "tinybert_cls_token",
+      "name": "TinyBERT + CLS",
+      "model_base": "tinybert",
+      "pooling_strategy": "cls_token",
+      "accuracy": 82.93413173652695,
+      "precision": 83.25580257935783,
+      "recall": 82.93413173652695,
+      "f1_score": 82.736886532899,
+      "train_time": "~5.0s",
+      "inference_time": "~0.08ms",
+      "model_size": "54.77MB",
+      "num_parameters": "14.4M",
+      "description": "TinyBERT + CLS",
+      "data_path": "../tinybert_cls_token/results.json",
+      "status": "available"
+    }
+  ]
+}
+    </script>
+    
+    <script type="application/json" id="methods-data">
+{
+  "bert_base_cls_token": {
+    "method": "bert_base_cls_token",
+    "display_name": "BERT-base + CLS",
+    "model_base": "bert_base",
+    "pooling_strategy": "cls_token",
+    "timestamp": "2025-10-20T12:47:29.838670",
+    "metrics": {
+      "accuracy": 0.9850299401197605,
+      "precision": 0.9852447485980419,
+      "recall": 0.9850299401197605,
+      "f1_score": 0.9850280400874625
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.21793034214239856,
+      "total_test_samples": 334,
+      "train_time_seconds": 7.839279651641846,
+      "model_size_bytes": 438013135,
+      "num_parameters": 109486085,
+      "trainable_parameters": 109486085,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        74,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        58,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        76,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9866666666666667,
+        "recall": 0.961038961038961,
+        "f1": 0.9736842105263158,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9666666666666667,
+        "recall": 1.0,
+        "f1": 0.9830508474576272,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9682539682539683,
+        "recall": 0.9838709677419355,
+        "f1": 0.976,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.987012987012987,
+        "f1": 0.9934640522875817,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "bert-base-uncased",
+      "pooling_strategy": "[CLS] Token",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 3,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Use first token embedding (standard for classification)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.0443328094482422,
+        0.18569048181176184,
+        0.08093701958656312
+      ],
+      "val_loss": [
+        0.32308562596638996,
+        0.1094936231772105,
+        0.07565946380297343
+      ],
+      "val_accuracy": [
+        0.9640718562874252,
+        0.9700598802395209,
+        0.9850299401197605
+      ],
+      "val_f1": [
+        0.9640465813924676,
+        0.9700407009870693,
+        0.9850173674693206
+      ]
+    }
+  },
+  "distilbert_cls_token": {
+    "method": "distilbert_cls_token",
+    "display_name": "DistilBERT + CLS",
+    "model_base": "distilbert",
+    "pooling_strategy": "cls_token",
+    "timestamp": "2025-10-20T12:47:26.831061",
+    "metrics": {
+      "accuracy": 0.9820359281437125,
+      "precision": 0.9821541654905604,
+      "recall": 0.9820359281437125,
+      "f1_score": 0.9818679423752936
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.11588830469001053,
+      "total_test_samples": 334,
+      "train_time_seconds": 5.133630037307739,
+      "model_size_bytes": 265500315,
+      "num_parameters": 66366725,
+      "trainable_parameters": 66366725,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        72,
+        1,
+        1,
+        1,
+        2
+      ],
+      [
+        0,
+        58,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9863013698630136,
+        "recall": 0.935064935064935,
+        "f1": 0.96,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9830508474576272,
+        "recall": 1.0,
+        "f1": 0.9914529914529915,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9838709677419355,
+        "recall": 0.9838709677419355,
+        "f1": 0.9838709677419355,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.9871794871794872,
+        "recall": 1.0,
+        "f1": 0.9935483870967742,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.967741935483871,
+        "recall": 1.0,
+        "f1": 0.9836065573770492,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "distilbert-base-uncased",
+      "pooling_strategy": "[CLS] Token",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 3,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Use first token embedding (standard for classification)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.2420061612129212,
+        0.33745282113552094,
+        0.1341695386171341
+      ],
+      "val_loss": [
+        0.5931309461593628,
+        0.16635621090730032,
+        0.12459452450275421
+      ],
+      "val_accuracy": [
+        0.9550898203592815,
+        0.9700598802395209,
+        0.9730538922155688
+      ],
+      "val_f1": [
+        0.9550959323461171,
+        0.9698930529763011,
+        0.9727390678637913
+      ]
+    }
+  },
+  "tinybert_cls_token": {
+    "method": "tinybert_cls_token",
+    "display_name": "TinyBERT + CLS",
+    "model_base": "tinybert",
+    "pooling_strategy": "cls_token",
+    "timestamp": "2025-10-20T12:47:27.661343",
+    "metrics": {
+      "accuracy": 0.8293413173652695,
+      "precision": 0.8325580257935783,
+      "recall": 0.8293413173652695,
+      "f1_score": 0.82736886532899
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.08395311032604967,
+      "total_test_samples": 334,
+      "train_time_seconds": 5.006739616394043,
+      "model_size_bytes": 57433770,
+      "num_parameters": 14351813,
+      "trainable_parameters": 14351813,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        67,
+        0,
+        1,
+        3,
+        6
+      ],
+      [
+        2,
+        45,
+        5,
+        3,
+        3
+      ],
+      [
+        15,
+        0,
+        40,
+        5,
+        2
+      ],
+      [
+        1,
+        0,
+        4,
+        71,
+        1
+      ],
+      [
+        1,
+        2,
+        3,
+        0,
+        54
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.7790697674418605,
+        "recall": 0.8701298701298701,
+        "f1": 0.8220858895705522,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9574468085106383,
+        "recall": 0.7758620689655172,
+        "f1": 0.8571428571428571,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.7547169811320755,
+        "recall": 0.6451612903225806,
+        "f1": 0.6956521739130435,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.8658536585365854,
+        "recall": 0.922077922077922,
+        "f1": 0.8930817610062893,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.8181818181818182,
+        "recall": 0.9,
+        "f1": 0.8571428571428571,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "huawei-noah/TinyBERT_General_4L_312D",
+      "pooling_strategy": "[CLS] Token",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 3,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Use first token embedding (standard for classification)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.5439193296432494,
+        1.1534330892562865,
+        0.8600080537796021
+      ],
+      "val_loss": [
+        1.3624612092971802,
+        0.9441256920496622,
+        0.8077502449353536
+      ],
+      "val_accuracy": [
+        0.5748502994011976,
+        0.8083832335329342,
+        0.8293413173652695
+      ],
+      "val_f1": [
+        0.5365527938804963,
+        0.806659446803414,
+        0.8285948875574085
+      ]
+    }
+  }
+}
+    </script>
+
+    <!-- Walkthrough JS -->
+    <script src="assets/js/walkthrough.js"></script>
+
+    <!-- Main JavaScript -->
+    <script>
+        
+    // Load embedded data
+    const summaryData = JSON.parse(document.getElementById('summary-data').textContent);
+    const methodsData = JSON.parse(document.getElementById('methods-data').textContent);
+    
+    let selectedMethods = new Set();
+    
+    // Render method selector
+    function renderMethodSelector() {
+        const container = document.getElementById('method-selector');
+        
+        const methodsHTML = summaryData.methods.map(method => `
+            <label class="method-checkbox-label">
+                <input type="checkbox" 
+                       class="method-checkbox" 
+                       value="${method.id}"
+                       onchange="toggleMethod('${method.id}')">
+                <div class="method-card-mini">
+                    <div class="method-name">${method.name}</div>
+                    <div class="method-quick-stats">
+                        <span>📊 ${method.accuracy.toFixed(1)}%</span>
+                        <span>⚡ ${method.train_time}</span>
+                    </div>
+                    <div class="method-description">${method.description}</div>
+                </div>
+            </label>
+        `).join('');
+        
+        container.innerHTML = `
+            <div class="method-selector-container">
+                <div class="selector-header">
+                    <h3>Select Methods to Compare</h3>
+                    <div class="selector-actions">
+                        <button class="btn-secondary" onclick="selectAll()">Select All</button>
+                        <button class="btn-secondary" onclick="clearAll()">Clear All</button>
+                    </div>
+                </div>
+                
+                <div class="method-checkboxes">
+                    ${methodsHTML}
+                </div>
+                
+                <div class="selector-footer">
+                    <button class="btn-primary" onclick="compare()" id="compare-btn" disabled>
+                        Compare Selected Methods
+                    </button>
+                    <p class="text-muted">Select at least one method to compare</p>
+                </div>
+                
+                <div id="comparison-results" class="comparison-results"></div>
+            </div>
+        `;
+    }
+    
+    function toggleMethod(methodId) {
+        if (selectedMethods.has(methodId)) {
+            selectedMethods.delete(methodId);
+        } else {
+            selectedMethods.add(methodId);
+        }
+        updateCompareButton();
+    }
+    
+    function updateCompareButton() {
+        const btn = document.getElementById('compare-btn');
+        if (selectedMethods.size > 0) {
+            btn.disabled = false;
+            btn.textContent = `Compare ${selectedMethods.size} Method${selectedMethods.size > 1 ? 's' : ''}`;
+        } else {
+            btn.disabled = true;
+            btn.textContent = 'Compare Selected Methods';
+        }
+    }
+    
+    function selectAll() {
+        document.querySelectorAll('.method-checkbox').forEach(cb => {
+            cb.checked = true;
+            selectedMethods.add(cb.value);
+        });
+        updateCompareButton();
+    }
+    
+    function clearAll() {
+        document.querySelectorAll('.method-checkbox').forEach(cb => cb.checked = false);
+        selectedMethods.clear();
+        updateCompareButton();
+    }
+    
+    function compare() {
+        const methods = summaryData.methods.filter(m => selectedMethods.has(m.id));
+        renderComparison(methods);
+    }
+    
+
+    function renderComparison(methods) {
+        const resultsContainer = document.getElementById('comparison-results');
+        
+        // Helper function to normalize inference time to microseconds
+        const normalizeInferenceTime = (timeStr) => {
+            const value = parseFloat(timeStr.replace(/[^0-9.]/g, ''));
+            if (timeStr.includes('µs')) {
+                return value;
+            } else if (timeStr.includes('ms')) {
+                return value * 1000;
+            } else {
+                return value;
+            }
+        };
+        
+        // Helper function to normalize model size to MB
+        const normalizeModelSize = (sizeStr) => {
+            const value = parseFloat(sizeStr.replace(/[^0-9.]/g, ''));
+            return value;
+        };
+        
+        // Find best/worst in each metric
+        const metrics = {
+            accuracy: { values: methods.map(m => m.accuracy), better: 'higher' },
+            precision: { values: methods.map(m => m.precision), better: 'higher' },
+            recall: { values: methods.map(m => m.recall), better: 'higher' },
+            f1_score: { values: methods.map(m => m.f1_score), better: 'higher' },
+            train_time: { values: methods.map(m => parseFloat(m.train_time.replace(/[^0-9.]/g, ''))), better: 'lower' },
+            inference_time: { values: methods.map(m => normalizeInferenceTime(m.inference_time)), better: 'lower' },
+            model_size: { values: methods.map(m => normalizeModelSize(m.model_size)), better: 'lower' }
+        };
+        
+        // Find best values
+        const best = {};
+        Object.keys(metrics).forEach(key => {
+            const values = metrics[key].values;
+            if (metrics[key].better === 'higher') {
+                best[key] = Math.max(...values);
+            } else {
+                best[key] = Math.min(...values);
+            }
+        });
+        
+        // Comparison table
+        const tableRows = methods.map((method, idx) => {
+            const isBestAcc = method.accuracy === best.accuracy;
+            const isBestPrec = method.precision === best.precision;
+            const isBestRec = method.recall === best.recall;
+            const isBestF1 = method.f1_score === best.f1_score;
+            const isBestTrain = metrics.train_time.values[idx] === best.train_time;
+            const isBestInf = metrics.inference_time.values[idx] === best.inference_time;
+            const isBestSize = metrics.model_size.values[idx] === best.model_size;
+            
+            // Get model base and pooling from method data
+            const methodData = methodsData[method.id];
+            const modelBase = methodData ? methodData.model_base : method.model_base || 'N/A';
+            const pooling = methodData ? methodData.pooling_strategy : method.pooling_strategy || 'N/A';
+            
+            // Format model name and pooling
+            const modelDisplayName = modelBase.replace('_', ' ').toUpperCase();
+            const poolingDisplayName = pooling.replace('_', ' ').replace('cls token', '[CLS]').replace('mean pooling', 'Mean').replace('max pooling', 'Max');
+            
+            return `
+                <tr>
+                    <td class="method-name-cell">${modelDisplayName}</td>
+                    <td class="metric-value">${poolingDisplayName}</td>
+                    <td class="metric-value">${method.num_parameters || 'N/A'}</td>
+                    <td class="metric-value ${isBestAcc ? 'metric-best' : ''}">${method.accuracy.toFixed(2)}%</td>
+                    <td class="metric-value ${isBestPrec ? 'metric-best' : ''}">${method.precision.toFixed(2)}%</td>
+                    <td class="metric-value ${isBestRec ? 'metric-best' : ''}">${method.recall.toFixed(2)}%</td>
+                    <td class="metric-value ${isBestF1 ? 'metric-best' : ''}">${method.f1_score.toFixed(2)}%</td>
+                    <td class="metric-value ${isBestTrain ? 'metric-best' : ''}">${method.train_time}</td>
+                    <td class="metric-value ${isBestInf ? 'metric-best' : ''}">${method.inference_time}</td>
+                    <td class="metric-value ${isBestSize ? 'metric-best' : ''}">${method.model_size}</td>
+                </tr>
+            `;
+        }).join('');
+        
+        // Configuration HTML
+        const configHTML = buildConfigurationTab(methods);
+        
+        // Confusion matrices
+        const confusionMatrices = buildConfusionMatrices(methods);
+        
+        resultsContainer.innerHTML = `
+            <div class="comparison-content">
+                <h3>Comparison Results</h3>
+                
+                <!-- Tabs for Performance vs Configuration vs Formulas -->
+                <div class="config-tabs">
+                    <button class="config-tab-btn active" onclick="switchConfigView('performance')">
+                        📊 Performance
+                    </button>
+                    <button class="config-tab-btn" onclick="switchConfigView('configuration')">
+                        ⚙️ Configuration
+                    </button>
+                    <button class="config-tab-btn" onclick="switchConfigView('formulas')">
+                        📐 Formulas
+                    </button>
+                </div>
+                
+                <!-- Performance View -->
+                <div id="performance-view" class="config-view active">
+                    <div class="comparison-table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Pooling</th>
+                                    <th>Params</th>
+                                    <th>Accuracy <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>Precision <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>Recall <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>F1-Score <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>Train Time* <span class="metric-arrow metric-arrow-down">↓</span></th>
+                                    <th>Inference** <span class="metric-arrow metric-arrow-down">↓</span></th>
+                                    <th>Size <span class="metric-arrow metric-arrow-down">↓</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRows}
+                            </tbody>
+                        </table>
+                        <p class="table-caption">
+                            🏆 Highlighted = Best performer | ↑ Higher is better | ↓ Lower is better<br>
+                            <span style="font-size: 0.85rem;">* Train Time: Total time to train entire model | ** Inference: Average time per sample</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Configuration View -->
+                <div id="configuration-view" class="config-view">
+                    ${configHTML}
+                </div>
+                
+                <!-- Formulas View -->
+                <div id="formulas-view" class="config-view">
+                    ${buildFormulasTab()}
+                </div>
+                
+                <div class="confusion-matrices-container">
+                    <h4>Confusion Matrices & Metrics</h4>
+                    ${confusionMatrices}
+                </div>
+            </div>
+        `;
+        
+        // Initialize all walkthroughs
+        methods.forEach(method => {
+            const data = methodsData[method.id];
+            initWalkthrough(method.id, data.confusion_matrix, data.labels);
+        });
+        
+        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Switch between performance, configuration, and formulas views
+    function switchConfigView(view) {
+        const perfView = document.getElementById('performance-view');
+        const confView = document.getElementById('configuration-view');
+        const formView = document.getElementById('formulas-view');
+        const tabs = document.querySelectorAll('.config-tab-btn');
+        
+        // Hide all views
+        perfView.classList.remove('active');
+        confView.classList.remove('active');
+        formView.classList.remove('active');
+        tabs.forEach(t => t.classList.remove('active'));
+        
+        // Show selected view
+        if (view === 'performance') {
+            perfView.classList.add('active');
+            tabs[0].classList.add('active');
+        } else if (view === 'configuration') {
+            confView.classList.add('active');
+            tabs[1].classList.add('active');
+        } else if (view === 'formulas') {
+            formView.classList.add('active');
+            tabs[2].classList.add('active');
+            
+            // Render KaTeX formulas when formulas tab is shown
+            setTimeout(() => {
+                if (typeof renderMathInElement !== 'undefined') {
+                    renderMathInElement(formView, {
+                        delimiters: [
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            }, 50);
+        }
+    }
+    
+
+    function buildFormulasTab() {
+        return `
+            <div style="max-width: 900px; margin: 0 auto;">
+                <!-- Classification Metrics -->
+                <div class="config-card" style="margin-bottom: 1.5rem;">
+                    <h4>📊 Classification Metrics</h4>
+                    <div style="line-height: 2.2;">
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Accuracy:</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Accuracy} = \\frac{\\text{TP} + \\text{TN}}{\\text{TP} + \\text{TN} + \\text{FP} + \\text{FN}} = \\frac{\\sum_{i=1}^{n} \\text{CM}[i,i]}{\\text{Total Samples}} \\)
+                            </span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Precision (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Precision}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FP}_i} = \\frac{\\text{CM}[i,i]}{\\sum_{j=1}^{n} \\text{CM}[j,i]} \\)
+                            </span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Recall (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Recall}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FN}_i} = \\frac{\\text{CM}[i,i]}{\\sum_{j=1}^{n} \\text{CM}[i,j]} \\)
+                            </span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>F1-Score (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{F1}_i = \\frac{2 \\times \\text{Precision}_i \\times \\text{Recall}_i}{\\text{Precision}_i + \\text{Recall}_i} = \\frac{2 \\times \\text{CM}[i,i]}{\\text{Support}_i + \\text{Predicted}_i} \\)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Averaging Methods -->
+                <div class="config-card" style="margin-bottom: 1.5rem;">
+                    <h4>📈 Averaging Methods</h4>
+                    <div style="line-height: 2.2;">
+                        <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
+                            <strong>Macro Average:</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Metric}_{\\text{macro}} = \\frac{1}{n} \\sum_{i=1}^{n} \\text{Metric}_i \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Equal weight to each class (good for imbalanced datasets)</span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f0fff4; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
+                            <strong>Weighted Average:</strong><br>
+                            <span style="font-size: 1.1rem; color: #10b981;">
+                                \\( \\text{Metric}_{\\text{weighted}} = \\frac{\\sum_{i=1}^{n} \\text{Metric}_i \\times \\text{Support}_i}{\\sum_{i=1}^{n} \\text{Support}_i} \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Weight by class frequency (reflects overall performance)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Confusion Matrix Components -->
+                <div class="config-card">
+                    <h4>🎯 Confusion Matrix Components</h4>
+                    <div style="line-height: 2.2;">
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Support (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Support}_i = \\sum_{j=1}^{n} \\text{CM}[i,j] \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Total actual instances of class i (row sum)</span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Predicted (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Predicted}_i = \\sum_{j=1}^{n} \\text{CM}[j,i] \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Total predicted instances of class i (column sum)</span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #10b981;">
+                            <strong>True Positives (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #10b981;">
+                                \\( \\text{TP}_i = \\text{CM}[i,i] \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Diagonal element (correctly predicted instances)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Note -->
+                <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid #ffc107;">
+                    <strong>💡 Note:</strong> All formulas use the confusion matrix (CM) as the primary data structure. 
+                    For multi-class classification with <em>n</em> classes, CM is an <em>n × n</em> matrix where CM[i,j] represents 
+                    the number of samples with true label <em>i</em> predicted as label <em>j</em>.
+                </div>
+            </div>
+        `;
+    }
+    
+    function buildConfigurationTab(methods) {
+        // Tokenization configuration (common for all BERT models)
+        const tokenConfigHTML = `
+            <div class="config-card tfidf-config">
+                <h4>🔤 Tokenization</h4>
+                <table class="config-table">
+                    <tr><td>Tokenizer</td><td>WordPiece (BERT)</td></tr>
+                    <tr><td>Max Length</td><td>128 tokens</td></tr>
+                    <tr><td>Padding</td><td>Max length</td></tr>
+                    <tr><td>Truncation</td><td>Enabled</td></tr>
+                    <tr><td>Vocabulary Size</td><td>~30,522</td></tr>
+                    <tr><td>Special Tokens</td><td>[CLS], [SEP], [PAD]</td></tr>
+                </table>
+            </div>
+        `;
+        
+        // Model configurations
+        const modelConfigsHTML = methods.map(method => {
+            const data = methodsData[method.id];
+            const params = data.model_config.model_params || {};
+            
+            const paramsHTML = Object.entries(params).map(([key, value]) => {
+                return `<tr><td>${key}</td><td>${value}</td></tr>`;
+            }).join('');
+            
+            return `
+                <div class="config-card">
+                    <h4>🤖 ${method.name}</h4>
+                    <table class="config-table">
+                        ${paramsHTML}
+                    </table>
+                </div>
+            `;
+        }).join('');
+        
+        return `
+            <div class="config-grid">
+                ${tokenConfigHTML}
+                ${modelConfigsHTML}
+            </div>
+        `;
+    }
+    
+
+    function buildConfusionMatrices(methods) {
+        return methods.map(method => {
+            const data = methodsData[method.id];
+            const cm = data.confusion_matrix;
+            const labels = data.labels;
+            const perClassMetrics = data.per_class_metrics;
+            
+            // Find max error for coloring
+            const maxError = Math.max(...cm.flatMap((row, i) => row.filter((_, j) => i !== j)));
+            
+            const cmHTML = `
+                <table class="cm-table">
+                    <thead>
+                        <tr>
+                            <th>Actual \\\\ Pred</th>
+                            ${labels.map(l => `<th>${l}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${cm.map((row, i) => `
+                            <tr>
+                                <th>${labels[i]}</th>
+                                ${row.map((val, j) => {
+                                    if (i === j) {
+                                        return `<td class="cm-diagonal">${val}</td>`;
+                                    } else if (val === 0) {
+                                        return `<td class="cm-zero">0</td>`;
+                                    } else {
+                                        const severity = val / maxError;
+                                        const className = severity > 0.5 ? 'cm-error-high' 
+                                                        : severity > 0.2 ? 'cm-error-medium' 
+                                                        : 'cm-error-low';
+                                        return `<td class="${className}">${val}</td>`;
+                                    }
+                                }).join('')}
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            const perClassHTML = `
+                <div class="per-class-summary">
+                    ${perClassMetrics.map(cls => `
+                        <div class="per-class-item">
+                            <div class="per-class-label">${cls.label}</div>
+                            <div class="per-class-value">${(cls.f1 * 100).toFixed(1)}%</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Walkthrough HTML with embedded data
+            const walkthroughHTML = `
+                <div class="walkthrough-container" id="walkthrough-${method.id}">
+                    <button class="walkthrough-fullscreen-btn" onclick="toggleFullscreen('${method.id}')">⛶ Fullscreen</button>
+                    <div class="walkthrough-content">
+                        <div class="walkthrough-grid">
+                            <div class="walkthrough-left">
+                                <div class="matrix-display">
+                                    <h4 style="margin-bottom: 1rem; color: #333;">Confusion Matrix</h4>
+                                    <table class="wt-cm-table" id="wt-matrix-${method.id}"></table>
+                                </div>
+                                
+                                <div class="walkthrough-controls">
+                                    <button class="wt-btn wt-btn-nav" onclick="wtPrevStep('${method.id}')">◀ Previous</button>
+                                    <button class="wt-btn wt-btn-nav" onclick="wtNextStep('${method.id}')">Next ▶</button>
+                                    <button class="wt-btn wt-btn-reset" onclick="wtReset('${method.id}')">↻ Reset</button>
+                                </div>
+                                
+                                <div class="wt-progress-bar">
+                                    <div class="wt-progress-fill" id="wt-progress-${method.id}"></div>
+                                </div>
+                                <div class="wt-progress-text" id="wt-progress-text-${method.id}">Step 1/12</div>
+                            </div>
+                            
+                            <div class="walkthrough-right">
+                                <div class="wt-step-info" id="wt-step-info-${method.id}">
+                                    <h3>
+                                        <span class="wt-step-number" id="wt-step-num-${method.id}">1</span>
+                                        <span id="wt-step-title-${method.id}">Loading...</span>
+                                    </h3>
+                                    <p id="wt-step-desc-${method.id}"></p>
+                                </div>
+                                
+                                <div class="wt-calculations" id="wt-calc-${method.id}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return `
+                <div class="confusion-matrix-card">
+                    <div class="matrix-header">
+                        <h5>${method.name} - Accuracy: ${method.accuracy.toFixed(2)}%</h5>
+                    </div>
+                    <div class="matrix-content">
+                        <h4>Per-Class F1-Score</h4>
+                        ${perClassHTML}
+                        
+                        <h4 style="margin-top: 2rem;">Confusion Matrix</h4>
+                        
+                        <div class="matrix-tabs">
+                            <button class="matrix-tab-btn active" onclick="switchMatrixView('${method.id}', 'matrix')">
+                                📊 Confusion Matrix
+                            </button>
+                            <button class="matrix-tab-btn" onclick="switchMatrixView('${method.id}', 'walkthrough')">
+                                🎓 Metrics Walkthrough
+                            </button>
+                        </div>
+                        
+                        <div id="matrix-view-${method.id}" class="matrix-view active">
+                            ${cmHTML}
+                            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
+                                🟢 Diagonal = Correct Predictions | 🟡🟠🔴 = Errors (color intensity = severity)
+                            </p>
+                        </div>
+                        
+                        <div id="walkthrough-view-${method.id}" class="matrix-view">
+                            ${walkthroughHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // Matrix view switching
+    function switchMatrixView(methodId, view) {
+        const matrixView = document.getElementById(`matrix-view-${methodId}`);
+        const walkthroughView = document.getElementById(`walkthrough-view-${methodId}`);
+        
+        if (!matrixView || !walkthroughView) return;
+        
+        const matrixContent = matrixView.closest('.matrix-content');
+        if (!matrixContent) return;
+        
+        const tabButtons = matrixContent.querySelectorAll('.matrix-tab-btn');
+        tabButtons.forEach((btn, idx) => {
+            if ((view === 'matrix' && idx === 0) || (view === 'walkthrough' && idx === 1)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        if (view === 'matrix') {
+            matrixView.classList.add('active');
+            walkthroughView.classList.remove('active');
+        } else {
+            matrixView.classList.remove('active');
+            walkthroughView.classList.add('active');
+        }
+    }
+    
+    // Fullscreen functionality for walkthrough
+    function toggleFullscreen(methodId) {
+        const container = document.getElementById(`walkthrough-${methodId}`);
+        const btn = document.querySelector(`#walkthrough-${methodId} .walkthrough-fullscreen-btn`);
+        
+        if (!container || !btn) {
+            console.error('Fullscreen elements not found for method:', methodId);
+            return;
+        }
+        
+        if (container.classList.contains('fullscreen')) {
+            container.classList.remove('fullscreen');
+            btn.textContent = '⛶ Fullscreen';
+            document.body.style.overflow = '';
+        } else {
+            container.classList.add('fullscreen');
+            btn.textContent = '✕ Exit';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+
+    // Initialize on load
+    renderMethodSelector();
+    
+    // Auto-select all and show comparison by default
+    setTimeout(() => {
+        selectAll();
+        compare();
+    }, 100);
+    
+    // ESC key to exit fullscreen
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const fullscreenContainer = document.querySelector('.walkthrough-container.fullscreen');
+            if (fullscreenContainer) {
+                const methodId = fullscreenContainer.id.replace('walkthrough-', '');
+                toggleFullscreen(methodId);
+            }
+        }
+    });
+    
+    </script>
+</body>
+</html>
