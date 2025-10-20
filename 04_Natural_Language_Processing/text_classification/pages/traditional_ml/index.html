@@ -1356,6 +1356,11 @@
                                         <button class="wt-btn wt-btn-nav" onclick="wtNextStep('${method.id}')">Next ▶</button>
                                         <button class="wt-btn wt-btn-reset" onclick="wtReset('${method.id}')">↻ Reset</button>
                                     </div>
+                                    
+                                    <div class="wt-progress-bar">
+                                        <div class="wt-progress-fill" id="wt-progress-${method.id}"></div>
+                                    </div>
+                                    <div class="wt-progress-text" id="wt-progress-text-${method.id}">Step 1/12</div>
                                 </div>
                                 
                                 <div class="walkthrough-right">
@@ -1370,11 +1375,6 @@
                                     <div class="wt-calculations" id="wt-calc-${method.id}"></div>
                                 </div>
                             </div>
-                            
-                            <div class="wt-progress-bar">
-                                <div class="wt-progress-fill" id="wt-progress-${method.id}"></div>
-                            </div>
-                            <div class="wt-progress-text" id="wt-progress-text-${method.id}">Step 1/12</div>
                         </div>
                     </div>
                 `;

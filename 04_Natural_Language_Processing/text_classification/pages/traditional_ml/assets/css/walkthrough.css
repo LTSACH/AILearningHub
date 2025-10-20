@@ -38,6 +38,39 @@
     flex-direction: column !important;
 }
 
+/* Fullscreen: smaller fonts */
+.walkthrough-container.fullscreen .wt-cm-table th,
+.walkthrough-container.fullscreen .wt-cm-table td {
+    padding: 6px !important;
+    font-size: 0.7rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-step-info h3 {
+    font-size: 1.1rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-step-info p {
+    font-size: 0.85rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-formula {
+    font-size: 0.8rem !important;
+    padding: 0.75rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-result-card .value {
+    font-size: 1.2rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-class-card .class-value {
+    font-size: 0.95rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-btn {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+}
+
 .walkthrough-fullscreen-btn {
     position: absolute;
     top: 1rem;
@@ -401,7 +434,7 @@ table.wt-cm-table tr.extra-row td.filled {
     background: #e5e7eb;
     border-radius: 3px;
     overflow: hidden;
-    margin: 1rem 1.5rem 0.5rem 1.5rem;
+    margin: 1rem 0 0.5rem 0;
 }
 
 .wt-progress-fill {
@@ -414,7 +447,7 @@ table.wt-cm-table tr.extra-row td.filled {
 .wt-progress-text {
     text-align: center;
     color: #666;
-    font-size: 0.9rem;
-    padding: 0.5rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
 }
 
