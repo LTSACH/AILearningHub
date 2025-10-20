@@ -363,7 +363,7 @@
         <div class="section-content">
           <div class="alert alert-info">
             <strong>📸 Interactive Gallery:</strong> Select breeds to explore sample images from the dataset. 
-            Default shows 4 breeds per species with up to 4 images per breed.
+            Click on any image to view in full size. Default shows 4 breeds per species.
           </div>
 
           <div class="interactive-gallery">
@@ -634,12 +634,14 @@
                 const imgPath = `../../../datasets/oxford-pets/data/sample_images/${species}/${imgFile}`;
                 const breedDisplay = breed.replace(/_/g, ' ');
 
-                html += '<div class="image-item">' +
+                html += '<div class="image-item" style="position: relative;">' +
                         '<img src="' + imgPath + '" alt="' + breedDisplay + '" ' +
                         'style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;" ' +
-                        'onclick="window.open(this.src, '_blank')">' +
+                        'onclick="window.open(this.src, '_blank')" ' +
+                        'onerror="this.parentElement.style.display='none'">' +
                         '<div class="image-caption">' +
                         '<div style="font-weight: 600;">' + breedDisplay + '</div>' +
+                        '<div style="font-size: 0.85rem; opacity: 0.8;">Click to enlarge</div>' +
                         '</div>' +
                         '</div>';
             });
