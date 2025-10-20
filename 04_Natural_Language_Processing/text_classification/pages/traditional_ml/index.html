@@ -1436,6 +1436,17 @@
             compare();
         }, 100);
         
+        // ESC key to exit fullscreen
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const fullscreenContainer = document.querySelector('.walkthrough-container.fullscreen');
+                if (fullscreenContainer) {
+                    const methodId = fullscreenContainer.id.replace('walkthrough-', '');
+                    toggleFullscreen(methodId);
+                }
+            }
+        });
+        
         // Matrix view switching
         function switchMatrixView(methodId, view) {
             const matrixView = document.getElementById(`matrix-view-${methodId}`);
@@ -1461,6 +1472,27 @@
             } else {
                 matrixView.classList.remove('active');
                 walkthroughView.classList.add('active');
+            }
+        }
+        
+        // Fullscreen functionality for walkthrough
+        function toggleFullscreen(methodId) {
+            const container = document.getElementById(`walkthrough-${methodId}`);
+            const btn = document.querySelector(`#walkthrough-${methodId} .walkthrough-fullscreen-btn`);
+            
+            if (!container || !btn) {
+                console.error('Fullscreen elements not found for method:', methodId);
+                return;
+            }
+            
+            if (container.classList.contains('fullscreen')) {
+                container.classList.remove('fullscreen');
+                btn.textContent = '⛶ Fullscreen';
+                document.body.style.overflow = '';
+            } else {
+                container.classList.add('fullscreen');
+                btn.textContent = '✕ Exit';
+                document.body.style.overflow = 'hidden';
             }
         }
         
