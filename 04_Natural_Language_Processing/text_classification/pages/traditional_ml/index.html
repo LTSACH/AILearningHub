@@ -1518,6 +1518,19 @@
         } else if (view === 'formulas') {
             formView.classList.add('active');
             tabs[2].classList.add('active');
+            
+            // Render KaTeX formulas when formulas tab is shown
+            setTimeout(() => {
+                if (typeof renderMathInElement !== 'undefined') {
+                    renderMathInElement(formView, {
+                        delimiters: [
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            }, 50);
         }
     }
     

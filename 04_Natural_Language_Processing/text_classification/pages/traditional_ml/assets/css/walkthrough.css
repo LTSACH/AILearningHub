@@ -264,6 +264,21 @@ table.wt-cm-table tr.extra-row td.filled {
     animation: fillValue 0.6s ease-out;
 }
 
+/* Accuracy cell - special styling */
+table.wt-cm-table td[data-accuracy] {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    font-style: italic;
+}
+
+table.wt-cm-table td[data-accuracy].filled {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: white !important;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 1.1rem !important;
+}
+
 @keyframes fillValue {
     0% {
         opacity: 0;
