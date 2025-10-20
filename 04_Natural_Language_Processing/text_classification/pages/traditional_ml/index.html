@@ -1394,15 +1394,22 @@
         
         // Matrix view switching
         function switchMatrixView(methodId, view) {
-            // Update tab buttons
-            const tabs = document.querySelectorAll(`#matrix-table-${methodId}, #matrix-plotly-${methodId}`)
-                .forEach(el => el.closest('.matrix-content'))
-                .querySelectorAll('.matrix-tab-btn');
+            // Find the matrix content container for this specific method
+            const tableView = document.getElementById(`matrix-table-${methodId}`);
+            const plotlyView = document.getElementById(`matrix-plotly-${methodId}`);
             
-            document.querySelectorAll('.matrix-tab-btn').forEach((btn, idx) => {
-                const parent = btn.closest('.matrix-content');
-                if (!parent || !parent.querySelector(`#matrix-table-${methodId}`)) return;
-                
+            if (!tableView || !plotlyView) {
+                console.error(`Matrix views not found for method: ${methodId}`);
+                return;
+            }
+            
+            // Find the tabs container (parent of the views)
+            const matrixContent = tableView.closest('.matrix-content');
+            if (!matrixContent) return;
+            
+            // Update tab buttons within this specific matrix-content
+            const tabButtons = matrixContent.querySelectorAll('.matrix-tab-btn');
+            tabButtons.forEach((btn, idx) => {
                 if ((view === 'table' && idx === 0) || (view === 'plotly' && idx === 1)) {
                     btn.classList.add('active');
                 } else {
@@ -1411,9 +1418,6 @@
             });
             
             // Toggle views
-            const tableView = document.getElementById(`matrix-table-${methodId}`);
-            const plotlyView = document.getElementById(`matrix-plotly-${methodId}`);
-            
             if (view === 'table') {
                 tableView.classList.add('active');
                 plotlyView.classList.remove('active');
