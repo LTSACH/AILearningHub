@@ -20,13 +20,16 @@ print("="*70)
 print("\n1️⃣ Loading pre-computed similarity matrix from GitHub Pages...")
 
 url = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/precomputed/classification/similarity_matrix.csv'
-similarity_df = pd.read_csv(url, index_col=0)
+similarity_df = pd.read_csv(url)
+
+# Set row index to match column names (symmetric matrix)
+similarity_df.index = similarity_df.columns
 
 print(f"   ✓ Loaded similarity matrix: {similarity_df.shape[0]}x{similarity_df.shape[1]}")
 print(f"   ✓ Breeds: {similarity_df.shape[0]}")
 
-# Get breed names
-breed_names = [b.replace('_', ' ').title() for b in similarity_df.index]
+# Get breed names (convert underscore to space and title case)
+breed_names = [str(b).replace('_', ' ').title() for b in similarity_df.index]
 
 # ============================================================================
 # 2. CHART 1: Full Breed Similarity Heatmap (37x37)
