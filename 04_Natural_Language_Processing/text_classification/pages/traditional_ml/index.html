@@ -548,6 +548,104 @@
             display: block;
         }
         
+        /* Configuration tabs */
+        .config-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .config-tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .config-tab-btn:hover {
+            color: #667eea;
+            background: #f8f9fa;
+        }
+        
+        .config-tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+        
+        .config-view {
+            display: none;
+        }
+        
+        .config-view.active {
+            display: block;
+        }
+        
+        /* Configuration display */
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .config-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .config-card h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .config-table {
+            width: 100%;
+        }
+        
+        .config-table tr {
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .config-table tr:last-child {
+            border-bottom: none;
+        }
+        
+        .config-table td {
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .config-table td:first-child {
+            color: #666;
+            font-weight: 500;
+            width: 60%;
+        }
+        
+        .config-table td:last-child {
+            color: #333;
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .tfidf-config {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e5edff 100%);
+            border-color: #667eea;
+        }
+        
     </style>
 </head>
 <body>
@@ -612,7 +710,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-20T11:00:20.960321",
+  "timestamp": "2025-10-20T11:15:11.719493",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -635,7 +733,7 @@
       "recall": 97.90419161676647,
       "f1_score": 97.88469808716201,
       "train_time": "~0.01s",
-      "inference_time": "~1.83\u00b5s",
+      "inference_time": "~1.69\u00b5s",
       "model_size": "0.38MB",
       "description": "Fast probabilistic classifier, excellent baseline for text",
       "best_for": "Quick prototyping, interpretability, speed",
@@ -649,8 +747,8 @@
       "precision": 98.2324138205923,
       "recall": 98.20359281437125,
       "f1_score": 98.2001707885549,
-      "train_time": "~0.69s",
-      "inference_time": "~2.48\u00b5s",
+      "train_time": "~0.29s",
+      "inference_time": "~2.33\u00b5s",
       "model_size": "0.19MB",
       "description": "Linear classifier with regularization, balanced performance",
       "best_for": "Production, interpretability, balanced speed/accuracy",
@@ -659,13 +757,13 @@
     },
     {
       "id": "svm",
-      "name": "Svm",
+      "name": "SVM",
       "accuracy": 97.30538922155688,
       "precision": 97.34728928274042,
       "recall": 97.30538922155688,
       "f1_score": 97.30539131987211,
-      "train_time": "~0.09s",
-      "inference_time": "~2.17\u00b5s",
+      "train_time": "~0.08s",
+      "inference_time": "~2.20\u00b5s",
       "model_size": "0.19MB",
       "description": "Maximum margin classifier, robust to outliers",
       "best_for": "High-dimensional data, robust classification",
@@ -679,8 +777,8 @@
       "precision": 96.88447813270639,
       "recall": 96.7065868263473,
       "f1_score": 96.72550095669341,
-      "train_time": "~1.29s",
-      "inference_time": "~0.053ms",
+      "train_time": "~1.32s",
+      "inference_time": "~0.055ms",
       "model_size": "4.47MB",
       "description": "Ensemble of decision trees, provides feature importance",
       "best_for": "Feature analysis, ensemble learning",
@@ -696,7 +794,7 @@
   "naive_bayes": {
     "method": "naive_bayes",
     "display_name": "Naive Bayes",
-    "timestamp": "2025-10-20T11:00:18.837876",
+    "timestamp": "2025-10-20T11:15:09.953167",
     "metrics": {
       "accuracy": 0.9790419161676647,
       "precision": 0.9792406928803797,
@@ -704,8 +802,8 @@
       "f1_score": 0.97884698087162
     },
     "performance": {
-      "train_time_seconds": 0.00543212890625,
-      "inference_time_ms_per_sample": 0.001827399887724551,
+      "train_time_seconds": 0.005600452423095703,
+      "inference_time_ms_per_sample": 0.0016867757557394976,
       "total_test_samples": 334,
       "model_size_bytes": 400906
     },
@@ -796,13 +894,18 @@
       "ngram_range": [
         1,
         2
-      ]
+      ],
+      "model_params": {
+        "Algorithm": "Multinomial Naive Bayes",
+        "Alpha (Smoothing)": 1.0,
+        "Fit Prior": true
+      }
     }
   },
   "logistic_regression": {
     "method": "logistic_regression",
     "display_name": "Logistic Regression",
-    "timestamp": "2025-10-20T11:00:19.536738",
+    "timestamp": "2025-10-20T11:15:10.252327",
     "metrics": {
       "accuracy": 0.9820359281437125,
       "precision": 0.982324138205923,
@@ -810,8 +913,8 @@
       "f1_score": 0.982001707885549
     },
     "performance": {
-      "train_time_seconds": 0.6854567527770996,
-      "inference_time_ms_per_sample": 0.0024776972696452797,
+      "train_time_seconds": 0.2861213684082031,
+      "inference_time_ms_per_sample": 0.0023292210287676604,
       "total_test_samples": 334,
       "model_size_bytes": 200802
     },
@@ -902,13 +1005,20 @@
       "ngram_range": [
         1,
         2
-      ]
+      ],
+      "model_params": {
+        "Penalty": "l2",
+        "C (Regularization)": 1.0,
+        "Solver": "lbfgs",
+        "Max Iterations": 1000,
+        "Multi-class": "deprecated"
+      }
     }
   },
   "svm": {
     "method": "svm",
-    "display_name": "Svm",
-    "timestamp": "2025-10-20T11:00:19.641592",
+    "display_name": "SVM",
+    "timestamp": "2025-10-20T11:15:10.363426",
     "metrics": {
       "accuracy": 0.9730538922155688,
       "precision": 0.9734728928274042,
@@ -916,8 +1026,8 @@
       "f1_score": 0.9730539131987211
     },
     "performance": {
-      "train_time_seconds": 0.09179806709289551,
-      "inference_time_ms_per_sample": 0.002167895882429477,
+      "train_time_seconds": 0.07757949829101562,
+      "inference_time_ms_per_sample": 0.0021957351775940305,
       "total_test_samples": 334,
       "model_size_bytes": 200686
     },
@@ -1008,13 +1118,20 @@
       "ngram_range": [
         1,
         2
-      ]
+      ],
+      "model_params": {
+        "Kernel": "Linear",
+        "C (Regularization)": 1.0,
+        "Loss Function": "squared_hinge",
+        "Max Iterations": 2000,
+        "Dual": "auto"
+      }
     }
   },
   "random_forest": {
     "method": "random_forest",
     "display_name": "Random Forest",
-    "timestamp": "2025-10-20T11:00:20.952670",
+    "timestamp": "2025-10-20T11:15:11.709701",
     "metrics": {
       "accuracy": 0.9670658682634731,
       "precision": 0.968844781327064,
@@ -1022,8 +1139,8 @@
       "f1_score": 0.9672550095669341
     },
     "performance": {
-      "train_time_seconds": 1.2862157821655273,
-      "inference_time_ms_per_sample": 0.05324086743200611,
+      "train_time_seconds": 1.320202112197876,
+      "inference_time_ms_per_sample": 0.05468422781207604,
       "total_test_samples": 334,
       "model_size_bytes": 4687178
     },
@@ -1114,7 +1231,15 @@
       "ngram_range": [
         1,
         2
-      ]
+      ],
+      "model_params": {
+        "N Estimators": 100,
+        "Criterion": "gini",
+        "Max Depth": "None (unlimited)",
+        "Min Samples Split": 2,
+        "Min Samples Leaf": 1,
+        "Bootstrap": true
+      }
     }
   }
 }
