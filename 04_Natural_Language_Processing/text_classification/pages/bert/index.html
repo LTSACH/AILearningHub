@@ -878,7 +878,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-20T12:50:00",
+  "timestamp": "2025-10-20T13:00:00",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -895,15 +895,32 @@
   },
   "methods": [
     {
+      "id": "distilbert_mean_pooling",
+      "name": "DistilBERT + Mean",
+      "model_base": "distilbert",
+      "pooling_strategy": "mean_pooling",
+      "accuracy": 98.80239520958084,
+      "precision": 98.80439399056846,
+      "recall": 98.80239520958084,
+      "f1_score": 98.79703291802538,
+      "train_time": "10.5s",
+      "inference_time": "~0.12ms",
+      "model_size": "253.20MB",
+      "num_parameters": "66.4M",
+      "description": "DistilBERT + Mean",
+      "data_path": "../distilbert_mean_pooling/results.json",
+      "status": "available"
+    },
+    {
       "id": "bert_base_cls_token",
       "name": "BERT-base + CLS",
       "model_base": "bert_base",
       "pooling_strategy": "cls_token",
       "accuracy": 98.50299401197606,
-      "precision": 98.52447485980419,
+      "precision": 98.54166666666666,
       "recall": 98.50299401197606,
-      "f1_score": 98.50280400874625,
-      "train_time": "~7.8s",
+      "f1_score": 98.49685294463535,
+      "train_time": "15.7s",
       "inference_time": "~0.22ms",
       "model_size": "417.72MB",
       "num_parameters": "109.5M",
@@ -912,16 +929,33 @@
       "status": "available"
     },
     {
+      "id": "bert_base_max_pooling",
+      "name": "BERT-base + Max",
+      "model_base": "bert_base",
+      "pooling_strategy": "max_pooling",
+      "accuracy": 98.50299401197606,
+      "precision": 98.52399958443169,
+      "recall": 98.50299401197606,
+      "f1_score": 98.49890738378664,
+      "train_time": "14.4s",
+      "inference_time": "~0.24ms",
+      "model_size": "417.72MB",
+      "num_parameters": "109.5M",
+      "description": "BERT-base + Max",
+      "data_path": "../bert_base_max_pooling/results.json",
+      "status": "available"
+    },
+    {
       "id": "distilbert_cls_token",
       "name": "DistilBERT + CLS",
       "model_base": "distilbert",
       "pooling_strategy": "cls_token",
-      "accuracy": 98.20359281437125,
-      "precision": 98.21541654905604,
-      "recall": 98.20359281437125,
-      "f1_score": 98.18679423752937,
-      "train_time": "~5.1s",
-      "inference_time": "~0.12ms",
+      "accuracy": 98.50299401197606,
+      "precision": 98.50942299631805,
+      "recall": 98.50299401197606,
+      "f1_score": 98.4999450424944,
+      "train_time": "10.0s",
+      "inference_time": "~0.14ms",
       "model_size": "253.20MB",
       "num_parameters": "66.4M",
       "description": "DistilBERT + CLS",
@@ -929,20 +963,54 @@
       "status": "available"
     },
     {
-      "id": "tinybert_cls_token",
-      "name": "TinyBERT + CLS",
+      "id": "bert_base_mean_pooling",
+      "name": "BERT-base + Mean",
+      "model_base": "bert_base",
+      "pooling_strategy": "mean_pooling",
+      "accuracy": 98.20359281437125,
+      "precision": 98.22076820934402,
+      "recall": 98.20359281437125,
+      "f1_score": 98.20158020297988,
+      "train_time": "14.3s",
+      "inference_time": "~0.23ms",
+      "model_size": "417.72MB",
+      "num_parameters": "109.5M",
+      "description": "BERT-base + Mean",
+      "data_path": "../bert_base_mean_pooling/results.json",
+      "status": "available"
+    },
+    {
+      "id": "distilbert_max_pooling",
+      "name": "DistilBERT + Max",
+      "model_base": "distilbert",
+      "pooling_strategy": "max_pooling",
+      "accuracy": 98.20359281437125,
+      "precision": 98.20860762301606,
+      "recall": 98.20359281437125,
+      "f1_score": 98.19760442219223,
+      "train_time": "10.4s",
+      "inference_time": "~0.13ms",
+      "model_size": "253.20MB",
+      "num_parameters": "66.4M",
+      "description": "DistilBERT + Max",
+      "data_path": "../distilbert_max_pooling/results.json",
+      "status": "available"
+    },
+    {
+      "id": "tinybert_mean_pooling",
+      "name": "TinyBERT + Mean",
       "model_base": "tinybert",
-      "pooling_strategy": "cls_token",
-      "accuracy": 82.93413173652695,
-      "precision": 83.25580257935783,
-      "recall": 82.93413173652695,
-      "f1_score": 82.736886532899,
-      "train_time": "~5.0s",
-      "inference_time": "~0.08ms",
+      "pooling_strategy": "mean_pooling",
+      "accuracy": 90.11976047904191,
+      "precision": 90.14161260913886,
+      "recall": 90.11976047904191,
+      "f1_score": 90.03789164203982,
+      "train_time": "10.1s",
+      "inference_time": "~0.09ms",
       "model_size": "54.77MB",
       "num_parameters": "14.4M",
-      "description": "TinyBERT + CLS",
-      "data_path": "../tinybert_cls_token/results.json",
+      "description": "TinyBERT + Mean",
+      "data_path": "../tinybert_mean_pooling/results.json",
       "status": "available"
     }
   ]
@@ -951,165 +1019,22 @@
     
     <script type="application/json" id="methods-data">
 {
-  "bert_base_cls_token": {
-    "method": "bert_base_cls_token",
-    "display_name": "BERT-base + CLS",
-    "model_base": "bert_base",
-    "pooling_strategy": "cls_token",
-    "timestamp": "2025-10-20T12:47:29.838670",
-    "metrics": {
-      "accuracy": 0.9850299401197605,
-      "precision": 0.9852447485980419,
-      "recall": 0.9850299401197605,
-      "f1_score": 0.9850280400874625
-    },
-    "performance": {
-      "inference_time_ms_per_sample": 0.21793034214239856,
-      "total_test_samples": 334,
-      "train_time_seconds": 7.839279651641846,
-      "model_size_bytes": 438013135,
-      "num_parameters": 109486085,
-      "trainable_parameters": 109486085,
-      "batch_size": 64,
-      "fp16_enabled": true
-    },
-    "confusion_matrix": [
-      [
-        74,
-        1,
-        2,
-        0,
-        0
-      ],
-      [
-        0,
-        58,
-        0,
-        0,
-        0
-      ],
-      [
-        1,
-        0,
-        61,
-        0,
-        0
-      ],
-      [
-        0,
-        1,
-        0,
-        76,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        60
-      ]
-    ],
-    "per_class_metrics": [
-      {
-        "label": "business",
-        "precision": 0.9866666666666667,
-        "recall": 0.961038961038961,
-        "f1": 0.9736842105263158,
-        "support": 77
-      },
-      {
-        "label": "entertainment",
-        "precision": 0.9666666666666667,
-        "recall": 1.0,
-        "f1": 0.9830508474576272,
-        "support": 58
-      },
-      {
-        "label": "politics",
-        "precision": 0.9682539682539683,
-        "recall": 0.9838709677419355,
-        "f1": 0.976,
-        "support": 62
-      },
-      {
-        "label": "sport",
-        "precision": 1.0,
-        "recall": 0.987012987012987,
-        "f1": 0.9934640522875817,
-        "support": 77
-      },
-      {
-        "label": "tech",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "support": 60
-      }
-    ],
-    "labels": [
-      "business",
-      "entertainment",
-      "politics",
-      "sport",
-      "tech"
-    ],
-    "model_config": {
-      "architecture": "Transformer (BERT)",
-      "pretrained_model": "bert-base-uncased",
-      "pooling_strategy": "[CLS] Token",
-      "max_length": 128,
-      "model_params": {
-        "Learning Rate": 2e-05,
-        "Batch Size": 64,
-        "Epochs": 3,
-        "Weight Decay": 0.01,
-        "Warmup Ratio": 0.1,
-        "Optimizer": "AdamW",
-        "FP16": true,
-        "Gradient Accumulation": 1,
-        "Pooling": "Use first token embedding (standard for classification)"
-      }
-    },
-    "training_history": {
-      "train_loss": [
-        1.0443328094482422,
-        0.18569048181176184,
-        0.08093701958656312
-      ],
-      "val_loss": [
-        0.32308562596638996,
-        0.1094936231772105,
-        0.07565946380297343
-      ],
-      "val_accuracy": [
-        0.9640718562874252,
-        0.9700598802395209,
-        0.9850299401197605
-      ],
-      "val_f1": [
-        0.9640465813924676,
-        0.9700407009870693,
-        0.9850173674693206
-      ]
-    }
-  },
-  "distilbert_cls_token": {
-    "method": "distilbert_cls_token",
-    "display_name": "DistilBERT + CLS",
+  "distilbert_mean_pooling": {
+    "method": "distilbert_mean_pooling",
+    "display_name": "DistilBERT + Mean",
     "model_base": "distilbert",
-    "pooling_strategy": "cls_token",
-    "timestamp": "2025-10-20T12:47:26.831061",
+    "pooling_strategy": "mean_pooling",
+    "timestamp": "2025-10-20T13:02:14.822481",
     "metrics": {
-      "accuracy": 0.9820359281437125,
-      "precision": 0.9821541654905604,
-      "recall": 0.9820359281437125,
-      "f1_score": 0.9818679423752936
+      "accuracy": 0.9880239520958084,
+      "precision": 0.9880439399056845,
+      "recall": 0.9880239520958084,
+      "f1_score": 0.9879703291802538
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.11588830469001053,
+      "inference_time_ms_per_sample": 0.12145267847256781,
       "total_test_samples": 334,
-      "train_time_seconds": 5.133630037307739,
+      "train_time_seconds": 10.454308271408081,
       "model_size_bytes": 265500315,
       "num_parameters": 66366725,
       "trainable_parameters": 66366725,
@@ -1118,11 +1043,11 @@
     },
     "confusion_matrix": [
       [
-        72,
+        74,
         1,
         1,
-        1,
-        2
+        0,
+        1
       ],
       [
         0,
@@ -1156,9 +1081,9 @@
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.9863013698630136,
-        "recall": 0.935064935064935,
-        "f1": 0.96,
+        "precision": 0.9866666666666667,
+        "recall": 0.961038961038961,
+        "f1": 0.9736842105263158,
         "support": 77
       },
       {
@@ -1177,16 +1102,469 @@
       },
       {
         "label": "sport",
-        "precision": 0.9871794871794872,
+        "precision": 1.0,
         "recall": 1.0,
-        "f1": 0.9935483870967742,
+        "f1": 1.0,
         "support": 77
       },
       {
         "label": "tech",
-        "precision": 0.967741935483871,
+        "precision": 0.9836065573770492,
         "recall": 1.0,
-        "f1": 0.9836065573770492,
+        "f1": 0.9917355371900827,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "distilbert-base-uncased",
+      "pooling_strategy": "Mean Pooling",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Average all token embeddings (captures full context)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.2489261436462402,
+        0.2669054359197617,
+        0.08525720424950123,
+        0.050908691212534905,
+        0.03742718070745468
+      ],
+      "val_loss": [
+        0.5591403047243754,
+        0.13591818511486053,
+        0.09637028227249782,
+        0.06560568014780681,
+        0.06817995756864548
+      ],
+      "val_accuracy": [
+        0.9610778443113772,
+        0.9580838323353293,
+        0.9730538922155688,
+        0.9820359281437125,
+        0.9850299401197605
+      ],
+      "val_f1": [
+        0.961041857448877,
+        0.9583075797721711,
+        0.9728299574540823,
+        0.9819347285451019,
+        0.984983677097187
+      ]
+    }
+  },
+  "bert_base_cls_token": {
+    "method": "bert_base_cls_token",
+    "display_name": "BERT-base + CLS",
+    "model_base": "bert_base",
+    "pooling_strategy": "cls_token",
+    "timestamp": "2025-10-20T13:02:20.731953",
+    "metrics": {
+      "accuracy": 0.9850299401197605,
+      "precision": 0.9854166666666666,
+      "recall": 0.9850299401197605,
+      "f1_score": 0.9849685294463535
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.22444839024136207,
+      "total_test_samples": 334,
+      "train_time_seconds": 15.665310382843018,
+      "model_size_bytes": 438013135,
+      "num_parameters": 109486085,
+      "trainable_parameters": 109486085,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        73,
+        1,
+        2,
+        0,
+        1
+      ],
+      [
+        0,
+        58,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        62,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        59
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 1.0,
+        "recall": 0.948051948051948,
+        "f1": 0.9733333333333334,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9666666666666667,
+        "recall": 1.0,
+        "f1": 0.9830508474576272,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.96875,
+        "recall": 1.0,
+        "f1": 0.9841269841269841,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9833333333333333,
+        "recall": 0.9833333333333333,
+        "f1": 0.9833333333333333,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "bert-base-uncased",
+      "pooling_strategy": "[CLS] Token",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Use first token embedding (standard for classification)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.2301957058906554,
+        0.23086438626050948,
+        0.06262971241027117,
+        0.02894786112010479,
+        0.01959231337532401
+      ],
+      "val_loss": [
+        0.4513489603996277,
+        0.09809121489524841,
+        0.06991447259982426,
+        0.05798192570606867,
+        0.055492304265499115
+      ],
+      "val_accuracy": [
+        0.9610778443113772,
+        0.9790419161676647,
+        0.9850299401197605,
+        0.9880239520958084,
+        0.9880239520958084
+      ],
+      "val_f1": [
+        0.9609814567946603,
+        0.9789627025228478,
+        0.984983677097187,
+        0.9879908932135729,
+        0.9879908932135729
+      ]
+    }
+  },
+  "bert_base_max_pooling": {
+    "method": "bert_base_max_pooling",
+    "display_name": "BERT-base + Max",
+    "model_base": "bert_base",
+    "pooling_strategy": "max_pooling",
+    "timestamp": "2025-10-20T13:02:20.019393",
+    "metrics": {
+      "accuracy": 0.9850299401197605,
+      "precision": 0.9852399958443169,
+      "recall": 0.9850299401197605,
+      "f1_score": 0.9849890738378664
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.2359761737096004,
+      "total_test_samples": 334,
+      "train_time_seconds": 14.418911695480347,
+      "model_size_bytes": 438013135,
+      "num_parameters": 109486085,
+      "trainable_parameters": 109486085,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        73,
+        1,
+        3,
+        0,
+        0
+      ],
+      [
+        0,
+        58,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9864864864864865,
+        "recall": 0.948051948051948,
+        "f1": 0.9668874172185431,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9830508474576272,
+        "recall": 1.0,
+        "f1": 0.9914529914529915,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.953125,
+        "recall": 0.9838709677419355,
+        "f1": 0.9682539682539683,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "bert-base-uncased",
+      "pooling_strategy": "Max Pooling",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Max over all token embeddings (strongest features)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.453365535736084,
+        0.4863453787565231,
+        0.11066283404827118,
+        0.05624973740428686,
+        0.0403151598572731
+      ],
+      "val_loss": [
+        0.9766930341720581,
+        0.13861695925394693,
+        0.0768764391541481,
+        0.05458643287420273,
+        0.06225531796614329
+      ],
+      "val_accuracy": [
+        0.844311377245509,
+        0.9640718562874252,
+        0.9820359281437125,
+        0.9850299401197605,
+        0.9880239520958084
+      ],
+      "val_f1": [
+        0.8433059346823069,
+        0.9641676743986206,
+        0.981972130701085,
+        0.9850690775312121,
+        0.9879908932135729
+      ]
+    }
+  },
+  "distilbert_cls_token": {
+    "method": "distilbert_cls_token",
+    "display_name": "DistilBERT + CLS",
+    "model_base": "distilbert",
+    "pooling_strategy": "cls_token",
+    "timestamp": "2025-10-20T13:02:13.161423",
+    "metrics": {
+      "accuracy": 0.9850299401197605,
+      "precision": 0.9850942299631805,
+      "recall": 0.9850299401197605,
+      "f1_score": 0.984999450424944
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.13612877800423875,
+      "total_test_samples": 334,
+      "train_time_seconds": 9.996149778366089,
+      "model_size_bytes": 265500315,
+      "num_parameters": 66366725,
+      "trainable_parameters": 66366725,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        74,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        57,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9866666666666667,
+        "recall": 0.961038961038961,
+        "f1": 0.9736842105263158,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9827586206896551,
+        "recall": 0.9827586206896551,
+        "f1": 0.9827586206896551,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9682539682539683,
+        "recall": 0.9838709677419355,
+        "f1": 0.976,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9836065573770492,
+        "recall": 1.0,
+        "f1": 0.9917355371900827,
         "support": 60
       }
     ],
@@ -1205,7 +1583,7 @@
       "model_params": {
         "Learning Rate": 2e-05,
         "Batch Size": 64,
-        "Epochs": 3,
+        "Epochs": 5,
         "Weight Decay": 0.01,
         "Warmup Ratio": 0.1,
         "Optimizer": "AdamW",
@@ -1216,43 +1594,353 @@
     },
     "training_history": {
       "train_loss": [
-        1.2420061612129212,
-        0.33745282113552094,
-        0.1341695386171341
+        1.3833174204826355,
+        0.3868060392141342,
+        0.1090345424413681,
+        0.05842755235731602,
+        0.037876645177602766
       ],
       "val_loss": [
-        0.5931309461593628,
-        0.16635621090730032,
-        0.12459452450275421
+        0.7900939583778381,
+        0.19141750037670135,
+        0.10158802568912506,
+        0.07789016515016556,
+        0.06663810710112254
       ],
       "val_accuracy": [
-        0.9550898203592815,
-        0.9700598802395209,
-        0.9730538922155688
+        0.9011976047904192,
+        0.9491017964071856,
+        0.9760479041916168,
+        0.9850299401197605,
+        0.9880239520958084
       ],
       "val_f1": [
-        0.9550959323461171,
-        0.9698930529763011,
-        0.9727390678637913
+        0.9017847253761033,
+        0.9485513625592158,
+        0.9758964931305862,
+        0.9849631321070214,
+        0.9879930150761146
       ]
     }
   },
-  "tinybert_cls_token": {
-    "method": "tinybert_cls_token",
-    "display_name": "TinyBERT + CLS",
-    "model_base": "tinybert",
-    "pooling_strategy": "cls_token",
-    "timestamp": "2025-10-20T12:47:27.661343",
+  "bert_base_mean_pooling": {
+    "method": "bert_base_mean_pooling",
+    "display_name": "BERT-base + Mean",
+    "model_base": "bert_base",
+    "pooling_strategy": "mean_pooling",
+    "timestamp": "2025-10-20T13:02:19.155008",
     "metrics": {
-      "accuracy": 0.8293413173652695,
-      "precision": 0.8325580257935783,
-      "recall": 0.8293413173652695,
-      "f1_score": 0.82736886532899
+      "accuracy": 0.9820359281437125,
+      "precision": 0.9822076820934402,
+      "recall": 0.9820359281437125,
+      "f1_score": 0.9820158020297988
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.08395311032604967,
+      "inference_time_ms_per_sample": 0.2287255170253607,
       "total_test_samples": 334,
-      "train_time_seconds": 5.006739616394043,
+      "train_time_seconds": 14.272871971130371,
+      "model_size_bytes": 438013135,
+      "num_parameters": 109486085,
+      "trainable_parameters": 109486085,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        73,
+        1,
+        3,
+        0,
+        0
+      ],
+      [
+        0,
+        58,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        76,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9733333333333334,
+        "recall": 0.948051948051948,
+        "f1": 0.9605263157894737,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9830508474576272,
+        "recall": 1.0,
+        "f1": 0.9914529914529915,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.953125,
+        "recall": 0.9838709677419355,
+        "f1": 0.9682539682539683,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.987012987012987,
+        "f1": 0.9934640522875817,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "bert-base-uncased",
+      "pooling_strategy": "Mean Pooling",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Average all token embeddings (captures full context)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.3023395395278932,
+        0.21784013032913208,
+        0.06499955892562866,
+        0.041436496376991275,
+        0.026181994117796422
+      ],
+      "val_loss": [
+        0.46653587619463605,
+        0.1083676666021347,
+        0.09554311136404674,
+        0.0717427705725034,
+        0.07149452219406764
+      ],
+      "val_accuracy": [
+        0.9461077844311377,
+        0.9700598802395209,
+        0.9730538922155688,
+        0.9790419161676647,
+        0.9820359281437125
+      ],
+      "val_f1": [
+        0.9462261633842423,
+        0.9699804839404714,
+        0.973055656671443,
+        0.9789902162435106,
+        0.9820351855812185
+      ]
+    }
+  },
+  "distilbert_max_pooling": {
+    "method": "distilbert_max_pooling",
+    "display_name": "DistilBERT + Max",
+    "model_base": "distilbert",
+    "pooling_strategy": "max_pooling",
+    "timestamp": "2025-10-20T13:02:15.192662",
+    "metrics": {
+      "accuracy": 0.9820359281437125,
+      "precision": 0.9820860762301606,
+      "recall": 0.9820359281437125,
+      "f1_score": 0.9819760442219223
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.12924689321945876,
+      "total_test_samples": 334,
+      "train_time_seconds": 10.357410907745361,
+      "model_size_bytes": 265500315,
+      "num_parameters": 66366725,
+      "trainable_parameters": 66366725,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        74,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        56,
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9866666666666667,
+        "recall": 0.961038961038961,
+        "f1": 0.9736842105263158,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9824561403508771,
+        "recall": 0.9655172413793104,
+        "f1": 0.9739130434782609,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9682539682539683,
+        "recall": 0.9838709677419355,
+        "f1": 0.976,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.9871794871794872,
+        "recall": 1.0,
+        "f1": 0.9935483870967742,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9836065573770492,
+        "recall": 1.0,
+        "f1": 0.9917355371900827,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "distilbert-base-uncased",
+      "pooling_strategy": "Max Pooling",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Max over all token embeddings (strongest features)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.5003112506866456,
+        0.6262395578622818,
+        0.15905484765768052,
+        0.09050440944731236,
+        0.062371904179453846
+      ],
+      "val_loss": [
+        1.1298273801803589,
+        0.2571720580259959,
+        0.13551253577073416,
+        0.09747873246669769,
+        0.07899178564548492
+      ],
+      "val_accuracy": [
+        0.7275449101796407,
+        0.9491017964071856,
+        0.9610778443113772,
+        0.9730538922155688,
+        0.9820359281437125
+      ],
+      "val_f1": [
+        0.6862236327201479,
+        0.948700475155883,
+        0.9609080102127898,
+        0.9728206274287213,
+        0.981982870296148
+      ]
+    }
+  },
+  "tinybert_mean_pooling": {
+    "method": "tinybert_mean_pooling",
+    "display_name": "TinyBERT + Mean",
+    "model_base": "tinybert",
+    "pooling_strategy": "mean_pooling",
+    "timestamp": "2025-10-20T13:02:15.133122",
+    "metrics": {
+      "accuracy": 0.9011976047904192,
+      "precision": 0.9014161260913885,
+      "recall": 0.9011976047904192,
+      "f1_score": 0.9003789164203982
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.0888671343907332,
+      "total_test_samples": 334,
+      "train_time_seconds": 10.124654769897461,
       "model_size_bytes": 57433770,
       "num_parameters": 14351813,
       "trainable_parameters": 14351813,
@@ -1261,75 +1949,75 @@
     },
     "confusion_matrix": [
       [
-        67,
-        0,
+        66,
         1,
         3,
-        6
-      ],
-      [
-        2,
-        45,
-        5,
-        3,
+        4,
         3
       ],
       [
-        15,
-        0,
-        40,
-        5,
-        2
+        1,
+        50,
+        3,
+        1,
+        3
       ],
       [
-        1,
-        0,
-        4,
-        71,
-        1
-      ],
-      [
-        1,
-        2,
         3,
         0,
-        54
+        59,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        76,
+        0
+      ],
+      [
+        2,
+        6,
+        2,
+        0,
+        50
       ]
     ],
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.7790697674418605,
-        "recall": 0.8701298701298701,
-        "f1": 0.8220858895705522,
+        "precision": 0.9166666666666666,
+        "recall": 0.8571428571428571,
+        "f1": 0.8859060402684564,
         "support": 77
       },
       {
         "label": "entertainment",
-        "precision": 0.9574468085106383,
-        "recall": 0.7758620689655172,
-        "f1": 0.8571428571428571,
+        "precision": 0.8771929824561403,
+        "recall": 0.8620689655172413,
+        "f1": 0.8695652173913043,
         "support": 58
       },
       {
         "label": "politics",
-        "precision": 0.7547169811320755,
-        "recall": 0.6451612903225806,
-        "f1": 0.6956521739130435,
+        "precision": 0.8676470588235294,
+        "recall": 0.9516129032258065,
+        "f1": 0.9076923076923077,
         "support": 62
       },
       {
         "label": "sport",
-        "precision": 0.8658536585365854,
-        "recall": 0.922077922077922,
-        "f1": 0.8930817610062893,
+        "precision": 0.9382716049382716,
+        "recall": 0.987012987012987,
+        "f1": 0.9620253164556962,
         "support": 77
       },
       {
         "label": "tech",
-        "precision": 0.8181818181818182,
-        "recall": 0.9,
-        "f1": 0.8571428571428571,
+        "precision": 0.8928571428571429,
+        "recall": 0.8333333333333334,
+        "f1": 0.8620689655172413,
         "support": 60
       }
     ],
@@ -1343,40 +2031,48 @@
     "model_config": {
       "architecture": "Transformer (BERT)",
       "pretrained_model": "huawei-noah/TinyBERT_General_4L_312D",
-      "pooling_strategy": "[CLS] Token",
+      "pooling_strategy": "Mean Pooling",
       "max_length": 128,
       "model_params": {
         "Learning Rate": 2e-05,
         "Batch Size": 64,
-        "Epochs": 3,
+        "Epochs": 5,
         "Weight Decay": 0.01,
         "Warmup Ratio": 0.1,
         "Optimizer": "AdamW",
         "FP16": true,
         "Gradient Accumulation": 1,
-        "Pooling": "Use first token embedding (standard for classification)"
+        "Pooling": "Average all token embeddings (captures full context)"
       }
     },
     "training_history": {
       "train_loss": [
-        1.5439193296432494,
-        1.1534330892562865,
-        0.8600080537796021
+        1.4580056190490722,
+        0.9013067269325257,
+        0.5645661544799805,
+        0.4424102234840393,
+        0.3912000107765198
       ],
       "val_loss": [
-        1.3624612092971802,
-        0.9441256920496622,
-        0.8077502449353536
+        1.165539065996806,
+        0.6640177766482035,
+        0.48540016015370685,
+        0.4176664749781291,
+        0.3961127797762553
       ],
       "val_accuracy": [
-        0.5748502994011976,
-        0.8083832335329342,
-        0.8293413173652695
+        0.7574850299401198,
+        0.8383233532934131,
+        0.8712574850299402,
+        0.8652694610778443,
+        0.8712574850299402
       ],
       "val_f1": [
-        0.5365527938804963,
-        0.806659446803414,
-        0.8285948875574085
+        0.7542610450947622,
+        0.8380595208273333,
+        0.8701446585719366,
+        0.8638048635528428,
+        0.8697495494841527
       ]
     }
   }
