@@ -1,191 +1,237 @@
 """
-Oxford Pets Spatial Distribution - Plotly Version
+Detection EDA - Spatial Distribution Analysis (Plotly)
+Reproduces charts from: https://ltsach.github.io/AILearningHub/.../eda_detection.html
 
-Tutorial: Spatial Distribution Analysis
-Library: Plotly
-Author: AILearningHub
-Dataset: Oxford-IIIT Pets
-URL: https://ltsach.github.io/AILearningHub/
-
-Description:
-    Analyze spatial distribution of bounding boxes.
-    Check for center bias, position patterns, and edge proximity.
-
-Requirements:
-    pip install pandas plotly numpy
-
-Data Source:
-    https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/spatial_distribution.csv
+Analyzes bbox position heatmap, center bias, grid distribution with exact colors.
+Run this in Google Colab - Copy & paste entire code!
 """
 
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-import plotly.express as px
+
+print("="*70)
+print("🗺️ DETECTION EDA - Spatial Distribution (Plotly)")
+print("="*70)
 
 # ============================================================================
-# Load Data
+# 1. LOAD DATA FROM GITHUB PAGES
 # ============================================================================
+print("\n1️⃣ Loading spatial distribution data from GitHub Pages...")
 
-print("🗺️ Loading Spatial Distribution Data...")
-print("=" * 70)
+url = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/precomputed/detection/spatial_distribution.csv'
+df = pd.read_csv(url)
 
-base_url = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/'
-df = pd.read_csv(base_url + 'spatial_distribution.csv')
-
-print(f"✓ Loaded {len(df):,} bounding boxes")
+print(f"   ✓ Loaded {len(df):,} bounding boxes")
+print(f"   ✓ Columns: {list(df.columns)}")
 
 # ============================================================================
-# Visualization 1: Position Heatmap (Center Points)
+# 2. CHART 1: Position Heatmap (Normalized X-Y)
 # ============================================================================
-
-print("\n🔥 Creating position heatmap...")
+print("\n2️⃣ Creating Position Heatmap...")
 
 # Create 2D histogram for heatmap
-fig_heatmap = go.Figure(data=go.Histogram2d(
-    x=df['center_x'],
-    y=df['center_y'],
-    colorscale='Hot',
-    nbinsx=30,
-    nbinsy=30,
-    colorbar=dict(title="Count")
-))
-
-fig_heatmap.update_layout(
-    title='Bounding Box Center Position Heatmap',
-    xaxis_title='Normalized X Position',
-    yaxis_title='Normalized Y Position',
-    template='plotly_white',
-    height=500,
-    xaxis=dict(range=[0, 1]),
-    yaxis=dict(range=[0, 1], scaleanchor='x', scaleratio=1)
+bins = 20
+hist, x_edges, y_edges = np.histogram2d(
+    df['center_x'], 
+    df['center_y'], 
+    bins=bins,
+    range=[[0, 1], [0, 1]]
 )
 
-fig_heatmap.show()
+# Normalize to percentages
+hist_normalized = (hist / hist.sum()) * 100
+
+# Center coordinates for plotting
+x_centers = [(x_edges[i] + x_edges[i+1]) / 2 for i in range(len(x_edges)-1)]
+y_centers = [(y_edges[i] + y_edges[i+1]) / 2 for i in range(len(y_edges)-1)]
+
+fig1 = go.Figure(data=[go.Heatmap(
+    z=hist_normalized,
+    x=x_centers,
+    y=y_centers,
+    colorscale='Hot',  # Matching web report EXACTLY
+    showscale=True,
+    colorbar=dict(title="Density (%)")
+)])
+
+fig1.update_layout(
+    title="Bounding Box Position Heatmap",
+    xaxis=dict(title="Normalized X Position", range=[0, 1]),
+    yaxis=dict(title="Normalized Y Position", range=[0, 1]),
+    template="plotly_white",
+    height=500
+)
+
+print("   ✓ Position heatmap created")
+fig1.show()
 
 # ============================================================================
-# Visualization 2: Center Bias Analysis
+# 3. CHART 2: Center Bias Analysis (Donut Chart)
 # ============================================================================
+print("\n3️⃣ Analyzing Center Bias...")
 
-print("\n🎯 Creating center bias analysis...")
+# Define center region (0.25 to 0.75 on both axes)
+center_region = df[
+    (df['center_x'] >= 0.25) & (df['center_x'] <= 0.75) &
+    (df['center_y'] >= 0.25) & (df['center_y'] <= 0.75)
+]
 
-# Calculate distance from center
-df['distance_from_center'] = np.sqrt((df['center_x'] - 0.5)**2 + (df['center_y'] - 0.5)**2)
+center_percentage = (len(center_region) / len(df)) * 100
+other_percentage = 100 - center_percentage
 
-fig_bias = go.Figure(data=[
-    go.Histogram(
-        x=df['distance_from_center'],
-        nbinsx=50,
-        marker=dict(color='#8b5cf6', opacity=0.7)
-    )
-])
+# Calculate center bias score (0-1, where 1 means all in center)
+center_bias_score = center_percentage / 100
 
-fig_bias.update_layout(
-    title='Distance from Image Center Distribution',
-    xaxis_title='Distance from Center (normalized)',
-    yaxis_title='Count',
-    template='plotly_white',
+# Colors matching web report EXACTLY
+fig2 = go.Figure(data=[go.Pie(
+    labels=['Center Region', 'Other Regions'],
+    values=[center_percentage, other_percentage],
+    marker=dict(colors=['#10b981', '#e5e7eb']),  # Green & Gray - matching web report
+    hole=0.4,  # Donut chart
+    textposition='inside',
+    textinfo='label+percent',
+    hovertemplate='<b>%{label}</b><br>Percentage: %{percent}<extra></extra>'
+)])
+
+fig2.update_layout(
+    title=f"Center Bias Analysis (Score: {center_bias_score:.2f})",
+    showlegend=True,
+    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+    template="plotly_white",
     height=400
 )
 
-fig_bias.show()
-
-print(f"  Mean distance from center: {df['distance_from_center'].mean():.3f}")
-print(f"  Median distance: {df['distance_from_center'].median():.3f}")
-
-# Check center bias
-center_threshold = 0.3
-center_boxes = (df['distance_from_center'] < center_threshold).sum()
-center_pct = center_boxes / len(df) * 100
-print(f"  Boxes near center (<{center_threshold}): {center_boxes} ({center_pct:.1f}%)")
+print("   ✓ Center bias chart created")
+fig2.show()
 
 # ============================================================================
-# Visualization 3: Scatter Plot by Species
+# 4. CHART 3: Grid Distribution (3x3)
 # ============================================================================
-
-print("\n🔵 Creating scatter plot by species...")
-
-fig_scatter = px.scatter(
-    df,
-    x='center_x',
-    y='center_y',
-    color='species',
-    size='normalized_area',
-    opacity=0.5,
-    color_discrete_map={'dog': '#3b82f6', 'cat': '#f59e0b'},
-    title='Bounding Box Centers by Species',
-    labels={'center_x': 'X Position', 'center_y': 'Y Position'}
-)
-
-fig_scatter.update_layout(
-    template='plotly_white',
-    height=500,
-    xaxis=dict(range=[0, 1]),
-    yaxis=dict(range=[0, 1], scaleanchor='x', scaleratio=1)
-)
-
-fig_scatter.show()
-
-# ============================================================================
-# Visualization 4: Grid Distribution
-# ============================================================================
-
-print("\n📊 Creating grid distribution...")
+print("\n4️⃣ Creating Grid Distribution (3x3)...")
 
 # Divide into 3x3 grid
-df['grid_x'] = pd.cut(df['center_x'], bins=3, labels=['Left', 'Center', 'Right'])
-df['grid_y'] = pd.cut(df['center_y'], bins=3, labels=['Top', 'Middle', 'Bottom'])
-df['grid_cell'] = df['grid_y'].astype(str) + '-' + df['grid_x'].astype(str)
+def get_grid_position(x, y):
+    """Get grid position (0-8) for normalized coordinates"""
+    row = min(int(y * 3), 2)  # 0, 1, 2
+    col = min(int(x * 3), 2)  # 0, 1, 2
+    return row * 3 + col
 
-grid_counts = df['grid_cell'].value_counts()
+df['grid_pos'] = df.apply(lambda row: get_grid_position(row['center_x'], row['center_y']), axis=1)
+grid_counts = df['grid_pos'].value_counts().sort_index()
 
-# Create 3x3 heatmap
-grid_matrix = np.zeros((3, 3))
-for idx, (cell, count) in enumerate(grid_counts.items()):
-    y_label, x_label = cell.split('-')
-    y_idx = ['Top', 'Middle', 'Bottom'].index(y_label)
-    x_idx = ['Left', 'Center', 'Right'].index(x_label)
-    grid_matrix[y_idx, x_idx] = count
+# Create grid labels (Top-Left to Bottom-Right)
+grid_labels = [
+    'Top-Left', 'Top-Center', 'Top-Right',
+    'Mid-Left', 'Center', 'Mid-Right',
+    'Bottom-Left', 'Bottom-Center', 'Bottom-Right'
+]
 
-fig_grid = go.Figure(data=go.Heatmap(
-    z=grid_matrix,
-    x=['Left', 'Center', 'Right'],
-    y=['Top', 'Middle', 'Bottom'],
-    colorscale='Blues',
-    text=grid_matrix,
-    texttemplate='%{text:.0f}',
-    textfont={"size": 16},
-    colorbar=dict(title="Count")
-))
+# Ensure all positions have a count (even if 0)
+grid_values = [grid_counts.get(i, 0) for i in range(9)]
 
-fig_grid.update_layout(
-    title='3×3 Grid Distribution (Bbox Centers)',
-    template='plotly_white',
+# Color: highlight center (position 4)
+colors = ['#3b82f6'] * 9  # All blue
+colors[4] = '#10b981'      # Center is green - matching web report
+
+fig3 = go.Figure(data=[go.Bar(
+    x=grid_labels,
+    y=grid_values,
+    marker_color=colors,
+    text=grid_values,
+    textposition='outside',
+    hovertemplate='<b>%{x}</b><br>Count: %{y}<extra></extra>'
+)])
+
+fig3.update_layout(
+    title="3×3 Grid Distribution",
+    xaxis=dict(title="Grid Position", tickangle=-45),
+    yaxis=dict(title="Count"),
+    template="plotly_white",
     height=400,
-    xaxis=dict(side='top'),
-    yaxis=dict(autorange='reversed')
+    showlegend=False
 )
 
-fig_grid.show()
+print("   ✓ Grid distribution chart created")
+fig3.show()
 
 # ============================================================================
-# Summary
+# 5. CHART 4: Normalized Area by Position
 # ============================================================================
+print("\n5️⃣ Creating Area Distribution by Position...")
 
-print("\n" + "=" * 70)
-print("🗺️ SPATIAL DISTRIBUTION SUMMARY")
-print("=" * 70)
-print(f"\n📍 Center Position:")
-print(f"  Mean X: {df['center_x'].mean():.3f}")
-print(f"  Mean Y: {df['center_y'].mean():.3f}")
-print(f"  Center bias: {center_pct:.1f}% within {center_threshold} of center")
+fig4 = go.Figure()
 
-print(f"\n📊 Grid Distribution (most common):")
-top_grids = grid_counts.head(3)
-for cell, count in top_grids.items():
-    pct = count / len(df) * 100
-    print(f"  {cell:20s}: {count:4d} ({pct:5.1f}%)")
+fig4.add_trace(go.Scatter(
+    x=df['center_x'],
+    y=df['center_y'],
+    mode='markers',
+    marker=dict(
+        size=df['normalized_area'] * 200,  # Scale for visibility
+        color=df['normalized_area'],
+        colorscale='Viridis',  # Nice gradient
+        showscale=True,
+        colorbar=dict(title="Normalized<br>Area"),
+        opacity=0.6,
+        line=dict(width=0.5, color='white')
+    ),
+    hovertemplate='<b>Position</b><br>X: %{x:.2f}<br>Y: %{y:.2f}<br>Area: %{marker.color:.3f}<extra></extra>'
+))
 
-print(f"\n💡 Observation: Check if bboxes are centered or distributed evenly")
-print("=" * 70)
+fig4.update_layout(
+    title="Bbox Area Distribution by Position",
+    xaxis=dict(title="Normalized X Position", range=[0, 1]),
+    yaxis=dict(title="Normalized Y Position", range=[0, 1]),
+    template="plotly_white",
+    height=500
+)
 
+print("   ✓ Area by position scatter plot created")
+fig4.show()
+
+# ============================================================================
+# 6. STATISTICS SUMMARY
+# ============================================================================
+print("\n6️⃣ Statistics Summary:")
+print("="*70)
+
+print(f"🗺️ Spatial Distribution:")
+print(f"   Position Centers:")
+print(f"      • Mean X: {df['center_x'].mean():.3f} (±{df['center_x'].std():.3f})")
+print(f"      • Mean Y: {df['center_y'].mean():.3f} (±{df['center_y'].std():.3f})")
+
+print(f"\n   Center Bias Analysis:")
+print(f"      • Center Region (25%-75%): {center_percentage:.1f}%")
+print(f"      • Other Regions: {other_percentage:.1f}%")
+print(f"      • Bias Score: {center_bias_score:.2f}")
+if center_bias_score > 0.6:
+    print(f"      ⚠️  Strong center bias detected!")
+elif center_bias_score > 0.4:
+    print(f"      ✓ Moderate center bias")
+else:
+    print(f"      ✓ Well-distributed annotations")
+
+print(f"\n📊 3×3 Grid Distribution:")
+for i, label in enumerate(grid_labels):
+    count = grid_values[i]
+    percentage = (count / len(df)) * 100
+    marker = "🎯" if i == 4 else "  "
+    print(f"      {marker} {label}: {count:,} ({percentage:.1f}%)")
+
+print(f"\n📐 Normalized Coverage:")
+print(f"   • Mean: {df['normalized_area'].mean():.3f}")
+print(f"   • Median: {df['normalized_area'].median():.3f}")
+print(f"   • Range: {df['normalized_area'].min():.3f} - {df['normalized_area'].max():.3f}")
+
+print(f"\n🐱🐶 By Species:")
+for species in df['species'].unique():
+    species_df = df[df['species'] == species]
+    print(f"   {species.capitalize()}:")
+    print(f"      • Count: {len(species_df):,}")
+    print(f"      • Mean X: {species_df['center_x'].mean():.3f}")
+    print(f"      • Mean Y: {species_df['center_y'].mean():.3f}")
+    print(f"      • Mean coverage: {species_df['normalized_area'].mean():.3f}")
+
+print("="*70)
+print("✅ Spatial distribution analysis complete! Charts match web report.")

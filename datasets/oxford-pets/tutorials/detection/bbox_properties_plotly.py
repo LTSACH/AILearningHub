@@ -1,235 +1,232 @@
 """
-Oxford Pets Bounding Box Properties - Plotly Version
+Detection EDA - Bounding Box Properties Analysis (Plotly)
+Reproduces charts from: https://ltsach.github.io/AILearningHub/.../eda_detection.html
 
-Tutorial: Bbox Properties Analysis
-Library: Plotly
-Author: AILearningHub
-Dataset: Oxford-IIIT Pets
-URL: https://ltsach.github.io/AILearningHub/
-
-Description:
-    Analyze bounding box dimensions, aspect ratios, and size distributions.
-    Understand bbox characteristics for pet head detection.
-
-Requirements:
-    pip install pandas plotly numpy
-
-Data Source:
-    https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv
+Analyzes bbox dimensions, aspect ratios, area distributions with exact colors from web report.
+Run this in Google Colab - Copy & paste entire code!
 """
 
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
+
+print("="*70)
+print("📏 DETECTION EDA - Bounding Box Properties (Plotly)")
+print("="*70)
 
 # ============================================================================
-# Load Data
+# 1. LOAD DATA FROM GITHUB PAGES
 # ============================================================================
+print("\n1️⃣ Loading bbox statistics from GitHub Pages...")
 
-print("📏 Loading Bounding Box Properties...")
-print("=" * 70)
+url = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/precomputed/detection/bbox_statistics.csv'
+df = pd.read_csv(url)
 
-base_url = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/detection/'
-df = pd.read_csv(base_url + 'bbox_statistics.csv')
-
-print(f"✓ Loaded {len(df):,} bounding boxes")
+print(f"   ✓ Loaded {len(df):,} bounding boxes")
+print(f"   ✓ Columns: {list(df.columns[:10])}")
 
 # ============================================================================
-# Visualization 1: Size Distribution (Width & Height)
+# 2. CHART 1: Bbox Size Statistics (Width & Height)
 # ============================================================================
+print("\n2️⃣ Creating Bbox Size Statistics Chart...")
 
-print("\n📊 Creating size distribution...")
-
-# Calculate statistics
+# Compute statistics
 width_stats = {
-    'Mean': df['width'].mean(),
-    'Median': df['width'].median(),
-    'Std': df['width'].std()
+    'mean': df['width'].mean(),
+    'median': df['width'].median()
 }
-
 height_stats = {
-    'Mean': df['height'].mean(),
-    'Median': df['height'].median(),
-    'Std': df['height'].std()
+    'mean': df['height'].mean(),
+    'median': df['height'].median()
 }
 
-fig_size = make_subplots(
-    rows=1, cols=2,
-    subplot_titles=('Width Distribution', 'Height Distribution'),
-    specs=[[{'type': 'histogram'}, {'type': 'histogram'}]]
-)
-
-# Width histogram
-fig_size.add_trace(
-    go.Histogram(
-        x=df['width'],
-        nbinsx=50,
-        name='Width',
-        marker=dict(color='#3b82f6', opacity=0.7)
+# Colors matching web report EXACTLY
+fig1 = go.Figure(data=[
+    go.Bar(
+        x=['Mean', 'Median'],
+        y=[width_stats['mean'], width_stats['median']],
+        name='Width (pixels)',
+        marker_color='#3b82f6',  # Blue - matching web report
+        text=[f"{width_stats['mean']:.1f}", f"{width_stats['median']:.1f}"],
+        textposition='outside'
     ),
-    row=1, col=1
+    go.Bar(
+        x=['Mean', 'Median'],
+        y=[height_stats['mean'], height_stats['median']],
+        name='Height (pixels)',
+        marker_color='#10b981',  # Green - matching web report
+        text=[f"{height_stats['mean']:.1f}", f"{height_stats['median']:.1f}"],
+        textposition='outside'
+    )
+])
+
+fig1.update_layout(
+    title="Bounding Box Size Statistics",
+    xaxis_title="Statistic",
+    yaxis=dict(title="Pixels", rangemode="tozero"),
+    barmode='group',
+    showlegend=True,
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    template="plotly_white",
+    height=400
 )
 
-# Height histogram
-fig_size.add_trace(
-    go.Histogram(
-        x=df['height'],
-        nbinsx=50,
-        name='Height',
-        marker=dict(color='#f59e0b', opacity=0.7)
-    ),
-    row=1, col=2
+print("   ✓ Size statistics chart created")
+fig1.show()
+
+# ============================================================================
+# 3. CHART 2: Aspect Ratio Distribution (Donut Chart)
+# ============================================================================
+print("\n3️⃣ Creating Aspect Ratio Distribution...")
+
+# Categorize aspect ratios
+def categorize_aspect_ratio(ar):
+    if ar < 0.9:
+        return 'portrait'
+    elif ar > 1.1:
+        return 'landscape'
+    else:
+        return 'square'
+
+df['ar_category'] = df['aspect_ratio'].apply(categorize_aspect_ratio)
+ar_counts = df['ar_category'].value_counts().to_dict()
+
+# Colors matching web report EXACTLY
+ar_colors = {
+    'landscape': '#f59e0b',  # Orange
+    'square': '#10b981',     # Green
+    'portrait': '#ef4444'    # Red
+}
+
+fig2 = go.Figure(data=[go.Pie(
+    labels=[cat.capitalize() for cat in ar_counts.keys()],
+    values=list(ar_counts.values()),
+    marker=dict(colors=[ar_colors.get(cat, '#10b981') for cat in ar_counts.keys()]),
+    hole=0.4,  # Donut chart - matching web report
+    textposition='inside',
+    textinfo='label+percent',
+    hovertemplate='<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}<extra></extra>'
+)])
+
+fig2.update_layout(
+    title="Aspect Ratio Distribution",
+    showlegend=True,
+    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+    template="plotly_white",
+    height=400
 )
 
-fig_size.update_xaxes(title_text="Width (pixels)", row=1, col=1)
-fig_size.update_xaxes(title_text="Height (pixels)", row=1, col=2)
-fig_size.update_yaxes(title_text="Count", row=1, col=1)
-fig_size.update_yaxes(title_text="Count", row=1, col=2)
+print("   ✓ Aspect ratio chart created")
+fig2.show()
 
-fig_size.update_layout(
-    title_text='Bounding Box Size Distribution',
-    template='plotly_white',
+# ============================================================================
+# 4. CHART 3: Area Distribution Histogram
+# ============================================================================
+print("\n4️⃣ Creating Area Distribution Histogram...")
+
+fig3 = go.Figure(data=[go.Histogram(
+    x=df['area'],
+    nbinsx=50,
+    marker_color='#3b82f6',  # Blue - matching web report
+    opacity=0.75,
+    name='Area'
+)])
+
+fig3.update_layout(
+    title="Bounding Box Area Distribution",
+    xaxis_title="Area (pixels²)",
+    yaxis_title="Count",
+    template="plotly_white",
     height=400,
     showlegend=False
 )
 
-fig_size.show()
-
-print(f"  Width:  Mean={width_stats['Mean']:.1f}, Median={width_stats['Median']:.1f}, Std={width_stats['Std']:.1f}")
-print(f"  Height: Mean={height_stats['Mean']:.1f}, Median={height_stats['Median']:.1f}, Std={height_stats['Std']:.1f}")
+print("   ✓ Area distribution chart created")
+fig3.show()
 
 # ============================================================================
-# Visualization 2: Aspect Ratio Distribution
+# 5. CHART 4: Width vs Height Scatter Plot
 # ============================================================================
+print("\n5️⃣ Creating Width vs Height Scatter Plot...")
 
-print("\n📐 Creating aspect ratio distribution...")
+# Color by size category
+size_colors = {
+    'small': '#f59e0b',
+    'medium': '#10b981',
+    'large': '#3b82f6'
+}
 
-fig_aspect = go.Figure(data=[
-    go.Histogram(
-        x=df['aspect_ratio'],
-        nbinsx=50,
+fig4 = go.Figure()
+
+for size_cat in df['size_category'].unique():
+    subset = df[df['size_category'] == size_cat]
+    fig4.add_trace(go.Scatter(
+        x=subset['width'],
+        y=subset['height'],
+        mode='markers',
+        name=size_cat.capitalize(),
         marker=dict(
-            color=df['aspect_ratio'],
-            colorscale='Viridis',
-            showscale=True,
-            colorbar=dict(title="Aspect Ratio")
-        )
-    )
-])
-
-# Add vertical lines for categories
-fig_aspect.add_vline(x=0.67, line_dash="dash", line_color="red", 
-                     annotation_text="Tall", annotation_position="top")
-fig_aspect.add_vline(x=1.5, line_dash="dash", line_color="red",
-                     annotation_text="Wide", annotation_position="top")
-
-fig_aspect.update_layout(
-    title='Aspect Ratio Distribution (Width/Height)',
-    xaxis_title='Aspect Ratio',
-    yaxis_title='Count',
-    template='plotly_white',
-    height=400,
-    annotations=[
-        dict(x=0.4, y=0.95, xref='paper', yref='paper', text='← Tall', showarrow=False),
-        dict(x=0.5, y=0.95, xref='paper', yref='paper', text='Square', showarrow=False),
-        dict(x=0.6, y=0.95, xref='paper', yref='paper', text='Wide →', showarrow=False)
-    ]
-)
-
-fig_aspect.show()
-
-print(f"  Mean aspect ratio: {df['aspect_ratio'].mean():.2f}")
-print(f"  Median aspect ratio: {df['aspect_ratio'].median():.2f}")
-
-# ============================================================================
-# Visualization 3: Size Categories (COCO-style)
-# ============================================================================
-
-print("\n📦 Creating size categories...")
-
-size_counts = df['size_category'].value_counts()
-
-fig_categories = go.Figure(data=[
-    go.Bar(
-        x=size_counts.index,
-        y=size_counts.values,
-        marker=dict(
-            color=['#ef4444', '#f59e0b', '#10b981'],
-            opacity=0.8
+            size=6,
+            color=size_colors.get(size_cat, '#10b981'),
+            opacity=0.6,
+            line=dict(width=0.5, color='white')
         ),
-        text=size_counts.values,
-        textposition='auto'
-    )
-])
+        hovertemplate='<b>%{text}</b><br>Width: %{x}<br>Height: %{y}<extra></extra>',
+        text=[size_cat.capitalize()] * len(subset)
+    ))
 
-fig_categories.update_layout(
-    title='COCO-style Size Categories (by diagonal length)',
-    xaxis_title='Category',
-    yaxis_title='Count',
-    template='plotly_white',
-    height=400,
-    showlegend=False,
-    annotations=[
-        dict(x=0, y=size_counts.get('small', 0), text='< 32px', yanchor='bottom'),
-        dict(x=1, y=size_counts.get('medium', 0), text='32-96px', yanchor='bottom'),
-        dict(x=2, y=size_counts.get('large', 0), text='> 96px', yanchor='bottom')
-    ]
+fig4.update_layout(
+    title="Width vs Height Distribution",
+    xaxis_title="Width (pixels)",
+    yaxis_title="Height (pixels)",
+    template="plotly_white",
+    height=500,
+    showlegend=True,
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
 )
 
-fig_categories.show()
+print("   ✓ Width vs Height scatter plot created")
+fig4.show()
 
 # ============================================================================
-# Visualization 4: Area Distribution
+# 6. STATISTICS SUMMARY
 # ============================================================================
+print("\n6️⃣ Statistics Summary:")
+print("="*70)
 
-print("\n📐 Creating area distribution...")
-
-fig_area = go.Figure(data=[
-    go.Histogram(
-        x=df['normalized_area'],
-        nbinsx=50,
-        marker=dict(color='#8b5cf6', opacity=0.7)
-    )
-])
-
-fig_area.update_layout(
-    title='Normalized Bbox Area Distribution (bbox_area / image_area)',
-    xaxis_title='Normalized Area',
-    yaxis_title='Count',
-    template='plotly_white',
-    height=400
-)
-
-fig_area.show()
-
-print(f"  Mean coverage: {df['normalized_area'].mean():.2%}")
-print(f"  Median coverage: {df['normalized_area'].median():.2%}")
-
-# ============================================================================
-# Summary
-# ============================================================================
-
-print("\n" + "=" * 70)
-print("📊 BOUNDING BOX PROPERTIES SUMMARY")
-print("=" * 70)
-print(f"\n📏 Size Statistics:")
-print(f"  Width:  {df['width'].mean():.1f} ± {df['width'].std():.1f} px")
-print(f"  Height: {df['height'].mean():.1f} ± {df['height'].std():.1f} px")
-print(f"  Area:   {df['area'].mean():.0f} ± {df['area'].std():.0f} px²")
+print(f"📏 Bounding Box Dimensions:")
+print(f"   Width:")
+print(f"      • Mean: {df['width'].mean():.1f} px (±{df['width'].std():.1f})")
+print(f"      • Median: {df['width'].median():.1f} px")
+print(f"      • Range: {df['width'].min():.0f} - {df['width'].max():.0f} px")
+print(f"   Height:")
+print(f"      • Mean: {df['height'].mean():.1f} px (±{df['height'].std():.1f})")
+print(f"      • Median: {df['height'].median():.1f} px")
+print(f"      • Range: {df['height'].min():.0f} - {df['height'].max():.0f} px")
 
 print(f"\n📐 Aspect Ratios:")
-print(f"  Mean:   {df['aspect_ratio'].mean():.2f}")
-print(f"  Median: {df['aspect_ratio'].median():.2f}")
-print(f"  Range:  {df['aspect_ratio'].min():.2f} - {df['aspect_ratio'].max():.2f}")
+print(f"   • Mean: {df['aspect_ratio'].mean():.2f}")
+print(f"   • Median: {df['aspect_ratio'].median():.2f}")
+print(f"   • Range: {df['aspect_ratio'].min():.2f} - {df['aspect_ratio'].max():.2f}")
+print(f"\n   Distribution:")
+for cat, count in ar_counts.items():
+    percentage = (count / len(df)) * 100
+    print(f"      • {cat.capitalize()}: {count:,} ({percentage:.1f}%)")
 
-print(f"\n📦 Size Categories:")
-for cat in ['small', 'medium', 'large']:
-    count = (df['size_category'] == cat).sum()
-    pct = count / len(df) * 100
-    print(f"  {cat.capitalize():8s}: {count:4d} ({pct:5.1f}%)")
+print(f"\n📊 Areas:")
+print(f"   • Mean: {df['area'].mean():.1f} px²")
+print(f"   • Median: {df['area'].median():.1f} px²")
+print(f"   • Range: {df['area'].min():.0f} - {df['area'].max():.0f} px²")
 
-print(f"\n💡 Average image coverage: {df['normalized_area'].mean():.2%}")
-print("=" * 70)
+print(f"\n🐱🐶 By Species:")
+for species in df['species'].unique():
+    species_df = df[df['species'] == species]
+    print(f"   {species.capitalize()}:")
+    print(f"      • Count: {len(species_df):,}")
+    print(f"      • Mean width: {species_df['width'].mean():.1f} px")
+    print(f"      • Mean height: {species_df['height'].mean():.1f} px")
+    print(f"      • Mean area: {species_df['area'].mean():.1f} px²")
 
+print("="*70)
+print("✅ Bbox properties analysis complete! Charts match web report.")
