@@ -1,0 +1,42 @@
+/* Per-tab action buttons (Copy + Download for each framework) */
+/* EXACTLY match menu-btn styling from tutorial.js */
+.code-actions-inline {
+    display: flex;
+    gap: 8px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.code-action-btn-inline {
+    flex: 1;
+    padding: 6px 14px;  /* EXACT same as menu-btn */
+    border: none;
+    border-radius: 6px;  /* EXACT same as menu-btn */
+    font-size: 0.9em;    /* EXACT same as menu-btn */
+    font-weight: 500;    /* EXACT same as menu-btn */
+    cursor: pointer;
+    transition: all 0.2s ease;  /* EXACT same as menu-btn */
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  /* Add shadow like menu-btn */
+}
+
+/* EXACTLY match btn-copy style from menu bar */
+.code-action-btn-inline.copy-btn {
+    background: #10b981;  /* EXACT same as menu-btn Copy All */
+}
+
+.code-action-btn-inline.copy-btn:hover {
+    background: #059669;  /* EXACT same as menu-btn Copy All hover */
+    transform: translateY(-1px);  /* EXACT same as menu-btn */
+}
+
+/* EXACTLY match btn-download style from menu bar */
+.code-action-btn-inline.download-btn {
+    background: #f59e0b;  /* EXACT same as menu-btn Download All */
+}
+
+.code-action-btn-inline.download-btn:hover {
+    background: #d97706;  /* EXACT same as menu-btn Download All hover */
+    transform: translateY(-1px);  /* EXACT same as menu-btn */
+}

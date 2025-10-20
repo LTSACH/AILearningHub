@@ -1,0 +1,88 @@
+{
+  "method": "CLIP Zero-Shot",
+  "model": "ViT-B/32",
+  "device": "mps",
+  "accuracy": 0.6826347305389222,
+  "confusion_matrix": [
+    [
+      20,
+      1,
+      11,
+      1,
+      44
+    ],
+    [
+      3,
+      28,
+      10,
+      4,
+      13
+    ],
+    [
+      0,
+      0,
+      55,
+      2,
+      5
+    ],
+    [
+      1,
+      0,
+      4,
+      69,
+      3
+    ],
+    [
+      1,
+      2,
+      1,
+      0,
+      56
+    ]
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.8,
+      "recall": 0.2597402597402597,
+      "f1": 0.39215686274509803,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 0.9032258064516129,
+      "recall": 0.4827586206896552,
+      "f1": 0.6292134831460675,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 0.6790123456790124,
+      "recall": 0.8870967741935484,
+      "f1": 0.7692307692307693,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 0.9078947368421053,
+      "recall": 0.8961038961038961,
+      "f1": 0.9019607843137255,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 0.4628099173553719,
+      "recall": 0.9333333333333333,
+      "f1": 0.6187845303867403,
+      "support": 60
+    }
+  ],
+  "avg_confidence": 0.55517578125
+}

@@ -1,0 +1,88 @@
+{
+  "method": "Naive Bayes (Multinomial)",
+  "model": "Naive Bayes (Multinomial)",
+  "device": "CPU",
+  "accuracy": 0.9790419161676647,
+  "confusion_matrix": [
+    [
+      76,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      53,
+      1,
+      0,
+      2
+    ],
+    [
+      1,
+      0,
+      61,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      60
+    ]
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.9620253164556962,
+      "recall": 0.987012987012987,
+      "f1": 0.9743589743589742,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 0.9814814814814815,
+      "recall": 0.9137931034482759,
+      "f1": 0.9464285714285714,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 0.9838709677419355,
+      "recall": 0.9838709677419355,
+      "f1": 0.9838709677419355,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "f1": 0.9836065573770492,
+      "support": 60
+    }
+  ],
+  "avg_confidence": 0.862224149918357
+}

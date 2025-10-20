@@ -1,0 +1,88 @@
+{
+  "method": "TF-IDF + Logistic Regression",
+  "model": "Logistic Regression",
+  "device": "cpu",
+  "accuracy": 0.9820359281437125,
+  "confusion_matrix": [
+    [
+      75,
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      1,
+      55,
+      1,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      61,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      60
+    ]
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.974025974025974,
+      "recall": 0.974025974025974,
+      "f1": 0.974025974025974,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 1.0,
+      "recall": 0.9482758620689655,
+      "f1": 0.9734513274336283,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 0.9682539682539683,
+      "recall": 0.9838709677419355,
+      "f1": 0.976,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "f1": 0.9836065573770492,
+      "support": 60
+    }
+  ],
+  "avg_confidence": 0.7214596129393592
+}

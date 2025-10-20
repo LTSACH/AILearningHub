@@ -1,0 +1,88 @@
+{
+  "method": "BERT Fine-tuned",
+  "model": "bert-base-uncased",
+  "device": "cuda",
+  "accuracy": 0.9820359281437125,
+  "confusion_matrix": [
+    [
+      72,
+      1,
+      3,
+      0,
+      1
+    ],
+    [
+      1,
+      57,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      62,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      60
+    ]
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.9863013698630136,
+      "recall": 0.935064935064935,
+      "f1": 0.9600000000000001,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 0.9827586206896551,
+      "recall": 0.9827586206896551,
+      "f1": 0.9827586206896551,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 0.9538461538461539,
+      "recall": 1.0,
+      "f1": 0.9763779527559054,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 0.9836065573770492,
+      "recall": 1.0,
+      "f1": 0.9917355371900827,
+      "support": 60
+    }
+  ],
+  "avg_confidence": 0.9302530884742737
+}

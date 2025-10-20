@@ -1,0 +1,37 @@
+
+BBC NEWS CLASSIFICATION REPORT
+==============================
+
+Model: Naive Bayes (Multinomial)
+Date: 2025-09-29 21:25:30
+
+OVERALL PERFORMANCE METRICS:
+----------------------------
+Accuracy:  0.9843
+Precision: 0.9846
+Recall:    0.9843
+F1-Score:  0.9843
+
+DETAILED CLASSIFICATION REPORT:
+------------------------------
+               precision    recall  f1-score   support
+
+     business     0.9899    0.9608    0.9751       102
+entertainment     0.9868    0.9740    0.9804        77
+     politics     0.9881    0.9881    0.9881        84
+        sport     1.0000    1.0000    1.0000       102
+         tech     0.9524    1.0000    0.9756        80
+
+     accuracy                         0.9843       445
+    macro avg     0.9834    0.9846    0.9838       445
+ weighted avg     0.9846    0.9843    0.9843       445
+
+
+CONFUSION MATRIX:
+-----------------
+               business  entertainment  politics  sport  tech
+business             98              1         1      0     2
+entertainment         0             75         0      0     2
+politics              1              0        83      0     0
+sport                 0              0         0    102     0
+tech                  0              0         0      0    80

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naive Bayes (Multinomial) Classification Report - BBC News</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .summary-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .summary-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .confusion-matrix {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .confusion-table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .confusion-table th,
+        .confusion-table td {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid white;
+            font-weight: bold;
+            min-width: 80px;
+        }
+        
+        .confusion-table th {
+            background: #667eea;
+            color: white;
+            font-size: 0.9em;
+        }
+        
+        .confusion-table td {
+            font-size: 1.1em;
+        }
+        
+        .confusion-table .row-header {
+            background: #764ba2;
+            color: white;
+            text-align: right;
+        }
+        
+        .diagonal {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            font-size: 1.3em;
+        }
+        
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .metrics-table th,
+        .metrics-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .metrics-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .metrics-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .metric-bar {
+            display: inline-block;
+            height: 20px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .badge-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .badge-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .confusion-table th,
+            .confusion-table td {
+                padding: 8px;
+                font-size: 0.8em;
+                min-width: 50px;
+            }
+        }
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Naive Bayes (Multinomial)</h1>
+            <div class="subtitle">BBC News Dataset - Text Classification Report</div>
+        </div>
+        
+        <div class="content">
+            <!-- Summary Section -->
+            <div class="section">
+                <h2>📊 Performance Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-value">97.9%</div>
+                        <div class="summary-label">Overall Accuracy</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value">Naive Bayes (Multinomial)</div>
+                        <div class="summary-label">Model</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value">CPU</div>
+                        <div class="summary-label">Device</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value">5</div>
+                        <div class="summary-label">Categories</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Confusion Matrix -->
+            <div class="section">
+                <h2>🎯 Confusion Matrix</h2>
+                <div id="confusionHeatmap" style="width:100%; height:500px; margin: 20px 0;"></div>
+            </div>
+            
+            <!-- Per-Class Metrics -->
+            <div class="section">
+                <h2>📈 Per-Class Performance</h2>
+                <div id="metricsChart" style="width:100%; height:450px; margin: 20px 0;"></div>
+                
+                <!-- Support table as supplementary info -->
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📊 Sample Counts</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 20px; border-radius: 8px; text-align: center; min-width: 120px;"><div style="font-size: 1.5em; font-weight: bold;">77</div><div style="font-size: 0.9em; opacity: 0.9;">Business</div></div> <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 20px; border-radius: 8px; text-align: center; min-width: 120px;"><div style="font-size: 1.5em; font-weight: bold;">58</div><div style="font-size: 0.9em; opacity: 0.9;">Entertainment</div></div> <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 20px; border-radius: 8px; text-align: center; min-width: 120px;"><div style="font-size: 1.5em; font-weight: bold;">62</div><div style="font-size: 0.9em; opacity: 0.9;">Politics</div></div> <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 20px; border-radius: 8px; text-align: center; min-width: 120px;"><div style="font-size: 1.5em; font-weight: bold;">77</div><div style="font-size: 0.9em; opacity: 0.9;">Sport</div></div> <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 20px; border-radius: 8px; text-align: center; min-width: 120px;"><div style="font-size: 1.5em; font-weight: bold;">60</div><div style="font-size: 0.9em; opacity: 0.9;">Tech</div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Insights -->
+            <div class="section">
+                <h2>💡 Key Insights</h2>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea;">
+                    <h3 style="color: #28a745; margin-bottom: 10px;">✅ Best Performing</h3>
+                    <p><strong>Sport</strong> achieved 100.0% F1-Score with excellent precision (100.0%) and recall (100.0%).</p>
+                    
+                    <h3 style="color: #dc3545; margin: 20px 0 10px 0;">⚠️ Needs Improvement</h3>
+                    <p><strong>Entertainment</strong> has lower F1-Score (94.6%). Consider improving label templates or adding more specific prompts.</p>
+                    
+                    <h3 style="color: #667eea; margin: 20px 0 10px 0;">🚀 Recommendations</h3>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>Try ensemble methods for improved performance</li>
+                        <li>Consider feature engineering for better separation</li>
+                        <li>Consider ensemble with TF-IDF or fine-tuned BERT</li>
+                        <li>Analyze misclassified samples for pattern identification</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>CLIP Zero-Shot Classification</strong> | Generated from BBC News Dataset</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Model: Naive Bayes (Multinomial) | Device: CPU | Accuracy: 97.90%</p>
+        </div>
+    </div>
+    
+    <script>
+        // Confusion Matrix Heatmap
+        var confusionMatrix = [[76, 1, 0, 0, 0], [2, 53, 1, 0, 2], [1, 0, 61, 0, 0], [0, 0, 0, 77, 0], [0, 0, 0, 0, 60]];
+        var labels = ["Business", "Entertainment", "Politics", "Sport", "Tech"];
+        
+        // Create text annotations for values
+        var annotations = [];
+        for (var i = 0; i < confusionMatrix.length; i++) {
+            for (var j = 0; j < confusionMatrix[i].length; j++) {
+                annotations.push({
+                    x: j,
+                    y: i,
+                    text: confusionMatrix[i][j].toString(),
+                    showarrow: false,
+                    font: {
+                        color: confusionMatrix[i][j] > 38.5 ? 'white' : 'black',
+                        size: 14,
+                        family: 'Arial, sans-serif'
+                    }
+                });
+            }
+        }
+        
+        var heatmapData = [{
+            z: confusionMatrix,
+            x: labels,
+            y: labels,
+            type: 'heatmap',
+            colorscale: [
+                [0, '#ffffff'],
+                [0.1, '#e3f2fd'],
+                [0.3, '#90caf9'],
+                [0.5, '#42a5f5'],
+                [0.7, '#1e88e5'],
+                [0.9, '#1565c0'],
+                [1, '#0d47a1']
+            ],
+            showscale: true,
+            colorbar: {
+                title: 'Count',
+                titleside: 'right'
+            },
+            hoverongaps: false,
+            hovertemplate: '<b>True:</b> %{y}<br>' +
+                          '<b>Predicted:</b> %{x}<br>' +
+                          '<b>Count:</b> %{z}<br>' +
+                          '<extra></extra>'
+        }];
+        
+        var layout = {
+            title: {
+                text: 'Interactive Confusion Matrix',
+                x: 0.5,
+                font: {size: 16}
+            },
+            xaxis: {
+                title: 'Predicted Label',
+                side: 'bottom',
+                tickangle: 0
+            },
+            yaxis: {
+                title: 'True Label',
+                tickangle: 0,
+                autorange: 'reversed'
+            },
+            annotations: annotations,
+            font: {
+                family: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
+            },
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white',
+            margin: {
+                l: 100,
+                r: 80,
+                t: 80,
+                b: 100
+            }
+        };
+        
+        var config = {
+            displayModeBar: true,
+            modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d'],
+            displaylogo: false,
+            responsive: true
+        };
+        
+        Plotly.newPlot('confusionHeatmap', heatmapData, layout, config);
+        
+        // Per-Class Performance Chart
+        var metricsData = [{"label": "business", "precision": 96.20253164556962, "recall": 98.7012987012987, "f1": 97.43589743589742, "support": 77}, {"label": "entertainment", "precision": 98.14814814814815, "recall": 91.37931034482759, "f1": 94.64285714285714, "support": 58}, {"label": "politics", "precision": 98.38709677419355, "recall": 98.38709677419355, "f1": 98.38709677419355, "support": 62}, {"label": "sport", "precision": 100.0, "recall": 100.0, "f1": 100.0, "support": 77}, {"label": "tech", "precision": 96.7741935483871, "recall": 100.0, "f1": 98.36065573770492, "support": 60}];
+        var categories = metricsData.map(m => m.label.charAt(0).toUpperCase() + m.label.slice(1));
+        var precisionValues = metricsData.map(m => m.precision);
+        var recallValues = metricsData.map(m => m.recall);
+        var f1Values = metricsData.map(m => m.f1);
+        
+        var precisionTrace = {
+            x: categories,
+            y: precisionValues,
+            name: 'Precision',
+            type: 'bar',
+            marker: {
+                color: '#667eea',
+                opacity: 0.8
+            },
+            hovertemplate: '<b>%{x}</b><br>' +
+                          'Precision: %{y:.1f}%<br>' +
+                          '<extra></extra>'
+        };
+        
+        var recallTrace = {
+            x: categories,
+            y: recallValues,
+            name: 'Recall',
+            type: 'bar',
+            marker: {
+                color: '#764ba2',
+                opacity: 0.8
+            },
+            hovertemplate: '<b>%{x}</b><br>' +
+                          'Recall: %{y:.1f}%<br>' +
+                          '<extra></extra>'
+        };
+        
+        var f1Trace = {
+            x: categories,
+            y: f1Values,
+            name: 'F1-Score',
+            type: 'bar',
+            marker: {
+                color: '#28a745',
+                opacity: 0.8
+            },
+            hovertemplate: '<b>%{x}</b><br>' +
+                          'F1-Score: %{y:.1f}%<br>' +
+                          '<extra></extra>'
+        };
+        
+        var metricsLayout = {
+            title: {
+                text: 'Classification Metrics by Category',
+                x: 0.5,
+                font: {size: 16}
+            },
+            xaxis: {
+                title: 'Category',
+                tickangle: -45
+            },
+            yaxis: {
+                title: 'Percentage (%)',
+                range: [0, 100]
+            },
+            barmode: 'group',
+            font: {
+                family: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
+            },
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white',
+            legend: {
+                orientation: 'h',
+                yanchor: 'bottom',
+                y: 1.02,
+                xanchor: 'right',
+                x: 1
+            },
+            margin: {
+                l: 60,
+                r: 40,
+                t: 80,
+                b: 100
+            }
+        };
+        
+        var metricsConfig = {
+            displayModeBar: true,
+            modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d'],
+            displaylogo: false,
+            responsive: true
+        };
+        
+        Plotly.newPlot('metricsChart', [precisionTrace, recallTrace, f1Trace], metricsLayout, metricsConfig);
+    </script>
+</body>
+</html>

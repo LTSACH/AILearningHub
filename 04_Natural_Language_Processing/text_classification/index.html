@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Classification - BBC News | AI Learning Hub</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/classification.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #667eea;
+        }
+        
+        .hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .quick-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+            background: white;
+            margin-top: -2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .quick-nav a {
+            padding: 0.75rem 1.5rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .quick-nav a:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            margin: 4rem 0;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .section-description {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .method-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .method-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .method-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .method-card .description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .method-card .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .metric-item {
+            background: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .badge-primary {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .eda-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .eda-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../../index.html" class="brand">📚 AI Learning Hub</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../01_Data_Analysis/">Data Analysis</a></li>
+                <li><a href="../../02_Machine_Learning/">Machine Learning</a></li>
+                <li><a href="../index.html" class="active">NLP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>📰 BBC News Text Classification</h1>
+            <p>From Traditional ML to Transformers - A Comprehensive Guide</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>2,225</h3>
+                    <p>News Articles</p>
+                </div>
+                <div class="stat-card">
+                    <h3>5</h3>
+                    <p>Categories</p>
+                </div>
+                <div class="stat-card">
+                    <h3>8</h3>
+                    <p>ML Methods</p>
+                </div>
+                <div class="stat-card">
+                    <h3>88-96%</h3>
+                    <p>Accuracy Range</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="quick-nav">
+            <a href="#eda">📊 Dataset Overview</a>
+            <a href="#traditional">🔤 Traditional ML</a>
+            <a href="#pipeline">🔧 Pipeline Builder</a>
+            <a href="#zeroshot">🎯 Zero-shot</a>
+            <a href="#bert">🧠 BERT</a>
+        </div>
+
+        <!-- Dataset Overview -->
+        <section id="eda" class="section">
+            <h2>📊 Dataset Overview</h2>
+            <p class="section-description">
+                BBC News dataset with 2,225 articles across 5 categories: Business, Tech, Sport, Entertainment, and Politics
+            </p>
+            <div class="eda-preview">
+                <h3>Exploratory Data Analysis</h3>
+                <p>Interactive EDA with visualizations, statistics, and insights</p>
+                <a href="../../01_Data_Analysis/01_EDA/bbcnews_text_classification/eda_report_tutorial.html" class="btn-primary">
+                    View Full EDA Report →
+                </a>
+            </div>
+        </section>
+
+        <!-- Card 1: TF-IDF + Traditional ML -->
+        <section id="traditional" class="section">
+            <h2>🔤 Traditional Machine Learning</h2>
+            <p class="section-description">
+                Fast, interpretable baselines using TF-IDF features and classical ML algorithms
+            </p>
+            <div class="cards-grid">
+                <a href="pages/traditional_ml/index.html" class="method-card">
+                    <div class="icon">🔤</div>
+                    <h3>TF-IDF + Traditional ML</h3>
+                    <p class="description">
+                        Compare Naive Bayes, SVM, Logistic Regression, and Random Forest classifiers
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Best Accuracy</div>
+                            <div class="metric-value">92.1%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Fastest</div>
+                            <div class="metric-value">5s</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Methods</div>
+                            <div class="metric-value">4</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Model Size</div>
+                            <div class="metric-value">1-25MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">✓ Interactive</span>
+                        <span class="badge badge-primary">✓ Code Examples</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Card 2: Pipeline Builder -->
+        <section id="pipeline" class="section">
+            <h2>🔧 Pipeline Comparison</h2>
+            <p class="section-description">
+                Build and compare full ML pipelines: Feature Extraction → Reduction → Classification
+            </p>
+            <div class="cards-grid">
+                <a href="pages/pipeline_builder/index.html" class="method-card">
+                    <div class="icon">🔧</div>
+                    <h3>Pipeline Builder</h3>
+                    <p class="description">
+                        Explore 40+ pipeline combinations and find the optimal setup for your needs
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Combinations</div>
+                            <div class="metric-value">40+</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Feature Methods</div>
+                            <div class="metric-value">BoW, TF-IDF</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Reducers</div>
+                            <div class="metric-value">PCA, Chi²</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Classifiers</div>
+                            <div class="metric-value">NB, SVM, LR</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-warning">🚧 Coming Soon</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Card 3: Zero-shot Learning -->
+        <section id="zeroshot" class="section">
+            <h2>🎯 Zero-shot Classification</h2>
+            <p class="section-description">
+                No training required - classify with CLIP using just class names
+            </p>
+            <div class="cards-grid">
+                <a href="pages/zero_shot/index.html" class="method-card">
+                    <div class="icon">🎯</div>
+                    <h3>CLIP Zero-shot</h3>
+                    <p class="description">
+                        Use pre-trained CLIP text encoder for classification without any training
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Accuracy</div>
+                            <div class="metric-value">91.2%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Training Time</div>
+                            <div class="metric-value">0s</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Inference</div>
+                            <div class="metric-value">8s/1k</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Model Size</div>
+                            <div class="metric-value">350MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-warning">🚧 Coming Soon</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Card 4: BERT Fine-tuning -->
+        <section id="bert" class="section">
+            <h2>🧠 BERT & Transformers</h2>
+            <p class="section-description">
+                State-of-the-art accuracy with pre-trained transformer models
+            </p>
+            <div class="cards-grid">
+                <a href="pages/bert_finetuning/index.html" class="method-card">
+                    <div class="icon">🧠</div>
+                    <h3>BERT Fine-tuning</h3>
+                    <p class="description">
+                        Compare BERT, DistilBERT, RoBERTa, and TinyBERT for text classification
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Best Accuracy</div>
+                            <div class="metric-value">96.8%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Models</div>
+                            <div class="metric-value">4</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Fastest</div>
+                            <div class="metric-value">DistilBERT</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Size Range</div>
+                            <div class="metric-value">50-480MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-warning">🚧 Coming Soon</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 AI Learning Hub - Educational content for AI enthusiasts</p>
+    </footer>
+</body>
+</html>
+
