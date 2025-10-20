@@ -612,7 +612,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-20T08:31:11.207514",
+  "timestamp": "2025-10-20T11:00:20.960321",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -634,9 +634,9 @@
       "precision": 97.92406928803797,
       "recall": 97.90419161676647,
       "f1_score": 97.88469808716201,
-      "train_time": "~0.0s",
-      "inference_time": "~0.0ms",
-      "model_size": "~1MB",
+      "train_time": "~0.01s",
+      "inference_time": "~1.83\u00b5s",
+      "model_size": "0.38MB",
       "description": "Fast probabilistic classifier, excellent baseline for text",
       "best_for": "Quick prototyping, interpretability, speed",
       "data_path": "../naive_bayes/results.json",
@@ -649,9 +649,9 @@
       "precision": 98.2324138205923,
       "recall": 98.20359281437125,
       "f1_score": 98.2001707885549,
-      "train_time": "~0.4s",
-      "inference_time": "~0.0ms",
-      "model_size": "~3MB",
+      "train_time": "~0.69s",
+      "inference_time": "~2.48\u00b5s",
+      "model_size": "0.19MB",
       "description": "Linear classifier with regularization, balanced performance",
       "best_for": "Production, interpretability, balanced speed/accuracy",
       "data_path": "../logistic_regression/results.json",
@@ -664,9 +664,9 @@
       "precision": 97.34728928274042,
       "recall": 97.30538922155688,
       "f1_score": 97.30539131987211,
-      "train_time": "~0.1s",
-      "inference_time": "~0.0ms",
-      "model_size": "~5MB",
+      "train_time": "~0.09s",
+      "inference_time": "~2.17\u00b5s",
+      "model_size": "0.19MB",
       "description": "Maximum margin classifier, robust to outliers",
       "best_for": "High-dimensional data, robust classification",
       "data_path": "../svm/results.json",
@@ -679,9 +679,9 @@
       "precision": 96.88447813270639,
       "recall": 96.7065868263473,
       "f1_score": 96.72550095669341,
-      "train_time": "~1.3s",
-      "inference_time": "~0.1ms",
-      "model_size": "~25MB",
+      "train_time": "~1.29s",
+      "inference_time": "~0.053ms",
+      "model_size": "4.47MB",
       "description": "Ensemble of decision trees, provides feature importance",
       "best_for": "Feature analysis, ensemble learning",
       "data_path": "../random_forest/results.json",
@@ -696,7 +696,7 @@
   "naive_bayes": {
     "method": "naive_bayes",
     "display_name": "Naive Bayes",
-    "timestamp": "2025-10-20T08:31:09.395368",
+    "timestamp": "2025-10-20T11:00:18.837876",
     "metrics": {
       "accuracy": 0.9790419161676647,
       "precision": 0.9792406928803797,
@@ -704,9 +704,10 @@
       "f1_score": 0.97884698087162
     },
     "performance": {
-      "train_time_seconds": 0.0061070919036865234,
-      "inference_time_ms_per_sample": 0.0019287634752467723,
-      "total_test_samples": 334
+      "train_time_seconds": 0.00543212890625,
+      "inference_time_ms_per_sample": 0.001827399887724551,
+      "total_test_samples": 334,
+      "model_size_bytes": 400906
     },
     "confusion_matrix": [
       [
@@ -801,7 +802,7 @@
   "logistic_regression": {
     "method": "logistic_regression",
     "display_name": "Logistic Regression",
-    "timestamp": "2025-10-20T08:31:09.768643",
+    "timestamp": "2025-10-20T11:00:19.536738",
     "metrics": {
       "accuracy": 0.9820359281437125,
       "precision": 0.982324138205923,
@@ -809,9 +810,10 @@
       "f1_score": 0.982001707885549
     },
     "performance": {
-      "train_time_seconds": 0.3608541488647461,
-      "inference_time_ms_per_sample": 0.0021728926789974738,
-      "total_test_samples": 334
+      "train_time_seconds": 0.6854567527770996,
+      "inference_time_ms_per_sample": 0.0024776972696452797,
+      "total_test_samples": 334,
+      "model_size_bytes": 200802
     },
     "confusion_matrix": [
       [
@@ -906,7 +908,7 @@
   "svm": {
     "method": "svm",
     "display_name": "Svm",
-    "timestamp": "2025-10-20T08:31:09.873192",
+    "timestamp": "2025-10-20T11:00:19.641592",
     "metrics": {
       "accuracy": 0.9730538922155688,
       "precision": 0.9734728928274042,
@@ -914,9 +916,10 @@
       "f1_score": 0.9730539131987211
     },
     "performance": {
-      "train_time_seconds": 0.07862448692321777,
-      "inference_time_ms_per_sample": 0.002233568065894578,
-      "total_test_samples": 334
+      "train_time_seconds": 0.09179806709289551,
+      "inference_time_ms_per_sample": 0.002167895882429477,
+      "total_test_samples": 334,
+      "model_size_bytes": 200686
     },
     "confusion_matrix": [
       [
@@ -1011,7 +1014,7 @@
   "random_forest": {
     "method": "random_forest",
     "display_name": "Random Forest",
-    "timestamp": "2025-10-20T08:31:11.206809",
+    "timestamp": "2025-10-20T11:00:20.952670",
     "metrics": {
       "accuracy": 0.9670658682634731,
       "precision": 0.968844781327064,
@@ -1019,9 +1022,10 @@
       "f1_score": 0.9672550095669341
     },
     "performance": {
-      "train_time_seconds": 1.3082876205444336,
-      "inference_time_ms_per_sample": 0.05441297314124193,
-      "total_test_samples": 334
+      "train_time_seconds": 1.2862157821655273,
+      "inference_time_ms_per_sample": 0.05324086743200611,
+      "total_test_samples": 334,
+      "model_size_bytes": 4687178
     },
     "confusion_matrix": [
       [
@@ -1217,6 +1221,25 @@
         function renderComparison(methods) {
             const resultsContainer = document.getElementById('comparison-results');
             
+            // Helper function to normalize inference time to microseconds
+            const normalizeInferenceTime = (timeStr) => {
+                const value = parseFloat(timeStr.replace(/[^0-9.]/g, ''));
+                if (timeStr.includes('µs')) {
+                    return value; // Already in microseconds
+                } else if (timeStr.includes('ms')) {
+                    return value * 1000; // Convert ms to µs
+                } else {
+                    return value; // Assume µs if no unit
+                }
+            };
+            
+            // Helper function to normalize model size to MB
+            const normalizeModelSize = (sizeStr) => {
+                const value = parseFloat(sizeStr.replace(/[^0-9.]/g, ''));
+                // All sizes are in MB format now, just extract the number
+                return value;
+            };
+            
             // Find best/worst in each metric
             const metrics = {
                 accuracy: { values: methods.map(m => m.accuracy), better: 'higher' },
@@ -1224,7 +1247,8 @@
                 recall: { values: methods.map(m => m.recall), better: 'higher' },
                 f1_score: { values: methods.map(m => m.f1_score), better: 'higher' },
                 train_time: { values: methods.map(m => parseFloat(m.train_time.replace(/[^0-9.]/g, ''))), better: 'lower' },
-                inference_time: { values: methods.map(m => parseFloat(m.inference_time.replace(/[^0-9.]/g, ''))), better: 'lower' }
+                inference_time: { values: methods.map(m => normalizeInferenceTime(m.inference_time)), better: 'lower' },
+                model_size: { values: methods.map(m => normalizeModelSize(m.model_size)), better: 'lower' }
             };
             
             // Find best values
@@ -1247,6 +1271,7 @@
                 const isBestF1 = method.f1_score === best.f1_score;
                 const isBestTrain = metrics.train_time.values[idx] === best.train_time;
                 const isBestInf = metrics.inference_time.values[idx] === best.inference_time;
+                const isBestSize = metrics.model_size.values[idx] === best.model_size;
                 
                 return `
                     <tr>
@@ -1257,7 +1282,7 @@
                         <td class="metric-value ${isBestF1 ? 'metric-best' : ''}">${method.f1_score.toFixed(2)}%</td>
                         <td class="metric-value ${isBestTrain ? 'metric-best' : ''}">${method.train_time}</td>
                         <td class="metric-value ${isBestInf ? 'metric-best' : ''}">${method.inference_time}</td>
-                        <td class="metric-value">${method.model_size}</td>
+                        <td class="metric-value ${isBestSize ? 'metric-best' : ''}">${method.model_size}</td>
                     </tr>
                 `;
             }).join('');
