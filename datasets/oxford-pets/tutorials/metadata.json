@@ -360,6 +360,35 @@
         "matplotlib",
         "seaborn"
       ]
+    },
+    "color_analysis": {
+      "title": "Color Distribution Analysis",
+      "description": "Analyze color distributions across RGB channels to understand dataset color properties and potential biases",
+      "explanation": {
+        "what": "Color analysis examines the distribution of RGB channel values across all images in the dataset.",
+        "why": "Understanding color patterns helps identify dataset biases, lighting conditions, and informs preprocessing decisions for color normalization.",
+        "how": "Calculate mean RGB values per image, visualize channel distributions with histograms and boxplots, identify color trends and outliers."
+      },
+      "code_files": {
+        "plotly": "core/color_analysis_plotly.py",
+        "matplotlib": "core/color_analysis_matplotlib.py",
+        "seaborn": "core/color_analysis_seaborn.py"
+      },
+      "data_dependencies": [
+        "https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv"
+      ],
+      "chart_match": [
+        "color-dist",
+        "rgb-channels"
+      ],
+      "requirements": [
+        "pandas",
+        "numpy",
+        "plotly",
+        "matplotlib",
+        "seaborn",
+        "pillow"
+      ]
     }
   }
 }

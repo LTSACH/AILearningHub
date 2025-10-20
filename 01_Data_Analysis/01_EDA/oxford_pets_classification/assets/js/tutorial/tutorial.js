@@ -1,7 +1,7 @@
 /**
  * Tutorial System for Oxford Pets EDA
  * Handles runtime loading of Python tutorial code from GitHub
- * Supports: Classification, Detection, Segmentation
+ * Supports: Core, Classification, Detection, Segmentation
  */
 
 (function() {
@@ -14,13 +14,15 @@
   // State
   let tutorialMetadata = null;
   let loadedCode = {}; // Cache for loaded Python code
-  let reportType = null; // Detect report type: classification/detection/segmentation
+  let reportType = null; // Detect report type: core/classification/detection/segmentation
   
   /**
    * Detect report type from page data
    */
   function detectReportType() {
-    if (window.CLASSIFICATION_CHARTS || window.CLASSIFICATION_STATS) {
+    if (window.CORE_CHARTS || window.CORE_STATS) {
+      reportType = 'core';
+    } else if (window.CLASSIFICATION_CHARTS || window.CLASSIFICATION_STATS) {
       reportType = 'classification';
     } else if (window.DETECTION_CHARTS || window.DETECTION_STATS) {
       reportType = 'detection';
@@ -29,7 +31,9 @@
     } else {
       // Fallback: check page title or URL
       const title = document.title.toLowerCase();
-      if (title.includes('detection')) {
+      if (title.includes('core')) {
+        reportType = 'core';
+      } else if (title.includes('detection')) {
         reportType = 'detection';
       } else if (title.includes('segmentation')) {
         reportType = 'segmentation';
