@@ -946,7 +946,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-20T14:00:00",
+  "timestamp": "2025-10-20T15:00:00",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -971,8 +971,8 @@
       "precision": 98.80899057413825,
       "recall": 98.80239520958084,
       "f1_score": 98.79938853736523,
-      "train_time": "14.9s",
-      "inference_time": "~0.25ms",
+      "train_time": "13.5s",
+      "inference_time": "~0.22ms",
       "model_size": "417.72MB",
       "num_parameters": "109.5M",
       "description": "BERT-base + Pooler",
@@ -980,33 +980,16 @@
       "status": "available"
     },
     {
-      "id": "distilbert_mean_pooling",
-      "name": "DistilBERT + Mean",
-      "model_base": "distilbert",
-      "pooling_strategy": "mean_pooling",
-      "accuracy": 98.50299401197606,
-      "precision": 98.50264957574066,
-      "recall": 98.50299401197606,
-      "f1_score": 98.50032597399525,
-      "train_time": "10.1s",
-      "inference_time": "~0.13ms",
-      "model_size": "253.20MB",
-      "num_parameters": "66.4M",
-      "description": "DistilBERT + Mean",
-      "data_path": "../distilbert_mean_pooling/results.json",
-      "status": "available"
-    },
-    {
       "id": "bert_base_cls_token",
       "name": "BERT-base + CLS",
       "model_base": "bert_base",
       "pooling_strategy": "cls_token",
-      "accuracy": 98.20359281437125,
-      "precision": 98.22523894449621,
-      "recall": 98.20359281437125,
-      "f1_score": 98.19166220581572,
-      "train_time": "15.1s",
-      "inference_time": "~0.25ms",
+      "accuracy": 98.50299401197606,
+      "precision": 98.50969442958525,
+      "recall": 98.50299401197606,
+      "f1_score": 98.50171615398807,
+      "train_time": "13.0s",
+      "inference_time": "~0.22ms",
       "model_size": "417.72MB",
       "num_parameters": "109.5M",
       "description": "BERT-base + CLS",
@@ -1014,33 +997,16 @@
       "status": "available"
     },
     {
-      "id": "distilbert_cls_token",
-      "name": "DistilBERT + CLS",
-      "model_base": "distilbert",
-      "pooling_strategy": "cls_token",
-      "accuracy": 97.90419161676647,
-      "precision": 97.90955086164666,
-      "recall": 97.90419161676647,
-      "f1_score": 97.90087126256823,
-      "train_time": "10.6s",
-      "inference_time": "~0.13ms",
-      "model_size": "253.20MB",
-      "num_parameters": "66.4M",
-      "description": "DistilBERT + CLS",
-      "data_path": "../distilbert_cls_token/results.json",
-      "status": "available"
-    },
-    {
       "id": "bert_base_mean_pooling",
       "name": "BERT-base + Mean",
       "model_base": "bert_base",
       "pooling_strategy": "mean_pooling",
-      "accuracy": 97.60479041916167,
-      "precision": 97.60982925576216,
-      "recall": 97.60479041916167,
-      "f1_score": 97.5950348264624,
-      "train_time": "14.1s",
-      "inference_time": "~0.23ms",
+      "accuracy": 98.50299401197606,
+      "precision": 98.52447485980419,
+      "recall": 98.50299401197606,
+      "f1_score": 98.50280400874625,
+      "train_time": "12.8s",
+      "inference_time": "~0.26ms",
       "model_size": "417.72MB",
       "num_parameters": "109.5M",
       "description": "BERT-base + Mean",
@@ -1048,16 +1014,67 @@
       "status": "available"
     },
     {
+      "id": "distilbert_cls_token",
+      "name": "DistilBERT + CLS",
+      "model_base": "distilbert",
+      "pooling_strategy": "cls_token",
+      "accuracy": 98.20359281437125,
+      "precision": 98.20970642115238,
+      "recall": 98.20359281437125,
+      "f1_score": 98.19451771367797,
+      "train_time": "8.4s",
+      "inference_time": "~0.12ms",
+      "model_size": "253.20MB",
+      "num_parameters": "66.4M",
+      "description": "DistilBERT + CLS",
+      "data_path": "../distilbert_cls_token/results.json",
+      "status": "available"
+    },
+    {
+      "id": "distilbert_mean_pooling",
+      "name": "DistilBERT + Mean",
+      "model_base": "distilbert",
+      "pooling_strategy": "mean_pooling",
+      "accuracy": 97.60479041916167,
+      "precision": 97.63209745245672,
+      "recall": 97.60479041916167,
+      "f1_score": 97.60366150626125,
+      "train_time": "8.0s",
+      "inference_time": "~0.12ms",
+      "model_size": "253.20MB",
+      "num_parameters": "66.4M",
+      "description": "DistilBERT + Mean",
+      "data_path": "../distilbert_mean_pooling/results.json",
+      "status": "available"
+    },
+    {
+      "id": "tinybert_mean_pooling",
+      "name": "TinyBERT + Mean",
+      "model_base": "tinybert",
+      "pooling_strategy": "mean_pooling",
+      "accuracy": 91.31736526946108,
+      "precision": 91.42421211768954,
+      "recall": 91.31736526946108,
+      "f1_score": 91.31098018027953,
+      "train_time": "8.4s",
+      "inference_time": "~0.10ms",
+      "model_size": "54.77MB",
+      "num_parameters": "14.4M",
+      "description": "TinyBERT + Mean",
+      "data_path": "../tinybert_mean_pooling/results.json",
+      "status": "available"
+    },
+    {
       "id": "tinybert_pooler_output",
       "name": "TinyBERT + Pooler",
       "model_base": "tinybert",
       "pooling_strategy": "pooler_output",
-      "accuracy": 89.22155688622755,
-      "precision": 89.5270169933936,
-      "recall": 89.22155688622755,
-      "f1_score": 89.11758483776295,
-      "train_time": "10.2s",
-      "inference_time": "~0.09ms",
+      "accuracy": 90.41916167664671,
+      "precision": 90.57646758606907,
+      "recall": 90.41916167664671,
+      "f1_score": 90.40158383975539,
+      "train_time": "8.6s",
+      "inference_time": "~0.08ms",
       "model_size": "54.77MB",
       "num_parameters": "14.4M",
       "description": "TinyBERT + Pooler",
@@ -1069,12 +1086,12 @@
       "name": "TinyBERT + CLS",
       "model_base": "tinybert",
       "pooling_strategy": "cls_token",
-      "accuracy": 88.62275449101796,
-      "precision": 88.84282236442446,
-      "recall": 88.62275449101796,
-      "f1_score": 88.66543016173681,
-      "train_time": "10.4s",
-      "inference_time": "~0.09ms",
+      "accuracy": 90.11976047904191,
+      "precision": 90.20176737760032,
+      "recall": 90.11976047904191,
+      "f1_score": 90.11721670422381,
+      "train_time": "8.0s",
+      "inference_time": "~0.10ms",
       "model_size": "54.77MB",
       "num_parameters": "14.4M",
       "description": "TinyBERT + CLS",
@@ -1092,7 +1109,7 @@
     "display_name": "BERT-base + Pooler",
     "model_base": "bert_base",
     "pooling_strategy": "pooler_output",
-    "timestamp": "2025-10-20T13:48:22.903337",
+    "timestamp": "2025-10-20T14:05:24.340838",
     "metrics": {
       "accuracy": 0.9880239520958084,
       "precision": 0.9880899057413824,
@@ -1100,9 +1117,9 @@
       "f1_score": 0.9879938853736523
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.24886610798346687,
+      "inference_time_ms_per_sample": 0.22304721940786412,
       "total_test_samples": 334,
-      "train_time_seconds": 14.868140459060669,
+      "train_time_seconds": 13.524403095245361,
       "model_size_bytes": 438013135,
       "num_parameters": 109486085,
       "trainable_parameters": 109486085,
@@ -1209,183 +1226,32 @@
     },
     "training_history": {
       "train_loss": [
-        1.4053235006332399,
-        0.664254423379898,
-        0.25496676117181777,
-        0.11797344207763671,
-        0.07793642550706864
+        1.485213942527771,
+        0.8145793080329895,
+        0.3273489743471146,
+        0.15051507145166398,
+        0.10364022314548492
       ],
       "val_loss": [
-        0.9425544738769531,
-        0.37498587369918823,
-        0.1522511492172877,
-        0.09607457617918651,
-        0.08973334232966106
+        1.1389920711517334,
+        0.47458887100219727,
+        0.19869967798391977,
+        0.1260144958893458,
+        0.09241528809070587
       ],
       "val_accuracy": [
-        0.8892215568862275,
-        0.9700598802395209,
+        0.7904191616766467,
+        0.9640718562874252,
         0.9790419161676647,
-        0.9850299401197605,
-        0.9850299401197605
+        0.9790419161676647,
+        0.9880239520958084
       ],
       "val_f1": [
-        0.8885808389112628,
-        0.9701124186230123,
-        0.9790294368176952,
-        0.984983677097187,
-        0.984983677097187
-      ]
-    }
-  },
-  "distilbert_mean_pooling": {
-    "method": "distilbert_mean_pooling",
-    "display_name": "DistilBERT + Mean",
-    "model_base": "distilbert",
-    "pooling_strategy": "mean_pooling",
-    "timestamp": "2025-10-20T13:48:19.070119",
-    "metrics": {
-      "accuracy": 0.9850299401197605,
-      "precision": 0.9850264957574066,
-      "recall": 0.9850299401197605,
-      "f1_score": 0.9850032597399524
-    },
-    "performance": {
-      "inference_time_ms_per_sample": 0.13058543459981936,
-      "total_test_samples": 334,
-      "train_time_seconds": 10.098381280899048,
-      "model_size_bytes": 265500315,
-      "num_parameters": 66366725,
-      "trainable_parameters": 66366725,
-      "batch_size": 64,
-      "fp16_enabled": true
-    },
-    "confusion_matrix": [
-      [
-        75,
-        1,
-        1,
-        0,
-        0
-      ],
-      [
-        1,
-        56,
-        0,
-        0,
-        1
-      ],
-      [
-        1,
-        0,
-        61,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        77,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        60
-      ]
-    ],
-    "per_class_metrics": [
-      {
-        "label": "business",
-        "precision": 0.974025974025974,
-        "recall": 0.974025974025974,
-        "f1": 0.974025974025974,
-        "support": 77
-      },
-      {
-        "label": "entertainment",
-        "precision": 0.9824561403508771,
-        "recall": 0.9655172413793104,
-        "f1": 0.9739130434782609,
-        "support": 58
-      },
-      {
-        "label": "politics",
-        "precision": 0.9838709677419355,
-        "recall": 0.9838709677419355,
-        "f1": 0.9838709677419355,
-        "support": 62
-      },
-      {
-        "label": "sport",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "support": 77
-      },
-      {
-        "label": "tech",
-        "precision": 0.9836065573770492,
-        "recall": 1.0,
-        "f1": 0.9917355371900827,
-        "support": 60
-      }
-    ],
-    "labels": [
-      "business",
-      "entertainment",
-      "politics",
-      "sport",
-      "tech"
-    ],
-    "model_config": {
-      "architecture": "Transformer (BERT)",
-      "pretrained_model": "distilbert-base-uncased",
-      "pooling_strategy": "Mean Pooling",
-      "max_length": 128,
-      "model_params": {
-        "Learning Rate": 2e-05,
-        "Batch Size": 64,
-        "Epochs": 5,
-        "Weight Decay": 0.01,
-        "Warmup Ratio": 0.1,
-        "Optimizer": "AdamW",
-        "FP16": true,
-        "Gradient Accumulation": 1,
-        "Pooling": "Average all token embeddings (captures full context)"
-      }
-    },
-    "training_history": {
-      "train_loss": [
-        1.4553636312484741,
-        0.4282487973570824,
-        0.10786353565752506,
-        0.06728389263153076,
-        0.04659478425979614
-      ],
-      "val_loss": [
-        0.9459823767344157,
-        0.18868606289227804,
-        0.12283797065416972,
-        0.08861388266086578,
-        0.0770798275868098
-      ],
-      "val_accuracy": [
-        0.8203592814371258,
-        0.9311377245508982,
-        0.9700598802395209,
-        0.9790419161676647,
-        0.9760479041916168
-      ],
-      "val_f1": [
-        0.8117675240882326,
-        0.9305052248153923,
-        0.9697697997883719,
-        0.9789426320880458,
-        0.9759494553037763
+        0.7823922683207188,
+        0.9642625288326837,
+        0.9789785975515292,
+        0.978888092775834,
+        0.9879908932135729
       ]
     }
   },
@@ -1394,17 +1260,17 @@
     "display_name": "BERT-base + CLS",
     "model_base": "bert_base",
     "pooling_strategy": "cls_token",
-    "timestamp": "2025-10-20T13:48:24.698549",
+    "timestamp": "2025-10-20T14:05:23.930013",
     "metrics": {
-      "accuracy": 0.9820359281437125,
-      "precision": 0.9822523894449621,
-      "recall": 0.9820359281437125,
-      "f1_score": 0.9819166220581572
+      "accuracy": 0.9850299401197605,
+      "precision": 0.9850969442958525,
+      "recall": 0.9850299401197605,
+      "f1_score": 0.9850171615398807
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.2504980557749414,
+      "inference_time_ms_per_sample": 0.22470373182724684,
       "total_test_samples": 334,
-      "train_time_seconds": 15.148247241973877,
+      "train_time_seconds": 13.038097858428955,
       "model_size_bytes": 438013135,
       "num_parameters": 109486085,
       "trainable_parameters": 109486085,
@@ -1413,11 +1279,11 @@
     },
     "confusion_matrix": [
       [
-        72,
+        74,
         1,
-        3,
+        2,
         0,
-        1
+        0
       ],
       [
         0,
@@ -1441,19 +1307,19 @@
         0
       ],
       [
+        1,
         0,
         0,
         0,
-        0,
-        60
+        59
       ]
     ],
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.9863013698630136,
-        "recall": 0.935064935064935,
-        "f1": 0.96,
+        "precision": 0.9736842105263158,
+        "recall": 0.961038961038961,
+        "f1": 0.9673202614379085,
         "support": 77
       },
       {
@@ -1465,9 +1331,9 @@
       },
       {
         "label": "politics",
-        "precision": 0.953125,
+        "precision": 0.9682539682539683,
         "recall": 0.9838709677419355,
-        "f1": 0.9682539682539683,
+        "f1": 0.976,
         "support": 62
       },
       {
@@ -1479,9 +1345,9 @@
       },
       {
         "label": "tech",
-        "precision": 0.9836065573770492,
-        "recall": 1.0,
-        "f1": 0.9917355371900827,
+        "precision": 1.0,
+        "recall": 0.9833333333333333,
+        "f1": 0.9915966386554622,
         "support": 60
       }
     ],
@@ -1511,54 +1377,54 @@
     },
     "training_history": {
       "train_loss": [
-        1.1450230121612548,
-        0.18601381421089172,
-        0.053015509620308876,
-        0.024350557625293732,
-        0.015602255892008542
+        1.135301558971405,
+        0.18690081395208835,
+        0.054209605157375336,
+        0.028473811745643614,
+        0.016803462505340577
       ],
       "val_loss": [
-        0.3530980944633484,
-        0.0832213709751765,
-        0.06309335927168529,
-        0.05644466479619344,
-        0.04992191741863886
+        0.3504641155401866,
+        0.08602096140384674,
+        0.07069046298662822,
+        0.05222798387209574,
+        0.05098316818475723
       ],
       "val_accuracy": [
-        0.9491017964071856,
-        0.9790419161676647,
-        0.9760479041916168,
-        0.9880239520958084,
-        0.9880239520958084
+        0.9610778443113772,
+        0.9850299401197605,
+        0.9850299401197605,
+        0.9820359281437125,
+        0.9850299401197605
       ],
       "val_f1": [
-        0.9487222232367568,
-        0.9790053912845046,
-        0.9760040046997384,
-        0.9879908932135729,
-        0.9879908932135729
+        0.9611441177616037,
+        0.9850173674693206,
+        0.9850173674693206,
+        0.9820615061370234,
+        0.9850173674693206
       ]
     }
   },
-  "distilbert_cls_token": {
-    "method": "distilbert_cls_token",
-    "display_name": "DistilBERT + CLS",
-    "model_base": "distilbert",
-    "pooling_strategy": "cls_token",
-    "timestamp": "2025-10-20T13:48:19.930657",
+  "bert_base_mean_pooling": {
+    "method": "bert_base_mean_pooling",
+    "display_name": "BERT-base + Mean",
+    "model_base": "bert_base",
+    "pooling_strategy": "mean_pooling",
+    "timestamp": "2025-10-20T14:05:51.473287",
     "metrics": {
-      "accuracy": 0.9790419161676647,
-      "precision": 0.9790955086164667,
-      "recall": 0.9790419161676647,
-      "f1_score": 0.9790087126256823
+      "accuracy": 0.9850299401197605,
+      "precision": 0.9852447485980419,
+      "recall": 0.9850299401197605,
+      "f1_score": 0.9850280400874625
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.12826988011853308,
+      "inference_time_ms_per_sample": 0.25798894592329985,
       "total_test_samples": 334,
-      "train_time_seconds": 10.635789394378662,
-      "model_size_bytes": 265500315,
-      "num_parameters": 66366725,
-      "trainable_parameters": 66366725,
+      "train_time_seconds": 12.797273635864258,
+      "model_size_bytes": 438013135,
+      "num_parameters": 109486085,
+      "trainable_parameters": 109486085,
       "batch_size": 64,
       "fp16_enabled": true
     },
@@ -1572,9 +1438,160 @@
       ],
       [
         0,
-        56,
+        58,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
         0,
         1,
+        0,
+        76,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9866666666666667,
+        "recall": 0.961038961038961,
+        "f1": 0.9736842105263158,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9666666666666667,
+        "recall": 1.0,
+        "f1": 0.9830508474576272,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9682539682539683,
+        "recall": 0.9838709677419355,
+        "f1": 0.976,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.987012987012987,
+        "f1": 0.9934640522875817,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "bert-base-uncased",
+      "pooling_strategy": "Mean Pooling",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Average all token embeddings (captures full context)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.2750728714466095,
+        0.21036073803901673,
+        0.07262112744152546,
+        0.03683558225631714,
+        0.02426055584102869
+      ],
+      "val_loss": [
+        0.43590139349301654,
+        0.08089468131462733,
+        0.06366582959890366,
+        0.06694913655519485,
+        0.06408643970886867
+      ],
+      "val_accuracy": [
+        0.9311377245508982,
+        0.9730538922155688,
+        0.9880239520958084,
+        0.9850299401197605,
+        0.9880239520958084
+      ],
+      "val_f1": [
+        0.929420797023756,
+        0.9730665028486504,
+        0.9879908932135729,
+        0.9849998918076366,
+        0.9879908932135729
+      ]
+    }
+  },
+  "distilbert_cls_token": {
+    "method": "distilbert_cls_token",
+    "display_name": "DistilBERT + CLS",
+    "model_base": "distilbert",
+    "pooling_strategy": "cls_token",
+    "timestamp": "2025-10-20T14:05:18.584713",
+    "metrics": {
+      "accuracy": 0.9820359281437125,
+      "precision": 0.9820970642115238,
+      "recall": 0.9820359281437125,
+      "f1_score": 0.9819451771367796
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.11962938767213088,
+      "total_test_samples": 334,
+      "train_time_seconds": 8.393977165222168,
+      "model_size_bytes": 265500315,
+      "num_parameters": 66366725,
+      "trainable_parameters": 66366725,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        73,
+        1,
+        2,
+        1,
+        0
+      ],
+      [
+        0,
+        57,
+        0,
+        0,
         1
       ],
       [
@@ -1593,25 +1610,25 @@
       ],
       [
         0,
-        1,
         0,
         0,
-        59
+        0,
+        60
       ]
     ],
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.9866666666666667,
-        "recall": 0.961038961038961,
-        "f1": 0.9736842105263158,
+        "precision": 0.9864864864864865,
+        "recall": 0.948051948051948,
+        "f1": 0.9668874172185431,
         "support": 77
       },
       {
         "label": "entertainment",
-        "precision": 0.9655172413793104,
-        "recall": 0.9655172413793104,
-        "f1": 0.9655172413793104,
+        "precision": 0.9827586206896551,
+        "recall": 0.9827586206896551,
+        "f1": 0.9827586206896551,
         "support": 58
       },
       {
@@ -1630,9 +1647,9 @@
       },
       {
         "label": "tech",
-        "precision": 0.9833333333333333,
-        "recall": 0.9833333333333333,
-        "f1": 0.9833333333333333,
+        "precision": 0.9836065573770492,
+        "recall": 1.0,
+        "f1": 0.9917355371900827,
         "support": 60
       }
     ],
@@ -1662,76 +1679,76 @@
     },
     "training_history": {
       "train_loss": [
-        1.3043609976768493,
-        0.33604390144348145,
-        0.0882968408614397,
-        0.044877470433712006,
-        0.031176975443959237
+        1.3558762860298157,
+        0.3637268766760826,
+        0.09630831897258758,
+        0.05328335717320442,
+        0.042287238240242005
       ],
       "val_loss": [
-        0.6859115759531657,
-        0.12997513016064963,
-        0.07427338014046352,
-        0.06289776414632797,
-        0.058419971416393913
+        0.7416585087776184,
+        0.1464535892009735,
+        0.08756391704082489,
+        0.06626866012811661,
+        0.06569968909025192
       ],
       "val_accuracy": [
-        0.9101796407185628,
+        0.9131736526946108,
+        0.9700598802395209,
         0.9760479041916168,
         0.9790419161676647,
-        0.9790419161676647,
-        0.9730538922155688
+        0.9790419161676647
       ],
       "val_f1": [
-        0.9060912543305029,
-        0.9761156455174297,
-        0.978935371024768,
-        0.9788398392226676,
-        0.9728506672747472
+        0.9124825690510259,
+        0.9697091559910711,
+        0.9759208173374506,
+        0.9789853134620554,
+        0.9788905051066341
       ]
     }
   },
-  "bert_base_mean_pooling": {
-    "method": "bert_base_mean_pooling",
-    "display_name": "BERT-base + Mean",
-    "model_base": "bert_base",
+  "distilbert_mean_pooling": {
+    "method": "distilbert_mean_pooling",
+    "display_name": "DistilBERT + Mean",
+    "model_base": "distilbert",
     "pooling_strategy": "mean_pooling",
-    "timestamp": "2025-10-20T13:48:23.001721",
+    "timestamp": "2025-10-20T14:05:37.331828",
     "metrics": {
       "accuracy": 0.9760479041916168,
-      "precision": 0.9760982925576216,
+      "precision": 0.9763209745245672,
       "recall": 0.9760479041916168,
-      "f1_score": 0.975950348264624
+      "f1_score": 0.9760366150626124
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.23275304935936234,
+      "inference_time_ms_per_sample": 0.11969192160500419,
       "total_test_samples": 334,
-      "train_time_seconds": 14.11852216720581,
-      "model_size_bytes": 438013135,
-      "num_parameters": 109486085,
-      "trainable_parameters": 109486085,
+      "train_time_seconds": 8.04724383354187,
+      "model_size_bytes": 265500315,
+      "num_parameters": 66366725,
+      "trainable_parameters": 66366725,
       "batch_size": 64,
       "fp16_enabled": true
     },
     "confusion_matrix": [
       [
-        72,
+        73,
         1,
-        3,
+        2,
+        0,
+        1
+      ],
+      [
+        0,
+        57,
+        0,
         0,
         1
       ],
       [
         1,
-        57,
         0,
-        0,
-        0
-      ],
-      [
-        1,
-        1,
-        60,
+        61,
         0,
         0
       ],
@@ -1744,32 +1761,32 @@
       ],
       [
         0,
+        2,
         0,
         0,
-        0,
-        60
+        58
       ]
     ],
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.972972972972973,
-        "recall": 0.935064935064935,
-        "f1": 0.9536423841059603,
+        "precision": 0.9864864864864865,
+        "recall": 0.948051948051948,
+        "f1": 0.9668874172185431,
         "support": 77
       },
       {
         "label": "entertainment",
-        "precision": 0.9661016949152542,
+        "precision": 0.95,
         "recall": 0.9827586206896551,
-        "f1": 0.9743589743589743,
+        "f1": 0.9661016949152542,
         "support": 58
       },
       {
         "label": "politics",
-        "precision": 0.9523809523809523,
-        "recall": 0.967741935483871,
-        "f1": 0.96,
+        "precision": 0.9682539682539683,
+        "recall": 0.9838709677419355,
+        "f1": 0.976,
         "support": 62
       },
       {
@@ -1781,9 +1798,9 @@
       },
       {
         "label": "tech",
-        "precision": 0.9836065573770492,
-        "recall": 1.0,
-        "f1": 0.9917355371900827,
+        "precision": 0.9666666666666667,
+        "recall": 0.9666666666666667,
+        "f1": 0.9666666666666667,
         "support": 60
       }
     ],
@@ -1796,7 +1813,7 @@
     ],
     "model_config": {
       "architecture": "Transformer (BERT)",
-      "pretrained_model": "bert-base-uncased",
+      "pretrained_model": "distilbert-base-uncased",
       "pooling_strategy": "Mean Pooling",
       "max_length": 128,
       "model_params": {
@@ -1813,51 +1830,51 @@
     },
     "training_history": {
       "train_loss": [
-        1.1504195475578307,
-        0.17968884706497193,
-        0.06108299821615219,
-        0.04176285743713379,
-        0.02141353618353605
+        1.4698597049713136,
+        0.45946812570095064,
+        0.12482505351305008,
+        0.06575192473828792,
+        0.04617076136171818
       ],
       "val_loss": [
-        0.30944012602170307,
-        0.0883063127597173,
-        0.06795834004878998,
-        0.06149286280075709,
-        0.0698822761575381
+        0.9808152516682943,
+        0.18179985384146372,
+        0.09808145711819331,
+        0.0863229309519132,
+        0.07204672445853551
       ],
       "val_accuracy": [
+        0.8892215568862275,
         0.9491017964071856,
+        0.9760479041916168,
         0.9730538922155688,
-        0.9850299401197605,
-        0.9790419161676647,
-        0.9790419161676647
+        0.9730538922155688
       ],
       "val_f1": [
-        0.9489710824349386,
-        0.972994417433039,
-        0.984983677097187,
-        0.9789885815054216,
-        0.9789907738390919
+        0.8904387813754615,
+        0.9482498880813058,
+        0.9758970913698977,
+        0.9729561119421616,
+        0.9729561119421616
       ]
     }
   },
-  "tinybert_pooler_output": {
-    "method": "tinybert_pooler_output",
-    "display_name": "TinyBERT + Pooler",
+  "tinybert_mean_pooling": {
+    "method": "tinybert_mean_pooling",
+    "display_name": "TinyBERT + Mean",
     "model_base": "tinybert",
-    "pooling_strategy": "pooler_output",
-    "timestamp": "2025-10-20T13:48:19.041088",
+    "pooling_strategy": "mean_pooling",
+    "timestamp": "2025-10-20T14:05:18.394356",
     "metrics": {
-      "accuracy": 0.8922155688622755,
-      "precision": 0.895270169933936,
-      "recall": 0.8922155688622755,
-      "f1_score": 0.8911758483776294
+      "accuracy": 0.9131736526946108,
+      "precision": 0.9142421211768953,
+      "recall": 0.9131736526946108,
+      "f1_score": 0.9131098018027953
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.09435017266844073,
+      "inference_time_ms_per_sample": 0.09706310736827362,
       "total_test_samples": 334,
-      "train_time_seconds": 10.210472583770752,
+      "train_time_seconds": 8.40447449684143,
       "model_size_bytes": 57433770,
       "num_parameters": 14351813,
       "trainable_parameters": 14351813,
@@ -1866,75 +1883,226 @@
     },
     "confusion_matrix": [
       [
-        71,
+        68,
         1,
-        1,
-        1,
+        2,
+        3,
         3
       ],
       [
         1,
-        53,
-        2,
+        51,
+        3,
         1,
-        1
+        2
       ],
       [
-        12,
+        4,
         0,
-        48,
+        57,
         1,
-        1
-      ],
-      [
-        0,
-        0,
-        0,
-        77,
         0
       ],
       [
-        3,
-        7,
-        1,
         0,
-        49
+        0,
+        2,
+        75,
+        0
+      ],
+      [
+        0,
+        3,
+        3,
+        0,
+        54
       ]
     ],
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.8160919540229885,
-        "recall": 0.922077922077922,
-        "f1": 0.8658536585365854,
+        "precision": 0.9315068493150684,
+        "recall": 0.8831168831168831,
+        "f1": 0.9066666666666666,
         "support": 77
       },
       {
         "label": "entertainment",
-        "precision": 0.8688524590163934,
-        "recall": 0.9137931034482759,
-        "f1": 0.8907563025210085,
+        "precision": 0.9272727272727272,
+        "recall": 0.8793103448275862,
+        "f1": 0.9026548672566371,
         "support": 58
       },
       {
         "label": "politics",
-        "precision": 0.9230769230769231,
-        "recall": 0.7741935483870968,
-        "f1": 0.8421052631578947,
+        "precision": 0.8507462686567164,
+        "recall": 0.9193548387096774,
+        "f1": 0.8837209302325582,
         "support": 62
       },
       {
         "label": "sport",
-        "precision": 0.9625,
-        "recall": 1.0,
-        "f1": 0.9808917197452229,
+        "precision": 0.9375,
+        "recall": 0.974025974025974,
+        "f1": 0.9554140127388535,
         "support": 77
       },
       {
         "label": "tech",
-        "precision": 0.9074074074074074,
-        "recall": 0.8166666666666667,
-        "f1": 0.8596491228070176,
+        "precision": 0.9152542372881356,
+        "recall": 0.9,
+        "f1": 0.907563025210084,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "architecture": "Transformer (BERT)",
+      "pretrained_model": "huawei-noah/TinyBERT_General_4L_312D",
+      "pooling_strategy": "Mean Pooling",
+      "max_length": 128,
+      "model_params": {
+        "Learning Rate": 2e-05,
+        "Batch Size": 64,
+        "Epochs": 5,
+        "Weight Decay": 0.01,
+        "Warmup Ratio": 0.1,
+        "Optimizer": "AdamW",
+        "FP16": true,
+        "Gradient Accumulation": 1,
+        "Pooling": "Average all token embeddings (captures full context)"
+      }
+    },
+    "training_history": {
+      "train_loss": [
+        1.5145611715316774,
+        1.012435462474823,
+        0.6323449420928955,
+        0.46613473653793336,
+        0.4058466994762421
+      ],
+      "val_loss": [
+        1.2710299889246623,
+        0.7540897329648336,
+        0.5204201738039652,
+        0.4315153956413269,
+        0.4086101253827413
+      ],
+      "val_accuracy": [
+        0.5778443113772455,
+        0.8143712574850299,
+        0.8652694610778443,
+        0.8922155688622755,
+        0.8922155688622755
+      ],
+      "val_f1": [
+        0.518122874693106,
+        0.8161531861478056,
+        0.8652992837675983,
+        0.8928241444702423,
+        0.8924561101063021
+      ]
+    }
+  },
+  "tinybert_pooler_output": {
+    "method": "tinybert_pooler_output",
+    "display_name": "TinyBERT + Pooler",
+    "model_base": "tinybert",
+    "pooling_strategy": "pooler_output",
+    "timestamp": "2025-10-20T14:05:38.296604",
+    "metrics": {
+      "accuracy": 0.9041916167664671,
+      "precision": 0.9057646758606908,
+      "recall": 0.9041916167664671,
+      "f1_score": 0.904015838397554
+    },
+    "performance": {
+      "inference_time_ms_per_sample": 0.08144712027830957,
+      "total_test_samples": 334,
+      "train_time_seconds": 8.600958347320557,
+      "model_size_bytes": 57433770,
+      "num_parameters": 14351813,
+      "trainable_parameters": 14351813,
+      "batch_size": 64,
+      "fp16_enabled": true
+    },
+    "confusion_matrix": [
+      [
+        69,
+        0,
+        3,
+        1,
+        4
+      ],
+      [
+        1,
+        51,
+        3,
+        0,
+        3
+      ],
+      [
+        7,
+        0,
+        51,
+        3,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        76,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        55
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.8518518518518519,
+        "recall": 0.8961038961038961,
+        "f1": 0.8734177215189873,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9807692307692307,
+        "recall": 0.8793103448275862,
+        "f1": 0.9272727272727272,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.8793103448275862,
+        "recall": 0.8225806451612904,
+        "f1": 0.85,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.95,
+        "recall": 0.987012987012987,
+        "f1": 0.9681528662420382,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.873015873015873,
+        "recall": 0.9166666666666666,
+        "f1": 0.8943089430894309,
         "support": 60
       }
     ],
@@ -1964,32 +2132,32 @@
     },
     "training_history": {
       "train_loss": [
-        1.5901167821884155,
-        1.43670250415802,
-        1.2422601747512818,
-        1.1237581825256349,
-        1.06075110912323
+        1.591401309967041,
+        1.4227077531814576,
+        1.2274212217330933,
+        1.1058234214782714,
+        1.04718101978302
       ],
       "val_loss": [
-        1.531923810640971,
-        1.31563933690389,
-        1.156898299853007,
-        1.0664920806884766,
-        1.0368249813715618
+        1.5295203526814778,
+        1.3033836682637532,
+        1.1440746386845906,
+        1.0579551458358765,
+        1.0283069610595703
       ],
       "val_accuracy": [
-        0.45808383233532934,
-        0.781437125748503,
-        0.8502994011976048,
-        0.8592814371257484,
-        0.8772455089820359
+        0.5658682634730539,
+        0.8263473053892215,
+        0.8772455089820359,
+        0.8892215568862275,
+        0.9041916167664671
       ],
       "val_f1": [
-        0.3086836636006338,
-        0.7723888579282234,
-        0.8515374964635384,
-        0.8591572019044095,
-        0.8772669966317125
+        0.5217662419521858,
+        0.8279239480762906,
+        0.8769818202521098,
+        0.8888991420562882,
+        0.9046043656786593
       ]
     }
   },
@@ -1998,17 +2166,17 @@
     "display_name": "TinyBERT + CLS",
     "model_base": "tinybert",
     "pooling_strategy": "cls_token",
-    "timestamp": "2025-10-20T13:48:20.333878",
+    "timestamp": "2025-10-20T14:05:47.469174",
     "metrics": {
-      "accuracy": 0.8862275449101796,
-      "precision": 0.8884282236442447,
-      "recall": 0.8862275449101796,
-      "f1_score": 0.8866543016173681
+      "accuracy": 0.9011976047904192,
+      "precision": 0.9020176737760032,
+      "recall": 0.9011976047904192,
+      "f1_score": 0.9011721670422381
     },
     "performance": {
-      "inference_time_ms_per_sample": 0.08909084284916903,
+      "inference_time_ms_per_sample": 0.09516085314954449,
       "total_test_samples": 334,
-      "train_time_seconds": 10.369009971618652,
+      "train_time_seconds": 7.984382390975952,
       "model_size_bytes": 57433770,
       "num_parameters": 14351813,
       "trainable_parameters": 14351813,
@@ -2017,75 +2185,75 @@
     },
     "confusion_matrix": [
       [
-        68,
+        67,
         1,
-        4,
-        1,
-        3
+        3,
+        2,
+        4
       ],
       [
-        0,
-        52,
+        1,
+        53,
         3,
         0,
-        3
+        1
       ],
       [
-        4,
+        5,
         0,
-        55,
-        2,
+        56,
+        0,
         1
       ],
       [
         0,
         0,
-        5,
-        72,
+        2,
+        75,
         0
       ],
       [
+        3,
         4,
-        5,
-        2,
+        3,
         0,
-        49
+        50
       ]
     ],
     "per_class_metrics": [
       {
         "label": "business",
-        "precision": 0.8947368421052632,
-        "recall": 0.8831168831168831,
-        "f1": 0.8888888888888888,
+        "precision": 0.881578947368421,
+        "recall": 0.8701298701298701,
+        "f1": 0.8758169934640523,
         "support": 77
       },
       {
         "label": "entertainment",
-        "precision": 0.896551724137931,
-        "recall": 0.896551724137931,
-        "f1": 0.896551724137931,
+        "precision": 0.9137931034482759,
+        "recall": 0.9137931034482759,
+        "f1": 0.9137931034482759,
         "support": 58
       },
       {
         "label": "politics",
-        "precision": 0.7971014492753623,
-        "recall": 0.8870967741935484,
-        "f1": 0.8396946564885496,
+        "precision": 0.835820895522388,
+        "recall": 0.9032258064516129,
+        "f1": 0.8682170542635659,
         "support": 62
       },
       {
         "label": "sport",
-        "precision": 0.96,
-        "recall": 0.935064935064935,
-        "f1": 0.9473684210526315,
+        "precision": 0.974025974025974,
+        "recall": 0.974025974025974,
+        "f1": 0.974025974025974,
         "support": 77
       },
       {
         "label": "tech",
-        "precision": 0.875,
-        "recall": 0.8166666666666667,
-        "f1": 0.8448275862068966,
+        "precision": 0.8928571428571429,
+        "recall": 0.8333333333333334,
+        "f1": 0.8620689655172413,
         "support": 60
       }
     ],
@@ -2115,32 +2283,32 @@
     },
     "training_history": {
       "train_loss": [
-        1.572518630027771,
-        1.2591922426223754,
-        0.8211989545822144,
-        0.5907071137428284,
-        0.5098326921463012
+        1.5792020082473754,
+        1.1447721171379088,
+        0.6962148141860962,
+        0.5074122500419617,
+        0.4346739852428436
       ],
       "val_loss": [
-        1.4704200426737468,
-        0.9630566040674845,
-        0.6515788237253824,
-        0.5153544545173645,
-        0.4787016709645589
+        1.4122322003046672,
+        0.8368195295333862,
+        0.5834462841351827,
+        0.4750516613324483,
+        0.44349170724550885
       ],
       "val_accuracy": [
-        0.4251497005988024,
-        0.781437125748503,
-        0.8622754491017964,
-        0.9011976047904192,
-        0.9011976047904192
+        0.46407185628742514,
+        0.8203592814371258,
+        0.8502994011976048,
+        0.874251497005988,
+        0.8832335329341318
       ],
       "val_f1": [
-        0.2831763411769319,
-        0.7776862010278757,
-        0.8617613066587015,
-        0.9000739197751086,
-        0.9008036645973244
+        0.3357930901324843,
+        0.8209108119518737,
+        0.8517513225004822,
+        0.8730214924635293,
+        0.8824354169282376
       ]
     }
   }
