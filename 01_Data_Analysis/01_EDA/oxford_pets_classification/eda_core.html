@@ -636,9 +636,9 @@
 
                 html += '<div class="image-item" style="position: relative;">' +
                         '<img src="' + imgPath + '" alt="' + breedDisplay + '" ' +
+                        'class="core-gallery-img" ' +
                         'style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;" ' +
-                        'onclick="window.open(this.src, '_blank')" ' +
-                        'onerror="this.parentElement.style.display='none'">' +
+                        'onerror="this.parentElement.style.display=\'none\'">' +
                         '<div class="image-caption">' +
                         '<div style="font-weight: 600;">' + breedDisplay + '</div>' +
                         '<div style="font-size: 0.85rem; opacity: 0.8;">Click to enlarge</div>' +
@@ -648,6 +648,13 @@
         });
 
         grid.innerHTML = html || '<p style="text-align: center; padding: 20px; color: #999;">No images selected</p>';
+
+        // Add click handlers to images (after they're in DOM)
+        grid.querySelectorAll('.core-gallery-img').forEach(img => {
+            img.addEventListener('click', function() {
+                window.open(this.src, '_blank');
+            });
+        });
     }
 
     // Initialize core gallery
