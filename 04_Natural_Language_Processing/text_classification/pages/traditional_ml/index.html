@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TF-IDF + Traditional ML | BBC News Classification</title>
     
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
     <!-- STANDALONE - All CSS/JS embedded -->
     <style>
         
@@ -405,64 +410,67 @@
             padding: 1.5rem;
         }
         
+        /* Confusion matrix styling from demo */
         .cm-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 6px;
             margin: 1rem 0;
-        }
-        
-        .cm-table {
-            font-size: 0.95rem;
         }
         
         .cm-table th,
         .cm-table td {
-            padding: 0.75rem;
+            padding: 12px;
             text-align: center;
-            border: 1px solid #d1d5db;
-            min-width: 60px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
         
         .cm-table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             color: white;
-            font-weight: 600;
-            text-transform: capitalize;
+            font-size: 0.9rem;
         }
         
         .cm-table tbody th {
+            background: #667eea;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .cm-table td {
             background: #f3f4f6;
             color: #333;
-            font-weight: 600;
+            font-size: 1.1rem;
         }
         
         .cm-diagonal {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            font-weight: bold;
-            color: white;
-            font-size: 1.1em;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            font-size: 1.2rem !important;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
         
         .cm-error-low {
-            background: #fef3c7;
-            color: #92400e;
+            background: #fef3c7 !important;
+            color: #92400e !important;
         }
         
         .cm-error-medium {
-            background: #fed7aa;
-            color: #9a3412;
+            background: #fed7aa !important;
+            color: #9a3412 !important;
         }
         
         .cm-error-high {
-            background: #fecaca;
-            color: #991b1b;
-            font-weight: 600;
+            background: #fecaca !important;
+            color: #991b1b !important;
+            font-weight: 600 !important;
         }
         
         .cm-zero {
-            background: #f9fafb;
-            color: #9ca3af;
+            background: #f9fafb !important;
+            color: #d1d5db !important;
         }
         
         .per-class-summary {
@@ -535,11 +543,13 @@
             display: block;
         }
         
-        .plotly-container {
-            min-height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Metrics walkthrough iframe */
+        .walkthrough-iframe {
+            width: 100%;
+            min-height: 800px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
         }
         
     </style>
@@ -1110,9 +1120,6 @@
 }
     </script>
 
-    <!-- Plotly.js CDN -->
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-
     <!-- Inline JavaScript -->
     <script>
         
@@ -1267,7 +1274,7 @@
                     <table class="cm-table">
                         <thead>
                             <tr>
-                                <th>Actual \ Pred</th>
+                                <th>Actual \\ Pred</th>
                                 ${labels.map(l => `<th>${l}</th>`).join('')}
                             </tr>
                         </thead>
@@ -1308,6 +1315,9 @@
                     </div>
                 `;
                 
+                // Generate walkthrough HTML
+                const walkthroughHTML = generateMetricsWalkthrough(data);
+                
                 return `
                     <div class="confusion-matrix-card">
                         <div class="matrix-header">
@@ -1321,25 +1331,25 @@
                             
                             <!-- Tabs for switching views -->
                             <div class="matrix-tabs">
-                                <button class="matrix-tab-btn active" onclick="switchMatrixView('${method.id}', 'table')">
-                                    📊 Table View
+                                <button class="matrix-tab-btn active" onclick="switchMatrixView('${method.id}', 'matrix')">
+                                    📊 Confusion Matrix
                                 </button>
-                                <button class="matrix-tab-btn" onclick="switchMatrixView('${method.id}', 'plotly')">
-                                    📈 Interactive Heatmap
+                                <button class="matrix-tab-btn" onclick="switchMatrixView('${method.id}', 'walkthrough')">
+                                    🎓 Metrics Walkthrough
                                 </button>
                             </div>
                             
-                            <!-- Table view -->
-                            <div id="matrix-table-${method.id}" class="matrix-view active">
+                            <!-- Matrix view -->
+                            <div id="matrix-view-${method.id}" class="matrix-view active">
                                 ${cmHTML}
                                 <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
-                                    🟢 Diagonal = Correct | 🟡🟠🔴 = Errors (intensity = severity)
+                                    🟢 Diagonal = Correct Predictions | 🟡🟠🔴 = Errors (color intensity = severity)
                                 </p>
                             </div>
                             
-                            <!-- Plotly view -->
-                            <div id="matrix-plotly-${method.id}" class="matrix-view">
-                                <div class="plotly-container" id="plotly-${method.id}"></div>
+                            <!-- Walkthrough view -->
+                            <div id="walkthrough-view-${method.id}" class="matrix-view">
+                                ${walkthroughHTML}
                             </div>
                         </div>
                     </div>
@@ -1374,13 +1384,123 @@
                     </div>
                     
                     <div class="confusion-matrices-container">
-                        <h4>Confusion Matrices</h4>
+                        <h4>Confusion Matrices & Metrics</h4>
                         ${confusionMatrices}
                     </div>
                 </div>
             `;
             
             resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Generate metrics walkthrough HTML
+        function generateMetricsWalkthrough(data) {
+            const cm = data.confusion_matrix;
+            const labels = data.labels;
+            const metrics = data.per_class_metrics;
+            
+            // Calculate totals
+            const support = cm.map(row => row.reduce((a, b) => a + b, 0));
+            const predicted = cm[0].map((_, j) => cm.reduce((sum, row) => sum + row[j], 0));
+            const totalSamples = support.reduce((a, b) => a + b, 0);
+            
+            const recall = metrics.map(m => m.recall);
+            const precision = metrics.map(m => m.precision);
+            
+            const recallMacro = recall.reduce((a, b) => a + b, 0) / recall.length;
+            const precisionMacro = precision.reduce((a, b) => a + b, 0) / precision.length;
+            
+            const recallWeighted = recall.reduce((sum, r, i) => sum + r * support[i], 0) / totalSamples;
+            const precisionWeighted = precision.reduce((sum, p, i) => sum + p * support[i], 0) / totalSamples;
+            
+            const accuracy = cm.reduce((sum, row, i) => sum + row[i], 0) / totalSamples;
+            
+            return `
+                <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                    <h4 style="margin-bottom: 1rem; color: #667eea;">📊 Metrics Calculation from Confusion Matrix</h4>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <h5 style="color: #333; margin-bottom: 1rem;">Confusion Matrix</h5>
+                        <table class="cm-table">
+                            <thead>
+                                <tr>
+                                    <th>Actual \\ Pred</th>
+                                    ${labels.map(l => `<th>${l}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${cm.map((row, i) => `
+                                    <tr>
+                                        <th>${labels[i]}</th>
+                                        ${row.map((val, j) => {
+                                            const className = i === j ? 'cm-diagonal' : 'cm-zero';
+                                            return `<td class="${className}">${val}</td>`;
+                                        }).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                        <!-- Per-class metrics -->
+                        ${labels.map((label, i) => `
+                            <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <h6 style="color: #667eea; text-transform: capitalize; margin-bottom: 0.5rem;">${label}</h6>
+                                <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                                    <div><strong>TP:</strong> ${cm[i][i]}</div>
+                                    <div><strong>Support:</strong> ${support[i]}</div>
+                                    <div><strong>Predicted:</strong> ${predicted[i]}</div>
+                                    <div><strong>Recall:</strong> ${(recall[i] * 100).toFixed(2)}%</div>
+                                    <div><strong>Precision:</strong> ${(precision[i] * 100).toFixed(2)}%</div>
+                                    <div><strong>F1-Score:</strong> ${(metrics[i].f1 * 100).toFixed(2)}%</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <!-- Macro averages -->
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 8px;">
+                            <h6 style="margin-bottom: 0.5rem; opacity: 0.9;">Macro Average</h6>
+                            <div style="display: grid; gap: 0.25rem;">
+                                <div><strong>Recall:</strong> ${(recallMacro * 100).toFixed(2)}%</div>
+                                <div><strong>Precision:</strong> ${(precisionMacro * 100).toFixed(2)}%</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Weighted averages -->
+                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1.5rem; border-radius: 8px;">
+                            <h6 style="margin-bottom: 0.5rem; opacity: 0.9;">Weighted Average</h6>
+                            <div style="display: grid; gap: 0.25rem;">
+                                <div><strong>Recall:</strong> ${(recallWeighted * 100).toFixed(2)}%</div>
+                                <div><strong>Precision:</strong> ${(precisionWeighted * 100).toFixed(2)}%</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Accuracy -->
+                        <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 1.5rem; border-radius: 8px;">
+                            <h6 style="margin-bottom: 0.5rem; opacity: 0.9;">Overall Accuracy</h6>
+                            <div style="font-size: 1.8rem; font-weight: bold;">${(accuracy * 100).toFixed(2)}%</div>
+                            <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">
+                                ⚠️ May not reflect performance on imbalanced datasets
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #ffc107;">
+                        <strong>💡 Key Formulas:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
+                            <li><strong>Recall<sub>i</sub></strong> = TP<sub>i</sub> / Support<sub>i</sub></li>
+                            <li><strong>Precision<sub>i</sub></strong> = TP<sub>i</sub> / Predicted<sub>i</sub></li>
+                            <li><strong>F1<sub>i</sub></strong> = 2 × TP<sub>i</sub> / (Support<sub>i</sub> + Predicted<sub>i</sub>)</li>
+                            <li><strong>Macro Avg</strong> = Simple average across classes</li>
+                            <li><strong>Weighted Avg</strong> = Average weighted by support</li>
+                            <li><strong>Accuracy</strong> = (TP<sub>1</sub> + TP<sub>2</sub> + ... + TP<sub>n</sub>) / Total Samples</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
         }
         
         // Initialize on load
@@ -1394,23 +1514,23 @@
         
         // Matrix view switching
         function switchMatrixView(methodId, view) {
-            // Find the matrix content container for this specific method
-            const tableView = document.getElementById(`matrix-table-${methodId}`);
-            const plotlyView = document.getElementById(`matrix-plotly-${methodId}`);
+            // Find the views for this specific method
+            const matrixView = document.getElementById(`matrix-view-${methodId}`);
+            const walkthroughView = document.getElementById(`walkthrough-view-${methodId}`);
             
-            if (!tableView || !plotlyView) {
-                console.error(`Matrix views not found for method: ${methodId}`);
+            if (!matrixView || !walkthroughView) {
+                console.error(`Views not found for method: ${methodId}`);
                 return;
             }
             
-            // Find the tabs container (parent of the views)
-            const matrixContent = tableView.closest('.matrix-content');
+            // Find the tabs container
+            const matrixContent = matrixView.closest('.matrix-content');
             if (!matrixContent) return;
             
             // Update tab buttons within this specific matrix-content
             const tabButtons = matrixContent.querySelectorAll('.matrix-tab-btn');
             tabButtons.forEach((btn, idx) => {
-                if ((view === 'table' && idx === 0) || (view === 'plotly' && idx === 1)) {
+                if ((view === 'matrix' && idx === 0) || (view === 'walkthrough' && idx === 1)) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
@@ -1418,114 +1538,13 @@
             });
             
             // Toggle views
-            if (view === 'table') {
-                tableView.classList.add('active');
-                plotlyView.classList.remove('active');
+            if (view === 'matrix') {
+                matrixView.classList.add('active');
+                walkthroughView.classList.remove('active');
             } else {
-                tableView.classList.remove('active');
-                plotlyView.classList.add('active');
-                
-                // Render Plotly if not already rendered
-                const container = document.getElementById(`plotly-${methodId}`);
-                if (container && !container.hasAttribute('data-plotly-rendered')) {
-                    renderPlotlyMatrix(methodId);
-                    container.setAttribute('data-plotly-rendered', 'true');
-                }
+                matrixView.classList.remove('active');
+                walkthroughView.classList.add('active');
             }
-        }
-        
-        // Render Plotly confusion matrix
-        function renderPlotlyMatrix(methodId) {
-            const data = methodsData[methodId];
-            const cm = data.confusion_matrix;
-            const labels = data.labels;
-            
-            // Calculate percentages for hover
-            const total = cm.map(row => row.reduce((a, b) => a + b, 0));
-            const cmPercent = cm.map((row, i) => 
-                row.map(val => ((val / total[i]) * 100).toFixed(1))
-            );
-            
-            // Create hover text
-            const hoverText = cm.map((row, i) => 
-                row.map((val, j) => 
-                    `Actual: ${labels[i]}<br>` +
-                    `Predicted: ${labels[j]}<br>` +
-                    `Count: ${val}<br>` +
-                    `Percentage: ${cmPercent[i][j]}%`
-                )
-            );
-            
-            // Create colorscale (green for diagonal, red-yellow for errors)
-            const plotData = [{
-                z: cm,
-                x: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
-                y: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
-                type: 'heatmap',
-                colorscale: [
-                    [0, '#fee2e2'],      // Light red (low values)
-                    [0.3, '#fef3c7'],    // Yellow
-                    [0.6, '#d1fae5'],    // Light green
-                    [1, '#10b981']       // Dark green (high values)
-                ],
-                text: cm.map(row => row.map(val => val.toString())),
-                hovertext: hoverText,
-                hoverinfo: 'text',
-                texttemplate: '<b>%{text}</b>',
-                textfont: {
-                    size: 16,
-                    family: 'Segoe UI, sans-serif'
-                },
-                showscale: true,
-                colorbar: {
-                    title: {
-                        text: 'Count',
-                        side: 'right'
-                    },
-                    thickness: 20,
-                    len: 0.7
-                }
-            }];
-            
-            const layout = {
-                title: {
-                    text: '',
-                    font: { size: 18 }
-                },
-                xaxis: {
-                    title: 'Predicted Label',
-                    side: 'bottom',
-                    tickfont: { size: 12 }
-                },
-                yaxis: {
-                    title: 'Actual Label',
-                    autorange: 'reversed',
-                    tickfont: { size: 12 }
-                },
-                width: 700,
-                height: 650,
-                margin: { l: 100, r: 100, t: 50, b: 100 },
-                paper_bgcolor: 'white',
-                plot_bgcolor: 'white',
-                font: {
-                    family: 'Segoe UI, sans-serif'
-                }
-            };
-            
-            const config = {
-                displayModeBar: true,
-                displaylogo: false,
-                modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d'],
-                toImageButtonOptions: {
-                    format: 'png',
-                    filename: `confusion_matrix_${methodId}`,
-                    height: 800,
-                    width: 800,
-                    scale: 2
-                }
-            };
-            
-            Plotly.newPlot(`plotly-${methodId}`, plotData, layout, config);
         }
         
     </script>
