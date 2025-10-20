@@ -496,6 +496,52 @@
             color: #10b981;
         }
         
+        /* Matrix view tabs */
+        .matrix-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .matrix-tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .matrix-tab-btn:hover {
+            color: #667eea;
+            background: #f8f9fa;
+        }
+        
+        .matrix-tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+        
+        .matrix-view {
+            display: none;
+        }
+        
+        .matrix-view.active {
+            display: block;
+        }
+        
+        .plotly-container {
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
     </style>
 </head>
 <body>
@@ -1064,6 +1110,9 @@
 }
     </script>
 
+    <!-- Plotly.js CDN -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
     <!-- Inline JavaScript -->
     <script>
         
@@ -1267,11 +1316,31 @@
                         <div class="matrix-content">
                             <h4>Per-Class F1-Score</h4>
                             ${perClassHTML}
+                            
                             <h4 style="margin-top: 2rem;">Confusion Matrix</h4>
-                            ${cmHTML}
-                            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
-                                🟢 Diagonal = Correct predictions | 🟡🟠🔴 Off-diagonal = Misclassifications (intensity = error severity)
-                            </p>
+                            
+                            <!-- Tabs for switching views -->
+                            <div class="matrix-tabs">
+                                <button class="matrix-tab-btn active" onclick="switchMatrixView('${method.id}', 'table')">
+                                    📊 Table View
+                                </button>
+                                <button class="matrix-tab-btn" onclick="switchMatrixView('${method.id}', 'plotly')">
+                                    📈 Interactive Heatmap
+                                </button>
+                            </div>
+                            
+                            <!-- Table view -->
+                            <div id="matrix-table-${method.id}" class="matrix-view active">
+                                ${cmHTML}
+                                <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
+                                    🟢 Diagonal = Correct | 🟡🟠🔴 = Errors (intensity = severity)
+                                </p>
+                            </div>
+                            
+                            <!-- Plotly view -->
+                            <div id="matrix-plotly-${method.id}" class="matrix-view">
+                                <div class="plotly-container" id="plotly-${method.id}"></div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1322,6 +1391,138 @@
             selectAll();
             compare();
         }, 100);
+        
+        // Matrix view switching
+        function switchMatrixView(methodId, view) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll(`#matrix-table-${methodId}, #matrix-plotly-${methodId}`)
+                .forEach(el => el.closest('.matrix-content'))
+                .querySelectorAll('.matrix-tab-btn');
+            
+            document.querySelectorAll('.matrix-tab-btn').forEach((btn, idx) => {
+                const parent = btn.closest('.matrix-content');
+                if (!parent || !parent.querySelector(`#matrix-table-${methodId}`)) return;
+                
+                if ((view === 'table' && idx === 0) || (view === 'plotly' && idx === 1)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Toggle views
+            const tableView = document.getElementById(`matrix-table-${methodId}`);
+            const plotlyView = document.getElementById(`matrix-plotly-${methodId}`);
+            
+            if (view === 'table') {
+                tableView.classList.add('active');
+                plotlyView.classList.remove('active');
+            } else {
+                tableView.classList.remove('active');
+                plotlyView.classList.add('active');
+                
+                // Render Plotly if not already rendered
+                const container = document.getElementById(`plotly-${methodId}`);
+                if (container && !container.hasAttribute('data-plotly-rendered')) {
+                    renderPlotlyMatrix(methodId);
+                    container.setAttribute('data-plotly-rendered', 'true');
+                }
+            }
+        }
+        
+        // Render Plotly confusion matrix
+        function renderPlotlyMatrix(methodId) {
+            const data = methodsData[methodId];
+            const cm = data.confusion_matrix;
+            const labels = data.labels;
+            
+            // Calculate percentages for hover
+            const total = cm.map(row => row.reduce((a, b) => a + b, 0));
+            const cmPercent = cm.map((row, i) => 
+                row.map(val => ((val / total[i]) * 100).toFixed(1))
+            );
+            
+            // Create hover text
+            const hoverText = cm.map((row, i) => 
+                row.map((val, j) => 
+                    `Actual: ${labels[i]}<br>` +
+                    `Predicted: ${labels[j]}<br>` +
+                    `Count: ${val}<br>` +
+                    `Percentage: ${cmPercent[i][j]}%`
+                )
+            );
+            
+            // Create colorscale (green for diagonal, red-yellow for errors)
+            const plotData = [{
+                z: cm,
+                x: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
+                y: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
+                type: 'heatmap',
+                colorscale: [
+                    [0, '#fee2e2'],      // Light red (low values)
+                    [0.3, '#fef3c7'],    // Yellow
+                    [0.6, '#d1fae5'],    // Light green
+                    [1, '#10b981']       // Dark green (high values)
+                ],
+                text: cm.map(row => row.map(val => val.toString())),
+                hovertext: hoverText,
+                hoverinfo: 'text',
+                texttemplate: '<b>%{text}</b>',
+                textfont: {
+                    size: 16,
+                    family: 'Segoe UI, sans-serif'
+                },
+                showscale: true,
+                colorbar: {
+                    title: {
+                        text: 'Count',
+                        side: 'right'
+                    },
+                    thickness: 20,
+                    len: 0.7
+                }
+            }];
+            
+            const layout = {
+                title: {
+                    text: '',
+                    font: { size: 18 }
+                },
+                xaxis: {
+                    title: 'Predicted Label',
+                    side: 'bottom',
+                    tickfont: { size: 12 }
+                },
+                yaxis: {
+                    title: 'Actual Label',
+                    autorange: 'reversed',
+                    tickfont: { size: 12 }
+                },
+                width: 700,
+                height: 650,
+                margin: { l: 100, r: 100, t: 50, b: 100 },
+                paper_bgcolor: 'white',
+                plot_bgcolor: 'white',
+                font: {
+                    family: 'Segoe UI, sans-serif'
+                }
+            };
+            
+            const config = {
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d'],
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: `confusion_matrix_${methodId}`,
+                    height: 800,
+                    width: 800,
+                    scale: 2
+                }
+            };
+            
+            Plotly.newPlot(`plotly-${methodId}`, plotData, layout, config);
+        }
         
     </script>
 </body>
