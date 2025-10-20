@@ -10,7 +10,10 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
-    <!-- STANDALONE - All CSS/JS embedded -->
+    <!-- Walkthrough CSS -->
+    <link rel="stylesheet" href="assets/css/walkthrough.css">
+    
+    <!-- Main CSS -->
     <style>
         
         * {
@@ -410,7 +413,7 @@
             padding: 1.5rem;
         }
         
-        /* Confusion matrix styling from demo */
+        /* Confusion matrix styling */
         .cm-table {
             width: 100%;
             border-collapse: separate;
@@ -541,15 +544,6 @@
         
         .matrix-view.active {
             display: block;
-        }
-        
-        /* Metrics walkthrough iframe */
-        .walkthrough-iframe {
-            width: 100%;
-            min-height: 800px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            background: white;
         }
         
     </style>
@@ -1120,7 +1114,10 @@
 }
     </script>
 
-    <!-- Inline JavaScript -->
+    <!-- Walkthrough JS -->
+    <script src="assets/js/walkthrough.js"></script>
+
+    <!-- Main JavaScript -->
     <script>
         
         // Load embedded data
@@ -1234,7 +1231,7 @@
                 const values = metrics[key].values;
                 best[key] = metrics[key].better === 'higher' 
                     ? Math.max(...values)
-                    : Math.min(...values.filter(v => v > 0)); // Avoid 0 values
+                    : Math.min(...values.filter(v => v > 0));
             });
             
             // Comparison table
@@ -1284,12 +1281,10 @@
                                     <th>${labels[i]}</th>
                                     ${row.map((val, j) => {
                                         if (i === j) {
-                                            // Diagonal - correct predictions
                                             return `<td class="cm-diagonal">${val}</td>`;
                                         } else if (val === 0) {
                                             return `<td class="cm-zero">0</td>`;
                                         } else {
-                                            // Errors - color by severity
                                             const severity = val / maxError;
                                             const className = severity > 0.5 ? 'cm-error-high' 
                                                             : severity > 0.2 ? 'cm-error-medium' 
@@ -1303,7 +1298,6 @@
                     </table>
                 `;
                 
-                // Per-class accuracy summary
                 const perClassHTML = `
                     <div class="per-class-summary">
                         ${perClassMetrics.map(cls => `
@@ -1315,8 +1309,44 @@
                     </div>
                 `;
                 
-                // Generate walkthrough HTML
-                const walkthroughHTML = generateMetricsWalkthrough(data);
+                // Walkthrough HTML with embedded data
+                const walkthroughHTML = `
+                    <div class="walkthrough-container" id="walkthrough-${method.id}">
+                        <div class="walkthrough-content">
+                            <div class="walkthrough-grid">
+                                <div class="walkthrough-left">
+                                    <div class="matrix-display">
+                                        <h4 style="margin-bottom: 1rem; color: #333;">Confusion Matrix</h4>
+                                        <table class="wt-cm-table" id="wt-matrix-${method.id}"></table>
+                                    </div>
+                                    
+                                    <div class="walkthrough-controls">
+                                        <button class="wt-btn wt-btn-nav" onclick="wtPrevStep('${method.id}')">◀ Previous</button>
+                                        <button class="wt-btn wt-btn-nav" onclick="wtNextStep('${method.id}')">Next ▶</button>
+                                        <button class="wt-btn wt-btn-reset" onclick="wtReset('${method.id}')">↻ Reset</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="walkthrough-right">
+                                    <div class="wt-step-info" id="wt-step-info-${method.id}">
+                                        <h3>
+                                            <span class="wt-step-number" id="wt-step-num-${method.id}">1</span>
+                                            <span id="wt-step-title-${method.id}">Loading...</span>
+                                        </h3>
+                                        <p id="wt-step-desc-${method.id}"></p>
+                                    </div>
+                                    
+                                    <div class="wt-calculations" id="wt-calc-${method.id}"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="wt-progress-bar">
+                                <div class="wt-progress-fill" id="wt-progress-${method.id}"></div>
+                            </div>
+                            <div class="wt-progress-text" id="wt-progress-text-${method.id}">Step 1/12</div>
+                        </div>
+                    </div>
+                `;
                 
                 return `
                     <div class="confusion-matrix-card">
@@ -1329,7 +1359,6 @@
                             
                             <h4 style="margin-top: 2rem;">Confusion Matrix</h4>
                             
-                            <!-- Tabs for switching views -->
                             <div class="matrix-tabs">
                                 <button class="matrix-tab-btn active" onclick="switchMatrixView('${method.id}', 'matrix')">
                                     📊 Confusion Matrix
@@ -1339,7 +1368,6 @@
                                 </button>
                             </div>
                             
-                            <!-- Matrix view -->
                             <div id="matrix-view-${method.id}" class="matrix-view active">
                                 ${cmHTML}
                                 <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
@@ -1347,7 +1375,6 @@
                                 </p>
                             </div>
                             
-                            <!-- Walkthrough view -->
                             <div id="walkthrough-view-${method.id}" class="matrix-view">
                                 ${walkthroughHTML}
                             </div>
@@ -1390,117 +1417,13 @@
                 </div>
             `;
             
+            // Initialize all walkthroughs
+            methods.forEach(method => {
+                const data = methodsData[method.id];
+                initWalkthrough(method.id, data.confusion_matrix, data.labels);
+            });
+            
             resultsContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Generate metrics walkthrough HTML
-        function generateMetricsWalkthrough(data) {
-            const cm = data.confusion_matrix;
-            const labels = data.labels;
-            const metrics = data.per_class_metrics;
-            
-            // Calculate totals
-            const support = cm.map(row => row.reduce((a, b) => a + b, 0));
-            const predicted = cm[0].map((_, j) => cm.reduce((sum, row) => sum + row[j], 0));
-            const totalSamples = support.reduce((a, b) => a + b, 0);
-            
-            const recall = metrics.map(m => m.recall);
-            const precision = metrics.map(m => m.precision);
-            
-            const recallMacro = recall.reduce((a, b) => a + b, 0) / recall.length;
-            const precisionMacro = precision.reduce((a, b) => a + b, 0) / precision.length;
-            
-            const recallWeighted = recall.reduce((sum, r, i) => sum + r * support[i], 0) / totalSamples;
-            const precisionWeighted = precision.reduce((sum, p, i) => sum + p * support[i], 0) / totalSamples;
-            
-            const accuracy = cm.reduce((sum, row, i) => sum + row[i], 0) / totalSamples;
-            
-            return `
-                <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
-                    <h4 style="margin-bottom: 1rem; color: #667eea;">📊 Metrics Calculation from Confusion Matrix</h4>
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
-                        <h5 style="color: #333; margin-bottom: 1rem;">Confusion Matrix</h5>
-                        <table class="cm-table">
-                            <thead>
-                                <tr>
-                                    <th>Actual \\ Pred</th>
-                                    ${labels.map(l => `<th>${l}</th>`).join('')}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${cm.map((row, i) => `
-                                    <tr>
-                                        <th>${labels[i]}</th>
-                                        ${row.map((val, j) => {
-                                            const className = i === j ? 'cm-diagonal' : 'cm-zero';
-                                            return `<td class="${className}">${val}</td>`;
-                                        }).join('')}
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-                        <!-- Per-class metrics -->
-                        ${labels.map((label, i) => `
-                            <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                <h6 style="color: #667eea; text-transform: capitalize; margin-bottom: 0.5rem;">${label}</h6>
-                                <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
-                                    <div><strong>TP:</strong> ${cm[i][i]}</div>
-                                    <div><strong>Support:</strong> ${support[i]}</div>
-                                    <div><strong>Predicted:</strong> ${predicted[i]}</div>
-                                    <div><strong>Recall:</strong> ${(recall[i] * 100).toFixed(2)}%</div>
-                                    <div><strong>Precision:</strong> ${(precision[i] * 100).toFixed(2)}%</div>
-                                    <div><strong>F1-Score:</strong> ${(metrics[i].f1 * 100).toFixed(2)}%</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                        <!-- Macro averages -->
-                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 8px;">
-                            <h6 style="margin-bottom: 0.5rem; opacity: 0.9;">Macro Average</h6>
-                            <div style="display: grid; gap: 0.25rem;">
-                                <div><strong>Recall:</strong> ${(recallMacro * 100).toFixed(2)}%</div>
-                                <div><strong>Precision:</strong> ${(precisionMacro * 100).toFixed(2)}%</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Weighted averages -->
-                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1.5rem; border-radius: 8px;">
-                            <h6 style="margin-bottom: 0.5rem; opacity: 0.9;">Weighted Average</h6>
-                            <div style="display: grid; gap: 0.25rem;">
-                                <div><strong>Recall:</strong> ${(recallWeighted * 100).toFixed(2)}%</div>
-                                <div><strong>Precision:</strong> ${(precisionWeighted * 100).toFixed(2)}%</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Accuracy -->
-                        <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 1.5rem; border-radius: 8px;">
-                            <h6 style="margin-bottom: 0.5rem; opacity: 0.9;">Overall Accuracy</h6>
-                            <div style="font-size: 1.8rem; font-weight: bold;">${(accuracy * 100).toFixed(2)}%</div>
-                            <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">
-                                ⚠️ May not reflect performance on imbalanced datasets
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #ffc107;">
-                        <strong>💡 Key Formulas:</strong>
-                        <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
-                            <li><strong>Recall<sub>i</sub></strong> = TP<sub>i</sub> / Support<sub>i</sub></li>
-                            <li><strong>Precision<sub>i</sub></strong> = TP<sub>i</sub> / Predicted<sub>i</sub></li>
-                            <li><strong>F1<sub>i</sub></strong> = 2 × TP<sub>i</sub> / (Support<sub>i</sub> + Predicted<sub>i</sub>)</li>
-                            <li><strong>Macro Avg</strong> = Simple average across classes</li>
-                            <li><strong>Weighted Avg</strong> = Average weighted by support</li>
-                            <li><strong>Accuracy</strong> = (TP<sub>1</sub> + TP<sub>2</sub> + ... + TP<sub>n</sub>) / Total Samples</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
         }
         
         // Initialize on load
@@ -1514,20 +1437,14 @@
         
         // Matrix view switching
         function switchMatrixView(methodId, view) {
-            // Find the views for this specific method
             const matrixView = document.getElementById(`matrix-view-${methodId}`);
             const walkthroughView = document.getElementById(`walkthrough-view-${methodId}`);
             
-            if (!matrixView || !walkthroughView) {
-                console.error(`Views not found for method: ${methodId}`);
-                return;
-            }
+            if (!matrixView || !walkthroughView) return;
             
-            // Find the tabs container
             const matrixContent = matrixView.closest('.matrix-content');
             if (!matrixContent) return;
             
-            // Update tab buttons within this specific matrix-content
             const tabButtons = matrixContent.querySelectorAll('.matrix-tab-btn');
             tabButtons.forEach((btn, idx) => {
                 if ((view === 'matrix' && idx === 0) || (view === 'walkthrough' && idx === 1)) {
@@ -1537,7 +1454,6 @@
                 }
             });
             
-            // Toggle views
             if (view === 'matrix') {
                 matrixView.classList.add('active');
                 walkthroughView.classList.remove('active');
