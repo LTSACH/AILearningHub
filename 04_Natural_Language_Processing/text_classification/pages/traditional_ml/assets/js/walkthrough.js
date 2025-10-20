@@ -502,10 +502,10 @@ function buildExtendedMatrix(cm, labels, methodId) {
     
     // Accuracy row (merged cell)
     html += `<tr class="extra-row">
-        <th></th>
-        ${labels.map(() => '<td></td>').join('')}
-        <td class="separator"></td>
-        <td colspan="2" data-accuracy style="font-size: 1.2rem; font-weight: bold;">?</td>
+        <th style="font-size: 0.8rem; font-style: italic; color: #ef4444; font-weight: 600; border-bottom: none;">Accuracy</th>
+        ${labels.map(() => '<td class="separator" style="border-bottom: none;"></td>').join('')}
+        <td class="separator" style="border-bottom: none;"></td>
+        <td colspan="2" data-accuracy style="font-size: 1.2rem; font-weight: bold; border-bottom: none;">?</td>
     </tr>`;
     
     html += `</tbody></table>`;
