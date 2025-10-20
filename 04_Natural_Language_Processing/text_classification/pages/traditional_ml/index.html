@@ -21,6 +21,21 @@
             background: #f8f9fa;
         }
         
+        /* Metric direction arrows */
+        .metric-arrow {
+            font-size: 0.8em;
+            opacity: 0.6;
+            margin-left: 0.25rem;
+        }
+        
+        .metric-arrow-up {
+            color: #10b981;
+        }
+        
+        .metric-arrow-down {
+            color: #3b82f6;
+        }
+        
         .navbar {
             background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -304,31 +319,56 @@
         .comparison-table th,
         .comparison-table td {
             padding: 1rem;
-            text-align: left;
+            text-align: center;
             border-bottom: 1px solid #e5e7eb;
         }
         
         .comparison-table th {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             font-weight: 600;
-            color: #333;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .comparison-table th:first-child,
+        .comparison-table td:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: white;
+            z-index: 5;
+        }
+        
+        .comparison-table th:first-child {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 15;
         }
         
         .comparison-table tbody tr:hover {
-            background: #f8f9fa;
+            background: #f0f4ff;
+        }
+        
+        .comparison-table tbody tr:hover td:first-child {
+            background: #f0f4ff;
         }
         
         .method-name-cell {
             font-weight: 600;
             color: #667eea;
+            white-space: nowrap;
         }
         
         .metric-best {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
             font-weight: bold;
-            padding: 0.5rem;
-            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+        }
+        
+        .metric-value {
+            font-weight: 500;
         }
         
         .table-caption {
@@ -371,27 +411,89 @@
             margin: 1rem 0;
         }
         
+        .cm-table {
+            font-size: 0.95rem;
+        }
+        
         .cm-table th,
         .cm-table td {
             padding: 0.75rem;
             text-align: center;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #d1d5db;
+            min-width: 60px;
         }
         
         .cm-table th {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+        
+        .cm-table tbody th {
+            background: #f3f4f6;
+            color: #333;
             font-weight: 600;
         }
         
         .cm-diagonal {
-            background: #d1fae5;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             font-weight: bold;
-            color: #065f46;
+            color: white;
+            font-size: 1.1em;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .cm-error {
-            background: #fee2e2;
+        .cm-error-low {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .cm-error-medium {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+        
+        .cm-error-high {
+            background: #fecaca;
             color: #991b1b;
+            font-weight: 600;
+        }
+        
+        .cm-zero {
+            background: #f9fafb;
+            color: #9ca3af;
+        }
+        
+        .per-class-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+        
+        .per-class-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .per-class-label {
+            font-weight: 600;
+            color: #667eea;
+            text-transform: capitalize;
+            margin-bottom: 0.5rem;
+        }
+        
+        .per-class-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #10b981;
         }
         
     </style>
@@ -1060,25 +1162,44 @@
         function renderComparison(methods) {
             const resultsContainer = document.getElementById('comparison-results');
             
-            // Find best in each metric
-            const bestAcc = Math.max(...methods.map(m => m.accuracy));
-            const bestF1 = Math.max(...methods.map(m => m.f1_score));
+            // Find best/worst in each metric
+            const metrics = {
+                accuracy: { values: methods.map(m => m.accuracy), better: 'higher' },
+                precision: { values: methods.map(m => m.precision), better: 'higher' },
+                recall: { values: methods.map(m => m.recall), better: 'higher' },
+                f1_score: { values: methods.map(m => m.f1_score), better: 'higher' },
+                train_time: { values: methods.map(m => parseFloat(m.train_time.replace(/[^0-9.]/g, ''))), better: 'lower' },
+                inference_time: { values: methods.map(m => parseFloat(m.inference_time.replace(/[^0-9.]/g, ''))), better: 'lower' }
+            };
+            
+            // Find best values
+            const best = {};
+            Object.keys(metrics).forEach(key => {
+                const values = metrics[key].values;
+                best[key] = metrics[key].better === 'higher' 
+                    ? Math.max(...values)
+                    : Math.min(...values.filter(v => v > 0)); // Avoid 0 values
+            });
             
             // Comparison table
-            const tableRows = methods.map(method => {
-                const accClass = method.accuracy === bestAcc ? 'metric-best' : '';
-                const f1Class = method.f1_score === bestF1 ? 'metric-best' : '';
+            const tableRows = methods.map((method, idx) => {
+                const isBestAcc = method.accuracy === best.accuracy;
+                const isBestPrec = method.precision === best.precision;
+                const isBestRec = method.recall === best.recall;
+                const isBestF1 = method.f1_score === best.f1_score;
+                const isBestTrain = metrics.train_time.values[idx] === best.train_time;
+                const isBestInf = metrics.inference_time.values[idx] === best.inference_time;
                 
                 return `
                     <tr>
                         <td class="method-name-cell">${method.name}</td>
-                        <td class="${accClass}">${method.accuracy.toFixed(2)}%${method.accuracy === bestAcc ? ' ⭐' : ''}</td>
-                        <td>${method.precision.toFixed(2)}%</td>
-                        <td>${method.recall.toFixed(2)}%</td>
-                        <td class="${f1Class}">${method.f1_score.toFixed(2)}%${method.f1_score === bestF1 ? ' ⭐' : ''}</td>
-                        <td>${method.train_time}</td>
-                        <td>${method.inference_time}</td>
-                        <td>${method.model_size}</td>
+                        <td class="metric-value ${isBestAcc ? 'metric-best' : ''}">${method.accuracy.toFixed(2)}%</td>
+                        <td class="metric-value ${isBestPrec ? 'metric-best' : ''}">${method.precision.toFixed(2)}%</td>
+                        <td class="metric-value ${isBestRec ? 'metric-best' : ''}">${method.recall.toFixed(2)}%</td>
+                        <td class="metric-value ${isBestF1 ? 'metric-best' : ''}">${method.f1_score.toFixed(2)}%</td>
+                        <td class="metric-value ${isBestTrain ? 'metric-best' : ''}">${method.train_time}</td>
+                        <td class="metric-value ${isBestInf ? 'metric-best' : ''}">${method.inference_time}</td>
+                        <td class="metric-value">${method.model_size}</td>
                     </tr>
                 `;
             }).join('');
@@ -1088,12 +1209,16 @@
                 const data = methodsData[method.id];
                 const cm = data.confusion_matrix;
                 const labels = data.labels;
+                const perClassMetrics = data.per_class_metrics;
+                
+                // Find max error for coloring
+                const maxError = Math.max(...cm.flatMap((row, i) => row.filter((_, j) => i !== j)));
                 
                 const cmHTML = `
                     <table class="cm-table">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Actual \ Pred</th>
                                 ${labels.map(l => `<th>${l}</th>`).join('')}
                             </tr>
                         </thead>
@@ -1102,8 +1227,19 @@
                                 <tr>
                                     <th>${labels[i]}</th>
                                     ${row.map((val, j) => {
-                                        const className = i === j ? 'cm-diagonal' : (val > 0 ? 'cm-error' : '');
-                                        return `<td class="${className}">${val}</td>`;
+                                        if (i === j) {
+                                            // Diagonal - correct predictions
+                                            return `<td class="cm-diagonal">${val}</td>`;
+                                        } else if (val === 0) {
+                                            return `<td class="cm-zero">0</td>`;
+                                        } else {
+                                            // Errors - color by severity
+                                            const severity = val / maxError;
+                                            const className = severity > 0.5 ? 'cm-error-high' 
+                                                            : severity > 0.2 ? 'cm-error-medium' 
+                                                            : 'cm-error-low';
+                                            return `<td class="${className}">${val}</td>`;
+                                        }
                                     }).join('')}
                                 </tr>
                             `).join('')}
@@ -1111,14 +1247,31 @@
                     </table>
                 `;
                 
+                // Per-class accuracy summary
+                const perClassHTML = `
+                    <div class="per-class-summary">
+                        ${perClassMetrics.map(cls => `
+                            <div class="per-class-item">
+                                <div class="per-class-label">${cls.label}</div>
+                                <div class="per-class-value">${(cls.f1 * 100).toFixed(1)}%</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
                 return `
                     <div class="confusion-matrix-card">
                         <div class="matrix-header">
-                            <h5>${method.name} (Accuracy: ${method.accuracy.toFixed(2)}%)</h5>
+                            <h5>${method.name} - Accuracy: ${method.accuracy.toFixed(2)}%</h5>
                         </div>
                         <div class="matrix-content">
-                            <h4>Confusion Matrix</h4>
+                            <h4>Per-Class F1-Score</h4>
+                            ${perClassHTML}
+                            <h4 style="margin-top: 2rem;">Confusion Matrix</h4>
                             ${cmHTML}
+                            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
+                                🟢 Diagonal = Correct predictions | 🟡🟠🔴 Off-diagonal = Misclassifications (intensity = error severity)
+                            </p>
                         </div>
                     </div>
                 `;
@@ -1133,12 +1286,12 @@
                             <thead>
                                 <tr>
                                     <th>Method</th>
-                                    <th>Accuracy</th>
-                                    <th>Precision</th>
-                                    <th>Recall</th>
-                                    <th>F1-Score</th>
-                                    <th>Train Time</th>
-                                    <th>Inference</th>
+                                    <th>Accuracy <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>Precision <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>Recall <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>F1-Score <span class="metric-arrow metric-arrow-up">↑</span></th>
+                                    <th>Train Time <span class="metric-arrow metric-arrow-down">↓</span></th>
+                                    <th>Inference <span class="metric-arrow metric-arrow-down">↓</span></th>
                                     <th>Model Size</th>
                                 </tr>
                             </thead>
@@ -1146,7 +1299,9 @@
                                 ${tableRows}
                             </tbody>
                         </table>
-                        <p class="table-caption">⭐ = Best performer in this metric</p>
+                        <p class="table-caption">
+                            🏆 Highlighted = Best performer | ↑ Higher is better | ↓ Lower is better
+                        </p>
                     </div>
                     
                     <div class="confusion-matrices-container">
@@ -1161,6 +1316,12 @@
         
         // Initialize on load
         renderMethodSelector();
+        
+        // Auto-select all and show comparison by default
+        setTimeout(() => {
+            selectAll();
+            compare();
+        }, 100);
         
     </script>
 </body>
