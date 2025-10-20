@@ -1,65 +1,77 @@
 """
-Core EDA - Size Distribution Analysis (Plotly)
-==============================================
-
-This example demonstrates how to create size distribution visualizations
-using Plotly for core EDA analysis.
+Core EDA - Image Size Distribution Analysis (Plotly)
 """
 
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
-import pandas as pd
 import numpy as np
+import pandas as pd
+from pathlib import Path
+from PIL import Image
 
-def create_size_distribution_plotly(widths, heights, aspect_ratios):
-    """
-    Create size distribution visualization using Plotly
+def analyze_image_sizes(data_dir: str):
+    """Analyze image dimensions and create visualizations"""
     
-    Args:
-        widths (list): Image widths
-        heights (list): Image heights  
-        aspect_ratios (list): Aspect ratios
-        
-    Returns:
-        plotly.graph_objects.Figure: Plotly figure
-    """
+    # Load image data
+    image_dir = Path(data_dir) / "images"
+    image_files = list(image_dir.glob("**/*.jpg")) + list(image_dir.glob("**/*.png"))
     
-    # Create subplots
+    # Extract dimensions
+    widths, heights, aspect_ratios = [], [], []
+    
+    for img_path in image_files[:100]:  # Sample first 100 images
+        try:
+            with Image.open(img_path) as img:
+                w, h = img.size
+                widths.append(w)
+                heights.append(h)
+                aspect_ratios.append(w / h)
+        except Exception as e:
+            print(f"Error processing {img_path}: {e}")
+            continue
+    
+    # Create marginal plot
     fig = make_subplots(
         rows=2, cols=2,
-        subplot_titles=('Width Distribution', 'Height Distribution', 
-                       'Aspect Ratio Distribution', 'Size Scatter Plot'),
+        subplot_titles=('Width vs Height', 'Width Distribution', 'Height Distribution', 'Aspect Ratio Distribution'),
         specs=[[{"secondary_y": False}, {"secondary_y": False}],
                [{"secondary_y": False}, {"secondary_y": False}]]
     )
     
-    # 1. Width Distribution
+    # Main scatter plot
     fig.add_trace(
-        go.Histogram(x=widths, nbinsx=30, name='Width', 
-                    marker_color='lightblue'),
+        go.Scatter(
+            x=widths, y=heights,
+            mode='markers',
+            marker=dict(
+                size=4,
+                color=aspect_ratios,
+                colorscale='Viridis',
+                showscale=True,
+                colorbar=dict(title="Aspect Ratio")
+            ),
+            name='Images',
+            hovertemplate='Width: %{x}<br>Height: %{y}<br>Aspect Ratio: %{marker.color:.2f}<extra></extra>'
+        ),
         row=1, col=1
     )
     
-    # 2. Height Distribution  
+    # Width histogram
     fig.add_trace(
-        go.Histogram(x=heights, nbinsx=30, name='Height',
-                    marker_color='lightgreen'),
+        go.Histogram(x=widths, nbinsx=30, name='Width', marker_color='lightblue'),
         row=1, col=2
     )
     
-    # 3. Aspect Ratio Distribution
+    # Height histogram
     fig.add_trace(
-        go.Histogram(x=aspect_ratios, nbinsx=30, name='Aspect Ratio',
-                    marker_color='lightcoral'),
+        go.Histogram(x=heights, nbinsx=30, name='Height', marker_color='lightgreen'),
         row=2, col=1
     )
     
-    # 4. Size Scatter Plot
+    # Aspect ratio histogram
     fig.add_trace(
-        go.Scatter(x=widths, y=heights, mode='markers',
-                  marker=dict(size=4, opacity=0.6, color='blue'),
-                  name='Size Distribution'),
+        go.Histogram(x=aspect_ratios, nbinsx=30, name='Aspect Ratio', marker_color='lightcoral'),
         row=2, col=2
     )
     
@@ -72,75 +84,21 @@ def create_size_distribution_plotly(widths, heights, aspect_ratios):
     
     # Update axes
     fig.update_xaxes(title_text="Width (px)", row=1, col=1)
-    fig.update_xaxes(title_text="Height (px)", row=1, col=2)
-    fig.update_xaxes(title_text="Aspect Ratio", row=2, col=1)
-    fig.update_xaxes(title_text="Width (px)", row=2, col=2)
+    fig.update_yaxes(title_text="Height (px)", row=1, col=1)
+    fig.update_xaxes(title_text="Width (px)", row=1, col=2)
+    fig.update_xaxes(title_text="Height (px)", row=2, col=1)
+    fig.update_xaxes(title_text="Aspect Ratio", row=2, col=2)
     
-    fig.update_yaxes(title_text="Count", row=1, col=1)
-    fig.update_yaxes(title_text="Count", row=1, col=2)
-    fig.update_yaxes(title_text="Count", row=2, col=1)
-    fig.update_yaxes(title_text="Height (px)", row=2, col=2)
+    # Show plot
+    fig.show()
     
-    return fig
+    # Print statistics
+    print(f"Total images analyzed: {len(widths)}")
+    print(f"Mean width: {np.mean(widths):.0f}px")
+    print(f"Mean height: {np.mean(heights):.0f}px")
+    print(f"Mean aspect ratio: {np.mean(aspect_ratios):.2f}")
 
-def create_marginal_plot_plotly(widths, heights):
-    """
-    Create marginal plot showing size distribution
-    
-    Args:
-        widths (list): Image widths
-        heights (list): Image heights
-        
-    Returns:
-        plotly.graph_objects.Figure: Marginal plot figure
-    """
-    
-    # Create marginal plot
-    fig = go.Figure()
-    
-    # Add scatter plot
-    fig.add_trace(go.Scatter(
-        x=widths, y=heights,
-        mode='markers',
-        marker=dict(
-            size=4,
-            opacity=0.6,
-            color='blue',
-            line=dict(width=0.5, color='white')
-        ),
-        name='Size Distribution'
-    ))
-    
-    # Add marginal histograms
-    fig.add_trace(go.Histogram(
-        x=widths, y=heights,
-        name='Width Distribution',
-        marker_color='lightblue',
-        opacity=0.7
-    ))
-    
-    # Update layout
-    fig.update_layout(
-        title="Image Size Distribution with Marginal Plots",
-        xaxis_title="Width (px)",
-        yaxis_title="Height (px)",
-        height=500
-    )
-    
-    return fig
-
-# Example usage
 if __name__ == "__main__":
-    # Sample data
-    np.random.seed(42)
-    widths = np.random.normal(500, 100, 1000)
-    heights = np.random.normal(375, 75, 1000)
-    aspect_ratios = widths / heights
-    
-    # Create plots
-    fig1 = create_size_distribution_plotly(widths, heights, aspect_ratios)
-    fig2 = create_marginal_plot_plotly(widths, heights)
-    
-    # Show plots
-    fig1.show()
-    fig2.show()
+    # Example usage
+    data_dir = "path/to/your/dataset"
+    analyze_image_sizes(data_dir)

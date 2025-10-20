@@ -1,0 +1,38 @@
+{
+  "total_images": 7349,
+  "total_breeds": 37,
+  "total_species": 2,
+  "splits": {
+    "train": 2941,
+    "val": 739,
+    "test": 3669
+  },
+  "dimensions": {
+    "mean_width": 437.23744727173766,
+    "mean_height": 391.3872635732753,
+    "min_width": "114",
+    "min_height": "103",
+    "max_width": "3264",
+    "max_height": "2606",
+    "std_width": 115.77587588493158,
+    "std_height": 109.39456029177312
+  },
+  "file_sizes": {
+    "mean_kb": 105.09255218609675,
+    "median_kb": 105.2890625,
+    "min_kb": 3.3447265625,
+    "max_kb": 1098.7783203125,
+    "total_mb": 754.2237949371338
+  },
+  "aspect_ratios": {
+    "mean": 1.1721727086414604,
+    "median": 1.3333333333333333,
+    "min": 0.42,
+    "max": 2.5641025641025643
+  },
+  "color_stats": {
+    "mean_brightness": 112.75311246590513,
+    "mean_contrast": 60.95106958406939,
+    "mean_sharpness": 1811.4995992301942
+  }
+}

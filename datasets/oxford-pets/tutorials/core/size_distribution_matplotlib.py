@@ -1,157 +1,73 @@
 """
-Core EDA - Size Distribution Analysis (Matplotlib)
-=================================================
-
-This example demonstrates how to create size distribution visualizations
-using Matplotlib for core EDA analysis.
+Core EDA - Image Size Distribution Analysis (Matplotlib)
 """
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from matplotlib.patches import Rectangle
+from pathlib import Path
+from PIL import Image
+import seaborn as sns
 
-def create_size_distribution_matplotlib(widths, heights, aspect_ratios):
-    """
-    Create size distribution visualization using Matplotlib
+def analyze_image_sizes(data_dir: str):
+    """Analyze image dimensions and create visualizations"""
     
-    Args:
-        widths (list): Image widths
-        heights (list): Image heights  
-        aspect_ratios (list): Aspect ratios
-        
-    Returns:
-        matplotlib.figure.Figure: Matplotlib figure
-    """
+    # Load image data
+    image_dir = Path(data_dir) / "images"
+    image_files = list(image_dir.glob("**/*.jpg")) + list(image_dir.glob("**/*.png"))
     
-    # Create figure with subplots
+    # Extract dimensions
+    widths, heights, aspect_ratios = [], [], []
+    
+    for img_path in image_files[:100]:  # Sample first 100 images
+        try:
+            with Image.open(img_path) as img:
+                w, h = img.size
+                widths.append(w)
+                heights.append(h)
+                aspect_ratios.append(w / h)
+        except Exception as e:
+            print(f"Error processing {img_path}: {e}")
+            continue
+    
+    # Create subplots
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-    fig.suptitle('Image Size Distribution Analysis', fontsize=16, fontweight='bold')
-    
-    # 1. Width Distribution
-    axes[0, 0].hist(widths, bins=30, alpha=0.7, color='lightblue', edgecolor='black')
-    axes[0, 0].set_title('Width Distribution')
-    axes[0, 0].set_xlabel('Width (px)')
-    axes[0, 0].set_ylabel('Count')
-    axes[0, 0].grid(True, alpha=0.3)
-    
-    # 2. Height Distribution
-    axes[0, 1].hist(heights, bins=30, alpha=0.7, color='lightgreen', edgecolor='black')
-    axes[0, 1].set_title('Height Distribution')
-    axes[0, 1].set_xlabel('Height (px)')
-    axes[0, 1].set_ylabel('Count')
-    axes[0, 1].grid(True, alpha=0.3)
-    
-    # 3. Aspect Ratio Distribution
-    axes[1, 0].hist(aspect_ratios, bins=30, alpha=0.7, color='lightcoral', edgecolor='black')
-    axes[1, 0].set_title('Aspect Ratio Distribution')
-    axes[1, 0].set_xlabel('Aspect Ratio')
-    axes[1, 0].set_ylabel('Count')
-    axes[1, 0].grid(True, alpha=0.3)
-    
-    # 4. Size Scatter Plot
-    scatter = axes[1, 1].scatter(widths, heights, alpha=0.6, s=4, c='blue')
-    axes[1, 1].set_title('Size Scatter Plot')
-    axes[1, 1].set_xlabel('Width (px)')
-    axes[1, 1].set_ylabel('Height (px)')
-    axes[1, 1].grid(True, alpha=0.3)
-    
-    # Adjust layout
-    plt.tight_layout()
-    
-    return fig
-
-def create_marginal_plot_matplotlib(widths, heights):
-    """
-    Create marginal plot showing size distribution
-    
-    Args:
-        widths (list): Image widths
-        heights (list): Image heights
-        
-    Returns:
-        matplotlib.figure.Figure: Marginal plot figure
-    """
-    
-    # Create figure with subplots
-    fig = plt.figure(figsize=(10, 8))
-    
-    # Create grid layout
-    gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.3)
+    fig.suptitle('Image Size Distribution Analysis', fontsize=16)
     
     # Main scatter plot
-    ax_main = fig.add_subplot(gs[1, 0])
-    ax_main.scatter(widths, heights, alpha=0.6, s=4, c='blue')
-    ax_main.set_xlabel('Width (px)')
-    ax_main.set_ylabel('Height (px)')
-    ax_main.set_title('Image Size Distribution')
-    ax_main.grid(True, alpha=0.3)
+    scatter = axes[0, 0].scatter(widths, heights, c=aspect_ratios, cmap='viridis', alpha=0.6)
+    axes[0, 0].set_xlabel('Width (px)')
+    axes[0, 0].set_ylabel('Height (px)')
+    axes[0, 0].set_title('Width vs Height')
+    plt.colorbar(scatter, ax=axes[0, 0], label='Aspect Ratio')
     
-    # Width histogram (top)
-    ax_width = fig.add_subplot(gs[0, 0])
-    ax_width.hist(widths, bins=30, alpha=0.7, color='lightblue', edgecolor='black')
-    ax_width.set_ylabel('Count')
-    ax_width.set_title('Width Distribution')
-    ax_width.grid(True, alpha=0.3)
+    # Width histogram
+    axes[0, 1].hist(widths, bins=30, color='lightblue', alpha=0.7)
+    axes[0, 1].set_xlabel('Width (px)')
+    axes[0, 1].set_ylabel('Frequency')
+    axes[0, 1].set_title('Width Distribution')
     
-    # Height histogram (right)
-    ax_height = fig.add_subplot(gs[1, 1])
-    ax_height.hist(heights, bins=30, alpha=0.7, color='lightgreen', 
-                   edgecolor='black', orientation='horizontal')
-    ax_height.set_xlabel('Count')
-    ax_height.set_title('Height Distribution')
-    ax_height.grid(True, alpha=0.3)
+    # Height histogram
+    axes[1, 0].hist(heights, bins=30, color='lightgreen', alpha=0.7)
+    axes[1, 0].set_xlabel('Height (px)')
+    axes[1, 0].set_ylabel('Frequency')
+    axes[1, 0].set_title('Height Distribution')
     
-    # Remove empty subplot
-    fig.delaxes(fig.add_subplot(gs[0, 1]))
+    # Aspect ratio histogram
+    axes[1, 1].hist(aspect_ratios, bins=30, color='lightcoral', alpha=0.7)
+    axes[1, 1].set_xlabel('Aspect Ratio')
+    axes[1, 1].set_ylabel('Frequency')
+    axes[1, 1].set_title('Aspect Ratio Distribution')
     
-    return fig
-
-def create_heatmap_matplotlib(widths, heights):
-    """
-    Create 2D histogram heatmap of size distribution
-    
-    Args:
-        widths (list): Image widths
-        heights (list): Image heights
-        
-    Returns:
-        matplotlib.figure.Figure: Heatmap figure
-    """
-    
-    fig, ax = plt.subplots(figsize=(10, 8))
-    
-    # Create 2D histogram
-    hist, xedges, yedges = np.histogram2d(widths, heights, bins=20)
-    
-    # Create heatmap
-    im = ax.imshow(hist.T, origin='lower', aspect='auto', 
-                   extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
-                   cmap='Blues')
-    
-    # Add colorbar
-    cbar = plt.colorbar(im, ax=ax)
-    cbar.set_label('Count')
-    
-    # Set labels and title
-    ax.set_xlabel('Width (px)')
-    ax.set_ylabel('Height (px)')
-    ax.set_title('Image Size Distribution Heatmap')
-    
-    return fig
-
-# Example usage
-if __name__ == "__main__":
-    # Sample data
-    np.random.seed(42)
-    widths = np.random.normal(500, 100, 1000)
-    heights = np.random.normal(375, 75, 1000)
-    aspect_ratios = widths / heights
-    
-    # Create plots
-    fig1 = create_size_distribution_matplotlib(widths, heights, aspect_ratios)
-    fig2 = create_marginal_plot_matplotlib(widths, heights)
-    fig3 = create_heatmap_matplotlib(widths, heights)
-    
-    # Show plots
+    plt.tight_layout()
     plt.show()
+    
+    # Print statistics
+    print(f"Total images analyzed: {len(widths)}")
+    print(f"Mean width: {np.mean(widths):.0f}px")
+    print(f"Mean height: {np.mean(heights):.0f}px")
+    print(f"Mean aspect ratio: {np.mean(aspect_ratios):.2f}")
+
+if __name__ == "__main__":
+    # Example usage
+    data_dir = "path/to/your/dataset"
+    analyze_image_sizes(data_dir)

@@ -71,29 +71,7 @@
                 opacity: 0;
             }
             
-            .section-controls {
-                text-align: center;
-                margin: 20px 0;
-                padding: 15px;
-                background: #f8f9fa;
-                border-radius: 8px;
-            }
-            
-            .control-btn {
-                background: #667eea;
-                color: white;
-                border: none;
-                padding: 8px 16px;
-                margin: 0 5px;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: background 0.3s ease;
-            }
-            
-            .control-btn:hover {
-                background: #5a6fd8;
-            }
+            /* Old section controls removed - using global menubar instead */
             
             .table {
                 width: 100%;
@@ -1003,23 +981,10 @@
                     });
                 }
             
-            // Add control buttons and ensure sections are expanded by default
+            // Ensure sections are expanded by default (no control panel needed - using global menubar)
             document.addEventListener('DOMContentLoaded', function() {
                 // Ensure all sections are expanded by default
                 expandAll();
-                
-                const controls = document.createElement('div');
-                controls.className = 'section-controls';
-                controls.innerHTML = `
-                    <button onclick="expandAll()" class="control-btn">📂 Expand All</button>
-                    <button onclick="collapseAll()" class="control-btn">📦 Collapse All</button>
-                `;
-                
-                // Insert controls after the main header
-                const mainHeader = document.querySelector('.section-header');
-                if (mainHeader) {
-                    mainHeader.parentNode.insertBefore(controls, mainHeader.nextSibling);
-                }
             });
             </script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
