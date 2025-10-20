@@ -1086,7 +1086,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-20T16:10:00",
+  "timestamp": "2025-10-20T16:25:00",
   "dataset": {
     "name": "BBC News",
     "test_samples": 334,
@@ -1099,7 +1099,23 @@
       "tech"
     ]
   },
+  "note": "Prompt engineering comparison with Qwen-3B (3B params). Need 7B+ for better accuracy.",
   "experiments": [
+    {
+      "id": "qwen25_3b_zero_shot_v3",
+      "name": "Qwen2.5-3B (Zero Shot V3)",
+      "model": "Qwen2.5-3B",
+      "model_key": "qwen25_3b",
+      "strategy": "zero_shot_v3",
+      "params_billions": 3.0,
+      "accuracy": 56.886227544910184,
+      "precision": 71.55756342404324,
+      "recall": 56.886227544910184,
+      "f1_score": 58.47268632412317,
+      "inference_time_ms": 104.20286773689209,
+      "vram_gb": 6.181446144,
+      "status": "completed"
+    },
     {
       "id": "qwen25_3b_zero_shot",
       "name": "Qwen2.5-3B (Zero Shot)",
@@ -1108,8 +1124,25 @@
       "strategy": "zero_shot",
       "params_billions": 3.0,
       "accuracy": 55.98802395209581,
+      "precision": 66.23719532083464,
+      "recall": 55.98802395209581,
       "f1_score": 55.74336607762041,
       "inference_time_ms": 103.97954616281721,
+      "vram_gb": 6.181446144,
+      "status": "completed"
+    },
+    {
+      "id": "qwen25_3b_zero_shot_v2",
+      "name": "Qwen2.5-3B (Zero Shot V2)",
+      "model": "Qwen2.5-3B",
+      "model_key": "qwen25_3b",
+      "strategy": "zero_shot_v2",
+      "params_billions": 3.0,
+      "accuracy": 52.69461077844312,
+      "precision": 78.01962202618424,
+      "recall": 52.69461077844312,
+      "f1_score": 51.88578166218451,
+      "inference_time_ms": 105.29082706050266,
       "vram_gb": 6.181446144,
       "status": "completed"
     }
@@ -1119,6 +1152,123 @@
     
     <script type="application/json" id="experiments-data">
 {
+  "qwen25_3b_zero_shot_v3": {
+    "method": "qwen25_3b_zero_shot_v3",
+    "display_name": "Qwen2.5-3B (Zero Shot V3)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot_v3",
+    "timestamp": "2025-10-20T16:31:25.480692",
+    "metrics": {
+      "accuracy": 0.5688622754491018,
+      "precision": 0.7155756342404324,
+      "recall": 0.5688622754491018,
+      "f1_score": 0.5847268632412317
+    },
+    "performance": {
+      "model_load_time_seconds": 5.11452317237854,
+      "inference_time_ms_per_sample": 104.20286773689209,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        50,
+        0,
+        24,
+        0,
+        3
+      ],
+      [
+        20,
+        34,
+        4,
+        0,
+        0
+      ],
+      [
+        16,
+        0,
+        46,
+        0,
+        0
+      ],
+      [
+        19,
+        0,
+        18,
+        39,
+        1
+      ],
+      [
+        36,
+        3,
+        0,
+        0,
+        21
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.3546099290780142,
+        "recall": 0.6493506493506493,
+        "f1": 0.45871559633027525,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.918918918918919,
+        "recall": 0.5862068965517241,
+        "f1": 0.7157894736842105,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.5,
+        "recall": 0.7419354838709677,
+        "f1": 0.5974025974025974,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.5064935064935064,
+        "f1": 0.6724137931034483,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.84,
+        "recall": 0.35,
+        "f1": 0.49411764705882355,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot_v3",
+      "device": "cuda:0"
+    }
+  },
   "qwen25_3b_zero_shot": {
     "method": "qwen25_3b_zero_shot",
     "display_name": "Qwen2.5-3B (Zero Shot)",
@@ -1233,6 +1383,123 @@
         "torch_dtype": "float16"
       },
       "prompt_strategy": "zero_shot",
+      "device": "cuda:0"
+    }
+  },
+  "qwen25_3b_zero_shot_v2": {
+    "method": "qwen25_3b_zero_shot_v2",
+    "display_name": "Qwen2.5-3B (Zero Shot V2)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot_v2",
+    "timestamp": "2025-10-20T16:26:56.420542",
+    "metrics": {
+      "accuracy": 0.5269461077844312,
+      "precision": 0.7801962202618424,
+      "recall": 0.5269461077844312,
+      "f1_score": 0.5188578166218452
+    },
+    "performance": {
+      "model_load_time_seconds": 15.813872575759888,
+      "inference_time_ms_per_sample": 105.29082706050266,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        74,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        43,
+        10,
+        4,
+        0,
+        1
+      ],
+      [
+        21,
+        0,
+        41,
+        0,
+        0
+      ],
+      [
+        49,
+        0,
+        2,
+        24,
+        2
+      ],
+      [
+        32,
+        0,
+        1,
+        0,
+        27
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.3378995433789954,
+        "recall": 0.961038961038961,
+        "f1": 0.5,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9090909090909091,
+        "recall": 0.1724137931034483,
+        "f1": 0.2898550724637681,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.82,
+        "recall": 0.6612903225806451,
+        "f1": 0.7321428571428571,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.3116883116883117,
+        "f1": 0.4752475247524752,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9,
+        "recall": 0.45,
+        "f1": 0.6,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot_v2",
       "device": "cuda:0"
     }
   }
