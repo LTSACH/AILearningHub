@@ -21,7 +21,18 @@ class MethodSelector {
     async loadData() {
         try {
             const response = await fetch(this.dataPath);
-            this.data = await response.json();
+            const data = await response.json();
+            
+            // Handle both old format (methods array) and new format (summary.methods)
+            if (data.methods) {
+                this.data = data;
+            } else {
+                // Old format - convert to new format
+                this.data = {
+                    methods: data,
+                    dataset: {}
+                };
+            }
         } catch (error) {
             console.error('Failed to load method data:', error);
             this.data = this.getFallbackData();
@@ -35,40 +46,60 @@ class MethodSelector {
                 {
                     id: 'naive_bayes',
                     name: 'Naive Bayes',
-                    accuracy: 88.2,
-                    train_time: 5,
-                    inference_time: 0.1,
-                    model_size: 1,
-                    description: 'Fast probabilistic classifier, great baseline'
-                },
-                {
-                    id: 'linear_svm',
-                    name: 'Linear SVM',
-                    accuracy: 92.1,
-                    train_time: 20,
-                    inference_time: 0.5,
-                    model_size: 5,
-                    description: 'Best accuracy with reasonable speed'
+                    accuracy: 97.9,
+                    precision: 97.9,
+                    recall: 97.9,
+                    f1_score: 97.9,
+                    train_time: '~0.01s',
+                    inference_time: '~0.00ms',
+                    model_size: '~1MB',
+                    description: 'Fast probabilistic classifier, excellent baseline for text',
+                    status: 'available'
                 },
                 {
                     id: 'logistic_regression',
                     name: 'Logistic Regression',
-                    accuracy: 90.5,
-                    train_time: 15,
-                    inference_time: 0.3,
-                    model_size: 3,
-                    description: 'Balanced performance, interpretable'
+                    accuracy: 98.2,
+                    precision: 98.2,
+                    recall: 98.2,
+                    f1_score: 98.2,
+                    train_time: '~0.36s',
+                    inference_time: '~0.00ms',
+                    model_size: '~3MB',
+                    description: 'Linear classifier with regularization, balanced performance',
+                    status: 'available'
+                },
+                {
+                    id: 'svm',
+                    name: 'SVM',
+                    accuracy: 97.3,
+                    precision: 97.4,
+                    recall: 97.3,
+                    f1_score: 97.3,
+                    train_time: '~0.08s',
+                    inference_time: '~0.00ms',
+                    model_size: '~5MB',
+                    description: 'Maximum margin classifier, robust to outliers',
+                    status: 'available'
                 },
                 {
                     id: 'random_forest',
                     name: 'Random Forest',
-                    accuracy: 89.8,
-                    train_time: 45,
-                    inference_time: 1.2,
-                    model_size: 25,
-                    description: 'Ensemble method, good feature importance'
+                    accuracy: 96.7,
+                    precision: 96.9,
+                    recall: 96.7,
+                    f1_score: 96.7,
+                    train_time: '~1.31s',
+                    inference_time: '~0.05ms',
+                    model_size: '~25MB',
+                    description: 'Ensemble of decision trees, provides feature importance',
+                    status: 'available'
                 }
-            ]
+            ],
+            dataset: {
+                name: 'BBC News',
+                test_samples: 334
+            }
         };
     }
     
@@ -102,7 +133,12 @@ class MethodSelector {
     }
     
     renderMethodCheckboxes() {
-        return this.data.methods.map(method => `
+        return this.data.methods.map(method => {
+            // Handle both string and number formats for metrics
+            const accuracy = typeof method.accuracy === 'string' ? method.accuracy : `${method.accuracy.toFixed(1)}%`;
+            const trainTime = method.train_time || '~0s';
+            
+            return `
             <label class="method-checkbox-label">
                 <input type="checkbox" 
                        class="method-checkbox" 
@@ -111,13 +147,14 @@ class MethodSelector {
                 <div class="method-card-mini">
                     <div class="method-name">${method.name}</div>
                     <div class="method-quick-stats">
-                        <span>📊 ${method.accuracy}%</span>
-                        <span>⚡ ${method.train_time}s</span>
+                        <span>📊 ${accuracy}</span>
+                        <span>⚡ ${trainTime}</span>
                     </div>
                     <div class="method-description">${method.description}</div>
                 </div>
             </label>
-        `).join('');
+            `;
+        }).join('');
     }
     
     attachEventListeners() {

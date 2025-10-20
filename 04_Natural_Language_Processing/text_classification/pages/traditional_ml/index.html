@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TF-IDF + Traditional ML | BBC News Classification</title>
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../assets/css/common.css">
-    <link rel="stylesheet" href="../../assets/css/classification.css">
-    <link rel="stylesheet" href="../../assets/css/global-menubar.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-    
+    <!-- STANDALONE - All CSS/JS embedded -->
     <style>
+        
         * {
             margin: 0;
             padding: 0;
@@ -105,7 +101,6 @@
             padding: 1.5rem;
             border-radius: 10px;
             text-align: center;
-            transition: all 0.3s;
         }
         
         .step-fixed {
@@ -116,11 +111,6 @@
         .step-interactive {
             background: #dbeafe;
             border: 2px dashed #3b82f6;
-            cursor: pointer;
-        }
-        
-        .step-interactive:hover {
-            background: #bfdbfe;
         }
         
         .step-result {
@@ -309,7 +299,6 @@
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
         }
         
         .comparison-table th,
@@ -323,8 +312,6 @@
             background: #f8f9fa;
             font-weight: 600;
             color: #333;
-            position: sticky;
-            top: 0;
         }
         
         .comparison-table tbody tr:hover {
@@ -340,6 +327,8 @@
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             font-weight: bold;
+            padding: 0.5rem;
+            border-radius: 4px;
         }
         
         .table-caption {
@@ -351,11 +340,6 @@
         
         .confusion-matrices-container {
             margin: 3rem 0;
-        }
-        
-        .confusion-matrices-container h4 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
         }
         
         .confusion-matrix-card {
@@ -370,9 +354,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .matrix-header h5 {
@@ -380,67 +361,39 @@
             font-size: 1.2rem;
         }
         
-        .matrix-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .btn-icon {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        
-        .btn-icon:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
         .matrix-content {
             padding: 1.5rem;
         }
         
-        .insights-container {
-            margin: 3rem 0;
+        .cm-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
         }
         
-        .insights-container h4 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .cm-table th,
+        .cm-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
         }
         
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .insight-card {
+        .cm-table th {
             background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 1.5rem;
-            border-radius: 8px;
-            display: flex;
-            gap: 1rem;
+            font-weight: 600;
         }
         
-        .insight-icon {
-            font-size: 2rem;
+        .cm-diagonal {
+            background: #d1fae5;
+            font-weight: bold;
+            color: #065f46;
         }
         
-        .insight-content h5 {
-            margin-bottom: 0.5rem;
-            color: #333;
+        .cm-error {
+            background: #fee2e2;
+            color: #991b1b;
         }
         
-        .insight-content p {
-            color: #666;
-            margin: 0;
-        }
     </style>
 </head>
 <body>
@@ -449,10 +402,10 @@
             <a href="../../index.html" class="brand">📰 BBC News Classification</a>
             <ul class="nav-links">
                 <li><a href="../../index.html">Overview</a></li>
-                <li><a href="index.html" style="color: #667eea">Traditional ML</a></li>
-                <li><a href="../pipeline_builder/index.html">Pipelines</a></li>
-                <li><a href="../zero_shot/index.html">Zero-shot</a></li>
-                <li><a href="../bert_finetuning/index.html">BERT</a></li>
+                <li><a href="#" style="color: #667eea">Traditional ML</a></li>
+                <li><a href="#">Pipelines</a></li>
+                <li><a href="#">Zero-shot</a></li>
+                <li><a href="#">BERT</a></li>
             </ul>
         </div>
     </nav>
@@ -494,18 +447,721 @@
             <div class="step step-result">
                 <div class="step-icon">✨</div>
                 <div class="step-title">Results</div>
-                <div class="step-detail">88-92% accuracy</div>
+                <div class="step-detail">96-98% accuracy</div>
             </div>
         </div>
 
         <!-- Method Selector -->
-        <div id="method-selector" data-data-path="../../assets/data/traditional_ml/methods.json"></div>
+        <div id="method-selector"></div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-    <script src="../../assets/js/common.js"></script>
-    <script src="../../assets/js/method-selector.js"></script>
+    <!-- Embedded Data -->
+    <script type="application/json" id="summary-data">
+{
+  "timestamp": "2025-10-20T08:31:11.207514",
+  "dataset": {
+    "name": "BBC News",
+    "train_samples": 1557,
+    "test_samples": 334,
+    "num_classes": 5,
+    "classes": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ]
+  },
+  "methods": [
+    {
+      "id": "naive_bayes",
+      "name": "Naive Bayes",
+      "accuracy": 97.90419161676647,
+      "precision": 97.92406928803797,
+      "recall": 97.90419161676647,
+      "f1_score": 97.88469808716201,
+      "train_time": "~0.0s",
+      "inference_time": "~0.0ms",
+      "model_size": "~1MB",
+      "description": "Fast probabilistic classifier, excellent baseline for text",
+      "best_for": "Quick prototyping, interpretability, speed",
+      "data_path": "../naive_bayes/results.json",
+      "status": "available"
+    },
+    {
+      "id": "logistic_regression",
+      "name": "Logistic Regression",
+      "accuracy": 98.20359281437125,
+      "precision": 98.2324138205923,
+      "recall": 98.20359281437125,
+      "f1_score": 98.2001707885549,
+      "train_time": "~0.4s",
+      "inference_time": "~0.0ms",
+      "model_size": "~3MB",
+      "description": "Linear classifier with regularization, balanced performance",
+      "best_for": "Production, interpretability, balanced speed/accuracy",
+      "data_path": "../logistic_regression/results.json",
+      "status": "available"
+    },
+    {
+      "id": "svm",
+      "name": "Svm",
+      "accuracy": 97.30538922155688,
+      "precision": 97.34728928274042,
+      "recall": 97.30538922155688,
+      "f1_score": 97.30539131987211,
+      "train_time": "~0.1s",
+      "inference_time": "~0.0ms",
+      "model_size": "~5MB",
+      "description": "Maximum margin classifier, robust to outliers",
+      "best_for": "High-dimensional data, robust classification",
+      "data_path": "../svm/results.json",
+      "status": "available"
+    },
+    {
+      "id": "random_forest",
+      "name": "Random Forest",
+      "accuracy": 96.7065868263473,
+      "precision": 96.88447813270639,
+      "recall": 96.7065868263473,
+      "f1_score": 96.72550095669341,
+      "train_time": "~1.3s",
+      "inference_time": "~0.1ms",
+      "model_size": "~25MB",
+      "description": "Ensemble of decision trees, provides feature importance",
+      "best_for": "Feature analysis, ensemble learning",
+      "data_path": "../random_forest/results.json",
+      "status": "available"
+    }
+  ]
+}
+    </script>
+    
+    <script type="application/json" id="methods-data">
+{
+  "naive_bayes": {
+    "method": "naive_bayes",
+    "display_name": "Naive Bayes",
+    "timestamp": "2025-10-20T08:31:09.395368",
+    "metrics": {
+      "accuracy": 0.9790419161676647,
+      "precision": 0.9792406928803797,
+      "recall": 0.9790419161676647,
+      "f1_score": 0.97884698087162
+    },
+    "performance": {
+      "train_time_seconds": 0.0061070919036865234,
+      "inference_time_ms_per_sample": 0.0019287634752467723,
+      "total_test_samples": 334
+    },
+    "confusion_matrix": [
+      [
+        76,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        53,
+        1,
+        0,
+        2
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9620253164556962,
+        "recall": 0.987012987012987,
+        "f1": 0.9743589743589743,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9814814814814815,
+        "recall": 0.9137931034482759,
+        "f1": 0.9464285714285714,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9838709677419355,
+        "recall": 0.9838709677419355,
+        "f1": 0.9838709677419355,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.967741935483871,
+        "recall": 1.0,
+        "f1": 0.9836065573770492,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "feature_extraction": "TF-IDF",
+      "max_features": 5000,
+      "ngram_range": [
+        1,
+        2
+      ]
+    }
+  },
+  "logistic_regression": {
+    "method": "logistic_regression",
+    "display_name": "Logistic Regression",
+    "timestamp": "2025-10-20T08:31:09.768643",
+    "metrics": {
+      "accuracy": 0.9820359281437125,
+      "precision": 0.982324138205923,
+      "recall": 0.9820359281437125,
+      "f1_score": 0.982001707885549
+    },
+    "performance": {
+      "train_time_seconds": 0.3608541488647461,
+      "inference_time_ms_per_sample": 0.0021728926789974738,
+      "total_test_samples": 334
+    },
+    "confusion_matrix": [
+      [
+        75,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        55,
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        60
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.974025974025974,
+        "recall": 0.974025974025974,
+        "f1": 0.974025974025974,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 1.0,
+        "recall": 0.9482758620689655,
+        "f1": 0.9734513274336283,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9682539682539683,
+        "recall": 0.9838709677419355,
+        "f1": 0.976,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.967741935483871,
+        "recall": 1.0,
+        "f1": 0.9836065573770492,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "feature_extraction": "TF-IDF",
+      "max_features": 5000,
+      "ngram_range": [
+        1,
+        2
+      ]
+    }
+  },
+  "svm": {
+    "method": "svm",
+    "display_name": "Svm",
+    "timestamp": "2025-10-20T08:31:09.873192",
+    "metrics": {
+      "accuracy": 0.9730538922155688,
+      "precision": 0.9734728928274042,
+      "recall": 0.9730538922155688,
+      "f1_score": 0.9730539131987211
+    },
+    "performance": {
+      "train_time_seconds": 0.07862448692321777,
+      "inference_time_ms_per_sample": 0.002233568065894578,
+      "total_test_samples": 334
+    },
+    "confusion_matrix": [
+      [
+        73,
+        1,
+        2,
+        0,
+        1
+      ],
+      [
+        0,
+        56,
+        1,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        0,
+        58
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9864864864864865,
+        "recall": 0.948051948051948,
+        "f1": 0.9668874172185431,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9655172413793104,
+        "recall": 0.9655172413793104,
+        "f1": 0.9655172413793104,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9384615384615385,
+        "recall": 0.9838709677419355,
+        "f1": 0.9606299212598425,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.9871794871794872,
+        "recall": 1.0,
+        "f1": 0.9935483870967742,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9830508474576272,
+        "recall": 0.9666666666666667,
+        "f1": 0.9747899159663865,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "feature_extraction": "TF-IDF",
+      "max_features": 5000,
+      "ngram_range": [
+        1,
+        2
+      ]
+    }
+  },
+  "random_forest": {
+    "method": "random_forest",
+    "display_name": "Random Forest",
+    "timestamp": "2025-10-20T08:31:11.206809",
+    "metrics": {
+      "accuracy": 0.9670658682634731,
+      "precision": 0.968844781327064,
+      "recall": 0.9670658682634731,
+      "f1_score": 0.9672550095669341
+    },
+    "performance": {
+      "train_time_seconds": 1.3082876205444336,
+      "inference_time_ms_per_sample": 0.05441297314124193,
+      "total_test_samples": 334
+    },
+    "confusion_matrix": [
+      [
+        76,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        3,
+        55,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        0,
+        58,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        77,
+        0
+      ],
+      [
+        2,
+        0,
+        1,
+        0,
+        57
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9047619047619048,
+        "recall": 0.987012987012987,
+        "f1": 0.9440993788819876,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 1.0,
+        "recall": 0.9482758620689655,
+        "f1": 0.9734513274336283,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9830508474576272,
+        "recall": 0.9354838709677419,
+        "f1": 0.9586776859504132,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.9871794871794872,
+        "recall": 1.0,
+        "f1": 0.9935483870967742,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9827586206896551,
+        "recall": 0.95,
+        "f1": 0.9661016949152542,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "feature_extraction": "TF-IDF",
+      "max_features": 5000,
+      "ngram_range": [
+        1,
+        2
+      ]
+    }
+  }
+}
+    </script>
+
+    <!-- Inline JavaScript -->
+    <script>
+        
+        // Load embedded data
+        const summaryData = JSON.parse(document.getElementById('summary-data').textContent);
+        const methodsData = JSON.parse(document.getElementById('methods-data').textContent);
+        
+        let selectedMethods = new Set();
+        
+        // Render method selector
+        function renderMethodSelector() {
+            const container = document.getElementById('method-selector');
+            
+            const methodsHTML = summaryData.methods.map(method => `
+                <label class="method-checkbox-label">
+                    <input type="checkbox" 
+                           class="method-checkbox" 
+                           value="${method.id}"
+                           onchange="toggleMethod('${method.id}')">
+                    <div class="method-card-mini">
+                        <div class="method-name">${method.name}</div>
+                        <div class="method-quick-stats">
+                            <span>📊 ${method.accuracy.toFixed(1)}%</span>
+                            <span>⚡ ${method.train_time}</span>
+                        </div>
+                        <div class="method-description">${method.description}</div>
+                    </div>
+                </label>
+            `).join('');
+            
+            container.innerHTML = `
+                <div class="method-selector-container">
+                    <div class="selector-header">
+                        <h3>Select Methods to Compare</h3>
+                        <div class="selector-actions">
+                            <button class="btn-secondary" onclick="selectAll()">Select All</button>
+                            <button class="btn-secondary" onclick="clearAll()">Clear All</button>
+                        </div>
+                    </div>
+                    
+                    <div class="method-checkboxes">
+                        ${methodsHTML}
+                    </div>
+                    
+                    <div class="selector-footer">
+                        <button class="btn-primary" onclick="compare()" id="compare-btn" disabled>
+                            Compare Selected Methods
+                        </button>
+                        <p class="text-muted">Select at least one method to compare</p>
+                    </div>
+                    
+                    <div id="comparison-results" class="comparison-results"></div>
+                </div>
+            `;
+        }
+        
+        function toggleMethod(methodId) {
+            if (selectedMethods.has(methodId)) {
+                selectedMethods.delete(methodId);
+            } else {
+                selectedMethods.add(methodId);
+            }
+            updateCompareButton();
+        }
+        
+        function updateCompareButton() {
+            const btn = document.getElementById('compare-btn');
+            if (selectedMethods.size > 0) {
+                btn.disabled = false;
+                btn.textContent = `Compare ${selectedMethods.size} Method${selectedMethods.size > 1 ? 's' : ''}`;
+            } else {
+                btn.disabled = true;
+                btn.textContent = 'Compare Selected Methods';
+            }
+        }
+        
+        function selectAll() {
+            document.querySelectorAll('.method-checkbox').forEach(cb => {
+                cb.checked = true;
+                selectedMethods.add(cb.value);
+            });
+            updateCompareButton();
+        }
+        
+        function clearAll() {
+            document.querySelectorAll('.method-checkbox').forEach(cb => cb.checked = false);
+            selectedMethods.clear();
+            updateCompareButton();
+        }
+        
+        function compare() {
+            const methods = summaryData.methods.filter(m => selectedMethods.has(m.id));
+            renderComparison(methods);
+        }
+        
+        function renderComparison(methods) {
+            const resultsContainer = document.getElementById('comparison-results');
+            
+            // Find best in each metric
+            const bestAcc = Math.max(...methods.map(m => m.accuracy));
+            const bestF1 = Math.max(...methods.map(m => m.f1_score));
+            
+            // Comparison table
+            const tableRows = methods.map(method => {
+                const accClass = method.accuracy === bestAcc ? 'metric-best' : '';
+                const f1Class = method.f1_score === bestF1 ? 'metric-best' : '';
+                
+                return `
+                    <tr>
+                        <td class="method-name-cell">${method.name}</td>
+                        <td class="${accClass}">${method.accuracy.toFixed(2)}%${method.accuracy === bestAcc ? ' ⭐' : ''}</td>
+                        <td>${method.precision.toFixed(2)}%</td>
+                        <td>${method.recall.toFixed(2)}%</td>
+                        <td class="${f1Class}">${method.f1_score.toFixed(2)}%${method.f1_score === bestF1 ? ' ⭐' : ''}</td>
+                        <td>${method.train_time}</td>
+                        <td>${method.inference_time}</td>
+                        <td>${method.model_size}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            // Confusion matrices
+            const confusionMatrices = methods.map(method => {
+                const data = methodsData[method.id];
+                const cm = data.confusion_matrix;
+                const labels = data.labels;
+                
+                const cmHTML = `
+                    <table class="cm-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                ${labels.map(l => `<th>${l}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${cm.map((row, i) => `
+                                <tr>
+                                    <th>${labels[i]}</th>
+                                    ${row.map((val, j) => {
+                                        const className = i === j ? 'cm-diagonal' : (val > 0 ? 'cm-error' : '');
+                                        return `<td class="${className}">${val}</td>`;
+                                    }).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+                
+                return `
+                    <div class="confusion-matrix-card">
+                        <div class="matrix-header">
+                            <h5>${method.name} (Accuracy: ${method.accuracy.toFixed(2)}%)</h5>
+                        </div>
+                        <div class="matrix-content">
+                            <h4>Confusion Matrix</h4>
+                            ${cmHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            resultsContainer.innerHTML = `
+                <div class="comparison-content">
+                    <h3>Comparison Results</h3>
+                    
+                    <div class="comparison-table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Accuracy</th>
+                                    <th>Precision</th>
+                                    <th>Recall</th>
+                                    <th>F1-Score</th>
+                                    <th>Train Time</th>
+                                    <th>Inference</th>
+                                    <th>Model Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRows}
+                            </tbody>
+                        </table>
+                        <p class="table-caption">⭐ = Best performer in this metric</p>
+                    </div>
+                    
+                    <div class="confusion-matrices-container">
+                        <h4>Confusion Matrices</h4>
+                        ${confusionMatrices}
+                    </div>
+                </div>
+            `;
+            
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Initialize on load
+        renderMethodSelector();
+        
+    </script>
 </body>
 </html>
-
