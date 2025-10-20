@@ -1,94 +1,79 @@
 """
-Oxford Pets Feature Extraction & Visualization - Plotly Version
+Classification EDA - Feature Extraction & Visualization (Plotly)
+Reproduces t-SNE and UMAP charts from: https://ltsach.github.io/AILearningHub/.../eda_classification.html
 
-Tutorial: Feature Extraction
-Library: Plotly
-Author: AILearningHub
-Dataset: Oxford-IIIT Pets
-URL: https://ltsach.github.io/AILearningHub/
-
-Description:
-    Visualize deep features extracted using ResNet50 with t-SNE and UMAP
-    dimensionality reduction. Creates publication-quality 2D projections
-    with proper color coding for all 37 breeds.
-
-Requirements:
-    pip install pandas plotly numpy
-
-Data Source:
-    Pre-computed t-SNE coordinates:
-    https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/tsne_coordinates.csv
-    
-    Pre-computed UMAP coordinates:
-    https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/umap_coordinates.csv
-
-Note:
-    This tutorial uses pre-computed features for instant visualization.
-    Features were extracted using ResNet50 (ImageNet pretrained).
-    Code matches the web report charts exactly.
+Uses pre-computed t-SNE/UMAP coordinates with distinct colors for all 37 breeds.
+Run this in Google Colab - Copy & paste entire code!
 """
 
-import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
+import pandas as pd
+import colorsys
+
+print("="*70)
+print("🔬 CLASSIFICATION EDA - Feature Extraction (Plotly)")
+print("="*70)
 
 # ============================================================================
-# Load Pre-computed Data
+# 1. LOAD PRE-COMPUTED FEATURES FROM GITHUB PAGES
 # ============================================================================
+print("\n1️⃣ Loading pre-computed features from GitHub Pages...")
 
-print("📊 Loading Pre-computed Feature Visualizations...")
-print("=" * 70)
+# Load t-SNE coordinates
+url_tsne = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/precomputed/classification/tsne_coordinates.csv'
+tsne_df = pd.read_csv(url_tsne)
+print(f"   ✓ Loaded t-SNE: {len(tsne_df):,} samples")
 
-base_url = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/precomputed/classification/'
+# Load UMAP coordinates
+url_umap = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/precomputed/classification/umap_coordinates.csv'
+umap_df = pd.read_csv(url_umap)
+print(f"   ✓ Loaded UMAP: {len(umap_df):,} samples")
 
-print("\n⏳ Loading t-SNE coordinates...")
-tsne_df = pd.read_csv(base_url + 'tsne_coordinates.csv')
-print(f"✓ Loaded t-SNE data: {len(tsne_df):,} samples")
-
-print("\n⏳ Loading UMAP coordinates...")
-umap_df = pd.read_csv(base_url + 'umap_coordinates.csv')
-print(f"✓ Loaded UMAP data: {len(umap_df):,} samples")
-
-print(f"\n✓ Breeds: {tsne_df['breed'].nunique()}")
-print(f"✓ Species: {tsne_df['species'].nunique()}")
+print(f"   ✓ Breeds: {tsne_df['breed'].nunique()}")
 
 # ============================================================================
-# Helper Function: Generate Color Palette for 37 Breeds
+# 2. GENERATE 37 DISTINCT COLORS (Matching Web Report)
 # ============================================================================
+print("\n2️⃣ Generating 37 distinct colors for breeds...")
 
 def generate_color_palette(n_colors):
-    """Generate distinct colors for breeds (matches web report)"""
-    import colorsys
+    """Generate n visually distinct colors"""
     colors = []
     for i in range(n_colors):
         hue = i / n_colors
-        saturation = 0.7 + (i % 3) * 0.1
-        value = 0.8 + (i % 2) * 0.1
-        rgb = colorsys.hsv_to_rgb(hue, saturation, value)
-        colors.append(f'rgb({int(rgb[0]*255)},{int(rgb[1]*255)},{int(rgb[2]*255)})')
+        sat = 0.7 + (i % 3) * 0.1  # Vary saturation
+        val = 0.8 + (i % 2) * 0.1  # Vary value
+        rgb = colorsys.hsv_to_rgb(hue, sat, val)
+        # Convert to hex
+        hex_color = '#{:02x}{:02x}{:02x}'.format(
+            int(rgb[0]*255), int(rgb[1]*255), int(rgb[2]*255)
+        )
+        colors.append(hex_color)
     return colors
-
-# ============================================================================
-# Visualization 1: t-SNE 2D Projection (Matches Web Report)
-# ============================================================================
-
-print("\n📈 Creating t-SNE visualization (37 breeds, distinct colors)...")
 
 # Get unique breeds (sorted for consistency) - filter out NaN
 breed_names = sorted([b for b in tsne_df['breed'].unique() if pd.notna(b)])
 colors = generate_color_palette(len(breed_names))
 breed_to_color = {breed: colors[i] for i, breed in enumerate(breed_names)}
 
+print(f"   ✓ Generated {len(colors)} distinct colors")
+
+# ============================================================================
+# 3. CHART 1: t-SNE 2D Projection (37 Breeds, Distinct Colors)
+# ============================================================================
+print("\n3️⃣ Creating t-SNE visualization...")
+
+fig_tsne = go.Figure()
+
 # Create one trace per breed (for distinct colors and legend)
-traces_tsne = []
 for breed in breed_names:
     breed_data = tsne_df[tsne_df['breed'] == breed]
     
-    trace = go.Scatter(
+    fig_tsne.add_trace(go.Scatter(
         x=breed_data['tsne_x'],
         y=breed_data['tsne_y'],
         mode='markers',
-        name=breed,
+        name=breed.replace('_', ' ').title(),
         marker=dict(
             size=8,
             color=breed_to_color[breed],
@@ -96,17 +81,13 @@ for breed in breed_names:
         ),
         text=[breed] * len(breed_data),
         hovertemplate='<b>%{text}</b><br>X: %{x:.2f}<br>Y: %{y:.2f}<extra></extra>'
-    )
-    traces_tsne.append(trace)
-
-# Create figure
-fig_tsne = go.Figure(data=traces_tsne)
+    ))
 
 fig_tsne.update_layout(
-    title={
-        'text': 't-SNE 2D Projection of Pet Breeds (ResNet50 Features)',
-        'font': {'size': 18}
-    },
+    title=dict(
+        text='t-SNE 2D Projection of Pet Breeds (ResNet50 Features)',
+        font=dict(size=18)
+    ),
     xaxis_title='t-SNE Dimension 1',
     yaxis_title='t-SNE Dimension 2',
     width=800,  # Match web report card width
@@ -119,30 +100,30 @@ fig_tsne.update_layout(
         y=1,
         xanchor='left',
         x=1.02,
-        font={'size': 10}
+        font=dict(size=10)
     ),
-    margin={'r': 200}  # Space for legend
+    margin=dict(r=200)  # Space for legend
 )
 
-print("✓ t-SNE plot created with 37 distinct breed colors")
+print("   ✓ t-SNE plot created with 37 distinct breed colors")
 fig_tsne.show()
 
 # ============================================================================
-# Visualization 2: UMAP 2D Projection (Matches Web Report)
+# 4. CHART 2: UMAP 2D Projection (37 Breeds, Distinct Colors)
 # ============================================================================
+print("\n4️⃣ Creating UMAP visualization...")
 
-print("\n📈 Creating UMAP visualization (37 breeds, distinct colors)...")
+fig_umap = go.Figure()
 
 # Create one trace per breed
-traces_umap = []
 for breed in breed_names:
     breed_data = umap_df[umap_df['breed'] == breed]
     
-    trace = go.Scatter(
+    fig_umap.add_trace(go.Scatter(
         x=breed_data['umap_x'],
         y=breed_data['umap_y'],
         mode='markers',
-        name=breed,
+        name=breed.replace('_', ' ').title(),
         marker=dict(
             size=8,
             color=breed_to_color[breed],
@@ -150,21 +131,17 @@ for breed in breed_names:
         ),
         text=[breed] * len(breed_data),
         hovertemplate='<b>%{text}</b><br>X: %{x:.2f}<br>Y: %{y:.2f}<extra></extra>'
-    )
-    traces_umap.append(trace)
-
-# Create figure
-fig_umap = go.Figure(data=traces_umap)
+    ))
 
 fig_umap.update_layout(
-    title={
-        'text': 'UMAP 2D Projection of Pet Breeds (ResNet50 Features)',
-        'font': {'size': 18}
-    },
+    title=dict(
+        text='UMAP 2D Projection of Pet Breeds (ResNet50 Features)',
+        font=dict(size=18)
+    ),
     xaxis_title='UMAP Dimension 1',
     yaxis_title='UMAP Dimension 2',
-    width=800,  # Match web report card width
-    height=500,  # Match web report height exactly
+    width=800,
+    height=500,
     template='plotly_white',
     hovermode='closest',
     legend=dict(
@@ -173,77 +150,49 @@ fig_umap.update_layout(
         y=1,
         xanchor='left',
         x=1.02,
-        font={'size': 10}
+        font=dict(size=10)
     ),
-    margin={'r': 200}
+    margin=dict(r=200)
 )
 
-print("✓ UMAP plot created with 37 distinct breed colors")
+print("   ✓ UMAP plot created with 37 distinct breed colors")
 fig_umap.show()
 
 # ============================================================================
-# Visualization 3: Species-Level View (Simplified)
+# 5. ANALYSIS: Breed Clustering & Separability
 # ============================================================================
+print("\n5️⃣ Breed Clustering Analysis:")
+print("="*70)
 
-print("\n📈 Creating species-level t-SNE view (simplified)...")
+# Compute cluster statistics (simple center-based)
+print("\nt-SNE Statistics:")
+for species in ['cat', 'dog']:
+    species_df = tsne_df[tsne_df['species'] == species]
+    print(f"   {species.capitalize()}:")
+    print(f"      • X range: [{species_df['tsne_x'].min():.1f}, {species_df['tsne_x'].max():.1f}]")
+    print(f"      • Y range: [{species_df['tsne_y'].min():.1f}, {species_df['tsne_y'].max():.1f}]")
 
-# Simple 2-color version (cats vs dogs)
-fig_species = go.Figure()
-
-for species, color in [('cat', '#667eea'), ('dog', '#f093fb')]:
-    species_data = tsne_df[tsne_df['species'] == species]
-    
-    fig_species.add_trace(go.Scatter(
-        x=species_data['tsne_x'],
-        y=species_data['tsne_y'],
-        mode='markers',
-        name=species.capitalize(),
-        marker=dict(
-            size=8,
-            color=color,
-            opacity=0.6,
-            line=dict(width=1, color='white')
-        ),
-        text=species_data['breed'],
-        hovertemplate='<b>%{text}</b><br>Species: ' + species + '<extra></extra>'
-    ))
-
-fig_species.update_layout(
-    title='t-SNE: Species Separation (Cats vs Dogs)',
-    xaxis_title='t-SNE Dimension 1',
-    yaxis_title='t-SNE Dimension 2',
-    width=900,
-    height=600,
-    template='plotly_white',
-    legend=dict(title='Species', font=dict(size=14))
-)
-
-print("✓ Species-level view created")
-fig_species.show()
+print("\nUMAP Statistics:")
+for species in ['cat', 'dog']:
+    species_df = umap_df[umap_df['species'] == species]
+    print(f"   {species.capitalize()}:")
+    print(f"      • X range: [{species_df['umap_x'].min():.1f}, {species_df['umap_x'].max():.1f}]")
+    print(f"      • Y range: [{species_df['umap_y'].min():.1f}, {species_df['umap_y'].max():.1f}]")
 
 # ============================================================================
-# Summary
+# 6. KEY INSIGHTS
 # ============================================================================
-
-print("\n" + "=" * 70)
-print("✅ VISUALIZATION COMPLETE")
-print("=" * 70)
 print("\n💡 Key Insights:")
-print("   - Breeds form distinct clusters in feature space")
-print("   - Clear separation between cats and dogs")
-print("   - Some breed clusters overlap (visually similar breeds)")
-print("   - Both t-SNE and UMAP reveal similar structure")
-print("\n📊 Technical Details:")
-print(f"   - Samples visualized: {len(tsne_df):,}")
-print(f"   - Breeds: {tsne_df['breed'].nunique()}")
-print(f"   - Feature extractor: ResNet50 (ImageNet pretrained)")
-print(f"   - t-SNE parameters: perplexity=30, n_iter=1000")
-print(f"   - UMAP parameters: n_neighbors=15, min_dist=0.1")
-print("\n📚 Next Steps:")
-print("   - Analyze breed similarity using cosine distance")
-print("   - Identify most/least similar breed pairs")
-print("   - Understand classification challenges")
-print("\n💡 Pro Tip:")
-print("   - Overlapping clusters = harder to classify")
-print("   - Well-separated clusters = easier to classify")
-print("   - Use these visualizations to guide model architecture choices")
+print("   ✓ t-SNE preserves local structure - similar breeds cluster together")
+print("   ✓ UMAP preserves both local and global structure - species separation visible")
+print("   ✓ Both methods show breed separability in feature space")
+print("   ✓ 37 distinct colors used to match web report exactly")
+
+print("\n📌 Notes:")
+print("   • Features extracted from ResNet50 (ImageNet pre-trained)")
+print("   • Dimensionality reduction: 2048D → 2D")
+print("   • Pre-computed for instant visualization")
+print("   • Same colors and layout as web report")
+
+print("="*70)
+print("✅ Feature extraction analysis complete! Charts match web report.")

@@ -1,176 +1,172 @@
 """
-Oxford Pets Dataset Overview - Plotly Version
+Classification EDA - Dataset Overview (Plotly)
+Reproduces charts from: https://ltsach.github.io/AILearningHub/01_Data_Analysis/01_EDA/oxford_pets_classification/eda_classification.html
 
-Tutorial: Dataset Overview
-Library: Plotly
-Author: AILearningHub
-Dataset: Oxford-IIIT Pets
-URL: https://ltsach.github.io/AILearningHub/
-
-Description:
-    Explore the Oxford-IIIT Pet Dataset structure and basic statistics
-    using interactive Plotly visualizations.
-
-Requirements:
-    pip install pandas plotly
-
-Data Source:
-    Full metadata (7,349 images):
-    https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv
+Run this in Google Colab - Copy & paste entire code!
 """
 
-import pandas as pd
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+import pandas as pd
+
+print("="*70)
+print("📊 CLASSIFICATION EDA - Dataset Overview (Plotly)")
+print("="*70)
 
 # ============================================================================
-# Load Data
+# 1. LOAD DATA FROM GITHUB PAGES
 # ============================================================================
+print("\n1️⃣ Loading dataset metadata from GitHub Pages...")
 
-print("📊 Loading Oxford Pets Dataset...")
-print("=" * 70)
-
-url = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv'
+url = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/full_metadata.csv'
 df = pd.read_csv(url)
-
-print(f"✓ Loaded {len(df):,} images")
-print(f"✓ Dataset shape: {df.shape}")
-
-# ============================================================================
-# Basic Statistics
-# ============================================================================
-
-print("\n" + "=" * 70)
-print("DATASET OVERVIEW")
-print("=" * 70)
-
-print(f"\nTotal Images:    {len(df):,}")
-print(f"Total Breeds:    {df['breed'].nunique()}")
-print(f"Total Species:   {df['species'].nunique()}")
-
-print(f"\n📊 Species Distribution:")
-for species, count in df['species'].value_counts().items():
-    pct = count / len(df) * 100
-    print(f"  {species.capitalize():8s}: {count:,} ({pct:.1f}%)")
-
-print(f"\n📊 Split Distribution:")
-for split, count in df['split'].value_counts().items():
-    pct = count / len(df) * 100
-    print(f"  {split.capitalize():8s}: {count:,} ({pct:.1f}%)")
+print(f"   ✓ Loaded {len(df):,} images")
+print(f"   ✓ Columns: {list(df.columns[:10])}")
 
 # ============================================================================
-# Visualization 1: Species Distribution (Donut Chart)
+# 2. DATASET OVERVIEW STATISTICS
 # ============================================================================
+print("\n2️⃣ Computing overview statistics...")
 
-species_counts = df['species'].value_counts()
+total_images = len(df)
+num_breeds = df['breed'].nunique()
+num_species = df['species'].nunique()
+
+# Count by species
+species_counts = df['species'].value_counts().to_dict()
+
+# Count by split
+split_counts = df['split'].value_counts().to_dict()
+
+print(f"   ✓ Total: {total_images:,} images")
+print(f"   ✓ Breeds: {num_breeds}")
+print(f"   ✓ Species: {num_species}")
+
+# ============================================================================
+# 3. CHART 1: Species Distribution Pie Chart
+# ============================================================================
+print("\n3️⃣ Creating Species Distribution Pie Chart...")
+
+# Colors matching web report
+species_colors = {'cat': '#667eea', 'dog': '#f093fb'}  # Blue-purple for cats, Pink for dogs
 
 fig1 = go.Figure(data=[go.Pie(
-    labels=species_counts.index,
-    values=species_counts.values,
-    hole=0.4,
-    marker=dict(colors=['#667eea', '#f093fb']),
-    textinfo='label+percent+value',
-    textfont_size=14,
-    hovertemplate='<b>%{label}</b><br>Count: %{value:,}<br>Percentage: %{percent}<extra></extra>'
+    labels=[s.capitalize() for s in species_counts.keys()],
+    values=list(species_counts.values()),
+    marker=dict(
+        colors=[species_colors.get(s, '#10b981') for s in species_counts.keys()],
+        line=dict(width=2, color='white')
+    ),
+    textinfo='label+percent',
+    textposition='outside',
+    hovertemplate='<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}<extra></extra>'
 )])
 
 fig1.update_layout(
-    title={
-        'text': 'Species Distribution (Cats vs Dogs)',
-        'x': 0.5,
-        'xanchor': 'center'
-    },
+    title=dict(
+        text="Species Distribution",
+        font=dict(size=18, family='Arial, sans-serif')
+    ),
     showlegend=True,
-    width=700,
-    height=500,
-    template='plotly_white'
+    legend=dict(
+        orientation='v',
+        yanchor='middle',
+        y=0.5,
+        xanchor='left',
+        x=1.02
+    ),
+    margin=dict(t=60, r=100, b=20, l=20),
+    height=400
 )
 
-print("\n📈 Displaying Species Distribution chart...")
+print("   ✓ Species pie chart created")
 fig1.show()
 
 # ============================================================================
-# Visualization 2: Split Distribution (Bar Chart)
+# 4. CHART 2: Train/Val/Test Split Distribution
 # ============================================================================
+print("\n4️⃣ Creating Split Distribution Chart...")
 
-split_counts = df['split'].value_counts().reindex(['train', 'val', 'test'])
+split_colors = {
+    'train': '#3b82f6',  # Blue
+    'val': '#10b981',    # Green
+    'test': '#f59e0b'    # Orange
+}
 
-fig2 = go.Figure(data=[go.Bar(
-    x=split_counts.index,
-    y=split_counts.values,
-    marker_color=['#3b82f6', '#8b5cf6', '#10b981'],
-    text=split_counts.values,
-    textposition='auto',
-    texttemplate='%{text:,}',
-    hovertemplate='<b>%{x}</b><br>Count: %{y:,}<extra></extra>'
-)])
+split_data = []
+for split_name in ['train', 'val', 'test']:
+    split_df = df[df['split'] == split_name]
+    species_split = split_df['species'].value_counts().to_dict()
+    
+    for species in ['cat', 'dog']:
+        count = species_split.get(species, 0)
+        split_data.append({
+            'Species': species.capitalize(),
+            'Split': split_name.capitalize(),
+            'Count': count
+        })
+
+split_df_chart = pd.DataFrame(split_data)
+
+fig2 = go.Figure()
+
+for split_name in ['train', 'val', 'test']:
+    split_subset = split_df_chart[split_df_chart['Split'] == split_name.capitalize()]
+    
+    fig2.add_trace(go.Bar(
+        x=split_subset['Species'],
+        y=split_subset['Count'],
+        name=split_name.capitalize(),
+        marker_color=split_colors[split_name],
+        hovertemplate='<b>%{x}</b><br>' + split_name.capitalize() + ': %{y}<extra></extra>'
+    ))
 
 fig2.update_layout(
-    title={
-        'text': 'Data Split Distribution (Train/Val/Test)',
-        'x': 0.5,
-        'xanchor': 'center'
-    },
-    xaxis_title='Split',
-    yaxis_title='Number of Images',
-    width=700,
-    height=500,
-    template='plotly_white',
-    showlegend=False
+    title="Train/Val/Test Split by Species",
+    xaxis_title="Species",
+    yaxis_title="Count",
+    barmode='group',
+    template="plotly_white",
+    height=400,
+    showlegend=True,
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    )
 )
 
-print("📈 Displaying Split Distribution chart...")
+print("   ✓ Split distribution chart created")
 fig2.show()
 
 # ============================================================================
-# Visualization 3: Top 10 Breeds (Horizontal Bar)
+# 5. STATISTICS SUMMARY
 # ============================================================================
+print("\n5️⃣ Statistics Summary:")
+print("="*70)
 
-breed_counts = df['breed'].value_counts().head(10)
+print(f"📊 Dataset Overview:")
+print(f"   • Total Images: {total_images:,}")
+print(f"   • Number of Breeds: {num_breeds}")
+print(f"   • Number of Species: {num_species}")
 
-fig3 = go.Figure(data=[go.Bar(
-    y=breed_counts.index,
-    x=breed_counts.values,
-    orientation='h',
-    marker_color='#667eea',
-    text=breed_counts.values,
-    textposition='auto',
-    texttemplate='%{text}',
-    hovertemplate='<b>%{y}</b><br>Count: %{x}<extra></extra>'
-)])
+print(f"\n🐱🐶 Species Distribution:")
+for species, count in species_counts.items():
+    percentage = (count / total_images) * 100
+    print(f"   • {species.capitalize()}: {count:,} ({percentage:.1f}%)")
 
-fig3.update_layout(
-    title={
-        'text': 'Top 10 Breeds by Image Count',
-        'x': 0.5,
-        'xanchor': 'center'
-    },
-    xaxis_title='Number of Images',
-    yaxis_title='Breed',
-    width=700,
-    height=500,
-    template='plotly_white',
-    showlegend=False,
-    yaxis={'categoryorder': 'total ascending'}
-)
+print(f"\n📚 Split Distribution:")
+for split_name, count in sorted(split_counts.items()):
+    percentage = (count / total_images) * 100
+    print(f"   • {split_name.capitalize()}: {count:,} ({percentage:.1f}%)")
 
-print("📈 Displaying Top 10 Breeds chart...")
-fig3.show()
+print(f"\n🏷️ Top 10 Breeds:")
+top_breeds = df['breed'].value_counts().head(10)
+for breed, count in top_breeds.items():
+    breed_display = breed.replace('_', ' ').title()
+    percentage = (count / total_images) * 100
+    print(f"   • {breed_display}: {count} ({percentage:.1f}%)")
 
-# ============================================================================
-# Summary
-# ============================================================================
-
-print("\n" + "=" * 70)
-print("✅ ANALYSIS COMPLETE")
-print("=" * 70)
-print("\n💡 Key Insights:")
-print("   - Dataset is imbalanced toward dogs (~84% dogs, ~16% cats)")
-print("   - Test set is largest (50% of data) for robust evaluation")
-print("   - All 37 breeds are represented in each split (stratified)")
-print("   - Some breeds are more common (e.g., English Cocker Spaniel)")
-print("\n📚 Next Steps:")
-print("   - Analyze breed distribution in detail")
-print("   - Check class balance metrics")
-print("   - Extract features for similarity analysis")
-
+print("="*70)
+print("✅ Dataset overview complete! Charts match web report.")

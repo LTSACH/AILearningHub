@@ -1,256 +1,188 @@
 """
-Oxford Pets Breed Distribution Analysis - Plotly Version
+Classification EDA - Breed Distribution Analysis (Plotly)
+Reproduces charts from: https://ltsach.github.io/AILearningHub/01_Data_Analysis/01_EDA/oxford_pets_classification/eda_classification.html
 
-Tutorial: Breed Distribution
-Library: Plotly
-Author: AILearningHub
-Dataset: Oxford-IIIT Pets
-URL: https://ltsach.github.io/AILearningHub/
-
-Description:
-    Analyze the distribution of 37 breeds and check class balance
-    using interactive Plotly visualizations.
-
-Requirements:
-    pip install pandas numpy plotly
-
-Data Source:
-    Full metadata (7,349 images):
-    https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv
+Run this in Google Colab - Copy & paste entire code!
 """
 
+import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
+
+print("="*70)
+print("📊 CLASSIFICATION EDA - Breed Distribution (Plotly)")
+print("="*70)
 
 # ============================================================================
-# Load Data
+# 1. LOAD DATA FROM GITHUB PAGES
 # ============================================================================
+print("\n1️⃣ Loading dataset metadata from GitHub Pages...")
 
-print("📊 Loading Oxford Pets Dataset...")
-print("=" * 70)
-
-url = 'https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/full_metadata.csv'
+url = 'https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/full_metadata.csv'
 df = pd.read_csv(url)
-
-print(f"✓ Loaded {len(df):,} images across {df['breed'].nunique()} breeds")
-
-# ============================================================================
-# Breed Distribution Analysis
-# ============================================================================
-
-print("\n" + "=" * 70)
-print("BREED DISTRIBUTION ANALYSIS")
-print("=" * 70)
-
-breed_counts = df['breed'].value_counts()
-
-print(f"\n📊 Overall Statistics:")
-print(f"  Total breeds:        {len(breed_counts)}")
-print(f"  Mean images/breed:   {breed_counts.mean():.1f}")
-print(f"  Median images/breed: {breed_counts.median():.1f}")
-print(f"  Min images/breed:    {breed_counts.min()}")
-print(f"  Max images/breed:    {breed_counts.max()}")
-print(f"  Std deviation:       {breed_counts.std():.1f}")
+print(f"   ✓ Loaded {len(df):,} images")
+print(f"   ✓ Breeds: {df['breed'].nunique()}")
 
 # ============================================================================
-# Class Balance Metrics
+# 2. COMPUTE BREED DISTRIBUTION
 # ============================================================================
+print("\n2️⃣ Computing breed distribution...")
 
-def calculate_gini_coefficient(counts):
-    """Calculate Gini coefficient for class imbalance"""
-    sorted_counts = np.sort(counts)
-    n = len(counts)
-    cumsum = np.cumsum(sorted_counts)
-    return (2 * np.sum((np.arange(1, n+1)) * sorted_counts)) / (n * cumsum[-1]) - (n + 1) / n
+breed_counts = df['breed'].value_counts().to_dict()
+sorted_breeds = sorted(breed_counts.items(), key=lambda x: x[1], reverse=True)
 
-def calculate_entropy(counts):
-    """Calculate entropy for class distribution"""
-    proportions = counts / counts.sum()
-    return -np.sum(proportions * np.log2(proportions + 1e-10))
+breeds = [breed.replace('_', ' ').title() for breed, _ in sorted_breeds]
+counts = [count for _, count in sorted_breeds]
 
-gini = calculate_gini_coefficient(breed_counts.values)
-entropy = calculate_entropy(breed_counts.values)
-max_entropy = np.log2(len(breed_counts))
-normalized_entropy = entropy / max_entropy
-
-print(f"\n📊 Class Balance Metrics:")
-print(f"  Gini Coefficient:      {gini:.4f} (0=perfect balance, 1=perfect imbalance)")
-print(f"  Entropy:               {entropy:.4f} bits")
-print(f"  Normalized Entropy:    {normalized_entropy:.4f} (1=perfect balance)")
-print(f"\n  ✓ Dataset is {'well-balanced' if gini < 0.3 else 'moderately imbalanced' if gini < 0.5 else 'highly imbalanced'}")
+print(f"   ✓ Analyzed {len(breeds)} breeds")
+print(f"   ✓ Range: {min(counts)} - {max(counts)} images per breed")
 
 # ============================================================================
-# Visualization 1: All 37 Breeds Distribution (Bar Chart)
+# 3. CHART 1: Complete Breed Distribution (All 37 Breeds)
 # ============================================================================
+print("\n3️⃣ Creating Breed Distribution Bar Chart...")
 
-# Sort breeds by count
-breed_counts_sorted = breed_counts.sort_values(ascending=True)
-
-# Add species information for coloring
-breed_species = df.groupby('breed')['species'].first()
-colors = [' #667eea' if breed_species[breed] == 'cat' else '#f093fb' for breed in breed_counts_sorted.index]
+# Generate gradient colors (blue to purple) - matching web report
+colors = []
+for i in range(len(breeds)):
+    hue = 200 + (i / len(breeds)) * 60  # 200 (blue) to 260 (purple)
+    colors.append(f'hsl({hue:.0f}, 70%, 60%)')
 
 fig1 = go.Figure(data=[go.Bar(
-    y=breed_counts_sorted.index,
-    x=breed_counts_sorted.values,
-    orientation='h',
+    x=breeds,
+    y=counts,
     marker=dict(
         color=colors,
-        line=dict(color='rgba(0,0,0,0.3)', width=1)
+        line=dict(width=1, color='white')
     ),
-    text=breed_counts_sorted.values,
-    textposition='auto',
-    hovertemplate='<b>%{y}</b><br>Images: %{x}<br>Species: %{customdata}<extra></extra>',
-    customdata=[breed_species[breed] for breed in breed_counts_sorted.index]
+    text=counts,
+    textposition='outside',
+    textfont=dict(size=10),
+    hovertemplate='<b>%{x}</b><br>Count: %{y}<extra></extra>'
 )])
 
 fig1.update_layout(
-    title={
-        'text': 'Breed Distribution (All 37 Breeds)',
-        'x': 0.5,
-        'xanchor': 'center'
-    },
-    xaxis_title='Number of Images',
-    yaxis_title='Breed',
-    width=900,
-    height=1000,
-    template='plotly_white',
-    showlegend=False
+    title=dict(
+        text="Breed Distribution (All 37 Breeds)",
+        font=dict(size=18)
+    ),
+    xaxis=dict(
+        title='Breed',
+        tickangle=-45,
+        gridcolor='#f0f0f0',
+        tickfont=dict(size=9)
+    ),
+    yaxis=dict(
+        title='Count',
+        gridcolor='#f0f0f0'
+    ),
+    plot_bgcolor='#ffffff',
+    paper_bgcolor='#ffffff',
+    hovermode='closest',
+    margin=dict(t=60, r=20, b=120, l=60),
+    height=600
 )
 
-print("\n📈 Displaying all breeds distribution...")
+print("   ✓ Complete breed distribution chart created")
 fig1.show()
 
 # ============================================================================
-# Visualization 2: Class Balance Overview (Box Plot + Histogram)
+# 4. CHART 2: Top 20 Breeds
 # ============================================================================
+print("\n4️⃣ Creating Top 20 Breeds Chart...")
 
-fig2 = make_subplots(
-    rows=1, cols=2,
-    subplot_titles=('Distribution Summary (Box Plot)', 'Image Count Distribution (Histogram)')
-)
+top_20_breeds = breeds[:20]
+top_20_counts = counts[:20]
+top_20_colors = colors[:20]
 
-# Box plot
-fig2.add_trace(
-    go.Box(
-        y=breed_counts.values,
-        name='Breed Counts',
-        marker_color='#667eea',
-        boxmean='sd'
+fig2 = go.Figure(data=[go.Bar(
+    x=top_20_breeds,
+    y=top_20_counts,
+    marker=dict(
+        color=top_20_colors,
+        line=dict(width=1, color='white')
     ),
-    row=1, col=1
-)
-
-# Histogram
-fig2.add_trace(
-    go.Histogram(
-        x=breed_counts.values,
-        nbinsx=10,
-        marker_color='#f093fb',
-        name='Distribution'
-    ),
-    row=1, col=2
-)
-
-fig2.update_xaxes(title_text="", row=1, col=1)
-fig2.update_yaxes(title_text="Number of Images", row=1, col=1)
-fig2.update_xaxes(title_text="Number of Images per Breed", row=1, col=2)
-fig2.update_yaxes(title_text="Frequency", row=1, col=2)
+    text=top_20_counts,
+    textposition='outside',
+    hovertemplate='<b>%{x}</b><br>Count: %{y}<extra></extra>'
+)])
 
 fig2.update_layout(
-    title={
-        'text': 'Class Balance Analysis',
-        'x': 0.5,
-        'xanchor': 'center'
-    },
-    width=1000,
-    height=500,
-    template='plotly_white',
-    showlegend=False
+    title="Breed Distribution (Top 20)",
+    xaxis=dict(
+        title='Breed',
+        tickangle=-45,
+        gridcolor='#f0f0f0'
+    ),
+    yaxis=dict(
+        title='Count',
+        gridcolor='#f0f0f0'
+    ),
+    plot_bgcolor='#ffffff',
+    paper_bgcolor='#ffffff',
+    height=500
 )
 
-print("📈 Displaying class balance analysis...")
+print("   ✓ Top 20 breeds chart created")
 fig2.show()
 
 # ============================================================================
-# Visualization 3: Cats vs Dogs Breeds (Grouped)
+# 5. CLASS BALANCE ANALYSIS
 # ============================================================================
+print("\n5️⃣ Class Balance Analysis:")
+print("="*70)
 
-# Group by species
-cat_breeds = breed_counts[breed_species == 'cat'].sort_values(ascending=False)
-dog_breeds = breed_counts[breed_species == 'dog'].sort_values(ascending=False)
+max_count = max(counts)
+min_count = min(counts)
+mean_count = np.mean(counts)
+std_count = np.std(counts)
+imbalance_ratio = max_count / min_count if min_count > 0 else 0
 
-fig3 = make_subplots(
-    rows=1, cols=2,
-    subplot_titles=(f'Cat Breeds (n={len(cat_breeds)})', f'Dog Breeds (n={len(dog_breeds)})'),
-    horizontal_spacing=0.15
-)
+print(f"📊 Class Balance Metrics:")
+print(f"   • Max count: {max_count} ({breeds[counts.index(max_count)]})")
+print(f"   • Min count: {min_count} ({breeds[counts.index(min_count)]})")
+print(f"   • Mean count: {mean_count:.1f}")
+print(f"   • Std deviation: {std_count:.1f}")
+print(f"   • Imbalance ratio: {imbalance_ratio:.2f}x")
 
-# Cat breeds
-fig3.add_trace(
-    go.Bar(
-        y=cat_breeds.index,
-        x=cat_breeds.values,
-        orientation='h',
-        marker_color='#667eea',
-        text=cat_breeds.values,
-        textposition='auto',
-        name='Cats',
-        hovertemplate='<b>%{y}</b><br>Images: %{x}<extra></extra>'
-    ),
-    row=1, col=1
-)
+# Determine balance level
+if imbalance_ratio < 2:
+    level = "✅ Balanced"
+elif imbalance_ratio < 5:
+    level = "⚠️  Moderately Imbalanced"
+else:
+    level = "❌ Severely Imbalanced"
 
-# Dog breeds
-fig3.add_trace(
-    go.Bar(
-        y=dog_breeds.index[:12],  # Show top 12 to match cat count
-        x=dog_breeds.values[:12],
-        orientation='h',
-        marker_color='#f093fb',
-        text=dog_breeds.values[:12],
-        textposition='auto',
-        name='Dogs',
-        hovertemplate='<b>%{y}</b><br>Images: %{x}<extra></extra>'
-    ),
-    row=1, col=2
-)
-
-fig3.update_xaxes(title_text="Number of Images", row=1, col=1)
-fig3.update_xaxes(title_text="Number of Images", row=1, col=2)
-
-fig3.update_layout(
-    title={
-        'text': 'Breed Distribution by Species',
-        'x': 0.5,
-        'xanchor': 'center'
-    },
-    width=1200,
-    height=600,
-    template='plotly_white',
-    showlegend=False
-)
-
-print("📈 Displaying species-wise breed distribution...")
-fig3.show()
+print(f"   • Balance level: {level}")
 
 # ============================================================================
-# Summary
+# 6. BREED STATISTICS BY SPECIES
 # ============================================================================
+print(f"\n🐱🐶 Breeds by Species:")
 
-print("\n" + "=" * 70)
-print("✅ ANALYSIS COMPLETE")
-print("=" * 70)
-print("\n💡 Key Insights:")
-print(f"   - Relatively balanced distribution (Gini={gini:.3f})")
-print(f"   - Most breeds have 180-220 images")
-print(f"   - 12 cat breeds, 25 dog breeds")
-print(f"   - Minimal class imbalance across breeds")
-print("\n📚 Next Steps:")
-print("   - Extract features for breed similarity")
-print("   - Analyze visual similarity between breeds")
-print("   - Identify potentially confusing breed pairs")
+for species in ['cat', 'dog']:
+    species_df = df[df['species'] == species]
+    species_breeds = species_df['breed'].nunique()
+    species_images = len(species_df)
+    avg_per_breed = species_images / species_breeds if species_breeds > 0 else 0
+    
+    print(f"   {species.capitalize()}:")
+    print(f"      • Breeds: {species_breeds}")
+    print(f"      • Total images: {species_images:,}")
+    print(f"      • Avg per breed: {avg_per_breed:.1f}")
 
+# ============================================================================
+# 7. TOP & BOTTOM BREEDS
+# ============================================================================
+print(f"\n🔝 Top 10 Most Common Breeds:")
+for i in range(min(10, len(breeds))):
+    percentage = (counts[i] / len(df)) * 100
+    print(f"   {i+1:2d}. {breeds[i]:30s}: {counts[i]:3d} ({percentage:5.2f}%)")
+
+print(f"\n⬇️  Bottom 10 Least Common Breeds:")
+for i in range(max(0, len(breeds)-10), len(breeds)):
+    percentage = (counts[i] / len(df)) * 100
+    print(f"   {len(breeds)-i:2d}. {breeds[i]:30s}: {counts[i]:3d} ({percentage:5.2f}%)")
+
+print("="*70)
+print("✅ Breed distribution analysis complete! Charts match web report.")
