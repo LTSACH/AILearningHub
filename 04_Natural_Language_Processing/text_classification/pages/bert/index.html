@@ -10,6 +10,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
+    <!-- Chart.js for loss curves -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
     <!-- Walkthrough CSS -->
     <link rel="stylesheet" href="assets/css/walkthrough.css">
     
@@ -711,6 +714,71 @@
     
     .config-view.active {
         display: block;
+    }
+    
+    /* Loss curves */
+    .loss-curves-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .loss-curves-container h4 {
+        margin-bottom: 1.5rem;
+        color: #1e293b;
+        font-size: 1.3rem;
+    }
+    
+    .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .chart-card {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .chart-card h5 {
+        margin-bottom: 1rem;
+        color: #334155;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 1rem;
+    }
+    
+    .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .legend-color {
+        width: 30px;
+        height: 3px;
+        border-radius: 2px;
     }
     
     /* Configuration display */
@@ -2266,13 +2334,16 @@
             <div class="comparison-content">
                 <h3>Comparison Results</h3>
                 
-                <!-- Tabs for Performance vs Configuration vs Formulas -->
+                <!-- Tabs for Performance vs Configuration vs Loss Curves vs Formulas -->
                 <div class="config-tabs">
                     <button class="config-tab-btn active" onclick="switchConfigView('performance')">
                         📊 Performance
                     </button>
                     <button class="config-tab-btn" onclick="switchConfigView('configuration')">
                         ⚙️ Configuration
+                    </button>
+                    <button class="config-tab-btn" onclick="switchConfigView('loss')">
+                        📈 Loss Curves
                     </button>
                     <button class="config-tab-btn" onclick="switchConfigView('formulas')">
                         📐 Formulas
@@ -2313,6 +2384,11 @@
                     ${configHTML}
                 </div>
                 
+                <!-- Loss Curves View -->
+                <div id="loss-view" class="config-view">
+                    ${buildLossCurvesTab(methods)}
+                </div>
+                
                 <!-- Formulas View -->
                 <div id="formulas-view" class="config-view">
                     ${buildFormulasTab()}
@@ -2331,19 +2407,33 @@
             initWalkthrough(method.id, data.confusion_matrix, data.labels);
         });
         
+        // Store loss curves data for rendering when tab is activated
+        window.lossCurvesData = methods.map(m => {
+            const data = methodsData[m.id];
+            return {
+                id: m.id,
+                name: m.name,
+                model_base: data.model_base,
+                pooling: data.pooling_strategy,
+                history: data.training_history
+            };
+        });
+        
         resultsContainer.scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Switch between performance, configuration, and formulas views
+    // Switch between performance, configuration, loss curves, and formulas views
     function switchConfigView(view) {
         const perfView = document.getElementById('performance-view');
         const confView = document.getElementById('configuration-view');
+        const lossView = document.getElementById('loss-view');
         const formView = document.getElementById('formulas-view');
         const tabs = document.querySelectorAll('.config-tab-btn');
         
         // Hide all views
         perfView.classList.remove('active');
         confView.classList.remove('active');
+        lossView.classList.remove('active');
         formView.classList.remove('active');
         tabs.forEach(t => t.classList.remove('active'));
         
@@ -2354,9 +2444,18 @@
         } else if (view === 'configuration') {
             confView.classList.add('active');
             tabs[1].classList.add('active');
+        } else if (view === 'loss') {
+            lossView.classList.add('active');
+            tabs[2].classList.add('active');
+            
+            // Render loss curves when tab is activated (only once)
+            if (!window.lossChartsRendered && window.lossCurvesData) {
+                renderLossCurves(window.lossCurvesData);
+                window.lossChartsRendered = true;
+            }
         } else if (view === 'formulas') {
             formView.classList.add('active');
-            tabs[2].classList.add('active');
+            tabs[3].classList.add('active');
             
             // Render KaTeX formulas when formulas tab is shown
             setTimeout(() => {
@@ -2374,6 +2473,54 @@
     }
     
 
+    function buildLossCurvesTab(methods) {
+        // Create canvas elements for each chart
+        return `
+            <div class="loss-curves-container">
+                <h4>📈 Training & Validation Loss Curves</h4>
+                <p style="color: #64748b; margin-bottom: 1.5rem;">
+                    Loss curves show model convergence during training. Lower loss = better fit.
+                </p>
+                
+                <div class="charts-grid">
+                    <!-- Loss Chart -->
+                    <div class="chart-card">
+                        <h5>Training & Validation Loss</h5>
+                        <div class="chart-container">
+                            <canvas id="loss-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Accuracy Chart -->
+                    <div class="chart-card">
+                        <h5>Validation Accuracy</h5>
+                        <div class="chart-container">
+                            <canvas id="accuracy-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- F1 Chart -->
+                    <div class="chart-card">
+                        <h5>Validation F1-Score</h5>
+                        <div class="chart-container">
+                            <canvas id="f1-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <strong>💡 What to look for:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; color: #92400e;">
+                        <li><strong>Training Loss ↓:</strong> Model learning the training data</li>
+                        <li><strong>Val Loss ↓:</strong> Model generalizing to unseen data</li>
+                        <li><strong>Gap between Train/Val:</strong> Small gap = good generalization, large gap = overfitting</li>
+                        <li><strong>Early plateau:</strong> Model converged; more epochs won't help</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+    
     function buildFormulasTab() {
         return `
             <div style="max-width: 900px; margin: 0 auto;">
@@ -2514,6 +2661,218 @@
                 ${modelConfigsHTML}
             </div>
         `;
+    }
+    
+    // Render loss curves using Chart.js
+    function renderLossCurves(data) {
+        // Define colors for each model
+        const colors = [
+            { train: 'rgba(239, 68, 68, 0.8)', val: 'rgba(239, 68, 68, 0.4)', border: 'rgb(239, 68, 68)' },  // Red
+            { train: 'rgba(59, 130, 246, 0.8)', val: 'rgba(59, 130, 246, 0.4)', border: 'rgb(59, 130, 246)' }, // Blue
+            { train: 'rgba(16, 185, 129, 0.8)', val: 'rgba(16, 185, 129, 0.4)', border: 'rgb(16, 185, 129)' }, // Green
+            { train: 'rgba(245, 158, 11, 0.8)', val: 'rgba(245, 158, 11, 0.4)', border: 'rgb(245, 158, 11)' }, // Orange
+            { train: 'rgba(139, 92, 246, 0.8)', val: 'rgba(139, 92, 246, 0.4)', border: 'rgb(139, 92, 246)' }, // Purple
+            { train: 'rgba(236, 72, 153, 0.8)', val: 'rgba(236, 72, 153, 0.4)', border: 'rgb(236, 72, 153)' }, // Pink
+            { train: 'rgba(20, 184, 166, 0.8)', val: 'rgba(20, 184, 166, 0.4)', border: 'rgb(20, 184, 166)' }  // Teal
+        ];
+        
+        // Prepare epochs array (assuming all models have same number of epochs)
+        const numEpochs = data[0].history.train_loss.length;
+        const epochs = Array.from({length: numEpochs}, (_, i) => i + 1);
+        
+        // --- Loss Chart ---
+        const lossDatasets = [];
+        data.forEach((model, idx) => {
+            const color = colors[idx % colors.length];
+            const modelName = model.model_base.toUpperCase().replace('_', '-');
+            const poolingName = model.pooling.replace('_token', '').replace('_pooling', '').toUpperCase();
+            const label = `${modelName} ${poolingName}`;
+            
+            // Training loss (solid line)
+            lossDatasets.push({
+                label: `${label} (Train)`,
+                data: model.history.train_loss,
+                borderColor: color.border,
+                backgroundColor: color.train,
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            });
+            
+            // Validation loss (dashed line)
+            lossDatasets.push({
+                label: `${label} (Val)`,
+                data: model.history.val_loss,
+                borderColor: color.border,
+                backgroundColor: color.val,
+                borderWidth: 2,
+                borderDash: [5, 5],
+                tension: 0.3,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            });
+        });
+        
+        new Chart(document.getElementById('loss-chart'), {
+            type: 'line',
+            data: {
+                labels: epochs,
+                datasets: lossDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 10,
+                            font: { size: 10 }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Epoch' },
+                        grid: { display: true, color: 'rgba(0,0,0,0.05)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Loss' },
+                        grid: { display: true, color: 'rgba(0,0,0,0.05)' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        // --- Accuracy Chart ---
+        const accDatasets = data.map((model, idx) => {
+            const color = colors[idx % colors.length];
+            const modelName = model.model_base.toUpperCase().replace('_', '-');
+            const poolingName = model.pooling.replace('_token', '').replace('_pooling', '').toUpperCase();
+            return {
+                label: `${modelName} ${poolingName}`,
+                data: model.history.val_accuracy.map(v => v * 100),  // Convert to percentage
+                borderColor: color.border,
+                backgroundColor: color.train,
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            };
+        });
+        
+        new Chart(document.getElementById('accuracy-chart'), {
+            type: 'line',
+            data: {
+                labels: epochs,
+                datasets: accDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 10,
+                            font: { size: 10 }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: (context) => {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Epoch' },
+                        grid: { display: true, color: 'rgba(0,0,0,0.05)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Accuracy (%)' },
+                        grid: { display: true, color: 'rgba(0,0,0,0.05)' },
+                        min: 70,
+                        max: 100
+                    }
+                }
+            }
+        });
+        
+        // --- F1 Chart ---
+        const f1Datasets = data.map((model, idx) => {
+            const color = colors[idx % colors.length];
+            const modelName = model.model_base.toUpperCase().replace('_', '-');
+            const poolingName = model.pooling.replace('_token', '').replace('_pooling', '').toUpperCase();
+            return {
+                label: `${modelName} ${poolingName}`,
+                data: model.history.val_f1.map(v => v * 100),  // Convert to percentage
+                borderColor: color.border,
+                backgroundColor: color.train,
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            };
+        });
+        
+        new Chart(document.getElementById('f1-chart'), {
+            type: 'line',
+            data: {
+                labels: epochs,
+                datasets: f1Datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 10,
+                            font: { size: 10 }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: (context) => {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Epoch' },
+                        grid: { display: true, color: 'rgba(0,0,0,0.05)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'F1-Score (%)' },
+                        grid: { display: true, color: 'rgba(0,0,0,0.05)' },
+                        min: 70,
+                        max: 100
+                    }
+                }
+            }
+        });
     }
     
 
