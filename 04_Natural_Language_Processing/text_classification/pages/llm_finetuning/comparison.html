@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero-Shot vs Fine-tuned LLM | BBC News</title>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .comparison-section h2 {
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .method-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .method-card.zeroshot {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+        
+        .method-card.finetuned {
+            background: #dcfce7;
+            border-color: #10b981;
+        }
+        
+        .method-card h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .metric-label {
+            font-weight: 600;
+            color: #64748b;
+        }
+        
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .metric-value.good {
+            color: #10b981;
+        }
+        
+        .metric-value.ok {
+            color: #f59e0b;
+        }
+        
+        .metric-value.bad {
+            color: #ef4444;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .best {
+            background: #dcfce7;
+            font-weight: 600;
+        }
+        
+        .chart-container {
+            margin: 2rem 0;
+            height: 400px;
+        }
+        
+        .insight-box {
+            background: #f0f4ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 2rem 0;
+        }
+        
+        .insight-box h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>🆚 Zero-Shot vs Fine-tuned LLM</h1>
+            <p>Qwen2.5-3B: Before and After Task-Specific Training</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="comparison-grid">
+            <div class="method-card zeroshot">
+                <h3>🎯 Zero-Shot (Best Prompt)</h3>
+                <div id="zeroshot-metrics"></div>
+                <p style="margin-top: 1rem; color: #92400e; font-size: 0.9rem;">
+                    <strong>Method:</strong> Pre-trained model, no task-specific training
+                </p>
+            </div>
+            
+            <div class="method-card finetuned">
+                <h3>🎓 QLoRA Fine-tuned</h3>
+                <div id="finetuned-metrics"></div>
+                <p style="margin-top: 1rem; color: #065f46; font-size: 0.9rem;">
+                    <strong>Method:</strong> 4-bit quantized + LoRA adapters (1.73% params)
+                </p>
+            </div>
+        </div>
+
+        <!-- Detailed Comparison -->
+        <div class="comparison-section">
+            <h2>📊 Detailed Comparison</h2>
+            <table id="comparison-table"></table>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="comparison-section">
+            <h2>📈 Performance Visualization</h2>
+            <div class="chart-container">
+                <canvas id="performance-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Key Insights -->
+        <div class="insight-box">
+            <h4>💡 Key Takeaways</h4>
+            <div id="insights"></div>
+        </div>
+
+        <!-- Confusion Matrices Side-by-Side -->
+        <div class="comparison-section">
+            <h2>🎯 Confusion Matrices Comparison</h2>
+            <div class="comparison-grid" id="confusion-matrices"></div>
+        </div>
+    </div>
+
+    <!-- Embedded Data -->
+    <script type="application/json" id="zeroshot-data">
+{
+  "zero_shot": {
+    "method": "qwen25_3b_zero_shot",
+    "display_name": "Qwen2.5-3B (Zero Shot)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot",
+    "timestamp": "2025-10-20T16:19:24.948925",
+    "metrics": {
+      "accuracy": 0.5598802395209581,
+      "precision": 0.6623719532083464,
+      "recall": 0.5598802395209581,
+      "f1_score": 0.557433660776204
+    },
+    "performance": {
+      "model_load_time_seconds": 4.837059020996094,
+      "inference_time_ms_per_sample": 103.97954616281721,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        55,
+        0,
+        9,
+        1,
+        12
+      ],
+      [
+        28,
+        12,
+        3,
+        4,
+        11
+      ],
+      [
+        31,
+        0,
+        29,
+        0,
+        2
+      ],
+      [
+        14,
+        2,
+        4,
+        52,
+        5
+      ],
+      [
+        20,
+        0,
+        0,
+        1,
+        39
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.3716216216216216,
+        "recall": 0.7142857142857143,
+        "f1": 0.4888888888888889,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.8571428571428571,
+        "recall": 0.20689655172413793,
+        "f1": 0.3333333333333333,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.6444444444444445,
+        "recall": 0.46774193548387094,
+        "f1": 0.5420560747663551,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.896551724137931,
+        "recall": 0.6753246753246753,
+        "f1": 0.7703703703703704,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.5652173913043478,
+        "recall": 0.65,
+        "f1": 0.6046511627906976,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot",
+      "device": "cuda:0"
+    }
+  },
+  "zero_shot_v4": {
+    "method": "qwen25_3b_zero_shot_v4",
+    "display_name": "Qwen2.5-3B (Zero Shot V4)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot_v4",
+    "timestamp": "2025-10-20T16:37:18.057526",
+    "metrics": {
+      "accuracy": 0.4311377245508982,
+      "precision": 0.7043851667638577,
+      "recall": 0.4311377245508982,
+      "f1_score": 0.4207550949508122
+    },
+    "performance": {
+      "model_load_time_seconds": 5.1316609382629395,
+      "inference_time_ms_per_sample": 104.1855700905361,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        72,
+        1,
+        4,
+        0,
+        0
+      ],
+      [
+        43,
+        10,
+        3,
+        0,
+        2
+      ],
+      [
+        43,
+        0,
+        19,
+        0,
+        0
+      ],
+      [
+        49,
+        1,
+        3,
+        22,
+        2
+      ],
+      [
+        38,
+        1,
+        0,
+        0,
+        21
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.2938775510204082,
+        "recall": 0.935064935064935,
+        "f1": 0.4472049689440994,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.7692307692307693,
+        "recall": 0.1724137931034483,
+        "f1": 0.28169014084507044,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.6551724137931034,
+        "recall": 0.3064516129032258,
+        "f1": 0.4175824175824176,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.2857142857142857,
+        "f1": 0.4444444444444444,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.84,
+        "recall": 0.35,
+        "f1": 0.49411764705882355,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot_v4",
+      "device": "cuda:0"
+    }
+  },
+  "zero_shot_v5": {
+    "method": "qwen25_3b_zero_shot_v5",
+    "display_name": "Qwen2.5-3B (Zero Shot V5)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot_v5",
+    "timestamp": "2025-10-20T16:40:24.941570",
+    "metrics": {
+      "accuracy": 0.40718562874251496,
+      "precision": 0.7378456310411581,
+      "recall": 0.40718562874251496,
+      "f1_score": 0.3928337970896714
+    },
+    "performance": {
+      "model_load_time_seconds": 4.826913595199585,
+      "inference_time_ms_per_sample": 104.3439843351879,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        71,
+        0,
+        4,
+        0,
+        2
+      ],
+      [
+        47,
+        8,
+        1,
+        0,
+        2
+      ],
+      [
+        42,
+        0,
+        20,
+        0,
+        0
+      ],
+      [
+        50,
+        0,
+        3,
+        24,
+        0
+      ],
+      [
+        47,
+        0,
+        0,
+        0,
+        13
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.27626459143968873,
+        "recall": 0.922077922077922,
+        "f1": 0.4251497005988024,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 1.0,
+        "recall": 0.13793103448275862,
+        "f1": 0.24242424242424243,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.7142857142857143,
+        "recall": 0.3225806451612903,
+        "f1": 0.4444444444444444,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.3116883116883117,
+        "f1": 0.4752475247524752,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.7647058823529411,
+        "recall": 0.21666666666666667,
+        "f1": 0.33766233766233766,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot_v5",
+      "device": "cuda:0"
+    }
+  },
+  "zero_shot_v2": {
+    "method": "qwen25_3b_zero_shot_v2",
+    "display_name": "Qwen2.5-3B (Zero Shot V2)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot_v2",
+    "timestamp": "2025-10-20T16:26:56.420542",
+    "metrics": {
+      "accuracy": 0.5269461077844312,
+      "precision": 0.7801962202618424,
+      "recall": 0.5269461077844312,
+      "f1_score": 0.5188578166218452
+    },
+    "performance": {
+      "model_load_time_seconds": 15.813872575759888,
+      "inference_time_ms_per_sample": 105.29082706050266,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        74,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        43,
+        10,
+        4,
+        0,
+        1
+      ],
+      [
+        21,
+        0,
+        41,
+        0,
+        0
+      ],
+      [
+        49,
+        0,
+        2,
+        24,
+        2
+      ],
+      [
+        32,
+        0,
+        1,
+        0,
+        27
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.3378995433789954,
+        "recall": 0.961038961038961,
+        "f1": 0.5,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.9090909090909091,
+        "recall": 0.1724137931034483,
+        "f1": 0.2898550724637681,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.82,
+        "recall": 0.6612903225806451,
+        "f1": 0.7321428571428571,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.3116883116883117,
+        "f1": 0.4752475247524752,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9,
+        "recall": 0.45,
+        "f1": 0.6,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot_v2",
+      "device": "cuda:0"
+    }
+  },
+  "zero_shot_v3": {
+    "method": "qwen25_3b_zero_shot_v3",
+    "display_name": "Qwen2.5-3B (Zero Shot V3)",
+    "model_key": "qwen25_3b",
+    "model_name": "Qwen2.5-3B",
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "params_billions": 3.0,
+    "strategy": "zero_shot_v3",
+    "timestamp": "2025-10-20T16:31:25.480692",
+    "metrics": {
+      "accuracy": 0.5688622754491018,
+      "precision": 0.7155756342404324,
+      "recall": 0.5688622754491018,
+      "f1_score": 0.5847268632412317
+    },
+    "performance": {
+      "model_load_time_seconds": 5.11452317237854,
+      "inference_time_ms_per_sample": 104.20286773689209,
+      "total_test_samples": 334,
+      "vram_used_gb": 6.181446144
+    },
+    "confusion_matrix": [
+      [
+        50,
+        0,
+        24,
+        0,
+        3
+      ],
+      [
+        20,
+        34,
+        4,
+        0,
+        0
+      ],
+      [
+        16,
+        0,
+        46,
+        0,
+        0
+      ],
+      [
+        19,
+        0,
+        18,
+        39,
+        1
+      ],
+      [
+        36,
+        3,
+        0,
+        0,
+        21
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.3546099290780142,
+        "recall": 0.6493506493506493,
+        "f1": 0.45871559633027525,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 0.918918918918919,
+        "recall": 0.5862068965517241,
+        "f1": 0.7157894736842105,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.5,
+        "recall": 0.7419354838709677,
+        "f1": 0.5974025974025974,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.5064935064935064,
+        "f1": 0.6724137931034483,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.84,
+        "recall": 0.35,
+        "f1": 0.49411764705882355,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "config": {
+      "inference_config": {
+        "max_new_tokens": 10,
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "do_sample": true,
+        "repetition_penalty": 1.1,
+        "batch_size": 8,
+        "device_map": "auto",
+        "torch_dtype": "float16"
+      },
+      "prompt_strategy": "zero_shot_v3",
+      "device": "cuda:0"
+    }
+  }
+}
+    </script>
+    
+    <script type="application/json" id="finetuned-data">
+{
+  "method": "qwen25_3b_finetuned",
+  "display_name": "Qwen2.5-3B Fine-tuned (QLoRA)",
+  "model_name": "Qwen2.5-3B",
+  "model_key": "qwen25_3b",
+  "strategy": "finetuned_qlora",
+  "params_billions": 3.0,
+  "timestamp": "2025-10-20T17:55:52.841213",
+  "metrics": {
+    "accuracy": 0.6676646706586826,
+    "precision": 0.8593099862356844,
+    "recall": 0.6676646706586826,
+    "f1_score": 0.6767345799175166
+  },
+  "performance": {
+    "inference_time_ms_per_sample": 454.68743832525377,
+    "total_inference_time_seconds": 151.86560440063477,
+    "total_test_samples": 334,
+    "vram_used_gb": 6.300141056
+  },
+  "confusion_matrix": [
+    [
+      76,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      9,
+      49,
+      0,
+      0,
+      0
+    ],
+    [
+      39,
+      0,
+      23,
+      0,
+      0
+    ],
+    [
+      25,
+      0,
+      0,
+      52,
+      0
+    ],
+    [
+      37,
+      0,
+      0,
+      0,
+      23
+    ]
+  ],
+  "per_class_metrics": [
+    {
+      "label": "business",
+      "precision": 0.40860215053763443,
+      "recall": 0.987012987012987,
+      "f1": 0.5779467680608364,
+      "support": 77
+    },
+    {
+      "label": "entertainment",
+      "precision": 1.0,
+      "recall": 0.8448275862068966,
+      "f1": 0.9158878504672897,
+      "support": 58
+    },
+    {
+      "label": "politics",
+      "precision": 1.0,
+      "recall": 0.3709677419354839,
+      "f1": 0.5411764705882353,
+      "support": 62
+    },
+    {
+      "label": "sport",
+      "precision": 0.9811320754716981,
+      "recall": 0.6753246753246753,
+      "f1": 0.8,
+      "support": 77
+    },
+    {
+      "label": "tech",
+      "precision": 1.0,
+      "recall": 0.38333333333333336,
+      "f1": 0.5542168674698795,
+      "support": 60
+    }
+  ],
+  "labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "config": {
+    "method": "QLoRA Fine-tuning",
+    "epochs": 3,
+    "batch_size": 4,
+    "learning_rate": 0.0002,
+    "lora_r": 16,
+    "lora_alpha": 32
+  },
+  "note": "Evaluated with training prompt format"
+}
+    </script>
+
+    <script>
+        const zeroshotData = JSON.parse(document.getElementById('zeroshot-data').textContent);
+        const finetunedData = JSON.parse(document.getElementById('finetuned-data').textContent);
+        
+        // Find best zero-shot result
+        let bestZeroshot = null;
+        let bestAcc = 0;
+        Object.values(zeroshotData).forEach(exp => {
+            const acc = exp.metrics.accuracy * 100;
+            if (acc > bestAcc) {
+                bestAcc = acc;
+                bestZeroshot = exp;
+            }
+        });
+        
+        // Render summary cards
+        if (bestZeroshot) {
+            document.getElementById('zeroshot-metrics').innerHTML = `
+                <div class="metric-row">
+                    <span class="metric-label">Accuracy</span>
+                    <span class="metric-value ok">${(bestZeroshot.metrics.accuracy * 100).toFixed(2)}%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">F1-Score</span>
+                    <span class="metric-value ok">${(bestZeroshot.metrics.f1_score * 100).toFixed(2)}%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Prompt</span>
+                    <span class="metric-value" style="font-size: 0.9rem;">${bestZeroshot.strategy.replace('_', ' ').toUpperCase()}</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Training</span>
+                    <span class="metric-value">0 seconds</span>
+                </div>
+            `;
+        }
+        
+        if (finetunedData) {
+            document.getElementById('finetuned-metrics').innerHTML = `
+                <div class="metric-row">
+                    <span class="metric-label">Accuracy</span>
+                    <span class="metric-value good">${(finetunedData.metrics.accuracy * 100).toFixed(2)}%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">F1-Score</span>
+                    <span class="metric-value good">${(finetunedData.metrics.f1_score * 100).toFixed(2)}%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Training Time</span>
+                    <span class="metric-value">${(finetunedData.performance.train_time_seconds / 60).toFixed(1)} min</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">VRAM</span>
+                    <span class="metric-value">${finetunedData.performance.vram_used_gb.toFixed(1)} GB</span>
+                </div>
+            `;
+        } else {
+            document.getElementById('finetuned-metrics').innerHTML = `
+                <p style="color: #64748b; text-align: center; padding: 2rem;">
+                    ⏳ Training in progress...<br>
+                    Check back in ~15 minutes
+                </p>
+            `;
+        }
+        
+        // Build comparison table
+        if (bestZeroshot && finetunedData) {
+            const improvement = ((finetunedData.metrics.accuracy - bestZeroshot.metrics.accuracy) * 100).toFixed(2);
+            const improvementClass = improvement > 0 ? 'good' : 'bad';
+            
+            document.getElementById('comparison-table').innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Zero-Shot (Best)</th>
+                        <th>QLoRA Fine-tuned</th>
+                        <th>Improvement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Accuracy</strong></td>
+                        <td>${(bestZeroshot.metrics.accuracy * 100).toFixed(2)}%</td>
+                        <td class="best">${(finetunedData.metrics.accuracy * 100).toFixed(2)}%</td>
+                        <td class="${improvementClass}">+${improvement}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Precision</strong></td>
+                        <td>${(bestZeroshot.metrics.precision * 100).toFixed(2)}%</td>
+                        <td class="best">${(finetunedData.metrics.precision * 100).toFixed(2)}%</td>
+                        <td class="${improvementClass}">+${((finetunedData.metrics.precision - bestZeroshot.metrics.precision) * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recall</strong></td>
+                        <td>${(bestZeroshot.metrics.recall * 100).toFixed(2)}%</td>
+                        <td class="best">${(finetunedData.metrics.recall * 100).toFixed(2)}%</td>
+                        <td class="${improvementClass}">+${((finetunedData.metrics.recall - bestZeroshot.metrics.recall) * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>F1-Score</strong></td>
+                        <td>${(bestZeroshot.metrics.f1_score * 100).toFixed(2)}%</td>
+                        <td class="best">${(finetunedData.metrics.f1_score * 100).toFixed(2)}%</td>
+                        <td class="${improvementClass}">+${((finetunedData.metrics.f1_score - bestZeroshot.metrics.f1_score) * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Training Time</strong></td>
+                        <td>0s (pre-trained)</td>
+                        <td>${(finetunedData.performance.train_time_seconds / 60).toFixed(1)} min</td>
+                        <td style="color: #64748b;">+${(finetunedData.performance.train_time_seconds / 60).toFixed(1)} min</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VRAM Usage</strong></td>
+                        <td>${bestZeroshot.performance.vram_used_gb.toFixed(1)} GB</td>
+                        <td>${finetunedData.performance.vram_used_gb.toFixed(1)} GB</td>
+                        <td style="color: #64748b;">${(finetunedData.performance.vram_used_gb - bestZeroshot.performance.vram_used_gb).toFixed(1)} GB</td>
+                    </tr>
+                </tbody>
+            `;
+            
+            // Generate insights
+            document.getElementById('insights').innerHTML = `
+                <ul style="list-style: none; padding-left: 0; line-height: 2;">
+                    <li>✅ <strong>Accuracy improvement:</strong> +${improvement}% (from ${(bestZeroshot.metrics.accuracy * 100).toFixed(1)}% to ${(finetunedData.metrics.accuracy * 100).toFixed(1)}%)</li>
+                    <li>⏱️ <strong>Training cost:</strong> ${(finetunedData.performance.train_time_seconds / 60).toFixed(1)} minutes on A100 GPU</li>
+                    <li>💾 <strong>Memory efficient:</strong> Only ${finetunedData.performance.vram_used_gb.toFixed(1)}GB VRAM (QLoRA 4-bit quantization)</li>
+                    <li>📊 <strong>Trainable params:</strong> 1.73% (29.9M / 1.7B) - LoRA adapters only</li>
+                    <li>🎯 <strong>When to use fine-tuning:</strong> When you have labeled data (1557 samples here)</li>
+                    <li>🎯 <strong>When to use zero-shot:</strong> When you have NO labels or categories change frequently</li>
+                </ul>
+            `;
+            
+            // Render chart
+            renderPerformanceChart(bestZeroshot, finetunedData);
+        } else if (!finetunedData) {
+            document.getElementById('comparison-table').innerHTML = `
+                <tbody>
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: #64748b;">
+                            ⏳ Waiting for fine-tuned results...<br>
+                            Training in progress (~15 minutes)
+                        </td>
+                    </tr>
+                </tbody>
+            `;
+            
+            document.getElementById('insights').innerHTML = `
+                <p style="color: #64748b;">Insights will be generated after training completes...</p>
+            `;
+        }
+        
+        function renderPerformanceChart(zeroshot, finetuned) {
+            const ctx = document.getElementById('performance-chart');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Accuracy', 'Precision', 'Recall', 'F1-Score'],
+                    datasets: [
+                        {
+                            label: 'Zero-Shot (Best)',
+                            data: [
+                                zeroshot.metrics.accuracy * 100,
+                                zeroshot.metrics.precision * 100,
+                                zeroshot.metrics.recall * 100,
+                                zeroshot.metrics.f1_score * 100
+                            ],
+                            backgroundColor: 'rgba(245, 158, 11, 0.6)',
+                            borderColor: 'rgb(245, 158, 11)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'QLoRA Fine-tuned',
+                            data: [
+                                finetuned.metrics.accuracy * 100,
+                                finetuned.metrics.precision * 100,
+                                finetuned.metrics.recall * 100,
+                                finetuned.metrics.f1_score * 100
+                            ],
+                            backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                            borderColor: 'rgb(16, 185, 129)',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Zero-Shot vs Fine-tuned Performance',
+                            font: { size: 16 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Score (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
