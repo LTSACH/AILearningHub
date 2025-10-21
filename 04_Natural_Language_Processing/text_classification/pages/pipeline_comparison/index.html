@@ -1814,8 +1814,8 @@ function initializeHeroMode() {
     
     // Top 3 by Inference Speed (fastest = lowest ms/sample)
     const topSpeed = [...pipelines]
-        .filter(p => p.performance.inference_time_ms > 0)
-        .sort((a, b) => a.performance.inference_time_ms - b.performance.inference_time_ms)
+        .filter(p => p.performance.inference_time_ms_per_sample > 0)
+        .sort((a, b) => a.performance.inference_time_ms_per_sample - b.performance.inference_time_ms_per_sample)
         .slice(0, 3);
     renderTopTable('top-speed-table', topSpeed, 'speed');
     
@@ -1847,7 +1847,7 @@ function renderTopTable(containerId, pipelines, metric) {
     pipelines.forEach((p, idx) => {
         const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
         const accuracy = p.metrics.accuracy;
-        const inferenceMs = p.performance.inference_time_ms;
+        const inferenceMs = p.performance.inference_time_ms_per_sample;
         const trainTime = p.performance.train_time_seconds;
         
         html += `<tr onclick="selectPipelineInHero('${p.pipeline_id}')" style="cursor:pointer;">`;
@@ -1856,9 +1856,9 @@ function renderTopTable(containerId, pipelines, metric) {
         html += `<td>${(accuracy * 100).toFixed(2)}%</td>`;
         
         if (metric === 'speed') {
-            html += `<td>${inferenceMs.toFixed(3)}</td>`;
+            html += `<td>${inferenceMs.toFixed(4)}</td>`;
         } else if (metric === 'train') {
-            html += `<td>${trainTime.toFixed(2)}</td>`;
+            html += `<td>${trainTime.toFixed(3)}</td>`;
         }
         
         html += `<td><button class="btn-view-details" onclick="event.stopPropagation(); selectPipelineInHero('${p.pipeline_id}')">👁️ View</button></td>`;
@@ -1931,7 +1931,7 @@ function buildConfigContent(pipeline) {
                 <tr><th>Recall</th><td>${(pipeline.metrics.recall * 100).toFixed(2)}%</td></tr>
                 <tr><th>F1-Score</th><td>${(pipeline.metrics.f1_score * 100).toFixed(2)}%</td></tr>
                 <tr><th>Training Time</th><td>${pipeline.performance.train_time_seconds.toFixed(3)}s</td></tr>
-                <tr><th>Inference Speed</th><td>${pipeline.performance.inference_time_ms.toFixed(3)} ms/sample</td></tr>
+                <tr><th>Inference Speed</th><td>${pipeline.performance.inference_time_ms_per_sample.toFixed(4)} ms/sample</td></tr>
             </table>
         </div>
     `;
