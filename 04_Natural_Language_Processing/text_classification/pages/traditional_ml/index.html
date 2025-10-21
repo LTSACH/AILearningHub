@@ -1448,7 +1448,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-21T12:02:22.154382",
+  "timestamp": "2025-10-21T12:17:50.393404",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -1465,13 +1465,13 @@
   "methods": [
     {
       "id": "mlp",
-      "name": "Mlp",
+      "name": "MLP",
       "accuracy": 97.60479041916167,
       "precision": 97.64409642253953,
       "recall": 97.60479041916167,
       "f1_score": 97.60967468863578,
-      "train_time": "~6.83s",
-      "inference_time": "~0.018ms",
+      "train_time": "~7.02s",
+      "inference_time": "~0.017ms",
       "model_size": "15.43MB",
       "description": "Multi-layer neural network, learns non-linear patterns",
       "best_for": "Complex patterns, non-linear relationships",
@@ -1496,12 +1496,12 @@
     {
       "id": "voting_ensemble",
       "name": "Voting Ensemble",
-      "accuracy": 97.90419161676647,
-      "precision": 97.93226047904191,
-      "recall": 97.90419161676647,
-      "f1_score": 97.91141623706673,
-      "train_time": "~13.41s",
-      "inference_time": "~0.116ms",
+      "accuracy": 96.40718562874252,
+      "precision": 96.5461063934848,
+      "recall": 96.40718562874252,
+      "f1_score": 96.43170416138847,
+      "train_time": "~26.96s",
+      "inference_time": "~0.120ms",
       "model_size": "~5MB",
       "description": "Combines top 3 models via majority voting for robust predictions",
       "best_for": "Maximum robustness, combining strengths",
@@ -1515,7 +1515,7 @@
       "precision": 88.37296469864049,
       "recall": 87.72455089820359,
       "f1_score": 87.78580774989157,
-      "train_time": "~3.60s",
+      "train_time": "~3.62s",
       "inference_time": "~0.145ms",
       "model_size": "0.06MB",
       "description": "Adaptive boosting, focuses on misclassified samples",
@@ -1530,8 +1530,8 @@
       "precision": 80.92971009983259,
       "recall": 80.83832335329342,
       "f1_score": 80.75663228578853,
-      "train_time": "~0.48s",
-      "inference_time": "~3.29\u00b5s",
+      "train_time": "~0.47s",
+      "inference_time": "~2.14\u00b5s",
       "model_size": "0.03MB",
       "description": "Single decision tree, interpretable rules, prone to overfitting",
       "best_for": "Interpretability, feature importance, teaching",
@@ -1545,8 +1545,8 @@
       "precision": 93.83952358228994,
       "recall": 93.7125748502994,
       "f1_score": 93.69512408412761,
-      "train_time": "~35.10s",
-      "inference_time": "~0.015ms",
+      "train_time": "~36.31s",
+      "inference_time": "~0.014ms",
       "model_size": "0.59MB",
       "description": "Sequential ensemble, builds trees to correct errors",
       "best_for": "High accuracy, sequential learning",
@@ -1585,13 +1585,13 @@
     },
     {
       "id": "xgboost",
-      "name": "Xgboost",
+      "name": "XGBoost",
       "accuracy": 94.91017964071857,
       "precision": 94.99905504104439,
       "recall": 94.91017964071857,
       "f1_score": 94.91403654062674,
-      "train_time": "~14.15s",
-      "inference_time": "~0.014ms",
+      "train_time": "~8.84s",
+      "inference_time": "~0.017ms",
       "model_size": "0.57MB",
       "description": "Optimized gradient boosting, state-of-the-art performance",
       "best_for": "Competitions, maximum performance, production",
@@ -1622,7 +1622,7 @@
   "mlp": {
     "method": "mlp",
     "display_name": "Mlp",
-    "timestamp": "2025-10-21T11:43:09.337731",
+    "timestamp": "2025-10-21T12:15:36.508000",
     "metrics": {
       "accuracy": 0.9760479041916168,
       "precision": 0.9764409642253953,
@@ -1630,8 +1630,8 @@
       "f1_score": 0.9760967468863577
     },
     "performance": {
-      "train_time_seconds": 6.829769611358643,
-      "inference_time_ms_per_sample": 0.017672241804842462,
+      "train_time_seconds": 7.019842147827148,
+      "inference_time_ms_per_sample": 0.016809937482822442,
       "total_test_samples": 334,
       "model_size_bytes": 16179168
     },
@@ -1723,7 +1723,17 @@
         1,
         2
       ],
-      "model_params": {}
+      "model_params": {
+        "Hidden Layers": [
+          100,
+          50
+        ],
+        "Activation": "relu",
+        "Solver": "adam",
+        "Learning Rate": "constant",
+        "Max Iterations": 500,
+        "Alpha (L2 Penalty)": 0.0001
+      }
     }
   },
   "random_forest": {
@@ -1843,14 +1853,14 @@
   "voting_ensemble": {
     "method": "voting_ensemble",
     "metrics": {
-      "accuracy": 0.9790419161676647,
-      "precision": 0.9793226047904192,
-      "recall": 0.9790419161676647,
-      "f1_score": 0.9791141623706673
+      "accuracy": 0.9640718562874252,
+      "precision": 0.9654610639348481,
+      "recall": 0.9640718562874252,
+      "f1_score": 0.9643170416138847
     },
     "performance": {
-      "train_time": 13.413164138793945,
-      "inference_time_ms_per_sample": 0.11646747589111328
+      "train_time": 26.96222972869873,
+      "inference_time_ms_per_sample": 0.12010657144877725
     },
     "confusion_matrix": [
       [
@@ -1868,9 +1878,9 @@
         0
       ],
       [
-        1,
+        2,
         0,
-        61,
+        60,
         0,
         0
       ],
@@ -1882,18 +1892,18 @@
         0
       ],
       [
-        0,
+        4,
         0,
         1,
         0,
-        59
+        55
       ]
     ]
   },
   "adaboost": {
     "method": "adaboost",
     "display_name": "Adaboost",
-    "timestamp": "2025-10-21T11:42:27.346786",
+    "timestamp": "2025-10-21T12:15:40.710330",
     "metrics": {
       "accuracy": 0.8772455089820359,
       "precision": 0.8837296469864049,
@@ -1901,8 +1911,8 @@
       "f1_score": 0.8778580774989158
     },
     "performance": {
-      "train_time_seconds": 3.599639892578125,
-      "inference_time_ms_per_sample": 0.1453168377904835,
+      "train_time_seconds": 3.6223413944244385,
+      "inference_time_ms_per_sample": 0.14527258044945265,
       "total_test_samples": 334,
       "model_size_bytes": 63728
     },
@@ -1994,13 +2004,17 @@
         1,
         2
       ],
-      "model_params": {}
+      "model_params": {
+        "N Estimators": 100,
+        "Learning Rate": 1.0,
+        "Algorithm": "deprecated"
+      }
     }
   },
   "decision_tree": {
     "method": "decision_tree",
     "display_name": "Decision Tree",
-    "timestamp": "2025-10-21T11:42:22.304638",
+    "timestamp": "2025-10-21T12:15:37.032377",
     "metrics": {
       "accuracy": 0.8083832335329342,
       "precision": 0.8092971009983259,
@@ -2008,8 +2022,8 @@
       "f1_score": 0.8075663228578853
     },
     "performance": {
-      "train_time_seconds": 0.4757375717163086,
-      "inference_time_ms_per_sample": 0.0032943165944721883,
+      "train_time_seconds": 0.4721410274505615,
+      "inference_time_ms_per_sample": 0.002141484243427208,
       "total_test_samples": 334,
       "model_size_bytes": 29614
     },
@@ -2101,13 +2115,19 @@
         1,
         2
       ],
-      "model_params": {}
+      "model_params": {
+        "Criterion": "gini",
+        "Max Depth": 20,
+        "Min Samples Split": 2,
+        "Min Samples Leaf": 1,
+        "Splitter": "best"
+      }
     }
   },
   "gradient_boosting": {
     "method": "gradient_boosting",
     "display_name": "Gradient Boosting",
-    "timestamp": "2025-10-21T11:43:02.468245",
+    "timestamp": "2025-10-21T12:16:17.035145",
     "metrics": {
       "accuracy": 0.937125748502994,
       "precision": 0.9383952358228994,
@@ -2115,8 +2135,8 @@
       "f1_score": 0.9369512408412761
     },
     "performance": {
-      "train_time_seconds": 35.10220384597778,
-      "inference_time_ms_per_sample": 0.015260216718662286,
+      "train_time_seconds": 36.3078670501709,
+      "inference_time_ms_per_sample": 0.01362769189708961,
       "total_test_samples": 334,
       "model_size_bytes": 615960
     },
@@ -2208,7 +2228,13 @@
         1,
         2
       ],
-      "model_params": {}
+      "model_params": {
+        "N Estimators": 100,
+        "Learning Rate": 0.1,
+        "Max Depth": 3,
+        "Subsample": 1.0,
+        "Loss Function": "log_loss"
+      }
     }
   },
   "svm": {
@@ -2438,7 +2464,7 @@
   "xgboost": {
     "method": "xgboost",
     "display_name": "Xgboost",
-    "timestamp": "2025-10-21T11:59:26.517482",
+    "timestamp": "2025-10-21T12:16:25.965752",
     "metrics": {
       "accuracy": 0.9491017964071856,
       "precision": 0.9499905504104439,
@@ -2446,8 +2472,8 @@
       "f1_score": 0.9491403654062674
     },
     "performance": {
-      "train_time_seconds": 14.146358013153076,
-      "inference_time_ms_per_sample": 0.014158066161378416,
+      "train_time_seconds": 8.838624715805054,
+      "inference_time_ms_per_sample": 0.017184697225422204,
       "total_test_samples": 334,
       "model_size_bytes": 595313
     },
@@ -2539,7 +2565,13 @@
         1,
         2
       ],
-      "model_params": {}
+      "model_params": {
+        "N Estimators": 100,
+        "Max Depth": null,
+        "Learning Rate": null,
+        "Objective": "multi:softprob",
+        "Booster": null
+      }
     }
   },
   "logistic_regression": {
