@@ -2295,6 +2295,8 @@ function renderPerformanceComparison() {
     
     // Find best values for highlighting
     const bestAcc = Math.max(...top9Pipelines.map(p => p.metrics.accuracy));
+    const bestPrecision = Math.max(...top9Pipelines.map(p => p.metrics.precision));
+    const bestRecall = Math.max(...top9Pipelines.map(p => p.metrics.recall));
     const bestF1 = Math.max(...top9Pipelines.map(p => p.metrics.f1_score));
     const bestTrain = Math.min(...top9Pipelines.map(p => p.performance.train_time_seconds));
     const bestInfer = Math.min(...top9Pipelines.map(p => p.performance.inference_time_ms_per_sample));
@@ -2323,8 +2325,8 @@ function renderPerformanceComparison() {
         html += `<td><strong>${idx + 1}</strong></td>`;
         html += `<td class="pipeline-name-cell">${pipelineName}</td>`;
         html += `<td class="${p.metrics.accuracy === bestAcc ? 'metric-best' : ''}">${(p.metrics.accuracy * 100).toFixed(2)}%</td>`;
-        html += `<td>${(p.metrics.precision * 100).toFixed(2)}%</td>`;
-        html += `<td>${(p.metrics.recall * 100).toFixed(2)}%</td>`;
+        html += `<td class="${p.metrics.precision === bestPrecision ? 'metric-best' : ''}">${(p.metrics.precision * 100).toFixed(2)}%</td>`;
+        html += `<td class="${p.metrics.recall === bestRecall ? 'metric-best' : ''}">${(p.metrics.recall * 100).toFixed(2)}%</td>`;
         html += `<td class="${p.metrics.f1_score === bestF1 ? 'metric-best' : ''}">${(p.metrics.f1_score * 100).toFixed(2)}%</td>`;
         html += `<td class="${p.performance.train_time_seconds === bestTrain ? 'metric-best' : ''}">${p.performance.train_time_seconds.toFixed(3)}</td>`;
         html += `<td class="${p.performance.inference_time_ms_per_sample === bestInfer ? 'metric-best' : ''}">${p.performance.inference_time_ms_per_sample.toFixed(4)}</td>`;
