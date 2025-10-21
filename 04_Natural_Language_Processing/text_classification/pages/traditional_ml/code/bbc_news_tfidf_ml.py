@@ -25,13 +25,18 @@ from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 
-# XGBoost (optional)
+# XGBoost (auto-install if needed)
 try:
     from xgboost import XGBClassifier
     XGBOOST_AVAILABLE = True
 except ImportError:
-    print("⚠️  XGBoost not installed. Install with: pip install xgboost")
-    XGBOOST_AVAILABLE = False
+    print("📦 Installing XGBoost...")
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "xgboost"])
+    from xgboost import XGBClassifier
+    XGBOOST_AVAILABLE = True
+    print("✅ XGBoost installed")
 
 
 # ============================================================================
@@ -420,14 +425,19 @@ def main():
     
     print("✓ Report saved: classification_results.html")
     print()
+    
+    # Auto-display in Colab
+    try:
+        from IPython.display import HTML, display
+        print("📊 Displaying interactive report in Colab...")
+        display(HTML(html_report))
+    except ImportError:
+        print("📋 Not in Colab - Open classification_results.html in browser")
+    
+    print()
     print("="*70)
     print("✅ ALL COMPLETE!")
     print("="*70)
-    print()
-    print("📋 Next steps:")
-    print("  1. Open classification_results.html in browser")
-    print("  2. Interactive Plotly charts with zoom/pan")
-    print("  3. Compare all methods at a glance")
     print()
 
 
