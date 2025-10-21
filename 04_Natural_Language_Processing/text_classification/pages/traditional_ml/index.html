@@ -1448,7 +1448,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-21T12:17:50.393404",
+  "timestamp": "2025-10-21T12:19:43.192945",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -1496,12 +1496,12 @@
     {
       "id": "voting_ensemble",
       "name": "Voting Ensemble",
-      "accuracy": 96.40718562874252,
-      "precision": 96.5461063934848,
-      "recall": 96.40718562874252,
-      "f1_score": 96.43170416138847,
-      "train_time": "~26.96s",
-      "inference_time": "~0.120ms",
+      "accuracy": 97.90419161676647,
+      "precision": 97.93226047904191,
+      "recall": 97.90419161676647,
+      "f1_score": 97.91141623706673,
+      "train_time": "~26.29s",
+      "inference_time": "~0.134ms",
       "model_size": "~5MB",
       "description": "Combines top 3 models via majority voting for robust predictions",
       "best_for": "Maximum robustness, combining strengths",
@@ -1852,15 +1852,17 @@
   },
   "voting_ensemble": {
     "method": "voting_ensemble",
+    "display_name": "Voting Ensemble",
     "metrics": {
-      "accuracy": 0.9640718562874252,
-      "precision": 0.9654610639348481,
-      "recall": 0.9640718562874252,
-      "f1_score": 0.9643170416138847
+      "accuracy": 0.9790419161676647,
+      "precision": 0.9793226047904192,
+      "recall": 0.9790419161676647,
+      "f1_score": 0.9791141623706673
     },
     "performance": {
-      "train_time": 26.96222972869873,
-      "inference_time_ms_per_sample": 0.12010657144877725
+      "train_time_seconds": 26.288363456726074,
+      "inference_time_ms_per_sample": 0.13443381486538641,
+      "total_test_samples": 334
     },
     "confusion_matrix": [
       [
@@ -1878,9 +1880,9 @@
         0
       ],
       [
-        2,
+        1,
         0,
-        60,
+        61,
         0,
         0
       ],
@@ -1892,13 +1894,70 @@
         0
       ],
       [
-        4,
+        0,
         0,
         1,
         0,
-        55
+        59
       ]
-    ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.961038961038961,
+        "recall": 0.961038961038961,
+        "f1": 0.961038961038961,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 1.0,
+        "recall": 0.9827586206896551,
+        "f1": 0.991304347826087,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.953125,
+        "recall": 0.9838709677419355,
+        "f1": 0.9682539682539683,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 1.0,
+        "recall": 0.987012987012987,
+        "f1": 0.9934640522875817,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9833333333333333,
+        "recall": 0.9833333333333333,
+        "f1": 0.9833333333333333,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "feature_extraction": "TF-IDF",
+      "max_features": 5000,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "model_params": {
+        "Voting Strategy": "Hard (Majority)",
+        "Estimators": "Logistic + MLP + XGBoost",
+        "N Models": 3
+      }
+    }
   },
   "adaboost": {
     "method": "adaboost",
