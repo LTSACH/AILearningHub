@@ -987,53 +987,44 @@
         margin-bottom: 2rem;
     }
     
-    .code-actions {
+    .code-actions-top {
         display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        justify-content: flex-end;
     }
     
-    .btn-show-code,
-    .btn-copy-code,
-    .btn-download-code {
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
+    .btn-copy-code-compact,
+    .btn-download-code-compact {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
         font-weight: 500;
         text-decoration: none;
         border: none;
         cursor: pointer;
         transition: all 0.2s;
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
-    .btn-show-code {
-        background: #667eea;
+    .btn-copy-code-compact {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
     }
     
-    .btn-show-code:hover {
-        background: #5a67d8;
+    .btn-copy-code-compact:hover {
         transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
     }
     
-    .btn-copy-code {
-        background: #28a745;
-        color: white;
-    }
-    
-    .btn-copy-code:hover {
-        background: #218838;
-    }
-    
-    .btn-download-code {
-        background: #6c757d;
+    .btn-download-code-compact {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
         display: inline-block;
     }
     
-    .btn-download-code:hover {
-        background: #5a6268;
+    .btn-download-code-compact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(245, 87, 108, 0.3);
     }
     
     .code-block-container {
@@ -1375,19 +1366,16 @@
                         <p>Ready-to-run Python code with all 6 classifiers. Includes dataset download, TF-IDF extraction, training, and evaluation.</p>
                     </div>
                     
-                    <div class="code-actions">
-                        <button onclick="toggleCode()" class="btn-show-code" id="toggle-code-btn">
-                            📖 Show Code
+                    <div class="code-actions-top">
+                        <button onclick="copyCode()" class="btn-copy-code-compact">
+                            📋 Copy
                         </button>
-                        <button onclick="copyCode()" class="btn-copy-code">
-                            📋 Copy Code
-                        </button>
-                        <a href="code/bbc_news_tfidf_ml.py" download class="btn-download-code">
-                            ⬇️ Download .py
+                        <a href="code/bbc_news_tfidf_ml.py" download class="btn-download-code-compact">
+                            ⬇️ Download
                         </a>
                     </div>
                     
-                    <div id="code-block-container" class="code-block-container" style="display:none;">
+                    <div id="code-block-container" class="code-block-container">
                         <div class="code-loading">⏳ Loading code...</div>
                         <pre style="display:none;"><code id="python-code" class="language-python"></code></pre>
                     </div>
@@ -2622,41 +2610,48 @@
     let codeLoaded = false;
     let pythonCode = '';
     
-    async function toggleCode() {
-        const container = document.getElementById('code-block-container');
-        const btn = document.getElementById('toggle-code-btn');
-        const loading = container.querySelector('.code-loading');
-        const pre = container.querySelector('pre');
+    // Auto-load code when Code tab is opened
+    document.addEventListener('DOMContentLoaded', function() {
+        // Observer for Code tab visibility
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const codeTab = document.getElementById('code-tab');
+                    if (codeTab && codeTab.classList.contains('active') && !codeLoaded) {
+                        loadCode();
+                    }
+                }
+            });
+        });
+        
+        const codeTab = document.getElementById('code-tab');
+        if (codeTab) {
+            observer.observe(codeTab, { attributes: true });
+        }
+    });
+    
+    async function loadCode() {
+        const loading = document.querySelector('.code-loading');
+        const pre = document.querySelector('#code-block-container pre');
         const codeElement = document.getElementById('python-code');
         
-        if (container.style.display === 'none') {
-            container.style.display = 'block';
-            btn.textContent = '🙈 Hide Code';
+        try {
+            const response = await fetch('code/bbc_news_tfidf_ml.py');
+            if (!response.ok) throw new Error('Failed to load code');
+            pythonCode = await response.text();
+            codeElement.textContent = pythonCode;
             
-            // Load code if not loaded
-            if (!codeLoaded) {
-                try {
-                    const response = await fetch('code/bbc_news_tfidf_ml.py');
-                    if (!response.ok) throw new Error('Failed to load code');
-                    pythonCode = await response.text();
-                    codeElement.textContent = pythonCode;
-                    
-                    // Highlight with Prism
-                    if (typeof Prism !== 'undefined') {
-                        Prism.highlightElement(codeElement);
-                    }
-                    
-                    loading.style.display = 'none';
-                    pre.style.display = 'block';
-                    codeLoaded = true;
-                } catch (error) {
-                    loading.textContent = '❌ Failed to load code. File may not exist yet.';
-                    console.error(error);
-                }
+            // Highlight with Prism
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightElement(codeElement);
             }
-        } else {
-            container.style.display = 'none';
-            btn.textContent = '📖 Show Code';
+            
+            loading.style.display = 'none';
+            pre.style.display = 'block';
+            codeLoaded = true;
+        } catch (error) {
+            loading.textContent = '❌ Failed to load code. File may not exist yet.';
+            console.error(error);
         }
     }
     
