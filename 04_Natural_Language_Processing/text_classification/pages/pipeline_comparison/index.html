@@ -1733,7 +1733,7 @@ body {
             <p>Ready-to-run Python code to compare all 240 pipeline combinations.</p>
             <div class="code-actions">
                 <button onclick="copyPipelineCode()" class="btn-code-action">📋 Copy Code</button>
-                <a href="code/pipeline_comparison.py" download class="btn-code-action">⬇️ Download Python</a>
+                <a href="code/bbc_pipeline_comparison.py" download class="btn-code-action">⬇️ Download Python</a>
             </div>
             <div id="pipeline-code-block" class="code-block-container">
                 <div class="code-loading">⏳ Loading code...</div>
@@ -2106,7 +2106,7 @@ function loadPipelineCode() {
     const pre = document.querySelector('#pipeline-code-block pre');
     
     if (codeBlock && codeBlock.textContent.trim() === '') {
-        fetch('code/pipeline_comparison.py')
+        fetch('code/bbc_pipeline_comparison.py')
             .then(response => response.text())
             .then(code => {
                 codeBlock.textContent = code;
