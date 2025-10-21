@@ -1448,7 +1448,7 @@
     <!-- Embedded Data -->
     <script type="application/json" id="summary-data">
 {
-  "timestamp": "2025-10-21T11:54:51.463592",
+  "timestamp": "2025-10-21T12:02:22.154382",
   "dataset": {
     "name": "BBC News",
     "train_samples": 1557,
@@ -1496,12 +1496,12 @@
     {
       "id": "voting_ensemble",
       "name": "Voting Ensemble",
-      "accuracy": 97.60479041916167,
-      "precision": 97.63884376994997,
-      "recall": 97.60479041916167,
-      "f1_score": 97.60674789090984,
-      "train_time": "~8.69s",
-      "inference_time": "~0.034ms",
+      "accuracy": 97.90419161676647,
+      "precision": 97.93226047904191,
+      "recall": 97.90419161676647,
+      "f1_score": 97.91141623706673,
+      "train_time": "~13.41s",
+      "inference_time": "~0.116ms",
       "model_size": "~5MB",
       "description": "Combines top 3 models via majority voting for robust predictions",
       "best_for": "Maximum robustness, combining strengths",
@@ -1581,6 +1581,21 @@
       "description": "Fast probabilistic classifier, excellent baseline for text",
       "best_for": "Quick prototyping, interpretability, speed",
       "data_path": "../naive_bayes/results.json",
+      "status": "available"
+    },
+    {
+      "id": "xgboost",
+      "name": "Xgboost",
+      "accuracy": 94.91017964071857,
+      "precision": 94.99905504104439,
+      "recall": 94.91017964071857,
+      "f1_score": 94.91403654062674,
+      "train_time": "~14.15s",
+      "inference_time": "~0.014ms",
+      "model_size": "0.57MB",
+      "description": "Optimized gradient boosting, state-of-the-art performance",
+      "best_for": "Competitions, maximum performance, production",
+      "data_path": "../xgboost/results.json",
       "status": "available"
     },
     {
@@ -1828,27 +1843,27 @@
   "voting_ensemble": {
     "method": "voting_ensemble",
     "metrics": {
-      "accuracy": 0.9760479041916168,
-      "precision": 0.9763884376994998,
-      "recall": 0.9760479041916168,
-      "f1_score": 0.9760674789090984
+      "accuracy": 0.9790419161676647,
+      "precision": 0.9793226047904192,
+      "recall": 0.9790419161676647,
+      "f1_score": 0.9791141623706673
     },
     "performance": {
-      "train_time": 8.690680980682373,
-      "inference_time_ms_per_sample": 0.03438438484054839
+      "train_time": 13.413164138793945,
+      "inference_time_ms_per_sample": 0.11646747589111328
     },
     "confusion_matrix": [
       [
-        73,
-        1,
+        74,
+        0,
         2,
         0,
         1
       ],
       [
         1,
-        56,
-        1,
+        57,
+        0,
         0,
         0
       ],
@@ -1860,10 +1875,10 @@
         0
       ],
       [
+        1,
         0,
         0,
-        0,
-        77,
+        76,
         0
       ],
       [
@@ -2418,6 +2433,113 @@
         "Alpha (Smoothing)": 1.0,
         "Fit Prior": true
       }
+    }
+  },
+  "xgboost": {
+    "method": "xgboost",
+    "display_name": "Xgboost",
+    "timestamp": "2025-10-21T11:59:26.517482",
+    "metrics": {
+      "accuracy": 0.9491017964071856,
+      "precision": 0.9499905504104439,
+      "recall": 0.9491017964071856,
+      "f1_score": 0.9491403654062674
+    },
+    "performance": {
+      "train_time_seconds": 14.146358013153076,
+      "inference_time_ms_per_sample": 0.014158066161378416,
+      "total_test_samples": 334,
+      "model_size_bytes": 595313
+    },
+    "confusion_matrix": [
+      [
+        72,
+        0,
+        3,
+        0,
+        2
+      ],
+      [
+        1,
+        54,
+        0,
+        3,
+        0
+      ],
+      [
+        1,
+        0,
+        61,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        75,
+        1
+      ],
+      [
+        4,
+        0,
+        1,
+        0,
+        55
+      ]
+    ],
+    "per_class_metrics": [
+      {
+        "label": "business",
+        "precision": 0.9113924050632911,
+        "recall": 0.935064935064935,
+        "f1": 0.9230769230769231,
+        "support": 77
+      },
+      {
+        "label": "entertainment",
+        "precision": 1.0,
+        "recall": 0.9310344827586207,
+        "f1": 0.9642857142857143,
+        "support": 58
+      },
+      {
+        "label": "politics",
+        "precision": 0.9384615384615385,
+        "recall": 0.9838709677419355,
+        "f1": 0.9606299212598425,
+        "support": 62
+      },
+      {
+        "label": "sport",
+        "precision": 0.9615384615384616,
+        "recall": 0.974025974025974,
+        "f1": 0.967741935483871,
+        "support": 77
+      },
+      {
+        "label": "tech",
+        "precision": 0.9482758620689655,
+        "recall": 0.9166666666666666,
+        "f1": 0.9322033898305084,
+        "support": 60
+      }
+    ],
+    "labels": [
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
+    ],
+    "model_config": {
+      "feature_extraction": "TF-IDF",
+      "max_features": 5000,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "model_params": {}
     }
   },
   "logistic_regression": {

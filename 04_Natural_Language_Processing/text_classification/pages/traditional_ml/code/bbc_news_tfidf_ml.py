@@ -22,7 +22,11 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import (
+    RandomForestClassifier, AdaBoostClassifier,
+    GradientBoostingClassifier, VotingClassifier
+)
 from sklearn.neural_network import MLPClassifier
 
 # XGBoost (auto-install if needed)
@@ -392,14 +396,20 @@ def main():
     classifiers = [
         ('Naive Bayes', MultinomialNB()),
         ('Logistic Regression', LogisticRegression(max_iter=1000, random_state=42)),
+        ('Decision Tree', DecisionTreeClassifier(max_depth=20, random_state=42)),
         ('SVM', LinearSVC(max_iter=2000, random_state=42)),
         ('Random Forest', RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)),
+        ('AdaBoost', AdaBoostClassifier(n_estimators=100, random_state=42)),
+        ('Gradient Boosting', GradientBoostingClassifier(n_estimators=100, random_state=42)),
         ('MLP', MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=500, random_state=42)),
     ]
     
     # Note: XGBoost needs encoded labels
     if XGBOOST_AVAILABLE:
         classifiers.append(('XGBoost', XGBClassifier(n_estimators=100, random_state=42, n_jobs=-1, verbosity=0), True))
+    
+    # Store models for voting
+    trained_models = {}
     
     results = []
     for item in classifiers:
@@ -408,10 +418,58 @@ def main():
             result = train_classifier(name, model, X_train, y_train_encoded, X_test, y_test_encoded)
             # Decode predictions back to original labels
             result['y_pred'] = label_encoder.inverse_transform(result['y_pred'])
+            trained_models[name] = model
         else:  # Other classifiers
             name, model = item
             result = train_classifier(name, model, X_train, y_train, X_test, y_test)
+            trained_models[name] = model
         results.append(result)
+        print()
+    
+    # Train Voting Ensemble (Logistic + MLP + XGBoost)
+    if len(trained_models) >= 3:
+        print("="*70)
+        print("🗳️  VOTING ENSEMBLE (Top 3 Models)")
+        print("="*70)
+        
+        estimators = [
+            ('logistic', trained_models.get('Logistic Regression')),
+            ('mlp', trained_models.get('MLP')),
+            ('xgboost', trained_models.get('XGBoost'))
+        ]
+        estimators = [(n, m) for n, m in estimators if m is not None]
+        
+        print(f"✓ Using {len(estimators)} models: {[n for n, _ in estimators]}")
+        
+        voting_clf = VotingClassifier(estimators=estimators, voting='hard')
+        
+        start = time.time()
+        voting_clf.fit(X_train, y_train)
+        train_time = time.time() - start
+        
+        start = time.time()
+        y_pred = voting_clf.predict(X_test)
+        inference_time = time.time() - start
+        
+        accuracy = accuracy_score(y_test, y_pred)
+        precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average='weighted', zero_division=0)
+        cm = confusion_matrix(y_test, y_pred)
+        
+        results.append({
+            'name': 'Voting Ensemble',
+            'model': voting_clf,
+            'accuracy': accuracy,
+            'precision': precision,
+            'recall': recall,
+            'f1_score': f1,
+            'train_time': train_time,
+            'inference_time': inference_time,
+            'inference_speed': len(y_test) / inference_time if inference_time > 0 else 0,
+            'y_pred': y_pred,
+            'confusion_matrix': cm
+        })
+        
+        print(f"✓ Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
         print()
     
     # Generate HTML report
