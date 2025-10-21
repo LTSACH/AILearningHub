@@ -117,33 +117,6 @@
             padding: 0 2rem;
         }
         
-        .quick-nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 2rem;
-            background: white;
-            margin-top: -2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        
-        .quick-nav a {
-            padding: 0.75rem 1.5rem;
-            background: #f3f4f6;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s;
-        }
-        
-        .quick-nav a:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateY(-2px);
-        }
-        
         .section {
             margin: 4rem 0;
         }
@@ -162,23 +135,18 @@
         
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
             margin-top: 2rem;
-            max-width: 1000px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
         }
         
-        @media (max-width: 968px) {
-            .cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .cards-grid {
                 grid-template-columns: 1fr;
+                max-width: 500px;
             }
         }
         
@@ -319,23 +287,18 @@
     </section>
 
     <div class="container">
-        <div class="quick-nav">
-            <a href="#eda">📊 Dataset Overview</a>
-            <a href="#traditional">🔤 Traditional ML</a>
-            <a href="#pipeline">🔬 Pipeline Comparison</a>
-            <a href="#bert">🧠 BERT Fine-tuning</a>
-        </div>
-
-        <!-- Dataset Overview -->
-        <section id="eda" class="section">
-            <h2>📊 Dataset Overview</h2>
+        <!-- Methods Grid -->
+        <section class="section">
+            <h2>🎯 Explore All Methods</h2>
             <p class="section-description">
-                BBC News dataset with 2,225 articles across 5 categories: Business, Tech, Sport, Entertainment, and Politics
+                From exploratory analysis to state-of-the-art transformers - complete text classification workflows
             </p>
+            
             <div class="cards-grid">
+                <!-- Row 1: EDA + Traditional ML -->
                 <a href="../../01_Data_Analysis/01_EDA/bbcnews_text_classification/eda_report_tutorial.html" class="method-card">
                     <div class="icon">📊</div>
-                    <h3>Exploratory Data Analysis</h3>
+                    <h3>Dataset Overview (EDA)</h3>
                     <p class="description">
                         Interactive EDA with visualizations, word clouds, class distribution, and text statistics
                     </p>
@@ -362,16 +325,7 @@
                         <span class="badge badge-primary">✓ Visualizations</span>
                     </div>
                 </a>
-            </div>
-        </section>
-
-        <!-- Traditional ML -->
-        <section id="traditional" class="section">
-            <h2>🔤 Traditional Machine Learning</h2>
-            <p class="section-description">
-                Fast, interpretable baselines using TF-IDF features and classical ML algorithms
-            </p>
-            <div class="cards-grid">
+                
                 <a href="pages/traditional_ml/index.html" class="method-card">
                     <div class="icon">🔤</div>
                     <h3>Traditional ML</h3>
@@ -401,16 +355,8 @@
                         <span class="badge badge-primary">✓ Code</span>
                     </div>
                 </a>
-            </div>
-        </section>
-
-        <!-- Pipeline Comparison -->
-        <section id="pipeline" class="section">
-            <h2>🔬 Pipeline Comparison</h2>
-            <p class="section-description">
-                Compare 240 complete ML pipelines: Feature Extraction → Dimensionality Reduction → Classification
-            </p>
-            <div class="cards-grid">
+                
+                <!-- Row 2: Pipeline Comparison + BERT -->
                 <a href="pages/pipeline_comparison/index.html" class="method-card">
                     <div class="icon">🔬</div>
                     <h3>Pipeline Comparison</h3>
@@ -440,16 +386,7 @@
                         <span class="badge badge-primary">✓ Code + Colab</span>
                     </div>
                 </a>
-            </div>
-        </section>
-
-        <!-- BERT Fine-tuning -->
-        <section id="bert" class="section">
-            <h2>🧠 BERT Fine-tuning</h2>
-            <p class="section-description">
-                State-of-the-art accuracy with pre-trained transformer models
-            </p>
-            <div class="cards-grid">
+                
                 <a href="pages/bert/index.html" class="method-card">
                     <div class="icon">🧠</div>
                     <h3>BERT Fine-tuning</h3>
