@@ -550,7 +550,7 @@ body {
     font-size: 0.95rem;
 }
 
-/* Confusion Matrices */
+/* ===== CONFUSION MATRICES (Y CHANG traditional_ml) ===== */
 .confusion-section {
     margin-top: 3rem;
     padding-top: 2rem;
@@ -563,76 +563,161 @@ body {
     text-align: center;
 }
 
-.cm-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+.confusion-matrix-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 0.75rem 0;
 }
 
-.cm-card {
-    background: #f9fafb;
-    border: 1px solid #e0e7ff;
-    border-radius: 8px;
-    padding: 1.5rem;
+.matrix-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.75rem 1rem;
 }
 
-.cm-card h4 {
-    color: #667eea;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+.matrix-header h5 {
+    margin: 0;
+    font-size: 1.1rem;
 }
 
-.cm-metrics-summary {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+.matrix-content {
+    padding: 0.75rem;
 }
 
-.cm-metrics-summary span {
-    background: #e0e7ff;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-weight: 600;
-}
-
-.cm-plot {
+/* Confusion matrix table */
+.cm-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px;
     margin: 1rem 0;
 }
 
-.per-class-metrics {
-    margin-top: 1rem;
+.cm-table th,
+.cm-table td {
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-.per-class-metrics h5 {
+.cm-table th {
+    background: #667eea;
+    color: white;
     font-size: 0.9rem;
+}
+
+.cm-table tbody th {
+    background: #667eea;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.cm-table td {
+    background: #f3f4f6;
     color: #333;
+    font-size: 1.1rem;
+}
+
+.cm-diagonal {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+    font-size: 1.2rem !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.cm-error-low {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.cm-error-medium {
+    background: #fed7aa !important;
+    color: #9a3412 !important;
+}
+
+.cm-error-high {
+    background: #fecaca !important;
+    color: #991b1b !important;
+    font-weight: 600 !important;
+}
+
+.cm-zero {
+    background: #f9fafb !important;
+    color: #d1d5db !important;
+}
+
+/* Per-class summary */
+.per-class-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.per-class-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.per-class-label {
+    font-weight: 600;
+    color: #667eea;
+    text-transform: capitalize;
     margin-bottom: 0.5rem;
 }
 
-.metrics-table-small {
-    width: 100%;
-    font-size: 0.85rem;
-    border-collapse: collapse;
+.per-class-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #10b981;
 }
 
-.metrics-table-small thead {
-    background: #e0e7ff;
+/* Matrix view tabs */
+.matrix-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e5e7eb;
 }
 
-.metrics-table-small th {
-    padding: 0.5rem;
-    text-align: left;
+.matrix-tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.matrix-tab-btn:hover {
+    color: #667eea;
+    background: #f8f9fa;
+}
+
+.matrix-tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
     font-weight: 600;
 }
 
-.metrics-table-small td {
-    padding: 0.4rem 0.5rem;
-    border-bottom: 1px solid #e0e7ff;
+.matrix-view {
+    display: none;
 }
 
-.metrics-table-small tbody tr:hover {
-    background: #f0f4ff;
+.matrix-view.active {
+    display: block;
 }
 
 .top-tables-grid {
@@ -2281,79 +2366,138 @@ function renderFormulasContent() {
     container.innerHTML = html;
 }
 
-// === Confusion Matrices ===
+// === Confusion Matrices (Y CHANG traditional_ml) ===
 function renderConfusionMatrices() {
     const container = document.getElementById('confusion-matrices-grid');
     if (!container) return;
     
-    let html = '<div class="cm-grid">';
+    let html = '';
     
     top9Pipelines.forEach((p, idx) => {
         const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
+        const cm = p.confusion_matrix;
+        const labels = p.labels;
         
+        if (!cm || !labels) return;
+        
+        // Find max error for coloring
+        const maxError = Math.max(...cm.flatMap((row, i) => row.filter((_, j) => i !== j)));
+        
+        // Build confusion matrix table (y chang traditional_ml)
+        const cmHTML = `
+            <table class="cm-table">
+                <thead>
+                    <tr>
+                        <th>Actual \\ Pred</th>
+                        ${labels.map(l => `<th>${l}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${cm.map((row, i) => `
+                        <tr>
+                            <th>${labels[i]}</th>
+                            ${row.map((val, j) => {
+                                if (i === j) {
+                                    return `<td class="cm-diagonal">${val}</td>`;
+                                } else if (val === 0) {
+                                    return `<td class="cm-zero">0</td>`;
+                                } else {
+                                    const severity = val / maxError;
+                                    const className = severity > 0.5 ? 'cm-error-high' 
+                                                    : severity > 0.2 ? 'cm-error-medium' 
+                                                    : 'cm-error-low';
+                                    return `<td class="${className}">${val}</td>`;
+                                }
+                            }).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+        
+        // Build per-class summary (y chang traditional_ml)
+        const perClassMetrics = p.per_class_metrics || {};
+        const perClassHTML = `
+            <div class="per-class-summary">
+                ${labels.map(label => {
+                    const metrics = perClassMetrics[label] || {};
+                    return `
+                        <div class="per-class-item">
+                            <div class="per-class-label">${label}</div>
+                            <div class="per-class-value">${((metrics.f1_score || 0) * 100).toFixed(1)}%</div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+        
+        // Build card (y chang traditional_ml structure)
         html += `
-            <div class="cm-card">
-                <h4>${idx + 1}. ${pipelineName}</h4>
-                <div class="cm-metrics-summary">
-                    <span>Acc: ${(p.metrics.accuracy * 100).toFixed(1)}%</span>
-                    <span>F1: ${(p.metrics.f1_score * 100).toFixed(1)}%</span>
+            <div class="confusion-matrix-card">
+                <div class="matrix-header">
+                    <h5>${idx + 1}. ${pipelineName} - Accuracy: ${(p.metrics.accuracy * 100).toFixed(2)}%</h5>
                 </div>
-                <div id="cm-plot-${idx}" class="cm-plot"></div>
-                <div class="per-class-metrics">
-                    <h5>Per-Class Metrics</h5>
-                    <table class="metrics-table-small">
-                        <thead>
-                            <tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
-                        </thead>
-                        <tbody id="metrics-${idx}"></tbody>
-                    </table>
+                <div class="matrix-content">
+                    <h4>Per-Class F1-Score</h4>
+                    ${perClassHTML}
+                    
+                    <h4 style="margin-top: 2rem;">Confusion Matrix</h4>
+                    
+                    <div class="matrix-tabs">
+                        <button class="matrix-tab-btn active" onclick="switchMatrixView('${idx}', 'matrix')">
+                            📊 Confusion Matrix
+                        </button>
+                        <button class="matrix-tab-btn" onclick="switchMatrixView('${idx}', 'walkthrough')">
+                            🎓 Metrics Walkthrough
+                        </button>
+                    </div>
+                    
+                    <div id="matrix-view-${idx}" class="matrix-view active">
+                        ${cmHTML}
+                        <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
+                            🟢 Diagonal = Correct Predictions | 🟡🟠🔴 = Errors (color intensity = severity)
+                        </p>
+                    </div>
+                    
+                    <div id="walkthrough-view-${idx}" class="matrix-view">
+                        <p style="text-align: center; padding: 2rem; color: #666;">
+                            📊 Interactive walkthrough coming soon...
+                        </p>
+                    </div>
                 </div>
             </div>
         `;
     });
     
-    html += '</div>';
     container.innerHTML = html;
+}
+
+// Matrix view switching (y chang traditional_ml)
+function switchMatrixView(idx, view) {
+    const matrixView = document.getElementById(`matrix-view-${idx}`);
+    const walkthroughView = document.getElementById(`walkthrough-view-${idx}`);
     
-    // Render each confusion matrix with Plotly
-    top9Pipelines.forEach((p, idx) => {
-        if (!p.confusion_matrix || !p.labels) return;
-        
-        const data = [{
-            z: p.confusion_matrix,
-            x: p.labels,
-            y: p.labels,
-            type: 'heatmap',
-            colorscale: 'Blues',
-            showscale: false
-        }];
-        
-        const layout = {
-            xaxis: { title: 'Predicted', side: 'bottom' },
-            yaxis: { title: 'True', autorange: 'reversed' },
-            margin: { l: 80, r: 20, t: 20, b: 60 },
-            height: 300
-        };
-        
-        Plotly.newPlot(`cm-plot-${idx}`, data, layout, {responsive: true, displayModeBar: false});
-        
-        // Render per-class metrics
-        if (p.per_class_metrics) {
-            let metricsHtml = '';
-            p.labels.forEach((label, i) => {
-                const metrics = p.per_class_metrics[label] || {};
-                metricsHtml += `
-                    <tr>
-                        <td><strong>${label}</strong></td>
-                        <td>${((metrics.precision || 0) * 100).toFixed(1)}%</td>
-                        <td>${((metrics.recall || 0) * 100).toFixed(1)}%</td>
-                        <td>${((metrics.f1_score || 0) * 100).toFixed(1)}%</td>
-                    </tr>
-                `;
-            });
-            document.getElementById(`metrics-${idx}`).innerHTML = metricsHtml;
+    if (!matrixView || !walkthroughView) return;
+    
+    const matrixContent = matrixView.closest('.matrix-content');
+    if (!matrixContent) return;
+    
+    const tabButtons = matrixContent.querySelectorAll('.matrix-tab-btn');
+    tabButtons.forEach((btn, btnIdx) => {
+        if ((view === 'matrix' && btnIdx === 0) || (view === 'walkthrough' && btnIdx === 1)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
     });
+    
+    if (view === 'matrix') {
+        matrixView.classList.add('active');
+        walkthroughView.classList.remove('active');
+    } else {
+        matrixView.classList.remove('active');
+        walkthroughView.classList.add('active');
+    }
 }
 
 // === Tab Switching ===
