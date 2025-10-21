@@ -1,0 +1,468 @@
+/* Metrics Walkthrough Styles */
+
+.walkthrough-container {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 0;
+    margin-top: 1rem;
+    position: relative;
+}
+
+/* Fullscreen mode */
+.walkthrough-container.fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background: #f8f9fa !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+}
+
+.walkthrough-container.fullscreen .walkthrough-grid {
+    min-height: calc(100vh - 120px) !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 2rem !important;
+}
+
+.walkthrough-container.fullscreen .walkthrough-content {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Fullscreen: smaller fonts */
+.walkthrough-container.fullscreen .wt-cm-table th,
+.walkthrough-container.fullscreen .wt-cm-table td {
+    padding: 6px !important;
+    font-size: 0.7rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-step-info h3 {
+    font-size: 1.1rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-step-info p {
+    font-size: 0.85rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-formula {
+    font-size: 0.8rem !important;
+    padding: 0.75rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-result-card .value {
+    font-size: 1.2rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-class-card .class-value {
+    font-size: 0.95rem !important;
+}
+
+.walkthrough-container.fullscreen .wt-btn {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+}
+
+.walkthrough-fullscreen-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+.walkthrough-fullscreen-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+.walkthrough-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    min-height: 600px;
+}
+
+.walkthrough-left,
+.walkthrough-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Matrix Display */
+.matrix-display {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+}
+
+table.wt-cm-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px;
+    margin: 1rem 0;
+}
+
+table.wt-cm-table th,
+table.wt-cm-table td {
+    padding: 8px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.4s ease;
+    font-size: 0.8rem;
+}
+
+table.wt-cm-table th {
+    background: #667eea;
+    color: white;
+}
+
+table.wt-cm-table td {
+    background: #f3f4f6;
+    color: #333;
+}
+
+/* Highlighting states */
+table.wt-cm-table td.highlight-diagonal {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+    z-index: 10;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+table.wt-cm-table td.highlight-row-0 {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+}
+
+table.wt-cm-table td.highlight-row-1 {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.5);
+}
+
+table.wt-cm-table td.highlight-row-2 {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+}
+
+table.wt-cm-table td.highlight-row-3 {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+}
+
+table.wt-cm-table td.highlight-row-4 {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.5);
+}
+
+table.wt-cm-table td.highlight-column-0 {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+}
+
+table.wt-cm-table td.highlight-column-1 {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.5);
+}
+
+table.wt-cm-table td.highlight-column-2 {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+}
+
+table.wt-cm-table td.highlight-column-3 {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+}
+
+table.wt-cm-table td.highlight-column-4 {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.5);
+}
+
+table.wt-cm-table td.fade {
+    opacity: 0.3;
+    transform: scale(0.95);
+}
+
+/* Extra columns/rows */
+table.wt-cm-table td.separator,
+table.wt-cm-table th.separator {
+    background: transparent !important;
+    border: none !important;
+    width: 10px;
+    padding: 0 5px;
+}
+
+table.wt-cm-table td.extra-col,
+table.wt-cm-table th.extra-col {
+    background: #f8f9fa;
+    color: #666;
+    font-style: italic;
+}
+
+table.wt-cm-table td.extra-col.filled {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: bold;
+    font-style: normal;
+    animation: fillValue 0.6s ease-out;
+}
+
+table.wt-cm-table tr.extra-row td {
+    background: #f8f9fa;
+    color: #666;
+    font-style: italic;
+}
+
+table.wt-cm-table tr.extra-row td.filled {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: bold;
+    font-style: normal;
+    animation: fillValue 0.6s ease-out;
+}
+
+/* Accuracy cell - special styling */
+table.wt-cm-table td[data-accuracy] {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    font-style: italic;
+}
+
+table.wt-cm-table td[data-accuracy].filled {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: white !important;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 1.1rem !important;
+}
+
+@keyframes fillValue {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Controls */
+.walkthrough-controls {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.wt-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.wt-btn-nav {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.wt-btn-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.wt-btn-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wt-btn-reset {
+    background: #f3f4f6;
+    color: #666;
+}
+
+.wt-btn-reset:hover {
+    background: #e5e7eb;
+}
+
+/* Step Info */
+.wt-step-info {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e5e7eb 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 5px solid #667eea;
+}
+
+.wt-step-info h3 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.wt-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #667eea;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.wt-step-info p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Calculations */
+.wt-calculations {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    min-height: 200px;
+}
+
+.wt-formula {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.wt-result-card {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.wt-result-card .label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.wt-result-card .value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.wt-per-class-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.wt-class-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid #e5e7eb;
+}
+
+.wt-class-card .class-name {
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+
+.wt-class-card .class-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #10b981;
+}
+
+/* Progress Bar */
+.wt-progress-bar {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.wt-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.wt-progress-text {
+    text-align: center;
+    color: #666;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+}
+
