@@ -2268,108 +2268,111 @@ function renderConfigurationDetails() {
     container.innerHTML = html;
 }
 
-// === Formulas Tab ===
+// === Formulas Tab (Y CHANG traditional_ml - METRICS formulas) ===
 function renderFormulasContent() {
     const container = document.getElementById('formulas-content');
     if (!container) return;
     
-    // Get unique techniques from top 9
-    const techniques = new Set();
-    top9Pipelines.forEach(p => {
-        techniques.add(p.extractor.type);
-        if (p.reducer.type !== 'none') techniques.add(p.reducer.type);
-        techniques.add(p.classifier.type);
-    });
-    
-    let html = '<div class="formulas-container">';
-    
-    // TF-IDF Formula
-    if (techniques.has('tfidf')) {
-        html += `
-            <div class="formula-section">
-                <h4>📊 TF-IDF (Term Frequency - Inverse Document Frequency)</h4>
-                <div class="formula-box">
-                    <p><strong>Formula:</strong></p>
-                    <p class="formula-math">TF-IDF(t,d) = TF(t,d) × IDF(t)</p>
-                    <p class="formula-math">= (freq of term t in doc d) × log(N / (1 + df_t))</p>
-                    <p><em>Where N = total documents, df_t = documents containing term t</em></p>
+    const html = `
+        <div style="max-width: 900px; margin: 0 auto;">
+            <!-- Classification Metrics -->
+            <div class="config-card" style="margin-bottom: 1.5rem;">
+                <h4>📊 Classification Metrics</h4>
+                <div style="line-height: 2.2;">
+                    <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <strong>Accuracy:</strong><br>
+                        <span style="font-size: 1.1rem; color: #667eea;">
+                            \\( \\text{Accuracy} = \\frac{\\text{TP} + \\text{TN}}{\\text{TP} + \\text{TN} + \\text{FP} + \\text{FN}} = \\frac{\\sum_{i=1}^{n} \\text{CM}[i,i]}{\\text{Total Samples}} \\)
+                        </span>
+                    </div>
+                    
+                    <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <strong>Precision (per class i):</strong><br>
+                        <span style="font-size: 1.1rem; color: #667eea;">
+                            \\( \\text{Precision}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FP}_i} = \\frac{\\text{CM}[i,i]}{\\sum_{j=1}^{n} \\text{CM}[j,i]} \\)
+                        </span>
+                    </div>
+                    
+                    <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <strong>Recall (per class i):</strong><br>
+                        <span style="font-size: 1.1rem; color: #667eea;">
+                            \\( \\text{Recall}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FN}_i} = \\frac{\\text{CM}[i,i]}{\\sum_{j=1}^{n} \\text{CM}[i,j]} \\)
+                        </span>
+                    </div>
+                    
+                    <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <strong>F1-Score (per class i):</strong><br>
+                        <span style="font-size: 1.1rem; color: #667eea;">
+                            \\( \\text{F1}_i = 2 \\times \\frac{\\text{Precision}_i \\times \\text{Recall}_i}{\\text{Precision}_i + \\text{Recall}_i} = \\frac{2 \\times \\text{TP}_i}{2 \\times \\text{TP}_i + \\text{FP}_i + \\text{FN}_i} \\)
+                        </span>
+                    </div>
                 </div>
             </div>
-        `;
-    }
-    
-    // PCA Formula
-    if (techniques.has('pca')) {
-        html += `
-            <div class="formula-section">
-                <h4>🎯 PCA (Principal Component Analysis)</h4>
-                <div class="formula-box">
-                    <p><strong>Goal:</strong> Maximize variance while reducing dimensions</p>
-                    <p class="formula-math">X' = X × W_k</p>
-                    <p><em>Where W_k are top k eigenvectors of covariance matrix</em></p>
+            
+            <!-- Averaging Methods -->
+            <div class="config-card" style="margin-bottom: 1.5rem;">
+                <h4>📐 Averaging Methods</h4>
+                <div style="line-height: 2.2;">
+                    <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <strong>Macro Average:</strong><br>
+                        <span style="font-size: 1.1rem; color: #667eea;">
+                            \\( \\text{Macro} = \\frac{1}{n} \\sum_{i=1}^{n} \\text{Metric}_i \\)
+                        </span><br>
+                        <em style="font-size: 0.9rem; color: #666;">Simple average across all classes (treats all classes equally)</em>
+                    </div>
+                    
+                    <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <strong>Weighted Average:</strong><br>
+                        <span style="font-size: 1.1rem; color: #667eea;">
+                            \\( \\text{Weighted} = \\frac{\\sum_{i=1}^{n} \\text{Metric}_i \\times \\text{Support}_i}{\\sum_{i=1}^{n} \\text{Support}_i} \\)
+                        </span><br>
+                        <em style="font-size: 0.9rem; color: #666;">Weighted by class frequency (better for imbalanced datasets)</em>
+                    </div>
                 </div>
             </div>
-        `;
-    }
-    
-    // Chi² Formula
-    if (techniques.has('chi2')) {
-        html += `
-            <div class="formula-section">
-                <h4>📈 Chi² Feature Selection</h4>
-                <div class="formula-box">
-                    <p><strong>Formula:</strong></p>
-                    <p class="formula-math">χ²(feature, class) = Σ (O - E)² / E</p>
-                    <p><em>Where O = observed frequency, E = expected frequency</em></p>
+            
+            <!-- Confusion Matrix Components -->
+            <div class="config-card">
+                <h4>🔢 Confusion Matrix Components</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+                    <div style="background: #d1fae5; padding: 1rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <strong style="color: #065f46;">True Positive (TP<sub>i</sub>):</strong><br>
+                        <span style="font-size: 0.9rem;">CM[i, i] - Correctly predicted as class i</span>
+                    </div>
+                    
+                    <div style="background: #fee2e2; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <strong style="color: #991b1b;">False Positive (FP<sub>i</sub>):</strong><br>
+                        <span style="font-size: 0.9rem;">Sum of column i (except diagonal) - Incorrectly predicted as i</span>
+                    </div>
+                    
+                    <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <strong style="color: #92400e;">False Negative (FN<sub>i</sub>):</strong><br>
+                        <span style="font-size: 0.9rem;">Sum of row i (except diagonal) - Should be i but predicted as other</span>
+                    </div>
+                    
+                    <div style="background: #dbeafe; padding: 1rem; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                        <strong style="color: #1e40af;">Support<sub>i</sub>:</strong><br>
+                        <span style="font-size: 0.9rem;">Sum of row i - Total samples of class i</span>
+                    </div>
                 </div>
             </div>
-        `;
-    }
+        </div>
+    `;
     
-    // Logistic Regression
-    if (techniques.has('logistic')) {
-        html += `
-            <div class="formula-section">
-                <h4>🔢 Logistic Regression</h4>
-                <div class="formula-box">
-                    <p><strong>Formula:</strong></p>
-                    <p class="formula-math">P(y=1|x) = 1 / (1 + e^(-w·x))</p>
-                    <p><em>Optimized using gradient descent</em></p>
-                </div>
-            </div>
-        `;
-    }
-    
-    // Naive Bayes
-    if (techniques.has('naive_bayes')) {
-        html += `
-            <div class="formula-section">
-                <h4>🎲 Naive Bayes</h4>
-                <div class="formula-box">
-                    <p><strong>Formula:</strong></p>
-                    <p class="formula-math">P(c|x) ∝ P(c) × ∏ P(x_i|c)</p>
-                    <p><em>Assumes feature independence</em></p>
-                </div>
-            </div>
-        `;
-    }
-    
-    // KNN
-    if (techniques.has('knn')) {
-        html += `
-            <div class="formula-section">
-                <h4>👥 K-Nearest Neighbors</h4>
-                <div class="formula-box">
-                    <p><strong>Prediction:</strong> Majority vote of K nearest neighbors</p>
-                    <p class="formula-math">distance(x, x') = ||x - x'||</p>
-                    <p><em>Uses Euclidean distance by default</em></p>
-                </div>
-            </div>
-        `;
-    }
-    
-    html += '</div>';
     container.innerHTML = html;
+    
+    // Render KaTeX formulas after content is loaded
+    setTimeout(() => {
+        if (typeof renderMathInElement !== 'undefined') {
+            renderMathInElement(container, {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError: false
+            });
+        }
+    }, 100);
 }
 
 // === Confusion Matrices (Y CHANG traditional_ml) ===
