@@ -652,6 +652,247 @@
         border-color: #667eea;
     }
     
+    /* Pipeline Tabs */
+    .pipeline-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 2rem;
+    }
+    
+    .pipeline-tab-btn {
+        background: none;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #6c757d;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+    }
+    
+    .pipeline-tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+    }
+    
+    .pipeline-tab-btn:hover {
+        color: #667eea;
+        background: #f8f9fa;
+    }
+    
+    .pipeline-tab-content {
+        display: none;
+    }
+    
+    .pipeline-tab-content.active {
+        display: block;
+    }
+    
+    /* Tutorials Container */
+    .tutorials-container {
+        padding: 2rem 0;
+    }
+    
+    .tutorial-section {
+        margin-bottom: 3rem;
+    }
+    
+    .tutorial-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #2d3748;
+    }
+    
+    /* Tutorial Card (Large - for TF-IDF) */
+    .tutorial-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        display: flex;
+        gap: 2rem;
+        align-items: start;
+    }
+    
+    .tutorial-icon {
+        font-size: 3.5rem;
+        flex-shrink: 0;
+    }
+    
+    .tutorial-body {
+        flex: 1;
+    }
+    
+    .tutorial-body h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #2d3748;
+    }
+    
+    .tutorial-desc {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .tutorial-meta {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+    }
+    
+    .tutorial-meta .badge {
+        background: #e9ecef;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        color: #495057;
+    }
+    
+    .tutorial-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-tutorial-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: transform 0.2s;
+    }
+    
+    .btn-tutorial-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+    }
+    
+    .btn-colab {
+        background: white;
+        border: 2px solid #f9ab00;
+        padding: 0.65rem 1.25rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        color: #f9ab00;
+        transition: all 0.2s;
+    }
+    
+    .btn-colab:hover {
+        background: #f9ab00;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    /* Tutorial Grid (Small cards) */
+    .tutorial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .tutorial-card-small {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+    }
+    
+    .tutorial-card-small:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    
+    .tutorial-icon-small {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tutorial-card-small h4 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+    
+    .tutorial-desc-small {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+    
+    .tutorial-meta-small {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .badge-small {
+        background: #f1f3f5;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        color: #495057;
+    }
+    
+    .tutorial-actions-small {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .btn-tutorial-small {
+        background: #667eea;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .btn-tutorial-small:hover {
+        background: #5a67d8;
+    }
+    
+    .btn-download-small {
+        background: #28a745;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .btn-download-small:hover {
+        background: #218838;
+    }
+    
     </style>
 </head>
 <body>
@@ -676,37 +917,207 @@
 
         <!-- Pipeline Visualization -->
         
-        <div class="pipeline-flow">
-            <div class="step step-fixed">
-                <div class="step-icon">📝</div>
-                <div class="step-title">Text Input</div>
-                <div class="step-detail">"Business news..."</div>
+        <div class="pipeline-section">
+            <!-- Tabs -->
+            <div class="pipeline-tabs">
+                <button class="pipeline-tab-btn active" onclick="switchPipelineTab('pipeline')">
+                    🔄 Pipeline
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('tutorials')">
+                    📚 Tutorials
+                </button>
             </div>
             
-            <div class="arrow">→</div>
-            
-            <div class="step step-fixed">
-                <div class="step-icon">🔢</div>
-                <div class="step-title">TF-IDF</div>
-                <div class="step-badge">Fixed</div>
-                <div class="step-detail">5000 features</div>
+            <!-- Tab 1: Pipeline (default) -->
+            <div id="pipeline-tab" class="pipeline-tab-content active">
+                <div class="pipeline-flow">
+                    <div class="step step-fixed">
+                        <div class="step-icon">📝</div>
+                        <div class="step-title">Text Input</div>
+                        <div class="step-detail">"Business news..."</div>
+                    </div>
+                    
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-fixed">
+                        <div class="step-icon">🔢</div>
+                        <div class="step-title">TF-IDF</div>
+                        <div class="step-badge">Fixed</div>
+                        <div class="step-detail">5000 features</div>
+                    </div>
+                    
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-interactive">
+                        <div class="step-icon">🤖</div>
+                        <div class="step-title">Classifier</div>
+                        <div class="step-badge">Choose Below</div>
+                        <div class="step-detail">Select methods</div>
+                    </div>
+                    
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-result">
+                        <div class="step-icon">✨</div>
+                        <div class="step-title">Results</div>
+                        <div class="step-detail">96-98% accuracy</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="arrow">→</div>
-            
-            <div class="step step-interactive">
-                <div class="step-icon">🤖</div>
-                <div class="step-title">Classifier</div>
-                <div class="step-badge">Choose Below</div>
-                <div class="step-detail">Select methods</div>
-            </div>
-            
-            <div class="arrow">→</div>
-            
-            <div class="step step-result">
-                <div class="step-icon">✨</div>
-                <div class="step-title">Results</div>
-                <div class="step-detail">96-98% accuracy</div>
+            <!-- Tab 2: Tutorials -->
+            <div id="tutorials-tab" class="pipeline-tab-content">
+
+                <div class="tutorials-container">
+                    <!-- Feature Extraction Section -->
+                    <div class="tutorial-section">
+                        <h2>📊 Feature Extraction</h2>
+                        <div class="tutorial-card">
+                            <div class="tutorial-icon">🔤</div>
+                            <div class="tutorial-body">
+                                <h3>TF-IDF Vectorization</h3>
+                                <p class="tutorial-desc">
+                                    Learn how TF-IDF converts text into numerical features. 
+                                    Includes theory, visualization, and hands-on code examples.
+                                </p>
+                                <div class="tutorial-meta">
+                                    <span class="badge">⏱️ 15 min</span>
+                                    <span class="badge">📊 Interactive</span>
+                                    <span class="badge">💻 Colab Ready</span>
+                                </div>
+                                <div class="tutorial-actions">
+                                    <a href="tutorials/tfidf.html" class="btn-tutorial-primary">
+                                        📖 Open Tutorial
+                                    </a>
+                                    <a href="tutorials/code/tfidf_tutorial.py" download class="btn-secondary">
+                                        ⬇️ Download .py
+                                    </a>
+                                    <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/04_Natural_Language_Processing/text_classification/tutorials/notebooks/tfidf.ipynb" 
+                                       target="_blank" class="btn-colab">
+                                        Open in Colab
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Classifiers Section -->
+                    <div class="tutorial-section">
+                        <h2>🤖 Classification Algorithms</h2>
+                        <div class="tutorial-grid">
+
+                            <div class="tutorial-card-small">
+                                <div class="tutorial-icon-small">🎲</div>
+                                <h4>Naive Bayes</h4>
+                                <p class="tutorial-desc-small">Probabilistic classifier based on Bayes theorem. Fast, efficient, works well with small datasets.</p>
+                                <div class="tutorial-meta-small">
+                                    <span class="badge-small">⏱️ 10 min</span>
+                                    <span class="badge-small">📈 96.7%</span>
+                                </div>
+                                <div class="tutorial-actions-small">
+                                    <a href="tutorials/naive_bayes.html" class="btn-tutorial-small">
+                                        📖 Tutorial
+                                    </a>
+                                    <a href="tutorials/code/naive_bayes_tutorial.py" download class="btn-download-small">
+                                        ⬇️ .py
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="tutorial-card-small">
+                                <div class="tutorial-icon-small">📈</div>
+                                <h4>Logistic Regression</h4>
+                                <p class="tutorial-desc-small">Linear model with sigmoid activation. Simple, interpretable, good baseline.</p>
+                                <div class="tutorial-meta-small">
+                                    <span class="badge-small">⏱️ 12 min</span>
+                                    <span class="badge-small">📈 97.9%</span>
+                                </div>
+                                <div class="tutorial-actions-small">
+                                    <a href="tutorials/logistic_regression.html" class="btn-tutorial-small">
+                                        📖 Tutorial
+                                    </a>
+                                    <a href="tutorials/code/logistic_regression_tutorial.py" download class="btn-download-small">
+                                        ⬇️ .py
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="tutorial-card-small">
+                                <div class="tutorial-icon-small">🎯</div>
+                                <h4>Support Vector Machine</h4>
+                                <p class="tutorial-desc-small">Find optimal hyperplane for classification. Powerful for high-dimensional data.</p>
+                                <div class="tutorial-meta-small">
+                                    <span class="badge-small">⏱️ 15 min</span>
+                                    <span class="badge-small">📈 98.2%</span>
+                                </div>
+                                <div class="tutorial-actions-small">
+                                    <a href="tutorials/svm.html" class="btn-tutorial-small">
+                                        📖 Tutorial
+                                    </a>
+                                    <a href="tutorials/code/svm_tutorial.py" download class="btn-download-small">
+                                        ⬇️ .py
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="tutorial-card-small">
+                                <div class="tutorial-icon-small">🌲</div>
+                                <h4>Random Forest</h4>
+                                <p class="tutorial-desc-small">Ensemble of decision trees. Robust, handles non-linearity, reduces overfitting.</p>
+                                <div class="tutorial-meta-small">
+                                    <span class="badge-small">⏱️ 15 min</span>
+                                    <span class="badge-small">📈 97.6%</span>
+                                </div>
+                                <div class="tutorial-actions-small">
+                                    <a href="tutorials/random_forest.html" class="btn-tutorial-small">
+                                        📖 Tutorial
+                                    </a>
+                                    <a href="tutorials/code/random_forest_tutorial.py" download class="btn-download-small">
+                                        ⬇️ .py
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="tutorial-card-small">
+                                <div class="tutorial-icon-small">🧠</div>
+                                <h4>Neural Network (MLP)</h4>
+                                <p class="tutorial-desc-small">Multi-layer perceptron with hidden layers. Can learn complex patterns.</p>
+                                <div class="tutorial-meta-small">
+                                    <span class="badge-small">⏱️ 18 min</span>
+                                    <span class="badge-small">📈 98.5%</span>
+                                </div>
+                                <div class="tutorial-actions-small">
+                                    <a href="tutorials/mlp.html" class="btn-tutorial-small">
+                                        📖 Tutorial
+                                    </a>
+                                    <a href="tutorials/code/mlp_tutorial.py" download class="btn-download-small">
+                                        ⬇️ .py
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="tutorial-card-small">
+                                <div class="tutorial-icon-small">🚀</div>
+                                <h4>XGBoost</h4>
+                                <p class="tutorial-desc-small">Gradient boosting algorithm. Often wins ML competitions. High performance.</p>
+                                <div class="tutorial-meta-small">
+                                    <span class="badge-small">⏱️ 20 min</span>
+                                    <span class="badge-small">📈 98.8%</span>
+                                </div>
+                                <div class="tutorial-actions-small">
+                                    <a href="tutorials/xgboost.html" class="btn-tutorial-small">
+                                        📖 Tutorial
+                                    </a>
+                                    <a href="tutorials/code/xgboost_tutorial.py" download class="btn-download-small">
+                                        ⬇️ .py
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -1857,6 +2268,25 @@
     }
     
 
+    // Tab switching function
+    function switchPipelineTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.pipeline-tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Remove active from all buttons
+        document.querySelectorAll('.pipeline-tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.add('active');
+        
+        // Activate button
+        event.target.classList.add('active');
+    }
+    
     // Initialize on load
     renderMethodSelector();
     
