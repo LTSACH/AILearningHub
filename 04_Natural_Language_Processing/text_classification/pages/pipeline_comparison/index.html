@@ -343,28 +343,98 @@ body {
     text-decoration: underline;
 }
 
-/* Code Actions */
-.code-actions {
+/* Code Tab (Y CHANG traditional_ml) */
+.code-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.code-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+}
+
+.code-header p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.code-actions-top {
     display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
 }
 
-.btn-code-action {
-    padding: 0.75rem 1.5rem;
-    background: #667eea;
-    color: white;
-    border: none;
+.btn-copy-code-compact,
+.btn-download-code-compact {
+    padding: 0.5rem 1rem;
     border-radius: 6px;
-    cursor: pointer;
+    font-weight: 500;
     text-decoration: none;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
 }
 
-.btn-code-action:hover {
-    background: #5568d3;
+.btn-copy-code-compact {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-copy-code-compact:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+
+.btn-download-code-compact {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    display: inline-block;
+}
+
+.btn-download-code-compact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(245, 87, 108, 0.3);
+}
+
+.code-block-container {
+    background: #2d3748;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.code-loading {
+    color: #a0aec0;
+    text-align: center;
+    padding: 2rem;
+}
+
+.code-features {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.code-features h3 {
+    margin-bottom: 1rem;
+    color: #2d3748;
+}
+
+.code-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.code-features li {
+    padding: 0.5rem 0;
+    color: #666;
 }
 
 /* ===== HERO MODE: COMPARISON SECTION ===== */
@@ -1729,24 +1799,34 @@ body {
             <div id="overview-code-tab" class="overview-tab-content">
                 
         <div class="code-container">
-            <h3>💻 Pipeline Comparison Code</h3>
-            <p>Ready-to-run Python code to compare all 240 pipeline combinations.</p>
-            <div class="code-actions">
-                <button onclick="copyPipelineCode()" class="btn-code-action">📋 Copy Code</button>
-                <a href="code/bbc_pipeline_comparison.py" download class="btn-code-action">⬇️ Download Python</a>
+            <div class="code-header">
+                <h2>💻 Full Implementation Code</h2>
+                <p>Ready-to-run Python code with all 240 pipeline combinations. Includes dataset download, feature extraction, dimensionality reduction, classification, and evaluation.</p>
             </div>
+            
+            <div class="code-actions-top">
+                <button onclick="copyPipelineCode()" class="btn-copy-code-compact">
+                    📋 Copy
+                </button>
+                <a href="code/bbc_pipeline_comparison.py" download class="btn-download-code-compact">
+                    ⬇️ Download
+                </a>
+            </div>
+            
             <div id="pipeline-code-block" class="code-block-container">
                 <div class="code-loading">⏳ Loading code...</div>
                 <pre style="display:none;"><code id="pipeline-python-code" class="language-python"></code></pre>
             </div>
+            
             <div class="code-features">
+                <h3>Features:</h3>
                 <ul>
-                    <li>✅ Auto dataset download</li>
-                    <li>✅ 6 feature extractors (BoW + TF-IDF)</li>
-                    <li>✅ 4 dimensionality reducers</li>
-                    <li>✅ 10 classifier configurations</li>
-                    <li>✅ Performance comparison table</li>
-                    <li>✅ Timing measurements</li>
+                    <li>✅ Automatic dataset download from GitHub Pages</li>
+                    <li>✅ 6 feature extractors (BoW + TF-IDF with different configs)</li>
+                    <li>✅ 4 dimensionality reducers (None, Chi², PCA 90%, PCA 95%)</li>
+                    <li>✅ 10 classifier configurations (NB, LR, RF, DT, KNN)</li>
+                    <li>✅ Training & inference time measurements</li>
+                    <li>✅ Performance comparison table with best highlighting</li>
                 </ul>
             </div>
         </div>
