@@ -364,9 +364,275 @@ body {
     transform: translateY(-2px);
 }
 
-/* ===== HERO MODE: TOP TABLES ===== */
+/* ===== HERO MODE: COMPARISON SECTION ===== */
 .hero-mode-section {
     margin-bottom: 2rem;
+}
+
+.comparison-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.comparison-header h2 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.comparison-header p {
+    color: #666;
+    font-size: 1.05rem;
+}
+
+/* Comparison Tabs */
+.comparison-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 2px solid #e0e7ff;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.comparison-tab-btn {
+    padding: 0.75rem 2rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #666;
+    font-size: 1.05rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.comparison-tab-btn:hover {
+    color: #667eea;
+    background: #f0f4ff;
+}
+
+.comparison-tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+    font-weight: 600;
+}
+
+.comparison-tab-content {
+    display: none;
+    padding: 1.5rem 0;
+}
+
+.comparison-tab-content.active {
+    display: block;
+}
+
+/* Performance Table */
+.performance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.performance-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.performance-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.performance-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.performance-table tbody tr:hover {
+    background: #f0f4ff;
+}
+
+.pipeline-name-cell {
+    font-weight: 500;
+    color: #333;
+}
+
+.metric-best {
+    background: #d4edda !important;
+    color: #155724;
+    font-weight: 700;
+}
+
+/* Config Grid */
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.config-card {
+    background: #f9fafb;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.config-card h4 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.config-table-small {
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.config-table-small th {
+    text-align: left;
+    padding: 0.5rem;
+    background: #e0e7ff;
+    color: #333;
+    font-weight: 600;
+}
+
+.config-table-small td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.config-details-small {
+    font-size: 0.85rem;
+    color: #666;
+    font-family: monospace;
+}
+
+/* Formulas */
+.formulas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.formula-section {
+    background: #f9fafb;
+    border-left: 4px solid #667eea;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.formula-section h4 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.formula-box {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0e7ff;
+}
+
+.formula-math {
+    font-family: 'Courier New', monospace;
+    background: #f0f4ff;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/* Confusion Matrices */
+.confusion-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e0e7ff;
+}
+
+.confusion-section h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.cm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.cm-card {
+    background: #f9fafb;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.cm-card h4 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.cm-metrics-summary {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.cm-metrics-summary span {
+    background: #e0e7ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.cm-plot {
+    margin: 1rem 0;
+}
+
+.per-class-metrics {
+    margin-top: 1rem;
+}
+
+.per-class-metrics h5 {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.metrics-table-small {
+    width: 100%;
+    font-size: 0.85rem;
+    border-collapse: collapse;
+}
+
+.metrics-table-small thead {
+    background: #e0e7ff;
+}
+
+.metrics-table-small th {
+    padding: 0.5rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.metrics-table-small td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.metrics-table-small tbody tr:hover {
+    background: #f0f4ff;
 }
 
 .top-tables-grid {
@@ -1265,7 +1531,7 @@ body {
             </div>
         </section>
 
-        <!-- Hero Mode: Top-3 Tables -->
+        <!-- Hero Mode: Top Performers Comparison -->
         <section id="hero-mode-section" class="hero-mode-section">
             <!-- Pipeline Overview with Tabs -->
             <div class="pipeline-overview-section">
@@ -1422,65 +1688,44 @@ body {
     
             </div>
             
-            <div class="top-tables-grid">
-                <!-- Top 3 by Accuracy -->
-                <div class="top-table-card">
-                    <h3>🏆 Top 3 by Accuracy</h3>
-                    <div id="top-accuracy-table"></div>
+            <!-- Top Performers Comparison Section -->
+            <div class="comparison-section">
+                <div class="comparison-header">
+                    <h2>🏆 Top 9 Performers Comparison</h2>
+                    <p>Top 3 by Accuracy, Training Speed, and Inference Speed</p>
                 </div>
                 
-                <!-- Top 3 by Inference Speed -->
-                <div class="top-table-card">
-                    <h3>⚡ Top 3 by Inference Speed</h3>
-                    <div id="top-speed-table"></div>
+                <!-- Comparison Tabs -->
+                <div class="comparison-tabs">
+                    <button class="comparison-tab-btn active" onclick="switchComparisonTab('performance')">
+                        📊 Performance
+                    </button>
+                    <button class="comparison-tab-btn" onclick="switchComparisonTab('configuration')">
+                        ⚙️ Configuration
+                    </button>
+                    <button class="comparison-tab-btn" onclick="switchComparisonTab('formulas')">
+                        📐 Formulas
+                    </button>
                 </div>
                 
-                <!-- Top 3 by Train Time -->
-                <div class="top-table-card">
-                    <h3>⚡ Top 3 by Training Speed (Fastest)</h3>
-                    <div id="top-size-table"></div>
+                <!-- Tab Contents -->
+                <div id="performance-tab" class="comparison-tab-content active">
+                    <div id="performance-comparison-table"></div>
                 </div>
-            </div>
-            
-            <!-- Selected Pipeline Details (tabs: Config, Formula, Confusion Matrix, Walkthrough) -->
-            <div id="hero-pipeline-details" class="pipeline-details-section" style="display: none;">
-                <h3 id="hero-selected-title">Pipeline Details</h3>
                 
-        <div class="pipeline-tabs-container">
-            <!-- Tab buttons -->
-            <div class="detail-tabs">
-                <button class="detail-tab-btn active" onclick="switchDetailTab('hero', 'config')">
-                    ⚙️ Configuration
-                </button>
-                <button class="detail-tab-btn" onclick="switchDetailTab('hero', 'formula')">
-                    📐 Formulas
-                </button>
-                <button class="detail-tab-btn" onclick="switchDetailTab('hero', 'confusion')">
-                    📊 Confusion Matrix
-                </button>
-                <button class="detail-tab-btn" onclick="switchDetailTab('hero', 'walkthrough')">
-                    🚶 Walkthrough
-                </button>
-            </div>
-            
-            <!-- Tab contents -->
-            <div id="hero-config-tab" class="detail-tab-content active">
-                <div id="hero-config-content">Select a pipeline to view configuration</div>
-            </div>
-            
-            <div id="hero-formula-tab" class="detail-tab-content">
-                <div id="hero-formula-content">Select a pipeline to view formulas</div>
-            </div>
-            
-            <div id="hero-confusion-tab" class="detail-tab-content">
-                <div id="hero-confusion-content">Select a pipeline to view confusion matrix</div>
-            </div>
-            
-            <div id="hero-walkthrough-tab" class="detail-tab-content">
-                <div id="hero-walkthrough-content">Select a pipeline to view walkthrough</div>
-            </div>
-        </div>
-    
+                <div id="configuration-tab" class="comparison-tab-content">
+                    <div id="configuration-details"></div>
+                </div>
+                
+                <div id="formulas-tab" class="comparison-tab-content">
+                    <div id="formulas-content"></div>
+                </div>
+                
+                <!-- Confusion Matrices & Metrics -->
+                <div class="confusion-section">
+                    <h3>🎯 Confusion Matrices & Per-Class Metrics</h3>
+                    <div id="confusion-matrices-grid"></div>
+                </div>
             </div>
         </section>
 
@@ -1800,7 +2045,9 @@ function copyPipelineCode() {
     }
 }
 
-// ===== HERO MODE: TOP-3 TABLES =====
+// ===== HERO MODE: TOP 9 PERFORMERS =====
+let top9Pipelines = [];
+
 function initializeHeroMode() {
     if (!allPipelinesData || !allPipelinesData.all_results) return;
     
@@ -1810,82 +2057,316 @@ function initializeHeroMode() {
     const topAccuracy = [...pipelines]
         .sort((a, b) => b.metrics.accuracy - a.metrics.accuracy)
         .slice(0, 3);
-    renderTopTable('top-accuracy-table', topAccuracy, 'accuracy');
     
-    // Top 3 by Inference Speed (fastest = lowest ms/sample)
-    const topSpeed = [...pipelines]
-        .filter(p => p.performance.inference_time_ms_per_sample > 0)
-        .sort((a, b) => a.performance.inference_time_ms_per_sample - b.performance.inference_time_ms_per_sample)
-        .slice(0, 3);
-    renderTopTable('top-speed-table', topSpeed, 'speed');
-    
-    // Top 3 by Train Time (fastest)
-    const topTrainTime = [...pipelines]
+    // Top 3 by Training Speed (fastest = lowest time)
+    const topTrainSpeed = [...pipelines]
         .filter(p => p.performance.train_time_seconds > 0)
         .sort((a, b) => a.performance.train_time_seconds - b.performance.train_time_seconds)
         .slice(0, 3);
-    renderTopTable('top-size-table', topTrainTime, 'train');
-}
-
-function renderTopTable(containerId, pipelines, metric) {
-    const container = document.getElementById(containerId);
-    if (!container || pipelines.length === 0) return;
     
-    const medals = ['🥇', '🥈', '🥉'];
+    // Top 3 by Inference Speed (fastest = lowest ms/sample)
+    const topInferSpeed = [...pipelines]
+        .filter(p => p.performance.inference_time_ms_per_sample > 0)
+        .sort((a, b) => a.performance.inference_time_ms_per_sample - b.performance.inference_time_ms_per_sample)
+        .slice(0, 3);
     
-    let html = '<table class="comparison-table"><thead><tr>';
-    html += '<th>Rank</th><th>Pipeline</th><th>Accuracy</th>';
-    
-    if (metric === 'speed') {
-        html += '<th>Inference (ms)</th>';
-    } else if (metric === 'train') {
-        html += '<th>Train Time (s)</th>';
-    }
-    
-    html += '<th>Action</th></tr></thead><tbody>';
-    
-    pipelines.forEach((p, idx) => {
-        const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
-        const accuracy = p.metrics.accuracy;
-        const inferenceMs = p.performance.inference_time_ms_per_sample;
-        const trainTime = p.performance.train_time_seconds;
-        
-        html += `<tr onclick="selectPipelineInHero('${p.pipeline_id}')" style="cursor:pointer;">`;
-        html += `<td><span style="font-size:1.5rem;">${medals[idx]}</span></td>`;
-        html += `<td><strong>${pipelineName}</strong></td>`;
-        html += `<td>${(accuracy * 100).toFixed(2)}%</td>`;
-        
-        if (metric === 'speed') {
-            html += `<td>${inferenceMs.toFixed(4)}</td>`;
-        } else if (metric === 'train') {
-            html += `<td>${trainTime.toFixed(3)}</td>`;
-        }
-        
-        html += `<td><button class="btn-view-details" onclick="event.stopPropagation(); selectPipelineInHero('${p.pipeline_id}')">👁️ View</button></td>`;
-        html += '</tr>';
+    // Combine and deduplicate (keep unique pipeline_ids)
+    const seen = new Set();
+    top9Pipelines = [...topAccuracy, ...topTrainSpeed, ...topInferSpeed].filter(p => {
+        if (seen.has(p.pipeline_id)) return false;
+        seen.add(p.pipeline_id);
+        return true;
     });
     
-    html += '</tbody></table>';
+    // Render comparison
+    renderTop9Comparison();
+}
+
+// ===== RENDER TOP 9 COMPARISON =====
+function renderTop9Comparison() {
+    // Performance Tab
+    renderPerformanceComparison();
+    
+    // Configuration Tab
+    renderConfigurationDetails();
+    
+    // Formulas Tab
+    renderFormulasContent();
+    
+    // Confusion Matrices
+    renderConfusionMatrices();
+}
+
+// === Performance Tab ===
+function renderPerformanceComparison() {
+    const container = document.getElementById('performance-comparison-table');
+    if (!container) return;
+    
+    // Find best values for highlighting
+    const bestAcc = Math.max(...top9Pipelines.map(p => p.metrics.accuracy));
+    const bestF1 = Math.max(...top9Pipelines.map(p => p.metrics.f1_score));
+    const bestTrain = Math.min(...top9Pipelines.map(p => p.performance.train_time_seconds));
+    const bestInfer = Math.min(...top9Pipelines.map(p => p.performance.inference_time_ms_per_sample));
+    
+    let html = `
+        <table class="performance-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Pipeline</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1-Score</th>
+                    <th>Train Time (s)</th>
+                    <th>Inference (ms)</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    top9Pipelines.forEach((p, idx) => {
+        const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
+        
+        html += `<tr>`;
+        html += `<td><strong>${idx + 1}</strong></td>`;
+        html += `<td class="pipeline-name-cell">${pipelineName}</td>`;
+        html += `<td class="${p.metrics.accuracy === bestAcc ? 'metric-best' : ''}">${(p.metrics.accuracy * 100).toFixed(2)}%</td>`;
+        html += `<td>${(p.metrics.precision * 100).toFixed(2)}%</td>`;
+        html += `<td>${(p.metrics.recall * 100).toFixed(2)}%</td>`;
+        html += `<td class="${p.metrics.f1_score === bestF1 ? 'metric-best' : ''}">${(p.metrics.f1_score * 100).toFixed(2)}%</td>`;
+        html += `<td class="${p.performance.train_time_seconds === bestTrain ? 'metric-best' : ''}">${p.performance.train_time_seconds.toFixed(3)}</td>`;
+        html += `<td class="${p.performance.inference_time_ms_per_sample === bestInfer ? 'metric-best' : ''}">${p.performance.inference_time_ms_per_sample.toFixed(4)}</td>`;
+        html += `</tr>`;
+    });
+    
+    html += `</tbody></table>`;
     container.innerHTML = html;
 }
 
-function selectPipelineInHero(pipelineId) {
-    const pipeline = allPipelinesData.all_results.find(p => p.pipeline_id === pipelineId);
-    if (!pipeline) return;
+// === Configuration Tab ===
+function renderConfigurationDetails() {
+    const container = document.getElementById('configuration-details');
+    if (!container) return;
     
-    // Show details section
-    const detailsSection = document.getElementById('hero-pipeline-details');
-    detailsSection.style.display = 'block';
+    let html = '<div class="config-grid">';
     
-    // Update title
-    const pipelineName = `${pipeline.extractor.name} → ${pipeline.reducer.name} → ${pipeline.classifier.name}`;
-    document.getElementById('hero-selected-title').textContent = `Pipeline: ${pipelineName}`;
+    top9Pipelines.forEach((p, idx) => {
+        const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
+        
+        html += `
+            <div class="config-card">
+                <h4>${idx + 1}. ${pipelineName}</h4>
+                <table class="config-table-small">
+                    <tr><th>Extractor</th><td>${p.extractor.name}</td></tr>
+                    <tr><td colspan="2" class="config-details-small">${JSON.stringify(p.extractor.config).replace(/[{}]/g, '').replace(/"/g, '')}</td></tr>
+                    
+                    <tr><th>Reducer</th><td>${p.reducer.name}</td></tr>
+                    <tr><td colspan="2" class="config-details-small">${JSON.stringify(p.reducer.config).replace(/[{}]/g, '').replace(/"/g, '')}</td></tr>
+                    
+                    <tr><th>Classifier</th><td>${p.classifier.name}</td></tr>
+                    <tr><td colspan="2" class="config-details-small">${JSON.stringify(p.classifier.config).replace(/[{}]/g, '').replace(/"/g, '')}</td></tr>
+                    
+                    <tr><th>Features</th><td>${p.features_extracted} → ${p.features_after_reduction}</td></tr>
+                </table>
+            </div>
+        `;
+    });
     
-    // Populate tabs
-    populatePipelineDetails('hero', pipeline);
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// === Formulas Tab ===
+function renderFormulasContent() {
+    const container = document.getElementById('formulas-content');
+    if (!container) return;
     
-    // Scroll to details
-    detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Get unique techniques from top 9
+    const techniques = new Set();
+    top9Pipelines.forEach(p => {
+        techniques.add(p.extractor.type);
+        if (p.reducer.type !== 'none') techniques.add(p.reducer.type);
+        techniques.add(p.classifier.type);
+    });
+    
+    let html = '<div class="formulas-container">';
+    
+    // TF-IDF Formula
+    if (techniques.has('tfidf')) {
+        html += `
+            <div class="formula-section">
+                <h4>📊 TF-IDF (Term Frequency - Inverse Document Frequency)</h4>
+                <div class="formula-box">
+                    <p><strong>Formula:</strong></p>
+                    <p class="formula-math">TF-IDF(t,d) = TF(t,d) × IDF(t)</p>
+                    <p class="formula-math">= (freq of term t in doc d) × log(N / (1 + df_t))</p>
+                    <p><em>Where N = total documents, df_t = documents containing term t</em></p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // PCA Formula
+    if (techniques.has('pca')) {
+        html += `
+            <div class="formula-section">
+                <h4>🎯 PCA (Principal Component Analysis)</h4>
+                <div class="formula-box">
+                    <p><strong>Goal:</strong> Maximize variance while reducing dimensions</p>
+                    <p class="formula-math">X' = X × W_k</p>
+                    <p><em>Where W_k are top k eigenvectors of covariance matrix</em></p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Chi² Formula
+    if (techniques.has('chi2')) {
+        html += `
+            <div class="formula-section">
+                <h4>📈 Chi² Feature Selection</h4>
+                <div class="formula-box">
+                    <p><strong>Formula:</strong></p>
+                    <p class="formula-math">χ²(feature, class) = Σ (O - E)² / E</p>
+                    <p><em>Where O = observed frequency, E = expected frequency</em></p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Logistic Regression
+    if (techniques.has('logistic')) {
+        html += `
+            <div class="formula-section">
+                <h4>🔢 Logistic Regression</h4>
+                <div class="formula-box">
+                    <p><strong>Formula:</strong></p>
+                    <p class="formula-math">P(y=1|x) = 1 / (1 + e^(-w·x))</p>
+                    <p><em>Optimized using gradient descent</em></p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Naive Bayes
+    if (techniques.has('naive_bayes')) {
+        html += `
+            <div class="formula-section">
+                <h4>🎲 Naive Bayes</h4>
+                <div class="formula-box">
+                    <p><strong>Formula:</strong></p>
+                    <p class="formula-math">P(c|x) ∝ P(c) × ∏ P(x_i|c)</p>
+                    <p><em>Assumes feature independence</em></p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // KNN
+    if (techniques.has('knn')) {
+        html += `
+            <div class="formula-section">
+                <h4>👥 K-Nearest Neighbors</h4>
+                <div class="formula-box">
+                    <p><strong>Prediction:</strong> Majority vote of K nearest neighbors</p>
+                    <p class="formula-math">distance(x, x') = ||x - x'||</p>
+                    <p><em>Uses Euclidean distance by default</em></p>
+                </div>
+            </div>
+        `;
+    }
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// === Confusion Matrices ===
+function renderConfusionMatrices() {
+    const container = document.getElementById('confusion-matrices-grid');
+    if (!container) return;
+    
+    let html = '<div class="cm-grid">';
+    
+    top9Pipelines.forEach((p, idx) => {
+        const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
+        
+        html += `
+            <div class="cm-card">
+                <h4>${idx + 1}. ${pipelineName}</h4>
+                <div class="cm-metrics-summary">
+                    <span>Acc: ${(p.metrics.accuracy * 100).toFixed(1)}%</span>
+                    <span>F1: ${(p.metrics.f1_score * 100).toFixed(1)}%</span>
+                </div>
+                <div id="cm-plot-${idx}" class="cm-plot"></div>
+                <div class="per-class-metrics">
+                    <h5>Per-Class Metrics</h5>
+                    <table class="metrics-table-small">
+                        <thead>
+                            <tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+                        </thead>
+                        <tbody id="metrics-${idx}"></tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+    
+    // Render each confusion matrix with Plotly
+    top9Pipelines.forEach((p, idx) => {
+        if (!p.confusion_matrix || !p.labels) return;
+        
+        const data = [{
+            z: p.confusion_matrix,
+            x: p.labels,
+            y: p.labels,
+            type: 'heatmap',
+            colorscale: 'Blues',
+            showscale: false
+        }];
+        
+        const layout = {
+            xaxis: { title: 'Predicted', side: 'bottom' },
+            yaxis: { title: 'True', autorange: 'reversed' },
+            margin: { l: 80, r: 20, t: 20, b: 60 },
+            height: 300
+        };
+        
+        Plotly.newPlot(`cm-plot-${idx}`, data, layout, {responsive: true, displayModeBar: false});
+        
+        // Render per-class metrics
+        if (p.per_class_metrics) {
+            let metricsHtml = '';
+            p.labels.forEach((label, i) => {
+                const metrics = p.per_class_metrics[label] || {};
+                metricsHtml += `
+                    <tr>
+                        <td><strong>${label}</strong></td>
+                        <td>${((metrics.precision || 0) * 100).toFixed(1)}%</td>
+                        <td>${((metrics.recall || 0) * 100).toFixed(1)}%</td>
+                        <td>${((metrics.f1_score || 0) * 100).toFixed(1)}%</td>
+                    </tr>
+                `;
+            });
+            document.getElementById(`metrics-${idx}`).innerHTML = metricsHtml;
+        }
+    });
+}
+
+// === Tab Switching ===
+function switchComparisonTab(tab) {
+    // Update buttons
+    const buttons = document.querySelectorAll('.comparison-tab-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Update content
+    document.getElementById('performance-tab').classList.toggle('active', tab === 'performance');
+    document.getElementById('configuration-tab').classList.toggle('active', tab === 'configuration');
+    document.getElementById('formulas-tab').classList.toggle('active', tab === 'formulas');
 }
 
 // ===== PIPELINE DETAIL TABS =====
