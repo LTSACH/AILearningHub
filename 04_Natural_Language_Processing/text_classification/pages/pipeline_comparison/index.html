@@ -2416,18 +2416,15 @@ function renderConfusionMatrices() {
         `;
         
         // Build per-class summary (y chang traditional_ml)
-        const perClassMetrics = p.per_class_metrics || {};
+        const perClassMetrics = p.per_class_metrics || [];
         const perClassHTML = `
             <div class="per-class-summary">
-                ${labels.map(label => {
-                    const metrics = perClassMetrics[label] || {};
-                    return `
-                        <div class="per-class-item">
-                            <div class="per-class-label">${label}</div>
-                            <div class="per-class-value">${((metrics.f1_score || 0) * 100).toFixed(1)}%</div>
-                        </div>
-                    `;
-                }).join('')}
+                ${perClassMetrics.map(cls => `
+                    <div class="per-class-item">
+                        <div class="per-class-label">${cls.label}</div>
+                        <div class="per-class-value">${((cls.f1 || 0) * 100).toFixed(1)}%</div>
+                    </div>
+                `).join('')}
             </div>
         `;
         
