@@ -162,55 +162,78 @@
         
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
             margin-top: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 968px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .method-card {
             background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: all 0.3s;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
+            border: 2px solid transparent;
         }
         
         .method-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            border-color: #667eea;
         }
         
         .method-card .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
         }
         
         .method-card h3 {
             color: #667eea;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
         }
         
         .method-card .description {
             color: #666;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
         
         .method-card .metrics {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+            grid-template-columns: 1fr;
+            gap: 0.4rem;
             margin: 1rem 0;
         }
         
         .metric-item {
             background: #f8f9fa;
-            padding: 0.5rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .metric-label {
@@ -220,7 +243,7 @@
         
         .metric-value {
             font-weight: bold;
-            color: #333;
+            color: #667eea;
         }
         
         .badge {
@@ -245,36 +268,6 @@
         .badge-warning {
             background: #fef3c7;
             color: #92400e;
-        }
-        
-        .eda-preview {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .eda-preview img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-        
-        .btn-primary {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: var(--primary-gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
         
         footer {
@@ -314,11 +307,11 @@
                     <p>Categories</p>
                 </div>
                 <div class="stat-card">
-                    <h3>8</h3>
-                    <p>ML Methods</p>
+                    <h3>253</h3>
+                    <p>Models Tested</p>
                 </div>
                 <div class="stat-card">
-                    <h3>88-96%</h3>
+                    <h3>92-99%</h3>
                     <p>Accuracy Range</p>
                 </div>
             </div>
@@ -329,9 +322,8 @@
         <div class="quick-nav">
             <a href="#eda">📊 Dataset Overview</a>
             <a href="#traditional">🔤 Traditional ML</a>
-            <a href="#pipeline">🔧 Pipeline Builder</a>
-            <a href="#zeroshot">🎯 Zero-shot</a>
-            <a href="#bert">🧠 BERT</a>
+            <a href="#pipeline">🔬 Pipeline Comparison</a>
+            <a href="#bert">🧠 BERT Fine-tuning</a>
         </div>
 
         <!-- Dataset Overview -->
@@ -340,16 +332,40 @@
             <p class="section-description">
                 BBC News dataset with 2,225 articles across 5 categories: Business, Tech, Sport, Entertainment, and Politics
             </p>
-            <div class="eda-preview">
-                <h3>Exploratory Data Analysis</h3>
-                <p>Interactive EDA with visualizations, statistics, and insights</p>
-                <a href="../../01_Data_Analysis/01_EDA/bbcnews_text_classification/eda_report_tutorial.html" class="btn-primary">
-                    View Full EDA Report →
+            <div class="cards-grid">
+                <a href="../../01_Data_Analysis/01_EDA/bbcnews_text_classification/eda_report_tutorial.html" class="method-card">
+                    <div class="icon">📊</div>
+                    <h3>Exploratory Data Analysis</h3>
+                    <p class="description">
+                        Interactive EDA with visualizations, word clouds, class distribution, and text statistics
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Total Articles</div>
+                            <div class="metric-value">2,225</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Categories</div>
+                            <div class="metric-value">5</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Balance</div>
+                            <div class="metric-value">Uniform</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Avg Length</div>
+                            <div class="metric-value">~200 words</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">✓ Interactive</span>
+                        <span class="badge badge-primary">✓ Visualizations</span>
+                    </div>
                 </a>
             </div>
         </section>
 
-        <!-- Card 1: TF-IDF + Traditional ML -->
+        <!-- Traditional ML -->
         <section id="traditional" class="section">
             <h2>🔤 Traditional Machine Learning</h2>
             <p class="section-description">
@@ -358,9 +374,9 @@
             <div class="cards-grid">
                 <a href="pages/traditional_ml/index.html" class="method-card">
                     <div class="icon">🔤</div>
-                    <h3>TF-IDF + Traditional ML</h3>
+                    <h3>Traditional ML</h3>
                     <p class="description">
-                        Compare Naive Bayes, SVM, Logistic Regression, and Random Forest classifiers
+                        TF-IDF + classical classifiers: Naive Bayes, SVM, Logistic Regression, Random Forest
                     </p>
                     <div class="metrics">
                         <div class="metric-item">
@@ -368,12 +384,12 @@
                             <div class="metric-value">92.1%</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Fastest</div>
-                            <div class="metric-value">5s</div>
+                            <div class="metric-label">Training Time</div>
+                            <div class="metric-value">~5s</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Methods</div>
-                            <div class="metric-value">4</div>
+                            <div class="metric-label">Methods Compared</div>
+                            <div class="metric-value">10</div>
                         </div>
                         <div class="metric-item">
                             <div class="metric-label">Model Size</div>
@@ -382,91 +398,54 @@
                     </div>
                     <div>
                         <span class="badge badge-success">✓ Interactive</span>
-                        <span class="badge badge-primary">✓ Code Examples</span>
+                        <span class="badge badge-primary">✓ Code</span>
                     </div>
                 </a>
             </div>
         </section>
 
-        <!-- Card 2: Pipeline Builder -->
+        <!-- Pipeline Comparison -->
         <section id="pipeline" class="section">
-            <h2>🔧 Pipeline Comparison</h2>
+            <h2>🔬 Pipeline Comparison</h2>
             <p class="section-description">
-                Build and compare full ML pipelines: Feature Extraction → Reduction → Classification
+                Compare 240 complete ML pipelines: Feature Extraction → Dimensionality Reduction → Classification
             </p>
             <div class="cards-grid">
                 <a href="pages/pipeline_comparison/index.html" class="method-card">
                     <div class="icon">🔬</div>
                     <h3>Pipeline Comparison</h3>
                     <p class="description">
-                        Interactive explorer: compare 117 real pipeline combinations with detailed analysis
+                        Systematic comparison of 240 pipelines with 6 extractors, 4 reducers, and 10 classifiers
                     </p>
                     <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Total Pipelines</div>
+                            <div class="metric-value">240</div>
+                        </div>
                         <div class="metric-item">
                             <div class="metric-label">Best Accuracy</div>
                             <div class="metric-value">99.4%</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Pipelines Tested</div>
-                            <div class="metric-value">117/180</div>
-                        </div>
-                        <div class="metric-item">
                             <div class="metric-label">Fastest Training</div>
-                            <div class="metric-value">0.60s</div>
+                            <div class="metric-value">0.46s</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Visualizations</div>
-                            <div class="metric-value">Heatmap, Trade-off</div>
+                            <div class="metric-label">Extractors</div>
+                            <div class="metric-value">BoW, TF-IDF</div>
                         </div>
                     </div>
                     <div>
-                        <span class="badge badge-success">✓ Available</span>
+                        <span class="badge badge-success">✓ Interactive</span>
+                        <span class="badge badge-primary">✓ Code + Colab</span>
                     </div>
                 </a>
             </div>
         </section>
 
-        <!-- Card 3: Zero-shot Learning -->
-        <section id="zeroshot" class="section">
-            <h2>🎯 Zero-shot Classification</h2>
-            <p class="section-description">
-                No training required - classify with CLIP using just class names
-            </p>
-            <div class="cards-grid">
-                <a href="pages/zero_shot/index.html" class="method-card">
-                    <div class="icon">🎯</div>
-                    <h3>CLIP Zero-shot</h3>
-                    <p class="description">
-                        Use pre-trained CLIP text encoder for classification without any training
-                    </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Accuracy</div>
-                            <div class="metric-value">91.2%</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Training Time</div>
-                            <div class="metric-value">0s</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Inference</div>
-                            <div class="metric-value">8s/1k</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Model Size</div>
-                            <div class="metric-value">350MB</div>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="badge badge-warning">🚧 Coming Soon</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Card 4: BERT Fine-tuning -->
+        <!-- BERT Fine-tuning -->
         <section id="bert" class="section">
-            <h2>🧠 BERT & Transformers</h2>
+            <h2>🧠 BERT Fine-tuning</h2>
             <p class="section-description">
                 State-of-the-art accuracy with pre-trained transformer models
             </p>
@@ -475,7 +454,7 @@
                     <div class="icon">🧠</div>
                     <h3>BERT Fine-tuning</h3>
                     <p class="description">
-                        Compare BERT-base, DistilBERT, and TinyBERT with [CLS] pooling strategy
+                        Fine-tune BERT, DistilBERT, and TinyBERT with [CLS] token pooling for classification
                     </p>
                     <div class="metrics">
                         <div class="metric-item">
@@ -483,7 +462,7 @@
                             <div class="metric-value">98.5%</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Models</div>
+                            <div class="metric-label">Models Tested</div>
                             <div class="metric-value">3</div>
                         </div>
                         <div class="metric-item">
@@ -491,12 +470,13 @@
                             <div class="metric-value">DistilBERT</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Size Range</div>
+                            <div class="metric-label">Model Size</div>
                             <div class="metric-value">55-418MB</div>
                         </div>
                     </div>
                     <div>
-                        <span class="badge badge-success">✅ Available</span>
+                        <span class="badge badge-success">✓ Available</span>
+                        <span class="badge badge-primary">✓ Colab</span>
                     </div>
                 </a>
             </div>
