@@ -2173,17 +2173,16 @@ function comparePipelines() {
     }
     
     // Show results section
-    document.getElementById('results-section').style.display = 'block';
+    document.getElementById('custom-results-section').style.display = 'block';
     
     // Scroll to results
-    document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('custom-results-section').scrollIntoView({ behavior: 'smooth' });
     
     // Build visualizations
     buildBestCards(matchingPipelines);
     buildComparisonTable(matchingPipelines);
-    buildHeatmap(allPipelinesData.all_results);
-    buildTradeoffChart(allPipelinesData.all_results);
-    buildConfusionMatrices(matchingPipelines);
+    buildHeatmap(matchingPipelines);
+    buildTradeoffChart(matchingPipelines);
 }
 
 // ===== BUILD BEST CARDS =====
@@ -2210,7 +2209,7 @@ function buildBestCards(pipelines) {
         </div>
     `;
     
-    document.getElementById('best-cards').innerHTML = html;
+    document.getElementById('custom-best-cards').innerHTML = html;
 }
 
 function formatPipelineName(pipeline) {
@@ -2264,7 +2263,7 @@ function buildComparisonTable(pipelines) {
         </table>
     `;
     
-    document.getElementById('comparison-table-container').innerHTML = html;
+    document.getElementById('custom-comparison-table').innerHTML = html;
 }
 
 // ===== BUILD HEATMAP =====
@@ -2330,7 +2329,7 @@ function buildHeatmap(allPipelines) {
         height: 500
     };
     
-    Plotly.newPlot('heatmap-chart', data, layout, {responsive: true});
+    Plotly.newPlot('custom-heatmap-chart', data, layout, {responsive: true});
 }
 
 // ===== BUILD TRADEOFF CHART =====
@@ -2365,7 +2364,7 @@ function buildTradeoffChart(allPipelines) {
         height: 500
     };
     
-    Plotly.newPlot('tradeoff-chart', traces, layout, {responsive: true});
+    Plotly.newPlot('custom-tradeoff-chart', traces, layout, {responsive: true});
 }
 
 // ===== BUILD CONFUSION MATRICES =====
