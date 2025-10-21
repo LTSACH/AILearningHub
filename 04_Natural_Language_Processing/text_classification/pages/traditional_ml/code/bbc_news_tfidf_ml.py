@@ -17,6 +17,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
@@ -102,6 +103,8 @@ def extract_tfidf_features(train_texts, test_texts):
 
 def train_classifier(name, model, X_train, y_train, X_test, y_test):
     """Train and evaluate a classifier"""
+    from sklearn.metrics import precision_recall_fscore_support
+    
     print("="*70)
     print(f"{name.upper()}")
     print("="*70)
@@ -118,19 +121,27 @@ def train_classifier(name, model, X_train, y_train, X_test, y_test):
     
     # Metrics
     accuracy = accuracy_score(y_test, y_pred)
+    precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average='weighted', zero_division=0)
     cm = confusion_matrix(y_test, y_pred)
     
     print(f"⏱️  Training: {train_time:.2f}s")
     print(f"⏱️  Inference: {inference_time:.3f}s ({inference_time/len(y_test)*1000:.2f}ms/sample)")
     print(f"📊 Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+    print(f"📊 Precision: {precision:.4f} ({precision*100:.2f}%)")
+    print(f"📊 Recall: {recall:.4f} ({recall*100:.2f}%)")
+    print(f"📊 F1-Score: {f1:.4f} ({f1*100:.2f}%)")
     print()
     
     return {
         'name': name,
         'model': model,
         'accuracy': accuracy,
+        'precision': precision,
+        'recall': recall,
+        'f1_score': f1,
         'train_time': train_time,
         'inference_time': inference_time,
+        'inference_speed': len(y_test) / inference_time if inference_time > 0 else 0,
         'y_pred': y_pred,
         'confusion_matrix': cm
     }
@@ -220,14 +231,18 @@ def generate_html_report(results, y_test):
     # Use raw string to avoid # interpretation
     css_style = """
         body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
-        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
-        h1 { color: #333; text-align: center; }
-        .summary { background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0; }
-        .summary table { width: 100%; border-collapse: collapse; }
-        .summary th, .summary td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-        .summary th { background: #667eea; color: white; }
-        .chart-container { margin: 30px 0; }
-        .cm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; text-align: center; margin-bottom: 10px; }
+        h2 { color: #667eea; margin-top: 30px; }
+        .summary { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .summary table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .summary th { background: #667eea; color: white; padding: 12px; text-align: center; font-weight: 600; }
+        .summary td { padding: 10px; text-align: center; border-bottom: 1px solid #e9ecef; }
+        .summary td:first-child { text-align: left; font-weight: 600; }
+        .summary tr:hover { background: #f8f9fa; }
+        .best { background: #d4edda !important; font-weight: bold; color: #155724; }
+        .chart-container { margin: 30px 0; background: #f8f9fa; padding: 20px; border-radius: 8px; }
+        .cm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 20px; margin-top: 20px; }
     """
     
     html_parts = ["""
@@ -246,18 +261,45 @@ def generate_html_report(results, y_test):
         <p style="text-align: center; color: #666;">TF-IDF + Traditional Machine Learning</p>
         
         <div class="summary">
-            <h2>Summary</h2>
+            <h2>Performance Comparison</h2>
             <table>
-                <tr><th>Method</th><th>Accuracy</th><th>Train Time</th><th>Inference Time</th></tr>
+                <tr>
+                    <th>Method</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1-Score</th>
+                    <th>Train Time</th>
+                    <th>Inference Speed</th>
+                </tr>
 """]
     
+    # Find best values
+    best_acc = max(r['accuracy'] for r in results)
+    best_prec = max(r['precision'] for r in results)
+    best_rec = max(r['recall'] for r in results)
+    best_f1 = max(r['f1_score'] for r in results)
+    best_train = min(r['train_time'] for r in results)
+    best_speed = max(r['inference_speed'] for r in results)
+    
     for r in results:
+        # Highlight best values
+        acc_class = ' class="best"' if r['accuracy'] == best_acc else ''
+        prec_class = ' class="best"' if r['precision'] == best_prec else ''
+        rec_class = ' class="best"' if r['recall'] == best_rec else ''
+        f1_class = ' class="best"' if r['f1_score'] == best_f1 else ''
+        train_class = ' class="best"' if r['train_time'] == best_train else ''
+        speed_class = ' class="best"' if r['inference_speed'] == best_speed else ''
+        
         html_parts.append(f"""
                 <tr>
                     <td><strong>{r['name']}</strong></td>
-                    <td>{r['accuracy']*100:.2f}%</td>
-                    <td>{r['train_time']:.2f}s</td>
-                    <td>{r['inference_time']*1000:.2f}ms</td>
+                    <td{acc_class}>{r['accuracy']*100:.2f}% ↑</td>
+                    <td{prec_class}>{r['precision']*100:.2f}% ↑</td>
+                    <td{rec_class}>{r['recall']*100:.2f}% ↑</td>
+                    <td{f1_class}>{r['f1_score']*100:.2f}% ↑</td>
+                    <td{train_class}>{r['train_time']:.2f}s ↓</td>
+                    <td{speed_class}>{r['inference_speed']:.0f} samples/s ↑</td>
                 </tr>
 """)
     
@@ -331,6 +373,13 @@ def main():
     X_train, X_test, vectorizer = extract_tfidf_features(
         train_full['text'], test_df['text']
     )
+    
+    # Encode labels for XGBoost compatibility
+    label_encoder = LabelEncoder()
+    y_train_encoded = label_encoder.fit_transform(train_full['category'])
+    y_test_encoded = label_encoder.transform(test_df['category'])
+    
+    # Keep original for display
     y_train = train_full['category']
     y_test = test_df['category']
     
@@ -343,12 +392,20 @@ def main():
         ('MLP', MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=500, random_state=42)),
     ]
     
+    # Note: XGBoost needs encoded labels
     if XGBOOST_AVAILABLE:
-        classifiers.append(('XGBoost', XGBClassifier(n_estimators=100, random_state=42, n_jobs=-1, verbosity=0)))
+        classifiers.append(('XGBoost', XGBClassifier(n_estimators=100, random_state=42, n_jobs=-1, verbosity=0), True))
     
     results = []
-    for name, model in classifiers:
-        result = train_classifier(name, model, X_train, y_train, X_test, y_test)
+    for item in classifiers:
+        if len(item) == 3:  # XGBoost with flag
+            name, model, use_encoded = item
+            result = train_classifier(name, model, X_train, y_train_encoded, X_test, y_test_encoded)
+            # Decode predictions back to original labels
+            result['y_pred'] = label_encoder.inverse_transform(result['y_pred'])
+        else:  # Other classifiers
+            name, model = item
+            result = train_classifier(name, model, X_train, y_train, X_test, y_test)
         results.append(result)
         print()
     
