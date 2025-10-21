@@ -10,6 +10,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
+    <!-- Prism.js for code highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
     <!-- Walkthrough CSS -->
     <link rel="stylesheet" href="assets/css/walkthrough.css">
     
@@ -893,6 +898,269 @@
         background: #218838;
     }
     
+    /* Tutorial compact style */
+    .tutorial-card-compact {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        display: flex;
+        gap: 1.5rem;
+        align-items: start;
+    }
+    
+    .tutorial-icon-compact {
+        font-size: 2.5rem;
+        flex-shrink: 0;
+    }
+    
+    .tutorial-body-compact {
+        flex: 1;
+    }
+    
+    .tutorial-desc-compact {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tutorial-formula {
+        background: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        border-left: 3px solid #667eea;
+    }
+    
+    .tutorial-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .tutorial-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    
+    .tutorial-link:hover {
+        color: #5a67d8;
+        text-decoration: underline;
+    }
+    
+    .btn-sklearn-doc {
+        background: #667eea;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: inline-block;
+    }
+    
+    .btn-sklearn-doc:hover {
+        background: #5a67d8;
+        transform: translateY(-2px);
+    }
+    
+    /* Code tab */
+    .code-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .code-header h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+    
+    .code-header p {
+        color: #666;
+        margin-bottom: 2rem;
+    }
+    
+    .code-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-show-code,
+    .btn-copy-code,
+    .btn-download-code {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1rem;
+    }
+    
+    .btn-show-code {
+        background: #667eea;
+        color: white;
+    }
+    
+    .btn-show-code:hover {
+        background: #5a67d8;
+        transform: translateY(-2px);
+    }
+    
+    .btn-copy-code {
+        background: #28a745;
+        color: white;
+    }
+    
+    .btn-copy-code:hover {
+        background: #218838;
+    }
+    
+    .btn-download-code {
+        background: #6c757d;
+        color: white;
+        display: inline-block;
+    }
+    
+    .btn-download-code:hover {
+        background: #5a6268;
+    }
+    
+    .code-block-container {
+        background: #2d3748;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+    }
+    
+    .code-loading {
+        color: #a0aec0;
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .code-features {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .code-features h3 {
+        margin-bottom: 1rem;
+        color: #2d3748;
+    }
+    
+    .code-features ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .code-features li {
+        padding: 0.5rem 0;
+        color: #666;
+    }
+    
+    /* Colab tab */
+    .colab-container {
+        padding: 3rem 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .colab-hero {
+        margin-bottom: 3rem;
+    }
+    
+    .colab-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .colab-hero h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+    
+    .colab-hero p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    .colab-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+    
+    .feature-card p {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .colab-action {
+        margin-bottom: 2rem;
+    }
+    
+    .btn-colab-large {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(135deg, #f9ab00 0%, #f57c00 100%);
+        color: white;
+        padding: 1.25rem 2.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(249, 171, 0, 0.3);
+    }
+    
+    .btn-colab-large:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(249, 171, 0, 0.4);
+    }
+    
+    .btn-colab-large img {
+        filter: brightness(0) invert(1);
+    }
+    
+    .colab-note {
+        color: #666;
+        font-size: 0.9rem;
+        font-style: italic;
+    }
+    
     </style>
 </head>
 <body>
@@ -925,6 +1193,12 @@
                 </button>
                 <button class="pipeline-tab-btn" onclick="switchPipelineTab('tutorials')">
                     📚 Tutorials
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('code')">
+                    💻 Code
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('colab')">
+                    🚀 Colab
                 </button>
             </div>
             
@@ -972,29 +1246,25 @@
                     <!-- Feature Extraction Section -->
                     <div class="tutorial-section">
                         <h2>📊 Feature Extraction</h2>
-                        <div class="tutorial-card">
-                            <div class="tutorial-icon">🔤</div>
-                            <div class="tutorial-body">
-                                <h3>TF-IDF Vectorization</h3>
-                                <p class="tutorial-desc">
-                                    Learn how TF-IDF converts text into numerical features. 
-                                    Includes theory, visualization, and hands-on code examples.
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">🔤</div>
+                            <div class="tutorial-body-compact">
+                                <h3>TF-IDF (Term Frequency - Inverse Document Frequency)</h3>
+                                <p class="tutorial-desc-compact">
+                                    Converts text into numerical vectors by weighting words based on frequency and uniqueness. 
+                                    Common words (e.g., "the", "is") get low weights, while distinctive words get high weights.
                                 </p>
-                                <div class="tutorial-meta">
-                                    <span class="badge">⏱️ 15 min</span>
-                                    <span class="badge">📊 Interactive</span>
-                                    <span class="badge">💻 Colab Ready</span>
-                                </div>
-                                <div class="tutorial-actions">
-                                    <a href="tutorials/tfidf.html" class="btn-tutorial-primary">
-                                        📖 Open Tutorial
+                                <p class="tutorial-formula">
+                                    <strong>Formula:</strong> TF-IDF(t,d) = TF(t,d) × IDF(t) = (term freq in doc) × log(total docs / docs with term)
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html" 
+                                       target="_blank" class="tutorial-link">
+                                        📚 Scikit-learn TfidfVectorizer Docs
                                     </a>
-                                    <a href="tutorials/code/tfidf_tutorial.py" download class="btn-secondary">
-                                        ⬇️ Download .py
-                                    </a>
-                                    <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/04_Natural_Language_Processing/text_classification/tutorials/notebooks/tfidf.ipynb" 
-                                       target="_blank" class="btn-colab">
-                                        Open in Colab
+                                    <a href="https://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting" 
+                                       target="_blank" class="tutorial-link">
+                                        📖 TF-IDF Theory & Examples
                                     </a>
                                 </div>
                             </div>
@@ -1011,15 +1281,11 @@
                                 <h4>Naive Bayes</h4>
                                 <p class="tutorial-desc-small">Probabilistic classifier based on Bayes theorem. Fast, efficient, works well with small datasets.</p>
                                 <div class="tutorial-meta-small">
-                                    <span class="badge-small">⏱️ 10 min</span>
                                     <span class="badge-small">📈 96.7%</span>
                                 </div>
                                 <div class="tutorial-actions-small">
-                                    <a href="tutorials/naive_bayes.html" class="btn-tutorial-small">
-                                        📖 Tutorial
-                                    </a>
-                                    <a href="tutorials/code/naive_bayes_tutorial.py" download class="btn-download-small">
-                                        ⬇️ .py
+                                    <a href="https://scikit-learn.org/stable/modules/naive_bayes.html" target="_blank" class="btn-sklearn-doc">
+                                        📚 Scikit-learn Docs
                                     </a>
                                 </div>
                             </div>
@@ -1029,15 +1295,11 @@
                                 <h4>Logistic Regression</h4>
                                 <p class="tutorial-desc-small">Linear model with sigmoid activation. Simple, interpretable, good baseline.</p>
                                 <div class="tutorial-meta-small">
-                                    <span class="badge-small">⏱️ 12 min</span>
                                     <span class="badge-small">📈 97.9%</span>
                                 </div>
                                 <div class="tutorial-actions-small">
-                                    <a href="tutorials/logistic_regression.html" class="btn-tutorial-small">
-                                        📖 Tutorial
-                                    </a>
-                                    <a href="tutorials/code/logistic_regression_tutorial.py" download class="btn-download-small">
-                                        ⬇️ .py
+                                    <a href="https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression" target="_blank" class="btn-sklearn-doc">
+                                        📚 Scikit-learn Docs
                                     </a>
                                 </div>
                             </div>
@@ -1047,15 +1309,11 @@
                                 <h4>Support Vector Machine</h4>
                                 <p class="tutorial-desc-small">Find optimal hyperplane for classification. Powerful for high-dimensional data.</p>
                                 <div class="tutorial-meta-small">
-                                    <span class="badge-small">⏱️ 15 min</span>
                                     <span class="badge-small">📈 98.2%</span>
                                 </div>
                                 <div class="tutorial-actions-small">
-                                    <a href="tutorials/svm.html" class="btn-tutorial-small">
-                                        📖 Tutorial
-                                    </a>
-                                    <a href="tutorials/code/svm_tutorial.py" download class="btn-download-small">
-                                        ⬇️ .py
+                                    <a href="https://scikit-learn.org/stable/modules/svm.html" target="_blank" class="btn-sklearn-doc">
+                                        📚 Scikit-learn Docs
                                     </a>
                                 </div>
                             </div>
@@ -1065,15 +1323,11 @@
                                 <h4>Random Forest</h4>
                                 <p class="tutorial-desc-small">Ensemble of decision trees. Robust, handles non-linearity, reduces overfitting.</p>
                                 <div class="tutorial-meta-small">
-                                    <span class="badge-small">⏱️ 15 min</span>
                                     <span class="badge-small">📈 97.6%</span>
                                 </div>
                                 <div class="tutorial-actions-small">
-                                    <a href="tutorials/random_forest.html" class="btn-tutorial-small">
-                                        📖 Tutorial
-                                    </a>
-                                    <a href="tutorials/code/random_forest_tutorial.py" download class="btn-download-small">
-                                        ⬇️ .py
+                                    <a href="https://scikit-learn.org/stable/modules/ensemble.html#random-forests" target="_blank" class="btn-sklearn-doc">
+                                        📚 Scikit-learn Docs
                                     </a>
                                 </div>
                             </div>
@@ -1083,15 +1337,11 @@
                                 <h4>Neural Network (MLP)</h4>
                                 <p class="tutorial-desc-small">Multi-layer perceptron with hidden layers. Can learn complex patterns.</p>
                                 <div class="tutorial-meta-small">
-                                    <span class="badge-small">⏱️ 18 min</span>
                                     <span class="badge-small">📈 98.5%</span>
                                 </div>
                                 <div class="tutorial-actions-small">
-                                    <a href="tutorials/mlp.html" class="btn-tutorial-small">
-                                        📖 Tutorial
-                                    </a>
-                                    <a href="tutorials/code/mlp_tutorial.py" download class="btn-download-small">
-                                        ⬇️ .py
+                                    <a href="https://scikit-learn.org/stable/modules/neural_networks_supervised.html" target="_blank" class="btn-sklearn-doc">
+                                        📚 Scikit-learn Docs
                                     </a>
                                 </div>
                             </div>
@@ -1101,20 +1351,101 @@
                                 <h4>XGBoost</h4>
                                 <p class="tutorial-desc-small">Gradient boosting algorithm. Often wins ML competitions. High performance.</p>
                                 <div class="tutorial-meta-small">
-                                    <span class="badge-small">⏱️ 20 min</span>
                                     <span class="badge-small">📈 98.8%</span>
                                 </div>
                                 <div class="tutorial-actions-small">
-                                    <a href="tutorials/xgboost.html" class="btn-tutorial-small">
-                                        📖 Tutorial
-                                    </a>
-                                    <a href="tutorials/code/xgboost_tutorial.py" download class="btn-download-small">
-                                        ⬇️ .py
+                                    <a href="https://xgboost.readthedocs.io/" target="_blank" class="btn-sklearn-doc">
+                                        📚 Scikit-learn Docs
                                     </a>
                                 </div>
                             </div>
 
                         </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Tab 3: Code -->
+            <div id="code-tab" class="pipeline-tab-content">
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <h2>💻 Full Implementation Code</h2>
+                        <p>Ready-to-run Python code with all 6 classifiers. Includes dataset download, TF-IDF extraction, training, and evaluation.</p>
+                    </div>
+                    
+                    <div class="code-actions">
+                        <button onclick="toggleCode()" class="btn-show-code" id="toggle-code-btn">
+                            📖 Show Code
+                        </button>
+                        <button onclick="copyCode()" class="btn-copy-code">
+                            📋 Copy Code
+                        </button>
+                        <a href="code/bbc_news_tfidf_ml.py" download class="btn-download-code">
+                            ⬇️ Download .py
+                        </a>
+                    </div>
+                    
+                    <div id="code-block-container" class="code-block-container" style="display:none;">
+                        <div class="code-loading">⏳ Loading code...</div>
+                        <pre style="display:none;"><code id="python-code" class="language-python"></code></pre>
+                    </div>
+                    
+                    <div class="code-features">
+                        <h3>Features:</h3>
+                        <ul>
+                            <li>✅ Automatic dataset download from GitHub Pages</li>
+                            <li>✅ TF-IDF feature extraction (5000 features, bigrams)</li>
+                            <li>✅ 6 classifiers: Naive Bayes, Logistic, SVM, Random Forest, MLP, XGBoost</li>
+                            <li>✅ Training & inference time measurements</li>
+                            <li>✅ Classification reports & confusion matrices</li>
+                            <li>✅ Visualizations saved as PNG files</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Tab 4: Colab -->
+            <div id="colab-tab" class="pipeline-tab-content">
+
+                <div class="colab-container">
+                    <div class="colab-hero">
+                        <div class="colab-icon">🚀</div>
+                        <h2>Run in Google Colab</h2>
+                        <p>Open this notebook in Google Colab for interactive execution with free GPU access.</p>
+                    </div>
+                    
+                    <div class="colab-features">
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>No Setup Required</h3>
+                            <p>All dependencies pre-installed</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎮</div>
+                            <h3>Interactive</h3>
+                            <p>Modify code and see results instantly</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💾</div>
+                            <h3>Save Results</h3>
+                            <p>Download plots and models</p>
+                        </div>
+                    </div>
+                    
+                    <div class="colab-action">
+                        <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/04_Natural_Language_Processing/text_classification/notebooks/bbc_news_tfidf_ml.ipynb" 
+                           target="_blank" 
+                           class="btn-colab-large">
+                            <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:40px;">
+                            <span>Open in Colab</span>
+                        </a>
+                    </div>
+                    
+                    <div class="colab-note">
+                        <p><strong>Note:</strong> The notebook will open in a new tab. You may need to sign in with your Google account.</p>
                     </div>
                 </div>
 
@@ -2285,6 +2616,69 @@
         
         // Activate button
         event.target.classList.add('active');
+    }
+    
+    // Code loading and display
+    let codeLoaded = false;
+    let pythonCode = '';
+    
+    async function toggleCode() {
+        const container = document.getElementById('code-block-container');
+        const btn = document.getElementById('toggle-code-btn');
+        const loading = container.querySelector('.code-loading');
+        const pre = container.querySelector('pre');
+        const codeElement = document.getElementById('python-code');
+        
+        if (container.style.display === 'none') {
+            container.style.display = 'block';
+            btn.textContent = '🙈 Hide Code';
+            
+            // Load code if not loaded
+            if (!codeLoaded) {
+                try {
+                    const response = await fetch('code/bbc_news_tfidf_ml.py');
+                    if (!response.ok) throw new Error('Failed to load code');
+                    pythonCode = await response.text();
+                    codeElement.textContent = pythonCode;
+                    
+                    // Highlight with Prism
+                    if (typeof Prism !== 'undefined') {
+                        Prism.highlightElement(codeElement);
+                    }
+                    
+                    loading.style.display = 'none';
+                    pre.style.display = 'block';
+                    codeLoaded = true;
+                } catch (error) {
+                    loading.textContent = '❌ Failed to load code. File may not exist yet.';
+                    console.error(error);
+                }
+            }
+        } else {
+            container.style.display = 'none';
+            btn.textContent = '📖 Show Code';
+        }
+    }
+    
+    function copyCode() {
+        if (!pythonCode) {
+            alert('Please show the code first!');
+            return;
+        }
+        
+        navigator.clipboard.writeText(pythonCode).then(() => {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.style.background = '#28a745';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Failed to copy code');
+        });
     }
     
     // Initialize on load
