@@ -46,8 +46,8 @@ body {
     z-index: 1000;
 }
 
-.nav-container {
-    max-width: 1400px;
+.navbar .container {
+    max-width: 1200px;
     margin: 0 auto;
     padding: 1rem 2rem;
     display: flex;
@@ -64,15 +64,20 @@ body {
     text-decoration: none;
 }
 
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
 .nav-links a {
-    color: #667eea;
     text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.3s;
+    color: #666;
+    transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    opacity: 0.7;
+    color: #667eea;
 }
 
 /* ===== HERO ===== */
@@ -1559,11 +1564,14 @@ body {
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="../../../../index.html" class="brand">🤖 AI Learning Hub</a>
-            <div class="nav-links">
-                <a href="../../index.html">← Back to Text Classification</a>
-            </div>
+        <div class="container">
+            <a href="../../index.html" class="brand">📰 BBC News Classification</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Overview</a></li>
+                <li><a href="../traditional_ml/index.html">Traditional ML</a></li>
+                <li><a href="#" style="color: #667eea">Pipeline Comparison</a></li>
+                <li><a href="../bert/index.html">BERT Fine-tuning</a></li>
+            </ul>
         </div>
     </nav>
 
