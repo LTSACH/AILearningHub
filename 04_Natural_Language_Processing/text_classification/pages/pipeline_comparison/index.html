@@ -1435,9 +1435,9 @@ body {
                     <div id="top-speed-table"></div>
                 </div>
                 
-                <!-- Top 3 by Model Size -->
+                <!-- Top 3 by Train Time -->
                 <div class="top-table-card">
-                    <h3>💾 Top 3 by Model Size (Smallest)</h3>
+                    <h3>⚡ Top 3 by Training Speed (Fastest)</h3>
                     <div id="top-size-table"></div>
                 </div>
             </div>
@@ -1802,29 +1802,29 @@ function copyPipelineCode() {
 
 // ===== HERO MODE: TOP-3 TABLES =====
 function initializeHeroMode() {
-    if (!allPipelinesData || !allPipelinesData.pipelines) return;
+    if (!allPipelinesData || !allPipelinesData.all_results) return;
     
-    const pipelines = allPipelinesData.pipelines;
+    const pipelines = allPipelinesData.all_results;
     
     // Top 3 by Accuracy
     const topAccuracy = [...pipelines]
-        .sort((a, b) => b.accuracy - a.accuracy)
+        .sort((a, b) => b.metrics.accuracy - a.metrics.accuracy)
         .slice(0, 3);
     renderTopTable('top-accuracy-table', topAccuracy, 'accuracy');
     
     // Top 3 by Inference Speed (fastest = lowest ms/sample)
     const topSpeed = [...pipelines]
-        .filter(p => p.inference_time_ms > 0)
-        .sort((a, b) => a.inference_time_ms - b.inference_time_ms)
+        .filter(p => p.performance.inference_time_ms > 0)
+        .sort((a, b) => a.performance.inference_time_ms - b.performance.inference_time_ms)
         .slice(0, 3);
     renderTopTable('top-speed-table', topSpeed, 'speed');
     
-    // Top 3 by Model Size (smallest)
-    const topSize = [...pipelines]
-        .filter(p => p.model_size_mb && p.model_size_mb > 0)
-        .sort((a, b) => a.model_size_mb - b.model_size_mb)
+    // Top 3 by Train Time (fastest)
+    const topTrainTime = [...pipelines]
+        .filter(p => p.performance.train_time_seconds > 0)
+        .sort((a, b) => a.performance.train_time_seconds - b.performance.train_time_seconds)
         .slice(0, 3);
-    renderTopTable('top-size-table', topSize, 'size');
+    renderTopTable('top-size-table', topTrainTime, 'train');
 }
 
 function renderTopTable(containerId, pipelines, metric) {
@@ -1838,25 +1838,30 @@ function renderTopTable(containerId, pipelines, metric) {
     
     if (metric === 'speed') {
         html += '<th>Inference (ms)</th>';
-    } else if (metric === 'size') {
-        html += '<th>Size (MB)</th>';
+    } else if (metric === 'train') {
+        html += '<th>Train Time (s)</th>';
     }
     
     html += '<th>Action</th></tr></thead><tbody>';
     
     pipelines.forEach((p, idx) => {
-        html += `<tr onclick="selectPipelineInHero('${p.id}')" style="cursor:pointer;">`;
+        const pipelineName = `${p.extractor.name} → ${p.reducer.name} → ${p.classifier.name}`;
+        const accuracy = p.metrics.accuracy;
+        const inferenceMs = p.performance.inference_time_ms;
+        const trainTime = p.performance.train_time_seconds;
+        
+        html += `<tr onclick="selectPipelineInHero('${p.pipeline_id}')" style="cursor:pointer;">`;
         html += `<td><span style="font-size:1.5rem;">${medals[idx]}</span></td>`;
-        html += `<td><strong>${p.name}</strong></td>`;
-        html += `<td>${(p.accuracy * 100).toFixed(2)}%</td>`;
+        html += `<td><strong>${pipelineName}</strong></td>`;
+        html += `<td>${(accuracy * 100).toFixed(2)}%</td>`;
         
         if (metric === 'speed') {
-            html += `<td>${p.inference_time_ms.toFixed(3)}</td>`;
-        } else if (metric === 'size') {
-            html += `<td>${p.model_size_mb.toFixed(2)}</td>`;
+            html += `<td>${inferenceMs.toFixed(3)}</td>`;
+        } else if (metric === 'train') {
+            html += `<td>${trainTime.toFixed(2)}</td>`;
         }
         
-        html += `<td><button class="btn-view-details" onclick="event.stopPropagation(); selectPipelineInHero('${p.id}')">👁️ View</button></td>`;
+        html += `<td><button class="btn-view-details" onclick="event.stopPropagation(); selectPipelineInHero('${p.pipeline_id}')">👁️ View</button></td>`;
         html += '</tr>';
     });
     
@@ -1865,7 +1870,7 @@ function renderTopTable(containerId, pipelines, metric) {
 }
 
 function selectPipelineInHero(pipelineId) {
-    const pipeline = allPipelinesData.pipelines.find(p => p.id === pipelineId);
+    const pipeline = allPipelinesData.all_results.find(p => p.pipeline_id === pipelineId);
     if (!pipeline) return;
     
     // Show details section
@@ -1873,7 +1878,8 @@ function selectPipelineInHero(pipelineId) {
     detailsSection.style.display = 'block';
     
     // Update title
-    document.getElementById('hero-selected-title').textContent = `Pipeline: ${pipeline.name}`;
+    const pipelineName = `${pipeline.extractor.name} → ${pipeline.reducer.name} → ${pipeline.classifier.name}`;
+    document.getElementById('hero-selected-title').textContent = `Pipeline: ${pipelineName}`;
     
     // Populate tabs
     populatePipelineDetails('hero', pipeline);
@@ -1917,14 +1923,15 @@ function buildConfigContent(pipeline) {
         <div class="config-details">
             <h4>🔧 Pipeline Configuration</h4>
             <table class="config-table">
-                <tr><th>Feature Extractor</th><td>${pipeline.extractor || 'N/A'}</td></tr>
-                <tr><th>Dimensionality Reducer</th><td>${pipeline.reducer || 'None'}</td></tr>
-                <tr><th>Classifier</th><td>${pipeline.classifier || 'N/A'}</td></tr>
-                <tr><th>Accuracy</th><td><strong>${(pipeline.accuracy * 100).toFixed(2)}%</strong></td></tr>
-                <tr><th>F1-Score</th><td>${(pipeline.f1_score * 100).toFixed(2)}%</td></tr>
-                <tr><th>Training Time</th><td>${pipeline.train_time.toFixed(3)}s</td></tr>
-                <tr><th>Inference Speed</th><td>${pipeline.inference_time_ms.toFixed(3)} ms/sample</td></tr>
-                ${pipeline.model_size_mb ? `<tr><th>Model Size</th><td>${pipeline.model_size_mb.toFixed(2)} MB</td></tr>` : ''}
+                <tr><th>Feature Extractor</th><td>${pipeline.extractor.name} - ${JSON.stringify(pipeline.extractor.config)}</td></tr>
+                <tr><th>Dimensionality Reducer</th><td>${pipeline.reducer.name} - ${JSON.stringify(pipeline.reducer.config)}</td></tr>
+                <tr><th>Classifier</th><td>${pipeline.classifier.name} - ${JSON.stringify(pipeline.classifier.config)}</td></tr>
+                <tr><th>Accuracy</th><td><strong>${(pipeline.metrics.accuracy * 100).toFixed(2)}%</strong></td></tr>
+                <tr><th>Precision</th><td>${(pipeline.metrics.precision * 100).toFixed(2)}%</td></tr>
+                <tr><th>Recall</th><td>${(pipeline.metrics.recall * 100).toFixed(2)}%</td></tr>
+                <tr><th>F1-Score</th><td>${(pipeline.metrics.f1_score * 100).toFixed(2)}%</td></tr>
+                <tr><th>Training Time</th><td>${pipeline.performance.train_time_seconds.toFixed(3)}s</td></tr>
+                <tr><th>Inference Speed</th><td>${pipeline.performance.inference_time_ms.toFixed(3)} ms/sample</td></tr>
             </table>
         </div>
     `;
@@ -1964,21 +1971,23 @@ function buildWalkthroughContent(pipeline) {
                 <div class="walkthrough-step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h5>Feature Extraction: ${pipeline.extractor || 'N/A'}</h5>
+                        <h5>Feature Extraction: ${pipeline.extractor.name}</h5>
                         <p>Convert text documents into numerical features.</p>
+                        <p><em>Output: ${pipeline.features_extracted} features</em></p>
                     </div>
                 </div>
                 <div class="walkthrough-step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h5>Dimensionality Reduction: ${pipeline.reducer || 'None'}</h5>
-                        <p>${pipeline.reducer !== 'None' ? 'Reduce feature space for efficiency.' : 'No reduction applied, using all features.'}</p>
+                        <h5>Dimensionality Reduction: ${pipeline.reducer.name}</h5>
+                        <p>${pipeline.reducer.name !== 'None' ? 'Reduce feature space for efficiency.' : 'No reduction applied, using all features.'}</p>
+                        <p><em>Output: ${pipeline.features_after_reduction} features</em></p>
                     </div>
                 </div>
                 <div class="walkthrough-step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h5>Classification: ${pipeline.classifier || 'N/A'}</h5>
+                        <h5>Classification: ${pipeline.classifier.name}</h5>
                         <p>Train model and predict categories.</p>
                     </div>
                 </div>
@@ -1986,8 +1995,9 @@ function buildWalkthroughContent(pipeline) {
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h5>Results</h5>
-                        <p>Accuracy: <strong>${(pipeline.accuracy * 100).toFixed(2)}%</strong></p>
-                        <p>Training Time: <strong>${pipeline.train_time.toFixed(3)}s</strong></p>
+                        <p>Accuracy: <strong>${(pipeline.metrics.accuracy * 100).toFixed(2)}%</strong></p>
+                        <p>F1-Score: <strong>${(pipeline.metrics.f1_score * 100).toFixed(2)}%</strong></p>
+                        <p>Training Time: <strong>${pipeline.performance.train_time_seconds.toFixed(3)}s</strong></p>
                     </div>
                 </div>
             </div>
