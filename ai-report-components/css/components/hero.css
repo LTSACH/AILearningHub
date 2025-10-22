@@ -1,0 +1,114 @@
+/* Hero Section Component */
+.ai-hero {
+    background: var(--ai-bg-dark);
+    color: var(--ai-text);
+    padding: var(--ai-spacing-2xl) 0;
+    text-align: center;
+}
+
+.ai-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--ai-spacing-lg);
+}
+
+.ai-hero-title {
+    font-size: var(--ai-font-size-3xl);
+    font-weight: var(--ai-font-weight-bold);
+    color: var(--ai-text);
+    margin-bottom: var(--ai-spacing-md);
+}
+
+.ai-hero-subtitle {
+    font-size: var(--ai-font-size-lg);
+    color: var(--ai-text-light);
+    margin-bottom: var(--ai-spacing-xl);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ai-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--ai-spacing-md);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ai-hero-stat {
+    background: var(--ai-bg-light);
+    padding: var(--ai-spacing-md);
+    border-radius: var(--ai-radius-md);
+    text-align: center;
+    border: 1px solid var(--ai-border);
+}
+
+.ai-hero-stat-value {
+    font-size: var(--ai-font-size-xl);
+    font-weight: var(--ai-font-weight-bold);
+    color: var(--ai-primary);
+    margin-bottom: var(--ai-spacing-xs);
+}
+
+.ai-hero-stat-label {
+    font-size: var(--ai-font-size-sm);
+    color: var(--ai-text-light);
+    font-weight: var(--ai-font-weight-medium);
+}
+
+/* Hero with gradient background */
+.ai-hero-gradient {
+    background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-primary-dark) 100%);
+    color: white;
+}
+
+.ai-hero-gradient .ai-hero-title {
+    color: white;
+}
+
+.ai-hero-gradient .ai-hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ai-hero-gradient .ai-hero-stat {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ai-hero-gradient .ai-hero-stat-value {
+    color: white;
+}
+
+.ai-hero-gradient .ai-hero-stat-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .ai-hero {
+        padding: var(--ai-spacing-xl) 0;
+    }
+    
+    .ai-hero-title {
+        font-size: var(--ai-font-size-2xl);
+    }
+    
+    .ai-hero-subtitle {
+        font-size: var(--ai-font-size-base);
+    }
+    
+    .ai-hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--ai-spacing-sm);
+    }
+    
+    .ai-hero-stat {
+        padding: var(--ai-spacing-sm);
+    }
+    
+    .ai-hero-stat-value {
+        font-size: var(--ai-font-size-lg);
+    }
+}

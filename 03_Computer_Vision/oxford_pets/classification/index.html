@@ -7,44 +7,13 @@
     
     <!-- Load shared components from centralized library -->
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/themes/default.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/header.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/hero.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/comparison.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/code-examples.css">
     
     <style>
         /* Custom styles for this page */
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            max-width: 800px;
-            margin: 2rem auto 0;
-        }
-        
-        .hero-stat {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            border-radius: var(--ai-radius-lg);
-            text-align: center;
-        }
-        
-        .hero-stat h3 {
-            font-size: var(--ai-font-size-2xl);
-            margin-bottom: 0.5rem;
-            color: white;
-        }
-        
-        .hero-stat p {
-            color: rgba(255,255,255,0.9);
-            font-size: var(--ai-font-size-sm);
-        }
         
         .models-grid {
             display: grid;
@@ -111,48 +80,11 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="ai-nav">
-        <div class="ai-container">
-            <a href="../../index.html" class="ai-brand">📚 AI Learning Hub</a>
-            <div class="ai-nav-links">
-                <a href="../../index.html" class="ai-nav-item">Home</a>
-                <a href="../../01_Data_Analysis/" class="ai-nav-item">Data Analysis</a>
-                <a href="../../02_Machine_Learning/" class="ai-nav-item">Machine Learning</a>
-                <a href="../index.html" class="ai-nav-item">Computer Vision</a>
-                <a href="index.html" class="ai-nav-item active">Classification</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Header -->
+    <div id="ai-header"></div>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="ai-container">
-            <h1 class="ai-heading-1">📊 Breed Classification</h1>
-            <p class="ai-text" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;">
-                37-class breed classification using CNN architectures and transfer learning
-            </p>
-            
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <h3>37</h3>
-                    <p>Breeds</p>
-                </div>
-                <div class="hero-stat">
-                    <h3>7,393</h3>
-                    <p>Images</p>
-                </div>
-                <div class="hero-stat">
-                    <h3>8</h3>
-                    <p>Models</p>
-                </div>
-                <div class="hero-stat">
-                    <h3>95.2%</h3>
-                    <p>Best Accuracy</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div id="ai-hero"></div>
 
     <div class="ai-container">
         <!-- Models Section -->
@@ -316,12 +248,40 @@
     </footer>
 
     <!-- Load shared components JavaScript from centralized library -->
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/CodeExamples.js"></script>
     
     <script>
         // Initialize components when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize header
+            const header = new AIHeader('ai-header', {
+                brand: '📚 AI Learning Hub',
+                brandUrl: '../../index.html',
+                navItems: [
+                    { label: 'Home', url: '../../index.html', active: false },
+                    { label: 'Data Analysis', url: '../../01_Data_Analysis/', active: false },
+                    { label: 'Machine Learning', url: '../../02_Machine_Learning/', active: false },
+                    { label: 'Computer Vision', url: '../index.html', active: false },
+                    { label: 'Classification', url: 'index.html', active: true }
+                ]
+            });
+            
+            // Initialize hero section
+            const hero = new AIHero('ai-hero', {
+                title: '📊 Breed Classification',
+                subtitle: '37-class breed classification using CNN architectures and transfer learning',
+                stats: [
+                    { value: '37', label: 'Breeds' },
+                    { value: '7,393', label: 'Images' },
+                    { value: '8', label: 'Models' },
+                    { value: '95.2%', label: 'Best Accuracy' }
+                ],
+                gradient: true
+            });
+            
             // Initialize comparison table
             const comparisonTable = new AIComparisonTable('comparison-table', {
                 theme: 'default',
