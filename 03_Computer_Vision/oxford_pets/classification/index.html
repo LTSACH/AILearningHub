@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/comparison.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/code-examples.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
     
     <style>
         /* Custom styles for this page */
@@ -84,13 +85,18 @@
     <!-- Header -->
     <div id="ai-header"></div>
 
+    <!-- Language Switcher (Top-right) -->
+    <div id="language-switcher" class="ai-language-switcher fixed"></div>
+
     <div class="ai-container">
         <!-- Hero Section -->
         <div id="ai-hero"></div>
         <!-- Models Section -->
         <section class="ai-section">
-            <h2 class="ai-heading-2">🎯 Explore All Models</h2>
-            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;">
+            <h2 class="ai-heading-2" data-en="🎯 Explore All Models" data-vi="🎯 Khám Phá Tất Cả Mô Hình">🎯 Explore All Models</h2>
+            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
+               data-en="Compare different CNN architectures and transfer learning approaches"
+               data-vi="So sánh các kiến trúc CNN khác nhau và phương pháp transfer learning">
                 Compare different CNN architectures and transfer learning approaches
             </p>
             
@@ -223,8 +229,10 @@
 
         <!-- Comparison Section -->
         <section class="ai-section">
-            <h2 class="ai-heading-2">📊 Model Comparison</h2>
-            <p class="ai-text-light" style="margin-bottom: 2rem;">
+            <h2 class="ai-heading-2" data-en="📊 Model Comparison" data-vi="📊 So Sánh Mô Hình">📊 Model Comparison</h2>
+            <p class="ai-text-light" style="margin-bottom: 2rem;"
+               data-en="Compare performance metrics across all models"
+               data-vi="So sánh các chỉ số hiệu suất giữa tất cả mô hình">
                 Compare performance metrics across all models
             </p>
             
@@ -233,8 +241,10 @@
 
         <!-- Code Examples Section -->
         <section class="ai-section">
-            <h2 class="ai-heading-2">💻 Code Examples</h2>
-            <p class="ai-text-light" style="margin-bottom: 2rem;">
+            <h2 class="ai-heading-2" data-en="💻 Code Examples" data-vi="💻 Ví Dụ Mã Nguồn">💻 Code Examples</h2>
+            <p class="ai-text-light" style="margin-bottom: 2rem;"
+               data-en="Learn how to implement these models with step-by-step code examples"
+               data-vi="Học cách triển khai các mô hình này với các ví dụ mã từng bước">
                 Learn how to implement these models with step-by-step code examples
             </p>
             
@@ -250,6 +260,7 @@
 
     <!-- Load shared components JavaScript from centralized library -->
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/LanguageManager.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
@@ -370,6 +381,12 @@
             window.AIThemeManager.onThemeChange(function(newTheme) {
                 console.log('Theme changed to:', newTheme);
                 // Components will automatically update due to CSS changes
+            });
+
+            // Initialize language manager
+            window.AILanguageManager.createLanguageSwitcher('language-switcher');
+            window.AILanguageManager.onLanguageChange(function(newLang) {
+                console.log('Language changed to:', newLang);
             });
         });
     </script>

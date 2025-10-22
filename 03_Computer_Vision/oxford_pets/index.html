@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/header.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/hero.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
     
     <style>
         /* Custom styles for this page */
@@ -85,13 +86,18 @@
     <!-- Header -->
     <div id="ai-header"></div>
 
+    <!-- Language Switcher (Top-right) -->
+    <div id="language-switcher" class="ai-language-switcher fixed"></div>
+
     <div class="ai-container">
         <!-- Hero Section -->
         <div id="ai-hero"></div>
         <!-- Tasks Section -->
         <section class="ai-section">
-            <h2 class="ai-heading-2">🎯 Computer Vision Tasks</h2>
-            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;">
+            <h2 class="ai-heading-2" data-en="🎯 Computer Vision Tasks" data-vi="🎯 Các Tác Vụ Thị Giác Máy Tính">🎯 Computer Vision Tasks</h2>
+            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;"
+               data-en="Multi-task Computer Vision: Classification, Detection, Segmentation"
+               data-vi="Thị giác máy tính đa tác vụ: Phân loại, Phát hiện, Phân đoạn">
                 Multi-task Computer Vision: Classification, Detection, Segmentation
             </p>
             
@@ -231,6 +237,7 @@
 
     <!-- Load shared components JavaScript from centralized library -->
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/LanguageManager.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
     
@@ -269,6 +276,12 @@
             window.AIThemeManager.onThemeChange(function(newTheme) {
                 console.log('Theme changed to:', newTheme);
                 // Components will automatically update due to CSS changes
+            });
+
+            // Initialize language manager
+            window.AILanguageManager.createLanguageSwitcher('language-switcher');
+            window.AILanguageManager.onLanguageChange(function(newLang) {
+                console.log('Language changed to:', newLang);
             });
         });
     </script>
