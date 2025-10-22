@@ -18,10 +18,9 @@
             background: #f8f9fa;
         }
 
-        /* Navbar */
+        /* Navbar - Matching reports style */
         .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 1rem 0;
+            background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
@@ -31,16 +30,18 @@
         .navbar .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .navbar .logo {
-            color: white;
+        .brand {
             font-size: 1.5rem;
             font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
 
@@ -51,188 +52,169 @@
         }
 
         .nav-links a {
-            color: white;
+            color: #666;
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.3s ease;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            opacity: 0.8;
+            color: #667eea;
         }
 
         .nav-links a.active {
-            border-bottom: 2px solid white;
-            padding-bottom: 4px;
+            color: #667eea;
         }
 
-        /* About Section */
-        .about-section {
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: calc(100vh - 80px);
-        }
-
-        .about-section .container {
+        /* Main Container */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem;
         }
 
-        .about-section h1 {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 20px;
+        /* Page Header - Matching reports style */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
         }
 
-        .about-section .intro {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 50px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-        }
-
-        /* Purpose Card */
-        .purpose-card {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .purpose-card h2 {
-            color: #667eea;
+        .page-header h1 {
             font-size: 2rem;
-            margin-bottom: 20px;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            color: #f0f0f0;
+            font-weight: 500;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             text-align: center;
         }
 
-        .purpose-card p {
-            font-size: 1.1rem;
+        .content-section p {
+            font-size: 1rem;
             line-height: 1.8;
+            margin-bottom: 1rem;
             text-align: center;
-            margin-bottom: 30px;
         }
 
-        .purpose-card ul {
+        .content-section ul {
             list-style: none;
             padding: 0;
             max-width: 700px;
             margin: 0 auto;
         }
 
-        .purpose-card li {
-            padding: 12px 0;
-            font-size: 1.15rem;
-            line-height: 1.8;
+        .content-section li {
+            padding: 10px 0;
+            font-size: 1rem;
+            line-height: 1.7;
             border-bottom: 1px solid #e9ecef;
         }
 
-        .purpose-card li:last-child {
+        .content-section li:last-child {
             border-bottom: none;
         }
 
-        /* Policy Card */
-        .policy-card {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .policy-card h2 {
-            color: #667eea;
-            font-size: 2rem;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
+        /* Policy Grid */
         .policy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .policy-item {
-            padding: 25px;
+            padding: 1.5rem;
             border-radius: 10px;
             display: flex;
             align-items: flex-start;
-            gap: 15px;
+            gap: 1rem;
         }
 
         .policy-item.allowed {
             background: #d4edda;
-            border-left: 5px solid #28a745;
+            border-left: 4px solid #28a745;
         }
 
         .policy-item.restricted {
             background: #fff3cd;
-            border-left: 5px solid #ffc107;
+            border-left: 4px solid #ffc107;
         }
 
         .policy-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             flex-shrink: 0;
         }
 
         .policy-item p {
             margin: 0;
             text-align: left;
-            line-height: 1.7;
-            font-size: 1.05rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
-        /* Contact Cards */
-        .about-cards {
+        /* Contact Cards - Compact, 3 per row */
+        .contact-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
-        .about-card {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .contact-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .about-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
-        .about-card .card-icon {
-            font-size: 3.5rem;
+        .contact-card .card-icon {
+            font-size: 2.5rem;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
         }
 
-        .about-card h3 {
-            font-size: 1.6rem;
+        .contact-card h3 {
+            font-size: 1.3rem;
             color: #667eea;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
             text-align: center;
         }
 
-        .about-card p {
-            line-height: 1.9;
+        .contact-card p {
+            line-height: 1.7;
             text-align: center;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
         }
 
-        .about-card a {
+        .contact-card a {
             color: #667eea;
             text-decoration: none;
             font-weight: 600;
@@ -240,16 +222,18 @@
             transition: border-color 0.3s ease;
         }
 
-        .about-card a:hover {
+        .contact-card a:hover {
             border-bottom-color: #667eea;
         }
 
         /* Footer */
         footer {
-            background: #2c3e50;
-            color: white;
+            background: white;
+            color: #666;
             text-align: center;
-            padding: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
         /* Responsive */
@@ -265,23 +249,19 @@
                 gap: 1rem;
             }
 
-            .about-section {
-                padding: 40px 15px;
+            .container {
+                padding: 1rem;
             }
 
-            .about-section h1 {
-                font-size: 2.2rem;
+            .page-header {
+                padding: 1.5rem 1rem;
             }
 
-            .about-section .intro {
-                font-size: 1rem;
+            .content-section {
+                padding: 1.5rem;
             }
 
-            .purpose-card, .policy-card, .about-card {
-                padding: 25px;
-            }
-
-            .about-cards {
+            .contact-cards {
                 grid-template-columns: 1fr;
             }
         }
@@ -291,7 +271,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">📰 BBC News Classification</a>
+            <a href="index.html" class="brand">📰 BBC News Classification</a>
             <ul class="nav-links">
                 <li><a href="index.html">Overview</a></li>
                 <li><a href="pages/traditional_ml/index.html">Traditional ML</a></li>
@@ -302,53 +282,59 @@
         </div>
     </nav>
 
-    <!-- About Section -->
-    <section class="about-section">
-        <div class="container">
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
             <h1>👨‍💻 About This Project</h1>
-            
-            <!-- Developer Info -->
-            <p class="intro">
+            <p>Educational resource for AI, Machine Learning, Deep Learning, and Text Classification</p>
+        </div>
+
+        <!-- Developer Info -->
+        <div class="content-section">
+            <p style="font-size: 1.1rem;">
                 This project is developed by <strong>Thanh-Sach LE</strong> with AI assistance 
-                as an educational resource for learning topics related to 
-                <strong>Artificial Intelligence, Machine Learning, Deep Learning, and Text Classification</strong>.
+                as part of research and teaching activities at the Data Science Laboratory, HCMUT.
             </p>
+        </div>
 
-            <!-- Purpose Card -->
-            <div class="purpose-card">
-                <h2>🎯 Purpose</h2>
-                <p>
-                    This project serves as a <strong>learning companion</strong> and 
-                    <strong>interactive tutorial</strong> for students and practitioners exploring:
-                </p>
-                <ul>
-                    <li>📊 Exploratory Data Analysis (EDA)</li>
-                    <li>🤖 Traditional Machine Learning techniques</li>
-                    <li>🔬 ML Pipeline comparison and optimization</li>
-                    <li>🧠 Deep Learning with BERT fine-tuning</li>
-                    <li>📝 Text Classification methodologies</li>
-                </ul>
-            </div>
+        <!-- Purpose Section -->
+        <div class="content-section">
+            <h2>🎯 Purpose</h2>
+            <p>
+                This project serves as a <strong>learning companion</strong> and 
+                <strong>interactive tutorial</strong> for students and practitioners exploring:
+            </p>
+            <ul>
+                <li>📊 Exploratory Data Analysis (EDA)</li>
+                <li>🤖 Traditional Machine Learning techniques</li>
+                <li>🔬 ML Pipeline comparison and optimization</li>
+                <li>🧠 Deep Learning with BERT fine-tuning</li>
+                <li>📝 Text Classification methodologies</li>
+            </ul>
+        </div>
 
-            <!-- Usage Policy Card -->
-            <div class="policy-card">
-                <h2>📜 Usage Policy</h2>
-                <div class="policy-grid">
-                    <div class="policy-item allowed">
-                        <span class="policy-icon">✅</span>
-                        <p><strong>Encouraged:</strong> Use this resource for learning, teaching, and research purposes</p>
-                    </div>
-                    <div class="policy-item restricted">
-                        <span class="policy-icon">⚠️</span>
-                        <p><strong>Restricted:</strong> Downloading, modifying, or redistributing the content without permission is prohibited</p>
-                    </div>
+        <!-- Usage Policy Section -->
+        <div class="content-section">
+            <h2>📜 Usage Policy</h2>
+            <div class="policy-grid">
+                <div class="policy-item allowed">
+                    <span class="policy-icon">✅</span>
+                    <p><strong>Encouraged:</strong> Use this resource for learning, teaching, and research purposes</p>
+                </div>
+                <div class="policy-item restricted">
+                    <span class="policy-icon">⚠️</span>
+                    <p><strong>Restricted:</strong> Downloading, modifying, or redistributing the content without permission is prohibited</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Contact Cards -->
-            <div class="about-cards">
+        <!-- Contact Information -->
+        <div class="content-section">
+            <h2>📞 Contact Information</h2>
+            <div class="contact-cards">
                 <!-- Affiliation Card -->
-                <div class="about-card">
+                <div class="contact-card">
                     <div class="card-icon">🏛️</div>
                     <h3>Affiliation</h3>
                     <p>
@@ -360,7 +346,7 @@
                 </div>
 
                 <!-- Contact Card -->
-                <div class="about-card">
+                <div class="contact-card">
                     <div class="card-icon">📧</div>
                     <h3>Get in Touch</h3>
                     <p>
@@ -370,7 +356,7 @@
                 </div>
 
                 <!-- Office Card -->
-                <div class="about-card">
+                <div class="contact-card">
                     <div class="card-icon">📍</div>
                     <h3>Visit Us</h3>
                     <p>
@@ -384,7 +370,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -392,4 +378,3 @@
     </footer>
 </body>
 </html>
-
