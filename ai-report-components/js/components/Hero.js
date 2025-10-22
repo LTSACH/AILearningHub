@@ -38,8 +38,8 @@ class AIHero {
         this.container.innerHTML = `
             <section class="ai-hero ${gradientClass}">
                 <div class="ai-hero-container">
-                    <h1 class="ai-hero-title">${this.options.title}</h1>
-                    <p class="ai-hero-subtitle">${this.options.subtitle}</p>
+                    <h1 class="ai-hero-title" data-en="${this.options.title}" data-vi="${this.options.titleVi || this.options.title}">${this.options.title}</h1>
+                    <p class="ai-hero-subtitle" data-en="${this.options.subtitle}" data-vi="${this.options.subtitleVi || this.options.subtitle}">${this.options.subtitle}</p>
                     ${this.options.stats.length > 0 ? this.renderStats() : ''}
                 </div>
             </section>
@@ -52,7 +52,7 @@ class AIHero {
                 ${this.options.stats.map(stat => `
                     <div class="ai-hero-stat">
                         <div class="ai-hero-stat-value">${stat.value}</div>
-                        <div class="ai-hero-stat-label">${stat.label}</div>
+                        <div class="ai-hero-stat-label" data-en="${stat.label}" data-vi="${stat.labelVi || stat.label}">${stat.label}</div>
                     </div>
                 `).join('')}
             </div>
