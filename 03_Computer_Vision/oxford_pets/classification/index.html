@@ -650,12 +650,20 @@ transform = transforms.Compose([
         <section class="ai-section">
             <h2 class="ai-heading-2" data-en="📊 Confusion Matrix" data-vi="📊 Ma Trận Nhầm Lẫn">📊 Confusion Matrix</h2>
             <p class="ai-text-light" style="margin-bottom: 2rem;"
-               data-en="Interactive heatmap showing model performance across all 37 breed classes"
-               data-vi="Heatmap tương tác hiển thị hiệu suất mô hình trên tất cả 37 lớp giống">
-                Interactive heatmap showing model performance across all 37 breed classes
+               data-en="Select a model from the comparison table above to view its confusion matrix"
+               data-vi="Chọn một mô hình từ bảng so sánh ở trên để xem ma trận nhầm lẫn">
+                Select a model from the comparison table above to view its confusion matrix
             </p>
             
-            <div id="confusion-matrix-plotly"></div>
+            <div id="model-selection-info" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; border: 2px dashed #dee2e6;">
+                <p style="margin: 0; color: #6c757d; font-style: italic;">
+                    <span data-en="Click on a model row in the comparison table to view its confusion matrix" data-vi="Nhấp vào dòng mô hình trong bảng so sánh để xem ma trận nhầm lẫn">
+                        Click on a model row in the comparison table to view its confusion matrix
+                    </span>
+                </p>
+            </div>
+            
+            <div id="confusion-matrix-plotly" style="display: flex; justify-content: center; align-items: center; width: 100%;"></div>
         </section>
 
 
@@ -669,6 +677,23 @@ transform = transforms.Compose([
 
         <!-- Load Plotly for interactive charts -->
         <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+        
+        <!-- Load MathJax for LaTeX rendering -->
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\(', '\)']],
+                    displayMath: [['$$', '$$'], ['\[', '\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                }
+            };
+        </script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         
         <!-- Load shared components JavaScript from centralized library -->
         <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
@@ -794,12 +819,103 @@ transform = transforms.Compose([
                         modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d']
                     };
                     
-                    Plotly.newPlot('confusion-matrix-plotly', plotData, layout, config);
+                    // Store confusion matrix data globally
+                    window.confusionMatrixData = data.confusion_matrix;
+                    
+                    // Add click handlers to comparison table rows
+                    const comparisonRows = document.querySelectorAll('.comparison-table tbody tr');
+                    comparisonRows.forEach((row, index) => {
+                        row.style.cursor = 'pointer';
+                        row.addEventListener('click', function() {
+                            // Remove previous selection
+                            comparisonRows.forEach(r => r.style.backgroundColor = '');
+                            
+                            // Highlight selected row
+                            this.style.backgroundColor = '#e3f2fd';
+                            
+                            // Get model name from first cell
+                            const modelName = this.cells[0].textContent.trim();
+                            
+                            // Update selection info
+                            const infoDiv = document.getElementById('model-selection-info');
+                            infoDiv.innerHTML = `
+                                <p style="margin: 0; color: #1976d2; font-weight: 500;">
+                                    <span data-en="Showing confusion matrix for: " data-vi="Hiển thị ma trận nhầm lẫn cho: ">Showing confusion matrix for: </span>
+                                    <strong>${modelName}</strong>
+                                </p>
+                            `;
+                            
+                            // Show confusion matrix for selected model
+                            showConfusionMatrix(modelName);
+                        });
+                    });
+                    
+                    // Function to show confusion matrix for selected model
+                    function showConfusionMatrix(modelName) {
+                        let modelKey = '';
+                        switch(modelName) {
+                            case 'ResNet50':
+                                modelKey = 'resnet50';
+                                break;
+                            case 'EfficientNet-B3':
+                                modelKey = 'efficientnet_b3';
+                                break;
+                            case 'MobileNetV3':
+                                modelKey = 'mobilenetv3_large_100';
+                                break;
+                            default:
+                                modelKey = 'resnet50'; // Default fallback
+                        }
+                        
+                        const confusionData = window.confusionMatrixData[modelKey];
+                        if (!confusionData) return;
+                        
+                        const matrix = confusionData.matrix;
+                        const classNames = confusionData.class_names;
+                        
+                        const plotData = [{
+                            z: matrix,
+                            x: classNames,
+                            y: classNames,
+                            type: 'heatmap',
+                            colorscale: 'Blues',
+                            showscale: true,
+                            hoverongaps: false,
+                            hovertemplate: 'True: %{y}<br>Predicted: %{x}<br>Count: %{z}<extra></extra>'
+                        }];
+                        
+                        const layout = {
+                            title: {
+                                text: `Confusion Matrix - ${modelName}`,
+                                font: { size: 16 }
+                            },
+                            xaxis: {
+                                title: 'Predicted Class',
+                                tickangle: -45,
+                                tickfont: { size: 10 }
+                            },
+                            yaxis: {
+                                title: 'True Class',
+                                tickfont: { size: 10 }
+                            },
+                            width: 800,
+                            height: 600,
+                            margin: { l: 150, r: 50, t: 80, b: 150 }
+                        };
+                        
+                        const config = {
+                            displayModeBar: true,
+                            displaylogo: false,
+                            modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d']
+                        };
+                        
+                        // Don't show confusion matrix initially - wait for user selection
+                    }
                          
                          // Initialize formulas in comparison section
                          const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
                          if (formulasContainer) {
-                             // Direct HTML injection for formulas
+                             // Direct HTML injection for formulas with proper LaTeX
                              formulasContainer.innerHTML = `
                                  <!-- Classification Metrics -->
                                  <div class="config-card" style="margin-bottom: 1.5rem;">
@@ -807,30 +923,30 @@ transform = transforms.Compose([
                                      <div style="line-height: 2.2;">
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Accuracy:</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{\sum_{i=1}^{n} \text{CM}[i,i]}{\text{Total Samples}} \)
-                                             </span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{\sum_{i=1}^{n} \text{CM}[i,i]}{\text{Total Samples}}$$
+                                             </div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Precision (per class i):</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{Precision}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FP}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[j,i]} \)
-                                             </span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Precision}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FP}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[j,i]}$$
+                                             </div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Recall (per class i):</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{Recall}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FN}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[i,j]} \)
-                                             </span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Recall}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FN}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[i,j]}$$
+                                             </div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>F1-Score (per class i):</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{F1}_i = \frac{2 \times \text{Precision}_i \times \text{Recall}_i}{\text{Precision}_i + \text{Recall}_i} = \frac{2 \times \text{CM}[i,i]}{\text{Support}_i + \text{Predicted}_i} \)
-                                             </span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{F1}_i = \frac{2 \times \text{Precision}_i \times \text{Recall}_i}{\text{Precision}_i + \text{Recall}_i} = \frac{2 \times \text{CM}[i,i]}{\text{Support}_i + \text{Predicted}_i}$$
+                                             </div>
                                          </div>
                                      </div>
                                  </div>
@@ -841,18 +957,18 @@ transform = transforms.Compose([
                                      <div style="line-height: 2.2;">
                                          <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
                                              <strong>Macro Average:</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{Metric}_{\text{macro}} = \frac{1}{n} \sum_{i=1}^{n} \text{Metric}_i \)
-                                             </span><br>
-                                             <span style="font-size: 0.85rem; color: #666;">Equal weight to each class (good for imbalanced datasets)</span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Metric}_{\text{macro}} = \frac{1}{n} \sum_{i=1}^{n} \text{Metric}_i$$
+                                             </div>
+                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Equal weight to each class (good for imbalanced datasets)</div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f0fff4; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
                                              <strong>Weighted Average:</strong><br>
-                                             <span style="font-size: 1.1rem; color: #10b981;">
-                                                 \( \text{Metric}_{\text{weighted}} = \frac{\sum_{i=1}^{n} \text{Metric}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i} \)
-                                             </span><br>
-                                             <span style="font-size: 0.85rem; color: #666;">Weight by class frequency (reflects overall performance)</span>
+                                             <div style="font-size: 1.2rem; color: #10b981; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Metric}_{\text{weighted}} = \frac{\sum_{i=1}^{n} \text{Metric}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}$$
+                                             </div>
+                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Weight by class frequency (reflects overall performance)</div>
                                          </div>
                                      </div>
                                  </div>
@@ -863,26 +979,26 @@ transform = transforms.Compose([
                                      <div style="line-height: 2.2;">
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Support (per class i):</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{Support}_i = \sum_{j=1}^{n} \text{CM}[i,j] \)
-                                             </span><br>
-                                             <span style="font-size: 0.85rem; color: #666;">Total actual instances of class i (row sum)</span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Support}_i = \sum_{j=1}^{n} \text{CM}[i,j]$$
+                                             </div>
+                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Total actual instances of class i (row sum)</div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Predicted (per class i):</strong><br>
-                                             <span style="font-size: 1.1rem; color: #667eea;">
-                                                 \( \text{Predicted}_i = \sum_{j=1}^{n} \text{CM}[j,i] \)
-                                             </span><br>
-                                             <span style="font-size: 0.85rem; color: #666;">Total predicted instances of class i (column sum)</span>
+                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{Predicted}_i = \sum_{j=1}^{n} \text{CM}[j,i]$$
+                                             </div>
+                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Total predicted instances of class i (column sum)</div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #10b981;">
                                              <strong>True Positives (per class i):</strong><br>
-                                             <span style="font-size: 1.1rem; color: #10b981;">
-                                                 \( \text{TP}_i = \text{CM}[i,i] \)
-                                             </span><br>
-                                             <span style="font-size: 0.85rem; color: #666;">Diagonal element (correctly predicted instances)</span>
+                                             <div style="font-size: 1.2rem; color: #10b981; text-align: center; margin: 0.5rem 0;">
+                                                 $$\text{TP}_i = \text{CM}[i,i]$$
+                                             </div>
+                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Diagonal element (correctly predicted instances)</div>
                                          </div>
                                      </div>
                                  </div>
@@ -895,10 +1011,12 @@ transform = transforms.Compose([
                                  </div>
                              `;
                              
-                             // Re-render MathJax
-                             if (window.MathJax) {
-                                 window.MathJax.typesetPromise([formulasContainer]);
-                             }
+                             // Re-render MathJax after a short delay
+                             setTimeout(() => {
+                                 if (window.MathJax && window.MathJax.typesetPromise) {
+                                     window.MathJax.typesetPromise([formulasContainer]);
+                                 }
+                             }, 100);
                          }
                 })
                 .catch(error => {
