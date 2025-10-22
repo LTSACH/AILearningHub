@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/code-examples.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/pipeline.css">
     
     <style>
         /* Custom styles for this page */
@@ -91,6 +92,171 @@
     <div class="ai-container">
         <!-- Hero Section -->
         <div id="ai-hero"></div>
+        <!-- Pipeline Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2" data-en="🔄 Pipeline" data-vi="🔄 Quy Trình">🔄 Pipeline</h2>
+            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
+               data-en="Computer Vision classification pipeline with CNN architectures"
+               data-vi="Quy trình phân loại thị giác máy tính với kiến trúc CNN">
+                Computer Vision classification pipeline with CNN architectures
+            </p>
+            
+            <!-- Pipeline Tabs -->
+            <div class="pipeline-section">
+                <!-- Tabs -->
+                <div class="pipeline-tabs">
+                    <button class="pipeline-tab-btn active" onclick="switchPipelineTab('pipeline')">
+                        🔄 Pipeline
+                    </button>
+                    <button class="pipeline-tab-btn" onclick="switchPipelineTab('tutorials')">
+                        📚 Tutorials
+                    </button>
+                    <button class="pipeline-tab-btn" onclick="switchPipelineTab('code')">
+                        💻 Code
+                    </button>
+                    <button class="pipeline-tab-btn" onclick="switchPipelineTab('colab')">
+                        🚀 Colab
+                    </button>
+                </div>
+                
+                <!-- Tab 1: Pipeline (default) -->
+                <div id="pipeline-tab" class="pipeline-tab-content active">
+                    <div class="pipeline-flow">
+                        <div class="step step-fixed">
+                            <div class="step-icon">🖼️</div>
+                            <div class="step-title" data-en="Image Input" data-vi="Đầu Vào Ảnh">Image Input</div>
+                            <div class="step-detail" data-en="224×224 RGB images" data-vi="Ảnh RGB 224×224">224×224 RGB images</div>
+                        </div>
+                        
+                        <div class="arrow">→</div>
+                        
+                        <div class="step step-fixed">
+                            <div class="step-icon">🔧</div>
+                            <div class="step-title" data-en="Preprocessing" data-vi="Tiền Xử Lý">Preprocessing</div>
+                            <div class="step-badge" data-en="Fixed" data-vi="Cố Định">Fixed</div>
+                            <div class="step-detail" data-en="Normalize, Resize" data-vi="Chuẩn hóa, Thay đổi kích thước">Normalize, Resize</div>
+                        </div>
+                        
+                        <div class="arrow">→</div>
+                        
+                        <div class="step step-interactive">
+                            <div class="step-icon">🧠</div>
+                            <div class="step-title" data-en="CNN Model" data-vi="Mô Hình CNN">CNN Model</div>
+                            <div class="step-badge" data-en="Choose Below" data-vi="Chọn Bên Dưới">Choose Below</div>
+                            <div class="step-detail" data-en="ResNet50, EfficientNet, ViT..." data-vi="ResNet50, EfficientNet, ViT...">ResNet50, EfficientNet, ViT...</div>
+                        </div>
+                        
+                        <div class="arrow">→</div>
+                        
+                        <div class="step step-fixed">
+                            <div class="step-icon">🎯</div>
+                            <div class="step-title" data-en="Classifier Head" data-vi="Đầu Phân Loại">Classifier Head</div>
+                            <div class="step-badge" data-en="Adapted" data-vi="Điều Chỉnh">Adapted</div>
+                            <div class="step-detail" data-en="1000 → 37 classes" data-vi="1000 → 37 lớp">1000 → 37 classes</div>
+                        </div>
+                        
+                        <div class="arrow">→</div>
+                        
+                        <div class="step step-result">
+                            <div class="step-icon">✨</div>
+                            <div class="step-title" data-en="Classification Results" data-vi="Kết Quả Phân Loại">Classification Results</div>
+                            <div class="step-detail" data-en="37 breed predictions" data-vi="Dự đoán 37 giống">37 breed predictions</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab 2: Tutorials -->
+                <div id="tutorials-tab" class="pipeline-tab-content">
+                    <div class="tutorial-content">
+                        <h3 data-en="📚 Step-by-Step Tutorial" data-vi="📚 Hướng Dẫn Từng Bước">📚 Step-by-Step Tutorial</h3>
+                        <div class="tutorial-steps">
+                            <div class="tutorial-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4 data-en="Data Preparation" data-vi="Chuẩn Bị Dữ Liệu">Data Preparation</h4>
+                                    <p data-en="Download and organize the Oxford Pets dataset with 37 breed classes."
+                                       data-vi="Tải xuống và tổ chức tập dữ liệu Oxford Pets với 37 lớp giống.">
+                                        Download and organize the Oxford Pets dataset with 37 breed classes.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4 data-en="Model Selection" data-vi="Lựa Chọn Mô Hình">Model Selection</h4>
+                                    <p data-en="Choose between ResNet50, EfficientNet, ViT, or MobileNet architectures."
+                                       data-vi="Chọn giữa các kiến trúc ResNet50, EfficientNet, ViT, hoặc MobileNet.">
+                                        Choose between ResNet50, EfficientNet, ViT, or MobileNet architectures.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4 data-en="Transfer Learning" data-vi="Transfer Learning">Transfer Learning</h4>
+                                    <p data-en="Adapt pre-trained models from ImageNet (1000 classes) to our 37 breed classes."
+                                       data-vi="Điều chỉnh các mô hình đã huấn luyện từ ImageNet (1000 lớp) cho 37 lớp giống của chúng ta.">
+                                        Adapt pre-trained models from ImageNet (1000 classes) to our 37 breed classes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab 3: Code -->
+                <div id="code-tab" class="pipeline-tab-content">
+                    <div class="code-content">
+                        <h3 data-en="💻 Implementation Code" data-vi="💻 Mã Triển Khai">💻 Implementation Code</h3>
+                        <div class="code-tabs">
+                            <button class="code-tab-btn active" onclick="switchCodeTab('setup')">Setup</button>
+                            <button class="code-tab-btn" onclick="switchCodeTab('training')">Training</button>
+                            <button class="code-tab-btn" onclick="switchCodeTab('evaluation')">Evaluation</button>
+                        </div>
+                        
+                        <div id="setup-code" class="code-tab-content active">
+                            <pre><code>import torch
+import torchvision
+from torchvision import transforms, models
+
+# Load pre-trained model
+model = models.resnet50(pretrained=True)
+model.fc = torch.nn.Linear(model.fc.in_features, 37)  # 37 classes
+
+# Data transforms
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab 4: Colab -->
+                <div id="colab-tab" class="pipeline-tab-content">
+                    <div class="colab-content">
+                        <h3 data-en="🚀 Google Colab Notebook" data-vi="🚀 Notebook Google Colab">🚀 Google Colab Notebook</h3>
+                        <p data-en="Run the complete pipeline in Google Colab with free GPU access."
+                           data-vi="Chạy toàn bộ quy trình trong Google Colab với truy cập GPU miễn phí.">
+                            Run the complete pipeline in Google Colab with free GPU access.
+                        </p>
+                        <div class="colab-buttons">
+                            <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/03_Computer_Vision/oxford_pets/classification/notebook.ipynb" 
+                               class="colab-btn" target="_blank">
+                                🚀 Open in Colab
+                            </a>
+                            <a href="https://github.com/LTSACH/AILearningHub/tree/main/03_Computer_Vision/oxford_pets/classification" 
+                               class="github-btn" target="_blank">
+                                📁 View on GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Models Section -->
         <section class="ai-section">
             <h2 class="ai-heading-2" data-en="🎯 Explore All Models" data-vi="🎯 Khám Phá Tất Cả Mô Hình">🎯 Explore All Models</h2>
@@ -267,6 +433,7 @@
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/CodeExamples.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Pipeline.js"></script>
     
     <script>
         // Initialize components when page loads
