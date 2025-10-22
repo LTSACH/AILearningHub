@@ -692,7 +692,6 @@ transform = transforms.Compose([
                 }
             };
         </script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         
         <!-- Load shared components JavaScript from centralized library -->
@@ -821,6 +820,7 @@ transform = transforms.Compose([
                     
                     // Store confusion matrix data globally
                     window.confusionMatrixData = data.confusion_matrix;
+                    console.log('Confusion matrix data loaded:', window.confusionMatrixData);
                     
                     // Add click handlers to comparison table rows
                     const comparisonRows = document.querySelectorAll('.comparison-table tbody tr');
@@ -852,6 +852,9 @@ transform = transforms.Compose([
                     
                     // Function to show confusion matrix for selected model
                     function showConfusionMatrix(modelName) {
+                        console.log('showConfusionMatrix called with:', modelName);
+                        console.log('Available confusion data:', window.confusionMatrixData);
+                        
                         let modelKey = '';
                         switch(modelName) {
                             case 'ResNet50':
@@ -867,8 +870,13 @@ transform = transforms.Compose([
                                 modelKey = 'resnet50'; // Default fallback
                         }
                         
+                        console.log('Looking for model key:', modelKey);
                         const confusionData = window.confusionMatrixData[modelKey];
-                        if (!confusionData) return;
+                        console.log('Found confusion data:', confusionData);
+                        if (!confusionData) {
+                            console.error('No confusion data found for model:', modelKey);
+                            return;
+                        }
                         
                         const matrix = confusionData.matrix;
                         const classNames = confusionData.class_names;
