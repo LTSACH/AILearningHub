@@ -735,8 +735,31 @@ transform = transforms.Compose([
                 console.log('Language changed to:', newLang);
             });
             
+            // Initialize comparison tab switching
+            window.switchComparisonTab = function(tabName) {
+                // Hide all tab contents
+                const tabContents = document.querySelectorAll('.comparison-tab-content');
+                tabContents.forEach(content => content.style.display = 'none');
+                
+                // Remove active class from all buttons
+                const tabButtons = document.querySelectorAll('.comparison-tab-btn');
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Show selected tab content
+                const selectedTab = document.getElementById(tabName + '-tab');
+                if (selectedTab) {
+                    selectedTab.style.display = 'block';
+                }
+                
+                // Add active class to clicked button
+                const clickedButton = document.querySelector(`[onclick="switchComparisonTab('${tabName}')"]`);
+                if (clickedButton) {
+                    clickedButton.classList.add('active');
+                }
+            };
+            
             // Load and initialize components with mock data
-            fetch('/data/models_data.json')
+            fetch('https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/models_data.json')
                 .then(response => response.json())
                 .then(data => {
                     // Initialize confusion matrix
