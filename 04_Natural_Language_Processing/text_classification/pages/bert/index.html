@@ -843,6 +843,304 @@
         border-color: #667eea;
     }
     
+    /* Pipeline Tabs */
+    .pipeline-section {
+        margin-bottom: 2rem;
+    }
+    
+    .pipeline-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 2rem;
+    }
+    
+    .pipeline-tab-btn {
+        background: none;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #6c757d;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+    }
+    
+    .pipeline-tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+    }
+    
+    .pipeline-tab-btn:hover {
+        color: #667eea;
+        background: #f8f9fa;
+    }
+    
+    .pipeline-tab-content {
+        display: none;
+    }
+    
+    .pipeline-tab-content.active {
+        display: block;
+    }
+    
+    /* Tutorials Container */
+    .tutorials-container {
+        padding: 2rem 0;
+    }
+    
+    .tutorial-section {
+        margin-bottom: 3rem;
+    }
+    
+    .tutorial-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #2d3748;
+    }
+    
+    .tutorial-card-compact {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        display: flex;
+        gap: 1.5rem;
+        align-items: start;
+        margin-bottom: 1.5rem;
+    }
+    
+    .tutorial-icon-compact {
+        font-size: 2.5rem;
+        flex-shrink: 0;
+    }
+    
+    .tutorial-body-compact {
+        flex: 1;
+    }
+    
+    .tutorial-body-compact h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        color: #2d3748;
+    }
+    
+    .tutorial-desc-compact {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tutorial-formula {
+        background: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        border-left: 3px solid #667eea;
+    }
+    
+    .tutorial-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .tutorial-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    
+    .tutorial-link:hover {
+        color: #5a67d8;
+        text-decoration: underline;
+    }
+    
+    /* Code tab */
+    .code-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .code-container h3 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+    
+    .code-description {
+        color: #666;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    .code-actions-top {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        justify-content: flex-end;
+    }
+    
+    .btn-copy-code-compact,
+    .btn-download-code-compact {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.9rem;
+    }
+    
+    .btn-copy-code-compact {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .btn-copy-code-compact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-download-code-compact {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        display: inline-block;
+    }
+    
+    .btn-download-code-compact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(245, 87, 108, 0.3);
+    }
+    
+    .code-loading {
+        color: #a0aec0;
+        text-align: center;
+        padding: 2rem;
+        background: #2d3748;
+        border-radius: 10px;
+    }
+    
+    #code-block-container pre {
+        background: #2d3748;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 0;
+        overflow-x: auto;
+    }
+    
+    #code-block-container code {
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    /* Colab tab */
+    .colab-container {
+        padding: 3rem 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .colab-header {
+        margin-bottom: 2rem;
+    }
+    
+    .colab-header h3 {
+        font-size: 2rem;
+        margin-top: 1rem;
+        color: #2d3748;
+    }
+    
+    .colab-description {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .colab-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+        color: #666;
+    }
+    
+    .feature-icon {
+        font-size: 1.2rem;
+        color: #28a745;
+    }
+    
+    .colab-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(135deg, #f9ab00 0%, #f57c00 100%);
+        color: white;
+        padding: 1.25rem 2.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(249, 171, 0, 0.3);
+        margin-bottom: 2rem;
+    }
+    
+    .colab-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(249, 171, 0, 0.4);
+    }
+    
+    .colab-info {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: left;
+        border-left: 4px solid #667eea;
+    }
+    
+    .colab-info h4 {
+        margin-bottom: 1rem;
+        color: #2d3748;
+        font-size: 1.3rem;
+    }
+    
+    .colab-info ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .colab-info li {
+        padding: 0.5rem 0;
+        color: #666;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+    
+    .colab-info li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: bold;
+    }
+    
     </style>
 </head>
 <body>
@@ -867,7 +1165,26 @@
 
         <!-- Pipeline Visualization -->
         
-        <div class="pipeline-flow">
+        <div class="pipeline-section">
+            <!-- Tabs -->
+            <div class="pipeline-tabs">
+                <button class="pipeline-tab-btn active" onclick="switchPipelineTab('pipeline')">
+                    🔄 Pipeline
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('tutorials')">
+                    📚 Tutorials
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('code')">
+                    💻 Code
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('colab')">
+                    🚀 Colab
+                </button>
+            </div>
+            
+            <!-- Tab 1: Pipeline (default) -->
+            <div id="pipeline-tab" class="pipeline-tab-content active">
+                <div class="pipeline-flow">
             <!-- Step 1: Text Input -->
             <div class="step step-fixed">
                 <div class="step-icon">📝</div>
@@ -937,7 +1254,228 @@
             <div class="step step-result">
                 <div class="step-icon">✨</div>
                 <div class="step-title">Results</div>
-                <div class="step-detail">96-98% accuracy</div>
+                <div class="step-detail">90-98% accuracy</div>
+            </div>
+                </div>
+            </div>
+            
+            <!-- Tab 2: Tutorials -->
+            <div id="tutorials-tab" class="pipeline-tab-content">
+
+                <div class="tutorials-container">
+                    <!-- BERT Models Section -->
+                    <div class="tutorial-section">
+                        <h2>🤖 BERT Model Variants</h2>
+                        
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">🧠</div>
+                            <div class="tutorial-body-compact">
+                                <h3>BERT-base (bert-base-uncased)</h3>
+                                <p class="tutorial-desc-compact">
+                                    <strong>Bidirectional Encoder Representations from Transformers</strong> - Base version with 12 transformer layers.
+                                    Pre-trained on massive text corpora using masked language modeling (MLM) and next sentence prediction (NSP).
+                                </p>
+                                <p class="tutorial-formula">
+                                    <strong>Architecture:</strong> 12 layers, 768 hidden size, 12 attention heads, 109.5M parameters
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://huggingface.co/bert-base-uncased" target="_blank" class="tutorial-link">
+                                        🤗 Hugging Face Model Card
+                                    </a>
+                                    <a href="https://arxiv.org/abs/1810.04805" target="_blank" class="tutorial-link">
+                                        📄 Original BERT Paper
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">⚡</div>
+                            <div class="tutorial-body-compact">
+                                <h3>DistilBERT (distilbert-base-uncased)</h3>
+                                <p class="tutorial-desc-compact">
+                                    Distilled version of BERT - <strong>40% smaller, 60% faster</strong>, retains 97% of BERT's performance.
+                                    Uses knowledge distillation during pre-training to compress the model.
+                                </p>
+                                <p class="tutorial-formula">
+                                    <strong>Architecture:</strong> 6 layers, 768 hidden size, 12 attention heads, 66.4M parameters
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://huggingface.co/distilbert-base-uncased" target="_blank" class="tutorial-link">
+                                        🤗 Hugging Face Model Card
+                                    </a>
+                                    <a href="https://arxiv.org/abs/1910.01108" target="_blank" class="tutorial-link">
+                                        📄 DistilBERT Paper
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">🚀</div>
+                            <div class="tutorial-body-compact">
+                                <h3>TinyBERT (huawei-noah/TinyBERT_General_4L_312D)</h3>
+                                <p class="tutorial-desc-compact">
+                                    Ultra-compact BERT - <strong>87% smaller, 7.5x faster inference</strong>.
+                                    Uses two-stage knowledge distillation (general + task-specific) for extreme compression.
+                                </p>
+                                <p class="tutorial-formula">
+                                    <strong>Architecture:</strong> 4 layers, 312 hidden size, 12 attention heads, 14.4M parameters
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://huggingface.co/huawei-noah/TinyBERT_General_4L_312D" target="_blank" class="tutorial-link">
+                                        🤗 Hugging Face Model Card
+                                    </a>
+                                    <a href="https://arxiv.org/abs/1909.10351" target="_blank" class="tutorial-link">
+                                        📄 TinyBERT Paper
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pooling Strategies Section -->
+                    <div class="tutorial-section">
+                        <h2>🎯 Pooling Strategies</h2>
+                        
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">📌</div>
+                            <div class="tutorial-body-compact">
+                                <h3>CLS Token Pooling</h3>
+                                <p class="tutorial-desc-compact">
+                                    Uses the final hidden state of the special [CLS] token (first token).
+                                    BERT is pre-trained to encode sentence-level information in this token.
+                                </p>
+                                <p class="tutorial-formula">
+                                    <strong>Formula:</strong> output = last_hidden_state[0, :]  (shape: [batch_size, hidden_size])
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://huggingface.co/docs/transformers/main_classes/output#transformers.modeling_outputs.BaseModelOutputWithPoolingAndCrossAttentions" target="_blank" class="tutorial-link">
+                                        📚 Transformers Output Documentation
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">🔵</div>
+                            <div class="tutorial-body-compact">
+                                <h3>Pooler Output</h3>
+                                <p class="tutorial-desc-compact">
+                                    Takes [CLS] token hidden state and passes through additional dense layer + tanh activation.
+                                    Provides a refined sentence representation optimized during pre-training.
+                                </p>
+                                <p class="tutorial-formula">
+                                    <strong>Formula:</strong> output = tanh(dense(last_hidden_state[0, :]))
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://huggingface.co/docs/transformers/main_classes/output#transformers.modeling_outputs.BaseModelOutputWithPoolingAndCrossAttentions.pooler_output" target="_blank" class="tutorial-link">
+                                        📚 Pooler Output Documentation
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-card-compact">
+                            <div class="tutorial-icon-compact">📊</div>
+                            <div class="tutorial-body-compact">
+                                <h3>Mean Pooling</h3>
+                                <p class="tutorial-desc-compact">
+                                    Averages hidden states across all tokens (excluding padding).
+                                    Captures information from entire sequence, not just [CLS] token.
+                                </p>
+                                <p class="tutorial-formula">
+                                    <strong>Formula:</strong> output = mean(last_hidden_state * attention_mask) / sum(attention_mask)
+                                </p>
+                                <div class="tutorial-links">
+                                    <a href="https://www.sbert.net/examples/applications/computing-embeddings/README.html#sentence-embeddings-with-transformers" target="_blank" class="tutorial-link">
+                                        📚 Mean Pooling Guide
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Tab 3: Code -->
+            <div id="code-tab" class="pipeline-tab-content">
+
+                <div class="code-container">
+                    <h3>📝 Python Implementation</h3>
+                    <p class="code-description">
+                        Complete code to fine-tune BERT models (BERT-base, DistilBERT, TinyBERT) with different pooling strategies
+                        for BBC News classification.
+                    </p>
+                    
+                    <div class="code-actions-top">
+                        <button class="btn-copy-code-compact" onclick="copyCode()">📋 Copy</button>
+                        <a href="code/bbc_bert_finetuning.py" download class="btn-download-code-compact">⬇️ Download</a>
+                    </div>
+                    
+                    <div class="code-loading">⏳ Loading code...</div>
+                    <div id="code-block-container">
+                        <pre style="display: none;"><code id="python-code" class="language-python"></code></pre>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Tab 4: Colab -->
+            <div id="colab-tab" class="pipeline-tab-content">
+
+                <div class="colab-container">
+                    <div class="colab-header">
+                        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style="height: 40px;">
+                        <h3>🚀 Run in Google Colab</h3>
+                    </div>
+                    
+                    <p class="colab-description">
+                        Open this notebook in Google Colab to experiment with BERT fine-tuning for text classification.
+                        Includes all 8 configurations (3 models × 3 pooling strategies).
+                    </p>
+                    
+                    <div class="colab-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Free GPU/TPU access</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Pre-installed libraries</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Interactive execution</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Modify & experiment</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/04_Natural_Language_Processing/text_classification/notebooks/bbc_bert_finetuning.ipynb" 
+                       target="_blank" 
+                       class="colab-button">
+                        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab">
+                        Open Notebook in Colab
+                    </a>
+                    
+                    <div class="colab-info">
+                        <h4>📚 What's included:</h4>
+                        <ul>
+                            <li>Dataset loading and preprocessing (BBC News)</li>
+                            <li>Tokenization with BERT tokenizers</li>
+                            <li>Model fine-tuning for 8 configurations</li>
+                            <li>Training with PyTorch/Transformers</li>
+                            <li>Evaluation metrics and confusion matrices</li>
+                            <li>Pooling strategy comparisons</li>
+                            <li>Model performance analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -3262,6 +3800,95 @@
     }
     
 
+    // Tab switching function
+    function switchPipelineTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.pipeline-tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Remove active from all buttons
+        document.querySelectorAll('.pipeline-tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.add('active');
+        
+        // Activate button
+        event.target.classList.add('active');
+    }
+    
+    // Code loading and display
+    let codeLoaded = false;
+    let pythonCode = '';
+    
+    // Auto-load code when Code tab is opened
+    document.addEventListener('DOMContentLoaded', function() {
+        // Observer for Code tab visibility
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const codeTab = document.getElementById('code-tab');
+                    if (codeTab && codeTab.classList.contains('active') && !codeLoaded) {
+                        loadCode();
+                    }
+                }
+            });
+        });
+        
+        const codeTab = document.getElementById('code-tab');
+        if (codeTab) {
+            observer.observe(codeTab, { attributes: true });
+        }
+    });
+    
+    async function loadCode() {
+        const loading = document.querySelector('.code-loading');
+        const pre = document.querySelector('#code-block-container pre');
+        const codeElement = document.getElementById('python-code');
+        
+        try {
+            const response = await fetch('code/bbc_bert_finetuning.py');
+            if (!response.ok) throw new Error('Failed to load code');
+            pythonCode = await response.text();
+            codeElement.textContent = pythonCode;
+            
+            // Highlight with Prism
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightElement(codeElement);
+            }
+            
+            loading.style.display = 'none';
+            pre.style.display = 'block';
+            codeLoaded = true;
+        } catch (error) {
+            loading.textContent = '❌ Failed to load code. File may not exist yet.';
+            console.error(error);
+        }
+    }
+    
+    function copyCode() {
+        if (!pythonCode) {
+            alert('Please show the code first!');
+            return;
+        }
+        
+        navigator.clipboard.writeText(pythonCode).then(() => {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.style.background = '#28a745';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Failed to copy code');
+        });
+    }
+    
     // Initialize on load
     renderMethodSelector();
     
