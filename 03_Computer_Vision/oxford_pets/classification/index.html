@@ -5,283 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classification - Oxford Pets | AI Learning Hub</title>
     
+    <!-- Load shared components from centralized library -->
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/themes/default.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/comparison.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/code-examples.css">
+    
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-        }
-        
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .navbar .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: #667eea;
-        }
-        
-        .hero {
-            background: var(--primary-gradient);
+        /* Custom styles for this page */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1.5rem 2rem;
+            padding: 3rem 0;
             text-align: center;
         }
         
-        .hero h1 {
-            font-size: 2rem;
-            margin-bottom: 0.3rem;
-            color: #ffffff;
-            font-weight: 700;
-        }
-        
-        .hero p {
-            font-size: 1rem;
-            color: #f0f0f0;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        
-        .stats-grid {
+        .hero-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
-            max-width: 900px;
-            margin: 0.5rem auto 0;
+            max-width: 800px;
+            margin: 2rem auto 0;
         }
         
-        .stat-card {
+        .hero-stat {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
-            padding: 0.75rem;
-            border-radius: 8px;
+            padding: 1rem;
+            border-radius: var(--ai-radius-lg);
             text-align: center;
         }
         
-        .stat-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.2rem;
-            color: #ffffff;
-            font-weight: 700;
+        .hero-stat h3 {
+            font-size: var(--ai-font-size-2xl);
+            margin-bottom: 0.5rem;
+            color: white;
         }
         
-        .stat-card p {
-            color: #f0f0f0;
-            font-weight: 500;
-            font-size: 0.9rem;
+        .hero-stat p {
+            color: rgba(255,255,255,0.9);
+            font-size: var(--ai-font-size-sm);
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        .section {
-            margin: 4rem 0;
-        }
-        
-        .section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-        
-        .section-description {
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .cards-grid {
+        .models-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        @media (max-width: 768px) {
-            .cards-grid {
-                grid-template-columns: 1fr;
-                max-width: 500px;
-            }
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--ai-spacing-lg);
+            margin: var(--ai-spacing-xl) 0;
         }
         
         .model-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-            cursor: pointer;
+            background: var(--ai-bg);
+            border: 1px solid var(--ai-border);
+            border-radius: var(--ai-radius-lg);
+            padding: var(--ai-spacing-lg);
+            transition: all var(--ai-transition-normal);
             text-decoration: none;
             color: inherit;
             display: block;
-            border: 2px solid transparent;
         }
         
         .model-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: var(--ai-shadow-lg);
+            border-color: var(--ai-primary);
         }
         
-        .model-card .icon {
+        .model-icon {
             font-size: 2.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .model-card h3 {
-            color: #667eea;
-            margin-bottom: 0.75rem;
-            font-size: 1.25rem;
-        }
-        
-        .model-card .description {
-            color: #666;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .model-card .metrics {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.4rem;
-            margin: 1rem 0;
-        }
-        
-        .metric-item {
-            background: #f8f9fa;
-            padding: 0.4rem 0.6rem;
-            border-radius: 5px;
-            font-size: 0.85rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .metric-label {
-            color: #666;
-            font-size: 0.8rem;
-        }
-        
-        .metric-value {
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-        }
-        
-        .badge-primary {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .badge-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        footer {
-            background: #1f2937;
-            color: white;
+            margin-bottom: var(--ai-spacing-md);
             text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+        }
+        
+        .model-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--ai-spacing-sm);
+            margin: var(--ai-spacing-md) 0;
+        }
+        
+        .model-metric {
+            background: var(--ai-bg-light);
+            padding: var(--ai-spacing-sm);
+            border-radius: var(--ai-radius-sm);
+            text-align: center;
+        }
+        
+        .model-metric-label {
+            font-size: var(--ai-font-size-xs);
+            color: var(--ai-text-light);
+            margin-bottom: var(--ai-spacing-xs);
+        }
+        
+        .model-metric-value {
+            font-size: var(--ai-font-size-lg);
+            font-weight: var(--ai-font-weight-bold);
+            color: var(--ai-primary);
+        }
+        
+        .model-badges {
+            display: flex;
+            gap: var(--ai-spacing-xs);
+            flex-wrap: wrap;
+            margin-top: var(--ai-spacing-md);
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="../../index.html" class="brand">📚 AI Learning Hub</a>
-            <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../../01_Data_Analysis/">Data Analysis</a></li>
-                <li><a href="../../02_Machine_Learning/">Machine Learning</a></li>
-                <li><a href="../index.html">Computer Vision</a></li>
-                <li><a href="index.html" class="active">Classification</a></li>
-            </ul>
+    <!-- Navigation -->
+    <nav class="ai-nav">
+        <div class="ai-container">
+            <a href="../../index.html" class="ai-brand">📚 AI Learning Hub</a>
+            <div class="ai-nav-links">
+                <a href="../../index.html" class="ai-nav-item">Home</a>
+                <a href="../../01_Data_Analysis/" class="ai-nav-item">Data Analysis</a>
+                <a href="../../02_Machine_Learning/" class="ai-nav-item">Machine Learning</a>
+                <a href="../index.html" class="ai-nav-item">Computer Vision</a>
+                <a href="index.html" class="ai-nav-item active">Classification</a>
+            </div>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="container">
-            <h1>📊 Breed Classification</h1>
-            <p>37-class breed classification using CNN architectures and transfer learning</p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="ai-container">
+            <h1 class="ai-heading-1">📊 Breed Classification</h1>
+            <p class="ai-text" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;">
+                37-class breed classification using CNN architectures and transfer learning
+            </p>
             
-            <div class="stats-grid">
-                <div class="stat-card">
+            <div class="hero-stats">
+                <div class="hero-stat">
                     <h3>37</h3>
                     <p>Breeds</p>
                 </div>
-                <div class="stat-card">
+                <div class="hero-stat">
                     <h3>7,393</h3>
                     <p>Images</p>
                 </div>
-                <div class="stat-card">
+                <div class="hero-stat">
                     <h3>8</h3>
                     <p>Models</p>
                 </div>
-                <div class="stat-card">
+                <div class="hero-stat">
                     <h3>95.2%</h3>
                     <p>Best Accuracy</p>
                 </div>
@@ -289,144 +154,322 @@
         </div>
     </section>
 
-    <div class="container">
-        <!-- Models Grid -->
-        <section class="section">
-            <h2>🎯 Explore All Models</h2>
-            <p class="section-description">
+    <div class="ai-container">
+        <!-- Models Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2">🎯 Explore All Models</h2>
+            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;">
                 Compare different CNN architectures and transfer learning approaches
             </p>
             
-            <div class="cards-grid">
+            <div class="models-grid">
                 <!-- ResNet50 -->
                 <a href="resnet50/index.html" class="model-card">
-                    <div class="icon">🏆</div>
-                    <h3>ResNet50</h3>
-                    <p class="description">
+                    <div class="model-icon">🏆</div>
+                    <h3 class="ai-heading-3">ResNet50</h3>
+                    <p class="ai-text">
                         Deep residual network with 50 layers, excellent for transfer learning
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Accuracy</div>
-                            <div class="metric-value">95.2%</div>
+                    <div class="model-metrics">
+                        <div class="model-metric">
+                            <div class="model-metric-label">Accuracy</div>
+                            <div class="model-metric-value">95.2%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Parameters</div>
-                            <div class="metric-value">25.6M</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Parameters</div>
+                            <div class="model-metric-value">25.6M</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Training Time</div>
-                            <div class="metric-value">45min</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Training Time</div>
+                            <div class="model-metric-value">45min</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Model Size</div>
-                            <div class="metric-value">98MB</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Model Size</div>
+                            <div class="model-metric-value">98MB</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Best</span>
-                        <span class="badge badge-primary">✓ Transfer</span>
+                    <div class="model-badges">
+                        <span class="ai-badge ai-badge-success">✓ Best</span>
+                        <span class="ai-badge ai-badge-info">✓ Transfer</span>
                     </div>
                 </a>
                 
                 <!-- EfficientNet -->
                 <a href="efficientnet/index.html" class="model-card">
-                    <div class="icon">⚡</div>
-                    <h3>EfficientNet-B3</h3>
-                    <p class="description">
+                    <div class="model-icon">⚡</div>
+                    <h3 class="ai-heading-3">EfficientNet-B3</h3>
+                    <p class="ai-text">
                         Efficient architecture balancing accuracy and computational cost
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Accuracy</div>
-                            <div class="metric-value">94.8%</div>
+                    <div class="model-metrics">
+                        <div class="model-metric">
+                            <div class="model-metric-label">Accuracy</div>
+                            <div class="model-metric-value">94.8%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Parameters</div>
-                            <div class="metric-value">12.3M</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Parameters</div>
+                            <div class="model-metric-value">12.3M</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Training Time</div>
-                            <div class="metric-value">32min</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Training Time</div>
+                            <div class="model-metric-value">32min</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Model Size</div>
-                            <div class="metric-value">47MB</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Model Size</div>
+                            <div class="model-metric-value">47MB</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Efficient</span>
-                        <span class="badge badge-primary">✓ Fast</span>
+                    <div class="model-badges">
+                        <span class="ai-badge ai-badge-success">✓ Efficient</span>
+                        <span class="ai-badge ai-badge-info">✓ Fast</span>
                     </div>
                 </a>
                 
                 <!-- Vision Transformer -->
                 <a href="vit/index.html" class="model-card">
-                    <div class="icon">🔬</div>
-                    <h3>ViT-Base</h3>
-                    <p class="description">
+                    <div class="model-icon">🔬</div>
+                    <h3 class="ai-heading-3">ViT-Base</h3>
+                    <p class="ai-text">
                         Vision Transformer using attention mechanisms for image classification
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Accuracy</div>
-                            <div class="metric-value">93.5%</div>
+                    <div class="model-metrics">
+                        <div class="model-metric">
+                            <div class="model-metric-label">Accuracy</div>
+                            <div class="model-metric-value">93.5%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Parameters</div>
-                            <div class="metric-value">86.4M</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Parameters</div>
+                            <div class="model-metric-value">86.4M</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Training Time</div>
-                            <div class="metric-value">78min</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Training Time</div>
+                            <div class="model-metric-value">78min</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Model Size</div>
-                            <div class="metric-value">331MB</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Model Size</div>
+                            <div class="model-metric-value">331MB</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Modern</span>
-                        <span class="badge badge-primary">✓ Attention</span>
+                    <div class="model-badges">
+                        <span class="ai-badge ai-badge-success">✓ Modern</span>
+                        <span class="ai-badge ai-badge-info">✓ Attention</span>
                     </div>
                 </a>
                 
                 <!-- MobileNet -->
                 <a href="mobilenet/index.html" class="model-card">
-                    <div class="icon">📱</div>
-                    <h3>MobileNetV3</h3>
-                    <p class="description">
+                    <div class="model-icon">📱</div>
+                    <h3 class="ai-heading-3">MobileNetV3</h3>
+                    <p class="ai-text">
                         Lightweight architecture optimized for mobile and edge devices
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Accuracy</div>
-                            <div class="metric-value">91.2%</div>
+                    <div class="model-metrics">
+                        <div class="model-metric">
+                            <div class="model-metric-label">Accuracy</div>
+                            <div class="model-metric-value">91.2%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Parameters</div>
-                            <div class="metric-value">5.5M</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Parameters</div>
+                            <div class="model-metric-value">5.5M</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Training Time</div>
-                            <div class="metric-value">18min</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Training Time</div>
+                            <div class="model-metric-value">18min</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Model Size</div>
-                            <div class="metric-value">21MB</div>
+                        <div class="model-metric">
+                            <div class="model-metric-label">Model Size</div>
+                            <div class="model-metric-value">21MB</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Lightweight</span>
-                        <span class="badge badge-primary">✓ Mobile</span>
+                    <div class="model-badges">
+                        <span class="ai-badge ai-badge-success">✓ Lightweight</span>
+                        <span class="ai-badge ai-badge-info">✓ Mobile</span>
                     </div>
                 </a>
             </div>
         </section>
+
+        <!-- Comparison Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2">📊 Model Comparison</h2>
+            <p class="ai-text-light" style="margin-bottom: 2rem;">
+                Compare performance metrics across all models
+            </p>
+            
+            <div id="comparison-table"></div>
+        </section>
+
+        <!-- Code Examples Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2">💻 Code Examples</h2>
+            <p class="ai-text-light" style="margin-bottom: 2rem;">
+                Learn how to implement these models with step-by-step code examples
+            </p>
+            
+            <div id="code-examples"></div>
+        </section>
     </div>
 
-    <footer>
+    <!-- Footer -->
+    <footer style="background: var(--ai-bg-dark); color: var(--ai-text); text-align: center; padding: 2rem; margin-top: 4rem;">
         <p>&copy; 2025 AI Learning Hub - Educational content for AI enthusiasts</p>
     </footer>
+
+    <!-- Load shared components JavaScript from centralized library -->
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/CodeExamples.js"></script>
+    
+    <script>
+        // Initialize components when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize comparison table
+            const comparisonTable = new AIComparisonTable('comparison-table', {
+                theme: 'default',
+                showTabs: true,
+                showMetrics: true,
+                showWalkthrough: true
+            });
+            
+            // Load comparison data
+            const comparisonData = {
+                'performance': {
+                    'ResNet50': { accuracy: 0.952, precision: 0.948, recall: 0.951, f1_score: 0.949 },
+                    'EfficientNet-B3': { accuracy: 0.948, precision: 0.945, recall: 0.943, f1_score: 0.944 },
+                    'ViT-Base': { accuracy: 0.935, precision: 0.932, recall: 0.930, f1_score: 0.931 },
+                    'MobileNetV3': { accuracy: 0.912, precision: 0.908, recall: 0.905, f1_score: 0.906 }
+                },
+                'efficiency': {
+                    'ResNet50': { training_time: 45, prediction_time: 0.8, memory_usage: 98 },
+                    'EfficientNet-B3': { training_time: 32, prediction_time: 0.6, memory_usage: 47 },
+                    'ViT-Base': { training_time: 78, prediction_time: 1.2, memory_usage: 331 },
+                    'MobileNetV3': { training_time: 18, prediction_time: 0.3, memory_usage: 21 }
+                }
+            };
+            
+            comparisonTable.loadData(comparisonData);
+            
+            // Initialize code examples
+            const codeExamples = new AICodeExamples('code-examples', {
+                theme: 'default',
+                showColab: true,
+                showWalkthrough: true,
+                showCopyButton: true
+            });
+            
+            // Load code examples data
+            const codeData = {
+                tabs: [
+                    { id: 'setup', name: 'Setup' },
+                    { id: 'training', name: 'Training' },
+                    { id: 'evaluation', name: 'Evaluation' }
+                ],
+                codeBlocks: [
+                    {
+                        id: 'setup',
+                        filename: 'setup.py',
+                        code: `import torch
+import torchvision
+from torchvision import transforms
+from torch.utils.data import DataLoader
+
+# Set device
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# Define transforms
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])
+
+# Load dataset
+dataset = torchvision.datasets.OxfordIIITPet(
+    root='./data',
+    split='train',
+    download=True,
+    transform=transform
+)`
+                    },
+                    {
+                        id: 'training',
+                        filename: 'train.py',
+                        code: `import torch.nn as nn
+import torch.optim as optim
+from torchvision import models
+
+# Load pre-trained model
+model = models.resnet50(pretrained=True)
+model.fc = nn.Linear(model.fc.in_features, 37)  # 37 classes
+model = model.to(device)
+
+# Define loss and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# Training loop
+for epoch in range(10):
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(device), target.to(device)
+        optimizer.zero_grad()
+        output = model(data)
+        loss = criterion(output, target)
+        loss.backward()
+        optimizer.step()`
+                    },
+                    {
+                        id: 'evaluation',
+                        filename: 'evaluate.py',
+                        code: `from sklearn.metrics import accuracy_score, classification_report
+import torch.nn.functional as F
+
+# Evaluation function
+def evaluate_model(model, test_loader):
+    model.eval()
+    all_preds = []
+    all_targets = []
+    
+    with torch.no_grad():
+        for data, target in test_loader:
+            data, target = data.to(device), target.to(device)
+            output = model(data)
+            pred = output.argmax(dim=1)
+            all_preds.extend(pred.cpu().numpy())
+            all_targets.extend(target.cpu().numpy())
+    
+    accuracy = accuracy_score(all_targets, all_preds)
+    report = classification_report(all_targets, all_preds)
+    
+    return accuracy, report`
+                    }
+                ],
+                colabUrl: 'https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/03_Computer_Vision/oxford_pets/classification/notebook.ipynb',
+                githubUrl: 'https://github.com/LTSACH/AILearningHub/tree/main/03_Computer_Vision/oxford_pets/classification',
+                steps: [
+                    {
+                        title: 'Dataset Setup',
+                        description: 'Learn how to load and preprocess the Oxford Pets dataset for classification.',
+                        code: 'import torchvision
+dataset = torchvision.datasets.OxfordIIITPet(...)'
+                    },
+                    {
+                        title: 'Model Training',
+                        description: 'Understand the training process for CNN models with transfer learning.',
+                        code: 'model = models.resnet50(pretrained=True)
+model.fc = nn.Linear(model.fc.in_features, 37)'
+                    },
+                    {
+                        title: 'Evaluation',
+                        description: 'Learn how to evaluate model performance and interpret results.',
+                        code: 'accuracy = accuracy_score(y_true, y_pred)
+report = classification_report(y_true, y_pred)'
+                    }
+                ]
+            };
+            
+            codeExamples.loadData(codeData);
+        });
+    </script>
 </body>
 </html>

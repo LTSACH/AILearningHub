@@ -1,0 +1,125 @@
+/* AI Report Components - Dark Theme */
+:root {
+    /* Override colors for dark theme */
+    --ai-bg: #1e293b;
+    --ai-bg-light: #334155;
+    --ai-bg-dark: #0f172a;
+    --ai-text: #f1f5f9;
+    --ai-text-light: #cbd5e1;
+    --ai-text-dark: #ffffff;
+    --ai-border: #475569;
+    --ai-border-light: #64748b;
+    --ai-border-dark: #334155;
+    
+    /* Adjust primary colors for dark theme */
+    --ai-primary: #8b5cf6;
+    --ai-primary-light: #a78bfa;
+    --ai-primary-dark: #7c3aed;
+    
+    /* Status colors remain the same but with better contrast */
+    --ai-success: #10b981;
+    --ai-success-light: #34d399;
+    --ai-success-dark: #059669;
+    
+    --ai-warning: #f59e0b;
+    --ai-warning-light: #fbbf24;
+    --ai-warning-dark: #d97706;
+    
+    --ai-error: #ef4444;
+    --ai-error-light: #f87171;
+    --ai-error-dark: #dc2626;
+    
+    --ai-info: #3b82f6;
+    --ai-info-light: #60a5fa;
+    --ai-info-dark: #2563eb;
+}
+
+/* Dark theme specific overrides */
+.ai-card {
+    background: var(--ai-bg);
+    border-color: var(--ai-border);
+    color: var(--ai-text);
+}
+
+.ai-card:hover {
+    background: var(--ai-bg-light);
+    border-color: var(--ai-border-light);
+}
+
+/* Dark theme for code blocks */
+.ai-code-block {
+    background: var(--ai-bg-dark);
+    border: 1px solid var(--ai-border);
+    color: var(--ai-text);
+}
+
+/* Dark theme for tables */
+.ai-table {
+    background: var(--ai-bg);
+    color: var(--ai-text);
+}
+
+.ai-table th {
+    background: var(--ai-bg-light);
+    color: var(--ai-text);
+    border-color: var(--ai-border);
+}
+
+.ai-table td {
+    border-color: var(--ai-border);
+}
+
+/* Dark theme for buttons */
+.ai-btn-outline {
+    color: var(--ai-primary-light);
+    border-color: var(--ai-primary-light);
+}
+
+.ai-btn-outline:hover {
+    background: var(--ai-primary);
+    color: var(--ai-bg);
+}
+
+/* Dark theme for form elements */
+.ai-input {
+    background: var(--ai-bg-light);
+    border-color: var(--ai-border);
+    color: var(--ai-text);
+}
+
+.ai-input:focus {
+    border-color: var(--ai-primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Dark theme for modals */
+.ai-modal {
+    background: var(--ai-bg);
+    border: 1px solid var(--ai-border);
+    color: var(--ai-text);
+}
+
+.ai-modal-header {
+    background: var(--ai-bg-light);
+    border-bottom-color: var(--ai-border);
+}
+
+/* Dark theme for navigation */
+.ai-nav {
+    background: var(--ai-bg);
+    border-color: var(--ai-border);
+}
+
+.ai-nav-item {
+    color: var(--ai-text-light);
+}
+
+.ai-nav-item:hover {
+    color: var(--ai-text);
+    background: var(--ai-bg-light);
+}
+
+.ai-nav-item.active {
+    color: var(--ai-primary-light);
+    background: var(--ai-bg-light);
+}

@@ -1,0 +1,200 @@
+/* AI Report Components - Minimal Theme */
+:root {
+    /* Minimal color palette */
+    --ai-primary: #2563eb;
+    --ai-primary-light: #3b82f6;
+    --ai-primary-dark: #1d4ed8;
+    
+    --ai-success: #059669;
+    --ai-success-light: #10b981;
+    --ai-success-dark: #047857;
+    
+    --ai-warning: #d97706;
+    --ai-warning-light: #f59e0b;
+    --ai-warning-dark: #b45309;
+    
+    --ai-error: #dc2626;
+    --ai-error-light: #ef4444;
+    --ai-error-dark: #b91c1c;
+    
+    --ai-info: #0891b2;
+    --ai-info-light: #06b6d4;
+    --ai-info-dark: #0e7490;
+    
+    /* Minimal neutral colors */
+    --ai-bg: #ffffff;
+    --ai-bg-light: #fafafa;
+    --ai-bg-dark: #f5f5f5;
+    --ai-text: #171717;
+    --ai-text-light: #737373;
+    --ai-text-dark: #0a0a0a;
+    --ai-border: #e5e5e5;
+    --ai-border-light: #f5f5f5;
+    --ai-border-dark: #d4d4d4;
+    
+    /* Reduced spacing for minimal design */
+    --ai-spacing-xs: 0.125rem;
+    --ai-spacing-sm: 0.25rem;
+    --ai-spacing-md: 0.5rem;
+    --ai-spacing-lg: 1rem;
+    --ai-spacing-xl: 1.5rem;
+    --ai-spacing-2xl: 2rem;
+    
+    /* Minimal typography */
+    --ai-font-size-xs: 0.75rem;
+    --ai-font-size-sm: 0.875rem;
+    --ai-font-size-base: 0.875rem;
+    --ai-font-size-lg: 1rem;
+    --ai-font-size-xl: 1.125rem;
+    --ai-font-size-2xl: 1.25rem;
+    --ai-font-size-3xl: 1.5rem;
+    
+    /* Minimal shadows */
+    --ai-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --ai-shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --ai-shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --ai-shadow-xl: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Minimal card design */
+.ai-card {
+    background: var(--ai-bg);
+    border: 1px solid var(--ai-border);
+    border-radius: var(--ai-radius-sm);
+    box-shadow: none;
+    padding: var(--ai-spacing-lg);
+}
+
+.ai-card:hover {
+    box-shadow: var(--ai-shadow-sm);
+    transform: none;
+}
+
+/* Minimal buttons */
+.ai-btn {
+    padding: var(--ai-spacing-sm) var(--ai-spacing-md);
+    border-radius: var(--ai-radius-sm);
+    font-weight: var(--ai-font-weight-normal);
+    border-width: 1px;
+}
+
+.ai-btn-primary {
+    background: var(--ai-primary);
+    border-color: var(--ai-primary);
+}
+
+.ai-btn-primary:hover {
+    background: var(--ai-primary-dark);
+    border-color: var(--ai-primary-dark);
+    transform: none;
+    box-shadow: var(--ai-shadow-sm);
+}
+
+/* Minimal typography */
+.ai-heading-1 {
+    font-size: var(--ai-font-size-2xl);
+    font-weight: var(--ai-font-weight-semibold);
+    margin-bottom: var(--ai-spacing-md);
+}
+
+.ai-heading-2 {
+    font-size: var(--ai-font-size-xl);
+    font-weight: var(--ai-font-weight-medium);
+    margin-bottom: var(--ai-spacing-sm);
+}
+
+.ai-heading-3 {
+    font-size: var(--ai-font-size-lg);
+    font-weight: var(--ai-font-weight-medium);
+    margin-bottom: var(--ai-spacing-sm);
+}
+
+/* Minimal badges */
+.ai-badge {
+    padding: var(--ai-spacing-xs) var(--ai-spacing-sm);
+    border-radius: var(--ai-radius-sm);
+    font-size: var(--ai-font-size-xs);
+    font-weight: var(--ai-font-weight-normal);
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+/* Minimal form elements */
+.ai-input {
+    border: 1px solid var(--ai-border);
+    border-radius: var(--ai-radius-sm);
+    padding: var(--ai-spacing-sm) var(--ai-spacing-md);
+    font-size: var(--ai-font-size-sm);
+    background: var(--ai-bg);
+    color: var(--ai-text);
+}
+
+.ai-input:focus {
+    border-color: var(--ai-primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+/* Minimal tables */
+.ai-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: var(--ai-font-size-sm);
+}
+
+.ai-table th,
+.ai-table td {
+    padding: var(--ai-spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--ai-border);
+}
+
+.ai-table th {
+    background: var(--ai-bg-light);
+    font-weight: var(--ai-font-weight-medium);
+    color: var(--ai-text-dark);
+}
+
+/* Minimal navigation */
+.ai-nav {
+    background: var(--ai-bg);
+    border-bottom: 1px solid var(--ai-border);
+}
+
+.ai-nav-item {
+    padding: var(--ai-spacing-sm) var(--ai-spacing-md);
+    color: var(--ai-text-light);
+    text-decoration: none;
+    border-radius: var(--ai-radius-sm);
+    transition: all var(--ai-transition-fast);
+}
+
+.ai-nav-item:hover {
+    color: var(--ai-text);
+    background: var(--ai-bg-light);
+}
+
+.ai-nav-item.active {
+    color: var(--ai-primary);
+    background: var(--ai-bg-light);
+}
+
+/* Minimal spacing */
+.ai-section {
+    margin: var(--ai-spacing-lg) 0;
+}
+
+.ai-container {
+    padding: 0 var(--ai-spacing-md);
+}
+
+/* Remove unnecessary visual elements */
+.ai-card::before,
+.ai-card::after {
+    display: none;
+}
+
+.ai-btn::before,
+.ai-btn::after {
+    display: none;
+}
