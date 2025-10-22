@@ -1,8 +1,8 @@
-/* Hero Section Component */
+/* Hero Section Component - BBC News Style */
 .ai-hero {
-    background: var(--ai-bg-dark);
+    background: var(--ai-bg);
     color: var(--ai-text);
-    padding: var(--ai-spacing-2xl) 0;
+    padding: var(--ai-spacing-lg) 0;
     text-align: center;
 }
 
@@ -13,16 +13,16 @@
 }
 
 .ai-hero-title {
-    font-size: var(--ai-font-size-3xl);
+    font-size: var(--ai-font-size-2xl);
     font-weight: var(--ai-font-weight-bold);
-    color: var(--ai-text);
-    margin-bottom: var(--ai-spacing-md);
+    color: var(--ai-text-dark);
+    margin-bottom: var(--ai-spacing-sm);
 }
 
 .ai-hero-subtitle {
-    font-size: var(--ai-font-size-lg);
+    font-size: var(--ai-font-size-base);
     color: var(--ai-text-light);
-    margin-bottom: var(--ai-spacing-xl);
+    margin-bottom: var(--ai-spacing-md);
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -30,34 +30,34 @@
 
 .ai-hero-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: var(--ai-spacing-md);
-    max-width: 600px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: var(--ai-spacing-sm);
+    max-width: 500px;
     margin: 0 auto;
 }
 
 .ai-hero-stat {
     background: var(--ai-bg-light);
-    padding: var(--ai-spacing-md);
-    border-radius: var(--ai-radius-md);
+    padding: var(--ai-spacing-sm);
+    border-radius: var(--ai-radius-sm);
     text-align: center;
     border: 1px solid var(--ai-border);
 }
 
 .ai-hero-stat-value {
-    font-size: var(--ai-font-size-xl);
+    font-size: var(--ai-font-size-lg);
     font-weight: var(--ai-font-weight-bold);
     color: var(--ai-primary);
     margin-bottom: var(--ai-spacing-xs);
 }
 
 .ai-hero-stat-label {
-    font-size: var(--ai-font-size-sm);
+    font-size: var(--ai-font-size-xs);
     color: var(--ai-text-light);
     font-weight: var(--ai-font-weight-medium);
 }
 
-/* Hero with gradient background */
+/* Hero with gradient background - BBC News Style */
 .ai-hero-gradient {
     background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-primary-dark) 100%);
     color: white;
