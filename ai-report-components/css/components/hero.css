@@ -1,9 +1,11 @@
 /* Hero Section Component - BBC News Style */
 .ai-hero {
-    background: var(--ai-bg);
-    color: var(--ai-text);
-    padding: var(--ai-spacing-lg) 0;
+    background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-primary-dark) 100%);
+    color: white;
+    padding: var(--ai-spacing-md) 0;
     text-align: center;
+    margin-bottom: var(--ai-spacing-lg);
+    border-radius: var(--ai-radius-lg);
 }
 
 .ai-hero-container {
@@ -12,16 +14,21 @@
     padding: 0 var(--ai-spacing-lg);
 }
 
+/* Hero should be inside container - no extra margin */
+.ai-hero {
+    margin: 0;
+}
+
 .ai-hero-title {
     font-size: var(--ai-font-size-2xl);
     font-weight: var(--ai-font-weight-bold);
-    color: var(--ai-text-dark);
+    color: white;
     margin-bottom: var(--ai-spacing-sm);
 }
 
 .ai-hero-subtitle {
     font-size: var(--ai-font-size-base);
-    color: var(--ai-text-light);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: var(--ai-spacing-md);
     max-width: 600px;
     margin-left: auto;
@@ -37,23 +44,24 @@
 }
 
 .ai-hero-stat {
-    background: var(--ai-bg-light);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     padding: var(--ai-spacing-sm);
     border-radius: var(--ai-radius-sm);
     text-align: center;
-    border: 1px solid var(--ai-border);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .ai-hero-stat-value {
     font-size: var(--ai-font-size-lg);
     font-weight: var(--ai-font-weight-bold);
-    color: var(--ai-primary);
+    color: white;
     margin-bottom: var(--ai-spacing-xs);
 }
 
 .ai-hero-stat-label {
     font-size: var(--ai-font-size-xs);
-    color: var(--ai-text-light);
+    color: rgba(255, 255, 255, 0.9);
     font-weight: var(--ai-font-weight-medium);
 }
 
