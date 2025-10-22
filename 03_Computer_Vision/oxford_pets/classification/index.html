@@ -784,6 +784,12 @@ transform = transforms.Compose([
                             const value = model.performance[metric];
                             const isBest = isBestInColumn(models, metric, value);
                             const className = isBest ? 'best' : (value >= 0.90 ? 'good' : '');
+                            
+                            // Debug logging
+                            if (isBest) {
+                                console.log(`BEST: ${model.name} - ${metric}: ${(value * 100).toFixed(1)}%`);
+                            }
+                            
                             rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%</span></td>`;
                         });
                         
@@ -836,11 +842,11 @@ transform = transforms.Compose([
                 if (type === 'performance') {
                     // Higher is better for performance metrics
                     const maxValue = Math.max(...models.map(model => model.performance[metric]));
-                    return value === maxValue;
+                    return Math.abs(value - maxValue) < 0.0001; // Floating point tolerance
                 } else if (type === 'resources') {
                     // Lower is better for resource metrics
                     const minValue = Math.min(...models.map(model => model.resources[metric]));
-                    return value === minValue;
+                    return Math.abs(value - minValue) < 0.0001; // Floating point tolerance
                 }
                 return false;
             }
