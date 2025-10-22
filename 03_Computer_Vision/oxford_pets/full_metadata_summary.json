@@ -1,0 +1,16 @@
+{
+  "total_images": 7349,
+  "total_breeds": 37,
+  "total_species": 2,
+  "split_distribution": {
+    "test": 3669,
+    "train": 2941,
+    "val": 739
+  },
+  "species_distribution": {
+    "dog": 4978,
+    "cat": 2371
+  },
+  "bbox_coverage": 49.95237447271737,
+  "trimap_coverage": 100.0
+}

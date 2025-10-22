@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Core EDA - Oxford Pets</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/classification.css">
+    <link rel="stylesheet" href="assets/css/global-menubar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+
+    <!-- Scripts (head) -->
+    
+            <style>
+                .section {
+                    margin-bottom: 3px !important;
+                    border: none !important;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                    padding: 0 !important;  /* Override common.css padding */
+                }
+                
+                .section.collapsed {
+                    margin-bottom: 1px !important;
+                    box-shadow: none !important;
+                    padding: 0 !important;
+                }
+            
+            .section h2 {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px 20px;
+                margin: 0;
+                font-size: 1.4em;
+                cursor: pointer;
+                user-select: none;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .section h2:hover {
+                background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            }
+            
+            .section h2::after {
+                content: '▼';
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: transform 0.3s ease;
+            }
+            
+            .section h2.collapsed::after {
+                transform: translateY(-50%) rotate(-90deg);
+            }
+            
+            .section-content {
+                padding: 20px;
+                background: white;
+                transition: all 0.3s ease;
+                overflow: hidden;
+            }
+            
+            .section-content.collapsed {
+                max-height: 0;
+                padding: 0 20px;
+                opacity: 0;
+            }
+            
+            /* Old section controls removed - using global menubar instead */
+            
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            
+            .table th, .table td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .table th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            .table-striped tbody tr:nth-child(odd) {
+                background-color: #f8f9fa;
+            }
+            
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin: 20px 0;
+            }
+            
+            .stat-card {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            
+            .stat-value {
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .stat-label {
+                font-size: 0.9em;
+                opacity: 0.9;
+            }
+            </style>
+  </head>
+  <body>
+
+    <nav class="navbar">
+              <div class="container">
+                <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
+                <div class="nav-links">
+                  <a href="index.html">Home</a>
+                  <a href="eda_core.html" class="active">Core</a>
+                  <a href="eda_classification.html">Classification</a>
+                  <a href="eda_detection.html">Detection</a>
+                  <a href="eda_segmentation.html">Segmentation</a>
+                </div>
+              </div>
+            </nav>
+
+    <nav class="global-menubar">
+      <div class="menubar-content">
+        <div class="menubar-left">
+          <button class="menubar-btn btn-expand" onclick="expandAll()" title="Expand all sections">
+            📂 Expand All
+          </button>
+          <button class="menubar-btn btn-collapse" onclick="collapseAll()" title="Collapse all sections">
+            📁 Collapse All
+          </button>
+        </div>
+        <div class="menubar-right">
+          <button class="menubar-btn btn-theme" onclick="toggleCodeTheme()" title="Toggle code theme">
+            🌙 Code Theme
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div id="loading-indicator" style="display: none; text-align: center; padding: 2rem; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; margin: 1rem 0; color: #6c757d; font-weight: 500;">
+              <span style="font-size: 1.2em; margin-right: 0.5rem;">⏳</span>Loading core data...
+            </div>
+
+    <div id="error-message" style="display: none; text-align: center; padding: 2rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; margin: 1rem 0; color: #721c24; font-weight: 500;">
+              <span style="font-size: 1.2em; margin-right: 0.5rem;">❌</span>Failed to load core data. Please refresh the page.
+            </div>
+
+    <section class="section expanded" id="section-core-overview">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-core-overview')">
+          <span class="section-title-text">📊 Dataset Overview</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-content">
+          <div class="stat-cards">
+            <div class="stat-card">
+              <h3>7,349</h3>
+              <p>Total Images</p>
+            </div>
+            <div class="stat-card">
+              <h3>37</h3>
+              <p>Breeds</p>
+            </div>
+            <div class="stat-card">
+              <h3>2</h3>
+              <p>Species</p>
+            </div>
+            <div class="stat-card">
+              <h3>754.2 MB</h3>
+              <p>Total Size</p>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🎯 Core Dataset Analysis:</strong> Comprehensive analysis of image properties including dimensions, 
+            file sizes, aspect ratios, color distributions, and quality metrics for the Oxford-IIIT Pet Dataset.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expanded" id="section-size-distribution">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-size-distribution')">
+          <span class="section-title-text">📐 Image Size Distribution & Aspect Ratio</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+      <div class="menu-group">
+        <button class="menu-btn btn-tutorial" onclick="toggleTutorial('size_distribution'); event.stopPropagation();">
+          📚 Tutorial
+        </button>
+        <button class="menu-btn btn-code" onclick="toggleCode('size_distribution'); event.stopPropagation();">
+          💻 Code
+        </button>
+        <button class="menu-btn btn-copy" onclick="copyAllCode('size_distribution'); event.stopPropagation();" title="Copy all frameworks (Plotly + Matplotlib + Seaborn)">
+          📋 Copy All
+        </button>
+        <button class="menu-btn btn-download" onclick="downloadAllTutorials('size_distribution'); event.stopPropagation();" title="Download all frameworks (3 files)">
+          💾 Download All
+        </button>
+      </div>
+    </div>
+        <div class="tutorial-panel" id="size_distribution-tutorial">
+      <div class="tutorial-content"></div>
+    </div>
+
+    <div class="code-panel" id="size_distribution-code">
+      <div class="code-tabs">
+        <button class="code-tab-btn active" onclick="switchCodeTab('size_distribution', 'plotly')">Plotly</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('size_distribution', 'matplotlib')">Matplotlib</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('size_distribution', 'seaborn')">Seaborn</button>
+      </div>
+      <div class="code-tab-content active" id="size_distribution-plotly"></div>
+      <div class="code-tab-content" id="size_distribution-matplotlib"></div>
+      <div class="code-tab-content" id="size_distribution-seaborn"></div>
+    </div>
+
+        <div class="section-content">
+          <div style="margin-bottom: 30px;">
+            <div class="chart-container">
+      <h3 class="chart-title">Size Marginal Distribution</h3>
+      <div class="chart-wrapper" style="height: 600px;">
+        <div id="size-marginal"></div>
+      </div>
+      <p class="text-center text-muted">Width vs Height scatter plot with marginal histograms showing distribution along each axis</p>
+    </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">File Size Distribution</h3>
+      <div class="chart-wrapper" style="height: 400px;">
+        <div id="filesize-histogram"></div>
+      </div>
+      <p class="text-center text-muted">Distribution of image file sizes in kilobytes</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Aspect Ratio Distribution</h3>
+      <div class="chart-wrapper" style="height: 400px;">
+        <div id="aspect-histogram"></div>
+      </div>
+      <p class="text-center text-muted">Distribution of width/height ratios (wide, square, tall)</p>
+    </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>📊 Key Insights:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Image Dimensions:</strong> Shows the diversity of image sizes in the dataset</li>
+              <li><strong>File Sizes:</strong> Helps identify compression levels and storage requirements</li>
+              <li><strong>Aspect Ratios:</strong> Important for data augmentation and model input size planning</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expanded" id="section-color-analysis">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-color-analysis')">
+          <span class="section-title-text">🎨 Color Space Analysis & Quality Metrics</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+      <div class="menu-group">
+        <button class="menu-btn btn-tutorial" onclick="toggleTutorial('color_analysis'); event.stopPropagation();">
+          📚 Tutorial
+        </button>
+        <button class="menu-btn btn-code" onclick="toggleCode('color_analysis'); event.stopPropagation();">
+          💻 Code
+        </button>
+        <button class="menu-btn btn-copy" onclick="copyAllCode('color_analysis'); event.stopPropagation();" title="Copy all frameworks (Plotly + Matplotlib + Seaborn)">
+          📋 Copy All
+        </button>
+        <button class="menu-btn btn-download" onclick="downloadAllTutorials('color_analysis'); event.stopPropagation();" title="Download all frameworks (3 files)">
+          💾 Download All
+        </button>
+      </div>
+    </div>
+        <div class="tutorial-panel" id="color_analysis-tutorial">
+      <div class="tutorial-content"></div>
+    </div>
+
+    <div class="code-panel" id="color_analysis-code">
+      <div class="code-tabs">
+        <button class="code-tab-btn active" onclick="switchCodeTab('color_analysis', 'plotly')">Plotly</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('color_analysis', 'matplotlib')">Matplotlib</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('color_analysis', 'seaborn')">Seaborn</button>
+      </div>
+      <div class="code-tab-content active" id="color_analysis-plotly"></div>
+      <div class="code-tab-content" id="color_analysis-matplotlib"></div>
+      <div class="code-tab-content" id="color_analysis-seaborn"></div>
+    </div>
+
+        <div class="section-content">
+          <div style="margin-bottom: 30px;">
+            <div class="chart-container">
+      <h3 class="chart-title">RGB Color Space Distribution</h3>
+      <div class="chart-wrapper" style="height: 600px;">
+        <div id="color-space"></div>
+      </div>
+      <p class="text-center text-muted">3D visualization of RGB color distribution across the dataset</p>
+    </div>
+          </div>
+
+          <div style="margin-bottom: 30px;">
+            <div class="chart-container">
+      <h3 class="chart-title">Image Quality Metrics</h3>
+      <div class="chart-wrapper" style="height: 500px;">
+        <div id="quality-metrics"></div>
+      </div>
+      <p class="text-center text-muted">Brightness, contrast, and sharpness distribution across images</p>
+    </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🎨 Color Analysis Insights:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>RGB Distribution:</strong> Shows color diversity and potential color biases in the dataset</li>
+              <li><strong>Brightness & Contrast:</strong> Important for lighting condition analysis</li>
+              <li><strong>Sharpness:</strong> Indicates image quality and focus levels</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expanded" id="section-sample-gallery">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-sample-gallery')">
+          <span class="section-title-text">🖼️ Interactive Sample Gallery</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-content">
+          <div class="alert alert-info">
+            <strong>📸 Interactive Gallery:</strong> Select breeds to explore sample images from the dataset. 
+            Click on any image to view in full size. Default shows 4 breeds per species.
+          </div>
+
+          <div class="interactive-gallery">
+            <div class="species-section">
+              <h3 class="species-header">🐱 Cats (12 breeds)</h3>
+
+        <div class="breed-selector">
+            <div class="selector-header">
+                <span>Select breeds to display:</span>
+                <button type="button" class="select-all-btn" data-species="cats">Select All</button>
+                <button type="button" class="select-none-btn" data-species="cats">Select None</button>
+            </div>
+            <div class="collapsible-content">
+                <button class="collapsible-btn" data-species="cats">
+                    <span class="collapsible-icon">▼</span>
+                    <span class="collapsible-text">Show/Hide Breed Selection</span>
+                </button>
+                <div class="checkbox-grid collapsible-panel" id="panel-cats">
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Abyssinian" data-species="cats">
+                    <span>Abyssinian</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Bengal" data-species="cats">
+                    <span>Bengal</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Birman" data-species="cats">
+                    <span>Birman</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Bombay" data-species="cats">
+                    <span>Bombay</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="British_Shorthair" data-species="cats">
+                    <span>British Shorthair</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Egyptian_Mau" data-species="cats">
+                    <span>Egyptian Mau</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Maine_Coon" data-species="cats">
+                    <span>Maine Coon</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Persian" data-species="cats">
+                    <span>Persian</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Ragdoll" data-species="cats">
+                    <span>Ragdoll</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Russian_Blue" data-species="cats">
+                    <span>Russian Blue</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Siamese" data-species="cats">
+                    <span>Siamese</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Sphynx" data-species="cats">
+                    <span>Sphynx</span>
+                </label>
+
+                </div>
+            </div>
+        </div>
+
+              <div class="image-grid grid-2" id="cats-core-grid">
+                <!-- Dynamic content will be loaded here -->
+              </div>
+            </div>
+
+            <div class="species-section">
+              <h3 class="species-header">🐶 Dogs (25 breeds)</h3>
+
+        <div class="breed-selector">
+            <div class="selector-header">
+                <span>Select breeds to display:</span>
+                <button type="button" class="select-all-btn" data-species="dogs">Select All</button>
+                <button type="button" class="select-none-btn" data-species="dogs">Select None</button>
+            </div>
+            <div class="collapsible-content">
+                <button class="collapsible-btn" data-species="dogs">
+                    <span class="collapsible-icon">▼</span>
+                    <span class="collapsible-text">Show/Hide Breed Selection</span>
+                </button>
+                <div class="checkbox-grid collapsible-panel" id="panel-dogs">
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="american_bulldog" data-species="dogs">
+                    <span>American Bulldog</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="american_pit_bull_terrier" data-species="dogs">
+                    <span>American Pit Bull Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="basset_hound" data-species="dogs">
+                    <span>Basset Hound</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="beagle" data-species="dogs">
+                    <span>Beagle</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="boxer" data-species="dogs">
+                    <span>Boxer</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="chihuahua" data-species="dogs">
+                    <span>Chihuahua</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="english_cocker_spaniel" data-species="dogs">
+                    <span>English Cocker Spaniel</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="english_setter" data-species="dogs">
+                    <span>English Setter</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="german_shorthaired" data-species="dogs">
+                    <span>German Shorthaired</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="great_pyrenees" data-species="dogs">
+                    <span>Great Pyrenees</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="havanese" data-species="dogs">
+                    <span>Havanese</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="japanese_chin" data-species="dogs">
+                    <span>Japanese Chin</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="keeshond" data-species="dogs">
+                    <span>Keeshond</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="leonberger" data-species="dogs">
+                    <span>Leonberger</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="miniature_pinscher" data-species="dogs">
+                    <span>Miniature Pinscher</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="newfoundland" data-species="dogs">
+                    <span>Newfoundland</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="pomeranian" data-species="dogs">
+                    <span>Pomeranian</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="pug" data-species="dogs">
+                    <span>Pug</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="saint_bernard" data-species="dogs">
+                    <span>Saint Bernard</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="samoyed" data-species="dogs">
+                    <span>Samoyed</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="scottish_terrier" data-species="dogs">
+                    <span>Scottish Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="shiba_inu" data-species="dogs">
+                    <span>Shiba Inu</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="staffordshire_bull_terrier" data-species="dogs">
+                    <span>Staffordshire Bull Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="wheaten_terrier" data-species="dogs">
+                    <span>Wheaten Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="yorkshire_terrier" data-species="dogs">
+                    <span>Yorkshire Terrier</span>
+                </label>
+
+                </div>
+            </div>
+        </div>
+
+              <div class="image-grid grid-2" id="dogs-core-grid">
+                <!-- Dynamic content will be loaded here -->
+              </div>
+            </div>
+          </div>
+
+          <script>
+
+    // Core gallery data
+    const coreBreedData = {"cats": {"Maine_Coon": ["Maine_Coon_115.jpg", "Maine_Coon_144.jpg", "Maine_Coon_155.jpg", "Maine_Coon_150.jpg", "Maine_Coon_143.jpg", "Maine_Coon_13.jpg", "Maine_Coon_136.jpg", "Maine_Coon_119.jpg", "Maine_Coon_18.jpg", "Maine_Coon_139.jpg"], "Russian_Blue": ["Russian_Blue_150.jpg", "Russian_Blue_100.jpg", "Russian_Blue_168.jpg", "Russian_Blue_112.jpg", "Russian_Blue_108.jpg", "Russian_Blue_101.jpg", "Russian_Blue_128.jpg", "Russian_Blue_106.jpg", "Russian_Blue_111.jpg", "Russian_Blue_139.jpg"], "Abyssinian": ["Abyssinian_164.jpg", "Abyssinian_13.jpg", "Abyssinian_101.jpg", "Abyssinian_142.jpg", "Abyssinian_14.jpg", "Abyssinian_12.jpg", "Abyssinian_158.jpg", "Abyssinian_135.jpg", "Abyssinian_130.jpg", "Abyssinian_128.jpg"], "Persian": ["Persian_14.jpg", "Persian_134.jpg", "Persian_128.jpg", "Persian_131.jpg", "Persian_165.jpg", "Persian_175.jpg", "Persian_143.jpg", "Persian_163.jpg", "Persian_114.jpg", "Persian_106.jpg"], "Siamese": ["Siamese_158.jpg", "Siamese_115.jpg", "Siamese_153.jpg", "Siamese_142.jpg", "Siamese_109.jpg", "Siamese_17.jpg", "Siamese_108.jpg", "Siamese_173.jpg", "Siamese_151.jpg", "Siamese_175.jpg"], "Bengal": ["Bengal_135.jpg", "Bengal_107.jpg", "Bengal_145.jpg", "Bengal_169.jpg", "Bengal_142.jpg", "Bengal_149.jpg", "Bengal_123.jpg", "Bengal_167.jpg", "Bengal_16.jpg", "Bengal_109.jpg"], "Bombay": ["Bombay_153.jpg", "Bombay_123.jpg", "Bombay_156.jpg", "Bombay_121.jpg", "Bombay_160.jpg", "Bombay_10.jpg", "Bombay_140.jpg", "Bombay_125.jpg", "Bombay_167.jpg", "Bombay_151.jpg"], "Sphynx": ["Sphynx_131.jpg", "Sphynx_152.jpg", "Sphynx_14.jpg", "Sphynx_169.jpg", "Sphynx_128.jpg", "Sphynx_111.jpg", "Sphynx_127.jpg", "Sphynx_143.jpg", "Sphynx_176.jpg", "Sphynx_155.jpg"], "Ragdoll": ["Ragdoll_143.jpg", "Ragdoll_100.jpg", "Ragdoll_115.jpg", "Ragdoll_165.jpg", "Ragdoll_126.jpg", "Ragdoll_114.jpg", "Ragdoll_174.jpg", "Ragdoll_135.jpg", "Ragdoll_177.jpg", "Ragdoll_10.jpg"], "Birman": ["Birman_166.jpg", "Birman_162.jpg", "Birman_144.jpg", "Birman_125.jpg", "Birman_153.jpg", "Birman_121.jpg", "Birman_142.jpg", "Birman_149.jpg", "Birman_15.jpg", "Birman_169.jpg"], "British_Shorthair": ["British_Shorthair_161.jpg", "British_Shorthair_10.jpg", "British_Shorthair_122.jpg", "British_Shorthair_180.jpg", "British_Shorthair_115.jpg", "British_Shorthair_113.jpg", "British_Shorthair_139.jpg", "British_Shorthair_144.jpg", "British_Shorthair_166.jpg", "British_Shorthair_176.jpg"], "Egyptian_Mau": ["Egyptian_Mau_140.jpg", "Egyptian_Mau_161.jpg", "Egyptian_Mau_10.jpg", "Egyptian_Mau_164.jpg", "Egyptian_Mau_138.jpg", "Egyptian_Mau_160.jpg", "Egyptian_Mau_136.jpg", "Egyptian_Mau_15.jpg", "Egyptian_Mau_152.jpg", "Egyptian_Mau_101.jpg"]}, "dogs": {"leonberger": ["leonberger_15.jpg", "leonberger_131.jpg", "leonberger_13.jpg", "leonberger_152.jpg", "leonberger_106.jpg", "leonberger_160.jpg", "leonberger_170.jpg", "leonberger_167.jpg", "leonberger_123.jpg", "leonberger_158.jpg"], "miniature_pinscher": ["miniature_pinscher_114.jpg", "miniature_pinscher_122.jpg", "miniature_pinscher_15.jpg", "miniature_pinscher_123.jpg", "miniature_pinscher_119.jpg", "miniature_pinscher_124.jpg", "miniature_pinscher_104.jpg", "miniature_pinscher_130.jpg", "miniature_pinscher_146.jpg", "miniature_pinscher_111.jpg"], "german_shorthaired": ["german_shorthaired_125.jpg", "german_shorthaired_103.jpg", "german_shorthaired_127.jpg", "german_shorthaired_15.jpg", "german_shorthaired_151.jpg", "german_shorthaired_157.jpg", "german_shorthaired_100.jpg", "german_shorthaired_124.jpg", "german_shorthaired_153.jpg", "german_shorthaired_117.jpg"], "basset_hound": ["basset_hound_123.jpg", "basset_hound_106.jpg", "basset_hound_149.jpg", "basset_hound_117.jpg", "basset_hound_107.jpg", "basset_hound_144.jpg", "basset_hound_110.jpg", "basset_hound_142.jpg", "basset_hound_11.jpg", "basset_hound_170.jpg"], "pug": ["pug_140.jpg", "pug_139.jpg", "pug_166.jpg", "pug_168.jpg", "pug_17.jpg", "pug_112.jpg", "pug_145.jpg", "pug_16.jpg", "pug_142.jpg", "pug_127.jpg"], "saint_bernard": ["saint_bernard_171.jpg", "saint_bernard_161.jpg", "saint_bernard_140.jpg", "saint_bernard_117.jpg", "saint_bernard_100.jpg", "saint_bernard_124.jpg", "saint_bernard_129.jpg", "saint_bernard_162.jpg", "saint_bernard_13.jpg", "saint_bernard_125.jpg"], "wheaten_terrier": ["wheaten_terrier_169.jpg", "wheaten_terrier_159.jpg", "wheaten_terrier_167.jpg", "wheaten_terrier_143.jpg", "wheaten_terrier_110.jpg", "wheaten_terrier_111.jpg", "wheaten_terrier_140.jpg", "wheaten_terrier_11.jpg", "wheaten_terrier_162.jpg", "wheaten_terrier_171.jpg"], "boxer": ["boxer_129.jpg", "boxer_162.jpg", "boxer_145.jpg", "boxer_157.jpg", "boxer_140.jpg", "boxer_144.jpg", "boxer_112.jpg", "boxer_133.jpg", "boxer_143.jpg", "boxer_147.jpg"], "pomeranian": ["pomeranian_132.jpg", "pomeranian_134.jpg", "pomeranian_151.jpg", "pomeranian_124.jpg", "pomeranian_169.jpg", "pomeranian_135.jpg", "pomeranian_129.jpg", "pomeranian_158.jpg", "pomeranian_161.jpg", "pomeranian_150.jpg"], "english_cocker_spaniel": ["english_cocker_spaniel_109.jpg", "english_cocker_spaniel_136.jpg", "english_cocker_spaniel_165.jpg", "english_cocker_spaniel_166.jpg", "english_cocker_spaniel_143.jpg", "english_cocker_spaniel_149.jpg", "english_cocker_spaniel_161.jpg", "english_cocker_spaniel_128.jpg", "english_cocker_spaniel_130.jpg", "english_cocker_spaniel_151.jpg"], "great_pyrenees": ["great_pyrenees_135.jpg", "great_pyrenees_129.jpg", "great_pyrenees_142.jpg", "great_pyrenees_158.jpg", "great_pyrenees_150.jpg", "great_pyrenees_118.jpg", "great_pyrenees_103.jpg", "great_pyrenees_168.jpg", "great_pyrenees_145.jpg", "great_pyrenees_101.jpg"], "shiba_inu": ["shiba_inu_155.jpg", "shiba_inu_162.jpg", "shiba_inu_118.jpg", "shiba_inu_126.jpg", "shiba_inu_159.jpg", "shiba_inu_146.jpg", "shiba_inu_172.jpg", "shiba_inu_136.jpg", "shiba_inu_16.jpg", "shiba_inu_147.jpg"], "american_pit_bull_terrier": ["american_pit_bull_terrier_150.jpg", "american_pit_bull_terrier_125.jpg", "american_pit_bull_terrier_13.jpg", "american_pit_bull_terrier_169.jpg", "american_pit_bull_terrier_158.jpg", "american_pit_bull_terrier_146.jpg", "american_pit_bull_terrier_156.jpg", "american_pit_bull_terrier_154.jpg", "american_pit_bull_terrier_140.jpg", "american_pit_bull_terrier_114.jpg"], "japanese_chin": ["japanese_chin_109.jpg", "japanese_chin_140.jpg", "japanese_chin_170.jpg", "japanese_chin_133.jpg", "japanese_chin_167.jpg", "japanese_chin_155.jpg", "japanese_chin_121.jpg", "japanese_chin_116.jpg", "japanese_chin_17.jpg", "japanese_chin_141.jpg"], "havanese": ["havanese_100.jpg", "havanese_120.jpg", "havanese_169.jpg", "havanese_119.jpg", "havanese_117.jpg", "havanese_14.jpg", "havanese_140.jpg", "havanese_164.jpg", "havanese_15.jpg", "havanese_130.jpg"], "scottish_terrier": ["scottish_terrier_126.jpg", "scottish_terrier_163.jpg", "scottish_terrier_136.jpg", "scottish_terrier_114.jpg", "scottish_terrier_10.jpg", "scottish_terrier_104.jpg", "scottish_terrier_147.jpg", "scottish_terrier_138.jpg", "scottish_terrier_166.jpg", "scottish_terrier_109.jpg"], "samoyed": ["samoyed_114.jpg", "samoyed_151.jpg", "samoyed_12.jpg", "samoyed_167.jpg", "samoyed_169.jpg", "samoyed_11.jpg", "samoyed_14.jpg", "samoyed_108.jpg", "samoyed_144.jpg", "samoyed_160.jpg"], "newfoundland": ["newfoundland_102.jpg", "newfoundland_159.jpg", "newfoundland_142.jpg", "newfoundland_10.jpg", "newfoundland_113.jpg", "newfoundland_164.jpg", "newfoundland_151.jpg", "newfoundland_136.jpg", "newfoundland_110.jpg", "newfoundland_139.jpg"], "staffordshire_bull_terrier": ["staffordshire_bull_terrier_149.jpg", "staffordshire_bull_terrier_103.jpg", "staffordshire_bull_terrier_137.jpg", "staffordshire_bull_terrier_116.jpg", "staffordshire_bull_terrier_135.jpg", "staffordshire_bull_terrier_100.jpg", "staffordshire_bull_terrier_115.jpg", "staffordshire_bull_terrier_158.jpg", "staffordshire_bull_terrier_131.jpg", "staffordshire_bull_terrier_159.jpg"], "chihuahua": ["chihuahua_106.jpg", "chihuahua_166.jpg", "chihuahua_132.jpg", "chihuahua_134.jpg", "chihuahua_107.jpg", "chihuahua_16.jpg", "chihuahua_12.jpg", "chihuahua_122.jpg", "chihuahua_109.jpg", "chihuahua_131.jpg"], "american_bulldog": ["american_bulldog_141.jpg", "american_bulldog_117.jpg", "american_bulldog_121.jpg", "american_bulldog_173.jpg", "american_bulldog_115.jpg", "american_bulldog_123.jpg", "american_bulldog_168.jpg", "american_bulldog_181.jpg", "american_bulldog_140.jpg", "american_bulldog_106.jpg"], "keeshond": ["keeshond_139.jpg", "keeshond_123.jpg", "keeshond_111.jpg", "keeshond_143.jpg", "keeshond_128.jpg", "keeshond_142.jpg", "keeshond_130.jpg", "keeshond_135.jpg", "keeshond_158.jpg", "keeshond_119.jpg"], "beagle": ["beagle_171.jpg", "beagle_121.jpg", "beagle_111.jpg", "beagle_173.jpg", "beagle_117.jpg", "beagle_10.jpg", "beagle_164.jpg", "beagle_107.jpg", "beagle_143.jpg", "beagle_128.jpg"], "yorkshire_terrier": ["yorkshire_terrier_142.jpg", "yorkshire_terrier_146.jpg", "yorkshire_terrier_158.jpg", "yorkshire_terrier_171.jpg", "yorkshire_terrier_168.jpg", "yorkshire_terrier_113.jpg", "yorkshire_terrier_147.jpg", "yorkshire_terrier_110.jpg", "yorkshire_terrier_118.jpg", "yorkshire_terrier_100.jpg"], "english_setter": ["english_setter_113.jpg", "english_setter_144.jpg", "english_setter_126.jpg", "english_setter_123.jpg", "english_setter_169.jpg", "english_setter_168.jpg", "english_setter_153.jpg", "english_setter_162.jpg", "english_setter_132.jpg", "english_setter_149.jpg"]}};
+    const defaultCats = ["Maine_Coon", "Russian_Blue", "Abyssinian", "Persian"];
+    const defaultDogs = ["leonberger", "miniature_pinscher", "german_shorthaired", "basset_hound"];
+
+    // Get random images from breed
+    function getRandomImages(images, count) {
+        const shuffled = [...images].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    }
+
+    // Update core gallery grid
+    function updateCoreGrid(species, selectedBreeds) {
+        const grid = document.getElementById(`${species}-core-grid`);
+        if (!grid) return;
+
+        let html = '';
+
+        selectedBreeds.forEach(breed => {
+            const images = coreBreedData[species][breed];
+            if (!images) return;
+
+            // Get random images (max 4 per breed)
+            const displayImages = getRandomImages(images, 4);
+
+            displayImages.forEach(imgFile => {
+                const imgPath = `../../../datasets/oxford-pets/data/sample_images/${species}/${imgFile}`;
+                const breedDisplay = breed.replace(/_/g, ' ');
+
+                html += '<div class="image-item" style="position: relative;">' +
+                        '<img src="' + imgPath + '" alt="' + breedDisplay + '" ' +
+                        'class="core-gallery-img" ' +
+                        'style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;" ' +
+                        'onerror="this.parentElement.style.display=\'none\'">' +
+                        '<div class="image-caption">' +
+                        '<div style="font-weight: 600;">' + breedDisplay + '</div>' +
+                        '<div style="font-size: 0.85rem; opacity: 0.8;">Click to enlarge</div>' +
+                        '</div>' +
+                        '</div>';
+            });
+        });
+
+        grid.innerHTML = html || '<p style="text-align: center; padding: 20px; color: #999;">No images selected</p>';
+
+        // Add click handlers to images (after they're in DOM)
+        grid.querySelectorAll('.core-gallery-img').forEach(img => {
+            img.addEventListener('click', function() {
+                window.open(this.src, '_blank');
+            });
+        });
+    }
+
+    // Initialize core gallery
+    function initializeCoreGallery() {
+        console.log('Initializing core gallery...');
+
+        // Initial load
+        updateCoreGrid('cats', defaultCats);
+        updateCoreGrid('dogs', defaultDogs);
+
+        // Breed checkbox change handlers
+        document.querySelectorAll('.breed-checkbox input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const species = this.dataset.species;
+                const selectedBreeds = Array.from(
+                    document.querySelectorAll(`input[data-species="${species}"]:checked`)
+                ).map(cb => cb.dataset.breed);
+
+                updateCoreGrid(species, selectedBreeds);
+            });
+        });
+
+        // Select All buttons
+        document.querySelectorAll('.select-all-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const species = this.dataset.species;
+                document.querySelectorAll(`input[data-species="${species}"]`).forEach(cb => {
+                    cb.checked = true;
+                });
+                const selectedBreeds = Array.from(
+                    document.querySelectorAll(`input[data-species="${species}"]:checked`)
+                ).map(cb => cb.dataset.breed);
+                updateCoreGrid(species, selectedBreeds);
+            });
+        });
+
+        // Select None buttons
+        document.querySelectorAll('.select-none-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const species = this.dataset.species;
+                document.querySelectorAll(`input[data-species="${species}"]`).forEach(cb => {
+                    cb.checked = false;
+                });
+                updateCoreGrid(species, []);
+            });
+        });
+
+        // Collapsible panels
+        document.querySelectorAll('.collapsible-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const species = this.dataset.species;
+                const panel = document.getElementById(`panel-${species}`);
+                const icon = this.querySelector('.collapsible-icon');
+
+                if (panel.style.display === 'none' || !panel.style.display) {
+                    panel.style.display = 'grid';
+                    icon.textContent = '▲';
+                } else {
+                    panel.style.display = 'none';
+                    icon.textContent = '▼';
+                }
+            });
+        });
+
+        console.log('✓ Core gallery initialized');
+    }
+
+
+          // Initialize gallery
+          document.addEventListener('DOMContentLoaded', function() {
+            initializeCoreGallery();
+          });
+          </script>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+              <div class="container">
+                <p>&copy; 2025 Oxford Pets Classification | Generated by EDA System</p>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem;">Core Dataset Analysis</p>
+              </div>
+            </footer>
+
+    <!-- Scripts (footer) -->
+    
+            <script>
+                function toggleSection(sectionId) {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
+                    
+                    const header = section.querySelector('h2');
+                    const content = section.querySelector('.section-content');
+                    
+                    if (header && content) {
+                        const isCollapsed = header.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        } else {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    }
+                }
+            
+                function collapseAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    });
+                }
+                
+                function expandAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        }
+                    });
+                }
+            
+            // Ensure sections are expanded by default (no control panel needed - using global menubar)
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ensure all sections are expanded by default
+                expandAll();
+            });
+            </script>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+    <script src="assets/js/tutorial/tutorial.js" defer></script>
+    <script src="assets/js/global-menubar.js" defer></script>
+    <script src="assets/js/common/utils.js" defer></script>
+    <script src="assets/js/core/data-loader.js" defer></script>
+    <script src="assets/js/core/main.js" defer></script>
+  </body>
+</html>

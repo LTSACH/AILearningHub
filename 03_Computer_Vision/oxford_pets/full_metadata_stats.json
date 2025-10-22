@@ -1,0 +1,335 @@
+{
+  "american_pit_bull_terrier": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Maine_Coon": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "keeshond": {
+    "species": "dog",
+    "total_images": 199,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 99,
+    "has_bbox_count": "100",
+    "has_trimap_count": "199"
+  },
+  "havanese": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "scottish_terrier": {
+    "species": "dog",
+    "total_images": 199,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 99,
+    "has_bbox_count": "100",
+    "has_trimap_count": "199"
+  },
+  "leonberger": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Russian_Blue": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Siamese": {
+    "species": "cat",
+    "total_images": 199,
+    "train_images": 79,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "99",
+    "has_trimap_count": "199"
+  },
+  "saint_bernard": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "99",
+    "has_trimap_count": "200"
+  },
+  "Egyptian_Mau": {
+    "species": "cat",
+    "total_images": 190,
+    "train_images": 74,
+    "val_images": 19,
+    "test_images": 97,
+    "has_bbox_count": "90",
+    "has_trimap_count": "190"
+  },
+  "basset_hound": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "chihuahua": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "shiba_inu": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "beagle": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Persian": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "British_Shorthair": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "pug": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "yorkshire_terrier": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "boxer": {
+    "species": "dog",
+    "total_images": 199,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 99,
+    "has_bbox_count": "100",
+    "has_trimap_count": "199"
+  },
+  "Sphynx": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Bombay": {
+    "species": "cat",
+    "total_images": 184,
+    "train_images": 76,
+    "val_images": 20,
+    "test_images": 88,
+    "has_bbox_count": "96",
+    "has_trimap_count": "184"
+  },
+  "pomeranian": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "newfoundland": {
+    "species": "dog",
+    "total_images": 196,
+    "train_images": 76,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "96",
+    "has_trimap_count": "196"
+  },
+  "great_pyrenees": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Birman": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "english_cocker_spaniel": {
+    "species": "dog",
+    "total_images": 196,
+    "train_images": 76,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "96",
+    "has_trimap_count": "196"
+  },
+  "wheaten_terrier": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Ragdoll": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "99",
+    "has_trimap_count": "200"
+  },
+  "japanese_chin": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "german_shorthaired": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "Abyssinian": {
+    "species": "cat",
+    "total_images": 198,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 98,
+    "has_bbox_count": "99",
+    "has_trimap_count": "198"
+  },
+  "staffordshire_bull_terrier": {
+    "species": "dog",
+    "total_images": 189,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 89,
+    "has_bbox_count": "100",
+    "has_trimap_count": "189"
+  },
+  "Bengal": {
+    "species": "cat",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "98",
+    "has_trimap_count": "200"
+  },
+  "miniature_pinscher": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "american_bulldog": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  },
+  "samoyed": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "99",
+    "has_trimap_count": "200"
+  },
+  "english_setter": {
+    "species": "dog",
+    "total_images": 200,
+    "train_images": 80,
+    "val_images": 20,
+    "test_images": 100,
+    "has_bbox_count": "100",
+    "has_trimap_count": "200"
+  }
+}

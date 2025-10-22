@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification - Oxford Pets | AI Learning Hub</title>
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #667eea;
+        }
+        
+        .hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1rem;
+            color: #f0f0f0;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0.5rem auto 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        .stat-card p {
+            color: #f0f0f0;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            margin: 4rem 0;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .section-description {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+        }
+        
+        .model-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            border: 2px solid transparent;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            border-color: #667eea;
+        }
+        
+        .model-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .model-card h3 {
+            color: #667eea;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+        
+        .model-card .description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .model-card .metrics {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.4rem;
+            margin: 1rem 0;
+        }
+        
+        .metric-item {
+            background: #f8f9fa;
+            padding: 0.4rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .badge-primary {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../../index.html" class="brand">📚 AI Learning Hub</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../01_Data_Analysis/">Data Analysis</a></li>
+                <li><a href="../../02_Machine_Learning/">Machine Learning</a></li>
+                <li><a href="../index.html">Computer Vision</a></li>
+                <li><a href="index.html" class="active">Classification</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>📊 Breed Classification</h1>
+            <p>37-class breed classification using CNN architectures and transfer learning</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>37</h3>
+                    <p>Breeds</p>
+                </div>
+                <div class="stat-card">
+                    <h3>7,393</h3>
+                    <p>Images</p>
+                </div>
+                <div class="stat-card">
+                    <h3>8</h3>
+                    <p>Models</p>
+                </div>
+                <div class="stat-card">
+                    <h3>95.2%</h3>
+                    <p>Best Accuracy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Models Grid -->
+        <section class="section">
+            <h2>🎯 Explore All Models</h2>
+            <p class="section-description">
+                Compare different CNN architectures and transfer learning approaches
+            </p>
+            
+            <div class="cards-grid">
+                <!-- ResNet50 -->
+                <a href="resnet50/index.html" class="model-card">
+                    <div class="icon">🏆</div>
+                    <h3>ResNet50</h3>
+                    <p class="description">
+                        Deep residual network with 50 layers, excellent for transfer learning
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Accuracy</div>
+                            <div class="metric-value">95.2%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Parameters</div>
+                            <div class="metric-value">25.6M</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Training Time</div>
+                            <div class="metric-value">45min</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Model Size</div>
+                            <div class="metric-value">98MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">✓ Best</span>
+                        <span class="badge badge-primary">✓ Transfer</span>
+                    </div>
+                </a>
+                
+                <!-- EfficientNet -->
+                <a href="efficientnet/index.html" class="model-card">
+                    <div class="icon">⚡</div>
+                    <h3>EfficientNet-B3</h3>
+                    <p class="description">
+                        Efficient architecture balancing accuracy and computational cost
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Accuracy</div>
+                            <div class="metric-value">94.8%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Parameters</div>
+                            <div class="metric-value">12.3M</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Training Time</div>
+                            <div class="metric-value">32min</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Model Size</div>
+                            <div class="metric-value">47MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">✓ Efficient</span>
+                        <span class="badge badge-primary">✓ Fast</span>
+                    </div>
+                </a>
+                
+                <!-- Vision Transformer -->
+                <a href="vit/index.html" class="model-card">
+                    <div class="icon">🔬</div>
+                    <h3>ViT-Base</h3>
+                    <p class="description">
+                        Vision Transformer using attention mechanisms for image classification
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Accuracy</div>
+                            <div class="metric-value">93.5%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Parameters</div>
+                            <div class="metric-value">86.4M</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Training Time</div>
+                            <div class="metric-value">78min</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Model Size</div>
+                            <div class="metric-value">331MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">✓ Modern</span>
+                        <span class="badge badge-primary">✓ Attention</span>
+                    </div>
+                </a>
+                
+                <!-- MobileNet -->
+                <a href="mobilenet/index.html" class="model-card">
+                    <div class="icon">📱</div>
+                    <h3>MobileNetV3</h3>
+                    <p class="description">
+                        Lightweight architecture optimized for mobile and edge devices
+                    </p>
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <div class="metric-label">Accuracy</div>
+                            <div class="metric-value">91.2%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Parameters</div>
+                            <div class="metric-value">5.5M</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Training Time</div>
+                            <div class="metric-value">18min</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Model Size</div>
+                            <div class="metric-value">21MB</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">✓ Lightweight</span>
+                        <span class="badge badge-primary">✓ Mobile</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 AI Learning Hub - Educational content for AI enthusiasts</p>
+    </footer>
+</body>
+</html>

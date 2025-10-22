@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Detection EDA - Oxford Pets</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/classification.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+
+    <!-- Scripts (head) -->
+    
+            <style>
+                .section {
+                    margin-bottom: 3px !important;
+                    border: none !important;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                    padding: 0 !important;  /* Override common.css padding */
+                }
+                
+                .section.collapsed {
+                    margin-bottom: 1px !important;
+                    box-shadow: none !important;
+                    padding: 0 !important;
+                }
+            
+            .section h2 {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px 20px;
+                margin: 0;
+                font-size: 1.4em;
+                cursor: pointer;
+                user-select: none;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .section h2:hover {
+                background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            }
+            
+            .section h2::after {
+                content: '▼';
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: transform 0.3s ease;
+            }
+            
+            .section h2.collapsed::after {
+                transform: translateY(-50%) rotate(-90deg);
+            }
+            
+            .section-content {
+                padding: 20px;
+                background: white;
+                transition: all 0.3s ease;
+                overflow: hidden;
+            }
+            
+            .section-content.collapsed {
+                max-height: 0;
+                padding: 0 20px;
+                opacity: 0;
+            }
+            
+            /* Old section controls removed - using global menubar instead */
+            
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            
+            .table th, .table td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .table th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            .table-striped tbody tr:nth-child(odd) {
+                background-color: #f8f9fa;
+            }
+            
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin: 20px 0;
+            }
+            
+            .stat-card {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            
+            .stat-value {
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .stat-label {
+                font-size: 0.9em;
+                opacity: 0.9;
+            }
+            </style>
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="brand">🐕🐈 Oxford Pets EDA</a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="eda_core.html">Core</a>
+          <a href="eda_classification.html">Classification</a>
+          <a href="eda_detection.html" class="active">Detection</a>
+          <a href="eda_segmentation.html">Segmentation</a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="global-menubar">
+      <div class="menubar-content">
+        <div class="menubar-left">
+          <button class="menubar-btn btn-expand" onclick="expandAll()" title="Expand all sections">
+            📂 Expand All
+          </button>
+          <button class="menubar-btn btn-collapse" onclick="collapseAll()" title="Collapse all sections">
+            📁 Collapse All
+          </button>
+        </div>
+        <div class="menubar-right">
+          <button class="menubar-btn btn-theme" onclick="toggleCodeTheme()" title="Toggle code theme">
+            🌙 Code Theme
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section expanded" id="section-detection-overview">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-detection-overview')">
+          <span class="section-title-text">📦 Detection Overview</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+      <div class="menu-group">
+        <button class="menu-btn btn-tutorial" onclick="toggleTutorial('bbox_overview'); event.stopPropagation();">
+          📚 Tutorial
+        </button>
+        <button class="menu-btn btn-code" onclick="toggleCode('bbox_overview'); event.stopPropagation();">
+          💻 Code
+        </button>
+        <button class="menu-btn btn-copy" onclick="copyAllCode('bbox_overview'); event.stopPropagation();" title="Copy all frameworks (Plotly + Matplotlib + Seaborn)">
+          📋 Copy All
+        </button>
+        <button class="menu-btn btn-download" onclick="downloadAllTutorials('bbox_overview'); event.stopPropagation();" title="Download all frameworks (3 files)">
+          💾 Download All
+        </button>
+      </div>
+    </div>
+        <div class="tutorial-panel" id="bbox_overview-tutorial">
+      <div class="tutorial-content"></div>
+    </div>
+
+    <div class="code-panel" id="bbox_overview-code">
+      <div class="code-tabs">
+        <button class="code-tab-btn active" onclick="switchCodeTab('bbox_overview', 'plotly')">Plotly</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('bbox_overview', 'matplotlib')">Matplotlib</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('bbox_overview', 'seaborn')">Seaborn</button>
+      </div>
+      <div class="code-tab-content active" id="bbox_overview-plotly"></div>
+      <div class="code-tab-content" id="bbox_overview-matplotlib"></div>
+      <div class="code-tab-content" id="bbox_overview-seaborn"></div>
+    </div>
+
+        <div class="section-content">
+          <div class="stat-cards">
+            <div class="stat-card">
+              <h3>3671</h3>
+              <p>Total Bounding Boxes</p>
+            </div>
+            <div class="stat-card">
+              <h3>3671</h3>
+              <p>Images with Annotations</p>
+            </div>
+            <div class="stat-card">
+              <h3>1.0</h3>
+              <p>Avg Boxes per Image</p>
+            </div>
+            <div class="stat-card">
+              <h3>1</h3>
+              <p>Object Class (Pet Head)</p>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🎯 Detection Task:</strong> Pet head detection using bounding box annotations in Pascal VOC format.
+            Each image contains one pet head with precise bounding box coordinates.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expanded" id="section-bbox-properties">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-bbox-properties')">
+          <span class="section-title-text">📏 Bounding Box Properties</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+      <div class="menu-group">
+        <button class="menu-btn btn-tutorial" onclick="toggleTutorial('bbox_properties'); event.stopPropagation();">
+          📚 Tutorial
+        </button>
+        <button class="menu-btn btn-code" onclick="toggleCode('bbox_properties'); event.stopPropagation();">
+          💻 Code
+        </button>
+        <button class="menu-btn btn-copy" onclick="copyAllCode('bbox_properties'); event.stopPropagation();" title="Copy all frameworks (Plotly + Matplotlib + Seaborn)">
+          📋 Copy All
+        </button>
+        <button class="menu-btn btn-download" onclick="downloadAllTutorials('bbox_properties'); event.stopPropagation();" title="Download all frameworks (3 files)">
+          💾 Download All
+        </button>
+      </div>
+    </div>
+        <div class="tutorial-panel" id="bbox_properties-tutorial">
+      <div class="tutorial-content"></div>
+    </div>
+
+    <div class="code-panel" id="bbox_properties-code">
+      <div class="code-tabs">
+        <button class="code-tab-btn active" onclick="switchCodeTab('bbox_properties', 'plotly')">Plotly</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('bbox_properties', 'matplotlib')">Matplotlib</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('bbox_properties', 'seaborn')">Seaborn</button>
+      </div>
+      <div class="code-tab-content active" id="bbox_properties-plotly"></div>
+      <div class="code-tab-content" id="bbox_properties-matplotlib"></div>
+      <div class="code-tab-content" id="bbox_properties-seaborn"></div>
+    </div>
+
+        <div class="section-content">
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Size Statistics</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <div id="bbox-size-chart"></div>
+      </div>
+      <p class="text-center text-muted">Mean and median width/height of bounding boxes</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Aspect Ratio Distribution</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <div id="aspect-ratio-chart"></div>
+      </div>
+      <p class="text-center text-muted">Distribution of wide, square, and tall bounding boxes</p>
+    </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Area Distribution</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <div id="area-distribution-chart"></div>
+      </div>
+      <p class="text-center text-muted">Distribution of normalized bounding box areas</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Size Categories</h3>
+      <div class="chart-wrapper" style="height: 350px;">
+        <div id="size-category-chart"></div>
+      </div>
+      <p class="text-center text-muted">COCO-style size categorization (small/medium/large)</p>
+    </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>📊 Key Insights:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Size Categories:</strong> Based on diagonal length (small: &lt;32px, medium: 32-96px, large: &gt;96px)</li>
+              <li><strong>Aspect Ratios:</strong> Wide (&gt;1.5), Square (0.8-1.2), Tall (&lt;0.67)</li>
+              <li><strong>Normalized Areas:</strong> Bounding box area relative to image area</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expanded" id="section-spatial-distribution">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-spatial-distribution')">
+          <span class="section-title-text">🗺️ Spatial Distribution</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+      <div class="menu-group">
+        <button class="menu-btn btn-tutorial" onclick="toggleTutorial('spatial_distribution'); event.stopPropagation();">
+          📚 Tutorial
+        </button>
+        <button class="menu-btn btn-code" onclick="toggleCode('spatial_distribution'); event.stopPropagation();">
+          💻 Code
+        </button>
+        <button class="menu-btn btn-copy" onclick="copyAllCode('spatial_distribution'); event.stopPropagation();" title="Copy all frameworks (Plotly + Matplotlib + Seaborn)">
+          📋 Copy All
+        </button>
+        <button class="menu-btn btn-download" onclick="downloadAllTutorials('spatial_distribution'); event.stopPropagation();" title="Download all frameworks (3 files)">
+          💾 Download All
+        </button>
+      </div>
+    </div>
+        <div class="tutorial-panel" id="spatial_distribution-tutorial">
+      <div class="tutorial-content"></div>
+    </div>
+
+    <div class="code-panel" id="spatial_distribution-code">
+      <div class="code-tabs">
+        <button class="code-tab-btn active" onclick="switchCodeTab('spatial_distribution', 'plotly')">Plotly</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('spatial_distribution', 'matplotlib')">Matplotlib</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('spatial_distribution', 'seaborn')">Seaborn</button>
+      </div>
+      <div class="code-tab-content active" id="spatial_distribution-plotly"></div>
+      <div class="code-tab-content" id="spatial_distribution-matplotlib"></div>
+      <div class="code-tab-content" id="spatial_distribution-seaborn"></div>
+    </div>
+
+        <div class="section-content">
+          <div class="grid grid-2">
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Position Heatmap</h3>
+      <div class="chart-wrapper" style="height: 500px;">
+        <div id="position-heatmap"></div>
+      </div>
+      <p class="text-center text-muted">Density map of bounding box center positions</p>
+    </div>
+            </div>
+            <div>
+              <div class="chart-container">
+      <h3 class="chart-title">Center Bias Analysis</h3>
+      <div class="chart-wrapper" style="height: 500px;">
+        <div id="center-bias-chart"></div>
+      </div>
+      <p class="text-center text-muted">Distribution between center and edge regions</p>
+    </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px; display: flex; justify-content: center;">
+            <div class="chart-container">
+      <h3 class="chart-title">3x3 Grid Distribution</h3>
+      <div class="chart-wrapper" style="height: 400px;">
+        <div id="grid-distribution-chart"></div>
+      </div>
+      <p class="text-center text-muted">Distribution of bounding boxes across image regions</p>
+    </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🎯 Spatial Analysis:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Center Bias:</strong> Tendency for objects to appear in image center</li>
+              <li><strong>Position Heatmap:</strong> Visual density of bounding box centers</li>
+              <li><strong>Grid Analysis:</strong> Distribution across 3x3 image regions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expanded" id="section-quality-analysis">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-quality-analysis')">
+          <span class="section-title-text">✅ Quality Analysis</span>
+          <span class="section-toggle">▼</span>
+        </h2>
+
+        <div class="section-menu">
+      <div class="menu-group">
+        <button class="menu-btn btn-tutorial" onclick="toggleTutorial('quality_analysis'); event.stopPropagation();">
+          📚 Tutorial
+        </button>
+        <button class="menu-btn btn-code" onclick="toggleCode('quality_analysis'); event.stopPropagation();">
+          💻 Code
+        </button>
+        <button class="menu-btn btn-copy" onclick="copyAllCode('quality_analysis'); event.stopPropagation();" title="Copy all frameworks (Plotly + Matplotlib + Seaborn)">
+          📋 Copy All
+        </button>
+        <button class="menu-btn btn-download" onclick="downloadAllTutorials('quality_analysis'); event.stopPropagation();" title="Download all frameworks (3 files)">
+          💾 Download All
+        </button>
+      </div>
+    </div>
+        <div class="tutorial-panel" id="quality_analysis-tutorial">
+      <div class="tutorial-content"></div>
+    </div>
+
+    <div class="code-panel" id="quality_analysis-code">
+      <div class="code-tabs">
+        <button class="code-tab-btn active" onclick="switchCodeTab('quality_analysis', 'plotly')">Plotly</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('quality_analysis', 'matplotlib')">Matplotlib</button>
+        <button class="code-tab-btn" onclick="switchCodeTab('quality_analysis', 'seaborn')">Seaborn</button>
+      </div>
+      <div class="code-tab-content active" id="quality_analysis-plotly"></div>
+      <div class="code-tab-content" id="quality_analysis-matplotlib"></div>
+      <div class="code-tab-content" id="quality_analysis-seaborn"></div>
+    </div>
+
+        <div class="section-content">
+          <div class="card">
+            <h3>Quality Metrics</h3>
+            <div style="margin-top: 15px;">
+              <div style="display: flex; justify-content: space-between; padding: 10px; background: #10b98115; border-left: 4px solid #10b981; border-radius: 4px; margin-bottom: 15px;">
+                <span style="font-weight: 600;">Overall Quality Score:</span>
+                <span style="color: #10b981; font-weight: 700;">Excellent (1.00)</span>
+              </div>
+
+              <table style="width: 100%; margin: 0;">
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Invalid Boxes</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Tiny Boxes (&lt;100px²)</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Large Boxes (&gt;90% image)</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">5</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>Extreme Aspect Ratios</strong></td>
+                  <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">0</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>🔍 Quality Indicators:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+              <li><strong>Invalid Boxes:</strong> Negative dimensions or zero area</li>
+              <li><strong>Tiny Boxes:</strong> Too small for reliable detection</li>
+              <li><strong>Large Boxes:</strong> Cover most of the image (potential annotation error)</li>
+              <li><strong>Extreme Ratios:</strong> Very wide or very tall boxes (ratio &gt;10 or &lt;0.1)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section-sample-visualizations">
+      <div class="container">
+        <h2 class="section-title" onclick="toggleSection('section-sample-visualizations')">🖼️ Interactive Sample Gallery</h2>
+        <p class="section-description">Sample images with bounding box annotations overlaid</p>
+
+        <div class="section-content">
+          <div class="alert alert-info">
+            <strong>📸 Interactive Gallery:</strong> Select breeds to explore samples with bounding box overlay (Green: Pet head detection).
+          </div>
+
+          <div class="interactive-gallery">
+            <div class="species-section">
+              <h3 class="species-header">🐱 Cats (12 breeds)</h3>
+
+        <div class="breed-selector">
+            <div class="selector-header">
+                <span>Select breeds to display:</span>
+                <button type="button" class="select-all-btn" data-species="cats">Select All</button>
+                <button type="button" class="select-none-btn" data-species="cats">Select None</button>
+            </div>
+            <div class="collapsible-content">
+                <button class="collapsible-btn" data-species="cats">
+                    <span class="collapsible-icon">▼</span>
+                    <span class="collapsible-text">Show/Hide Breed Selection</span>
+                </button>
+                <div class="checkbox-grid collapsible-panel" id="panel-cats">
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Abyssinian" data-species="cats">
+                    <span>Abyssinian</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Bengal" data-species="cats">
+                    <span>Bengal</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Birman" data-species="cats">
+                    <span>Birman</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Bombay" data-species="cats">
+                    <span>Bombay</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="British_Shorthair" data-species="cats">
+                    <span>British Shorthair</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Egyptian_Mau" data-species="cats">
+                    <span>Egyptian Mau</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Maine_Coon" data-species="cats">
+                    <span>Maine Coon</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Persian" data-species="cats">
+                    <span>Persian</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Ragdoll" data-species="cats">
+                    <span>Ragdoll</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Russian_Blue" data-species="cats">
+                    <span>Russian Blue</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="Siamese" data-species="cats">
+                    <span>Siamese</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="Sphynx" data-species="cats">
+                    <span>Sphynx</span>
+                </label>
+
+                </div>
+            </div>
+        </div>
+
+              <div class="image-grid grid-2" id="cats-detection-grid">
+                <!-- Dynamic content will be loaded here -->
+              </div>
+            </div>
+
+            <div class="species-section">
+              <h3 class="species-header">🐶 Dogs (25 breeds)</h3>
+
+        <div class="breed-selector">
+            <div class="selector-header">
+                <span>Select breeds to display:</span>
+                <button type="button" class="select-all-btn" data-species="dogs">Select All</button>
+                <button type="button" class="select-none-btn" data-species="dogs">Select None</button>
+            </div>
+            <div class="collapsible-content">
+                <button class="collapsible-btn" data-species="dogs">
+                    <span class="collapsible-icon">▼</span>
+                    <span class="collapsible-text">Show/Hide Breed Selection</span>
+                </button>
+                <div class="checkbox-grid collapsible-panel" id="panel-dogs">
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="american_bulldog" data-species="dogs">
+                    <span>American Bulldog</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="american_pit_bull_terrier" data-species="dogs">
+                    <span>American Pit Bull Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="basset_hound" data-species="dogs">
+                    <span>Basset Hound</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="beagle" data-species="dogs">
+                    <span>Beagle</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="boxer" data-species="dogs">
+                    <span>Boxer</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="chihuahua" data-species="dogs">
+                    <span>Chihuahua</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="english_cocker_spaniel" data-species="dogs">
+                    <span>English Cocker Spaniel</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="english_setter" data-species="dogs">
+                    <span>English Setter</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="german_shorthaired" data-species="dogs">
+                    <span>German Shorthaired</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="great_pyrenees" data-species="dogs">
+                    <span>Great Pyrenees</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="havanese" data-species="dogs">
+                    <span>Havanese</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="japanese_chin" data-species="dogs">
+                    <span>Japanese Chin</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="keeshond" data-species="dogs">
+                    <span>Keeshond</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="leonberger" data-species="dogs">
+                    <span>Leonberger</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="miniature_pinscher" data-species="dogs">
+                    <span>Miniature Pinscher</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="newfoundland" data-species="dogs">
+                    <span>Newfoundland</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="pomeranian" data-species="dogs">
+                    <span>Pomeranian</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="pug" data-species="dogs">
+                    <span>Pug</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="saint_bernard" data-species="dogs">
+                    <span>Saint Bernard</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="samoyed" data-species="dogs">
+                    <span>Samoyed</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox" checked data-breed="scottish_terrier" data-species="dogs">
+                    <span>Scottish Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="shiba_inu" data-species="dogs">
+                    <span>Shiba Inu</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="staffordshire_bull_terrier" data-species="dogs">
+                    <span>Staffordshire Bull Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="wheaten_terrier" data-species="dogs">
+                    <span>Wheaten Terrier</span>
+                </label>
+
+                <label class="breed-checkbox">
+                    <input type="checkbox"  data-breed="yorkshire_terrier" data-species="dogs">
+                    <span>Yorkshire Terrier</span>
+                </label>
+
+                </div>
+            </div>
+        </div>
+
+              <div class="image-grid grid-2" id="dogs-detection-grid">
+                <!-- Dynamic content will be loaded here -->
+              </div>
+            </div>
+          </div>
+
+          <script>
+
+    // Detection gallery data
+    const detectionBreedData = {"cats": {"Bengal": [{"filename": "Bengal_169.jpg", "bbox_label": "0 0.150000 0.231111 0.220000 0.320000"}, {"filename": "Bengal_142.jpg", "bbox_label": "0 0.733333 0.333333 0.346667 0.435556"}, {"filename": "Bengal_167.jpg", "bbox_label": "0 0.518333 0.484444 0.543333 0.808889"}, {"filename": "Bengal_145.jpg", "bbox_label": "0 0.533333 0.380000 0.206667 0.297778"}, {"filename": "Bengal_149.jpg", "bbox_label": "0 0.483333 0.315556 0.626667 0.622222"}, {"filename": "Bengal_135.jpg", "bbox_label": "0 0.148333 0.334483 0.176667 0.434483"}, {"filename": "Bengal_123.jpg", "bbox_label": "0 0.506000 0.544776 0.132000 0.259701"}, {"filename": "Bengal_107.jpg", "bbox_label": "0 0.604000 0.267164 0.192000 0.301493"}, {"filename": "Bengal_16.jpg", "bbox_label": "0 0.505000 0.468468 0.562000 0.852853"}, {"filename": "Bengal_109.jpg", "bbox_label": "0 0.632000 0.297904 0.340000 0.523952"}], "Bombay": [{"filename": "Bombay_121.jpg", "bbox_label": "0 0.663333 0.418660 0.273333 0.454545"}, {"filename": "Bombay_10.jpg", "bbox_label": "0 0.498000 0.297333 0.396000 0.589333"}, {"filename": "Bombay_156.jpg", "bbox_label": "0 0.489000 0.487465 0.630000 0.913649"}, {"filename": "Bombay_123.jpg", "bbox_label": "0 0.734722 0.509294 0.463889 0.557621"}, {"filename": "Bombay_167.jpg", "bbox_label": "0 0.579000 0.390947 0.678000 0.736626"}, {"filename": "Bombay_160.jpg", "bbox_label": "0 0.281609 0.440000 0.298851 0.365714"}, {"filename": "Bombay_151.jpg", "bbox_label": "0 0.523125 0.269167 0.378750 0.511667"}, {"filename": "Bombay_153.jpg", "bbox_label": "0 0.690000 0.408621 0.255000 0.368966"}, {"filename": "Bombay_140.jpg", "bbox_label": "0 0.581449 0.299687 0.457971 0.508125"}, {"filename": "Bombay_125.jpg", "bbox_label": "0 0.545759 0.335000 0.381696 0.623333"}], "Russian_Blue": [{"filename": "Russian_Blue_100.jpg", "bbox_label": "0 0.481333 0.423000 0.664000 0.638000"}, {"filename": "Russian_Blue_101.jpg", "bbox_label": "0 0.225000 0.225000 0.274000 0.345000"}, {"filename": "Russian_Blue_108.jpg", "bbox_label": "0 0.357651 0.345000 0.708185 0.426000"}, {"filename": "Russian_Blue_111.jpg", "bbox_label": "0 0.652000 0.298667 0.428000 0.592000"}, {"filename": "Russian_Blue_139.jpg", "bbox_label": "0 0.452000 0.484985 0.540000 0.903904"}, {"filename": "Russian_Blue_168.jpg", "bbox_label": "0 0.303303 0.350000 0.300300 0.220000"}, {"filename": "Russian_Blue_128.jpg", "bbox_label": "0 0.642667 0.376000 0.698667 0.680000"}, {"filename": "Russian_Blue_106.jpg", "bbox_label": "0 0.347692 0.195000 0.418462 0.294000"}, {"filename": "Russian_Blue_150.jpg", "bbox_label": "0 0.488000 0.436937 0.296000 0.471471"}, {"filename": "Russian_Blue_112.jpg", "bbox_label": "0 0.329000 0.198667 0.362000 0.392000"}], "Sphynx": [{"filename": "Sphynx_176.jpg", "bbox_label": "0 0.453030 0.291000 0.772727 0.474000"}, {"filename": "Sphynx_128.jpg", "bbox_label": "0 0.805000 0.359431 0.178000 0.334520"}, {"filename": "Sphynx_14.jpg", "bbox_label": "0 0.554000 0.393393 0.520000 0.780781"}, {"filename": "Sphynx_143.jpg", "bbox_label": "0 0.360000 0.653005 0.256000 0.464481"}, {"filename": "Sphynx_155.jpg", "bbox_label": "0 0.675000 0.347319 0.466000 0.596737"}, {"filename": "Sphynx_111.jpg", "bbox_label": "0 0.518072 0.217000 0.716867 0.430000"}, {"filename": "Sphynx_131.jpg", "bbox_label": "0 0.630240 0.275000 0.440120 0.326000"}, {"filename": "Sphynx_169.jpg", "bbox_label": "0 0.736000 0.363363 0.300000 0.432432"}, {"filename": "Sphynx_152.jpg", "bbox_label": "0 0.592000 0.162500 0.288000 0.312500"}, {"filename": "Sphynx_127.jpg", "bbox_label": "0 0.602410 0.446000 0.313253 0.208000"}], "Maine_Coon": [{"filename": "Maine_Coon_139.jpg", "bbox_label": "0 0.733000 0.182692 0.166000 0.239011"}, {"filename": "Maine_Coon_143.jpg", "bbox_label": "0 0.524096 0.369000 0.596386 0.430000"}, {"filename": "Maine_Coon_136.jpg", "bbox_label": "0 0.418114 0.341000 0.354839 0.318000"}, {"filename": "Maine_Coon_155.jpg", "bbox_label": "0 0.298000 0.409910 0.300000 0.471471"}, {"filename": "Maine_Coon_144.jpg", "bbox_label": "0 0.573996 0.351000 0.657505 0.626000"}, {"filename": "Maine_Coon_13.jpg", "bbox_label": "0 0.611000 0.331186 0.298000 0.507732"}, {"filename": "Maine_Coon_115.jpg", "bbox_label": "0 0.441617 0.302000 0.751497 0.600000"}, {"filename": "Maine_Coon_119.jpg", "bbox_label": "0 0.656000 0.247748 0.280000 0.423423"}, {"filename": "Maine_Coon_18.jpg", "bbox_label": "0 0.444272 0.421000 0.591331 0.366000"}, {"filename": "Maine_Coon_150.jpg", "bbox_label": "0 0.574000 0.378378 0.128000 0.180180"}], "British_Shorthair": [{"filename": "British_Shorthair_115.jpg", "bbox_label": "0 0.483452 0.492000 0.744681 0.552000"}, {"filename": "British_Shorthair_161.jpg", "bbox_label": "0 0.518018 0.368000 0.729730 0.536000"}, {"filename": "British_Shorthair_122.jpg", "bbox_label": "0 0.411000 0.403179 0.302000 0.482659"}, {"filename": "British_Shorthair_113.jpg", "bbox_label": "0 0.596280 0.463000 0.216630 0.210000"}, {"filename": "British_Shorthair_176.jpg", "bbox_label": "0 0.416000 0.422667 0.528000 0.648000"}, {"filename": "British_Shorthair_10.jpg", "bbox_label": "0 0.600858 0.244286 0.489270 0.322857"}, {"filename": "British_Shorthair_139.jpg", "bbox_label": "0 0.523000 0.470721 0.746000 0.779279"}, {"filename": "British_Shorthair_144.jpg", "bbox_label": "0 0.555000 0.493333 0.450000 0.602667"}, {"filename": "British_Shorthair_166.jpg", "bbox_label": "0 0.687688 0.342000 0.240240 0.164000"}, {"filename": "British_Shorthair_180.jpg", "bbox_label": "0 0.484985 0.420000 0.471471 0.364000"}], "Siamese": [{"filename": "Siamese_158.jpg", "bbox_label": "0 0.636000 0.381333 0.540000 0.693333"}, {"filename": "Siamese_115.jpg", "bbox_label": "0 0.658000 0.358209 0.360000 0.537313"}, {"filename": "Siamese_151.jpg", "bbox_label": "0 0.501502 0.345000 0.996997 0.686000"}, {"filename": "Siamese_17.jpg", "bbox_label": "0 0.427000 0.438000 0.738000 0.872000"}, {"filename": "Siamese_108.jpg", "bbox_label": "0 0.397000 0.302910 0.234000 0.357143"}, {"filename": "Siamese_153.jpg", "bbox_label": "0 0.594000 0.277778 0.200000 0.321321"}, {"filename": "Siamese_109.jpg", "bbox_label": "0 0.459000 0.393484 0.438000 0.656642"}, {"filename": "Siamese_175.jpg", "bbox_label": "0 0.691000 0.321333 0.438000 0.637333"}, {"filename": "Siamese_173.jpg", "bbox_label": "0 0.460452 0.266000 0.418079 0.312000"}, {"filename": "Siamese_142.jpg", "bbox_label": "0 0.415000 0.288155 0.438000 0.526196"}], "Ragdoll": [{"filename": "Ragdoll_135.jpg", "bbox_label": "0 0.419903 0.217708 0.427184 0.377083"}, {"filename": "Ragdoll_10.jpg", "bbox_label": "0 0.590000 0.320000 0.272000 0.394667"}, {"filename": "Ragdoll_174.jpg", "bbox_label": "0 0.414157 0.356000 0.563253 0.392000"}, {"filename": "Ragdoll_177.jpg", "bbox_label": "0 0.296000 0.318318 0.380000 0.540541"}, {"filename": "Ragdoll_143.jpg", "bbox_label": "0 0.374000 0.469974 0.740000 0.934726"}, {"filename": "Ragdoll_100.jpg", "bbox_label": "0 0.620390 0.390110 0.503254 0.697802"}, {"filename": "Ragdoll_165.jpg", "bbox_label": "0 0.507530 0.382000 0.274096 0.156000"}, {"filename": "Ragdoll_114.jpg", "bbox_label": "0 0.465465 0.324000 0.522523 0.356000"}, {"filename": "Ragdoll_126.jpg", "bbox_label": "0 0.500000 0.286000 0.622754 0.388000"}, {"filename": "Ragdoll_115.jpg", "bbox_label": "0 0.343000 0.496997 0.514000 0.753754"}], "Abyssinian": [{"filename": "Abyssinian_128.jpg", "bbox_label": "0 0.212000 0.253333 0.240000 0.389333"}, {"filename": "Abyssinian_135.jpg", "bbox_label": "0 0.415916 0.336000 0.711712 0.440000"}, {"filename": "Abyssinian_12.jpg", "bbox_label": "0 0.455224 0.273000 0.349254 0.214000"}, {"filename": "Abyssinian_130.jpg", "bbox_label": "0 0.522523 0.315000 0.486486 0.290000"}, {"filename": "Abyssinian_101.jpg", "bbox_label": "0 0.414444 0.432907 0.588889 0.635783"}, {"filename": "Abyssinian_158.jpg", "bbox_label": "0 0.501000 0.309333 0.386000 0.613333"}, {"filename": "Abyssinian_164.jpg", "bbox_label": "0 0.449000 0.611280 0.142000 0.210366"}, {"filename": "Abyssinian_13.jpg", "bbox_label": "0 0.740816 0.216071 0.297959 0.253571"}, {"filename": "Abyssinian_14.jpg", "bbox_label": "0 0.620896 0.234000 0.262687 0.184000"}, {"filename": "Abyssinian_142.jpg", "bbox_label": "0 0.513000 0.351039 0.354000 0.401848"}], "Birman": [{"filename": "Birman_144.jpg", "bbox_label": "0 0.638000 0.229333 0.268000 0.314667"}, {"filename": "Birman_149.jpg", "bbox_label": "0 0.512048 0.426000 0.698795 0.464000"}, {"filename": "Birman_125.jpg", "bbox_label": "0 0.380240 0.284000 0.754491 0.564000"}, {"filename": "Birman_166.jpg", "bbox_label": "0 0.488000 0.310811 0.244000 0.363363"}, {"filename": "Birman_153.jpg", "bbox_label": "0 0.440000 0.472973 0.644000 0.739558"}, {"filename": "Birman_121.jpg", "bbox_label": "0 0.571000 0.381381 0.510000 0.684685"}, {"filename": "Birman_169.jpg", "bbox_label": "0 0.441441 0.309000 0.564565 0.346000"}, {"filename": "Birman_162.jpg", "bbox_label": "0 0.450599 0.276000 0.631737 0.356000"}, {"filename": "Birman_142.jpg", "bbox_label": "0 0.668000 0.466967 0.404000 0.561562"}, {"filename": "Birman_15.jpg", "bbox_label": "0 0.459075 0.507000 0.718861 0.394000"}], "Egyptian_Mau": [{"filename": "Egyptian_Mau_101.jpg", "bbox_label": "0 0.740625 0.354167 0.147917 0.236111"}, {"filename": "Egyptian_Mau_138.jpg", "bbox_label": "0 0.774554 0.233631 0.285714 0.377976"}, {"filename": "Egyptian_Mau_152.jpg", "bbox_label": "0 0.521875 0.265278 0.368750 0.497222"}, {"filename": "Egyptian_Mau_10.jpg", "bbox_label": "0 0.353333 0.248951 0.406667 0.332867"}, {"filename": "Egyptian_Mau_15.jpg", "bbox_label": "0 0.581000 0.425150 0.190000 0.293413"}, {"filename": "Egyptian_Mau_136.jpg", "bbox_label": "0 0.536585 0.350000 0.650407 0.550000"}, {"filename": "Egyptian_Mau_164.jpg", "bbox_label": "0 0.767857 0.269345 0.250000 0.330357"}, {"filename": "Egyptian_Mau_140.jpg", "bbox_label": "0 0.567000 0.416000 0.130000 0.186667"}, {"filename": "Egyptian_Mau_160.jpg", "bbox_label": "0 0.301389 0.164938 0.169444 0.284232"}, {"filename": "Egyptian_Mau_161.jpg", "bbox_label": "0 0.627083 0.254167 0.254167 0.391667"}], "Persian": [{"filename": "Persian_131.jpg", "bbox_label": "0 0.436000 0.354667 0.296000 0.421333"}, {"filename": "Persian_106.jpg", "bbox_label": "0 0.489950 0.293000 0.507538 0.438000"}, {"filename": "Persian_163.jpg", "bbox_label": "0 0.552000 0.403000 0.672000 0.610000"}, {"filename": "Persian_134.jpg", "bbox_label": "0 0.822000 0.230667 0.300000 0.381333"}, {"filename": "Persian_165.jpg", "bbox_label": "0 0.448000 0.399399 0.724000 0.792793"}, {"filename": "Persian_175.jpg", "bbox_label": "0 0.544000 0.537000 0.736000 0.550000"}, {"filename": "Persian_14.jpg", "bbox_label": "0 0.462667 0.273000 0.792000 0.470000"}, {"filename": "Persian_143.jpg", "bbox_label": "0 0.473000 0.447447 0.154000 0.246246"}, {"filename": "Persian_128.jpg", "bbox_label": "0 0.420000 0.293413 0.252000 0.347305"}, {"filename": "Persian_114.jpg", "bbox_label": "0 0.356000 0.407745 0.388000 0.451025"}]}, "dogs": {"pomeranian": [{"filename": "pomeranian_132.jpg", "bbox_label": "0 0.585000 0.212851 0.283333 0.409639"}, {"filename": "pomeranian_158.jpg", "bbox_label": "0 0.495763 0.256667 0.432203 0.360000"}, {"filename": "pomeranian_151.jpg", "bbox_label": "0 0.488333 0.366667 0.330000 0.324444"}, {"filename": "pomeranian_169.jpg", "bbox_label": "0 0.460829 0.206667 0.433180 0.240000"}, {"filename": "pomeranian_129.jpg", "bbox_label": "0 0.528333 0.380150 0.510000 0.595506"}, {"filename": "pomeranian_135.jpg", "bbox_label": "0 0.529817 0.293333 0.536697 0.466667"}, {"filename": "pomeranian_124.jpg", "bbox_label": "0 0.500000 0.520000 0.320000 0.542222"}, {"filename": "pomeranian_150.jpg", "bbox_label": "0 0.555556 0.305000 0.497778 0.483333"}, {"filename": "pomeranian_134.jpg", "bbox_label": "0 0.213333 0.217742 0.266667 0.379032"}, {"filename": "pomeranian_161.jpg", "bbox_label": "0 0.491667 0.380000 0.410000 0.720000"}], "german_shorthaired": [{"filename": "german_shorthaired_151.jpg", "bbox_label": "0 0.467000 0.315315 0.206000 0.306306"}, {"filename": "german_shorthaired_125.jpg", "bbox_label": "0 0.421000 0.229333 0.214000 0.160000"}, {"filename": "german_shorthaired_153.jpg", "bbox_label": "0 0.531532 0.273000 0.426426 0.182000"}, {"filename": "german_shorthaired_124.jpg", "bbox_label": "0 0.502667 0.289000 0.813333 0.442000"}, {"filename": "german_shorthaired_15.jpg", "bbox_label": "0 0.285000 0.223724 0.358000 0.375375"}, {"filename": "german_shorthaired_117.jpg", "bbox_label": "0 0.564000 0.466667 0.592000 0.693333"}, {"filename": "german_shorthaired_127.jpg", "bbox_label": "0 0.459384 0.210000 0.487395 0.260000"}, {"filename": "german_shorthaired_157.jpg", "bbox_label": "0 0.453453 0.257000 0.702703 0.406000"}, {"filename": "german_shorthaired_103.jpg", "bbox_label": "0 0.426000 0.419162 0.360000 0.556886"}, {"filename": "german_shorthaired_100.jpg", "bbox_label": "0 0.323000 0.295796 0.350000 0.291291"}], "scottish_terrier": [{"filename": "scottish_terrier_166.jpg", "bbox_label": "0 0.531000 0.348348 0.414000 0.354354"}, {"filename": "scottish_terrier_147.jpg", "bbox_label": "0 0.640000 0.380000 0.244000 0.493333"}, {"filename": "scottish_terrier_10.jpg", "bbox_label": "0 0.149000 0.294030 0.202000 0.522388"}, {"filename": "scottish_terrier_163.jpg", "bbox_label": "0 0.725000 0.444904 0.246000 0.515152"}, {"filename": "scottish_terrier_109.jpg", "bbox_label": "0 0.739000 0.660000 0.150000 0.301333"}, {"filename": "scottish_terrier_104.jpg", "bbox_label": "0 0.290625 0.309722 0.197917 0.430556"}, {"filename": "scottish_terrier_114.jpg", "bbox_label": "0 0.517903 0.415000 0.549872 0.726000"}, {"filename": "scottish_terrier_136.jpg", "bbox_label": "0 0.387409 0.407000 0.484262 0.542000"}, {"filename": "scottish_terrier_126.jpg", "bbox_label": "0 0.567000 0.232000 0.410000 0.458667"}, {"filename": "scottish_terrier_138.jpg", "bbox_label": "0 0.416000 0.328000 0.444000 0.650667"}], "boxer": [{"filename": "boxer_140.jpg", "bbox_label": "0 0.432000 0.457333 0.496000 0.568000"}, {"filename": "boxer_157.jpg", "bbox_label": "0 0.415916 0.308000 0.633634 0.508000"}, {"filename": "boxer_147.jpg", "bbox_label": "0 0.461000 0.444000 0.558000 0.882667"}, {"filename": "boxer_129.jpg", "bbox_label": "0 0.518000 0.457958 0.120000 0.147147"}, {"filename": "boxer_112.jpg", "bbox_label": "0 0.571000 0.375375 0.318000 0.456456"}, {"filename": "boxer_143.jpg", "bbox_label": "0 0.447000 0.470667 0.670000 0.770667"}, {"filename": "boxer_133.jpg", "bbox_label": "0 0.446000 0.519022 0.484000 0.472826"}, {"filename": "boxer_162.jpg", "bbox_label": "0 0.466250 0.294000 0.312500 0.220000"}, {"filename": "boxer_145.jpg", "bbox_label": "0 0.700599 0.442000 0.335329 0.216000"}, {"filename": "boxer_144.jpg", "bbox_label": "0 0.356000 0.266667 0.228000 0.245333"}], "english_cocker_spaniel": [{"filename": "english_cocker_spaniel_165.jpg", "bbox_label": "0 0.500000 0.325333 0.304000 0.410667"}, {"filename": "english_cocker_spaniel_166.jpg", "bbox_label": "0 0.418000 0.466667 0.648000 0.768000"}, {"filename": "english_cocker_spaniel_149.jpg", "bbox_label": "0 0.503000 0.294667 0.310000 0.472000"}, {"filename": "english_cocker_spaniel_128.jpg", "bbox_label": "0 0.462000 0.414667 0.156000 0.226667"}, {"filename": "english_cocker_spaniel_130.jpg", "bbox_label": "0 0.441000 0.462462 0.394000 0.786787"}, {"filename": "english_cocker_spaniel_143.jpg", "bbox_label": "0 0.502000 0.454667 0.244000 0.392000"}, {"filename": "english_cocker_spaniel_151.jpg", "bbox_label": "0 0.553517 0.236000 0.678899 0.380000"}, {"filename": "english_cocker_spaniel_161.jpg", "bbox_label": "0 0.430473 0.327000 0.659763 0.426000"}, {"filename": "english_cocker_spaniel_136.jpg", "bbox_label": "0 0.475904 0.557000 0.813253 0.574000"}, {"filename": "english_cocker_spaniel_109.jpg", "bbox_label": "0 0.501502 0.336000 0.798799 0.544000"}], "miniature_pinscher": [{"filename": "miniature_pinscher_122.jpg", "bbox_label": "0 0.381667 0.322519 0.316667 0.423664"}, {"filename": "miniature_pinscher_146.jpg", "bbox_label": "0 0.626667 0.341418 0.413333 0.675373"}, {"filename": "miniature_pinscher_119.jpg", "bbox_label": "0 0.331301 0.315000 0.475610 0.476667"}, {"filename": "miniature_pinscher_123.jpg", "bbox_label": "0 0.520000 0.301667 0.746667 0.343333"}, {"filename": "miniature_pinscher_15.jpg", "bbox_label": "0 0.735000 0.352000 0.310000 0.581333"}, {"filename": "miniature_pinscher_104.jpg", "bbox_label": "0 0.541000 0.466967 0.398000 0.567568"}, {"filename": "miniature_pinscher_130.jpg", "bbox_label": "0 0.528333 0.317778 0.243333 0.395556"}, {"filename": "miniature_pinscher_124.jpg", "bbox_label": "0 0.394737 0.515000 0.488722 0.430000"}, {"filename": "miniature_pinscher_111.jpg", "bbox_label": "0 0.491202 0.268750 0.425220 0.500000"}, {"filename": "miniature_pinscher_114.jpg", "bbox_label": "0 0.455000 0.240000 0.336667 0.471111"}], "japanese_chin": [{"filename": "japanese_chin_17.jpg", "bbox_label": "0 0.499000 0.366048 0.366000 0.302387"}, {"filename": "japanese_chin_109.jpg", "bbox_label": "0 0.364000 0.297297 0.532000 0.509009"}, {"filename": "japanese_chin_140.jpg", "bbox_label": "0 0.321000 0.258667 0.254000 0.272000"}, {"filename": "japanese_chin_133.jpg", "bbox_label": "0 0.267000 0.516517 0.262000 0.456456"}, {"filename": "japanese_chin_121.jpg", "bbox_label": "0 0.535000 0.464072 0.478000 0.514970"}, {"filename": "japanese_chin_116.jpg", "bbox_label": "0 0.589378 0.294000 0.463731 0.244000"}, {"filename": "japanese_chin_155.jpg", "bbox_label": "0 0.530667 0.413000 0.544000 0.346000"}, {"filename": "japanese_chin_170.jpg", "bbox_label": "0 0.347000 0.343844 0.386000 0.471471"}, {"filename": "japanese_chin_167.jpg", "bbox_label": "0 0.577000 0.305333 0.314000 0.333333"}, {"filename": "japanese_chin_141.jpg", "bbox_label": "0 0.491000 0.408683 0.234000 0.272455"}], "american_pit_bull_terrier": [{"filename": "american_pit_bull_terrier_125.jpg", "bbox_label": "0 0.266667 0.335556 0.506667 0.564444"}, {"filename": "american_pit_bull_terrier_114.jpg", "bbox_label": "0 0.350000 0.430894 0.480000 0.585366"}, {"filename": "american_pit_bull_terrier_169.jpg", "bbox_label": "0 0.548333 0.288889 0.443333 0.506667"}, {"filename": "american_pit_bull_terrier_154.jpg", "bbox_label": "0 0.466667 0.356195 0.193333 0.367257"}, {"filename": "american_pit_bull_terrier_158.jpg", "bbox_label": "0 0.444737 0.248333 0.678947 0.436667"}, {"filename": "american_pit_bull_terrier_150.jpg", "bbox_label": "0 0.395556 0.231667 0.604444 0.410000"}, {"filename": "american_pit_bull_terrier_140.jpg", "bbox_label": "0 0.795000 0.345361 0.336667 0.580756"}, {"filename": "american_pit_bull_terrier_146.jpg", "bbox_label": "0 0.540650 0.448333 0.406504 0.223333"}, {"filename": "american_pit_bull_terrier_156.jpg", "bbox_label": "0 0.593023 0.386574 0.609302 0.523148"}, {"filename": "american_pit_bull_terrier_13.jpg", "bbox_label": "0 0.549333 0.279000 0.549333 0.346000"}], "yorkshire_terrier": [{"filename": "yorkshire_terrier_110.jpg", "bbox_label": "0 0.661376 0.645000 0.386243 0.434000"}, {"filename": "yorkshire_terrier_100.jpg", "bbox_label": "0 0.578000 0.309333 0.520000 0.608000"}, {"filename": "yorkshire_terrier_147.jpg", "bbox_label": "0 0.555556 0.425000 0.631111 0.536667"}, {"filename": "yorkshire_terrier_118.jpg", "bbox_label": "0 0.445833 0.273333 0.591667 0.533333"}, {"filename": "yorkshire_terrier_171.jpg", "bbox_label": "0 0.353000 0.684000 0.442000 0.386667"}, {"filename": "yorkshire_terrier_158.jpg", "bbox_label": "0 0.551667 0.277778 0.570000 0.520000"}, {"filename": "yorkshire_terrier_168.jpg", "bbox_label": "0 0.508816 0.459000 0.453401 0.342000"}, {"filename": "yorkshire_terrier_142.jpg", "bbox_label": "0 0.526667 0.417778 0.500000 0.737778"}, {"filename": "yorkshire_terrier_113.jpg", "bbox_label": "0 0.341772 0.154008 0.320675 0.299578"}, {"filename": "yorkshire_terrier_146.jpg", "bbox_label": "0 0.401667 0.646667 0.336667 0.404444"}], "newfoundland": [{"filename": "newfoundland_10.jpg", "bbox_label": "0 0.505970 0.411000 0.916418 0.522000"}, {"filename": "newfoundland_110.jpg", "bbox_label": "0 0.459000 0.330667 0.434000 0.570667"}, {"filename": "newfoundland_139.jpg", "bbox_label": "0 0.577000 0.399399 0.490000 0.756757"}, {"filename": "newfoundland_113.jpg", "bbox_label": "0 0.677419 0.220000 0.311828 0.268000"}, {"filename": "newfoundland_102.jpg", "bbox_label": "0 0.505000 0.456000 0.358000 0.437333"}, {"filename": "newfoundland_142.jpg", "bbox_label": "0 0.321000 0.366667 0.290000 0.344000"}, {"filename": "newfoundland_136.jpg", "bbox_label": "0 0.549401 0.396000 0.434132 0.240000"}, {"filename": "newfoundland_151.jpg", "bbox_label": "0 0.405000 0.521021 0.470000 0.795796"}, {"filename": "newfoundland_164.jpg", "bbox_label": "0 0.810000 0.337838 0.180000 0.279279"}, {"filename": "newfoundland_159.jpg", "bbox_label": "0 0.555000 0.444000 0.410000 0.413333"}], "english_setter": [{"filename": "english_setter_126.jpg", "bbox_label": "0 0.487000 0.388000 0.282000 0.381333"}, {"filename": "english_setter_168.jpg", "bbox_label": "0 0.605000 0.333333 0.182000 0.293333"}, {"filename": "english_setter_123.jpg", "bbox_label": "0 0.431000 0.430851 0.178000 0.155319"}, {"filename": "english_setter_113.jpg", "bbox_label": "0 0.595000 0.371642 0.402000 0.426866"}, {"filename": "english_setter_153.jpg", "bbox_label": "0 0.190000 0.264198 0.216000 0.197531"}, {"filename": "english_setter_169.jpg", "bbox_label": "0 0.627000 0.300000 0.146000 0.269333"}, {"filename": "english_setter_132.jpg", "bbox_label": "0 0.295000 0.230986 0.182000 0.253521"}, {"filename": "english_setter_144.jpg", "bbox_label": "0 0.708000 0.228916 0.212000 0.180723"}, {"filename": "english_setter_149.jpg", "bbox_label": "0 0.543000 0.488000 0.282000 0.352000"}, {"filename": "english_setter_162.jpg", "bbox_label": "0 0.489333 0.524000 0.354667 0.344000"}], "basset_hound": [{"filename": "basset_hound_11.jpg", "bbox_label": "0 0.470667 0.312000 0.530667 0.452000"}, {"filename": "basset_hound_142.jpg", "bbox_label": "0 0.617000 0.384384 0.390000 0.648649"}, {"filename": "basset_hound_144.jpg", "bbox_label": "0 0.303000 0.558559 0.234000 0.336336"}, {"filename": "basset_hound_107.jpg", "bbox_label": "0 0.657333 0.293000 0.546667 0.582000"}, {"filename": "basset_hound_149.jpg", "bbox_label": "0 0.451389 0.343056 0.506944 0.391667"}, {"filename": "basset_hound_170.jpg", "bbox_label": "0 0.390000 0.552553 0.404000 0.822823"}, {"filename": "basset_hound_123.jpg", "bbox_label": "0 0.489000 0.439940 0.314000 0.657658"}, {"filename": "basset_hound_117.jpg", "bbox_label": "0 0.716000 0.487988 0.484000 0.789790"}, {"filename": "basset_hound_110.jpg", "bbox_label": "0 0.552553 0.355000 0.756757 0.558000"}, {"filename": "basset_hound_106.jpg", "bbox_label": "0 0.495000 0.469188 0.178000 0.277311"}], "great_pyrenees": [{"filename": "great_pyrenees_142.jpg", "bbox_label": "0 0.589000 0.355856 0.202000 0.357357"}, {"filename": "great_pyrenees_129.jpg", "bbox_label": "0 0.795000 0.385113 0.186000 0.323625"}, {"filename": "great_pyrenees_158.jpg", "bbox_label": "0 0.547000 0.476000 0.174000 0.237333"}, {"filename": "great_pyrenees_168.jpg", "bbox_label": "0 0.439000 0.158667 0.234000 0.306667"}, {"filename": "great_pyrenees_118.jpg", "bbox_label": "0 0.488000 0.360000 0.208000 0.197333"}, {"filename": "great_pyrenees_103.jpg", "bbox_label": "0 0.492000 0.466667 0.264000 0.352000"}, {"filename": "great_pyrenees_145.jpg", "bbox_label": "0 0.474000 0.459459 0.428000 0.684685"}, {"filename": "great_pyrenees_135.jpg", "bbox_label": "0 0.716667 0.301587 0.228571 0.298413"}, {"filename": "great_pyrenees_101.jpg", "bbox_label": "0 0.534000 0.324000 0.400000 0.498667"}, {"filename": "great_pyrenees_150.jpg", "bbox_label": "0 0.463964 0.488000 0.675676 0.384000"}], "beagle": [{"filename": "beagle_128.jpg", "bbox_label": "0 0.434000 0.400901 0.372000 0.519520"}, {"filename": "beagle_143.jpg", "bbox_label": "0 0.490000 0.430000 0.840000 0.692000"}, {"filename": "beagle_173.jpg", "bbox_label": "0 0.443182 0.694444 0.318182 0.395833"}, {"filename": "beagle_107.jpg", "bbox_label": "0 0.484000 0.448753 0.376000 0.421053"}, {"filename": "beagle_171.jpg", "bbox_label": "0 0.459000 0.342667 0.474000 0.664000"}, {"filename": "beagle_117.jpg", "bbox_label": "0 0.527000 0.356928 0.330000 0.370482"}, {"filename": "beagle_121.jpg", "bbox_label": "0 0.323000 0.604000 0.458000 0.408000"}, {"filename": "beagle_10.jpg", "bbox_label": "0 0.537000 0.495509 0.478000 0.685629"}, {"filename": "beagle_111.jpg", "bbox_label": "0 0.622000 0.475976 0.512000 0.597598"}, {"filename": "beagle_164.jpg", "bbox_label": "0 0.434000 0.276000 0.240000 0.210667"}], "leonberger": [{"filename": "leonberger_152.jpg", "bbox_label": "0 0.487113 0.402000 0.773196 0.632000"}, {"filename": "leonberger_131.jpg", "bbox_label": "0 0.514000 0.411411 0.488000 0.654655"}, {"filename": "leonberger_170.jpg", "bbox_label": "0 0.755000 0.365333 0.190000 0.304000"}, {"filename": "leonberger_158.jpg", "bbox_label": "0 0.375000 0.706667 0.334000 0.357333"}, {"filename": "leonberger_167.jpg", "bbox_label": "0 0.653846 0.628000 0.218295 0.208000"}, {"filename": "leonberger_106.jpg", "bbox_label": "0 0.504505 0.485000 0.906907 0.542000"}, {"filename": "leonberger_15.jpg", "bbox_label": "0 0.661000 0.207729 0.218000 0.217391"}, {"filename": "leonberger_13.jpg", "bbox_label": "0 0.556886 0.179000 0.461078 0.290000"}, {"filename": "leonberger_123.jpg", "bbox_label": "0 0.153000 0.167494 0.230000 0.215881"}, {"filename": "leonberger_160.jpg", "bbox_label": "0 0.525333 0.382000 0.730667 0.496000"}], "wheaten_terrier": [{"filename": "wheaten_terrier_171.jpg", "bbox_label": "0 0.272000 0.389394 0.540000 0.548485"}, {"filename": "wheaten_terrier_110.jpg", "bbox_label": "0 0.530030 0.308000 0.735736 0.516000"}, {"filename": "wheaten_terrier_169.jpg", "bbox_label": "0 0.429000 0.227273 0.278000 0.412121"}, {"filename": "wheaten_terrier_143.jpg", "bbox_label": "0 0.472000 0.316000 0.474667 0.292000"}, {"filename": "wheaten_terrier_159.jpg", "bbox_label": "0 0.345000 0.324000 0.274000 0.317333"}, {"filename": "wheaten_terrier_162.jpg", "bbox_label": "0 0.306000 0.533333 0.212000 0.272000"}, {"filename": "wheaten_terrier_11.jpg", "bbox_label": "0 0.458000 0.466967 0.380000 0.543544"}, {"filename": "wheaten_terrier_167.jpg", "bbox_label": "0 0.325000 0.229333 0.378000 0.453333"}, {"filename": "wheaten_terrier_111.jpg", "bbox_label": "0 0.614000 0.345333 0.168000 0.253333"}, {"filename": "wheaten_terrier_140.jpg", "bbox_label": "0 0.464000 0.326667 0.484000 0.621333"}], "shiba_inu": [{"filename": "shiba_inu_155.jpg", "bbox_label": "0 0.667000 0.380597 0.326000 0.552239"}, {"filename": "shiba_inu_126.jpg", "bbox_label": "0 0.717000 0.180723 0.186000 0.355422"}, {"filename": "shiba_inu_172.jpg", "bbox_label": "0 0.478000 0.487671 0.536000 0.838356"}, {"filename": "shiba_inu_16.jpg", "bbox_label": "0 0.448949 0.442000 0.603604 0.512000"}, {"filename": "shiba_inu_159.jpg", "bbox_label": "0 0.467000 0.465465 0.894000 0.900901"}, {"filename": "shiba_inu_147.jpg", "bbox_label": "0 0.420000 0.328000 0.653333 0.652000"}, {"filename": "shiba_inu_162.jpg", "bbox_label": "0 0.836000 0.483582 0.316000 0.561194"}, {"filename": "shiba_inu_136.jpg", "bbox_label": "0 0.367000 0.429333 0.178000 0.293333"}, {"filename": "shiba_inu_146.jpg", "bbox_label": "0 0.366000 0.324000 0.200000 0.381333"}, {"filename": "shiba_inu_118.jpg", "bbox_label": "0 0.595687 0.369000 0.242588 0.174000"}], "saint_bernard": [{"filename": "saint_bernard_171.jpg", "bbox_label": "0 0.316000 0.260823 0.460000 0.413420"}, {"filename": "saint_bernard_124.jpg", "bbox_label": "0 0.338000 0.422667 0.244000 0.354667"}, {"filename": "saint_bernard_125.jpg", "bbox_label": "0 0.547194 0.429000 0.665816 0.554000"}, {"filename": "saint_bernard_13.jpg", "bbox_label": "0 0.518000 0.333333 0.316000 0.421333"}, {"filename": "saint_bernard_140.jpg", "bbox_label": "0 0.307778 0.361000 0.335556 0.278000"}, {"filename": "saint_bernard_161.jpg", "bbox_label": "0 0.485333 0.556000 0.394667 0.324000"}, {"filename": "saint_bernard_162.jpg", "bbox_label": "0 0.357333 0.298000 0.554667 0.404000"}, {"filename": "saint_bernard_100.jpg", "bbox_label": "0 0.410000 0.470667 0.396000 0.461333"}, {"filename": "saint_bernard_117.jpg", "bbox_label": "0 0.599455 0.325000 0.643052 0.538000"}, {"filename": "saint_bernard_129.jpg", "bbox_label": "0 0.523000 0.470667 0.086000 0.104000"}], "chihuahua": [{"filename": "chihuahua_122.jpg", "bbox_label": "0 0.518333 0.340000 0.383333 0.528889"}, {"filename": "chihuahua_16.jpg", "bbox_label": "0 0.388889 0.365000 0.718519 0.630000"}, {"filename": "chihuahua_166.jpg", "bbox_label": "0 0.515000 0.255556 0.283333 0.502222"}, {"filename": "chihuahua_106.jpg", "bbox_label": "0 0.480000 0.206667 0.160000 0.226667"}, {"filename": "chihuahua_131.jpg", "bbox_label": "0 0.513333 0.277457 0.280000 0.508671"}, {"filename": "chihuahua_107.jpg", "bbox_label": "0 0.225000 0.333333 0.243333 0.391111"}, {"filename": "chihuahua_12.jpg", "bbox_label": "0 0.708000 0.281333 0.248000 0.482667"}, {"filename": "chihuahua_109.jpg", "bbox_label": "0 0.608333 0.240000 0.456667 0.471111"}, {"filename": "chihuahua_132.jpg", "bbox_label": "0 0.485000 0.364444 0.330000 0.346667"}, {"filename": "chihuahua_134.jpg", "bbox_label": "0 0.422222 0.253333 0.488889 0.406667"}], "samoyed": [{"filename": "samoyed_14.jpg", "bbox_label": "0 0.357000 0.492997 0.302000 0.448179"}, {"filename": "samoyed_11.jpg", "bbox_label": "0 0.473846 0.266000 0.523077 0.364000"}, {"filename": "samoyed_114.jpg", "bbox_label": "0 0.412000 0.414667 0.120000 0.232000"}, {"filename": "samoyed_167.jpg", "bbox_label": "0 0.436000 0.419403 0.372000 0.540299"}, {"filename": "samoyed_160.jpg", "bbox_label": "0 0.783000 0.268769 0.138000 0.321321"}, {"filename": "samoyed_108.jpg", "bbox_label": "0 0.450450 0.344000 0.366366 0.324000"}, {"filename": "samoyed_144.jpg", "bbox_label": "0 0.513000 0.318667 0.238000 0.285333"}, {"filename": "samoyed_151.jpg", "bbox_label": "0 0.417000 0.395522 0.354000 0.444776"}, {"filename": "samoyed_12.jpg", "bbox_label": "0 0.462667 0.269000 0.349333 0.346000"}, {"filename": "samoyed_169.jpg", "bbox_label": "0 0.534000 0.504505 0.288000 0.744745"}], "pug": [{"filename": "pug_112.jpg", "bbox_label": "0 0.426426 0.231000 0.396396 0.230000"}, {"filename": "pug_168.jpg", "bbox_label": "0 0.595556 0.308333 0.808889 0.530000"}, {"filename": "pug_17.jpg", "bbox_label": "0 0.538000 0.549333 0.496000 0.544000"}, {"filename": "pug_145.jpg", "bbox_label": "0 0.651667 0.342222 0.623333 0.675556"}, {"filename": "pug_142.jpg", "bbox_label": "0 0.526667 0.377778 0.513333 0.577778"}, {"filename": "pug_16.jpg", "bbox_label": "0 0.536000 0.414667 0.520000 0.637333"}, {"filename": "pug_139.jpg", "bbox_label": "0 0.476667 0.325532 0.606667 0.523404"}, {"filename": "pug_140.jpg", "bbox_label": "0 0.535000 0.237778 0.470000 0.466667"}, {"filename": "pug_127.jpg", "bbox_label": "0 0.468333 0.449814 0.743333 0.728625"}, {"filename": "pug_166.jpg", "bbox_label": "0 0.495556 0.428333 0.795556 0.610000"}], "american_bulldog": [{"filename": "american_bulldog_106.jpg", "bbox_label": "0 0.252308 0.163000 0.480000 0.286000"}, {"filename": "american_bulldog_117.jpg", "bbox_label": "0 0.457333 0.290000 0.456000 0.308000"}, {"filename": "american_bulldog_173.jpg", "bbox_label": "0 0.648000 0.444444 0.672000 0.612613"}, {"filename": "american_bulldog_123.jpg", "bbox_label": "0 0.557229 0.340000 0.271084 0.152000"}, {"filename": "american_bulldog_168.jpg", "bbox_label": "0 0.324000 0.530667 0.588000 0.442667"}, {"filename": "american_bulldog_141.jpg", "bbox_label": "0 0.441441 0.374000 0.720721 0.400000"}, {"filename": "american_bulldog_181.jpg", "bbox_label": "0 0.478000 0.416168 0.468000 0.646707"}, {"filename": "american_bulldog_115.jpg", "bbox_label": "0 0.480000 0.333333 0.232000 0.372372"}, {"filename": "american_bulldog_121.jpg", "bbox_label": "0 0.721000 0.403904 0.218000 0.201201"}, {"filename": "american_bulldog_140.jpg", "bbox_label": "0 0.480000 0.466967 0.844000 0.927928"}], "havanese": [{"filename": "havanese_120.jpg", "bbox_label": "0 0.491000 0.298667 0.510000 0.592000"}, {"filename": "havanese_117.jpg", "bbox_label": "0 0.362000 0.422343 0.576000 0.659401"}, {"filename": "havanese_15.jpg", "bbox_label": "0 0.582633 0.420000 0.504202 0.368000"}, {"filename": "havanese_14.jpg", "bbox_label": "0 0.500000 0.486486 0.284000 0.378378"}, {"filename": "havanese_130.jpg", "bbox_label": "0 0.465000 0.473333 0.722000 0.749333"}, {"filename": "havanese_164.jpg", "bbox_label": "0 0.517000 0.558824 0.230000 0.388235"}, {"filename": "havanese_140.jpg", "bbox_label": "0 0.596000 0.370166 0.788000 0.558011"}, {"filename": "havanese_100.jpg", "bbox_label": "0 0.341000 0.392157 0.222000 0.213508"}, {"filename": "havanese_169.jpg", "bbox_label": "0 0.436000 0.426667 0.564000 0.613333"}, {"filename": "havanese_119.jpg", "bbox_label": "0 0.710000 0.651466 0.300000 0.410423"}], "staffordshire_bull_terrier": [{"filename": "staffordshire_bull_terrier_135.jpg", "bbox_label": "0 0.458000 0.392000 0.172000 0.202667"}, {"filename": "staffordshire_bull_terrier_100.jpg", "bbox_label": "0 0.459951 0.360000 0.303398 0.260000"}, {"filename": "staffordshire_bull_terrier_116.jpg", "bbox_label": "0 0.514000 0.457333 0.532000 0.509333"}, {"filename": "staffordshire_bull_terrier_149.jpg", "bbox_label": "0 0.460000 0.493333 0.416000 0.506667"}, {"filename": "staffordshire_bull_terrier_103.jpg", "bbox_label": "0 0.429167 0.364583 0.752778 0.437500"}, {"filename": "staffordshire_bull_terrier_131.jpg", "bbox_label": "0 0.329114 0.335000 0.599156 0.466000"}, {"filename": "staffordshire_bull_terrier_159.jpg", "bbox_label": "0 0.529000 0.474667 0.462000 0.928000"}, {"filename": "staffordshire_bull_terrier_158.jpg", "bbox_label": "0 0.526000 0.489333 0.392000 0.685333"}, {"filename": "staffordshire_bull_terrier_115.jpg", "bbox_label": "0 0.540000 0.490667 0.464000 0.501333"}, {"filename": "staffordshire_bull_terrier_137.jpg", "bbox_label": "0 0.682000 0.386667 0.484000 0.464000"}], "keeshond": [{"filename": "keeshond_123.jpg", "bbox_label": "0 0.586000 0.387387 0.432000 0.642643"}, {"filename": "keeshond_135.jpg", "bbox_label": "0 0.449000 0.469333 0.458000 0.757333"}, {"filename": "keeshond_119.jpg", "bbox_label": "0 0.495000 0.397898 0.410000 0.591592"}, {"filename": "keeshond_111.jpg", "bbox_label": "0 0.645000 0.343844 0.274000 0.591592"}, {"filename": "keeshond_130.jpg", "bbox_label": "0 0.518018 0.247000 0.603604 0.354000"}, {"filename": "keeshond_143.jpg", "bbox_label": "0 0.446000 0.386059 0.176000 0.241287"}, {"filename": "keeshond_128.jpg", "bbox_label": "0 0.587000 0.348348 0.198000 0.216216"}, {"filename": "keeshond_158.jpg", "bbox_label": "0 0.508000 0.378667 0.416000 0.746667"}, {"filename": "keeshond_139.jpg", "bbox_label": "0 0.514000 0.388000 0.304000 0.530667"}, {"filename": "keeshond_142.jpg", "bbox_label": "0 0.355000 0.485333 0.346000 0.538667"}]}};
+    const defaultCats = ["Bengal", "Bombay", "Russian_Blue", "Sphynx"];
+    const defaultDogs = ["pomeranian", "german_shorthaired", "scottish_terrier", "boxer"];
+
+    // Get random images from breed
+    function getRandomImages(images, count) {
+        const shuffled = [...images].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    }
+
+    // Parse YOLO bbox label (normalized coords)
+    function parseBboxLabel(labelStr) {
+        const parts = labelStr.trim().split(/\s+/);
+        if (parts.length < 5) return null;
+
+        return {
+            class_id: parseInt(parts[0]),
+            x_center: parseFloat(parts[1]),
+            y_center: parseFloat(parts[2]),
+            width: parseFloat(parts[3]),
+            height: parseFloat(parts[4])
+        };
+    }
+
+    // Draw bbox on canvas
+    function drawBboxOnCanvas(canvas, img, bbox) {
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size to image size
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // Draw image
+        ctx.drawImage(img, 0, 0);
+
+        // Convert normalized coords to pixel coords
+        const x1 = (bbox.x_center - bbox.width / 2) * img.width;
+        const y1 = (bbox.y_center - bbox.height / 2) * img.height;
+        const w = bbox.width * img.width;
+        const h = bbox.height * img.height;
+
+        // Draw bbox
+        ctx.strokeStyle = '#10b981';  // Green
+        ctx.lineWidth = 3;
+        ctx.strokeRect(x1, y1, w, h);
+
+        // Draw label
+        ctx.fillStyle = '#10b981';
+        ctx.fillRect(x1, y1 - 25, 60, 25);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 14px Arial';
+        ctx.fillText('Pet', x1 + 5, y1 - 7);
+    }
+
+    // Update detection grid
+    function updateDetectionGrid(species, selectedBreeds) {
+        const grid = document.getElementById(`${species}-detection-grid`);
+        if (!grid) return;
+
+        let html = '';
+
+        selectedBreeds.forEach(breed => {
+            const images = detectionBreedData[species][breed];
+            if (!images) return;
+
+            // Get random images (max 4 per breed)
+            const displayImages = getRandomImages(images, 4);
+
+            displayImages.forEach(imgData => {
+                const imgPath = `../../../datasets/oxford-pets/data/sample_images/${species}/${imgData.filename}`;
+                const bbox = parseBboxLabel(imgData.bbox_label);
+
+                if (bbox) {
+                    const bboxStr = bbox.x_center + ',' + bbox.y_center + ',' + bbox.width + ',' + bbox.height;
+                    const areaPercent = (bbox.width * bbox.height * 100).toFixed(1);
+
+                    html += '<div class="image-item" style="position: relative;">' +
+                            '<canvas class="detection-canvas" ' +
+                            'data-src="' + imgPath + '" ' +
+                            'data-bbox="' + bboxStr + '" ' +
+                            'style="width: 100%; height: auto; border-radius: 8px; cursor: pointer;">' +
+                            '</canvas>' +
+                            '<div class="image-caption">' +
+                            '<div style="font-weight: 600;">' + breed.replace(/_/g, ' ') + '</div>' +
+                            '<div style="font-size: 0.85rem; opacity: 0.8;">Bbox: ' + areaPercent + '% area</div>' +
+                            '</div>' +
+                            '</div>';
+                }
+            });
+        });
+
+        grid.innerHTML = html || '<p style="text-align: center; padding: 20px; color: #999;">No images selected</p>';
+
+        // Load images and draw bboxes
+        grid.querySelectorAll('.detection-canvas').forEach(canvas => {
+            const img = new Image();
+            const bboxStr = canvas.dataset.bbox;
+
+            // Parse bbox from comma-separated string
+            const parts = bboxStr.split(',');
+            const bbox = {
+                x_center: parseFloat(parts[0]),
+                y_center: parseFloat(parts[1]),
+                width: parseFloat(parts[2]),
+                height: parseFloat(parts[3])
+            };
+
+            img.onload = function() {
+                drawBboxOnCanvas(canvas, img, bbox);
+            };
+
+            img.src = canvas.dataset.src;
+
+            // Click to enlarge
+            canvas.addEventListener('click', function() {
+                window.open(canvas.dataset.src, '_blank');
+            });
+        });
+    }
+
+    // Initialize detection gallery
+    function initializeDetectionGallery() {
+        console.log('Initializing detection gallery...');
+
+        // Initial load
+        updateDetectionGrid('cats', defaultCats);
+        updateDetectionGrid('dogs', defaultDogs);
+
+        // Breed checkbox change handlers
+        document.querySelectorAll('.breed-checkbox input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const species = this.dataset.species;
+                const selectedBreeds = Array.from(
+                    document.querySelectorAll(`input[data-species="${species}"]:checked`)
+                ).map(cb => cb.dataset.breed);
+
+                updateDetectionGrid(species, selectedBreeds);
+            });
+        });
+
+        // Select All buttons
+        document.querySelectorAll('.select-all-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const species = this.dataset.species;
+                document.querySelectorAll(`input[data-species="${species}"]`).forEach(cb => {
+                    cb.checked = true;
+                });
+                const selectedBreeds = Array.from(
+                    document.querySelectorAll(`input[data-species="${species}"]:checked`)
+                ).map(cb => cb.dataset.breed);
+                updateDetectionGrid(species, selectedBreeds);
+            });
+        });
+
+        // Select None buttons
+        document.querySelectorAll('.select-none-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const species = this.dataset.species;
+                document.querySelectorAll(`input[data-species="${species}"]`).forEach(cb => {
+                    cb.checked = false;
+                });
+                updateDetectionGrid(species, []);
+            });
+        });
+
+        // Collapsible panels
+        document.querySelectorAll('.collapsible-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const species = this.dataset.species;
+                const panel = document.getElementById(`panel-${species}`);
+                const icon = this.querySelector('.collapsible-icon');
+
+                if (panel.style.display === 'none' || !panel.style.display) {
+                    panel.style.display = 'grid';
+                    icon.textContent = '▲';
+                } else {
+                    panel.style.display = 'none';
+                    icon.textContent = '▼';
+                }
+            });
+        });
+
+        console.log('✓ Detection gallery initialized');
+    }
+
+
+          // Initialize gallery
+          document.addEventListener('DOMContentLoaded', function() {
+            initializeDetectionGallery();
+          });
+          </script>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Oxford Pets Classification | Generated by EDA System</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Detection Analysis</p>
+      </div>
+    </footer>
+
+    <!-- Scripts (footer) -->
+    
+            <script>
+                function toggleSection(sectionId) {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
+                    
+                    const header = section.querySelector('h2');
+                    const content = section.querySelector('.section-content');
+                    
+                    if (header && content) {
+                        const isCollapsed = header.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        } else {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    }
+                }
+            
+                function collapseAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.add('collapsed');
+                            content.classList.add('collapsed');
+                            section.classList.add('collapsed');
+                        }
+                    });
+                }
+                
+                function expandAll() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        const header = section.querySelector('h2');
+                        const content = section.querySelector('.section-content');
+                        
+                        if (header && content) {
+                            header.classList.remove('collapsed');
+                            content.classList.remove('collapsed');
+                            section.classList.remove('collapsed');
+                        }
+                    });
+                }
+            
+            // Ensure sections are expanded by default (no control panel needed - using global menubar)
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ensure all sections are expanded by default
+                expandAll();
+            });
+            </script>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+    <script src="assets/js/tutorial/tutorial.js" defer></script>
+    <script src="assets/js/global-menubar.js" defer></script>
+    <script src="assets/js/common/utils.js" defer></script>
+    <script src="assets/js/detection/data-loader.js" defer></script>
+    <script src="assets/js/detection/main.js" defer></script>
+  </body>
+</html>
