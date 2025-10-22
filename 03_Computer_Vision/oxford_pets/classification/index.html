@@ -646,7 +646,6 @@ transform = transforms.Compose([
                 }
             };
         </script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         
         <!-- Load shared components JavaScript from centralized library -->
@@ -748,16 +747,21 @@ transform = transforms.Compose([
                 if (performanceTbody) {
                     performanceTbody.innerHTML = '';
                     
-                    Object.values(data.models).forEach((model, index) => {
+                    const models = Object.values(data.models);
+                    const metrics = ['precision', 'recall', 'f1_score', 'accuracy', 'top5_accuracy'];
+                    
+                    models.forEach((model, index) => {
                         const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><strong>${model.name}</strong></td>
-                            <td><span class="metric-value ${getMetricClass(model.performance.precision, 'performance')}">${(model.performance.precision * 100).toFixed(1)}%</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.performance.recall, 'performance')}">${(model.performance.recall * 100).toFixed(1)}%</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.performance.f1_score, 'performance')}">${(model.performance.f1_score * 100).toFixed(1)}%</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.performance.accuracy, 'performance')}">${(model.performance.accuracy * 100).toFixed(1)}%</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.performance.top5_accuracy, 'performance')}">${(model.performance.top5_accuracy * 100).toFixed(1)}%</span></td>
-                        `;
+                        let rowHTML = `<td><strong>${model.name}</strong></td>`;
+                        
+                        metrics.forEach(metric => {
+                            const value = model.performance[metric];
+                            const isBest = isBestInColumn(models, metric, value);
+                            const className = isBest ? 'best' : (value >= 0.90 ? 'good' : '');
+                            rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%</span></td>`;
+                        });
+                        
+                        row.innerHTML = rowHTML;
                         performanceTbody.appendChild(row);
                     });
                 }
@@ -767,36 +771,50 @@ transform = transforms.Compose([
                 if (resourcesTbody) {
                     resourcesTbody.innerHTML = '';
                     
-                    Object.values(data.models).forEach((model, index) => {
+                    const models = Object.values(data.models);
+                    const resourceMetrics = ['training_time', 'inference_time', 'flops', 'parameters', 'model_size'];
+                    
+                    models.forEach((model, index) => {
                         const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><strong>${model.name}</strong></td>
-                            <td><span class="metric-value ${getMetricClass(model.resources.training_time, 'resources', 'time')}">${model.resources.training_time.toFixed(1)}min</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.resources.inference_time, 'resources', 'time')}">${model.resources.inference_time.toFixed(1)}ms</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.resources.flops, 'resources', 'flops')}">${(model.resources.flops / 1e9).toFixed(1)}B</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.resources.parameters, 'resources', 'params')}">${model.resources.parameters.toFixed(1)}M</span></td>
-                            <td><span class="metric-value ${getMetricClass(model.resources.model_size, 'resources', 'size')}">${model.resources.model_size.toFixed(1)}MB</span></td>
-                        `;
+                        let rowHTML = `<td><strong>${model.name}</strong></td>`;
+                        
+                        resourceMetrics.forEach(metric => {
+                            const value = model.resources[metric];
+                            const isBest = isBestInColumn(models, metric, value, 'resources');
+                            const className = isBest ? 'best' : (value <= 0.5 ? 'good' : '');
+                            let displayValue;
+                            
+                            if (metric === 'flops') {
+                                displayValue = `${(value / 1e9).toFixed(1)}B`;
+                            } else if (metric === 'parameters') {
+                                displayValue = `${value.toFixed(1)}M`;
+                            } else if (metric === 'model_size') {
+                                displayValue = `${value.toFixed(1)}MB`;
+                            } else if (metric === 'training_time') {
+                                displayValue = `${value.toFixed(1)}min`;
+                            } else {
+                                displayValue = `${value.toFixed(1)}ms`;
+                            }
+                            
+                            rowHTML += `<td><span class="metric-value ${className}">${displayValue}</span></td>`;
+                        });
+                        
+                        row.innerHTML = rowHTML;
                         resourcesTbody.appendChild(row);
                     });
                 }
             }
             
-            // Helper function to determine metric class
-            function getMetricClass(value, type, subtype = '') {
+            // Helper function to check if value is best in column
+            function isBestInColumn(models, metric, value, type = 'performance') {
                 if (type === 'performance') {
-                    if (value >= 0.95) return 'best';
-                    if (value >= 0.90) return 'good';
-                    return '';
+                    // Higher is better for performance metrics
+                    return models.every(model => model.performance[metric] <= value);
                 } else if (type === 'resources') {
-                    if (subtype === 'time' || subtype === 'flops' || subtype === 'params' || subtype === 'size') {
-                        // Lower is better for resources
-                        if (value <= 0.1) return 'best';
-                        if (value <= 0.5) return 'good';
-                        return '';
-                    }
+                    // Lower is better for resource metrics
+                    return models.every(model => model.resources[metric] >= value);
                 }
-                return '';
+                return false;
             }
             
             // Load and initialize components with mock data
