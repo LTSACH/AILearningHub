@@ -50,7 +50,7 @@ BERT_MODELS = {
     },
     'tinybert': {
         'name': 'TinyBERT',
-        'model_name': 'huawei-noah/TinyBERT_General_4L_312D',
+        'model_name': 'prajjwal1/bert-tiny',
         'params_millions': 14,
         'has_pooler': True
     }
@@ -107,9 +107,57 @@ class BBCNewsDataset(Dataset):
         }
 
 
+def download_bbc_news():
+    """Download BBC News dataset from GitHub Pages"""
+    print("="*70)
+    print("📥 DOWNLOADING BBC NEWS DATASET")
+    print("="*70)
+    
+    base_url = 'https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/'
+    
+    try:
+        train_df = pd.read_csv(base_url + 'train.csv')
+        val_df = pd.read_csv(base_url + 'val.csv')
+        test_df = pd.read_csv(base_url + 'test.csv')
+        
+        print(f"✓ Train: {len(train_df):,} samples")
+        print(f"✓ Val: {len(val_df):,} samples")
+        print(f"✓ Test: {len(test_df):,} samples")
+        print(f"✓ Categories: {sorted(train_df['category'].unique().tolist())}")
+        print()
+        
+        return train_df, val_df, test_df
+    except Exception as e:
+        print(f"❌ Failed to download: {e}")
+        return None, None, None
+
+
 def load_bbc_news(data_dir='data'):
     """Load BBC News dataset"""
     data_dir = Path(data_dir)
+    
+    # Check if data exists locally
+    if not (data_dir / 'train.csv').exists():
+        print("📥 Dataset not found locally, downloading...")
+        train_df, val_df, test_df = download_bbc_news()
+        if train_df is None:
+            raise FileNotFoundError("Failed to download dataset")
+        
+        # Get label mapping for downloaded data
+        label_map = {label: idx for idx, label in enumerate(sorted(train_df['category'].unique()))}
+        
+        # Convert labels
+        train_df['label'] = train_df['category'].map(label_map)
+        val_df['label'] = val_df['category'].map(label_map)
+        test_df['label'] = test_df['category'].map(label_map)
+        
+        print(f"✓ Loaded BBC News dataset")
+        print(f"  Train: {len(train_df)} samples")
+        print(f"  Val: {len(val_df)} samples")
+        print(f"  Test: {len(test_df)} samples")
+        print(f"  Classes: {list(label_map.keys())}")
+        
+        return train_df, val_df, test_df, label_map
     
     # Load preprocessed data
     train_df = pd.read_csv(data_dir / 'train.csv')
@@ -138,7 +186,7 @@ def load_bbc_news(data_dir='data'):
 class BERTWithCustomPooling(nn.Module):
     """BERT model with custom pooling strategies"""
     
-    def __init__(self, model_name, num_labels, pooling_strategy='cls_token', dropout=0.1):
+    def __init__(self, model_name, pooling_strategy='cls_token', num_labels=5, dropout=0.1):
         super().__init__()
         self.pooling_strategy = pooling_strategy
         
@@ -268,8 +316,8 @@ class BERTTrainer:
         # Initialize model
         model = BERTWithCustomPooling(
             model_info['model_name'],
-            num_labels=len(label_map),
-            pooling_strategy=pooling_key
+            pooling_strategy=pooling_key,
+            num_labels=len(label_map)
         ).to(self.device)
         
         # Optimizer and scheduler
