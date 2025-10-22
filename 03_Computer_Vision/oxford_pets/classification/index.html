@@ -563,31 +563,8 @@ transform = transforms.Compose([
                                     <th data-en="Top-5 Accuracy ↑" data-vi="Top-5 Accuracy ↑">Top-5 Acc ↑</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>ResNet50</strong></td>
-                                    <td><span class="metric-value good">94.8%</span></td>
-                                    <td><span class="metric-value good">95.1%</span></td>
-                                    <td><span class="metric-value good">94.9%</span></td>
-                                    <td><span class="metric-value good">95.2%</span></td>
-                                    <td><span class="metric-value best">98.7%</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>EfficientNet-B3</strong></td>
-                                    <td><span class="metric-value best">94.5%</span></td>
-                                    <td><span class="metric-value best">94.3%</span></td>
-                                    <td><span class="metric-value best">94.4%</span></td>
-                                    <td><span class="metric-value best">96.1%</span></td>
-                                    <td><span class="metric-value best">99.2%</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>MobileNetV3</strong></td>
-                                    <td><span class="metric-value">90.8%</span></td>
-                                    <td><span class="metric-value">90.5%</span></td>
-                                    <td><span class="metric-value">90.6%</span></td>
-                                    <td><span class="metric-value">93.8%</span></td>
-                                    <td><span class="metric-value">97.8%</span></td>
-                                </tr>
+                            <tbody id="performance-table-body">
+                                <!-- Dynamic content will be loaded here -->
                             </tbody>
                         </table>
                     </div>
@@ -607,31 +584,8 @@ transform = transforms.Compose([
                                     <th data-en="Model Size ↓" data-vi="Kích Thước ↓">Model Size ↓</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>ResNet50</strong></td>
-                                    <td><span class="metric-value">45min</span></td>
-                                    <td><span class="metric-value">8ms</span></td>
-                                    <td><span class="metric-value">4.1B</span></td>
-                                    <td><span class="metric-value">25.6M</span></td>
-                                    <td><span class="metric-value">98MB</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>EfficientNet-B3</strong></td>
-                                    <td><span class="metric-value good">32min</span></td>
-                                    <td><span class="metric-value good">6ms</span></td>
-                                    <td><span class="metric-value best">1.8B</span></td>
-                                    <td><span class="metric-value best">12M</span></td>
-                                    <td><span class="metric-value best">47MB</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>MobileNetV3</strong></td>
-                                    <td><span class="metric-value best">18min</span></td>
-                                    <td><span class="metric-value best">3ms</span></td>
-                                    <td><span class="metric-value best">0.2B</span></td>
-                                    <td><span class="metric-value best">5.5M</span></td>
-                                    <td><span class="metric-value best">21MB</span></td>
-                                </tr>
+                            <tbody id="resources-table-body">
+                                <!-- Dynamic content will be loaded here -->
                             </tbody>
                         </table>
                     </div>
@@ -787,6 +741,64 @@ transform = transforms.Compose([
                 }
             };
             
+            // Function to populate comparison tables with real data
+            function populateComparisonTables(data) {
+                // Populate Performance table
+                const performanceTbody = document.getElementById('performance-table-body');
+                if (performanceTbody) {
+                    performanceTbody.innerHTML = '';
+                    
+                    Object.values(data.models).forEach((model, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${model.name}</strong></td>
+                            <td><span class="metric-value ${getMetricClass(model.performance.precision, 'performance')}">${(model.performance.precision * 100).toFixed(1)}%</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.performance.recall, 'performance')}">${(model.performance.recall * 100).toFixed(1)}%</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.performance.f1_score, 'performance')}">${(model.performance.f1_score * 100).toFixed(1)}%</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.performance.accuracy, 'performance')}">${(model.performance.accuracy * 100).toFixed(1)}%</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.performance.top5_accuracy, 'performance')}">${(model.performance.top5_accuracy * 100).toFixed(1)}%</span></td>
+                        `;
+                        performanceTbody.appendChild(row);
+                    });
+                }
+                
+                // Populate Resources table
+                const resourcesTbody = document.getElementById('resources-table-body');
+                if (resourcesTbody) {
+                    resourcesTbody.innerHTML = '';
+                    
+                    Object.values(data.models).forEach((model, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${model.name}</strong></td>
+                            <td><span class="metric-value ${getMetricClass(model.resources.training_time, 'resources', 'time')}">${model.resources.training_time.toFixed(1)}min</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.resources.inference_time, 'resources', 'time')}">${model.resources.inference_time.toFixed(1)}ms</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.resources.flops, 'resources', 'flops')}">${(model.resources.flops / 1e9).toFixed(1)}B</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.resources.parameters, 'resources', 'params')}">${model.resources.parameters.toFixed(1)}M</span></td>
+                            <td><span class="metric-value ${getMetricClass(model.resources.model_size, 'resources', 'size')}">${model.resources.model_size.toFixed(1)}MB</span></td>
+                        `;
+                        resourcesTbody.appendChild(row);
+                    });
+                }
+            }
+            
+            // Helper function to determine metric class
+            function getMetricClass(value, type, subtype = '') {
+                if (type === 'performance') {
+                    if (value >= 0.95) return 'best';
+                    if (value >= 0.90) return 'good';
+                    return '';
+                } else if (type === 'resources') {
+                    if (subtype === 'time' || subtype === 'flops' || subtype === 'params' || subtype === 'size') {
+                        // Lower is better for resources
+                        if (value <= 0.1) return 'best';
+                        if (value <= 0.5) return 'good';
+                        return '';
+                    }
+                }
+                return '';
+            }
+            
             // Load and initialize components with mock data
             fetch('https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/classification/models_data.json')
                 .then(response => response.json())
@@ -835,6 +847,9 @@ transform = transforms.Compose([
                     
                     // Store confusion matrix data globally
                     window.confusionMatrixData = data.confusion_matrix;
+                    
+                    // Populate comparison tables with real data
+                    populateComparisonTables(data);
                     
                     // Add click handlers to comparison table rows
                     const comparisonRows = document.querySelectorAll('.comparison-table tbody tr');
