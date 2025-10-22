@@ -5,438 +5,273 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oxford Pets - Computer Vision | AI Learning Hub</title>
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/classification.css">
+    <!-- Load shared components from centralized library -->
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/themes/default.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/header.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/hero.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
     
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-        }
-        
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .navbar .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: #667eea;
-        }
-        
-        .hero {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 1.5rem 2rem;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2rem;
-            margin-bottom: 0.3rem;
-            color: #ffffff;
-            font-weight: 700;
-        }
-        
-        .hero p {
-            font-size: 1rem;
-            color: #f0f0f0;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            max-width: 900px;
-            margin: 0.5rem auto 0;
-        }
-        
-        .stat-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.2rem;
-            color: #ffffff;
-            font-weight: 700;
-        }
-        
-        .stat-card p {
-            color: #f0f0f0;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        .section {
-            margin: 4rem 0;
-        }
-        
-        .section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-        
-        .section-description {
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .cards-grid {
+        /* Custom styles for this page */
+        .task-cards-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: var(--ai-spacing-lg);
+            margin-top: var(--ai-spacing-xl);
             max-width: 900px;
             margin-left: auto;
             margin-right: auto;
         }
         
         @media (max-width: 768px) {
-            .cards-grid {
+            .task-cards-grid {
                 grid-template-columns: 1fr;
                 max-width: 500px;
             }
         }
         
         .task-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-            cursor: pointer;
+            background: var(--ai-bg);
+            border: 1px solid var(--ai-border);
+            border-radius: var(--ai-radius-lg);
+            padding: var(--ai-spacing-lg);
+            transition: all var(--ai-transition-normal);
             text-decoration: none;
             color: inherit;
             display: block;
-            border: 2px solid transparent;
         }
         
         .task-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-            border-color: #667eea;
+            box-shadow: var(--ai-shadow-lg);
+            border-color: var(--ai-primary);
         }
         
-        .task-card .icon {
+        .task-icon {
             font-size: 2.5rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: var(--ai-spacing-md);
+            text-align: center;
         }
         
-        .task-card h3 {
-            color: #667eea;
-            margin-bottom: 0.75rem;
-            font-size: 1.25rem;
-        }
-        
-        .task-card .description {
-            color: #666;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .task-card .metrics {
+        .task-metrics {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 0.4rem;
-            margin: 1rem 0;
+            gap: var(--ai-spacing-sm);
+            margin: var(--ai-spacing-md) 0;
         }
         
-        .metric-item {
-            background: #f8f9fa;
-            padding: 0.4rem 0.6rem;
-            border-radius: 5px;
-            font-size: 0.85rem;
+        .task-metric {
+            background: var(--ai-bg-light);
+            padding: var(--ai-spacing-sm);
+            border-radius: var(--ai-radius-sm);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: var(--ai-font-size-sm);
         }
         
-        .metric-label {
-            color: #666;
-            font-size: 0.8rem;
+        .task-metric-label {
+            color: var(--ai-text-light);
+            font-size: var(--ai-font-size-xs);
         }
         
-        .metric-value {
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-        }
-        
-        .badge-primary {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .badge-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .eda-section {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-        
-        .eda-section h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-        
-        .eda-link {
-            display: inline-block;
-            background: var(--primary-gradient);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: transform 0.3s;
-        }
-        
-        .eda-link:hover {
-            transform: translateY(-2px);
-        }
-        
-        footer {
-            background: #1f2937;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+        .task-metric-value {
+            font-weight: var(--ai-font-weight-bold);
+            color: var(--ai-primary);
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="../../index.html" class="brand">📚 AI Learning Hub</a>
-            <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../../01_Data_Analysis/">Data Analysis</a></li>
-                <li><a href="../../02_Machine_Learning/">Machine Learning</a></li>
-                <li><a href="../index.html" class="active">Computer Vision</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Header -->
+    <div id="ai-header"></div>
 
-    <section class="hero">
-        <div class="container">
-            <h1>🐕🐈 Oxford Pets</h1>
-            <p>Multi-task Computer Vision: Classification, Detection, Segmentation</p>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>7,393</h3>
-                    <p>Pet Images</p>
-                </div>
-                <div class="stat-card">
-                    <h3>37</h3>
-                    <p>Breeds</p>
-                </div>
-                <div class="stat-card">
-                    <h3>3</h3>
-                    <p>Tasks</p>
-                </div>
-                <div class="stat-card">
-                    <h3>12+25</h3>
-                    <p>Cats + Dogs</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Hero Section -->
+    <div id="ai-hero"></div>
 
-    <div class="container">
-        <!-- Tasks Grid -->
-        <section class="section">
-            <h2>🎯 Explore All Tasks</h2>
-            <p class="section-description">
-                Learn Computer Vision with 3 fundamental tasks using Oxford Pets dataset
+    <div class="ai-container">
+        <!-- Tasks Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2">🎯 Computer Vision Tasks</h2>
+            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;">
+                Multi-task Computer Vision: Classification, Detection, Segmentation
             </p>
             
-            <div class="cards-grid">
-                <!-- Classification Task -->
+            <div class="task-cards-grid">
+                <!-- Classification -->
                 <a href="classification/index.html" class="task-card">
-                    <div class="icon">📊</div>
-                    <h3>Classification</h3>
-                    <p class="description">
+                    <div class="task-icon">🏷️</div>
+                    <h3 class="ai-heading-3">Classification</h3>
+                    <p class="ai-text">
                         37-class breed classification using CNN architectures and transfer learning
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Classes</div>
-                            <div class="metric-value">37</div>
+                    <div class="task-metrics">
+                        <div class="task-metric">
+                            <div class="task-metric-label">Classes</div>
+                            <div class="task-metric-value">37</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Best Accuracy</div>
-                            <div class="metric-value">95.2%</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Images</div>
+                            <div class="task-metric-value">7,393</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Models Tested</div>
-                            <div class="metric-value">8</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Best Accuracy</div>
+                            <div class="task-metric-value">95.2%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Best Model</div>
-                            <div class="metric-value">ResNet50</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Models</div>
+                            <div class="task-metric-value">8</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Interactive</span>
-                        <span class="badge badge-primary">✓ Code</span>
+                    <div style="margin-top: var(--ai-spacing-md);">
+                        <span class="ai-badge ai-badge-success">✓ Ready</span>
+                        <span class="ai-badge ai-badge-info">✓ Interactive</span>
                     </div>
                 </a>
                 
-                <!-- Detection Task -->
+                <!-- Detection -->
                 <a href="detection/index.html" class="task-card">
-                    <div class="icon">🎯</div>
-                    <h3>Detection</h3>
-                    <p class="description">
-                        Pet head localization using object detection algorithms and bounding box regression
+                    <div class="task-icon">🎯</div>
+                    <h3 class="ai-heading-3">Object Detection</h3>
+                    <p class="ai-text">
+                        Bounding box detection and localization using YOLO and R-CNN architectures
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Best mAP</div>
-                            <div class="metric-value">0.89</div>
+                    <div class="task-metrics">
+                        <div class="task-metric">
+                            <div class="task-metric-label">Classes</div>
+                            <div class="task-metric-value">37</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Models Tested</div>
-                            <div class="metric-value">5</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Images</div>
+                            <div class="task-metric-value">7,393</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Best Model</div>
-                            <div class="metric-value">YOLOv5</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Best mAP</div>
+                            <div class="task-metric-value">89.3%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Avg IoU</div>
-                            <div class="metric-value">0.85</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Models</div>
+                            <div class="task-metric-value">6</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Interactive</span>
-                        <span class="badge badge-primary">✓ Code</span>
+                    <div style="margin-top: var(--ai-spacing-md);">
+                        <span class="ai-badge ai-badge-success">✓ Ready</span>
+                        <span class="ai-badge ai-badge-info">✓ Interactive</span>
                     </div>
                 </a>
                 
-                <!-- Segmentation Task -->
+                <!-- Segmentation -->
                 <a href="segmentation/index.html" class="task-card">
-                    <div class="icon">✂️</div>
-                    <h3>Segmentation</h3>
-                    <p class="description">
-                        Foreground segmentation using semantic segmentation networks and pixel-level classification
+                    <div class="task-icon">✂️</div>
+                    <h3 class="ai-heading-3">Image Segmentation</h3>
+                    <p class="ai-text">
+                        Pixel-level segmentation using U-Net and DeepLab architectures
                     </p>
-                    <div class="metrics">
-                        <div class="metric-item">
-                            <div class="metric-label">Best IoU</div>
-                            <div class="metric-value">0.92</div>
+                    <div class="task-metrics">
+                        <div class="task-metric">
+                            <div class="task-metric-label">Classes</div>
+                            <div class="task-metric-value">37</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Models Tested</div>
-                            <div class="metric-value">4</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Images</div>
+                            <div class="task-metric-value">7,393</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Best Model</div>
-                            <div class="metric-value">U-Net</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Best IoU</div>
+                            <div class="task-metric-value">87.1%</div>
                         </div>
-                        <div class="metric-item">
-                            <div class="metric-label">Pixel Accuracy</div>
-                            <div class="metric-value">96.8%</div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Models</div>
+                            <div class="task-metric-value">5</div>
                         </div>
                     </div>
-                    <div>
-                        <span class="badge badge-success">✓ Interactive</span>
-                        <span class="badge badge-primary">✓ Code</span>
+                    <div style="margin-top: var(--ai-spacing-md);">
+                        <span class="ai-badge ai-badge-success">✓ Ready</span>
+                        <span class="ai-badge ai-badge-info">✓ Interactive</span>
+                    </div>
+                </a>
+                
+                <!-- EDA -->
+                <a href="../01_Data_Analysis/01_EDA/oxford_pets/index.html" class="task-card">
+                    <div class="task-icon">📊</div>
+                    <h3 class="ai-heading-3">Exploratory Data Analysis</h3>
+                    <p class="ai-text">
+                        Comprehensive data analysis and visualization of the Oxford Pets dataset
+                    </p>
+                    <div class="task-metrics">
+                        <div class="task-metric">
+                            <div class="task-metric-label">Visualizations</div>
+                            <div class="task-metric-value">15+</div>
+                        </div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Statistics</div>
+                            <div class="task-metric-value">Complete</div>
+                        </div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Insights</div>
+                            <div class="task-metric-value">Detailed</div>
+                        </div>
+                        <div class="task-metric">
+                            <div class="task-metric-label">Charts</div>
+                            <div class="task-metric-value">Interactive</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--ai-spacing-md);">
+                        <span class="ai-badge ai-badge-success">✓ Complete</span>
+                        <span class="ai-badge ai-badge-info">✓ Interactive</span>
                     </div>
                 </a>
             </div>
         </section>
-        
-        <!-- EDA Section -->
-        <div class="eda-section">
-            <h3>📊 Dataset Analysis</h3>
-            <p>Understand the Oxford Pets dataset before diving into the tasks</p>
-            <a href="../../01_Data_Analysis/01_EDA/oxford_pets_classification/" class="eda-link">
-                View EDA Report
-            </a>
-        </div>
     </div>
 
-    <footer>
+    <!-- Footer -->
+    <footer style="background: var(--ai-bg-dark); color: var(--ai-text); text-align: center; padding: 2rem; margin-top: 4rem;">
         <p>&copy; 2025 AI Learning Hub - Educational content for AI enthusiasts</p>
+        <div id="theme-selector" style="margin-top: 1rem;"></div>
     </footer>
+
+    <!-- Load shared components JavaScript from centralized library -->
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
+    
+    <script>
+        // Initialize components when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize header
+            const header = new AIHeader('ai-header', {
+                brand: '📚 AI Learning Hub',
+                brandUrl: '../../index.html',
+                navItems: [
+                    { label: 'Home', url: '../../index.html', active: false },
+                    { label: 'Data Analysis', url: '../../01_Data_Analysis/', active: false },
+                    { label: 'Machine Learning', url: '../../02_Machine_Learning/', active: false },
+                    { label: 'Computer Vision', url: 'index.html', active: true }
+                ]
+            });
+            
+            // Initialize hero section
+            const hero = new AIHero('ai-hero', {
+                title: '🐕🐈 Oxford Pets',
+                subtitle: 'Multi-task Computer Vision: Classification, Detection, Segmentation',
+                stats: [
+                    { value: '37', label: 'Breeds' },
+                    { value: '7,393', label: 'Images' },
+                    { value: '3', label: 'Tasks' },
+                    { value: '19', label: 'Models' }
+                ],
+                gradient: false
+            });
+            
+            // Initialize theme selector
+            window.AIThemeManager.createThemeSelector('theme-selector');
+            
+            // Listen for theme changes to update components
+            window.AIThemeManager.onThemeChange(function(newTheme) {
+                console.log('Theme changed to:', newTheme);
+                // Components will automatically update due to CSS changes
+            });
+        });
+    </script>
 </body>
 </html>
