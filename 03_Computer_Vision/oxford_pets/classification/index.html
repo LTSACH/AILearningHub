@@ -991,7 +991,18 @@ transform = transforms.Compose([
                             modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d']
                         };
                         
-                        // Don't show confusion matrix initially - wait for user selection
+                        console.log('Rendering Plotly heatmap...');
+                        console.log('Plot data:', plotData);
+                        console.log('Layout:', layout);
+                        
+                        // Render the confusion matrix
+                        Plotly.newPlot('confusion-matrix-plotly', plotData, layout, config)
+                            .then(() => {
+                                console.log('Plotly heatmap rendered successfully!');
+                            })
+                            .catch(error => {
+                                console.error('Error rendering Plotly heatmap:', error);
+                            });
                     }
                          
                          // Initialize formulas in comparison section
