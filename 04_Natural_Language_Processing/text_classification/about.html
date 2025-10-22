@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | BBC News Classification Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .nav-links a.active {
+            border-bottom: 2px solid white;
+            padding-bottom: 4px;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: calc(100vh - 80px);
+        }
+
+        .about-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-section h1 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .about-section .intro {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* Purpose Card */
+        .purpose-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .purpose-card h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .purpose-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .purpose-card ul {
+            list-style: none;
+            padding: 0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .purpose-card li {
+            padding: 12px 0;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .purpose-card li:last-child {
+            border-bottom: none;
+        }
+
+        /* Policy Card */
+        .policy-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .policy-card h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .policy-item {
+            padding: 25px;
+            border-radius: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .policy-item.allowed {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+        }
+
+        .policy-item.restricted {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+        }
+
+        .policy-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .policy-item p {
+            margin: 0;
+            text-align: left;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Contact Cards */
+        .about-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .about-card .card-icon {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .about-card h3 {
+            font-size: 1.6rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .about-card p {
+            line-height: 1.9;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        .about-card a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .about-card a:hover {
+            border-bottom-color: #667eea;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .about-section {
+                padding: 40px 15px;
+            }
+
+            .about-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .about-section .intro {
+                font-size: 1rem;
+            }
+
+            .purpose-card, .policy-card, .about-card {
+                padding: 25px;
+            }
+
+            .about-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">📰 BBC News Classification</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="pages/traditional_ml/index.html">Traditional ML</a></li>
+                <li><a href="pages/pipeline_comparison/index.html">Pipeline Comparison</a></li>
+                <li><a href="pages/bert/index.html">BERT Fine-tuning</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <h1>👨‍💻 About This Project</h1>
+            
+            <!-- Developer Info -->
+            <p class="intro">
+                This project is developed by <strong>Thanh-Sach LE</strong> with AI assistance 
+                as an educational resource for learning topics related to 
+                <strong>Artificial Intelligence, Machine Learning, Deep Learning, and Text Classification</strong>.
+            </p>
+
+            <!-- Purpose Card -->
+            <div class="purpose-card">
+                <h2>🎯 Purpose</h2>
+                <p>
+                    This project serves as a <strong>learning companion</strong> and 
+                    <strong>interactive tutorial</strong> for students and practitioners exploring:
+                </p>
+                <ul>
+                    <li>📊 Exploratory Data Analysis (EDA)</li>
+                    <li>🤖 Traditional Machine Learning techniques</li>
+                    <li>🔬 ML Pipeline comparison and optimization</li>
+                    <li>🧠 Deep Learning with BERT fine-tuning</li>
+                    <li>📝 Text Classification methodologies</li>
+                </ul>
+            </div>
+
+            <!-- Usage Policy Card -->
+            <div class="policy-card">
+                <h2>📜 Usage Policy</h2>
+                <div class="policy-grid">
+                    <div class="policy-item allowed">
+                        <span class="policy-icon">✅</span>
+                        <p><strong>Encouraged:</strong> Use this resource for learning, teaching, and research purposes</p>
+                    </div>
+                    <div class="policy-item restricted">
+                        <span class="policy-icon">⚠️</span>
+                        <p><strong>Restricted:</strong> Downloading, modifying, or redistributing the content without permission is prohibited</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Cards -->
+            <div class="about-cards">
+                <!-- Affiliation Card -->
+                <div class="about-card">
+                    <div class="card-icon">🏛️</div>
+                    <h3>Affiliation</h3>
+                    <p>
+                        <strong>Data Science Laboratory</strong><br>
+                        Faculty of Computer Science and Engineering<br>
+                        Ho Chi Minh City University of Technology (HCMUT)<br>
+                        Vietnam National University Ho Chi Minh City
+                    </p>
+                </div>
+
+                <!-- Contact Card -->
+                <div class="about-card">
+                    <div class="card-icon">📧</div>
+                    <h3>Get in Touch</h3>
+                    <p>
+                        <strong>Email:</strong><br>
+                        <a href="mailto:ltsach@hcmut.edu.vn">ltsach@hcmut.edu.vn</a>
+                    </p>
+                </div>
+
+                <!-- Office Card -->
+                <div class="about-card">
+                    <div class="card-icon">📍</div>
+                    <h3>Visit Us</h3>
+                    <p>
+                        <strong>Data Science Lab</strong><br>
+                        6th Floor, Block C6<br>
+                        HCMUT Campus 1<br>
+                        268 Ly Thuong Kiet Street<br>
+                        Dien Hong Ward<br>
+                        Ho Chi Minh City, Vietnam
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BBC News Classification Project | Thanh-Sach LE | Data Science Lab, HCMUT</p>
+    </footer>
+</body>
+</html>
+
