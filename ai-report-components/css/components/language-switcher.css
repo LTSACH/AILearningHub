@@ -13,16 +13,17 @@
     display: flex;
     align-items: center;
     gap: var(--ai-spacing-xs);
-    padding: var(--ai-spacing-xs) var(--ai-spacing-sm);
+    padding: var(--ai-spacing-xs);
     background: transparent;
     border: 1px solid transparent;
     border-radius: var(--ai-radius-sm);
     color: var(--ai-text-light);
     cursor: pointer;
     transition: all var(--ai-transition-fast);
-    font-size: var(--ai-font-size-sm);
+    font-size: var(--ai-font-size-xs);
     font-weight: var(--ai-font-weight-medium);
     white-space: nowrap;
+    min-width: auto;
 }
 
 .ai-lang-btn:hover {
@@ -94,12 +95,14 @@
 /* Fixed position (top-right) */
 .ai-language-switcher.fixed {
     position: fixed;
-    top: var(--ai-spacing-md);
-    right: var(--ai-spacing-md);
+    top: var(--ai-spacing-sm);
+    right: var(--ai-spacing-sm);
     z-index: 1001;
     background: var(--ai-bg);
     border: 1px solid var(--ai-border);
     box-shadow: var(--ai-shadow-md);
+    padding: var(--ai-spacing-xs);
+    gap: var(--ai-spacing-xs);
 }
 
 /* Responsive design */
