@@ -755,6 +755,26 @@ transform = transforms.Compose([
                 if (clickedButton) {
                     clickedButton.classList.add('active');
                 }
+                
+                // If formulas tab is selected, render KaTeX
+                if (tabName === 'formulas') {
+                    setTimeout(() => {
+                        const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
+                        if (formulasContainer && typeof renderMathInElement !== 'undefined') {
+                            console.log('Rendering KaTeX for formulas tab...');
+                            renderMathInElement(formulasContainer, {
+                                delimiters: [
+                                    {left: '\\(', right: '\\)', display: false},
+                                    {left: '\\[', right: '\\]', display: true}
+                                ],
+                                throwOnError: false
+                            });
+                            console.log('KaTeX rendering completed for formulas tab');
+                        } else {
+                            console.error('Formulas container or renderMathInElement not found');
+                        }
+                    }, 100);
+                }
             };
             
             // Function to populate comparison tables with real data
@@ -909,14 +929,9 @@ transform = transforms.Compose([
                             // Get model name from first cell
                             const modelName = this.cells[0].textContent.trim();
                             
-                            // Update selection info
+                            // Clear selection info (no text display)
                             const infoDiv = document.getElementById('model-selection-info');
-                            infoDiv.innerHTML = `
-                                <p style="margin: 0; color: #1976d2; font-weight: 500;">
-                                    <span data-en="Showing confusion matrix for: " data-vi="Hiển thị ma trận nhầm lẫn cho: ">Showing confusion matrix for: </span>
-                                    <strong>${modelName}</strong>
-                                </p>
-                            `;
+                            infoDiv.innerHTML = '';
                             
                             // Show confusion matrix for selected model
                             showConfusionMatrix(modelName);
@@ -1107,6 +1122,7 @@ transform = transforms.Compose([
                              // Render KaTeX formulas when formulas tab is shown
                              setTimeout(() => {
                                  if (typeof renderMathInElement !== 'undefined') {
+                                     console.log('Rendering KaTeX formulas...');
                                      renderMathInElement(formulasContainer, {
                                          delimiters: [
                                              {left: '\\(', right: '\\)', display: false},
@@ -1114,8 +1130,11 @@ transform = transforms.Compose([
                                          ],
                                          throwOnError: false
                                      });
+                                     console.log('KaTeX rendering completed');
+                                 } else {
+                                     console.error('renderMathInElement not available');
                                  }
-                             }, 100);
+                             }, 200);
                          }
                 })
                 .catch(error => {
