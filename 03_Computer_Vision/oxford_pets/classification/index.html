@@ -245,9 +245,11 @@
     <!-- Footer -->
     <footer style="background: var(--ai-bg-dark); color: var(--ai-text); text-align: center; padding: 2rem; margin-top: 4rem;">
         <p>&copy; 2025 AI Learning Hub - Educational content for AI enthusiasts</p>
+        <div id="theme-selector" style="margin-top: 1rem;"></div>
     </footer>
 
     <!-- Load shared components JavaScript from centralized library -->
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
@@ -284,7 +286,6 @@
             
             // Initialize comparison table
             const comparisonTable = new AIComparisonTable('comparison-table', {
-                theme: 'default',
                 showTabs: true,
                 showMetrics: true,
                 showWalkthrough: true
@@ -310,7 +311,6 @@
             
             // Initialize code examples
             const codeExamples = new AICodeExamples('code-examples', {
-                theme: 'default',
                 showColab: true,
                 showWalkthrough: true,
                 showCopyButton: true
@@ -362,6 +362,15 @@
             };
             
             codeExamples.loadData(codeData);
+            
+            // Initialize theme selector
+            AIThemeManager.createThemeSelector('theme-selector');
+            
+            // Listen for theme changes to update components
+            AIThemeManager.onThemeChange(function(newTheme) {
+                console.log('Theme changed to:', newTheme);
+                // Components will automatically update due to CSS changes
+            });
         });
     </script>
 </body>

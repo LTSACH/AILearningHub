@@ -26,16 +26,10 @@ class AIComparisonTable {
     }
 
     loadStyles() {
-        // Load theme CSS
-        const themeLink = document.createElement('link');
-        themeLink.rel = 'stylesheet';
-        themeLink.href = `ai-report-components/css/themes/${this.options.theme}.css`;
-        document.head.appendChild(themeLink);
-
-        // Load component CSS
+        // Load component CSS (theme is already loaded in HTML)
         const componentLink = document.createElement('link');
         componentLink.rel = 'stylesheet';
-        componentLink.href = 'ai-report-components/css/components/comparison.css';
+        componentLink.href = 'https://ltsach.github.io/AILearningHub/ai-report-components/css/components/comparison.css';
         document.head.appendChild(componentLink);
     }
 

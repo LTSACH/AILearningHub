@@ -25,16 +25,10 @@ class AIHeader {
     }
 
     loadStyles() {
-        // Load theme CSS
-        const themeLink = document.createElement('link');
-        themeLink.rel = 'stylesheet';
-        themeLink.href = `ai-report-components/css/themes/${this.options.theme || 'default'}.css`;
-        document.head.appendChild(themeLink);
-
-        // Load component CSS
+        // Load component CSS (theme is managed by ThemeManager)
         const componentLink = document.createElement('link');
         componentLink.rel = 'stylesheet';
-        componentLink.href = 'ai-report-components/css/components/header.css';
+        componentLink.href = 'https://ltsach.github.io/AILearningHub/ai-report-components/css/components/header.css';
         document.head.appendChild(componentLink);
     }
 
