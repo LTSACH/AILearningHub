@@ -280,6 +280,96 @@ for name, model in models.items():
     print(f"{name}: {sum(p.numel() for p in model.parameters())} parameters")</code></pre>
                                 </div>
                             </div>
+                            
+                            <!-- Model Cards -->
+                            <div class="model-cards-container" style="margin-top: 2rem;">
+                                <h4 data-en="Available Models" data-vi="Các Mô Hình Có Sẵn">Available Models</h4>
+                                <div class="model-cards-grid">
+                                    <!-- ResNet50 Card -->
+                                    <div class="model-card">
+                                        <div class="model-card-header">
+                                            <div class="model-icon">🏗️</div>
+                                            <h5>ResNet50</h5>
+                                        </div>
+                                        <div class="model-metrics">
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">95.2%</div>
+                                                <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
+                                            </div>
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">25.6M</div>
+                                                <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
+                                            </div>
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">4.1B</div>
+                                                <div class="model-metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
+                                            </div>
+                                        </div>
+                                        <div class="model-description">
+                                            <p data-en="Deep residual network with 50 layers. Excellent balance of accuracy and efficiency."
+                                               data-vi="Mạng residual sâu với 50 lớp. Cân bằng tốt giữa độ chính xác và hiệu quả.">
+                                                Deep residual network with 50 layers. Excellent balance of accuracy and efficiency.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- EfficientNet-B3 Card -->
+                                    <div class="model-card">
+                                        <div class="model-card-header">
+                                            <div class="model-icon">⚡</div>
+                                            <h5>EfficientNet-B3</h5>
+                                        </div>
+                                        <div class="model-metrics">
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">96.1%</div>
+                                                <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
+                                            </div>
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">12M</div>
+                                                <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
+                                            </div>
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">1.8B</div>
+                                                <div class="model-metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
+                                            </div>
+                                        </div>
+                                        <div class="model-description">
+                                            <p data-en="Compound scaling with optimal efficiency. Best accuracy with fewer parameters."
+                                               data-vi="Compound scaling với hiệu quả tối ưu. Độ chính xác tốt nhất với ít tham số hơn.">
+                                                Compound scaling with optimal efficiency. Best accuracy with fewer parameters.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- MobileNetV3 Card -->
+                                    <div class="model-card">
+                                        <div class="model-card-header">
+                                            <div class="model-icon">📱</div>
+                                            <h5>MobileNetV3</h5>
+                                        </div>
+                                        <div class="model-metrics">
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">93.8%</div>
+                                                <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
+                                            </div>
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">5.5M</div>
+                                                <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
+                                            </div>
+                                            <div class="model-metric">
+                                                <div class="model-metric-value">0.2B</div>
+                                                <div class="model-metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
+                                            </div>
+                                        </div>
+                                        <div class="model-description">
+                                            <p data-en="Mobile-optimized architecture. Fastest inference with good accuracy."
+                                               data-vi="Kiến trúc tối ưu cho mobile. Inference nhanh nhất với độ chính xác tốt.">
+                                                Mobile-optimized architecture. Fastest inference with good accuracy.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Classifier Head Tab -->
@@ -437,154 +527,198 @@ transform = transforms.Compose([
             </div>
         </section>
 
-        <!-- Models Section -->
-        <section class="ai-section">
-            <h2 class="ai-heading-2" data-en="🎯 Explore All Models" data-vi="🎯 Khám Phá Tất Cả Mô Hình">🎯 Explore All Models</h2>
-            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
-               data-en="Compare different CNN architectures and transfer learning approaches"
-               data-vi="So sánh các kiến trúc CNN khác nhau và phương pháp transfer learning">
-                Compare different CNN architectures and transfer learning approaches
-            </p>
-            
-            <div class="models-grid">
-                <!-- ResNet50 -->
-                <a href="resnet50/index.html" class="model-card">
-                    <div class="model-icon">🏆</div>
-                    <h3 class="ai-heading-3" data-en="ResNet50" data-vi="ResNet50">ResNet50</h3>
-                    <p class="ai-text" data-en="Deep residual network with 50 layers, excellent for transfer learning"
-                       data-vi="Mạng residual sâu với 50 lớp, xuất sắc cho transfer learning">
-                        Deep residual network with 50 layers, excellent for transfer learning
-                    </p>
-                    <div class="model-metrics">
-                        <div class="model-metric">
-                            <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
-                            <div class="model-metric-value">95.2%</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
-                            <div class="model-metric-value">25.6M</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label" data-en="Training Time" data-vi="Thời Gian Huấn Luyện">Training Time</div>
-                            <div class="model-metric-value">45min</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label" data-en="Model Size" data-vi="Kích Thước Mô Hình">Model Size</div>
-                            <div class="model-metric-value">98MB</div>
-                        </div>
-                    </div>
-                    <div class="model-badges">
-                        <span class="ai-badge ai-badge-success">✓ Best</span>
-                        <span class="ai-badge ai-badge-info">✓ Transfer</span>
-                    </div>
-                </a>
-                
-                <!-- EfficientNet -->
-                <a href="efficientnet/index.html" class="model-card">
-                    <div class="model-icon">⚡</div>
-                    <h3 class="ai-heading-3" data-en="EfficientNet-B3" data-vi="EfficientNet-B3">EfficientNet-B3</h3>
-                    <p class="ai-text" data-en="Efficient architecture balancing accuracy and computational cost"
-                       data-vi="Kiến trúc hiệu quả cân bằng độ chính xác và chi phí tính toán">
-                        Efficient architecture balancing accuracy and computational cost
-                    </p>
-                    <div class="model-metrics">
-                        <div class="model-metric">
-                            <div class="model-metric-label">Accuracy</div>
-                            <div class="model-metric-value">94.8%</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Parameters</div>
-                            <div class="model-metric-value">12.3M</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Training Time</div>
-                            <div class="model-metric-value">32min</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Model Size</div>
-                            <div class="model-metric-value">47MB</div>
-                        </div>
-                    </div>
-                    <div class="model-badges">
-                        <span class="ai-badge ai-badge-success">✓ Efficient</span>
-                        <span class="ai-badge ai-badge-info">✓ Fast</span>
-                    </div>
-                </a>
-                
-                <!-- Vision Transformer -->
-                <a href="vit/index.html" class="model-card">
-                    <div class="model-icon">🔬</div>
-                    <h3 class="ai-heading-3">ViT-Base</h3>
-                    <p class="ai-text">
-                        Vision Transformer using attention mechanisms for image classification
-                    </p>
-                    <div class="model-metrics">
-                        <div class="model-metric">
-                            <div class="model-metric-label">Accuracy</div>
-                            <div class="model-metric-value">93.5%</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Parameters</div>
-                            <div class="model-metric-value">86.4M</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Training Time</div>
-                            <div class="model-metric-value">78min</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Model Size</div>
-                            <div class="model-metric-value">331MB</div>
-                        </div>
-                    </div>
-                    <div class="model-badges">
-                        <span class="ai-badge ai-badge-success">✓ Modern</span>
-                        <span class="ai-badge ai-badge-info">✓ Attention</span>
-                    </div>
-                </a>
-                
-                <!-- MobileNet -->
-                <a href="mobilenet/index.html" class="model-card">
-                    <div class="model-icon">📱</div>
-                    <h3 class="ai-heading-3">MobileNetV3</h3>
-                    <p class="ai-text">
-                        Lightweight architecture optimized for mobile and edge devices
-                    </p>
-                    <div class="model-metrics">
-                        <div class="model-metric">
-                            <div class="model-metric-label">Accuracy</div>
-                            <div class="model-metric-value">91.2%</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Parameters</div>
-                            <div class="model-metric-value">5.5M</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Training Time</div>
-                            <div class="model-metric-value">18min</div>
-                        </div>
-                        <div class="model-metric">
-                            <div class="model-metric-label">Model Size</div>
-                            <div class="model-metric-value">21MB</div>
-                        </div>
-                    </div>
-                    <div class="model-badges">
-                        <span class="ai-badge ai-badge-success">✓ Lightweight</span>
-                        <span class="ai-badge ai-badge-info">✓ Mobile</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Comparison Section -->
+        <!-- Model Comparison Section -->
         <section class="ai-section">
             <h2 class="ai-heading-2" data-en="📊 Model Comparison" data-vi="📊 So Sánh Mô Hình">📊 Model Comparison</h2>
             <p class="ai-text-light" style="margin-bottom: 2rem;"
-               data-en="Compare performance metrics across all models"
-               data-vi="So sánh các chỉ số hiệu suất giữa tất cả mô hình">
-                Compare performance metrics across all models
+               data-en="Compare performance metrics across CNN models"
+               data-vi="So sánh các chỉ số hiệu suất giữa các mô hình CNN">
+                Compare performance metrics across CNN models
             </p>
             
-            <div id="comparison-table"></div>
+            <!-- Comparison Tabs -->
+            <div class="comparison-section">
+                <div class="comparison-tabs">
+                    <button class="comparison-tab-btn active" onclick="switchComparisonTab('performance')">
+                        📈 Performance
+                    </button>
+                    <button class="comparison-tab-btn" onclick="switchComparisonTab('configuration')">
+                        ⚙️ Configuration
+                    </button>
+                    <button class="comparison-tab-btn" onclick="switchComparisonTab('formulas')">
+                        🧮 Formulas
+                    </button>
+                </div>
+                
+                <!-- Performance Tab -->
+                <div id="performance-tab" class="comparison-tab-content active">
+                    <div class="comparison-table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th data-en="Model" data-vi="Mô Hình">Model</th>
+                                    <th data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</th>
+                                    <th data-en="Parameters" data-vi="Tham Số">Parameters</th>
+                                    <th data-en="FLOPs" data-vi="FLOPs">FLOPs</th>
+                                    <th data-en="Training Time" data-vi="Thời Gian Huấn Luyện">Training Time</th>
+                                    <th data-en="Model Size" data-vi="Kích Thước">Model Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>ResNet50</strong></td>
+                                    <td><span class="metric-value best">95.2%</span></td>
+                                    <td>25.6M</td>
+                                    <td>4.1B</td>
+                                    <td>45min</td>
+                                    <td>98MB</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>EfficientNet-B3</strong></td>
+                                    <td><span class="metric-value best">96.1%</span></td>
+                                    <td>12M</td>
+                                    <td>1.8B</td>
+                                    <td>32min</td>
+                                    <td>47MB</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MobileNetV3</strong></td>
+                                    <td><span class="metric-value">93.8%</span></td>
+                                    <td>5.5M</td>
+                                    <td>0.2B</td>
+                                    <td>18min</td>
+                                    <td>21MB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Configuration Tab -->
+                <div id="configuration-tab" class="comparison-tab-content">
+                    <div class="configuration-grid">
+                        <div class="config-card">
+                            <h4 data-en="ResNet50 Configuration" data-vi="Cấu Hình ResNet50">ResNet50 Configuration</h4>
+                            <div class="config-details">
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Architecture" data-vi="Kiến Trúc">Architecture:</span>
+                                    <span class="config-value">Residual Network</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Layers" data-vi="Lớp">Layers:</span>
+                                    <span class="config-value">50</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size:</span>
+                                    <span class="config-value">224×224</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Optimizer" data-vi="Bộ Tối Ưu">Optimizer:</span>
+                                    <span class="config-value">AdamW</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Learning Rate" data-vi="Tốc Độ Học">Learning Rate:</span>
+                                    <span class="config-value">1e-4</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h4 data-en="EfficientNet-B3 Configuration" data-vi="Cấu Hình EfficientNet-B3">EfficientNet-B3 Configuration</h4>
+                            <div class="config-details">
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Architecture" data-vi="Kiến Trúc">Architecture:</span>
+                                    <span class="config-value">Compound Scaling</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Compound Coefficient" data-vi="Hệ Số Compound">Compound Coefficient:</span>
+                                    <span class="config-value">3</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size:</span>
+                                    <span class="config-value">300×300</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Optimizer" data-vi="Bộ Tối Ưu">Optimizer:</span>
+                                    <span class="config-value">RMSprop</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Learning Rate" data-vi="Tốc Độ Học">Learning Rate:</span>
+                                    <span class="config-value">2e-4</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h4 data-en="MobileNetV3 Configuration" data-vi="Cấu Hình MobileNetV3">MobileNetV3 Configuration</h4>
+                            <div class="config-details">
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Architecture" data-vi="Kiến Trúc">Architecture:</span>
+                                    <span class="config-value">Mobile-Optimized</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Version" data-vi="Phiên Bản">Version:</span>
+                                    <span class="config-value">Large</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size:</span>
+                                    <span class="config-value">224×224</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Optimizer" data-vi="Bộ Tối Ưu">Optimizer:</span>
+                                    <span class="config-value">SGD</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label" data-en="Learning Rate" data-vi="Tốc Độ Học">Learning Rate:</span>
+                                    <span class="config-value">5e-3</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formulas Tab -->
+                <div id="formulas-tab" class="comparison-tab-content">
+                    <div class="formulas-content">
+                        <h4 data-en="Key Mathematical Formulas" data-vi="Các Công Thức Toán Học Quan Trọng">Key Mathematical Formulas</h4>
+                        
+                        <div class="formula-section">
+                            <h5 data-en="ResNet Residual Block" data-vi="Khối Residual ResNet">ResNet Residual Block</h5>
+                            <div class="formula-box">
+                                <code>H(x) = F(x, {W_i}) + x</code>
+                            </div>
+                            <p data-en="Where F(x, {W_i}) represents the residual mapping to be learned, and x is the identity mapping."
+                               data-vi="Trong đó F(x, {W_i}) đại diện cho ánh xạ residual cần học, và x là ánh xạ identity.">
+                                Where F(x, {W_i}) represents the residual mapping to be learned, and x is the identity mapping.
+                            </p>
+                        </div>
+                        
+                        <div class="formula-section">
+                            <h5 data-en="EfficientNet Compound Scaling" data-vi="Compound Scaling của EfficientNet">EfficientNet Compound Scaling</h5>
+                            <div class="formula-box">
+                                <code>depth: d = α^φ</code><br>
+                                <code>width: w = β^φ</code><br>
+                                <code>resolution: r = γ^φ</code>
+                            </div>
+                            <p data-en="Where α, β, γ are constants found by grid search, and φ is the compound coefficient."
+                               data-vi="Trong đó α, β, γ là các hằng số tìm được bằng grid search, và φ là hệ số compound.">
+                                Where α, β, γ are constants found by grid search, and φ is the compound coefficient.
+                            </p>
+                        </div>
+                        
+                        <div class="formula-section">
+                            <h5 data-en="MobileNet Depthwise Separable Convolution" data-vi="Tích Chập Tách Rời Theo Chiều Sâu của MobileNet">MobileNet Depthwise Separable Convolution</h5>
+                            <div class="formula-box">
+                                <code>G_k = D_k · P_k</code>
+                            </div>
+                            <p data-en="Where D_k is the depthwise convolution and P_k is the pointwise convolution."
+                               data-vi="Trong đó D_k là tích chập theo chiều sâu và P_k là tích chập điểm.">
+                                Where D_k is the depthwise convolution and P_k is the pointwise convolution.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Code Examples Section -->

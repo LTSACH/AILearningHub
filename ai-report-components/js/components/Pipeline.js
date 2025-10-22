@@ -108,6 +108,31 @@ class AIPipeline {
                 targetButton.classList.add('active');
             }
         };
+
+        // Comparison tab switching
+        window.switchComparisonTab = (tabName) => {
+            // Hide all comparison tab contents
+            document.querySelectorAll('.comparison-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all comparison tab buttons
+            document.querySelectorAll('.comparison-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected comparison tab content
+            const targetContent = document.getElementById(`${tabName}-tab`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            // Add active class to clicked button
+            const targetButton = document.querySelector(`[onclick="switchComparisonTab('${tabName}')"]`);
+            if (targetButton) {
+                targetButton.classList.add('active');
+            }
+        };
     }
 
     // Method to switch to specific tab programmatically
