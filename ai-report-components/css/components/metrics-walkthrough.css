@@ -1,0 +1,176 @@
+/* Metrics Walkthrough Component */
+.metrics-walkthrough-container {
+    background: var(--ai-bg);
+    border: 1px solid var(--ai-border);
+    border-radius: var(--ai-radius-lg);
+    padding: var(--ai-spacing-lg);
+    margin: var(--ai-spacing-lg) 0;
+}
+
+.metrics-walkthrough-header {
+    text-align: center;
+    margin-bottom: var(--ai-spacing-xl);
+    padding-bottom: var(--ai-spacing-lg);
+    border-bottom: 1px solid var(--ai-border);
+}
+
+.metrics-walkthrough-header h3 {
+    color: var(--ai-primary);
+    margin: 0 0 var(--ai-spacing-sm) 0;
+    font-size: var(--ai-font-size-xl);
+    font-weight: var(--ai-font-weight-semibold);
+}
+
+.metrics-walkthrough-header p {
+    color: var(--ai-text-light);
+    margin: 0;
+    font-size: var(--ai-font-size-md);
+}
+
+.metrics-walkthrough-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--ai-spacing-lg);
+}
+
+.metric-card {
+    background: var(--ai-bg-light);
+    border: 1px solid var(--ai-border);
+    border-radius: var(--ai-radius-md);
+    padding: var(--ai-spacing-lg);
+    transition: all var(--ai-transition-normal);
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--ai-shadow-md);
+    border-color: var(--ai-primary);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--ai-spacing-md);
+    padding-bottom: var(--ai-spacing-sm);
+    border-bottom: 1px solid var(--ai-border);
+}
+
+.metric-header h4 {
+    color: var(--ai-text);
+    margin: 0;
+    font-size: var(--ai-font-size-lg);
+    font-weight: var(--ai-font-weight-semibold);
+}
+
+.metric-icon {
+    font-size: 1.5rem;
+}
+
+.metric-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ai-spacing-md);
+}
+
+.metric-explanation {
+    background: var(--ai-bg);
+    padding: var(--ai-spacing-md);
+    border-radius: var(--ai-radius-sm);
+    border-left: 4px solid var(--ai-primary);
+}
+
+.metric-explanation p {
+    margin: 0;
+    color: var(--ai-text-light);
+    line-height: 1.6;
+}
+
+.metric-formula,
+.metric-calculation {
+    background: var(--ai-bg);
+    padding: var(--ai-spacing-md);
+    border-radius: var(--ai-radius-sm);
+    border: 1px solid var(--ai-border);
+}
+
+.metric-formula h5,
+.metric-calculation h5 {
+    color: var(--ai-primary);
+    margin: 0 0 var(--ai-spacing-sm) 0;
+    font-size: var(--ai-font-size-md);
+    font-weight: var(--ai-font-weight-semibold);
+}
+
+.formula-box,
+.calculation-box {
+    background: var(--ai-bg-dark);
+    border: 1px solid var(--ai-border);
+    border-radius: var(--ai-radius-sm);
+    padding: var(--ai-spacing-md);
+    margin-top: var(--ai-spacing-sm);
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: var(--ai-font-size-sm);
+    color: var(--ai-text);
+    overflow-x: auto;
+}
+
+.metric-example {
+    background: var(--ai-bg);
+    padding: var(--ai-spacing-md);
+    border-radius: var(--ai-radius-sm);
+    border: 1px solid var(--ai-border);
+}
+
+.metric-example h5 {
+    color: var(--ai-primary);
+    margin: 0 0 var(--ai-spacing-sm) 0;
+    font-size: var(--ai-font-size-md);
+    font-weight: var(--ai-font-weight-semibold);
+}
+
+.example-scenario {
+    color: var(--ai-text);
+    font-weight: var(--ai-font-weight-medium);
+    margin-bottom: var(--ai-spacing-sm);
+}
+
+.example-description {
+    color: var(--ai-text-light);
+    margin-bottom: var(--ai-spacing-sm);
+    line-height: 1.5;
+}
+
+.example-calculation {
+    color: var(--ai-text);
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: var(--ai-font-size-sm);
+    background: var(--ai-bg-light);
+    padding: var(--ai-spacing-sm);
+    border-radius: var(--ai-radius-sm);
+    border: 1px solid var(--ai-border);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .metrics-walkthrough-content {
+        grid-template-columns: 1fr;
+        gap: var(--ai-spacing-md);
+    }
+    
+    .metric-card {
+        padding: var(--ai-spacing-md);
+    }
+    
+    .metric-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--ai-spacing-sm);
+    }
+    
+    .formula-box,
+    .calculation-box {
+        font-size: var(--ai-font-size-xs);
+        padding: var(--ai-spacing-sm);
+    }
+}

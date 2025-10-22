@@ -541,8 +541,8 @@ transform = transforms.Compose([
                     <button class="comparison-tab-btn active" onclick="switchComparisonTab('performance')">
                         📈 Performance
                     </button>
-                    <button class="comparison-tab-btn" onclick="switchComparisonTab('configuration')">
-                        ⚙️ Configuration
+                    <button class="comparison-tab-btn" onclick="switchComparisonTab('resources')">
+                        ⚡ Resources
                     </button>
                     <button class="comparison-tab-btn" onclick="switchComparisonTab('formulas')">
                         🧮 Formulas
@@ -556,123 +556,84 @@ transform = transforms.Compose([
                             <thead>
                                 <tr>
                                     <th data-en="Model" data-vi="Mô Hình">Model</th>
-                                    <th data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</th>
-                                    <th data-en="Parameters" data-vi="Tham Số">Parameters</th>
-                                    <th data-en="FLOPs" data-vi="FLOPs">FLOPs</th>
-                                    <th data-en="Training Time" data-vi="Thời Gian Huấn Luyện">Training Time</th>
-                                    <th data-en="Model Size" data-vi="Kích Thước">Model Size</th>
+                                    <th data-en="Precision" data-vi="Precision">Precision ↑</th>
+                                    <th data-en="Recall" data-vi="Recall">Recall ↑</th>
+                                    <th data-en="F1-Score" data-vi="F1-Score">F1-Score ↑</th>
+                                    <th data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy ↑</th>
+                                    <th data-en="Top-5 Accuracy" data-vi="Top-5 Accuracy">Top-5 Acc ↑</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><strong>ResNet50</strong></td>
-                                    <td><span class="metric-value best">95.2%</span></td>
-                                    <td>25.6M</td>
-                                    <td>4.1B</td>
-                                    <td>45min</td>
-                                    <td>98MB</td>
+                                    <td><span class="metric-value good">94.8% ↑</span></td>
+                                    <td><span class="metric-value good">95.1% ↑</span></td>
+                                    <td><span class="metric-value good">94.9% ↑</span></td>
+                                    <td><span class="metric-value good">95.2% ↑</span></td>
+                                    <td><span class="metric-value best">98.7% ↑</span></td>
                                 </tr>
                                 <tr>
                                     <td><strong>EfficientNet-B3</strong></td>
-                                    <td><span class="metric-value best">96.1%</span></td>
-                                    <td>12M</td>
-                                    <td>1.8B</td>
-                                    <td>32min</td>
-                                    <td>47MB</td>
+                                    <td><span class="metric-value best">94.5% ↑</span></td>
+                                    <td><span class="metric-value best">94.3% ↑</span></td>
+                                    <td><span class="metric-value best">94.4% ↑</span></td>
+                                    <td><span class="metric-value best">96.1% ↑</span></td>
+                                    <td><span class="metric-value best">99.2% ↑</span></td>
                                 </tr>
                                 <tr>
                                     <td><strong>MobileNetV3</strong></td>
-                                    <td><span class="metric-value">93.8%</span></td>
-                                    <td>5.5M</td>
-                                    <td>0.2B</td>
-                                    <td>18min</td>
-                                    <td>21MB</td>
+                                    <td><span class="metric-value">90.8% ↑</span></td>
+                                    <td><span class="metric-value">90.5% ↑</span></td>
+                                    <td><span class="metric-value">90.6% ↑</span></td>
+                                    <td><span class="metric-value">93.8% ↑</span></td>
+                                    <td><span class="metric-value">97.8% ↑</span></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 
-                <!-- Configuration Tab -->
-                <div id="configuration-tab" class="comparison-tab-content">
-                    <div class="configuration-grid">
-                        <div class="config-card">
-                            <h4 data-en="ResNet50 Configuration" data-vi="Cấu Hình ResNet50">ResNet50 Configuration</h4>
-                            <div class="config-details">
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Architecture" data-vi="Kiến Trúc">Architecture:</span>
-                                    <span class="config-value">Residual Network</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Layers" data-vi="Lớp">Layers:</span>
-                                    <span class="config-value">50</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size:</span>
-                                    <span class="config-value">224×224</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Optimizer" data-vi="Bộ Tối Ưu">Optimizer:</span>
-                                    <span class="config-value">AdamW</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Learning Rate" data-vi="Tốc Độ Học">Learning Rate:</span>
-                                    <span class="config-value">1e-4</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="config-card">
-                            <h4 data-en="EfficientNet-B3 Configuration" data-vi="Cấu Hình EfficientNet-B3">EfficientNet-B3 Configuration</h4>
-                            <div class="config-details">
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Architecture" data-vi="Kiến Trúc">Architecture:</span>
-                                    <span class="config-value">Compound Scaling</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Compound Coefficient" data-vi="Hệ Số Compound">Compound Coefficient:</span>
-                                    <span class="config-value">3</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size:</span>
-                                    <span class="config-value">300×300</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Optimizer" data-vi="Bộ Tối Ưu">Optimizer:</span>
-                                    <span class="config-value">RMSprop</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Learning Rate" data-vi="Tốc Độ Học">Learning Rate:</span>
-                                    <span class="config-value">2e-4</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="config-card">
-                            <h4 data-en="MobileNetV3 Configuration" data-vi="Cấu Hình MobileNetV3">MobileNetV3 Configuration</h4>
-                            <div class="config-details">
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Architecture" data-vi="Kiến Trúc">Architecture:</span>
-                                    <span class="config-value">Mobile-Optimized</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Version" data-vi="Phiên Bản">Version:</span>
-                                    <span class="config-value">Large</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size:</span>
-                                    <span class="config-value">224×224</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Optimizer" data-vi="Bộ Tối Ưu">Optimizer:</span>
-                                    <span class="config-value">SGD</span>
-                                </div>
-                                <div class="config-item">
-                                    <span class="config-label" data-en="Learning Rate" data-vi="Tốc Độ Học">Learning Rate:</span>
-                                    <span class="config-value">5e-3</span>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Resources Tab -->
+                <div id="resources-tab" class="comparison-tab-content">
+                    <div class="comparison-table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th data-en="Model" data-vi="Mô Hình">Model</th>
+                                    <th data-en="Training Time" data-vi="Thời Gian Huấn Luyện">Training Time ↓</th>
+                                    <th data-en="Inference Time" data-vi="Thời Gian Dự Đoán">Inference Time ↓</th>
+                                    <th data-en="FLOPs" data-vi="FLOPs">FLOPs ↓</th>
+                                    <th data-en="Parameters" data-vi="Tham Số">Parameters ↓</th>
+                                    <th data-en="Model Size" data-vi="Kích Thước">Model Size ↓</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>ResNet50</strong></td>
+                                    <td><span class="metric-value">45min</span></td>
+                                    <td><span class="metric-value">8ms</span></td>
+                                    <td><span class="metric-value">4.1B</span></td>
+                                    <td><span class="metric-value">25.6M</span></td>
+                                    <td><span class="metric-value">98MB</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>EfficientNet-B3</strong></td>
+                                    <td><span class="metric-value good">32min ↓</span></td>
+                                    <td><span class="metric-value good">6ms ↓</span></td>
+                                    <td><span class="metric-value best">1.8B ↓</span></td>
+                                    <td><span class="metric-value best">12M ↓</span></td>
+                                    <td><span class="metric-value best">47MB ↓</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MobileNetV3</strong></td>
+                                    <td><span class="metric-value best">18min ↓</span></td>
+                                    <td><span class="metric-value best">3ms ↓</span></td>
+                                    <td><span class="metric-value best">0.2B ↓</span></td>
+                                    <td><span class="metric-value best">5.5M ↓</span></td>
+                                    <td><span class="metric-value best">21MB ↓</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 
@@ -720,6 +681,30 @@ transform = transforms.Compose([
             </div>
         </section>
 
+        <!-- Confusion Matrix Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2" data-en="📊 Confusion Matrix" data-vi="📊 Ma Trận Nhầm Lẫn">📊 Confusion Matrix</h2>
+            <p class="ai-text-light" style="margin-bottom: 2rem;"
+               data-en="Visualize model performance across all 37 breed classes"
+               data-vi="Trực quan hóa hiệu suất mô hình trên tất cả 37 lớp giống">
+                Visualize model performance across all 37 breed classes
+            </p>
+            
+            <div id="confusion-matrix-container"></div>
+        </section>
+
+        <!-- Metrics Walkthrough Section -->
+        <section class="ai-section">
+            <h2 class="ai-heading-2" data-en="🧮 Metrics Walkthrough" data-vi="🧮 Hướng Dẫn Các Chỉ Số">🧮 Metrics Walkthrough</h2>
+            <p class="ai-text-light" style="margin-bottom: 2rem;"
+               data-en="Understand the mathematical formulas behind model evaluation"
+               data-vi="Hiểu các công thức toán học đằng sau việc đánh giá mô hình">
+                Understand the mathematical formulas behind model evaluation
+            </p>
+            
+            <div id="metrics-walkthrough-container"></div>
+        </section>
+
     </div>
 
     <!-- Footer -->
@@ -734,7 +719,8 @@ transform = transforms.Compose([
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
-    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/CodeExamples.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ConfusionMatrix.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/MetricsWalkthrough.js"></script>
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Pipeline.js"></script>
     
     <script>
@@ -783,6 +769,30 @@ transform = transforms.Compose([
             window.AILanguageManager.onLanguageChange(function(newLang) {
                 console.log('Language changed to:', newLang);
             });
+            
+            // Load and initialize components with mock data
+            fetch('/data/models_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Initialize confusion matrix
+                    const confusionMatrix = new AIConfusionMatrix('confusion-matrix-container', {
+                        showHeatmap: true,
+                        showStatistics: true
+                    });
+                    confusionMatrix.loadData(data.confusion_matrix.resnet50);
+                    
+                    // Initialize metrics walkthrough
+                    const metricsWalkthrough = new AIMetricsWalkthrough('metrics-walkthrough-container', {
+                        showFormulas: true,
+                        showExamples: true,
+                        showCalculations: true
+                    });
+                    metricsWalkthrough.loadData(data.metrics_walkthrough);
+                })
+                .catch(error => {
+                    console.error('Error loading data:', error);
+                    // Fallback to static content
+                });
         });
     </script>
 </body>
