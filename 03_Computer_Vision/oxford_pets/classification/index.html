@@ -365,10 +365,10 @@
             codeExamples.loadData(codeData);
             
             // Initialize theme selector
-            AIThemeManager.createThemeSelector('theme-selector');
+            window.AIThemeManager.createThemeSelector('theme-selector');
             
             // Listen for theme changes to update components
-            AIThemeManager.onThemeChange(function(newTheme) {
+            window.AIThemeManager.onThemeChange(function(newTheme) {
                 console.log('Theme changed to:', newTheme);
                 // Components will automatically update due to CSS changes
             });
