@@ -901,13 +901,13 @@ transform = transforms.Compose([
                     function showConfusionMatrix(modelName) {
                         let modelKey = '';
                         switch(modelName) {
-                            case 'ResNet50':
+                            case 'Resnet50':
                                 modelKey = 'resnet50';
                                 break;
-                            case 'EfficientNet-B3':
+                            case 'Efficientnet-B3':
                                 modelKey = 'efficientnet_b3';
                                 break;
-                            case 'MobileNetV3':
+                            case 'Mobilenetv3-Large-100':
                                 modelKey = 'mobilenetv3_large_100';
                                 break;
                             default:
@@ -915,10 +915,19 @@ transform = transforms.Compose([
                         }
                         
                         const confusionData = window.confusionMatrixData[modelKey];
-                        if (!confusionData) return;
+                        console.log('Looking for model key:', modelKey);
+                        console.log('Available confusion data:', window.confusionMatrixData);
+                        console.log('Found confusion data:', confusionData);
+                        
+                        if (!confusionData) {
+                            console.error('No confusion data found for model:', modelKey);
+                            return;
+                        }
                         
                         const matrix = confusionData.matrix;
                         const classNames = confusionData.class_names;
+                        console.log('Matrix shape:', matrix.length, 'x', matrix[0]?.length);
+                        console.log('Class names count:', classNames.length);
                         
                         const plotData = [{
                             z: matrix,
