@@ -327,81 +327,17 @@
                     {
                         id: 'setup',
                         filename: 'setup.py',
-                        code: `import torch
-import torchvision
-from torchvision import transforms
-from torch.utils.data import DataLoader
-
-# Set device
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-# Define transforms
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                        std=[0.229, 0.224, 0.225])
-])
-
-# Load dataset
-dataset = torchvision.datasets.OxfordIIITPet(
-    root='./data',
-    split='train',
-    download=True,
-    transform=transform
-)`
+                        code: 'import torch\nimport torchvision\nfrom torchvision import transforms\nfrom torch.utils.data import DataLoader\n\n# Set device\ndevice = torch.device(\'cuda\' if torch.cuda.is_available() else \'cpu\')\n\n# Define transforms\ntransform = transforms.Compose([\n    transforms.Resize((224, 224)),\n    transforms.ToTensor(),\n    transforms.Normalize(mean=[0.485, 0.456, 0.406], \n                        std=[0.229, 0.224, 0.225])\n])\n\n# Load dataset\ndataset = torchvision.datasets.OxfordIIITPet(\n    root=\'./data\',\n    split=\'train\',\n    download=True,\n    transform=transform\n)'
                     },
                     {
                         id: 'training',
                         filename: 'train.py',
-                        code: `import torch.nn as nn
-import torch.optim as optim
-from torchvision import models
-
-# Load pre-trained model
-model = models.resnet50(pretrained=True)
-model.fc = nn.Linear(model.fc.in_features, 37)  # 37 classes
-model = model.to(device)
-
-# Define loss and optimizer
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-
-# Training loop
-for epoch in range(10):
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
-        output = model(data)
-        loss = criterion(output, target)
-        loss.backward()
-        optimizer.step()`
+                        code: 'import torch.nn as nn\nimport torch.optim as optim\nfrom torchvision import models\n\n# Load pre-trained model\nmodel = models.resnet50(pretrained=True)\nmodel.fc = nn.Linear(model.fc.in_features, 37)  # 37 classes\nmodel = model.to(device)\n\n# Define loss and optimizer\ncriterion = nn.CrossEntropyLoss()\noptimizer = optim.Adam(model.parameters(), lr=0.001)\n\n# Training loop\nfor epoch in range(10):\n    model.train()\n    for batch_idx, (data, target) in enumerate(train_loader):\n        data, target = data.to(device), target.to(device)\n        optimizer.zero_grad()\n        output = model(data)\n        loss = criterion(output, target)\n        loss.backward()\n        optimizer.step()'
                     },
                     {
                         id: 'evaluation',
                         filename: 'evaluate.py',
-                        code: `from sklearn.metrics import accuracy_score, classification_report
-import torch.nn.functional as F
-
-# Evaluation function
-def evaluate_model(model, test_loader):
-    model.eval()
-    all_preds = []
-    all_targets = []
-    
-    with torch.no_grad():
-        for data, target in test_loader:
-            data, target = data.to(device), target.to(device)
-            output = model(data)
-            pred = output.argmax(dim=1)
-            all_preds.extend(pred.cpu().numpy())
-            all_targets.extend(target.cpu().numpy())
-    
-    accuracy = accuracy_score(all_targets, all_preds)
-    report = classification_report(all_targets, all_preds)
-    
-    return accuracy, report`
+                        code: 'from sklearn.metrics import accuracy_score, classification_report\nimport torch.nn.functional as F\n\n# Evaluation function\ndef evaluate_model(model, test_loader):\n    model.eval()\n    all_preds = []\n    all_targets = []\n    \n    with torch.no_grad():\n        for data, target in test_loader:\n            data, target = data.to(device), target.to(device)\n            output = model(data)\n            pred = output.argmax(dim=1)\n            all_preds.extend(pred.cpu().numpy())\n            all_targets.extend(target.cpu().numpy())\n    \n    accuracy = accuracy_score(all_targets, all_preds)\n    report = classification_report(all_targets, all_preds)\n    \n    return accuracy, report'
                     }
                 ],
                 colabUrl: 'https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/03_Computer_Vision/oxford_pets/classification/notebook.ipynb',
@@ -410,20 +346,17 @@ def evaluate_model(model, test_loader):
                     {
                         title: 'Dataset Setup',
                         description: 'Learn how to load and preprocess the Oxford Pets dataset for classification.',
-                        code: 'import torchvision
-dataset = torchvision.datasets.OxfordIIITPet(...)'
+                        code: 'import torchvision\ndataset = torchvision.datasets.OxfordIIITPet(...)'
                     },
                     {
                         title: 'Model Training',
                         description: 'Understand the training process for CNN models with transfer learning.',
-                        code: 'model = models.resnet50(pretrained=True)
-model.fc = nn.Linear(model.fc.in_features, 37)'
+                        code: 'model = models.resnet50(pretrained=True)\nmodel.fc = nn.Linear(model.fc.in_features, 37)'
                     },
                     {
                         title: 'Evaluation',
                         description: 'Learn how to evaluate model performance and interpret results.',
-                        code: 'accuracy = accuracy_score(y_true, y_pred)
-report = classification_report(y_true, y_pred)'
+                        code: 'accuracy = accuracy_score(y_true, y_pred)\nreport = classification_report(y_true, y_pred)'
                     }
                 ]
             };
