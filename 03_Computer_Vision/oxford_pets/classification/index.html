@@ -122,7 +122,7 @@
                 <!-- Tab 1: Pipeline (default) -->
                 <div id="pipeline-tab" class="pipeline-tab-content active">
                     <div class="pipeline-flow">
-                        <div class="step step-fixed">
+                        <div class="step step-fixed" onclick="switchPipelineDetailTab('input')">
                             <div class="step-icon">🖼️</div>
                             <div class="step-title" data-en="Image Input" data-vi="Đầu Vào Ảnh">Image Input</div>
                             <div class="step-detail" data-en="224×224 RGB images" data-vi="Ảnh RGB 224×224">224×224 RGB images</div>
@@ -130,7 +130,7 @@
                         
                         <div class="arrow">→</div>
                         
-                        <div class="step step-fixed">
+                        <div class="step step-fixed" onclick="switchPipelineDetailTab('preprocessing')">
                             <div class="step-icon">🔧</div>
                             <div class="step-title" data-en="Preprocessing" data-vi="Tiền Xử Lý">Preprocessing</div>
                             <div class="step-badge" data-en="Fixed" data-vi="Cố Định">Fixed</div>
@@ -139,16 +139,16 @@
                         
                         <div class="arrow">→</div>
                         
-                        <div class="step step-interactive">
+                        <div class="step step-interactive" onclick="switchPipelineDetailTab('cnn-model')">
                             <div class="step-icon">🧠</div>
                             <div class="step-title" data-en="CNN Model" data-vi="Mô Hình CNN">CNN Model</div>
                             <div class="step-badge" data-en="Choose Below" data-vi="Chọn Bên Dưới">Choose Below</div>
-                            <div class="step-detail" data-en="ResNet50, EfficientNet, ViT..." data-vi="ResNet50, EfficientNet, ViT...">ResNet50, EfficientNet, ViT...</div>
+                            <div class="step-detail" data-en="ResNet50, EfficientNet, MobileNet..." data-vi="ResNet50, EfficientNet, MobileNet...">ResNet50, EfficientNet, MobileNet...</div>
                         </div>
                         
                         <div class="arrow">→</div>
                         
-                        <div class="step step-fixed">
+                        <div class="step step-fixed" onclick="switchPipelineDetailTab('classifier-head')">
                             <div class="step-icon">🎯</div>
                             <div class="step-title" data-en="Classifier Head" data-vi="Đầu Phân Loại">Classifier Head</div>
                             <div class="step-badge" data-en="Adapted" data-vi="Điều Chỉnh">Adapted</div>
@@ -157,10 +157,190 @@
                         
                         <div class="arrow">→</div>
                         
-                        <div class="step step-result">
+                        <div class="step step-result" onclick="switchPipelineDetailTab('results')">
                             <div class="step-icon">✨</div>
                             <div class="step-title" data-en="Classification Results" data-vi="Kết Quả Phân Loại">Classification Results</div>
                             <div class="step-detail" data-en="37 breed predictions" data-vi="Dự đoán 37 giống">37 breed predictions</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pipeline Detail Tabs -->
+                    <div class="pipeline-detail-tabs">
+                        <div class="pipeline-detail-tab-buttons">
+                            <button class="pipeline-detail-tab-btn active" onclick="switchPipelineDetailTab('input')">
+                                🖼️ Input Image
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('preprocessing')">
+                                🔧 Preprocessing
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-model')">
+                                🧠 CNN Model
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('classifier-head')">
+                                🎯 Classifier Head
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('results')">
+                                ✨ Classification Results
+                            </button>
+                        </div>
+                        
+                        <!-- Input Image Tab -->
+                        <div id="input-detail" class="pipeline-detail-tab-content active">
+                            <h3 data-en="🖼️ Input Image Processing" data-vi="🖼️ Xử Lý Ảnh Đầu Vào">🖼️ Input Image Processing</h3>
+                            <div class="detail-content">
+                                <div class="detail-explanation">
+                                    <h4 data-en="What happens here?" data-vi="Điều gì xảy ra ở đây?">What happens here?</h4>
+                                    <p data-en="Raw images from the Oxford Pets dataset are loaded and prepared for the CNN model. Each image is resized to 224×224 pixels to match the input requirements of pre-trained models."
+                                       data-vi="Ảnh thô từ tập dữ liệu Oxford Pets được tải và chuẩn bị cho mô hình CNN. Mỗi ảnh được thay đổi kích thước thành 224×224 pixel để phù hợp với yêu cầu đầu vào của các mô hình đã huấn luyện.">
+                                        Raw images from the Oxford Pets dataset are loaded and prepared for the CNN model. Each image is resized to 224×224 pixels to match the input requirements of pre-trained models.
+                                    </p>
+                                </div>
+                                <div class="detail-code">
+                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
+                                    <pre><code>import torch
+from torchvision import transforms
+from PIL import Image
+
+# Load image
+image = Image.open('path/to/image.jpg')
+
+# Define transforms for input
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor()
+])
+
+# Apply transforms
+input_tensor = transform(image)
+print(f"Input shape: {input_tensor.shape}")  # [3, 224, 224]</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preprocessing Tab -->
+                        <div id="preprocessing-detail" class="pipeline-detail-tab-content">
+                            <h3 data-en="🔧 Image Preprocessing" data-vi="🔧 Tiền Xử Lý Ảnh">🔧 Image Preprocessing</h3>
+                            <div class="detail-content">
+                                <div class="detail-explanation">
+                                    <h4 data-en="Normalization & Augmentation" data-vi="Chuẩn Hóa & Tăng Cường">Normalization & Augmentation</h4>
+                                    <p data-en="Images are normalized using ImageNet statistics and augmented during training to improve model generalization. This step is crucial for transfer learning."
+                                       data-vi="Ảnh được chuẩn hóa bằng thống kê ImageNet và tăng cường trong quá trình huấn luyện để cải thiện khả năng tổng quát hóa của mô hình. Bước này rất quan trọng cho transfer learning.">
+                                        Images are normalized using ImageNet statistics and augmented during training to improve model generalization. This step is crucial for transfer learning.
+                                    </p>
+                                </div>
+                                <div class="detail-code">
+                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
+                                    <pre><code># Training transforms with augmentation
+train_transform = transforms.Compose([
+    transforms.Resize((256, 256)),
+    transforms.RandomCrop((224, 224)),
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])
+
+# Validation transforms (no augmentation)
+val_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- CNN Model Tab -->
+                        <div id="cnn-model-detail" class="pipeline-detail-tab-content">
+                            <h3 data-en="🧠 CNN Model Architecture" data-vi="🧠 Kiến Trúc Mô Hình CNN">🧠 CNN Model Architecture</h3>
+                            <div class="detail-content">
+                                <div class="detail-explanation">
+                                    <h4 data-en="Pre-trained CNN Models" data-vi="Mô Hình CNN Đã Huấn Luyện">Pre-trained CNN Models</h4>
+                                    <p data-en="We use pre-trained models from timm library: ResNet50, EfficientNet-B3, and MobileNetV3. These models were trained on ImageNet and provide excellent feature extraction capabilities."
+                                       data-vi="Chúng tôi sử dụng các mô hình đã huấn luyện từ thư viện timm: ResNet50, EfficientNet-B3, và MobileNetV3. Các mô hình này được huấn luyện trên ImageNet và cung cấp khả năng trích xuất đặc trưng tuyệt vời.">
+                                        We use pre-trained models from timm library: ResNet50, EfficientNet-B3, and MobileNetV3. These models were trained on ImageNet and provide excellent feature extraction capabilities.
+                                    </p>
+                                </div>
+                                <div class="detail-code">
+                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
+                                    <pre><code>import timm
+import torch.nn as nn
+
+# Create models using timm
+models = {
+    'resnet50': timm.create_model('resnet50', pretrained=True, num_classes=37),
+    'efficientnet_b3': timm.create_model('efficientnet_b3', pretrained=True, num_classes=37),
+    'mobilenetv3_large_100': timm.create_model('mobilenetv3_large_100', pretrained=True, num_classes=37)
+}
+
+# Model summary
+for name, model in models.items():
+    print(f"{name}: {sum(p.numel() for p in model.parameters())} parameters")</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Classifier Head Tab -->
+                        <div id="classifier-head-detail" class="pipeline-detail-tab-content">
+                            <h3 data-en="🎯 Classifier Head Adaptation" data-vi="🎯 Điều Chỉnh Đầu Phân Loại">🎯 Classifier Head Adaptation</h3>
+                            <div class="detail-content">
+                                <div class="detail-explanation">
+                                    <h4 data-en="Transfer Learning Adaptation" data-vi="Điều Chỉnh Transfer Learning">Transfer Learning Adaptation</h4>
+                                    <p data-en="The final classification layer is adapted from 1000 ImageNet classes to 37 pet breed classes. This is the key step in transfer learning - we freeze the feature extractor and only train the classifier head."
+                                       data-vi="Lớp phân loại cuối cùng được điều chỉnh từ 1000 lớp ImageNet thành 37 lớp giống thú cưng. Đây là bước quan trọng trong transfer learning - chúng ta đóng băng bộ trích xuất đặc trưng và chỉ huấn luyện đầu phân loại.">
+                                        The final classification layer is adapted from 1000 ImageNet classes to 37 pet breed classes. This is the key step in transfer learning - we freeze the feature extractor and only train the classifier head.
+                                    </p>
+                                </div>
+                                <div class="detail-code">
+                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
+                                    <pre><code># Freeze feature extractor
+for param in model.parameters():
+    param.requires_grad = False
+
+# Replace classifier head
+if hasattr(model, 'classifier'):
+    model.classifier = nn.Linear(model.classifier.in_features, 37)
+elif hasattr(model, 'fc'):
+    model.fc = nn.Linear(model.fc.in_features, 37)
+elif hasattr(model, 'head'):
+    model.head = nn.Linear(model.head.in_features, 37)
+
+# Only train the new classifier
+for param in model.classifier.parameters():
+    param.requires_grad = True</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Tab -->
+                        <div id="results-detail" class="pipeline-detail-tab-content">
+                            <h3 data-en="✨ Classification Results" data-vi="✨ Kết Quả Phân Loại">✨ Classification Results</h3>
+                            <div class="detail-content">
+                                <div class="detail-explanation">
+                                    <h4 data-en="Model Predictions & Evaluation" data-vi="Dự Đoán & Đánh Giá Mô Hình">Model Predictions & Evaluation</h4>
+                                    <p data-en="The model outputs probability scores for all 37 breed classes. We use top-1 and top-5 accuracy to evaluate performance. The best models achieve 95%+ accuracy on the test set."
+                                       data-vi="Mô hình xuất ra điểm số xác suất cho tất cả 37 lớp giống. Chúng tôi sử dụng độ chính xác top-1 và top-5 để đánh giá hiệu suất. Các mô hình tốt nhất đạt được độ chính xác 95%+ trên tập kiểm tra.">
+                                        The model outputs probability scores for all 37 breed classes. We use top-1 and top-5 accuracy to evaluate performance. The best models achieve 95%+ accuracy on the test set.
+                                    </p>
+                                </div>
+                                <div class="detail-code">
+                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
+                                    <pre><code># Model inference
+model.eval()
+with torch.no_grad():
+    outputs = model(input_tensor)
+    probabilities = torch.softmax(outputs, dim=1)
+    predicted_class = torch.argmax(probabilities, dim=1)
+    
+# Get top-5 predictions
+top5_probs, top5_indices = torch.topk(probabilities, 5, dim=1)
+print(f"Predicted class: {predicted_class.item()}")
+print(f"Top-5 classes: {top5_indices[0].tolist()}")
+print(f"Top-5 probabilities: {top5_probs[0].tolist()}")</code></pre>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

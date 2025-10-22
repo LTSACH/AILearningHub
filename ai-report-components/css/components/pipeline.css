@@ -326,3 +326,122 @@
     transform: translateY(-2px);
     box-shadow: var(--ai-shadow-md);
 }
+
+/* Pipeline Detail Tabs */
+.pipeline-detail-tabs {
+    margin-top: var(--ai-spacing-xl);
+    background: var(--ai-bg);
+    border-radius: var(--ai-radius-lg);
+    border: 1px solid var(--ai-border);
+    overflow: hidden;
+}
+
+.pipeline-detail-tab-buttons {
+    display: flex;
+    background: var(--ai-bg-light);
+    border-bottom: 1px solid var(--ai-border);
+    overflow-x: auto;
+}
+
+.pipeline-detail-tab-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: var(--ai-spacing-md) var(--ai-spacing-sm);
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--ai-border);
+    color: var(--ai-text-light);
+    cursor: pointer;
+    transition: all var(--ai-transition-fast);
+    font-size: var(--ai-font-size-sm);
+    font-weight: var(--ai-font-weight-medium);
+    white-space: nowrap;
+}
+
+.pipeline-detail-tab-btn:last-child {
+    border-right: none;
+}
+
+.pipeline-detail-tab-btn:hover {
+    background: var(--ai-bg);
+    color: var(--ai-text);
+}
+
+.pipeline-detail-tab-btn.active {
+    background: var(--ai-primary);
+    color: white;
+    border-color: var(--ai-primary);
+}
+
+.pipeline-detail-tab-content {
+    display: none;
+    padding: var(--ai-spacing-xl);
+}
+
+.pipeline-detail-tab-content.active {
+    display: block;
+}
+
+.detail-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ai-spacing-xl);
+    align-items: start;
+}
+
+.detail-explanation h4 {
+    color: var(--ai-primary);
+    margin-bottom: var(--ai-spacing-sm);
+    font-size: var(--ai-font-size-lg);
+    font-weight: var(--ai-font-weight-semibold);
+}
+
+.detail-explanation p {
+    color: var(--ai-text-light);
+    line-height: 1.6;
+    margin-bottom: var(--ai-spacing-md);
+}
+
+.detail-code h4 {
+    color: var(--ai-primary);
+    margin-bottom: var(--ai-spacing-sm);
+    font-size: var(--ai-font-size-lg);
+    font-weight: var(--ai-font-weight-semibold);
+}
+
+.detail-code pre {
+    background: var(--ai-bg-dark);
+    border: 1px solid var(--ai-border);
+    border-radius: var(--ai-radius-md);
+    padding: var(--ai-spacing-md);
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: var(--ai-font-size-sm);
+    line-height: 1.5;
+}
+
+.detail-code code {
+    color: var(--ai-text);
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-family: inherit;
+}
+
+/* Responsive design for detail tabs */
+@media (max-width: 768px) {
+    .detail-content {
+        grid-template-columns: 1fr;
+        gap: var(--ai-spacing-lg);
+    }
+    
+    .pipeline-detail-tab-btn {
+        min-width: 100px;
+        padding: var(--ai-spacing-sm);
+        font-size: var(--ai-font-size-xs);
+    }
+    
+    .pipeline-detail-tab-content {
+        padding: var(--ai-spacing-lg);
+    }
+}

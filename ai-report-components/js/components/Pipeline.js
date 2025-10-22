@@ -83,6 +83,31 @@ class AIPipeline {
                 targetButton.classList.add('active');
             }
         };
+
+        // Pipeline Detail tab switching
+        window.switchPipelineDetailTab = (detailTabName) => {
+            // Hide all detail tab contents
+            document.querySelectorAll('.pipeline-detail-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all detail tab buttons
+            document.querySelectorAll('.pipeline-detail-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected detail tab content
+            const targetContent = document.getElementById(`${detailTabName}-detail`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            // Add active class to clicked button
+            const targetButton = document.querySelector(`[onclick="switchPipelineDetailTab('${detailTabName}')"]`);
+            if (targetButton) {
+                targetButton.classList.add('active');
+            }
+        };
     }
 
     // Method to switch to specific tab programmatically
