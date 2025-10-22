@@ -3448,12 +3448,6 @@
     // Initialize on load
     renderMethodSelector();
     
-    // Auto-select all and show comparison by default
-    setTimeout(() => {
-        selectAll();
-        compare();
-    }, 100);
-    
     // ESC key to exit fullscreen
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
