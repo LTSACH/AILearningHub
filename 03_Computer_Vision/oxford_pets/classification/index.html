@@ -640,42 +640,7 @@ transform = transforms.Compose([
                 <!-- Formulas Tab -->
                 <div id="formulas-tab" class="comparison-tab-content">
                     <div class="formulas-content">
-                        <h4 data-en="Key Mathematical Formulas" data-vi="Các Công Thức Toán Học Quan Trọng">Key Mathematical Formulas</h4>
-                        
-                        <div class="formula-section">
-                            <h5 data-en="ResNet Residual Block" data-vi="Khối Residual ResNet">ResNet Residual Block</h5>
-                            <div class="formula-box">
-                                <code>H(x) = F(x, {W_i}) + x</code>
-                            </div>
-                            <p data-en="Where F(x, {W_i}) represents the residual mapping to be learned, and x is the identity mapping."
-                               data-vi="Trong đó F(x, {W_i}) đại diện cho ánh xạ residual cần học, và x là ánh xạ identity.">
-                                Where F(x, {W_i}) represents the residual mapping to be learned, and x is the identity mapping.
-                            </p>
-                        </div>
-                        
-                        <div class="formula-section">
-                            <h5 data-en="EfficientNet Compound Scaling" data-vi="Compound Scaling của EfficientNet">EfficientNet Compound Scaling</h5>
-                            <div class="formula-box">
-                                <code>depth: d = α^φ</code><br>
-                                <code>width: w = β^φ</code><br>
-                                <code>resolution: r = γ^φ</code>
-                            </div>
-                            <p data-en="Where α, β, γ are constants found by grid search, and φ is the compound coefficient."
-                               data-vi="Trong đó α, β, γ là các hằng số tìm được bằng grid search, và φ là hệ số compound.">
-                                Where α, β, γ are constants found by grid search, and φ is the compound coefficient.
-                            </p>
-                        </div>
-                        
-                        <div class="formula-section">
-                            <h5 data-en="MobileNet Depthwise Separable Convolution" data-vi="Tích Chập Tách Rời Theo Chiều Sâu của MobileNet">MobileNet Depthwise Separable Convolution</h5>
-                            <div class="formula-box">
-                                <code>G_k = D_k · P_k</code>
-                            </div>
-                            <p data-en="Where D_k is the depthwise convolution and P_k is the pointwise convolution."
-                               data-vi="Trong đó D_k là tích chập theo chiều sâu và P_k là tích chập điểm.">
-                                Where D_k is the depthwise convolution and P_k is the pointwise convolution.
-                            </p>
-                        </div>
+                        <!-- Content will be populated by MetricsWalkthrough component -->
                     </div>
                 </div>
             </div>
@@ -781,13 +746,20 @@ transform = transforms.Compose([
                     });
                     confusionMatrix.loadData(data.confusion_matrix.resnet50);
                     
-                    // Initialize metrics walkthrough
-                    const metricsWalkthrough = new AIMetricsWalkthrough('metrics-walkthrough-container', {
-                        showFormulas: true,
-                        showExamples: true,
-                        showCalculations: true
-                    });
-                    metricsWalkthrough.loadData(data.metrics_walkthrough);
+                         // Initialize metrics walkthrough
+                         const metricsWalkthrough = new AIMetricsWalkthrough('metrics-walkthrough-container', {
+                             showFormulas: true,
+                             showExamples: true,
+                             showCalculations: true
+                         });
+                         metricsWalkthrough.loadData(data.metrics_walkthrough);
+                         
+                         // Initialize formulas in comparison section
+                         const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
+                         if (formulasContainer) {
+                             metricsWalkthrough.container = formulasContainer;
+                             metricsWalkthrough.renderFormulas();
+                         }
                 })
                 .catch(error => {
                     console.error('Error loading data:', error);

@@ -133,6 +133,112 @@ class AIMetricsWalkthrough {
             </div>
         `;
     }
+
+    renderFormulas() {
+        const formulasContent = `
+            <div class="formulas-content">
+                <!-- Classification Metrics -->
+                <div class="config-card" style="margin-bottom: 1.5rem;">
+                    <h4>📊 Classification Metrics</h4>
+                    <div style="line-height: 2.2;">
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Accuracy:</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Accuracy} = \\frac{\\text{TP} + \\text{TN}}{\\text{TP} + \\text{TN} + \\text{FP} + \\text{FN}} = \\frac{\\sum_{i=1}^{n} \\text{CM}[i,i]}{\\text{Total Samples}} \\)
+                            </span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Precision (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Precision}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FP}_i} = \\frac{\\text{CM}[i,i]}{\\sum_{j=1}^{n} \\text{CM}[j,i]} \\)
+                            </span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Recall (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Recall}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FN}_i} = \\frac{\\text{CM}[i,i]}{\\sum_{j=1}^{n} \\text{CM}[i,j]} \\)
+                            </span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>F1-Score (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{F1}_i = \\frac{2 \\times \\text{Precision}_i \\times \\text{Recall}_i}{\\text{Precision}_i + \\text{Recall}_i} = \\frac{2 \\times \\text{CM}[i,i]}{\\text{Support}_i + \\text{Predicted}_i} \\)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Averaging Methods -->
+                <div class="config-card" style="margin-bottom: 1.5rem;">
+                    <h4>📈 Averaging Methods</h4>
+                    <div style="line-height: 2.2;">
+                        <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
+                            <strong>Macro Average:</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Metric}_{\\text{macro}} = \\frac{1}{n} \\sum_{i=1}^{n} \\text{Metric}_i \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Equal weight to each class (good for imbalanced datasets)</span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f0fff4; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
+                            <strong>Weighted Average:</strong><br>
+                            <span style="font-size: 1.1rem; color: #10b981;">
+                                \\( \\text{Metric}_{\\text{weighted}} = \\frac{\\sum_{i=1}^{n} \\text{Metric}_i \\times \\text{Support}_i}{\\sum_{i=1}^{n} \\text{Support}_i} \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Weight by class frequency (reflects overall performance)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Confusion Matrix Components -->
+                <div class="config-card">
+                    <h4>🎯 Confusion Matrix Components</h4>
+                    <div style="line-height: 2.2;">
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Support (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Support}_i = \\sum_{j=1}^{n} \\text{CM}[i,j] \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Total actual instances of class i (row sum)</span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <strong>Predicted (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #667eea;">
+                                \\( \\text{Predicted}_i = \\sum_{j=1}^{n} \\text{CM}[j,i] \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Total predicted instances of class i (column sum)</span>
+                        </div>
+                        
+                        <div style="padding: 0.75rem; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #10b981;">
+                            <strong>True Positives (per class i):</strong><br>
+                            <span style="font-size: 1.1rem; color: #10b981;">
+                                \\( \\text{TP}_i = \\text{CM}[i,i] \\)
+                            </span><br>
+                            <span style="font-size: 0.85rem; color: #666;">Diagonal element (correctly predicted instances)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Note -->
+                <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid #ffc107;">
+                    <strong>💡 Note:</strong> All formulas use the confusion matrix (CM) as the primary data structure. 
+                    For multi-class classification with <em>n</em> classes, CM is an <em>n × n</em> matrix where CM[i,j] represents 
+                    the number of samples with true label <em>i</em> predicted as label <em>j</em>.
+                </div>
+            </div>
+        `;
+        
+        this.container.querySelector('.formulas-content').innerHTML = formulasContent;
+        
+        // Re-render MathJax
+        if (window.MathJax) {
+            window.MathJax.typesetPromise([this.container.querySelector('.formulas-content')]);
+        }
+    }
 }
 
 // Export for module systems
