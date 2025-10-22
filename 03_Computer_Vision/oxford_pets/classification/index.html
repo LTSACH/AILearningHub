@@ -84,14 +84,14 @@
             display: inline-block !important;
         }
         
+        /* Remove good class highlighting - only best should be highlighted */
         .comparison-table .metric-value.good {
-            background: linear-gradient(135deg, #2196F3, #1976D2) !important;
-            color: white !important;
-            font-weight: bold !important;
-            padding: 4px 8px !important;
-            border-radius: 4px !important;
-            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3) !important;
-            display: inline-block !important;
+            background: none !important;
+            color: inherit !important;
+            font-weight: normal !important;
+            padding: 2px 6px !important;
+            border-radius: 3px !important;
+            box-shadow: none !important;
         }
         
         .metric-value {
@@ -774,7 +774,7 @@ transform = transforms.Compose([
                         metrics.forEach(metric => {
                             const value = model.performance[metric];
                             const isBest = isBestInColumn(models, metric, value);
-                            const className = isBest ? 'best' : (value >= 0.90 ? 'good' : '');
+                            const className = isBest ? 'best' : '';
                             
                             // Debug logging
                             if (isBest) {
@@ -805,7 +805,7 @@ transform = transforms.Compose([
                         resourceMetrics.forEach(metric => {
                             const value = model.resources[metric];
                             const isBest = isBestInColumn(models, metric, value, 'resources');
-                            const className = isBest ? 'best' : (value <= 0.5 ? 'good' : '');
+                            const className = isBest ? 'best' : '';
                             let displayValue;
                             
                             if (metric === 'flops') {
