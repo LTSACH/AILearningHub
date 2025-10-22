@@ -835,10 +835,12 @@ transform = transforms.Compose([
             function isBestInColumn(models, metric, value, type = 'performance') {
                 if (type === 'performance') {
                     // Higher is better for performance metrics
-                    return models.every(model => model.performance[metric] <= value);
+                    const maxValue = Math.max(...models.map(model => model.performance[metric]));
+                    return value === maxValue;
                 } else if (type === 'resources') {
                     // Lower is better for resource metrics
-                    return models.every(model => model.resources[metric] >= value);
+                    const minValue = Math.min(...models.map(model => model.resources[metric]));
+                    return value === minValue;
                 }
                 return false;
             }
