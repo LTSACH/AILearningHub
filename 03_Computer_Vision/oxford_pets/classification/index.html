@@ -719,20 +719,34 @@ transform = transforms.Compose([
                 ]
             });
             
-            // Initialize hero section
-            const hero = new AIHero('ai-hero', {
-                title: '📊 Breed Classification',
-                titleVi: '📊 Phân Loại Giống Chó',
-                subtitle: '37-class breed classification using CNN architectures and transfer learning',
-                subtitleVi: 'Phân loại 37 giống chó sử dụng kiến trúc CNN và transfer learning',
-                stats: [
-                    { value: '37', label: 'Breeds', labelVi: 'Giống' },
-                    { value: '7,393', label: 'Images', labelVi: 'Ảnh' },
-                    { value: '8', label: 'Models', labelVi: 'Mô Hình' },
-                    { value: '95.2%', label: 'Best Accuracy', labelVi: 'Độ Chính Xác Tốt Nhất' }
-                ],
-                gradient: false
-            });
+            // Initialize hero section with dynamic data
+            fetch('https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/classification/models_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Find best accuracy from real data
+                    let bestAccuracy = 0;
+                    let bestModel = '';
+                    Object.values(data.models).forEach(model => {
+                        if (model.performance.accuracy > bestAccuracy) {
+                            bestAccuracy = model.performance.accuracy;
+                            bestModel = model.name;
+                        }
+                    });
+                    
+                    const hero = new AIHero('ai-hero', {
+                        title: '📊 Breed Classification',
+                        titleVi: '📊 Phân Loại Giống Chó',
+                        subtitle: '37-class breed classification using CNN architectures and transfer learning',
+                        subtitleVi: 'Phân loại 37 giống chó sử dụng kiến trúc CNN và transfer learning',
+                        stats: [
+                            { value: '37', label: 'Breeds', labelVi: 'Giống' },
+                            { value: '7,393', label: 'Images', labelVi: 'Ảnh' },
+                            { value: '3', label: 'Models', labelVi: 'Mô Hình' },
+                            { value: (bestAccuracy * 100).toFixed(1) + '%', label: 'Best Accuracy', labelVi: 'Độ Chính Xác Tốt Nhất' }
+                        ],
+                        gradient: false
+                    });
+                });
             
             
             // Initialize theme selector
