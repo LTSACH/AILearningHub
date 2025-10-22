@@ -73,6 +73,32 @@
             color: var(--ai-primary);
         }
         
+        /* Fix contrast for highlighted metrics */
+        .metric-value.best {
+            background: linear-gradient(135deg, #4CAF50, #45a049) !important;
+            color: white !important;
+            font-weight: bold !important;
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
+            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3) !important;
+        }
+        
+        .metric-value.good {
+            background: linear-gradient(135deg, #2196F3, #1976D2) !important;
+            color: white !important;
+            font-weight: bold !important;
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
+            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3) !important;
+        }
+        
+        .metric-value {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+        
         .model-badges {
             display: flex;
             gap: var(--ai-spacing-xs);
