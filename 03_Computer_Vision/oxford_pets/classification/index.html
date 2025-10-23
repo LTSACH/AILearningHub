@@ -711,7 +711,7 @@ transform = transforms.Compose([
                         stats: [
                             { value: '37', label: 'Breeds', labelVi: 'Giống' },
                             { value: '7,393', label: 'Images', labelVi: 'Ảnh' },
-                            { value: '3', label: 'Models', labelVi: 'Mô Hình' },
+                            { value: '6', label: 'Models', labelVi: 'Mô Hình' },
                             { value: (bestAccuracy * 100).toFixed(1) + '%', label: 'Best Accuracy', labelVi: 'Độ Chính Xác Tốt Nhất' }
                         ],
                         gradient: false
@@ -802,7 +802,9 @@ transform = transforms.Compose([
                             }
                             
                             console.log(`Rendering: ${model.name} - ${metric}: ${(value * 100).toFixed(1)}% - Class: ${className}`);
-                            rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%</span></td>`;
+                            // Add augmentation indicator
+                            const augIndicator = model.name.includes('(Aug)') ? ' 🔄' : ' 📊';
+                            rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%${augIndicator}</span></td>`;
                         });
                         
                         row.innerHTML = rowHTML;
@@ -840,7 +842,9 @@ transform = transforms.Compose([
                                 displayValue = `${value.toFixed(1)}ms`;
                             }
                             
-                            rowHTML += `<td><span class="metric-value ${className}">${displayValue}</span></td>`;
+                            // Add augmentation indicator
+                            const augIndicator = model.name.includes('(Aug)') ? ' 🔄' : ' 📊';
+                            rowHTML += `<td><span class="metric-value ${className}">${displayValue}${augIndicator}</span></td>`;
                         });
                         
                         row.innerHTML = rowHTML;
@@ -942,17 +946,26 @@ transform = transforms.Compose([
                     function showConfusionMatrix(modelName) {
                         let modelKey = '';
                         switch(modelName) {
-                            case 'Resnet50':
-                                modelKey = 'resnet50';
+                            case 'ResNet50 (Aug)':
+                                modelKey = 'resnet50_aug';
                                 break;
-                            case 'Efficientnet-B3':
-                                modelKey = 'efficientnet_b3';
+                            case 'ResNet50 (No Aug)':
+                                modelKey = 'resnet50_noaug';
                                 break;
-                            case 'Mobilenetv3-Large-100':
-                                modelKey = 'mobilenetv3_large_100';
+                            case 'EfficientNet-B3 (Aug)':
+                                modelKey = 'efficientnet_b3_aug';
+                                break;
+                            case 'EfficientNet-B3 (No Aug)':
+                                modelKey = 'efficientnet_b3_noaug';
+                                break;
+                            case 'MobileNetV3-Large-100 (Aug)':
+                                modelKey = 'mobilenetv3_large_100_aug';
+                                break;
+                            case 'MobileNetV3-Large-100 (No Aug)':
+                                modelKey = 'mobilenetv3_large_100_noaug';
                                 break;
                             default:
-                                modelKey = 'resnet50'; // Default fallback
+                                modelKey = 'resnet50_aug'; // Default fallback
                         }
                         
                         const confusionData = window.confusionMatrixData[modelKey];
@@ -1039,21 +1052,21 @@ transform = transforms.Compose([
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Precision (per class i):</strong><br>
                                              <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{Precision}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FP}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[j,i]}\
+                                                 \text{Precision}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FP}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[j,i]}\
                                              </div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Recall (per class i):</strong><br>
                                              <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{Recall}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FN}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[i,j]}\
+                                                 \text{Recall}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FN}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[i,j]}\
                                              </div>
                                          </div>
                                          
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>F1-Score (per class i):</strong><br>
                                              <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{F1}_i = \frac{2 \times \text{Precision}_i \times \text{Recall}_i}{\text{Precision}_i + \text{Recall}_i} = \frac{2 \times \text{CM}[i,i]}{\text{Support}_i + \text{Predicted}_i}\
+                                                 \text{F1}_i = \frac{2 \times \text{Precision}_i \times \text{Recall}_i}{\text{Precision}_i + \text{Recall}_i} = \frac{2 \times \text{CM}[i,i]}{\text{Support}_i + \text{Predicted}_i}\
                                              </div>
                                          </div>
                                      </div>
@@ -1066,7 +1079,7 @@ transform = transforms.Compose([
                                          <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
                                              <strong>Macro Average:</strong><br>
                                              <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{Metric}_{\text{macro}} = \frac{1}{n} \sum_{i=1}^{n} \text{Metric}_i\
+                                                 \text{Metric}_{\text{macro}} = \frac{1}{n} \sum_{i=1}^{n} \text{Metric}_i\
                                              </div>
                                              <div style="font-size: 0.85rem; color: #666; text-align: center;">Equal weight to each class (good for imbalanced datasets)</div>
                                          </div>
@@ -1074,7 +1087,7 @@ transform = transforms.Compose([
                                          <div style="padding: 0.75rem; background: #f0fff4; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
                                              <strong>Weighted Average:</strong><br>
                                              <div style="font-size: 1.2rem; color: #10b981; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{Metric}_{\text{weighted}} = \frac{\sum_{i=1}^{n} \text{Metric}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}\
+                                                 \text{Metric}_{\text{weighted}} = \frac{\sum_{i=1}^{n} \text{Metric}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}\
                                              </div>
                                              <div style="font-size: 0.85rem; color: #666; text-align: center;">Weight by class frequency (reflects overall performance)</div>
                                          </div>
@@ -1088,7 +1101,7 @@ transform = transforms.Compose([
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Support (per class i):</strong><br>
                                              <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{Support}_i = \sum_{j=1}^{n} \text{CM}[i,j]\
+                                                 \text{Support}_i = \sum_{j=1}^{n} \text{CM}[i,j]\
                                              </div>
                                              <div style="font-size: 0.85rem; color: #666; text-align: center;">Total actual instances of class i (row sum)</div>
                                          </div>
@@ -1096,7 +1109,7 @@ transform = transforms.Compose([
                                          <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
                                              <strong>Predicted (per class i):</strong><br>
                                              <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{Predicted}_i = \sum_{j=1}^{n} \text{CM}[j,i]\
+                                                 \text{Predicted}_i = \sum_{j=1}^{n} \text{CM}[j,i]\
                                              </div>
                                              <div style="font-size: 0.85rem; color: #666; text-align: center;">Total predicted instances of class i (column sum)</div>
                                          </div>
@@ -1104,7 +1117,7 @@ transform = transforms.Compose([
                                          <div style="padding: 0.75rem; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #10b981;">
                                              <strong>True Positives (per class i):</strong><br>
                                              <div style="font-size: 1.2rem; color: #10b981; text-align: center; margin: 0.5rem 0;">
-                                                 \\text{TP}_i = \text{CM}[i,i]\
+                                                 \text{TP}_i = \text{CM}[i,i]\
                                              </div>
                                              <div style="font-size: 0.85rem; color: #666; text-align: center;">Diagonal element (correctly predicted instances)</div>
                                          </div>
@@ -1119,22 +1132,22 @@ transform = transforms.Compose([
                                  </div>
                              `;
                              
-                             // Render KaTeX formulas when formulas tab is shown
-                             setTimeout(() => {
-                                 if (typeof renderMathInElement !== 'undefined') {
-                                     console.log('Rendering KaTeX formulas...');
-                                     renderMathInElement(formulasContainer, {
-                                         delimiters: [
-                                             {left: '\\(', right: '\\)', display: false},
-                                             {left: '\\[', right: '\\]', display: true}
-                                         ],
-                                         throwOnError: false
-                                     });
-                                     console.log('KaTeX rendering completed');
-                                 } else {
-                                     console.error('renderMathInElement not available');
-                                 }
-                             }, 200);
+                            // Render KaTeX formulas when formulas tab is shown
+                            setTimeout(() => {
+                                if (typeof renderMathInElement !== 'undefined') {
+                                    console.log('Rendering KaTeX formulas...');
+                                    renderMathInElement(formulasContainer, {
+                                        delimiters: [
+                                            {left: '\(', right: '\)', display: false},
+                                            {left: '\[', right: '\]', display: true}
+                                        ],
+                                        throwOnError: false
+                                    });
+                                    console.log('KaTeX rendering completed');
+                                } else {
+                                    console.error('renderMathInElement not available');
+                                }
+                            }, 200);
                          }
                 })
                 .catch(error => {
