@@ -975,8 +975,16 @@
             }
             
             const matrix = confusionMatrix;
-            // Generate class names (37 classes for Oxford Pets)
-            const classNames = Array.from({length: 37}, (_, i) => `Class ${i + 1}`);
+            // Use real class names for Oxford Pets (37 breeds)
+            const classNames = [
+                'Abyssinian', 'Bengal', 'Birman', 'Bombay', 'British_Shorthair', 'Egyptian_Mau', 'Maine_Coon', 
+                'Persian', 'Ragdoll', 'Russian_Blue', 'Siamese', 'Sphynx', 'american_bulldog', 
+                'american_pit_bull_terrier', 'basset_hound', 'beagle', 'boxer', 'chihuahua', 
+                'english_cocker_spaniel', 'english_setter', 'german_shorthaired', 'great_pyrenees', 
+                'havanese', 'japanese_chin', 'keeshond', 'leonberger', 'miniature_pinscher', 
+                'newfoundland', 'pomeranian', 'pug', 'saint_bernard', 'samoyed', 'scottish_terrier', 
+                'shiba_inu', 'staffordshire_bull_terrier', 'wheaten_terrier', 'yorkshire_terrier'
+            ];
             
             const plotData = [{
                 z: matrix,
