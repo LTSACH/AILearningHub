@@ -455,7 +455,7 @@
                         }
                         
                         // Add augmentation indicator
-                        const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
+                        const augIndicator = modelName.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
                         rowHTML += `<td><span class="metric-value ${className}">${displayValue}${augIndicator}</span></td>`;
                     });
                     
