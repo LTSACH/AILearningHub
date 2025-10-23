@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/pipeline.css">
     
+    <!-- Custom styles -->
     <style>
-        /* Custom styles for this page */
         
         .models-grid {
             display: grid;
@@ -41,39 +41,6 @@
             border-color: var(--ai-primary);
         }
         
-        .model-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--ai-spacing-md);
-            text-align: center;
-        }
-        
-        .model-metrics {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--ai-spacing-sm);
-            margin: var(--ai-spacing-md) 0;
-        }
-        
-        .model-metric {
-            background: var(--ai-bg-light);
-            padding: var(--ai-spacing-sm);
-            border-radius: var(--ai-radius-sm);
-            text-align: center;
-        }
-        
-        .model-metric-label {
-            font-size: var(--ai-font-size-xs);
-            color: var(--ai-text-light);
-            margin-bottom: var(--ai-spacing-xs);
-        }
-        
-        .model-metric-value {
-            font-size: var(--ai-font-size-lg);
-            font-weight: var(--ai-font-weight-bold);
-            color: var(--ai-primary);
-        }
-        
-        /* Fix contrast for highlighted metrics - HIGH SPECIFICITY */
         .comparison-table .metric-value.best {
             background: linear-gradient(135deg, #4CAF50, #45a049) !important;
             color: white !important;
@@ -84,7 +51,6 @@
             display: inline-block !important;
         }
         
-        /* Remove good class highlighting - only best should be highlighted */
         .comparison-table .metric-value.good {
             background: none !important;
             color: inherit !important;
@@ -101,12 +67,6 @@
             transition: all 0.2s ease;
         }
         
-        .model-badges {
-            display: flex;
-            gap: var(--ai-spacing-xs);
-            flex-wrap: wrap;
-            margin-top: var(--ai-spacing-md);
-        }
     </style>
 </head>
 <body>
@@ -117,537 +77,205 @@
     <div id="language-switcher" class="ai-language-switcher fixed"></div>
 
     <div class="ai-container">
-        <!-- Hero Section -->
-        <div id="ai-hero"></div>
-        <!-- Pipeline Section -->
-        <section class="ai-section">
-            <h2 class="ai-heading-2" data-en="🔄 Pipeline" data-vi="🔄 Quy Trình">🔄 Pipeline</h2>
-            <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
-               data-en="Computer Vision classification pipeline with CNN architectures"
-               data-vi="Quy trình phân loại thị giác máy tính với kiến trúc CNN">
-                Computer Vision classification pipeline with CNN architectures
-            </p>
+        
+    <!-- Hero Section -->
+    <div id="ai-hero"></div>
+    
+    <!-- Pipeline Section -->
+    <section class="ai-section">
+        <h2 class="ai-heading-2" data-en="🔄 Pipeline" data-vi="🔄 Quy Trình">🔄 Pipeline</h2>
+        <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
+           data-en="Computer Vision classification pipeline with CNN architectures"
+           data-vi="Quy trình phân loại thị giác máy tính với kiến trúc CNN">
+            Computer Vision classification pipeline with CNN architectures
+        </p>
+        
+        <!-- Pipeline Tabs -->
+        <div class="pipeline-section">
+            <!-- Tabs -->
+            <div class="pipeline-tabs">
+                <button class="pipeline-tab-btn active" onclick="switchPipelineTab('pipeline')">
+                    🔄 Pipeline
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('tutorials')">
+                    📚 Tutorials
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('code')">
+                    💻 Code
+                </button>
+                <button class="pipeline-tab-btn" onclick="switchPipelineTab('colab')">
+                    🚀 Colab
+                </button>
+            </div>
             
-            <!-- Pipeline Tabs -->
-            <div class="pipeline-section">
-                <!-- Tabs -->
-                <div class="pipeline-tabs">
-                    <button class="pipeline-tab-btn active" onclick="switchPipelineTab('pipeline')">
-                        🔄 Pipeline
-                    </button>
-                    <button class="pipeline-tab-btn" onclick="switchPipelineTab('tutorials')">
-                        📚 Tutorials
-                    </button>
-                    <button class="pipeline-tab-btn" onclick="switchPipelineTab('code')">
-                        💻 Code
-                    </button>
-                    <button class="pipeline-tab-btn" onclick="switchPipelineTab('colab')">
-                        🚀 Colab
-                    </button>
-                </div>
-                
-                <!-- Tab 1: Pipeline (default) -->
-                <div id="pipeline-tab" class="pipeline-tab-content active">
-                    <div class="pipeline-flow">
-                        <div class="step step-fixed" onclick="switchPipelineDetailTab('input')">
-                            <div class="step-icon">🖼️</div>
-                            <div class="step-title" data-en="Image Input" data-vi="Đầu Vào Ảnh">Image Input</div>
-                            <div class="step-detail" data-en="224×224 RGB images" data-vi="Ảnh RGB 224×224">224×224 RGB images</div>
-                        </div>
-                        
-                        <div class="arrow">→</div>
-                        
-                        <div class="step step-fixed" onclick="switchPipelineDetailTab('preprocessing')">
-                            <div class="step-icon">🔧</div>
-                            <div class="step-title" data-en="Preprocessing" data-vi="Tiền Xử Lý">Preprocessing</div>
-                            <div class="step-badge" data-en="Fixed" data-vi="Cố Định">Fixed</div>
-                            <div class="step-detail" data-en="Normalize, Resize" data-vi="Chuẩn hóa, Thay đổi kích thước">Normalize, Resize</div>
-                        </div>
-                        
-                        <div class="arrow">→</div>
-                        
-                        <div class="step step-interactive" onclick="switchPipelineDetailTab('cnn-model')">
-                            <div class="step-icon">🧠</div>
-                            <div class="step-title" data-en="CNN Model" data-vi="Mô Hình CNN">CNN Model</div>
-                            <div class="step-badge" data-en="Choose Below" data-vi="Chọn Bên Dưới">Choose Below</div>
-                            <div class="step-detail" data-en="ResNet50, EfficientNet, MobileNet..." data-vi="ResNet50, EfficientNet, MobileNet...">ResNet50, EfficientNet, MobileNet...</div>
-                        </div>
-                        
-                        <div class="arrow">→</div>
-                        
-                        <div class="step step-fixed" onclick="switchPipelineDetailTab('classifier-head')">
-                            <div class="step-icon">🎯</div>
-                            <div class="step-title" data-en="Classifier Head" data-vi="Đầu Phân Loại">Classifier Head</div>
-                            <div class="step-badge" data-en="Adapted" data-vi="Điều Chỉnh">Adapted</div>
-                            <div class="step-detail" data-en="1000 → 37 classes" data-vi="1000 → 37 lớp">1000 → 37 classes</div>
-                        </div>
-                        
-                        <div class="arrow">→</div>
-                        
-                        <div class="step step-result" onclick="switchPipelineDetailTab('results')">
-                            <div class="step-icon">✨</div>
-                            <div class="step-title" data-en="Classification Results" data-vi="Kết Quả Phân Loại">Classification Results</div>
-                            <div class="step-detail" data-en="37 breed predictions" data-vi="Dự đoán 37 giống">37 breed predictions</div>
-                        </div>
+            <!-- Tab 1: Pipeline (default) -->
+            <div id="pipeline-tab" class="pipeline-tab-content active">
+                <div class="pipeline-flow">
+                    <div class="step step-fixed" onclick="switchPipelineDetailTab('input')">
+                        <div class="step-icon">🖼️</div>
+                        <div class="step-title" data-en="Image Input" data-vi="Đầu Vào Ảnh">Image Input</div>
+                        <div class="step-detail" data-en="224×224 RGB images" data-vi="Ảnh RGB 224×224">224×224 RGB images</div>
                     </div>
                     
-                    <!-- Pipeline Detail Tabs -->
-                    <div class="pipeline-detail-tabs">
-                        <div class="pipeline-detail-tab-buttons">
-                            <button class="pipeline-detail-tab-btn active" onclick="switchPipelineDetailTab('input')">
-                                🖼️ Input Image
-                            </button>
-                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('preprocessing')">
-                                🔧 Preprocessing
-                            </button>
-                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-model')">
-                                🧠 CNN Model
-                            </button>
-                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('classifier-head')">
-                                🎯 Classifier Head
-                            </button>
-                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('results')">
-                                ✨ Classification Results
-                            </button>
-                        </div>
-                        
-                        <!-- Input Image Tab -->
-                        <div id="input-detail" class="pipeline-detail-tab-content active">
-                            <h3 data-en="🖼️ Input Image Processing" data-vi="🖼️ Xử Lý Ảnh Đầu Vào">🖼️ Input Image Processing</h3>
-                            <div class="detail-content">
-                                <div class="detail-explanation">
-                                    <h4 data-en="What happens here?" data-vi="Điều gì xảy ra ở đây?">What happens here?</h4>
-                                    <p data-en="Raw images from the Oxford Pets dataset are loaded and prepared for the CNN model. Each image is resized to 224×224 pixels to match the input requirements of pre-trained models."
-                                       data-vi="Ảnh thô từ tập dữ liệu Oxford Pets được tải và chuẩn bị cho mô hình CNN. Mỗi ảnh được thay đổi kích thước thành 224×224 pixel để phù hợp với yêu cầu đầu vào của các mô hình đã huấn luyện.">
-                                        Raw images from the Oxford Pets dataset are loaded and prepared for the CNN model. Each image is resized to 224×224 pixels to match the input requirements of pre-trained models.
-                                    </p>
-                                </div>
-                                <div class="detail-code">
-                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
-                                    <pre><code>import torch
-from torchvision import transforms
-from PIL import Image
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-fixed" onclick="switchPipelineDetailTab('preprocessing')">
+                        <div class="step-icon">🔧</div>
+                        <div class="step-title" data-en="Preprocessing" data-vi="Tiền Xử Lý">Preprocessing</div>
+                        <div class="step-badge" data-en="Fixed" data-vi="Cố Định">Fixed</div>
+                        <div class="step-detail" data-en="Normalize, Resize" data-vi="Chuẩn hóa, Thay đổi kích thước">Normalize, Resize</div>
+                    </div>
+                    
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-interactive" onclick="switchPipelineDetailTab('cnn-model')">
+                        <div class="step-icon">🧠</div>
+                        <div class="step-title" data-en="CNN Model" data-vi="Mô Hình CNN">CNN Model</div>
+                        <div class="step-badge" data-en="Choose Below" data-vi="Chọn Bên Dưới">Choose Below</div>
+                        <div class="step-detail" data-en="ResNet50, EfficientNet, MobileNet..." data-vi="ResNet50, EfficientNet, MobileNet...">ResNet50, EfficientNet, MobileNet...</div>
+                    </div>
+                    
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-fixed" onclick="switchPipelineDetailTab('classifier-head')">
+                        <div class="step-icon">🎯</div>
+                        <div class="step-title" data-en="Classifier Head" data-vi="Đầu Phân Loại">Classifier Head</div>
+                        <div class="step-badge" data-en="Adapted" data-vi="Điều Chỉnh">Adapted</div>
+                        <div class="step-detail" data-en="1000 → 37 classes" data-vi="1000 → 37 lớp">1000 → 37 classes</div>
+                    </div>
+                    
+                    <div class="arrow">→</div>
+                    
+                    <div class="step step-result" onclick="switchPipelineDetailTab('results')">
+                        <div class="step-icon">✨</div>
+                        <div class="step-title" data-en="Classification Results" data-vi="Kết Quả Phân Loại">Classification Results</div>
+                        <div class="step-detail" data-en="37 breed predictions" data-vi="Dự đoán 37 giống">37 breed predictions</div>
+                    </div>
+                </div>
+                
+                <!-- Pipeline Detail Tabs -->
+                <div class="pipeline-detail-tabs">
+                    <div class="pipeline-detail-tab-buttons">
+                        <button class="pipeline-detail-tab-btn active" onclick="switchPipelineDetailTab('input')">
+                            🖼️ Input Image
+                        </button>
+                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('preprocessing')">
+                            🔧 Preprocessing
+                        </button>
+                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-model')">
+                            🧠 CNN Model
+                        </button>
+                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('classifier-head')">
+                            🎯 Classifier Head
+                        </button>
+                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('results')">
+                            ✨ Classification Results
+                        </button>
+                    </div>
+                    
+                    <!-- Pipeline detail content will be loaded by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Other tabs content will be loaded by JavaScript -->
+        </div>
+    </section>
 
-# Load image
-image = Image.open('path/to/image.jpg')
-
-# Define transforms for input
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor()
-])
-
-# Apply transforms
-input_tensor = transform(image)
-print(f"Input shape: {input_tensor.shape}")  # [3, 224, 224]</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Preprocessing Tab -->
-                        <div id="preprocessing-detail" class="pipeline-detail-tab-content">
-                            <h3 data-en="🔧 Image Preprocessing" data-vi="🔧 Tiền Xử Lý Ảnh">🔧 Image Preprocessing</h3>
-                            <div class="detail-content">
-                                <div class="detail-explanation">
-                                    <h4 data-en="Normalization & Augmentation" data-vi="Chuẩn Hóa & Tăng Cường">Normalization & Augmentation</h4>
-                                    <p data-en="Images are normalized using ImageNet statistics and augmented during training to improve model generalization. This step is crucial for transfer learning."
-                                       data-vi="Ảnh được chuẩn hóa bằng thống kê ImageNet và tăng cường trong quá trình huấn luyện để cải thiện khả năng tổng quát hóa của mô hình. Bước này rất quan trọng cho transfer learning.">
-                                        Images are normalized using ImageNet statistics and augmented during training to improve model generalization. This step is crucial for transfer learning.
-                                    </p>
-                                </div>
-                                <div class="detail-code">
-                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
-                                    <pre><code># Training transforms with augmentation
-train_transform = transforms.Compose([
-    transforms.Resize((256, 256)),
-    transforms.RandomCrop((224, 224)),
-    transforms.RandomHorizontalFlip(p=0.5),
-    transforms.ColorJitter(brightness=0.2, contrast=0.2),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                        std=[0.229, 0.224, 0.225])
-])
-
-# Validation transforms (no augmentation)
-val_transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                        std=[0.229, 0.224, 0.225])
-])</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- CNN Model Tab -->
-                        <div id="cnn-model-detail" class="pipeline-detail-tab-content">
-                            <h3 data-en="🧠 CNN Model Architecture" data-vi="🧠 Kiến Trúc Mô Hình CNN">🧠 CNN Model Architecture</h3>
-                            <div class="detail-content">
-                                <div class="detail-explanation">
-                                    <h4 data-en="Pre-trained CNN Models" data-vi="Mô Hình CNN Đã Huấn Luyện">Pre-trained CNN Models</h4>
-                                    <p data-en="We use pre-trained models from timm library: ResNet50, EfficientNet-B3, and MobileNetV3. These models were trained on ImageNet and provide excellent feature extraction capabilities."
-                                       data-vi="Chúng tôi sử dụng các mô hình đã huấn luyện từ thư viện timm: ResNet50, EfficientNet-B3, và MobileNetV3. Các mô hình này được huấn luyện trên ImageNet và cung cấp khả năng trích xuất đặc trưng tuyệt vời.">
-                                        We use pre-trained models from timm library: ResNet50, EfficientNet-B3, and MobileNetV3. These models were trained on ImageNet and provide excellent feature extraction capabilities.
-                                    </p>
-                                </div>
-                                <div class="detail-code">
-                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
-                                    <pre><code>import timm
-import torch.nn as nn
-
-# Create models using timm
-models = {
-    'resnet50': timm.create_model('resnet50', pretrained=True, num_classes=37),
-    'efficientnet_b3': timm.create_model('efficientnet_b3', pretrained=True, num_classes=37),
-    'mobilenetv3_large_100': timm.create_model('mobilenetv3_large_100', pretrained=True, num_classes=37)
-}
-
-# Model summary
-for name, model in models.items():
-    print(f"{name}: {sum(p.numel() for p in model.parameters())} parameters")</code></pre>
-                                </div>
-                            </div>
-                            
-                            <!-- Model Cards -->
-                            <div class="model-cards-container" style="margin-top: 2rem;">
-                                <h4 data-en="Available Models" data-vi="Các Mô Hình Có Sẵn">Available Models</h4>
-                                <div class="model-cards-grid">
-                                    <!-- ResNet50 Card -->
-                                    <div class="model-card">
-                                        <div class="model-card-header">
-                                            <div class="model-icon">🏗️</div>
-                                            <h5>ResNet50</h5>
-                                        </div>
-                                        <div class="model-metrics">
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">95.2%</div>
-                                                <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
-                                            </div>
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">25.6M</div>
-                                                <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
-                                            </div>
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">4.1B</div>
-                                                <div class="model-metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
-                                            </div>
-                                        </div>
-                                        <div class="model-description">
-                                            <p data-en="Deep residual network with 50 layers. Excellent balance of accuracy and efficiency."
-                                               data-vi="Mạng residual sâu với 50 lớp. Cân bằng tốt giữa độ chính xác và hiệu quả.">
-                                                Deep residual network with 50 layers. Excellent balance of accuracy and efficiency.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- EfficientNet-B3 Card -->
-                                    <div class="model-card">
-                                        <div class="model-card-header">
-                                            <div class="model-icon">⚡</div>
-                                            <h5>EfficientNet-B3</h5>
-                                        </div>
-                                        <div class="model-metrics">
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">96.1%</div>
-                                                <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
-                                            </div>
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">12M</div>
-                                                <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
-                                            </div>
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">1.8B</div>
-                                                <div class="model-metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
-                                            </div>
-                                        </div>
-                                        <div class="model-description">
-                                            <p data-en="Compound scaling with optimal efficiency. Best accuracy with fewer parameters."
-                                               data-vi="Compound scaling với hiệu quả tối ưu. Độ chính xác tốt nhất với ít tham số hơn.">
-                                                Compound scaling with optimal efficiency. Best accuracy with fewer parameters.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- MobileNetV3 Card -->
-                                    <div class="model-card">
-                                        <div class="model-card-header">
-                                            <div class="model-icon">📱</div>
-                                            <h5>MobileNetV3</h5>
-                                        </div>
-                                        <div class="model-metrics">
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">93.8%</div>
-                                                <div class="model-metric-label" data-en="Accuracy" data-vi="Độ Chính Xác">Accuracy</div>
-                                            </div>
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">5.5M</div>
-                                                <div class="model-metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
-                                            </div>
-                                            <div class="model-metric">
-                                                <div class="model-metric-value">0.2B</div>
-                                                <div class="model-metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
-                                            </div>
-                                        </div>
-                                        <div class="model-description">
-                                            <p data-en="Mobile-optimized architecture. Fastest inference with good accuracy."
-                                               data-vi="Kiến trúc tối ưu cho mobile. Inference nhanh nhất với độ chính xác tốt.">
-                                                Mobile-optimized architecture. Fastest inference with good accuracy.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Classifier Head Tab -->
-                        <div id="classifier-head-detail" class="pipeline-detail-tab-content">
-                            <h3 data-en="🎯 Classifier Head Adaptation" data-vi="🎯 Điều Chỉnh Đầu Phân Loại">🎯 Classifier Head Adaptation</h3>
-                            <div class="detail-content">
-                                <div class="detail-explanation">
-                                    <h4 data-en="Transfer Learning Adaptation" data-vi="Điều Chỉnh Transfer Learning">Transfer Learning Adaptation</h4>
-                                    <p data-en="The final classification layer is adapted from 1000 ImageNet classes to 37 pet breed classes. This is the key step in transfer learning - we freeze the feature extractor and only train the classifier head."
-                                       data-vi="Lớp phân loại cuối cùng được điều chỉnh từ 1000 lớp ImageNet thành 37 lớp giống thú cưng. Đây là bước quan trọng trong transfer learning - chúng ta đóng băng bộ trích xuất đặc trưng và chỉ huấn luyện đầu phân loại.">
-                                        The final classification layer is adapted from 1000 ImageNet classes to 37 pet breed classes. This is the key step in transfer learning - we freeze the feature extractor and only train the classifier head.
-                                    </p>
-                                </div>
-                                <div class="detail-code">
-                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
-                                    <pre><code># Freeze feature extractor
-for param in model.parameters():
-    param.requires_grad = False
-
-# Replace classifier head
-if hasattr(model, 'classifier'):
-    model.classifier = nn.Linear(model.classifier.in_features, 37)
-elif hasattr(model, 'fc'):
-    model.fc = nn.Linear(model.fc.in_features, 37)
-elif hasattr(model, 'head'):
-    model.head = nn.Linear(model.head.in_features, 37)
-
-# Only train the new classifier
-for param in model.classifier.parameters():
-    param.requires_grad = True</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Results Tab -->
-                        <div id="results-detail" class="pipeline-detail-tab-content">
-                            <h3 data-en="✨ Classification Results" data-vi="✨ Kết Quả Phân Loại">✨ Classification Results</h3>
-                            <div class="detail-content">
-                                <div class="detail-explanation">
-                                    <h4 data-en="Model Predictions & Evaluation" data-vi="Dự Đoán & Đánh Giá Mô Hình">Model Predictions & Evaluation</h4>
-                                    <p data-en="The model outputs probability scores for all 37 breed classes. We use top-1 and top-5 accuracy to evaluate performance. The best models achieve 95%+ accuracy on the test set."
-                                       data-vi="Mô hình xuất ra điểm số xác suất cho tất cả 37 lớp giống. Chúng tôi sử dụng độ chính xác top-1 và top-5 để đánh giá hiệu suất. Các mô hình tốt nhất đạt được độ chính xác 95%+ trên tập kiểm tra.">
-                                        The model outputs probability scores for all 37 breed classes. We use top-1 and top-5 accuracy to evaluate performance. The best models achieve 95%+ accuracy on the test set.
-                                    </p>
-                                </div>
-                                <div class="detail-code">
-                                    <h4 data-en="Code Example" data-vi="Ví Dụ Mã">Code Example</h4>
-                                    <pre><code># Model inference
-model.eval()
-with torch.no_grad():
-    outputs = model(input_tensor)
-    probabilities = torch.softmax(outputs, dim=1)
-    predicted_class = torch.argmax(probabilities, dim=1)
+    <!-- Include comparison component -->
+    <!-- Model Comparison Section -->
+<section class="ai-section">
+    <h2 class="ai-heading-2" data-en="📊 Model Comparison" data-vi="📊 So Sánh Mô Hình">📊 Model Comparison</h2>
+    <p class="ai-text-light" style="margin-bottom: 2rem;"
+       data-en="Compare performance metrics across CNN models"
+       data-vi="So sánh các chỉ số hiệu suất giữa các mô hình CNN">
+        Compare performance metrics across CNN models
+    </p>
     
-# Get top-5 predictions
-top5_probs, top5_indices = torch.topk(probabilities, 5, dim=1)
-print(f"Predicted class: {predicted_class.item()}")
-print(f"Top-5 classes: {top5_indices[0].tolist()}")
-print(f"Top-5 probabilities: {top5_probs[0].tolist()}")</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tab 2: Tutorials -->
-                <div id="tutorials-tab" class="pipeline-tab-content">
-                    <div class="tutorial-content">
-                        <h3 data-en="📚 Step-by-Step Tutorial" data-vi="📚 Hướng Dẫn Từng Bước">📚 Step-by-Step Tutorial</h3>
-                        <div class="tutorial-steps">
-                            <div class="tutorial-step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4 data-en="Data Preparation" data-vi="Chuẩn Bị Dữ Liệu">Data Preparation</h4>
-                                    <p data-en="Download and organize the Oxford Pets dataset with 37 breed classes."
-                                       data-vi="Tải xuống và tổ chức tập dữ liệu Oxford Pets với 37 lớp giống.">
-                                        Download and organize the Oxford Pets dataset with 37 breed classes.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="tutorial-step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4 data-en="Model Selection" data-vi="Lựa Chọn Mô Hình">Model Selection</h4>
-                                    <p data-en="Choose between ResNet50, EfficientNet, ViT, or MobileNet architectures."
-                                       data-vi="Chọn giữa các kiến trúc ResNet50, EfficientNet, ViT, hoặc MobileNet.">
-                                        Choose between ResNet50, EfficientNet, ViT, or MobileNet architectures.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="tutorial-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4 data-en="Transfer Learning" data-vi="Transfer Learning">Transfer Learning</h4>
-                                    <p data-en="Adapt pre-trained models from ImageNet (1000 classes) to our 37 breed classes."
-                                       data-vi="Điều chỉnh các mô hình đã huấn luyện từ ImageNet (1000 lớp) cho 37 lớp giống của chúng ta.">
-                                        Adapt pre-trained models from ImageNet (1000 classes) to our 37 breed classes.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tab 3: Code -->
-                <div id="code-tab" class="pipeline-tab-content">
-                    <div class="code-content">
-                        <h3 data-en="💻 Implementation Code" data-vi="💻 Mã Triển Khai">💻 Implementation Code</h3>
-                        <div class="code-tabs">
-                            <button class="code-tab-btn active" onclick="switchCodeTab('setup')">Setup</button>
-                            <button class="code-tab-btn" onclick="switchCodeTab('training')">Training</button>
-                            <button class="code-tab-btn" onclick="switchCodeTab('evaluation')">Evaluation</button>
-                        </div>
-                        
-                        <div id="setup-code" class="code-tab-content active">
-                            <pre><code>import torch
-import torchvision
-from torchvision import transforms, models
-
-# Load pre-trained model
-model = models.resnet50(pretrained=True)
-model.fc = torch.nn.Linear(model.fc.in_features, 37)  # 37 classes
-
-# Data transforms
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                        std=[0.229, 0.224, 0.225])
-])</code></pre>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tab 4: Colab -->
-                <div id="colab-tab" class="pipeline-tab-content">
-                    <div class="colab-content">
-                        <h3 data-en="🚀 Google Colab Notebook" data-vi="🚀 Notebook Google Colab">🚀 Google Colab Notebook</h3>
-                        <p data-en="Run the complete pipeline in Google Colab with free GPU access."
-                           data-vi="Chạy toàn bộ quy trình trong Google Colab với truy cập GPU miễn phí.">
-                            Run the complete pipeline in Google Colab with free GPU access.
-                        </p>
-                        <div class="colab-buttons">
-                            <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/03_Computer_Vision/oxford_pets/classification/notebook.ipynb" 
-                               class="colab-btn" target="_blank">
-                                🚀 Open in Colab
-                            </a>
-                            <a href="https://github.com/LTSACH/AILearningHub/tree/main/03_Computer_Vision/oxford_pets/classification" 
-                               class="github-btn" target="_blank">
-                                📁 View on GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    <!-- Comparison Tabs -->
+    <div class="comparison-section">
+        <div class="comparison-tabs">
+            <button class="comparison-tab-btn active" onclick="switchComparisonTab('performance')">
+                📈 Performance
+            </button>
+            <button class="comparison-tab-btn" onclick="switchComparisonTab('resources')">
+                ⚡ Resources
+            </button>
+            <button class="comparison-tab-btn" onclick="switchComparisonTab('formulas')">
+                🧮 Formulas
+            </button>
+        </div>
+        
+        <!-- Performance Tab -->
+        <div id="performance-tab" class="comparison-tab-content active">
+            <div class="comparison-table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Model" data-vi="Mô Hình">Model</th>
+                            <th data-en="Precision ↑" data-vi="Precision ↑">Precision ↑</th>
+                            <th data-en="Recall ↑" data-vi="Recall ↑">Recall ↑</th>
+                            <th data-en="F1-Score ↑" data-vi="F1-Score ↑">F1-Score ↑</th>
+                            <th data-en="Accuracy ↑" data-vi="Độ Chính Xác ↑">Accuracy ↑</th>
+                            <th data-en="Top-5 Accuracy ↑" data-vi="Top-5 Accuracy ↑">Top-5 Acc ↑</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performance-table-body">
+                        <!-- Dynamic content will be loaded here -->
+                    </tbody>
+                </table>
             </div>
-        </section>
-
-        <!-- Model Comparison Section -->
-        <section class="ai-section">
-            <h2 class="ai-heading-2" data-en="📊 Model Comparison" data-vi="📊 So Sánh Mô Hình">📊 Model Comparison</h2>
-            <p class="ai-text-light" style="margin-bottom: 2rem;"
-               data-en="Compare performance metrics across CNN models"
-               data-vi="So sánh các chỉ số hiệu suất giữa các mô hình CNN">
-                Compare performance metrics across CNN models
-            </p>
-            
-            <!-- Comparison Tabs -->
-            <div class="comparison-section">
-                <div class="comparison-tabs">
-                    <button class="comparison-tab-btn active" onclick="switchComparisonTab('performance')">
-                        📈 Performance
-                    </button>
-                    <button class="comparison-tab-btn" onclick="switchComparisonTab('resources')">
-                        ⚡ Resources
-                    </button>
-                    <button class="comparison-tab-btn" onclick="switchComparisonTab('formulas')">
-                        🧮 Formulas
-                    </button>
-                </div>
-                
-                <!-- Performance Tab -->
-                <div id="performance-tab" class="comparison-tab-content active">
-                    <div class="comparison-table-container">
-                        <table class="comparison-table">
-                            <thead>
-                                <tr>
-                                    <th data-en="Model" data-vi="Mô Hình">Model</th>
-                                    <th data-en="Precision ↑" data-vi="Precision ↑">Precision ↑</th>
-                                    <th data-en="Recall ↑" data-vi="Recall ↑">Recall ↑</th>
-                                    <th data-en="F1-Score ↑" data-vi="F1-Score ↑">F1-Score ↑</th>
-                                    <th data-en="Accuracy ↑" data-vi="Độ Chính Xác ↑">Accuracy ↑</th>
-                                    <th data-en="Top-5 Accuracy ↑" data-vi="Top-5 Accuracy ↑">Top-5 Acc ↑</th>
-                                </tr>
-                            </thead>
-                            <tbody id="performance-table-body">
-                                <!-- Dynamic content will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Resources Tab -->
-                <div id="resources-tab" class="comparison-tab-content">
-                    <div class="comparison-table-container">
-                        <table class="comparison-table">
-                            <thead>
-                                <tr>
-                                    <th data-en="Model" data-vi="Mô Hình">Model</th>
-                                    <th data-en="Training Time ↓" data-vi="Thời Gian Huấn Luyện ↓">Training Time ↓</th>
-                                    <th data-en="Inference Time ↓" data-vi="Thời Gian Dự Đoán ↓">Inference Time ↓</th>
-                                    <th data-en="FLOPs ↓" data-vi="FLOPs ↓">FLOPs ↓</th>
-                                    <th data-en="Parameters ↓" data-vi="Tham Số ↓">Parameters ↓</th>
-                                    <th data-en="Model Size ↓" data-vi="Kích Thước ↓">Model Size ↓</th>
-                                </tr>
-                            </thead>
-                            <tbody id="resources-table-body">
-                                <!-- Dynamic content will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Formulas Tab -->
-                <div id="formulas-tab" class="comparison-tab-content">
-                    <div class="formulas-content">
-                        <!-- Content will be populated by MetricsWalkthrough component -->
-                    </div>
-                </div>
+        </div>
+        
+        <!-- Resources Tab -->
+        <div id="resources-tab" class="comparison-tab-content">
+            <div class="comparison-table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Model" data-vi="Mô Hình">Model</th>
+                            <th data-en="Training Time ↓" data-vi="Thời Gian Huấn Luyện ↓">Training Time ↓</th>
+                            <th data-en="Inference Time ↓" data-vi="Thời Gian Dự Đoán ↓">Inference Time ↓</th>
+                            <th data-en="FLOPs ↓" data-vi="FLOPs ↓">FLOPs ↓</th>
+                            <th data-en="Parameters ↓" data-vi="Tham Số ↓">Parameters ↓</th>
+                            <th data-en="Model Size ↓" data-vi="Kích Thước ↓">Model Size ↓</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resources-table-body">
+                        <!-- Dynamic content will be loaded here -->
+                    </tbody>
+                </table>
             </div>
-        </section>
-
-        <!-- Confusion Matrix Section -->
-        <section class="ai-section">
-            <h2 class="ai-heading-2" data-en="📊 Confusion Matrix" data-vi="📊 Ma Trận Nhầm Lẫn">📊 Confusion Matrix</h2>
-            <p class="ai-text-light" style="margin-bottom: 2rem;"
-               data-en="Select a model from the comparison table above to view its confusion matrix"
-               data-vi="Chọn một mô hình từ bảng so sánh ở trên để xem ma trận nhầm lẫn">
-                Select a model from the comparison table above to view its confusion matrix
-            </p>
-            
-            <div id="model-selection-info" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; border: 2px dashed #dee2e6;">
-                <p style="margin: 0; color: #6c757d; font-style: italic;">
-                    <span data-en="Click on a model row in the comparison table to view its confusion matrix" data-vi="Nhấp vào dòng mô hình trong bảng so sánh để xem ma trận nhầm lẫn">
-                        Click on a model row in the comparison table to view its confusion matrix
-                    </span>
-                </p>
+        </div>
+        
+        <!-- Formulas Tab -->
+        <div id="formulas-tab" class="comparison-tab-content">
+            <div class="formulas-content">
+                <!-- Content will be populated by MetricsWalkthrough component -->
             </div>
-            
-            <div id="confusion-matrix-plotly" style="display: flex; justify-content: center; align-items: center; width: 100%;"></div>
-        </section>
-
+        </div>
+    </div>
+</section>
+    
+    <!-- Include confusion matrix component -->
+    <!-- Confusion Matrix Section -->
+<section class="ai-section">
+    <h2 class="ai-heading-2" data-en="📊 Confusion Matrix" data-vi="📊 Ma Trận Nhầm Lẫn">📊 Confusion Matrix</h2>
+    <p class="ai-text-light" style="margin-bottom: 2rem;"
+       data-en="Select a model from the comparison table above to view its confusion matrix"
+       data-vi="Chọn một mô hình từ bảng so sánh ở trên để xem ma trận nhầm lẫn">
+        Select a model from the comparison table above to view its confusion matrix
+    </p>
+    
+    <div id="model-selection-info" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; border: 2px dashed #dee2e6;">
+        <p style="margin: 0; color: #6c757d; font-style: italic;">
+            <span data-en="Click on a model row in the comparison table to view its confusion matrix" data-vi="Nhấp vào dòng mô hình trong bảng so sánh để xem ma trận nhầm lẫn">
+                Click on a model row in the comparison table to view its confusion matrix
+            </span>
+        </p>
+    </div>
+    
+    <div id="confusion-matrix-plotly" style="display: flex; justify-content: center; align-items: center; width: 100%;"></div>
+</section>
 
     </div>
 
@@ -657,504 +285,315 @@ transform = transforms.Compose([
         <div id="theme-selector" style="margin-top: 1rem;"></div>
     </footer>
 
-        <!-- Load Plotly for interactive charts -->
-        <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
-        
-        <!-- Load KaTeX for LaTeX rendering (like BBC News) -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-        
-        <!-- Load shared components JavaScript from centralized library -->
-        <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
-        <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/LanguageManager.js"></script>
-        <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
-        <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
-        <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
-        <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Pipeline.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
-    <script>
-        // Initialize components when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize header
-            const header = new AIHeader('ai-header', {
-                brand: '📚 AI Learning Hub',
-                brandUrl: '../../index.html',
-                navItems: [
-                    { label: 'Home', url: '../../index.html', active: false },
-                    { label: 'Data Analysis', url: '../../01_Data_Analysis/', active: false },
-                    { label: 'Machine Learning', url: '../../02_Machine_Learning/', active: false },
-                    { label: 'Computer Vision', url: '../index.html', active: false },
-                    { label: 'Classification', url: 'index.html', active: true }
-                ]
+    <!-- Load shared components JavaScript -->
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/LanguageManager.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/ComparisonTable.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Pipeline.js"></script>
+    
+    
+<script>
+    // Initialize components when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize header
+        const header = new AIHeader('ai-header', {
+            brand: '📚 AI Learning Hub',
+            brandUrl: '../../index.html',
+            navItems: [
+                { label: 'Home', url: '../../index.html', active: false },
+                { label: 'Data Analysis', url: '../../01_Data_Analysis/', active: false },
+                { label: 'Machine Learning', url: '../../02_Machine_Learning/', active: false },
+                { label: 'Computer Vision', url: '../index.html', active: false },
+                { label: 'Classification', url: 'index.html', active: true }
+            ]
+        });
+        
+        // Initialize hero section with dynamic data
+        fetch('./assets/data/models_data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Find best accuracy from real data
+                let bestAccuracy = 0;
+                let bestModel = '';
+                Object.values(data.models).forEach(model => {
+                    if (model.accuracy > bestAccuracy) {
+                        bestAccuracy = model.accuracy;
+                        bestModel = model.name;
+                    }
+                });
+                
+                const hero = new AIHero('ai-hero', {
+                    title: '📊 Breed Classification',
+                    titleVi: '📊 Phân Loại Giống Chó',
+                    subtitle: '37-class breed classification using CNN architectures and transfer learning',
+                    subtitleVi: 'Phân loại 37 giống chó sử dụng kiến trúc CNN và transfer learning',
+                    stats: [
+                        { value: '37', label: 'Breeds', labelVi: 'Giống' },
+                        { value: '7,393', label: 'Images', labelVi: 'Ảnh' },
+                        { value: '10', label: 'Models', labelVi: 'Mô Hình' },
+                        { value: (bestAccuracy * 100).toFixed(1) + '%', label: 'Best Accuracy', labelVi: 'Độ Chính Xác Tốt Nhất' }
+                    ],
+                    gradient: false
+                });
+                
+                // Initialize comparison tables with real data
+                initializeComparisonTables(data);
             });
+        
+        // Initialize theme selector
+        window.AIThemeManager.createThemeSelector('theme-selector');
+        
+        // Initialize language manager
+        window.AILanguageManager.createLanguageSwitcher('language-switcher');
+        
+        // Initialize comparison tab switching
+        window.switchComparisonTab = function(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.comparison-tab-content');
+            tabContents.forEach(content => content.style.display = 'none');
             
-            // Initialize hero section with dynamic data
-            fetch('https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/classification/models_data.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Find best accuracy from real data
-                    let bestAccuracy = 0;
-                    let bestModel = '';
-                    Object.values(data.models).forEach(model => {
-                        if (model.performance.accuracy > bestAccuracy) {
-                            bestAccuracy = model.performance.accuracy;
-                            bestModel = model.name;
-                        }
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.comparison-tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
+            
+            // Add active class to clicked button
+            const clickedButton = document.querySelector(`[onclick="switchComparisonTab('${tabName}')"]`);
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+            
+            // If formulas tab is selected, render KaTeX
+            if (tabName === 'formulas') {
+                setTimeout(() => {
+                    const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
+                    if (formulasContainer && typeof renderMathInElement !== 'undefined') {
+                        console.log('Rendering KaTeX for formulas tab...');
+                        renderMathInElement(formulasContainer, {
+                            delimiters: [
+                                {left: '\\(', right: '\\)', display: false},
+                                {left: '\\[', right: '\\]', display: true}
+                            ],
+                            throwOnError: false
+                        });
+                        console.log('KaTeX rendering completed for formulas tab');
+                    }
+                }, 100);
+            }
+        };
+        
+        // Function to initialize comparison tables with real data
+        function initializeComparisonTables(data) {
+            // Populate Performance table
+            const performanceTbody = document.getElementById('performance-table-body');
+            if (performanceTbody) {
+                performanceTbody.innerHTML = '';
+                
+                const models = Object.values(data.models);
+                const metrics = ['precision', 'recall', 'f1_score', 'accuracy', 'top5_accuracy'];
+                
+                models.forEach((model, index) => {
+                    const row = document.createElement('tr');
+                    let rowHTML = `<td><strong>${model.name}</strong></td>`;
+                    
+                    metrics.forEach(metric => {
+                        const value = model[metric];
+                        const isBest = isBestInColumn(models, metric, value);
+                        const className = isBest ? 'best' : '';
+                        
+                        // Add augmentation indicator
+                        const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
+                        rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%${augIndicator}</span></td>`;
                     });
                     
-                    const hero = new AIHero('ai-hero', {
-                        title: '📊 Breed Classification',
-                        titleVi: '📊 Phân Loại Giống Chó',
-                        subtitle: '37-class breed classification using CNN architectures and transfer learning',
-                        subtitleVi: 'Phân loại 37 giống chó sử dụng kiến trúc CNN và transfer learning',
-                        stats: [
-                            { value: '37', label: 'Breeds', labelVi: 'Giống' },
-                            { value: '7,393', label: 'Images', labelVi: 'Ảnh' },
-                            { value: '6', label: 'Models', labelVi: 'Mô Hình' },
-                            { value: (bestAccuracy * 100).toFixed(1) + '%', label: 'Best Accuracy', labelVi: 'Độ Chính Xác Tốt Nhất' }
-                        ],
-                        gradient: false
-                    });
+                    row.innerHTML = rowHTML;
+                    performanceTbody.appendChild(row);
                 });
+            }
             
-            
-            // Initialize theme selector
-            window.AIThemeManager.createThemeSelector('theme-selector');
-            
-            // Listen for theme changes to update components
-            window.AIThemeManager.onThemeChange(function(newTheme) {
-                console.log('Theme changed to:', newTheme);
-                // Components will automatically update due to CSS changes
-            });
-
-            // Initialize language manager
-            window.AILanguageManager.createLanguageSwitcher('language-switcher');
-            window.AILanguageManager.onLanguageChange(function(newLang) {
-                console.log('Language changed to:', newLang);
-            });
-            
-            // Initialize comparison tab switching
-            window.switchComparisonTab = function(tabName) {
-                // Hide all tab contents
-                const tabContents = document.querySelectorAll('.comparison-tab-content');
-                tabContents.forEach(content => content.style.display = 'none');
+            // Populate Resources table
+            const resourcesTbody = document.getElementById('resources-table-body');
+            if (resourcesTbody) {
+                resourcesTbody.innerHTML = '';
                 
-                // Remove active class from all buttons
-                const tabButtons = document.querySelectorAll('.comparison-tab-btn');
-                tabButtons.forEach(btn => btn.classList.remove('active'));
+                const models = Object.values(data.models);
+                const resourceMetrics = ['training_time', 'inference_time', 'flops', 'parameters', 'model_size'];
                 
-                // Show selected tab content
-                const selectedTab = document.getElementById(tabName + '-tab');
-                if (selectedTab) {
-                    selectedTab.style.display = 'block';
-                }
-                
-                // Add active class to clicked button
-                const clickedButton = document.querySelector(`[onclick="switchComparisonTab('${tabName}')"]`);
-                if (clickedButton) {
-                    clickedButton.classList.add('active');
-                }
-                
-                // If formulas tab is selected, render KaTeX
-                if (tabName === 'formulas') {
-                    setTimeout(() => {
-                        const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
-                        if (formulasContainer && typeof renderMathInElement !== 'undefined') {
-                            console.log('Rendering KaTeX for formulas tab...');
-                            renderMathInElement(formulasContainer, {
-                                delimiters: [
-                                    {left: '\\(', right: '\\)', display: false},
-                                    {left: '\\[', right: '\\]', display: true}
-                                ],
-                                throwOnError: false
-                            });
-                            console.log('KaTeX rendering completed for formulas tab');
+                models.forEach((model, index) => {
+                    const row = document.createElement('tr');
+                    let rowHTML = `<td><strong>${model.name}</strong></td>`;
+                    
+                    resourceMetrics.forEach(metric => {
+                        const value = model[metric];
+                        const isBest = isBestInColumn(models, metric, value, 'resources');
+                        const className = isBest ? 'best' : '';
+                        let displayValue;
+                        
+                        if (metric === 'flops') {
+                            displayValue = `${(value / 1e9).toFixed(1)}B`;
+                        } else if (metric === 'parameters') {
+                            displayValue = `${value.toFixed(1)}M`;
+                        } else if (metric === 'model_size') {
+                            displayValue = `${value.toFixed(1)}MB`;
+                        } else if (metric === 'training_time') {
+                            displayValue = `${value.toFixed(1)}min`;
                         } else {
-                            console.error('Formulas container or renderMathInElement not found');
+                            displayValue = `${value.toFixed(1)}ms`;
                         }
-                    }, 100);
-                }
+                        
+                        // Add augmentation indicator
+                        const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
+                        rowHTML += `<td><span class="metric-value ${className}">${displayValue}${augIndicator}</span></td>`;
+                    });
+                    
+                    row.innerHTML = rowHTML;
+                    resourcesTbody.appendChild(row);
+                });
+            }
+            
+            // Add click handlers to comparison table rows
+            const comparisonRows = document.querySelectorAll('.comparison-table tbody tr');
+            comparisonRows.forEach((row, index) => {
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', function() {
+                    // Remove previous selection
+                    comparisonRows.forEach(r => r.style.backgroundColor = '');
+                    
+                    // Highlight selected row
+                    this.style.backgroundColor = '#e3f2fd';
+                    
+                    // Get model name from first cell
+                    const modelName = this.cells[0].textContent.trim();
+                    
+                    // Clear selection info
+                    const infoDiv = document.getElementById('model-selection-info');
+                    infoDiv.innerHTML = '';
+                    
+                    // Show confusion matrix for selected model
+                    showConfusionMatrix(modelName, data);
+                });
+            });
+        }
+        
+        // Helper function to check if value is best in column
+        function isBestInColumn(models, metric, value, type = 'performance') {
+            if (type === 'performance') {
+                // Higher is better for performance metrics
+                const maxValue = Math.max(...models.map(model => model[metric]));
+                return Math.abs(value - maxValue) < 0.0001; // Floating point tolerance
+            } else if (type === 'resources') {
+                // Lower is better for resource metrics
+                const minValue = Math.min(...models.map(model => model[metric]));
+                return Math.abs(value - minValue) < 0.0001; // Floating point tolerance
+            }
+            return false;
+        }
+        
+        // Function to show confusion matrix for selected model
+        function showConfusionMatrix(modelName, data) {
+            // Map model names to confusion matrix keys
+            let modelKey = '';
+            switch(modelName) {
+                case 'VGG16 (No Aug)':
+                    modelKey = 'vgg16_noaug';
+                    break;
+                case 'ResNet50 (Aug)':
+                    modelKey = 'resnet50_aug';
+                    break;
+                case 'ResNet50 (No Aug)':
+                    modelKey = 'resnet50_noaug';
+                    break;
+                case 'Xception (Aug)':
+                    modelKey = 'xception_aug';
+                    break;
+                case 'Xception (No Aug)':
+                    modelKey = 'xception_noaug';
+                    break;
+                case 'EfficientNet-B0 (Aug)':
+                    modelKey = 'efficientnet_b0_aug';
+                    break;
+                case 'EfficientNet-B0 (No Aug)':
+                    modelKey = 'efficientnet_b0_noaug';
+                    break;
+                case 'MobileNetV3-Large-100 (Aug)':
+                    modelKey = 'mobilenetv3_large_100_aug';
+                    break;
+                case 'MobileNetV3-Large-100 (No Aug)':
+                    modelKey = 'mobilenetv3_large_100_noaug';
+                    break;
+                default:
+                    modelKey = 'resnet50_aug'; // Default fallback
+            }
+            
+            const confusionData = data.confusion_matrix[modelKey];
+            if (!confusionData) {
+                console.error('No confusion data found for model:', modelKey);
+                return;
+            }
+            
+            const matrix = confusionData.matrix;
+            const classNames = confusionData.class_names;
+            
+            const plotData = [{
+                z: matrix,
+                x: classNames,
+                y: classNames,
+                type: 'heatmap',
+                colorscale: 'Blues',
+                showscale: true,
+                hoverongaps: false,
+                hovertemplate: 'True: %{y}<br>Predicted: %{x}<br>Count: %{z}<extra></extra>'
+            }];
+            
+            const layout = {
+                title: {
+                    text: `Confusion Matrix - ${modelName}`,
+                    font: { size: 16 }
+                },
+                xaxis: {
+                    title: 'Predicted Class',
+                    tickangle: -45,
+                    tickfont: { size: 10 }
+                },
+                yaxis: {
+                    title: 'True Class',
+                    tickfont: { size: 10 }
+                },
+                width: 800,
+                height: 600,
+                margin: { l: 150, r: 50, t: 80, b: 150 }
             };
             
-            // Function to populate comparison tables with real data
-            function populateComparisonTables(data) {
-                // Populate Performance table
-                const performanceTbody = document.getElementById('performance-table-body');
-                if (performanceTbody) {
-                    performanceTbody.innerHTML = '';
-                    
-                    const models = Object.values(data.models);
-                    const metrics = ['precision', 'recall', 'f1_score', 'accuracy', 'top5_accuracy'];
-                    
-                    models.forEach((model, index) => {
-                        const row = document.createElement('tr');
-                        let rowHTML = `<td><strong>${model.name}</strong></td>`;
-                        
-                        metrics.forEach(metric => {
-                            const value = model.performance[metric];
-                            const isBest = isBestInColumn(models, metric, value);
-                            const className = isBest ? 'best' : '';
-                            
-                            // Debug logging
-                            if (isBest) {
-                                console.log(`BEST: ${model.name} - ${metric}: ${(value * 100).toFixed(1)}%`);
-                            }
-                            
-                            console.log(`Rendering: ${model.name} - ${metric}: ${(value * 100).toFixed(1)}% - Class: ${className}`);
-                            // Add augmentation indicator
-                            const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
-                            rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%${augIndicator}</span></td>`;
-                        });
-                        
-                        row.innerHTML = rowHTML;
-                        performanceTbody.appendChild(row);
-                    });
-                }
-                
-                // Populate Resources table
-                const resourcesTbody = document.getElementById('resources-table-body');
-                if (resourcesTbody) {
-                    resourcesTbody.innerHTML = '';
-                    
-                    const models = Object.values(data.models);
-                    const resourceMetrics = ['training_time', 'inference_time', 'flops', 'parameters', 'model_size'];
-                    
-                    models.forEach((model, index) => {
-                        const row = document.createElement('tr');
-                        let rowHTML = `<td><strong>${model.name}</strong></td>`;
-                        
-                        resourceMetrics.forEach(metric => {
-                            const value = model.resources[metric];
-                            const isBest = isBestInColumn(models, metric, value, 'resources');
-                            const className = isBest ? 'best' : '';
-                            let displayValue;
-                            
-                            if (metric === 'flops') {
-                                displayValue = `${(value / 1e9).toFixed(1)}B`;
-                            } else if (metric === 'parameters') {
-                                displayValue = `${value.toFixed(1)}M`;
-                            } else if (metric === 'model_size') {
-                                displayValue = `${value.toFixed(1)}MB`;
-                            } else if (metric === 'training_time') {
-                                displayValue = `${value.toFixed(1)}min`;
-                            } else {
-                                displayValue = `${value.toFixed(1)}ms`;
-                            }
-                            
-                            // Add augmentation indicator
-                            const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
-                            rowHTML += `<td><span class="metric-value ${className}">${displayValue}${augIndicator}</span></td>`;
-                        });
-                        
-                        row.innerHTML = rowHTML;
-                        resourcesTbody.appendChild(row);
-                    });
-                }
-            }
+            const config = {
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d']
+            };
             
-            // Helper function to check if value is best in column
-            function isBestInColumn(models, metric, value, type = 'performance') {
-                if (type === 'performance') {
-                    // Higher is better for performance metrics
-                    const maxValue = Math.max(...models.map(model => model.performance[metric]));
-                    return Math.abs(value - maxValue) < 0.0001; // Floating point tolerance
-                } else if (type === 'resources') {
-                    // Lower is better for resource metrics
-                    const minValue = Math.min(...models.map(model => model.resources[metric]));
-                    return Math.abs(value - minValue) < 0.0001; // Floating point tolerance
-                }
-                return false;
-            }
-            
-            // Load and initialize components with mock data
-            fetch('https://ltsach.github.io/AILearningHub/datasets/oxford-pets/data/classification/models_data.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Create Plotly confusion matrix heatmap
-                    const confusionData = data.confusion_matrix.resnet50;
-                    const matrix = confusionData.matrix;
-                    const classNames = confusionData.class_names;
-                    
-                    // Create Plotly heatmap
-                    const plotData = [{
-                        z: matrix,
-                        x: classNames,
-                        y: classNames,
-                        type: 'heatmap',
-                        colorscale: 'Blues',
-                        showscale: true,
-                        hoverongaps: false,
-                        hovertemplate: 'True: %{y}<br>Predicted: %{x}<br>Count: %{z}<extra></extra>'
-                    }];
-                    
-                    const layout = {
-                        title: {
-                            text: 'Confusion Matrix - ResNet50',
-                            font: { size: 16 }
-                        },
-                        xaxis: {
-                            title: 'Predicted Class',
-                            tickangle: -45,
-                            tickfont: { size: 10 }
-                        },
-                        yaxis: {
-                            title: 'True Class',
-                            tickfont: { size: 10 }
-                        },
-                        width: 800,
-                        height: 600,
-                        margin: { l: 150, r: 50, t: 80, b: 150 }
-                    };
-                    
-                    const config = {
-                        displayModeBar: true,
-                        displaylogo: false,
-                        modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d']
-                    };
-                    
-                    // Store confusion matrix data globally
-                    window.confusionMatrixData = data.confusion_matrix;
-                    
-                    // Populate comparison tables with real data
-                    populateComparisonTables(data);
-                    
-                    // Add click handlers to comparison table rows
-                    const comparisonRows = document.querySelectorAll('.comparison-table tbody tr');
-                    comparisonRows.forEach((row, index) => {
-                        row.style.cursor = 'pointer';
-                        row.addEventListener('click', function() {
-                            // Remove previous selection
-                            comparisonRows.forEach(r => r.style.backgroundColor = '');
-                            
-                            // Highlight selected row
-                            this.style.backgroundColor = '#e3f2fd';
-                            
-                            // Get model name from first cell
-                            const modelName = this.cells[0].textContent.trim();
-                            
-                            // Clear selection info (no text display)
-                            const infoDiv = document.getElementById('model-selection-info');
-                            infoDiv.innerHTML = '';
-                            
-                            // Show confusion matrix for selected model
-                            showConfusionMatrix(modelName);
-                        });
-                    });
-                    
-                    // Function to show confusion matrix for selected model
-                    function showConfusionMatrix(modelName) {
-                        let modelKey = '';
-                        switch(modelName) {
-                            case 'ResNet50 (Aug)':
-                                modelKey = 'resnet50_aug';
-                                break;
-                            case 'ResNet50 (No Aug)':
-                                modelKey = 'resnet50_noaug';
-                                break;
-                            case 'EfficientNet-B3 (Aug)':
-                                modelKey = 'efficientnet_b3_aug';
-                                break;
-                            case 'EfficientNet-B3 (No Aug)':
-                                modelKey = 'efficientnet_b3_noaug';
-                                break;
-                            case 'MobileNetV3-Large-100 (Aug)':
-                                modelKey = 'mobilenetv3_large_100_aug';
-                                break;
-                            case 'MobileNetV3-Large-100 (No Aug)':
-                                modelKey = 'mobilenetv3_large_100_noaug';
-                                break;
-                            default:
-                                modelKey = 'resnet50_aug'; // Default fallback
-                        }
-                        
-                        const confusionData = window.confusionMatrixData[modelKey];
-                        console.log('Looking for model key:', modelKey);
-                        console.log('Available confusion data:', window.confusionMatrixData);
-                        console.log('Found confusion data:', confusionData);
-                        
-                        if (!confusionData) {
-                            console.error('No confusion data found for model:', modelKey);
-                            return;
-                        }
-                        
-                        const matrix = confusionData.matrix;
-                        const classNames = confusionData.class_names;
-                        console.log('Matrix shape:', matrix.length, 'x', matrix[0]?.length);
-                        console.log('Class names count:', classNames.length);
-                        
-                        const plotData = [{
-                            z: matrix,
-                            x: classNames,
-                            y: classNames,
-                            type: 'heatmap',
-                            colorscale: 'Blues',
-                            showscale: true,
-                            hoverongaps: false,
-                            hovertemplate: 'True: %{y}<br>Predicted: %{x}<br>Count: %{z}<extra></extra>'
-                        }];
-                        
-                        const layout = {
-                            title: {
-                                text: `Confusion Matrix - ${modelName}`,
-                                font: { size: 16 }
-                            },
-                            xaxis: {
-                                title: 'Predicted Class',
-                                tickangle: -45,
-                                tickfont: { size: 10 }
-                            },
-                            yaxis: {
-                                title: 'True Class',
-                                tickfont: { size: 10 }
-                            },
-                            width: 800,
-                            height: 600,
-                            margin: { l: 150, r: 50, t: 80, b: 150 }
-                        };
-                        
-                        const config = {
-                            displayModeBar: true,
-                            displaylogo: false,
-                            modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d']
-                        };
-                        
-                        console.log('Rendering Plotly heatmap...');
-                        console.log('Plot data:', plotData);
-                        console.log('Layout:', layout);
-                        
-                        // Render the confusion matrix
-                        Plotly.newPlot('confusion-matrix-plotly', plotData, layout, config)
-                            .then(() => {
-                                console.log('Plotly heatmap rendered successfully!');
-                            })
-                            .catch(error => {
-                                console.error('Error rendering Plotly heatmap:', error);
-                            });
-                    }
-                         
-                         // Initialize formulas in comparison section
-                         const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
-                         if (formulasContainer) {
-                             // Direct HTML injection for formulas with proper LaTeX
-                             formulasContainer.innerHTML = `
-                                 <!-- Classification Metrics -->
-                                 <div class="config-card" style="margin-bottom: 1.5rem;">
-                                     <h4>📊 Classification Metrics</h4>
-                                     <div style="line-height: 2.2;">
-                                         <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
-                                             <strong>Accuracy:</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \[\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{\sum_{i=1}^{n} \text{CM}[i,i]}{\text{Total Samples}}\]
-                                             </div>
-                                         </div>
-                                         
-                                         <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
-                                             <strong>Precision (per class i):</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \text{Precision}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FP}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[j,i]}\
-                                             </div>
-                                         </div>
-                                         
-                                         <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
-                                             <strong>Recall (per class i):</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \text{Recall}_i = \frac{\text{TP}_i}{\text{TP}_i + \text{FN}_i} = \frac{\text{CM}[i,i]}{\sum_{j=1}^{n} \text{CM}[i,j]}\
-                                             </div>
-                                         </div>
-                                         
-                                         <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
-                                             <strong>F1-Score (per class i):</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \text{F1}_i = \frac{2 \times \text{Precision}_i \times \text{Recall}_i}{\text{Precision}_i + \text{Recall}_i} = \frac{2 \times \text{CM}[i,i]}{\text{Support}_i + \text{Predicted}_i}\
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 
-                                 <!-- Averaging Methods -->
-                                 <div class="config-card" style="margin-bottom: 1.5rem;">
-                                     <h4>📈 Averaging Methods</h4>
-                                     <div style="line-height: 2.2;">
-                                         <div style="padding: 0.75rem; background: #f0f4ff; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
-                                             <strong>Macro Average:</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \text{Metric}_{\text{macro}} = \frac{1}{n} \sum_{i=1}^{n} \text{Metric}_i\
-                                             </div>
-                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Equal weight to each class (good for imbalanced datasets)</div>
-                                         </div>
-                                         
-                                         <div style="padding: 0.75rem; background: #f0fff4; border-radius: 8px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
-                                             <strong>Weighted Average:</strong><br>
-                                             <div style="font-size: 1.2rem; color: #10b981; text-align: center; margin: 0.5rem 0;">
-                                                 \text{Metric}_{\text{weighted}} = \frac{\sum_{i=1}^{n} \text{Metric}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}\
-                                             </div>
-                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Weight by class frequency (reflects overall performance)</div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 
-                                 <!-- Confusion Matrix Components -->
-                                 <div class="config-card">
-                                     <h4>🎯 Confusion Matrix Components</h4>
-                                     <div style="line-height: 2.2;">
-                                         <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
-                                             <strong>Support (per class i):</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \text{Support}_i = \sum_{j=1}^{n} \text{CM}[i,j]\
-                                             </div>
-                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Total actual instances of class i (row sum)</div>
-                                         </div>
-                                         
-                                         <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.5rem;">
-                                             <strong>Predicted (per class i):</strong><br>
-                                             <div style="font-size: 1.2rem; color: #667eea; text-align: center; margin: 0.5rem 0;">
-                                                 \text{Predicted}_i = \sum_{j=1}^{n} \text{CM}[j,i]\
-                                             </div>
-                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Total predicted instances of class i (column sum)</div>
-                                         </div>
-                                         
-                                         <div style="padding: 0.75rem; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #10b981;">
-                                             <strong>True Positives (per class i):</strong><br>
-                                             <div style="font-size: 1.2rem; color: #10b981; text-align: center; margin: 0.5rem 0;">
-                                                 \text{TP}_i = \text{CM}[i,i]\
-                                             </div>
-                                             <div style="font-size: 0.85rem; color: #666; text-align: center;">Diagonal element (correctly predicted instances)</div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 
-                                 <!-- Note -->
-                                 <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid #ffc107;">
-                                     <strong>💡 Note:</strong> All formulas use the confusion matrix (CM) as the primary data structure. 
-                                     For multi-class classification with <em>n</em> classes, CM is an <em>n × n</em> matrix where CM[i,j] represents 
-                                     the number of samples with true label <em>i</em> predicted as label <em>j</em>.
-                                 </div>
-                             `;
-                             
-                            // Render KaTeX formulas when formulas tab is shown
-                            setTimeout(() => {
-                                if (typeof renderMathInElement !== 'undefined') {
-                                    console.log('Rendering KaTeX formulas...');
-                                    renderMathInElement(formulasContainer, {
-                                        delimiters: [
-                                            {left: '\(', right: '\)', display: false},
-                                            {left: '\[', right: '\]', display: true}
-                                        ],
-                                        throwOnError: false
-                                    });
-                                    console.log('KaTeX rendering completed');
-                                } else {
-                                    console.error('renderMathInElement not available');
-                                }
-                            }, 200);
-                         }
+            // Render the confusion matrix
+            Plotly.newPlot('confusion-matrix-plotly', plotData, layout, config)
+                .then(() => {
+                    console.log('Plotly heatmap rendered successfully!');
                 })
                 .catch(error => {
-                    console.error('Error loading data:', error);
-                    // Fallback to static content
+                    console.error('Error rendering Plotly heatmap:', error);
                 });
-        });
-    </script>
+        }
+    });
+</script>
+
 </body>
 </html>
