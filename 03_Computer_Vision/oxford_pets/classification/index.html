@@ -380,16 +380,201 @@
             if (tabName === 'formulas') {
                 setTimeout(() => {
                     const formulasContainer = document.querySelector('#formulas-tab .formulas-content');
-                    if (formulasContainer && typeof renderMathInElement !== 'undefined') {
-                        console.log('Rendering KaTeX for formulas tab...');
-                        renderMathInElement(formulasContainer, {
-                            delimiters: [
-                                {left: '\\(', right: '\\)', display: false},
-                                {left: '\\[', right: '\\]', display: true}
-                            ],
-                            throwOnError: false
-                        });
-                        console.log('KaTeX rendering completed for formulas tab');
+                    if (formulasContainer) {
+                        // Add formulas content if not already present
+                        if (!formulasContainer.innerHTML.trim()) {
+                            formulasContainer.innerHTML = `
+                                <!-- Classification Metrics Formulas -->
+                                <div class="formulas-section">
+                                    <h3>📊 Classification Metrics Formulas</h3>
+                                    
+                                    <!-- Basic Metrics -->
+                                    <div class="metric-group">
+                                        <h4>🎯 Basic Classification Metrics</h4>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Accuracy</h5>
+                                            <div class="formula">
+                                                \\[\\text{Accuracy} = \\frac{\\text{TP} + \\text{TN}}{\\text{TP} + \\text{TN} + \\text{FP} + \\text{FN}} = \\frac{\\text{Correct Predictions}}{\\text{Total Predictions}}\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Overall correctness of the model across all classes
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Precision (per class i)</h5>
+                                            <div class="formula">
+                                                \\[\\text{Precision}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FP}_i} = \\frac{\\text{True Positives}_i}{\\text{True Positives}_i + \\text{False Positives}_i}\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Of all instances predicted as class i, how many were actually class i?
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Recall (per class i)</h5>
+                                            <div class="formula">
+                                                \\[\\text{Recall}_i = \\frac{\\text{TP}_i}{\\text{TP}_i + \\text{FN}_i} = \\frac{\\text{True Positives}_i}{\\text{True Positives}_i + \\text{False Negatives}_i}\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Of all actual instances of class i, how many did we correctly identify?
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="formula-card">
+                                            <h5>F1-Score (per class i)</h5>
+                                            <div class="formula">
+                                                \\[\\text{F1}_i = \\frac{2 \\times \\text{Precision}_i \\times \\text{Recall}_i}{\\text{Precision}_i + \\text{Recall}_i} = \\frac{2 \\times \\text{TP}_i}{2 \\times \\text{TP}_i + \\text{FP}_i + \\text{FN}_i}\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Harmonic mean of precision and recall for class i
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Top-K Accuracy -->
+                                    <div class="metric-group">
+                                        <h4>🏆 Top-K Accuracy</h4>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Top-5 Accuracy</h5>
+                                            <div class="formula">
+                                                \\[\\text{Top-5 Accuracy} = \\frac{1}{N} \\sum_{i=1}^{N} \\mathbb{1}[\\text{true\\_label}_i \\in \\text{top\\_5\\_predictions}_i]\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Percentage of samples where the true class is among the top 5 predicted classes
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Averaging Methods -->
+                                    <div class="metric-group">
+                                        <h4>📈 Averaging Methods</h4>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Macro Average</h5>
+                                            <div class="formula">
+                                                \\[\\text{Metric}_{\\text{macro}} = \\frac{1}{C} \\sum_{i=1}^{C} \\text{Metric}_i\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Equal weight to each class (good for imbalanced datasets)
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Weighted Average</h5>
+                                            <div class="formula">
+                                                \\[\\text{Metric}_{\\text{weighted}} = \\frac{\\sum_{i=1}^{C} \\text{Metric}_i \\times \\text{Support}_i}{\\sum_{i=1}^{C} \\text{Support}_i}\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Weight by class frequency (reflects overall performance)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Resource Metrics -->
+                                    <div class="metric-group">
+                                        <h4>⚡ Resource Metrics</h4>
+                                        
+                                        <div class="formula-card">
+                                            <h5>FLOPs (Floating Point Operations)</h5>
+                                            <div class="formula">
+                                                \\[\\text{FLOPs} = \\sum_{l=1}^{L} \\text{FLOPs}_l = \\sum_{l=1}^{L} 2 \\times \\text{MACs}_l\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Total floating point operations for one forward pass (FLOPs ≈ 2 × MACs)
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Model Parameters</h5>
+                                            <div class="formula">
+                                                \\[\\text{Parameters} = \\sum_{l=1}^{L} \\text{params}_l = \\sum_{l=1}^{L} \\text{weights}_l + \\text{biases}_l\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                Total number of trainable parameters in the model
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="formula-card">
+                                            <h5>Transfer Learning</h5>
+                                            <div class="formula">
+                                                \\[\\text{Trainable Ratio} = \\frac{\\text{Trainable Parameters}}{\\text{Total Parameters}} = \\frac{\\text{Classifier Head}}{\\text{CNN Backbone + Classifier Head}}\\]
+                                            </div>
+                                            <p class="formula-description">
+                                                In transfer learning, only classifier head is trainable (typically 0.1-1% of total parameters)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <style>
+                                .formulas-section {
+                                    max-width: 1000px;
+                                    margin: 0 auto;
+                                    padding: 2rem;
+                                }
+                                
+                                .metric-group {
+                                    margin-bottom: 2rem;
+                                    padding: 1.5rem;
+                                    background: #f8f9fa;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #007bff;
+                                }
+                                
+                                .metric-group h4 {
+                                    color: #007bff;
+                                    margin-bottom: 1.5rem;
+                                    font-size: 1.3rem;
+                                }
+                                
+                                .formula-card {
+                                    background: white;
+                                    padding: 1.5rem;
+                                    margin-bottom: 1.5rem;
+                                    border-radius: 8px;
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                    border-left: 3px solid #28a745;
+                                }
+                                
+                                .formula-card h5 {
+                                    color: #28a745;
+                                    margin-bottom: 1rem;
+                                    font-size: 1.1rem;
+                                }
+                                
+                                .formula {
+                                    text-align: center;
+                                    margin: 1rem 0;
+                                    padding: 1rem;
+                                    background: #f8f9fa;
+                                    border-radius: 6px;
+                                    font-size: 1.1rem;
+                                }
+                                
+                                .formula-description {
+                                    color: #666;
+                                    font-style: italic;
+                                    margin-top: 0.5rem;
+                                    line-height: 1.5;
+                                }
+                                </style>
+                            `;
+                        }
+                        
+                        if (typeof renderMathInElement !== 'undefined') {
+                            console.log('Rendering KaTeX for formulas tab...');
+                            renderMathInElement(formulasContainer, {
+                                delimiters: [
+                                    {left: '\\(', right: '\\)', display: false},
+                                    {left: '\\[', right: '\\]', display: true}
+                                ],
+                                throwOnError: false
+                            });
+                            console.log('KaTeX rendering completed for formulas tab');
+                        }
                     }
                 }, 100);
             }
