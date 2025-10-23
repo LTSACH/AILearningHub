@@ -429,7 +429,7 @@
                         
                         metrics.forEach(metric => {
                             const value = group.aug.data[metric];
-                            const isBest = isBestInColumn(Object.values(data.models), metric, value);
+                            const isBest = isBestInColumn(Object.entries(data.models), metric, value);
                             const className = isBest ? 'best' : '';
                             rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}</span></td>`;
                         });
@@ -445,7 +445,7 @@
                         
                         metrics.forEach(metric => {
                             const value = group.noAug.data[metric];
-                            const isBest = isBestInColumn(Object.values(data.models), metric, value);
+                            const isBest = isBestInColumn(Object.entries(data.models), metric, value);
                             const className = isBest ? 'best' : '';
                             rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}</span></td>`;
                         });
