@@ -323,12 +323,12 @@
                 // Find best accuracy from real data
                 let bestAccuracy = 0;
                 let bestModel = '';
-                Object.values(data.models).forEach(model => {
-                    if (model.accuracy > bestAccuracy) {
-                        bestAccuracy = model.accuracy;
-                        bestModel = model.name;
-                    }
-                });
+                    Object.entries(data.models).forEach(([modelName, model]) => {
+                        if (model.accuracy > bestAccuracy) {
+                            bestAccuracy = model.accuracy;
+                            bestModel = modelName;
+                        }
+                    });
                 
                 const hero = new AIHero('ai-hero', {
                     title: '📊 Breed Classification',
@@ -402,12 +402,12 @@
             if (performanceTbody) {
                 performanceTbody.innerHTML = '';
                 
-                const models = Object.values(data.models);
+                const models = Object.entries(data.models);
                 const metrics = ['precision', 'recall', 'f1_score', 'accuracy', 'top5_accuracy'];
                 
-                models.forEach((model, index) => {
+                models.forEach(([modelName, model], index) => {
                     const row = document.createElement('tr');
-                    let rowHTML = `<td><strong>${model.name}</strong></td>`;
+                    let rowHTML = `<td><strong>${modelName}</strong></td>`;
                     
                     metrics.forEach(metric => {
                         const value = model[metric];
@@ -415,7 +415,7 @@
                         const className = isBest ? 'best' : '';
                         
                         // Add augmentation indicator
-                        const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
+                        const augIndicator = modelName.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
                         rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%${augIndicator}</span></td>`;
                     });
                     
@@ -429,12 +429,12 @@
             if (resourcesTbody) {
                 resourcesTbody.innerHTML = '';
                 
-                const models = Object.values(data.models);
+                const models = Object.entries(data.models);
                 const resourceMetrics = ['training_time', 'inference_time', 'flops', 'parameters', 'model_size'];
                 
-                models.forEach((model, index) => {
+                models.forEach(([modelName, model], index) => {
                     const row = document.createElement('tr');
-                    let rowHTML = `<td><strong>${model.name}</strong></td>`;
+                    let rowHTML = `<td><strong>${modelName}</strong></td>`;
                     
                     resourceMetrics.forEach(metric => {
                         const value = model[metric];
@@ -492,11 +492,11 @@
         function isBestInColumn(models, metric, value, type = 'performance') {
             if (type === 'performance') {
                 // Higher is better for performance metrics
-                const maxValue = Math.max(...models.map(model => model[metric]));
+                const maxValue = Math.max(...models.map(([name, model]) => model[metric]));
                 return Math.abs(value - maxValue) < 0.0001; // Floating point tolerance
             } else if (type === 'resources') {
                 // Lower is better for resource metrics
-                const minValue = Math.min(...models.map(model => model[metric]));
+                const minValue = Math.min(...models.map(([name, model]) => model[metric]));
                 return Math.abs(value - minValue) < 0.0001; // Floating point tolerance
             }
             return false;
