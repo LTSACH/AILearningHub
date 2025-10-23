@@ -304,7 +304,7 @@
                         <div class="formula-card">
                             <h5>Top-5 Accuracy</h5>
                             <div class="formula">
-                                [\text{Top-5 Accuracy} = \frac{\text{Number of correct predictions in top-5}}{\text{Total predictions}}]
+                                \[\text{Top-5 Accuracy} = \frac{\text{Number of correct predictions in top-5}}{\text{Total predictions}}\]
                             </div>
                             <p class="formula-description">
                                 Accuracy when considering top-5 predictions
@@ -319,9 +319,9 @@
                         <div class="formula-card">
                             <h5>Macro Average</h5>
                             <div class="formula">
-                                [\text{Macro-Precision} = \frac{1}{n} \sum_{i=1}^{n} \text{Precision}_i]
-                                [\text{Macro-Recall} = \frac{1}{n} \sum_{i=1}^{n} \text{Recall}_i]
-                                [\text{Macro-F1} = \frac{1}{n} \sum_{i=1}^{n} \text{F1}_i]
+                                \[\text{Macro-Precision} = \frac{1}{n} \sum_{i=1}^{n} \text{Precision}_i\]
+                                \[\text{Macro-Recall} = \frac{1}{n} \sum_{i=1}^{n} \text{Recall}_i\]
+                                \[\text{Macro-F1} = \frac{1}{n} \sum_{i=1}^{n} \text{F1}_i\]
                             </div>
                             <p class="formula-description">
                                 Simple average across all classes (treats all classes equally)
@@ -331,9 +331,9 @@
                         <div class="formula-card">
                             <h5>Weighted Average</h5>
                             <div class="formula">
-                                [\text{Weighted-Precision} = \frac{\sum_{i=1}^{n} \text{Precision}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}]
-                                [\text{Weighted-Recall} = \frac{\sum_{i=1}^{n} \text{Recall}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}]
-                                [\text{Weighted-F1} = \frac{\sum_{i=1}^{n} \text{F1}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}]
+                                \[\text{Weighted-Precision} = \frac{\sum_{i=1}^{n} \text{Precision}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}\]
+                                \[\text{Weighted-Recall} = \frac{\sum_{i=1}^{n} \text{Recall}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}\]
+                                \[\text{Weighted-F1} = \frac{\sum_{i=1}^{n} \text{F1}_i \times \text{Support}_i}{\sum_{i=1}^{n} \text{Support}_i}\]
                             </div>
                             <p class="formula-description">
                                 Average weighted by the number of true instances for each class
@@ -348,8 +348,8 @@
                         <div class="formula-card">
                             <h5>FLOPs (Floating Point Operations)</h5>
                             <div class="formula">
-                                [\text{FLOPs} = \sum_{l=1}^{L} \text{FLOPs}_l]
-                                [\text{FLOPs}_l = 2 \times \text{MACs}_l]
+                                \[\text{FLOPs} = \sum_{l=1}^{L} \text{FLOPs}_l\]
+                                \[\text{FLOPs}_l = 2 \times \text{MACs}_l\]
                             </div>
                             <p class="formula-description">
                                 Total floating point operations for forward pass
@@ -359,8 +359,8 @@
                         <div class="formula-card">
                             <h5>Model Parameters</h5>
                             <div class="formula">
-                                [\text{Parameters} = \sum_{l=1}^{L} \text{Parameters}_l]
-                                [\text{Parameters}_l = \text{Input Size}_l \times \text{Output Size}_l + \text{Bias}_l]
+                                \[\text{Parameters} = \sum_{l=1}^{L} \text{Parameters}_l\]
+                                \[\text{Parameters}_l = \text{Input Size}_l \times \text{Output Size}_l + \text{Bias}_l\]
                             </div>
                             <p class="formula-description">
                                 Total number of trainable parameters in the model
@@ -370,7 +370,7 @@
                         <div class="formula-card">
                             <h5>Transfer Learning Ratio</h5>
                             <div class="formula">
-                                [\text{Transfer Ratio} = \frac{\text{Pre-trained Parameters}}{\text{Total Parameters}} = \frac{\text{Backbone Parameters}}{\text{Total Parameters}}]
+                                \[\text{Transfer Ratio} = \frac{\text{Pre-trained Parameters}}{\text{Total Parameters}} = \frac{\text{Backbone Parameters}}{\text{Total Parameters}}\]
                             </div>
                             <p class="formula-description">
                                 Ratio of pre-trained parameters to total parameters
@@ -418,13 +418,23 @@
                 }
                 
                 .formula {
-                    background: white;
-                    padding: 1rem;
-                    border-radius: 6px;
-                    border: 1px solid #d1d5db;
+                    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    border: 2px solid #3b82f6;
                     margin: 1rem 0;
                     text-align: center;
-                    font-size: 1.1rem;
+                    font-size: 1.2rem;
+                    color: #1e40af;
+                    font-weight: 500;
+                    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+                    transition: all 0.3s ease;
+                }
+                
+                .formula:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 15px rgba(59, 130, 246, 0.2);
+                    border-color: #2563eb;
                 }
                 
                 .formula-description {
