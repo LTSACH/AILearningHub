@@ -203,6 +203,9 @@
             <button class="comparison-tab-btn" onclick="switchComparisonTab('formulas')">
                 🧮 Formulas
             </button>
+            <button class="comparison-tab-btn" onclick="switchComparisonTab('configuration')">
+                ⚙️ Configuration
+            </button>
         </div>
         
         <!-- Performance Tab -->
@@ -422,6 +425,377 @@
                     font-style: italic;
                     margin-top: 0.5rem;
                     line-height: 1.5;
+                }
+                </style>
+            </div>
+        </div>
+        
+        <!-- Configuration Tab -->
+        <div id="configuration-tab" class="comparison-tab-content">
+            <div class="configuration-content">
+                <div class="config-section">
+                    <h3>⚙️ Model Configurations</h3>
+                    <p class="config-intro">Training and evaluation configurations for all models in the comparison table.</p>
+                    
+                    <!-- Training Configuration -->
+                    <div class="config-group">
+                        <h4>🎯 Training Configuration</h4>
+                        
+                        <div class="config-card">
+                            <h5>Transfer Learning Strategy</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Mode:</span>
+                                    <span class="config-value">Transfer Learning (Freeze CNN Backbone)</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Frozen Layers:</span>
+                                    <span class="config-value">All CNN backbone layers</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Trainable Layers:</span>
+                                    <span class="config-value">Classifier head only (final FC layer)</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Pre-trained Weights:</span>
+                                    <span class="config-value">ImageNet-1K</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>Hyperparameters</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Optimizer:</span>
+                                    <span class="config-value">Adam</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Learning Rate:</span>
+                                    <span class="config-value">0.001 (1e-3)</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Batch Size:</span>
+                                    <span class="config-value">32</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Max Epochs:</span>
+                                    <span class="config-value">40</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Early Stopping:</span>
+                                    <span class="config-value">Patience = 5 epochs, Min Delta = 0.001</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Loss Function:</span>
+                                    <span class="config-value">Cross Entropy Loss</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Configuration -->
+                    <div class="config-group">
+                        <h4>📊 Data Configuration</h4>
+                        
+                        <div class="config-card">
+                            <h5>Dataset Split</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Training Set:</span>
+                                    <span class="config-value">3,680 images</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Validation Set:</span>
+                                    <span class="config-value">3,669 images</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Test Set:</span>
+                                    <span class="config-value">3,669 images</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Number of Classes:</span>
+                                    <span class="config-value">37 breeds (12 cats + 25 dogs)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>Image Preprocessing</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Input Size:</span>
+                                    <span class="config-value">224×224×3 (RGB)</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Normalization (VGG16, ResNet50):</span>
+                                    <span class="config-value">Mean=[0.485, 0.456, 0.406], Std=[0.229, 0.224, 0.225]</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Normalization (EfficientNet, MobileNetV3, Xception):</span>
+                                    <span class="config-value">Mean=[0.5, 0.5, 0.5], Std=[0.5, 0.5, 0.5]</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>Data Augmentation</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">No Augmentation:</span>
+                                    <span class="config-value">Resize(256) → CenterCrop(224) → ToTensor → Normalize</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">With Augmentation:</span>
+                                    <span class="config-value">RandomResizedCrop(224) → RandomHorizontalFlip(p=0.5) → ColorJitter → ToTensor → Normalize</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Architectures -->
+                    <div class="config-group">
+                        <h4>🏗️ Model Architectures</h4>
+                        
+                        <div class="config-card">
+                            <h5>VGG16</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Type:</span>
+                                    <span class="config-value">Dense CNN</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Depth:</span>
+                                    <span class="config-value">16 layers (13 conv + 3 FC)</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Parameters:</span>
+                                    <span class="config-value">134.41M</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Best for:</span>
+                                    <span class="config-value">Server deployment, high accuracy</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>ResNet50</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Type:</span>
+                                    <span class="config-value">Residual Network</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Depth:</span>
+                                    <span class="config-value">50 layers with skip connections</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Parameters:</span>
+                                    <span class="config-value">23.58M</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Best for:</span>
+                                    <span class="config-value">Balanced performance and efficiency</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>MobileNetV3 Large</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Type:</span>
+                                    <span class="config-value">Depthwise Separable CNN</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Depth:</span>
+                                    <span class="config-value">Inverted residual blocks with SE modules</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Parameters:</span>
+                                    <span class="config-value">4.25M</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Best for:</span>
+                                    <span class="config-value">Mobile and edge devices</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>EfficientNet-B3</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Type:</span>
+                                    <span class="config-value">Compound Scaled CNN</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Depth:</span>
+                                    <span class="config-value">MBConv blocks with compound scaling</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Parameters:</span>
+                                    <span class="config-value">10.75M</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Best for:</span>
+                                    <span class="config-value">Balanced accuracy and efficiency</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h5>Xception</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Type:</span>
+                                    <span class="config-value">Extreme Inception</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Depth:</span>
+                                    <span class="config-value">Depthwise separable convolutions</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Parameters:</span>
+                                    <span class="config-value">20.88M</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Best for:</span>
+                                    <span class="config-value">High accuracy with moderate size</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Evaluation Configuration -->
+                    <div class="config-group">
+                        <h4>🧪 Evaluation Configuration</h4>
+                        
+                        <div class="config-card">
+                            <h5>Metrics & Hardware</h5>
+                            <div class="config-detail">
+                                <div class="config-item">
+                                    <span class="config-label">Metrics:</span>
+                                    <span class="config-value">Accuracy, Precision, Recall, F1-Score, Top-5 Accuracy</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Averaging Method:</span>
+                                    <span class="config-value">Macro average</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Training Hardware:</span>
+                                    <span class="config-value">NVIDIA GPU (CUDA enabled)</span>
+                                </div>
+                                <div class="config-item">
+                                    <span class="config-label">Inference Benchmark:</span>
+                                    <span class="config-value">Single image, GPU inference, average over 100 runs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                .configuration-content {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                }
+                
+                .config-section h3 {
+                    color: #1f2937;
+                    font-size: 1.8rem;
+                    margin-bottom: 1rem;
+                    text-align: center;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                
+                .config-intro {
+                    text-align: center;
+                    color: #6b7280;
+                    font-size: 1.1rem;
+                    margin-bottom: 3rem;
+                }
+                
+                .config-group {
+                    margin-bottom: 3rem;
+                }
+                
+                .config-group h4 {
+                    color: #4f46e5;
+                    font-size: 1.4rem;
+                    margin-bottom: 1.5rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 3px solid #e5e7eb;
+                }
+                
+                .config-card {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                }
+                
+                .config-card:hover {
+                    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
+                    border-color: #4f46e5;
+                    transform: translateY(-2px);
+                }
+                
+                .config-card h5 {
+                    color: #059669;
+                    font-size: 1.2rem;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 2px solid #d1fae5;
+                }
+                
+                .config-detail {
+                    display: grid;
+                    gap: 0.75rem;
+                }
+                
+                .config-item {
+                    display: flex;
+                    align-items: flex-start;
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid #f3f4f6;
+                }
+                
+                .config-item:last-child {
+                    border-bottom: none;
+                }
+                
+                .config-label {
+                    font-weight: 600;
+                    color: #374151;
+                    min-width: 200px;
+                    flex-shrink: 0;
+                }
+                
+                .config-value {
+                    color: #6b7280;
+                    flex: 1;
+                    font-family: 'Monaco', 'Courier New', monospace;
+                    font-size: 0.95rem;
+                }
+                
+                @media (max-width: 768px) {
+                    .config-item {
+                        flex-direction: column;
+                    }
+                    
+                    .config-label {
+                        min-width: auto;
+                        margin-bottom: 0.25rem;
+                    }
                 }
                 </style>
             </div>
