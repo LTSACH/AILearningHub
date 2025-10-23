@@ -985,38 +985,41 @@
         
         // Function to show confusion matrix for selected model
         function showConfusionMatrix(modelName, data) {
-            // Map model names to confusion matrix keys
+            // Map model names to actual keys in data
             let modelKey = '';
             switch(modelName) {
                 case 'VGG16 (No Aug)':
-                    modelKey = 'vgg16_noaug';
+                    modelKey = 'VGG16 Noaug (Aug)';
+                    break;
+                case 'VGG16 (Aug)':
+                    modelKey = 'VGG16 Aug (Aug)';
                     break;
                 case 'ResNet50 (Aug)':
-                    modelKey = 'resnet50_aug';
+                    modelKey = 'ResNet50 Aug (Aug)';
                     break;
                 case 'ResNet50 (No Aug)':
-                    modelKey = 'resnet50_noaug';
+                    modelKey = 'ResNet50 Noaug (Aug)';
                     break;
                 case 'Xception (Aug)':
-                    modelKey = 'xception_aug';
+                    modelKey = 'Xception Aug (Aug)';
                     break;
                 case 'Xception (No Aug)':
-                    modelKey = 'xception_noaug';
+                    modelKey = 'Xception Noaug (Aug)';
                     break;
-                case 'EfficientNet-B0 (Aug)':
-                    modelKey = 'efficientnet_b0_aug';
+                case 'EfficientNet-B3 (Aug)':
+                    modelKey = 'EfficientNet B3 Aug (Aug)';
                     break;
-                case 'EfficientNet-B0 (No Aug)':
-                    modelKey = 'efficientnet_b0_noaug';
+                case 'EfficientNet-B3 (No Aug)':
+                    modelKey = 'EfficientNet B3 Noaug (Aug)';
                     break;
                 case 'MobileNetV3-Large-100 (Aug)':
-                    modelKey = 'mobilenetv3_large_100_aug';
+                    modelKey = 'MobileNetV3 Large 100 Aug (Aug)';
                     break;
                 case 'MobileNetV3-Large-100 (No Aug)':
-                    modelKey = 'mobilenetv3_large_100_noaug';
+                    modelKey = 'MobileNetV3 Large 100 Noaug (Aug)';
                     break;
                 default:
-                    modelKey = 'resnet50_aug'; // Default fallback
+                    modelKey = 'ResNet50 Aug (Aug)'; // Default fallback
             }
             
             const confusionMatrix = data.models[modelKey].confusion_matrix;
