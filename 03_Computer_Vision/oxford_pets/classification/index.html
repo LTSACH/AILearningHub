@@ -738,7 +738,7 @@
                     });
                     
                     // If model changed, update layer and sample options
-                    if (modelSelect.value && (!layerSelect.value || !sampleSelect.value)) {
+                    if (modelSelect.value && !layerSelect.value && !sampleSelect.value) {
                         console.log('Updating layer and sample options');
                         updateLayerAndSampleOptions();
                         return;
