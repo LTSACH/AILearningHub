@@ -567,17 +567,35 @@
                             `;
                         }
                         
-                        if (typeof renderMathInElement !== 'undefined') {
-                            console.log('Rendering KaTeX for formulas tab...');
-                            renderMathInElement(formulasContainer, {
-                                delimiters: [
-                                    {left: '\\(', right: '\\)', display: false},
-                                    {left: '\\[', right: '\\]', display: true}
-                                ],
-                                throwOnError: false
-                            });
-                            console.log('KaTeX rendering completed for formulas tab');
-                        }
+                        // Wait for KaTeX to load
+                        setTimeout(() => {
+                            if (typeof renderMathInElement !== 'undefined') {
+                                console.log('Rendering KaTeX for formulas tab...');
+                                renderMathInElement(formulasContainer, {
+                                    delimiters: [
+                                        {left: '\\(', right: '\\)', display: false},
+                                        {left: '\\[', right: '\\]', display: true}
+                                    ],
+                                    throwOnError: false
+                                });
+                                console.log('KaTeX rendering completed for formulas tab');
+                            } else {
+                                console.error('renderMathInElement not available, trying alternative...');
+                                // Fallback: try direct KaTeX rendering
+                                if (typeof katex !== 'undefined') {
+                                    const mathElements = formulasContainer.querySelectorAll('.formula');
+                                    mathElements.forEach(element => {
+                                        try {
+                                            katex.render(element.textContent, element, {
+                                                throwOnError: false
+                                            });
+                                        } catch (e) {
+                                            console.error('KaTeX rendering error:', e);
+                                        }
+                                    });
+                                }
+                            }
+                        }, 200);
                     }
                 }, 100);
             }
