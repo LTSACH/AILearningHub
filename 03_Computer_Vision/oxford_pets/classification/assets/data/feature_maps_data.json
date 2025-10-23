@@ -1,0 +1,13 @@
+{
+  "models": {
+    "resnet50": {
+      "feature_maps": {}
+    },
+    "xception": {
+      "feature_maps": {}
+    },
+    "efficientnet": {
+      "feature_maps": {}
+    }
+  }
+}

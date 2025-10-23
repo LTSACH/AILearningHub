@@ -206,6 +206,9 @@
             <button class="comparison-tab-btn" onclick="switchComparisonTab('configuration')">
                 ⚙️ Configuration
             </button>
+            <button class="comparison-tab-btn" onclick="switchComparisonTab('visualizations')">
+                📊 Visualizations
+            </button>
         </div>
         
         <!-- Performance Tab -->
@@ -427,6 +430,372 @@
                     line-height: 1.5;
                 }
                 </style>
+            </div>
+        </div>
+        
+        <!-- Visualizations Tab -->
+        <div id="visualizations-tab" class="comparison-tab-content">
+            <div class="visualizations-content">
+                <div class="visualizations-section">
+                    <h3>📊 Model Visualizations</h3>
+                    <p class="visualizations-intro">Interactive feature maps and model analysis visualizations.</p>
+                    
+                    <!-- Feature Maps Explorer -->
+                    <div class="feature-maps-section">
+                        <h4>🔍 Feature Maps Explorer</h4>
+                        <p>Explore how different CNN layers extract features from images.</p>
+                        
+                        <div class="feature-map-controls">
+                            <div class="control-group">
+                                <label for="model-select">Model:</label>
+                                <select id="model-select" onchange="updateFeatureMaps()">
+                                    <option value="">Select a model...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="layer-select">Layer:</label>
+                                <select id="layer-select" onchange="updateFeatureMaps()">
+                                    <option value="">Select a layer...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="sample-select">Sample:</label>
+                                <select id="sample-select" onchange="updateFeatureMaps()">
+                                    <option value="">Select a sample...</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-map-info">
+                            <div id="feature-map-info" class="info-panel">
+                                <p>Select a model, layer, and sample to view feature maps.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-map-grid" id="feature-map-grid">
+                            <!-- Feature maps will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Learning Curves -->
+                    <div class="learning-curves-section">
+                        <h4>📈 Learning Curves</h4>
+                        <p>Training and validation performance over epochs.</p>
+                        
+                        <div class="curves-controls">
+                            <div class="control-group">
+                                <label for="curves-model-select">Model:</label>
+                                <select id="curves-model-select" onchange="updateLearningCurves()">
+                                    <option value="">Select a model...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="curves-metric-select">Metric:</label>
+                                <select id="curves-metric-select" onchange="updateLearningCurves()">
+                                    <option value="accuracy">Accuracy</option>
+                                    <option value="loss">Loss</option>
+                                    <option value="precision">Precision</option>
+                                    <option value="recall">Recall</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="curves-chart" id="learning-curves-chart">
+                            <!-- Learning curves will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Model Architecture Visualization -->
+                    <div class="architecture-section">
+                        <h4>🏗️ Model Architecture</h4>
+                        <p>Visual representation of CNN architectures and layer connections.</p>
+                        
+                        <div class="architecture-controls">
+                            <div class="control-group">
+                                <label for="arch-model-select">Model:</label>
+                                <select id="arch-model-select" onchange="updateArchitecture()">
+                                    <option value="">Select a model...</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="architecture-diagram" id="architecture-diagram">
+                            <!-- Architecture diagram will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                .visualizations-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                }
+                
+                .visualizations-section h3 {
+                    color: #1f2937;
+                    font-size: 1.8rem;
+                    margin-bottom: 1rem;
+                    text-align: center;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                
+                .visualizations-intro {
+                    text-align: center;
+                    color: #6b7280;
+                    font-size: 1.1rem;
+                    margin-bottom: 3rem;
+                }
+                
+                .feature-maps-section,
+                .learning-curves-section,
+                .architecture-section {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 2rem;
+                    margin-bottom: 2rem;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+                
+                .feature-maps-section h4,
+                .learning-curves-section h4,
+                .architecture-section h4 {
+                    color: #059669;
+                    font-size: 1.4rem;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 2px solid #d1fae5;
+                }
+                
+                .feature-map-controls,
+                .curves-controls,
+                .architecture-controls {
+                    display: flex;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                    flex-wrap: wrap;
+                }
+                
+                .control-group {
+                    display: flex;
+                    flex-direction: column;
+                    min-width: 150px;
+                }
+                
+                .control-group label {
+                    font-weight: 600;
+                    color: #374151;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .control-group select {
+                    padding: 0.5rem;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    background: white;
+                    font-size: 0.9rem;
+                }
+                
+                .control-group select:focus {
+                    outline: none;
+                    border-color: #4f46e5;
+                    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+                }
+                
+                .feature-map-info {
+                    margin-bottom: 2rem;
+                }
+                
+                .info-panel {
+                    background: #f8fafc;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    color: #64748b;
+                }
+                
+                .feature-map-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                    gap: 1rem;
+                    margin-top: 1rem;
+                }
+                
+                .feature-map-item {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 0.5rem;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                }
+                
+                .feature-map-item:hover {
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    transform: translateY(-2px);
+                }
+                
+                .feature-map-item img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 4px;
+                }
+                
+                .feature-map-item .filter-label {
+                    font-size: 0.8rem;
+                    color: #6b7280;
+                    margin-top: 0.5rem;
+                }
+                
+                .curves-chart,
+                .architecture-diagram {
+                    background: #f8fafc;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    padding: 2rem;
+                    min-height: 400px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #64748b;
+                }
+                
+                @media (max-width: 768px) {
+                    .feature-map-controls,
+                    .curves-controls,
+                    .architecture-controls {
+                        flex-direction: column;
+                    }
+                    
+                    .control-group {
+                        min-width: auto;
+                    }
+                    
+                    .feature-map-grid {
+                        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                    }
+                }
+                </style>
+                
+                <script>
+                // Feature Maps JavaScript
+                let featureMapsData = null;
+                
+                // Load feature maps data
+                async function loadFeatureMapsData() {
+                    try {
+                        const response = await fetch('./assets/data/feature_maps_data.json');
+                        if (response.ok) {
+                            featureMapsData = await response.json();
+                            populateModelSelectors();
+                        } else {
+                            console.log('Feature maps data not available');
+                        }
+                    } catch (error) {
+                        console.log('Error loading feature maps data:', error);
+                    }
+                }
+                
+                function populateModelSelectors() {
+                    if (!featureMapsData) return;
+                    
+                    const modelSelect = document.getElementById('model-select');
+                    const curvesModelSelect = document.getElementById('curves-model-select');
+                    const archModelSelect = document.getElementById('arch-model-select');
+                    
+                    // Clear existing options
+                    [modelSelect, curvesModelSelect, archModelSelect].forEach(select => {
+                        select.innerHTML = '<option value="">Select a model...</option>';
+                    });
+                    
+                    // Add model options
+                    Object.keys(featureMapsData.models).forEach(modelName => {
+                        const option = `<option value="${modelName}">${modelName}</option>`;
+                        [modelSelect, curvesModelSelect, archModelSelect].forEach(select => {
+                            select.innerHTML += option;
+                        });
+                    });
+                }
+                
+                function updateFeatureMaps() {
+                    const modelSelect = document.getElementById('model-select');
+                    const layerSelect = document.getElementById('layer-select');
+                    const sampleSelect = document.getElementById('sample-select');
+                    const grid = document.getElementById('feature-map-grid');
+                    const info = document.getElementById('feature-map-info');
+                    
+                    if (!modelSelect.value || !layerSelect.value || !sampleSelect.value) {
+                        grid.innerHTML = '<p>Please select a model, layer, and sample.</p>';
+                        return;
+                    }
+                    
+                    if (!featureMapsData) {
+                        grid.innerHTML = '<p>Feature maps data not available.</p>';
+                        return;
+                    }
+                    
+                    const modelData = featureMapsData.models[modelSelect.value];
+                    if (!modelData) {
+                        grid.innerHTML = '<p>Model data not found.</p>';
+                        return;
+                    }
+                    
+                    const sampleData = modelData.feature_maps[sampleSelect.value];
+                    if (!sampleData) {
+                        grid.innerHTML = '<p>Sample data not found.</p>';
+                        return;
+                    }
+                    
+                    const layerData = sampleData.layers[layerSelect.value];
+                    if (!layerData) {
+                        grid.innerHTML = '<p>Layer data not found.</p>';
+                        return;
+                    }
+                    
+                    // Update info panel
+                    info.innerHTML = `
+                        <strong>Model:</strong> ${modelSelect.value}<br>
+                        <strong>Layer:</strong> ${layerSelect.value}<br>
+                        <strong>Sample:</strong> ${sampleSelect.value}<br>
+                        <strong>Shape:</strong> ${layerData.shape.join(' × ')}<br>
+                        <strong>Filters:</strong> ${Object.keys(layerData.feature_maps).length}
+                    `;
+                    
+                    // Display feature maps
+                    grid.innerHTML = '';
+                    Object.entries(layerData.feature_maps).forEach(([filterName, base64Image]) => {
+                        const item = document.createElement('div');
+                        item.className = 'feature-map-item';
+                        item.innerHTML = `
+                            <img src="data:image/png;base64,${base64Image}" alt="${filterName}">
+                            <div class="filter-label">${filterName}</div>
+                        `;
+                        grid.appendChild(item);
+                    });
+                }
+                
+                function updateLearningCurves() {
+                    const chart = document.getElementById('learning-curves-chart');
+                    chart.innerHTML = '<p>Learning curves visualization coming soon...</p>';
+                }
+                
+                function updateArchitecture() {
+                    const diagram = document.getElementById('architecture-diagram');
+                    diagram.innerHTML = '<p>Architecture diagram coming soon...</p>';
+                }
+                
+                // Initialize when page loads
+                document.addEventListener('DOMContentLoaded', function() {
+                    loadFeatureMapsData();
+                });
+                </script>
             </div>
         </div>
         
