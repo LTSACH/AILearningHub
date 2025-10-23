@@ -731,14 +731,22 @@
                     const grid = document.getElementById('feature-map-grid');
                     const info = document.getElementById('feature-map-info');
                     
+                    console.log('updateFeatureMaps called:', {
+                        model: modelSelect.value,
+                        layer: layerSelect.value,
+                        sample: sampleSelect.value
+                    });
+                    
                     // If model changed, update layer and sample options
                     if (modelSelect.value && (!layerSelect.value || !sampleSelect.value)) {
+                        console.log('Updating layer and sample options');
                         updateLayerAndSampleOptions();
                         return;
                     }
                     
                     // Only proceed if all three are selected
                     if (!modelSelect.value || !layerSelect.value || !sampleSelect.value) {
+                        console.log('Missing selections, showing message');
                         grid.innerHTML = '<p>Please select a model, layer, and sample.</p>';
                         return;
                     }
