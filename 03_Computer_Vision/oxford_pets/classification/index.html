@@ -1009,14 +1009,15 @@
                     modelKey = 'resnet50_aug'; // Default fallback
             }
             
-            const confusionData = data.confusion_matrix[modelKey];
-            if (!confusionData) {
+            const confusionMatrix = data.models[modelKey].confusion_matrix;
+            if (!confusionMatrix) {
                 console.error('No confusion data found for model:', modelKey);
                 return;
             }
             
-            const matrix = confusionData.matrix;
-            const classNames = confusionData.class_names;
+            const matrix = confusionMatrix;
+            // Generate class names (37 classes for Oxford Pets)
+            const classNames = Array.from({length: 37}, (_, i) => `Class ${i + 1}`);
             
             const plotData = [{
                 z: matrix,
