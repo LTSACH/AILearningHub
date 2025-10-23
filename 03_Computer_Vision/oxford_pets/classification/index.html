@@ -623,9 +623,6 @@
                         });
                         
                         row.innerHTML = rowHTML;
-                        if (row.querySelector('.best')) {
-                            row.classList.add('best-row');
-                        }
                         performanceTbody.appendChild(row);
                     }
                     
@@ -642,9 +639,6 @@
                         });
                         
                         row.innerHTML = rowHTML;
-                        if (row.querySelector('.best')) {
-                            row.classList.add('best-row');
-                        }
                         performanceTbody.appendChild(row);
                     }
                 });
@@ -939,19 +933,27 @@
     font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
 }
 
-/* Best value highlighting */
+/* Best value highlighting - only highlight the numbers, not the entire row */
 .enhanced-table tbody tr.best-row {
-    background-color: #10B981 !important; /* Green background */
-    color: white !important;
+    /* No background change for the row */
 }
 
 .enhanced-table tbody tr.best-row td {
-    color: white !important;
-    font-weight: 600;
+    /* Keep normal row styling */
 }
 
 .enhanced-table tbody tr.best-row td:first-child {
+    /* Keep normal model column styling */
+}
+
+/* Highlight only the best numbers */
+.enhanced-table .metric-value.best {
+    background-color: #10B981 !important;
     color: white !important;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
 }
 
 /* Table note styling */
