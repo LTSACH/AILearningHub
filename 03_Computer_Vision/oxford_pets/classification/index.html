@@ -737,6 +737,7 @@
                         return;
                     }
                     
+                    // Only proceed if all three are selected
                     if (!modelSelect.value || !layerSelect.value || !sampleSelect.value) {
                         grid.innerHTML = '<p>Please select a model, layer, and sample.</p>';
                         return;
