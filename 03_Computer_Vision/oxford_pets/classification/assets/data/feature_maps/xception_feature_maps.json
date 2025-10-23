@@ -1,1 +1,14 @@
-{}
+{
+  "sample_1": {
+    "image_path": "../../data/images/miniature_pinscher_42.jpg",
+    "layers": {}
+  },
+  "sample_2": {
+    "image_path": "../../data/images/shiba_inu_201.jpg",
+    "layers": {}
+  },
+  "sample_3": {
+    "image_path": "../../data/images/american_bulldog_197.jpg",
+    "layers": {}
+  }
+}
