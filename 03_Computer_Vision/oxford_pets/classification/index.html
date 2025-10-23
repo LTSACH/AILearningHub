@@ -233,11 +233,11 @@
                     <thead>
                         <tr>
                             <th data-en="Model" data-vi="Mô Hình">Model</th>
-                            <th data-en="Training Time ↓" data-vi="Thời Gian Huấn Luyện ↓">Training Time ↓</th>
-                            <th data-en="Inference Time ↓" data-vi="Thời Gian Dự Đoán ↓">Inference Time ↓</th>
-                            <th data-en="FLOPs ↓" data-vi="FLOPs ↓">FLOPs ↓</th>
-                            <th data-en="Parameters ↓" data-vi="Tham Số ↓">Parameters ↓</th>
-                            <th data-en="Model Size ↓" data-vi="Kích Thước ↓">Model Size ↓</th>
+                            <th data-en="Training Time (min)" data-vi="Thời Gian Huấn Luyện (phút)">Training Time (min)</th>
+                            <th data-en="Inference Time (ms)" data-vi="Thời Gian Dự Đoán (ms)">Inference Time (ms)</th>
+                            <th data-en="FLOPs (B)" data-vi="FLOPs (B)">FLOPs (B)</th>
+                            <th data-en="Parameters (M)" data-vi="Tham Số (M)">Parameters (M)</th>
+                            <th data-en="Model Size (MB)" data-vi="Kích Thước (MB)">Model Size (MB)</th>
                         </tr>
                     </thead>
                     <tbody id="resources-table-body">
@@ -493,15 +493,15 @@
                             let displayValue;
                             
                             if (metric === 'flops') {
-                                displayValue = `${(value / 1e9).toFixed(1)}B`;
+                                displayValue = `${(value / 1e9).toFixed(1)}`;
                             } else if (metric === 'parameters') {
-                                displayValue = `${value.toFixed(1)}M`;
+                                displayValue = `${value.toFixed(1)}`;
                             } else if (metric === 'model_size') {
-                                displayValue = `${value.toFixed(1)}MB`;
+                                displayValue = `${value.toFixed(1)}`;
                             } else if (metric === 'training_time') {
-                                displayValue = `${value.toFixed(1)}min`;
+                                displayValue = `${value.toFixed(1)}`;
                             } else {
-                                displayValue = `${value.toFixed(1)}ms`;
+                                displayValue = `${value.toFixed(1)}`;
                             }
                             
                             rowHTML += `<td><span class="metric-value ${className}">${displayValue}</span></td>`;
@@ -523,15 +523,15 @@
                             let displayValue;
                             
                             if (metric === 'flops') {
-                                displayValue = `${(value / 1e9).toFixed(1)}B`;
+                                displayValue = `${(value / 1e9).toFixed(1)}`;
                             } else if (metric === 'parameters') {
-                                displayValue = `${value.toFixed(1)}M`;
+                                displayValue = `${value.toFixed(1)}`;
                             } else if (metric === 'model_size') {
-                                displayValue = `${value.toFixed(1)}MB`;
+                                displayValue = `${value.toFixed(1)}`;
                             } else if (metric === 'training_time') {
-                                displayValue = `${value.toFixed(1)}min`;
+                                displayValue = `${value.toFixed(1)}`;
                             } else {
-                                displayValue = `${value.toFixed(1)}ms`;
+                                displayValue = `${value.toFixed(1)}`;
                             }
                             
                             rowHTML += `<td><span class="metric-value ${className}">${displayValue}</span></td>`;
