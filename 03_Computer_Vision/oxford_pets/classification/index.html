@@ -731,6 +731,12 @@
                     const grid = document.getElementById('feature-map-grid');
                     const info = document.getElementById('feature-map-info');
                     
+                    // If model changed, update layer and sample options
+                    if (modelSelect.value && (!layerSelect.value || !sampleSelect.value)) {
+                        updateLayerAndSampleOptions();
+                        return;
+                    }
+                    
                     if (!modelSelect.value || !layerSelect.value || !sampleSelect.value) {
                         grid.innerHTML = '<p>Please select a model, layer, and sample.</p>';
                         return;
@@ -779,6 +785,46 @@
                         `;
                         grid.appendChild(item);
                     });
+                }
+                
+                function updateLayerAndSampleOptions() {
+                    const modelSelect = document.getElementById('model-select');
+                    const layerSelect = document.getElementById('layer-select');
+                    const sampleSelect = document.getElementById('sample-select');
+                    
+                    if (!modelSelect.value || !featureMapsData) {
+                        return;
+                    }
+                    
+                    const modelData = featureMapsData.models[modelSelect.value];
+                    if (!modelData) {
+                        return;
+                    }
+                    
+                    // Update layer options
+                    layerSelect.innerHTML = '<option value="">Select a layer...</option>';
+                    if (modelData.feature_maps && Object.keys(modelData.feature_maps).length > 0) {
+                        const firstSample = Object.values(modelData.feature_maps)[0];
+                        if (firstSample && firstSample.layers) {
+                            Object.keys(firstSample.layers).forEach(layerName => {
+                                const option = document.createElement('option');
+                                option.value = layerName;
+                                option.textContent = layerName;
+                                layerSelect.appendChild(option);
+                            });
+                        }
+                    }
+                    
+                    // Update sample options
+                    sampleSelect.innerHTML = '<option value="">Select a sample...</option>';
+                    if (modelData.feature_maps) {
+                        Object.keys(modelData.feature_maps).forEach(sampleName => {
+                            const option = document.createElement('option');
+                            option.value = sampleName;
+                            option.textContent = sampleName;
+                            sampleSelect.appendChild(option);
+                        });
+                    }
                 }
                 
                 function updateLearningCurves() {
