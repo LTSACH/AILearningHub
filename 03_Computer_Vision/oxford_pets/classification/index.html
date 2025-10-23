@@ -965,42 +965,8 @@
         
         // Function to show confusion matrix for selected model
         function showConfusionMatrix(modelName, data) {
-            // Map model names to actual keys in data
-            let modelKey = '';
-            switch(modelName) {
-                case 'VGG16 (No Aug)':
-                    modelKey = 'VGG16 Noaug (Aug)';
-                    break;
-                case 'VGG16 (Aug)':
-                    modelKey = 'VGG16 Aug (Aug)';
-                    break;
-                case 'ResNet50 (Aug)':
-                    modelKey = 'ResNet50 Aug (Aug)';
-                    break;
-                case 'ResNet50 (No Aug)':
-                    modelKey = 'ResNet50 Noaug (Aug)';
-                    break;
-                case 'Xception (Aug)':
-                    modelKey = 'Xception Aug (Aug)';
-                    break;
-                case 'Xception (No Aug)':
-                    modelKey = 'Xception Noaug (Aug)';
-                    break;
-                case 'EfficientNet-B3 (Aug)':
-                    modelKey = 'EfficientNet B3 Aug (Aug)';
-                    break;
-                case 'EfficientNet-B3 (No Aug)':
-                    modelKey = 'EfficientNet B3 Noaug (Aug)';
-                    break;
-                case 'MobileNetV3-Large-100 (Aug)':
-                    modelKey = 'MobileNetV3 Large 100 Aug (Aug)';
-                    break;
-                case 'MobileNetV3-Large-100 (No Aug)':
-                    modelKey = 'MobileNetV3 Large 100 Noaug (Aug)';
-                    break;
-                default:
-                    modelKey = 'ResNet50 Aug (Aug)'; // Default fallback
-            }
+            // Model names now match exactly with data keys
+            const modelKey = modelName;
             
             const confusionMatrix = data.models[modelKey].confusion_matrix;
             if (!confusionMatrix) {
