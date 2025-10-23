@@ -488,7 +488,7 @@
                         
                         resourceMetrics.forEach(metric => {
                             const value = group.aug.data[metric];
-                            const isBest = isBestInColumn(Object.values(data.models), metric, value, 'resources');
+                            const isBest = isBestInColumn(Object.entries(data.models), metric, value, 'resources');
                             const className = isBest ? 'best' : '';
                             let displayValue;
                             
@@ -518,7 +518,7 @@
                         
                         resourceMetrics.forEach(metric => {
                             const value = group.noAug.data[metric];
-                            const isBest = isBestInColumn(Object.values(data.models), metric, value, 'resources');
+                            const isBest = isBestInColumn(Object.entries(data.models), metric, value, 'resources');
                             const className = isBest ? 'best' : '';
                             let displayValue;
                             
