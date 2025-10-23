@@ -734,6 +734,7 @@
                     // If model changed, update layer and sample options
                     if (modelSelect.value && (!layerSelect.value || !sampleSelect.value)) {
                         updateLayerAndSampleOptions();
+                        grid.innerHTML = '<p>Please select a layer and sample.</p>';
                         return;
                     }
                     

@@ -1,14 +1,14 @@
 {
   "sample_1": {
-    "image_path": "../../data/images/miniature_pinscher_42.jpg",
+    "image_path": "../../../github-sync/datasets/oxford-pets/data/sample_images/dogs/leonberger_15.jpg",
     "layers": {}
   },
   "sample_2": {
-    "image_path": "../../data/images/shiba_inu_201.jpg",
+    "image_path": "../../../github-sync/datasets/oxford-pets/data/sample_images/dogs/miniature_pinscher_114.jpg",
     "layers": {}
   },
   "sample_3": {
-    "image_path": "../../data/images/american_bulldog_197.jpg",
+    "image_path": "../../../github-sync/datasets/oxford-pets/data/sample_images/dogs/german_shorthaired_125.jpg",
     "layers": {}
   }
 }
