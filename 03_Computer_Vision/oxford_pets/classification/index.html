@@ -803,7 +803,7 @@ transform = transforms.Compose([
                             
                             console.log(`Rendering: ${model.name} - ${metric}: ${(value * 100).toFixed(1)}% - Class: ${className}`);
                             // Add augmentation indicator
-                            const augIndicator = model.name.includes('(Aug)') ? ' 🔄' : ' 📊';
+                            const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
                             rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%${augIndicator}</span></td>`;
                         });
                         
@@ -843,7 +843,7 @@ transform = transforms.Compose([
                             }
                             
                             // Add augmentation indicator
-                            const augIndicator = model.name.includes('(Aug)') ? ' 🔄' : ' 📊';
+                            const augIndicator = model.name.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
                             rowHTML += `<td><span class="metric-value ${className}">${displayValue}${augIndicator}</span></td>`;
                         });
                         
