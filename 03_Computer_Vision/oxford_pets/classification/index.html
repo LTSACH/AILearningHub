@@ -402,25 +402,57 @@
             if (performanceTbody) {
                 performanceTbody.innerHTML = '';
                 
-                const models = Object.entries(data.models);
+                // Group models by architecture and augmentation
+                const modelGroups = {};
+                Object.entries(data.models).forEach(([modelName, model]) => {
+                    const baseName = modelName.replace(' (Aug)', '').replace(' (No Aug)', '');
+                    const isAug = modelName.includes('(Aug)');
+                    
+                    if (!modelGroups[baseName]) {
+                        modelGroups[baseName] = { aug: null, noAug: null };
+                    }
+                    
+                    if (isAug) {
+                        modelGroups[baseName].aug = { name: modelName, data: model };
+                    } else {
+                        modelGroups[baseName].noAug = { name: modelName, data: model };
+                    }
+                });
+                
                 const metrics = ['precision', 'recall', 'f1_score', 'accuracy', 'top5_accuracy'];
                 
-                models.forEach(([modelName, model], index) => {
-                    const row = document.createElement('tr');
-                    let rowHTML = `<td><strong>${modelName}</strong></td>`;
-                    
-                    metrics.forEach(metric => {
-                        const value = model[metric];
-                        const isBest = isBestInColumn(models, metric, value);
-                        const className = isBest ? 'best' : '';
+                Object.entries(modelGroups).forEach(([baseName, group]) => {
+                    // Create row for Augmented version
+                    if (group.aug) {
+                        const row = document.createElement('tr');
+                        let rowHTML = `<td><strong>${baseName} (Aug)</strong></td>`;
                         
-                        // Add augmentation indicator
-                        const augIndicator = modelName.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
-                        rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}%${augIndicator}</span></td>`;
-                    });
+                        metrics.forEach(metric => {
+                            const value = group.aug.data[metric];
+                            const isBest = isBestInColumn(Object.values(data.models), metric, value);
+                            const className = isBest ? 'best' : '';
+                            rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}</span></td>`;
+                        });
+                        
+                        row.innerHTML = rowHTML;
+                        performanceTbody.appendChild(row);
+                    }
                     
-                    row.innerHTML = rowHTML;
-                    performanceTbody.appendChild(row);
+                    // Create row for No Augmentation version
+                    if (group.noAug) {
+                        const row = document.createElement('tr');
+                        let rowHTML = `<td><strong>${baseName} (No Aug)</strong></td>`;
+                        
+                        metrics.forEach(metric => {
+                            const value = group.noAug.data[metric];
+                            const isBest = isBestInColumn(Object.values(data.models), metric, value);
+                            const className = isBest ? 'best' : '';
+                            rowHTML += `<td><span class="metric-value ${className}">${(value * 100).toFixed(1)}</span></td>`;
+                        });
+                        
+                        row.innerHTML = rowHTML;
+                        performanceTbody.appendChild(row);
+                    }
                 });
             }
             
@@ -429,38 +461,85 @@
             if (resourcesTbody) {
                 resourcesTbody.innerHTML = '';
                 
-                const models = Object.entries(data.models);
+                // Group models by architecture and augmentation
+                const modelGroups = {};
+                Object.entries(data.models).forEach(([modelName, model]) => {
+                    const baseName = modelName.replace(' (Aug)', '').replace(' (No Aug)', '');
+                    const isAug = modelName.includes('(Aug)');
+                    
+                    if (!modelGroups[baseName]) {
+                        modelGroups[baseName] = { aug: null, noAug: null };
+                    }
+                    
+                    if (isAug) {
+                        modelGroups[baseName].aug = { name: modelName, data: model };
+                    } else {
+                        modelGroups[baseName].noAug = { name: modelName, data: model };
+                    }
+                });
+                
                 const resourceMetrics = ['training_time', 'inference_time', 'flops', 'parameters', 'model_size'];
                 
-                models.forEach(([modelName, model], index) => {
-                    const row = document.createElement('tr');
-                    let rowHTML = `<td><strong>${modelName}</strong></td>`;
-                    
-                    resourceMetrics.forEach(metric => {
-                        const value = model[metric];
-                        const isBest = isBestInColumn(models, metric, value, 'resources');
-                        const className = isBest ? 'best' : '';
-                        let displayValue;
+                Object.entries(modelGroups).forEach(([baseName, group]) => {
+                    // Create row for Augmented version
+                    if (group.aug) {
+                        const row = document.createElement('tr');
+                        let rowHTML = `<td><strong>${baseName} (Aug)</strong></td>`;
                         
-                        if (metric === 'flops') {
-                            displayValue = `${(value / 1e9).toFixed(1)}B`;
-                        } else if (metric === 'parameters') {
-                            displayValue = `${value.toFixed(1)}M`;
-                        } else if (metric === 'model_size') {
-                            displayValue = `${value.toFixed(1)}MB`;
-                        } else if (metric === 'training_time') {
-                            displayValue = `${value.toFixed(1)}min`;
-                        } else {
-                            displayValue = `${value.toFixed(1)}ms`;
-                        }
+                        resourceMetrics.forEach(metric => {
+                            const value = group.aug.data[metric];
+                            const isBest = isBestInColumn(Object.values(data.models), metric, value, 'resources');
+                            const className = isBest ? 'best' : '';
+                            let displayValue;
+                            
+                            if (metric === 'flops') {
+                                displayValue = `${(value / 1e9).toFixed(1)}B`;
+                            } else if (metric === 'parameters') {
+                                displayValue = `${value.toFixed(1)}M`;
+                            } else if (metric === 'model_size') {
+                                displayValue = `${value.toFixed(1)}MB`;
+                            } else if (metric === 'training_time') {
+                                displayValue = `${value.toFixed(1)}min`;
+                            } else {
+                                displayValue = `${value.toFixed(1)}ms`;
+                            }
+                            
+                            rowHTML += `<td><span class="metric-value ${className}">${displayValue}</span></td>`;
+                        });
                         
-                        // Add augmentation indicator
-                        const augIndicator = modelName.includes('(Aug)') ? ' (Aug)' : ' (No Aug)';
-                        rowHTML += `<td><span class="metric-value ${className}">${displayValue}${augIndicator}</span></td>`;
-                    });
+                        row.innerHTML = rowHTML;
+                        resourcesTbody.appendChild(row);
+                    }
                     
-                    row.innerHTML = rowHTML;
-                    resourcesTbody.appendChild(row);
+                    // Create row for No Augmentation version
+                    if (group.noAug) {
+                        const row = document.createElement('tr');
+                        let rowHTML = `<td><strong>${baseName} (No Aug)</strong></td>`;
+                        
+                        resourceMetrics.forEach(metric => {
+                            const value = group.noAug.data[metric];
+                            const isBest = isBestInColumn(Object.values(data.models), metric, value, 'resources');
+                            const className = isBest ? 'best' : '';
+                            let displayValue;
+                            
+                            if (metric === 'flops') {
+                                displayValue = `${(value / 1e9).toFixed(1)}B`;
+                            } else if (metric === 'parameters') {
+                                displayValue = `${value.toFixed(1)}M`;
+                            } else if (metric === 'model_size') {
+                                displayValue = `${value.toFixed(1)}MB`;
+                            } else if (metric === 'training_time') {
+                                displayValue = `${value.toFixed(1)}min`;
+                            } else {
+                                displayValue = `${value.toFixed(1)}ms`;
+                            }
+                            
+                            rowHTML += `<td><span class="metric-value ${className}">${displayValue}</span></td>`;
+                        });
+                        
+                        row.innerHTML = rowHTML;
+                        resourcesTbody.appendChild(row);
+                    }
                 });
             }
             
