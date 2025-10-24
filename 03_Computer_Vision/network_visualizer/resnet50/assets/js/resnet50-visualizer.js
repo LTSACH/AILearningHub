@@ -175,6 +175,9 @@ class ResNet50Visualizer {
         document.addEventListener('webkitfullscreenchange', () => this.testTooltipInFullscreen());
         document.addEventListener('mozfullscreenchange', () => this.testTooltipInFullscreen());
         document.addEventListener('MSFullscreenChange', () => this.testTooltipInFullscreen());
+        
+        // Debug tooltip on mouse move
+        document.addEventListener('mousemove', (e) => this.debugTooltip(e));
     }
 
     /**
@@ -782,9 +785,10 @@ class ResNet50Visualizer {
         
         // Debug: Log fullscreen status
         if (isFullscreen) {
-            console.log('Fullscreen mode detected, showing tooltip');
+            console.log('Fullscreen mode detected, showing tooltip at position:', x, y);
         }
         
+        // Force tooltip to be visible
         this.tooltip.html(text)
             .style('left', x + 'px')
             .style('top', y + 'px')
@@ -793,14 +797,25 @@ class ResNet50Visualizer {
             .style('z-index', '999999')
             .style('pointer-events', 'none')
             .style('visibility', 'visible')
-            .style('opacity', '1');
+            .style('opacity', '1')
+            .style('background', 'rgba(255, 255, 255, 0.95)')
+            .style('color', '#111827')
+            .style('border', '1px solid #d1d5db')
+            .style('border-radius', '8px')
+            .style('padding', '10px 12px')
+            .style('font-size', '14px')
+            .style('font-weight', '600')
+            .style('box-shadow', '0 6px 16px rgba(0,0,0,.18)')
+            .style('max-width', '480px');
             
         // Force show in fullscreen mode
         if (isFullscreen) {
             this.tooltip
                 .style('visibility', 'visible')
                 .style('opacity', '1')
-                .style('display', 'block');
+                .style('display', 'block')
+                .style('position', 'fixed')
+                .style('z-index', '999999');
         }
     }
 
@@ -1095,7 +1110,7 @@ class ResNet50Visualizer {
                                document.webkitFullscreenElement || 
                                document.mozFullScreenElement || 
                                document.msFullscreenElement);
-        
+         
         if (isFullscreen && this.tooltip) {
             console.log('Testing tooltip in fullscreen mode');
             
@@ -1108,12 +1123,43 @@ class ResNet50Visualizer {
                 .style('display', 'block')
                 .style('left', '100px')
                 .style('top', '100px')
-                .html('Test tooltip in fullscreen mode');
+                .style('background', 'red')
+                .style('color', 'white')
+                .style('padding', '20px')
+                .style('border', '3px solid yellow')
+                .html('TEST TOOLTIP IN FULLSCREEN MODE');
                 
-            // Hide after 3 seconds
+            // Hide after 5 seconds
             setTimeout(() => {
                 this.tooltip.style('display', 'none');
-            }, 3000);
+            }, 5000);
+        }
+    }
+
+    /**
+     * Debug tooltip on mouse move
+     */
+    debugTooltip(event) {
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
+        if (isFullscreen && this.tooltip) {
+            // Show debug tooltip at mouse position
+            this.tooltip
+                .style('position', 'fixed')
+                .style('z-index', '999999')
+                .style('visibility', 'visible')
+                .style('opacity', '1')
+                .style('display', 'block')
+                .style('left', (event.clientX + 15) + 'px')
+                .style('top', (event.clientY - 20) + 'px')
+                .style('background', 'blue')
+                .style('color', 'white')
+                .style('padding', '10px')
+                .style('border', '2px solid yellow')
+                .html('DEBUG TOOLTIP AT MOUSE POSITION');
         }
     }
 
