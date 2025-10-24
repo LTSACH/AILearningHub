@@ -168,6 +168,7 @@
     flex-direction: column;
     background: var(--bg);
     min-width: 0;
+    height: 100%;
 }
 
 /* Right Side - Fixed width, resizable */
@@ -205,6 +206,7 @@
     background: var(--bg);
     border-right: 1px solid var(--stroke);
     min-width: 0;
+    min-height: 200px;
     overflow: hidden;
 }
 
@@ -375,10 +377,9 @@
 
 /* 3.3 Code Implementation Panel - Now in left side */
 .code-implementation-panel {
-    flex: 0 0 auto;
+    flex: 0 0 200px;
     min-height: 120px;
     max-height: 60vh;
-    height: 200px;
     background: #2d2d2d;
     border-top: 1px solid var(--stroke);
     display: flex;
