@@ -365,7 +365,7 @@
 
 /* 3.3 Code Implementation Panel - Now in left side */
 .code-implementation-panel {
-    flex: 0 0 25%;
+    flex: none;
     min-height: 120px;
     max-height: 60vh;
     height: 25%;
@@ -379,7 +379,7 @@
 }
 
 .code-implementation-panel.collapsed {
-    flex: 0 0 28px !important;
+    height: 28px !important;
     min-height: 28px !important;
     max-height: 28px !important;
     margin-top: auto;
