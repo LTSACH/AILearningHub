@@ -184,6 +184,12 @@ class ResNet50Visualizer {
         document.addEventListener('webkitfullscreenchange', () => this.forceTooltipVisibility());
         document.addEventListener('mozfullscreenchange', () => this.forceTooltipVisibility());
         document.addEventListener('MSFullscreenChange', () => this.forceTooltipVisibility());
+        
+        // Create new tooltip for fullscreen mode
+        document.addEventListener('fullscreenchange', () => this.createFullscreenTooltip());
+        document.addEventListener('webkitfullscreenchange', () => this.createFullscreenTooltip());
+        document.addEventListener('mozfullscreenchange', () => this.createFullscreenTooltip());
+        document.addEventListener('MSFullscreenChange', () => this.createFullscreenTooltip());
     }
 
     /**
@@ -1194,6 +1200,9 @@ class ResNet50Visualizer {
                 .style('color', 'white')
                 .style('padding', '10px')
                 .style('border', '2px solid yellow')
+                .style('max-width', 'none')
+                .style('width', 'auto')
+                .style('height', 'auto')
                 .html('DEBUG TOOLTIP AT MOUSE POSITION');
         }
     }
@@ -1235,6 +1244,46 @@ class ResNet50Visualizer {
             setTimeout(() => {
                 this.tooltip.style('display', 'none');
             }, 5000);
+        }
+    }
+
+    /**
+     * Create new tooltip for fullscreen mode
+     */
+    createFullscreenTooltip() {
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
+        if (isFullscreen) {
+            console.log('Creating new fullscreen tooltip');
+            
+            // Remove existing tooltip
+            if (this.tooltip) {
+                this.tooltip.remove();
+            }
+            
+            // Create new tooltip
+            this.tooltip = d3.select('body')
+                .append('div')
+                .attr('class', 'tooltip fullscreen-tooltip')
+                .style('position', 'fixed')
+                .style('pointer-events', 'none')
+                .style('background', 'blue')
+                .style('color', 'white')
+                .style('border', '2px solid yellow')
+                .style('border-radius', '8px')
+                .style('padding', '10px')
+                .style('font-size', '18px')
+                .style('font-weight', 'bold')
+                .style('box-shadow', '0 6px 16px rgba(0,0,0,.18)')
+                .style('display', 'none')
+                .style('z-index', '999999')
+                .style('max-width', 'none')
+                .style('width', 'auto')
+                .style('height', 'auto')
+                .html('NEW FULLSCREEN TOOLTIP');
         }
     }
 
