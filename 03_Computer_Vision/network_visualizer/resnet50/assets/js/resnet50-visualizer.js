@@ -764,10 +764,16 @@ class ResNet50Visualizer {
      * Show tooltip
      */
     showTooltip(text, event) {
+        // Get mouse position relative to viewport
+        const x = event.clientX + 15;
+        const y = event.clientY - 20;
+        
         this.tooltip.html(text)
-            .style('left', (event.clientX + 15) + 'px')
-            .style('top', (event.clientY - 20) + 'px')
-            .style('display', 'block');
+            .style('left', x + 'px')
+            .style('top', y + 'px')
+            .style('display', 'block')
+            .style('position', 'fixed')
+            .style('z-index', '99999');
     }
 
     /**
