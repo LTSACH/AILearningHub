@@ -499,6 +499,70 @@
     height: 100vh;
 }
 
+/* Fullscreen API Support */
+.ai-container:fullscreen {
+    background: var(--bg);
+    width: 100vw;
+    height: 100vh;
+}
+
+.ai-container:fullscreen #ai-header,
+.ai-container:fullscreen #ai-hero {
+    display: none;
+}
+
+.ai-container:fullscreen .model-container {
+    height: 100vh;
+}
+
+/* Webkit Fullscreen Support */
+.ai-container:-webkit-full-screen {
+    background: var(--bg);
+    width: 100vw;
+    height: 100vh;
+}
+
+.ai-container:-webkit-full-screen #ai-header,
+.ai-container:-webkit-full-screen #ai-hero {
+    display: none;
+}
+
+.ai-container:-webkit-full-screen .model-container {
+    height: 100vh;
+}
+
+/* Mozilla Fullscreen Support */
+.ai-container:-moz-full-screen {
+    background: var(--bg);
+    width: 100vw;
+    height: 100vh;
+}
+
+.ai-container:-moz-full-screen #ai-header,
+.ai-container:-moz-full-screen #ai-hero {
+    display: none;
+}
+
+.ai-container:-moz-full-screen .model-container {
+    height: 100vh;
+}
+
+/* MS Fullscreen Support */
+.ai-container:-ms-fullscreen {
+    background: var(--bg);
+    width: 100vw;
+    height: 100vh;
+}
+
+.ai-container:-ms-fullscreen #ai-header,
+.ai-container:-ms-fullscreen #ai-hero {
+    display: none;
+}
+
+.ai-container:-ms-fullscreen .model-container {
+    height: 100vh;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .control-panel {

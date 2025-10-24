@@ -163,6 +163,12 @@ class ResNet50Visualizer {
 
         // Window resize
         window.addEventListener('resize', () => this.resize());
+        
+        // Fullscreen change events
+        document.addEventListener('fullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('mozfullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('MSFullscreenChange', () => this.handleFullscreenChange());
     }
 
     /**
@@ -852,13 +858,51 @@ class ResNet50Visualizer {
     /**
      * Toggle fullscreen mode
      */
-    toggleFullscreen() {
+    async toggleFullscreen() {
         const container = document.querySelector('.ai-container');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         
-        container.classList.toggle('fullscreen-mode');
+        try {
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                await container.requestFullscreen();
+                fullscreenBtn.textContent = '⛶ Exit Fullscreen';
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Exit fullscreen
+                await document.exitFullscreen();
+                fullscreenBtn.textContent = '⛶ Fullscreen';
+                document.body.style.overflow = '';
+            }
+        } catch (error) {
+            console.error('Fullscreen error:', error);
+            // Fallback to CSS fullscreen if API fails
+            container.classList.toggle('fullscreen-mode');
+            
+            if (container.classList.contains('fullscreen-mode')) {
+                fullscreenBtn.textContent = '⛶ Exit Fullscreen';
+                document.body.style.overflow = 'hidden';
+            } else {
+                fullscreenBtn.textContent = '⛶ Fullscreen';
+                document.body.style.overflow = '';
+            }
+        }
         
-        if (container.classList.contains('fullscreen-mode')) {
+        // Resize visualization after mode change
+        setTimeout(() => this.resize(), 100);
+    }
+
+    /**
+     * Handle fullscreen change events
+     */
+    handleFullscreenChange() {
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
+        if (isFullscreen) {
             fullscreenBtn.textContent = '⛶ Exit Fullscreen';
             document.body.style.overflow = 'hidden';
         } else {
@@ -866,7 +910,7 @@ class ResNet50Visualizer {
             document.body.style.overflow = '';
         }
         
-        // Resize visualization after mode change
+        // Resize visualization after fullscreen change
         setTimeout(() => this.resize(), 100);
     }
 
