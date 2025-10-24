@@ -453,7 +453,7 @@
     const stageW=190, stageH=88;
     const S=curShapes();
     // airy spacing across wide virtual canvas
-    const xs=[180, 520, 900, 1280, 1680, 2100];
+    const xs=[180, 420, 660, 900, 1140, 1380]; // compact spacing: stages closer together
     const stages=[
       {label:'Conv1 (7×7, s2)', tip:`out: ${shapeStr(S.conv1)}`, shape:S.conv1, codeSnippet: code.backbone},
       {label:'MaxPool (s2)', tip:`out: ${shapeStr(S.pool)}`, shape:S.pool, codeSnippet: code.backbone},
@@ -496,8 +496,8 @@
     }
     const C=payload.shape?payload.shape[1]:256; const H=payload.shape?payload.shape[2]:56; const W=payload.shape?payload.shape[3]:56;
     const count=payload.count||3;
-    const stageW=190;
-    const gap=Math.max((w-400)/(count+1), 220);
+    const stageW = 150; // smaller blocks
+    const gap = Math.max((w - 400) / (count + 1), 220); // farther spacing // reduced gap for compact stage view
     let prevR=null;
     for(let i=0;i<count;i++){
       const x=160+gap*(i+1);

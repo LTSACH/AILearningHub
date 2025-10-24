@@ -1,182 +1,643 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResNet50 Interactive Visualizer - AI Learning Hub</title>
-    
-    <!-- Load shared components from centralized library -->
-    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/themes/default.css">
-    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/header.css">
-    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/hero.css">
-    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
-    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
-    
-    <!-- Prism.js for code highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    
-    <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=45">
-    
-    <!-- Custom scripts -->
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ResNet50 — Interactive Backbone (D3.js, v8.1)</title>
+
+<!-- Prism.js (Tomorrow Night for code panel) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"/>
+
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #111827;
+    --muted: #6b7280;
+    --panel: #f3f4f6;
+    --stroke: #d1d5db;
+    --edge: #3B82F6;
+    --edge-hi: #2563EB;
+    --skip: #F59E0B;
+    --node-backbone: #CBD5E1;
+    --node-stage: #F9FAFB;
+    --node-io: #E67E22;
+    --node-hover: #E2E8F0;
+  }
+  * { box-sizing: border-box; }
+  html, body { height:100%; margin:0; background:var(--bg); color:var(--ink);
+    font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans",sans-serif; }
+  header { padding:12px 16px; background:var(--panel); border-bottom:1px solid var(--stroke);
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:space-between; }
+  header h1 { margin:0; font-size:18px; }
+  .leftControls, .rightControls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .leftControls input { width:80px; padding:6px 8px; border-radius:8px; border:1px solid var(--stroke); background:#fff; color:var(--ink); }
+  .btn { padding:8px 12px; border:1px solid var(--stroke); background:#e5e7eb; color:var(--ink); border-radius:10px; cursor:pointer; }
+  .btn:hover { border-color: var(--edge-hi); }
+  .pill { padding:6px 10px; border:1px dashed var(--stroke); border-radius:999px; font-size:12px; color:var(--muted); }
+
+  #app { height: calc(100% - 66px); display:flex; flex-direction:row; }
+  #vizWrap { flex: 1 1 auto; position:relative; min-height: 320px; border-right:1px solid var(--stroke); }
+  #viz { width:100%; height:100%; }
+  #shapeMap { width: 320px; flex: 0 0 320px; background:#fafafa; display:flex; flex-direction:column; }
+  #shapeMap header { border-bottom:1px solid var(--stroke); }
+  .mapBody { padding:10px 12px; overflow:auto; }
+  .mapTable { width:100%; border-collapse: collapse; font-size:13px; }
+  .mapTable th, .mapTable td { border-bottom:1px dashed #e5e7eb; padding:6px 6px; text-align:left; }
+  .mapTable th { color:#374151; font-weight:600; position:sticky; top:0; background:#fafafa; }
+  .mapKey { color:#6b7280; font-size:12px; margin:6px 0 0 0; }
+  .zoomBar { display:flex; gap:8px; }
+  .zoomBar .btn { padding:6px 10px; }
+
+  .node rect { rx:14px; ry:14px; stroke: var(--stroke); stroke-width:1.5px; }
+  .title { font-size:15px; font-weight:600; pointer-events:none; }
+  .subtitle { font-size:12px; fill: var(--muted); pointer-events:none; }
+  .port { fill:#fff; stroke: var(--edge); stroke-width:1.5px; }
+  .tooltip { position:absolute; pointer-events:none; background:#ffffffe6; color:var(--ink);
+    border:1px solid var(--stroke); border-radius:8px; padding:10px 12px; font-size:18px; font-weight:600;
+    box-shadow:0 6px 16px rgba(0,0,0,.18); display:none; z-index:10; max-width:480px; }
+  .backbar { position:absolute; left:14px; top:12px; display:flex; gap:8px; align-items:center; z-index: 2; }
+  .breadcrumb { font-size:12px; color:var(--muted); }
+  .formula { position:absolute; left:50%; transform:translateX(-50%); top:12px; font-size:13px; color:#1f2937;
+    background:#f9fafb; border:1px solid var(--stroke); border-radius:999px; padding:6px 10px; display:none; z-index: 2; }
+
+  /* Edges & flow animation */
+  .edge { fill:none; stroke: var(--edge); stroke-width:2px; marker-end: url(#arrowHead); opacity:.95; }
+  .edge.flow { stroke: var(--edge-hi); stroke-width:3px; stroke-linecap: round;
+    stroke-dasharray: 14 14; animation: dashflow 1.1s linear infinite; }
+  @keyframes dashflow { to { stroke-dashoffset: -28; } }
+  .skip { fill:none; stroke: var(--skip); stroke-width:2.5px; marker-end: url(#arrowSkip); opacity:.95; }
+
+  /* Code Panel */
+  #codePanel {
+    position:absolute; left:0; right:0; bottom:0;
+    border-top: 1px solid var(--stroke);
+    background: #2d2d2d;
+    display: flex;
+    flex-direction: column;
+    transition: height .2s ease, flex-basis .2s ease;
+    min-height: 120px;
+    height: 25vh;
+  }
+  #codeHeader { display:flex; align-items:center; justify-content:space-between;
+    padding: 6px 10px; font-size: 13px; color: #e5e7eb; background: #1f1f1f;
+    border-bottom: 1px solid #3a3a3a; }
+  #codeToggle { cursor:pointer; border:1px solid #3a3a3a; background:#111; color:#e5e7eb; border-radius:8px; padding:4px 8px; font-size:12px; }
+  #codeContent { flex: 1 1 auto; overflow: auto; padding: 8px 12px; }
+  pre { margin:0; }
+  #resizeHandle {
+    position: absolute; top: -6px; left: 0; right: 0; height: 6px; cursor: ns-resize;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0));
+  }
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <div id="ai-header">
-        <!-- Theme Selector in Header -->
-        <div id="theme-selector" class="ai-theme-selector"></div>
+<header>
+  <div class="leftControls">
+    <h1>ResNet50 — Interactive Backbone (v8.1)</h1>
+    <span class="pill">Input (N, C, H, W)</span>
+    <label>N <input id="N" type="number" value="1" min="1"></label>
+    <label>C <input id="C" type="number" value="3" min="1"></label>
+    <label>H <input id="H" type="number" value="224" min="1"></label>
+    <label>W <input id="W" type="number" value="224" min="1"></label>
+    <button id="apply" class="btn">Apply</button>
+    <button id="reset" class="btn">Reset</button>
+  </div>
+  <div class="rightControls">
+    <div class="zoomBar">
+      <button id="zoomIn" class="btn">＋ Zoom In</button>
+      <button id="zoomOut" class="btn">－ Zoom Out</button>
+      <button id="zoomFit" class="btn">⤢ Fit</button>
+      <button id="zoomReset" class="btn">⟲ Reset</button>
     </div>
+  </div>
+</header>
 
-    <!-- Language Switcher (Top-right) -->
-    <div id="language-switcher" class="ai-language-switcher fixed"></div>
-
-    <div class="ai-container">
-        
-    <!-- Hero Section -->
-    <div id="ai-hero"></div>
-
-    <!-- Model Container -->
-    <section class="model-container">
-        <!-- 3.1 Control Panel -->
-        <div class="control-panel">
-            <!-- Single Row: All Controls -->
-            <div class="control-row">
-                <div class="input-controls">
-                    <span class="input-label">Input (N, C, H, W)</span>
-                    <label>N <input id="inputN" type="number" value="1" min="1"></label>
-                    <label>C <input id="inputC" type="number" value="3" min="1"></label>
-                    <label>H <input id="inputH" type="number" value="224" min="1"></label>
-                    <label>W <input id="inputW" type="number" value="224" min="1"></label>
-                    <button id="applyInputs" class="btn btn-primary">Apply</button>
-                    <button id="resetInputs" class="btn btn-secondary">Reset</button>
-                </div>
-                <div class="action-controls">
-                    <button id="zoomIn" class="btn btn-secondary">＋ Zoom In</button>
-                    <button id="zoomOut" class="btn btn-secondary">－ Zoom Out</button>
-                    <button id="zoomFit" class="btn btn-secondary">⤢ Fit</button>
-                    <button id="zoomReset" class="btn btn-secondary">⟲ Reset</button>
-                    <button id="fullscreenBtn" class="btn btn-primary">⛶ Fullscreen</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3.2 Main Visualization Area -->
-        <div class="main-visualization-area">
-            <!-- Left Side (70%) -->
-            <div class="left-side">
-                <!-- Visualization Canvas (75% height) -->
-                <div class="viz-container">
-                    <div class="viz-navigation">
-                        <button id="backBtn" class="btn btn-secondary" disabled>⬅ Back</button>
-                        <span id="breadcrumb" class="breadcrumb"></span>
-                    </div>
-                    <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
-                    <div id="visualization" class="visualization-canvas"></div>
-                    <div id="tooltip" class="tooltip"></div>
-                </div>
-
-                <!-- Implementation Panel (25% height) -->
-                <div id="codePanel" class="code-implementation-panel">
-                    <div id="codeResizeHandle" class="code-resize-handle" title="Drag to resize"></div>
-                    <div class="code-panel-header">
-                        <span class="code-panel-title">Implementation</span>
-                        <div class="code-panel-controls">
-                            <button id="copyCode" class="btn btn-secondary">Copy</button>
-                            <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
-                        </div>
-                    </div>
-                    <div class="code-panel-content">
-                        <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its implementation</code></pre>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Side (30%) -->
-            <div class="right-side">
-                <!-- Resize handle for right-side -->
-                <div id="rightSideResizeHandle" class="right-side-resize-handle" title="Drag to resize"></div>
-                <!-- Shape Map Panel (Collapsible) -->
-                <div id="shapeMapPanel" class="shape-map-panel">
-                    <div class="shape-map-header">
-                        <h3>Shape Map</h3>
-                        <button id="shapeMapToggle" class="shape-map-toggle">◀</button>
-                    </div>
-                    <div class="shape-map-content">
-                        <table class="shape-table">
-                            <thead>
-                                <tr>
-                                    <th>Node</th>
-                                    <th>Shape</th>
-                                    <th>Scale</th>
-                                </tr>
-                            </thead>
-                            <tbody id="shapeTableBody">
-                            </tbody>
-                        </table>
-                        <p class="shape-map-key">Scale is relative to input spatial size H×W.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Code Implementation Panel moved to left side -->
-    </section>
-
+<div id="app">
+  <div id="vizWrap">
+    <div class="backbar">
+      <button id="backBtn" class="btn" disabled>⬅ Back</button>
+      <span id="crumb" class="breadcrumb"></span>
     </div>
+    <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
+    <div id="viz"></div>
+    <div id="tooltip" class="tooltip"></div>
 
-    <!-- Theme Selector moved to header -->
+    <!-- Code Panel -->
+    <div id="codePanel">
+      <div id="resizeHandle" title="Drag to resize"></div>
+      <div id="codeHeader">
+        <span>PyTorch Implementation</span>
+        <div>
+          <button id="copyCode" class="btn">Copy</button>
+          <button id="codeToggle" class="btn">▼ Collapse</button>
+        </div>
+      </div>
+      <div id="codeContent">
+        <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its PyTorch-style implementation</code></pre>
+      </div>
+    </div>
+  </div>
 
-    <!-- Load shared components -->
-    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
-    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
-    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
-    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/LanguageManager.js"></script>
-    
-    <!-- Prism.js for code highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    
-    <!-- D3.js -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    
-    <!-- Custom scripts -->
-    <script src="components/D3Visualizer.js"></script>
-    <script src="components/CodePanel.js"></script>
-    <script src="components/ShapeMap.js"></script>
-    <script src="assets/js/resnet50-visualizer.js?v=19"></script>
-    <script>
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize header
-            const header = new AIHeader('ai-header', {
-                title: 'ResNet50 Interactive Visualizer',
-                breadcrumbs: [
-                    { label: 'Home', url: '../../../index.html', active: false },
-                    { label: 'Computer Vision', url: '../../index.html', active: false },
-                    { label: 'Network Visualizer', url: '../index.html', active: false },
-                    { label: 'ResNet50', url: 'index.html', active: true }
-                ]
-            });
-            
-            // Initialize hero section with minimal content
-            const hero = new AIHero('ai-hero', {
-                title: '🏗️ ResNet50 Interactive Visualizer',
-                titleVi: '🏗️ Trực Quan ResNet50 Tương Tác',
-                subtitle: '',
-                subtitleVi: '',
-                stats: [],
-                gradient: false
-            });
-            
-            // Initialize theme selector
-            window.AIThemeManager.createThemeSelector('theme-selector');
-            
-            // Initialize language manager
-            window.AILanguageManager.createLanguageSwitcher('language-switcher');
-            
-            // Initialize ResNet50 Visualizer
-            ResNet50Visualizer.init();
-        });
-    </script>
+  <aside id="shapeMap">
+    <header><h3 style="margin:0;font-size:14px;">Shape Map</h3></header>
+    <div class="mapBody">
+      <table class="mapTable">
+        <thead><tr><th>Node</th><th>Shape</th><th>Scale</th></tr></thead>
+        <tbody id="mapRows"></tbody>
+      </table>
+      <p class="mapKey">Scale is relative to input spatial size H×W.</p>
+    </div>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<!-- Prism core + python language -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+<script>
+(function(){
+  // ---------- Helpers ----------
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v); }
+  function shapeStr(a){ return '(' + a.join(', ') + ')'; }
+  function clampInt(v){ return Math.max(1, Math.floor(v)); }
+  function spatialDown([H, W], f){ return [clampInt(H/f), clampInt(W/f)]; }
+  const CH={conv1:64,s1:256,s2:512,s3:1024,s4:2048};
+
+  function computeShapes(N,C,H,W){
+    const conv1=[N,CH.conv1,clampInt(H/2),clampInt(W/2)];
+    const pool=[N,CH.conv1,clampInt(conv1[2]/2),clampInt(conv1[3]/2)];
+    const s1=[N,CH.s1,...spatialDown([pool[2],pool[3]],1)];
+    const s2=[N,CH.s2,...spatialDown([pool[2],pool[3]],2)];
+    const s3=[N,CH.s3,...spatialDown([pool[2],pool[3]],4)];
+    const s4=[N,CH.s4,...spatialDown([pool[2],pool[3]],8)];
+    return {input:[N,C,H,W], conv1, pool, s1, s2, s3, s4, avgpool:[N,CH.s4,1,1], flatten:[N,CH.s4], fc:[N,1000], pred:[N,1000]};
+  }
+  function bottleneckChannels(Cout){ return {c1:Math.floor(Cout/4), c2:Math.floor(Cout/4), c3:Cout}; }
+  function scaleFromInput(Hin, Win, H, W){
+    const fx = (Hin>0 && H>0) ? (Hin/H) : 1;
+    const fy = (Win>0 && W>0) ? (Win/W) : 1;
+    const s = Math.max(fx, fy);
+    return s.toFixed(1) + '×';
+  }
+
+  // ---------- State ----------
+  const state={ input:{N:1,C:3,H:224,W:224}, stack:[] };
+  function curShapes(){ const s=state.input; return computeShapes(s.N,s.C,s.H,s.W); }
+  function push(level,payload){ state.stack.push({level,payload}); syncUI(); render(); }
+  function pop(){ if(state.stack.length>1){ state.stack.pop(); syncUI(); render(); }
+                  else { /* stay on Model */ } }
+  function reset(){ state.stack=[]; init(); }
+  function top(){ return state.stack[state.stack.length-1]; }
+
+  // ---------- D3 Scene ----------
+  const svg=d3.select('#viz').append('svg').attr('width','100%').attr('height','100%');
+  const root=svg.append('g');
+  const defs=svg.append('defs');
+  defs.append('marker').attr('id','arrowHead').attr('viewBox','0 -5 10 10')
+    .attr('refX',10).attr('refY',0).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+    .append('path').attr('d','M0,-5L10,0L0,5').attr('fill', css('--edge'));
+  defs.append('marker').attr('id','arrowSkip').attr('viewBox','0 -5 10 10')
+    .attr('refX',10).attr('refY',0).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+    .append('path').attr('d','M0,-5L10,0L0,5').attr('fill', css('--skip'));
+
+  const tooltip=d3.select('#tooltip');
+  const zoom=d3.zoom().scaleExtent([0.6,2]).on('zoom',(ev)=>root.attr('transform',ev.transform));
+  svg.call(zoom);
+
+  function showTip(html,ev){
+    tooltip.html(html)
+      .style('left',(ev.clientX+15)+'px')
+      .style('top',(ev.clientY-20)+'px')
+      .style('display','block');
+  }
+  function hideTip(){ tooltip.style('display','none'); }
+  function size(){ const el=document.getElementById('viz'); return {w: el.clientWidth, h: el.clientHeight}; }
+
+  function syncUI(){
+    document.getElementById('backBtn').disabled = state.stack.length<=1;
+    document.getElementById('crumb').textContent = state.stack.map(x=>x.level).join(' / ');
+    document.getElementById('formula').style.display = (top().level==='Residual') ? 'block' : 'none';
+  }
+
+  // ---------- Code Panel control (Prism) ----------
+  const codePanel = document.getElementById('codePanel');
+  const codeToggle = document.getElementById('codeToggle');
+  const codeBlock = document.getElementById('codeBlock');
+  const resizeHandle = document.getElementById('resizeHandle');
+  const copyCodeBtn = document.getElementById('copyCode');
+  let collapsed = false;
+  codeToggle.addEventListener('click', ()=>{
+    collapsed = !collapsed;
+    if(collapsed){
+      codePanel.style.height = '0px';
+      codeToggle.textContent = '▲ Expand';
+    } else {
+      codePanel.style.height = '25vh';
+      codeToggle.textContent = '▼ Collapse';
+    }
+  });
+  // Resize by dragging top border
+  (function(){
+    let dragging=false; let startY=0; let startH=0;
+    resizeHandle.addEventListener('mousedown', (e)=>{
+      dragging=true; startY=e.clientY; startH=codePanel.getBoundingClientRect().height;
+      document.body.style.cursor='ns-resize'; e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e)=>{
+      if(!dragging) return;
+      const dy = startY - e.clientY;
+      let newH = startH + dy;
+      newH = Math.max(120, Math.min(window.innerHeight*0.6, newH));
+      codePanel.style.height = newH+'px';
+    });
+    window.addEventListener('mouseup', ()=>{ if(dragging){ dragging=false; document.body.style.cursor=''; } });
+  })();
+  copyCodeBtn.addEventListener('click', async ()=>{
+    const text = codeBlock.textContent;
+    try{ await navigator.clipboard.writeText(text); copyCodeBtn.textContent='✓ Copied'; setTimeout(()=>copyCodeBtn.textContent='Copy',1200);}catch{}
+  });
+  function setCode(py){ codeBlock.innerHTML = Prism.highlight(py, Prism.languages.python, 'python'); }
+  function levelDefaultCode(){
+    const f = top();
+    if(!f) return '# Ready';
+    switch(f.level){
+      case 'Model': return code.model;
+      case 'Backbone': return code.backbone;
+      case 'Stage': return code.block;
+      case 'Residual': return code.block;
+      case 'Fx': return code.bottleneck;
+      case 'ConvBlock': return code.conv;
+      default: return '# Ready';
+    }
+  }
+  function showLevelCode(){ setCode(levelDefaultCode()); }
+
+  // ---------- Drawing helpers ----------
+  function nodeBlock({x,y,w,h,label,sub,theme,click,tip,codeSnippet}){
+    const g=root.append('g').attr('class','node').attr('transform',`translate(${x-w/2},${y-h/2})`);
+    const fill = theme==='backbone'? css('--node-backbone') :
+                 theme==='io' ? css('--node-io') : css('--node-stage');
+    const rect=g.append('rect').attr('width',w).attr('height',h).attr('fill',fill).attr('stroke',css('--stroke'));
+    g.append('text').attr('class','title').attr('x',w/2).attr('y',h/2+5).attr('text-anchor','middle').text(label);
+    if(sub){ g.append('text').attr('class','subtitle').attr('x',w/2).attr('y',20).attr('text-anchor','middle').text(sub); }
+    if(click){ rect.style('cursor','pointer').on('click',click); }
+    if(tip){ g.on('mousemove',(ev)=>showTip(tip,ev)).on('mouseout',hideTip); }
+    // Hover code behavior
+    g.on('mouseenter',()=>{ rect.transition().duration(120).attr('fill', css('--node-hover')); if(codeSnippet) setCode(codeSnippet); })
+     .on('mouseleave',()=>{ rect.transition().duration(120).attr('fill', fill); showLevelCode(); });
+    return {g,rect,x,y,w,h};
+  }
+  function port(x,y,tip){
+    return root.append('circle').attr('class','port').attr('cx',x).attr('cy',y).attr('r',8)
+      .on('mousemove',(ev)=>showTip(tip,ev)).on('mouseout',hideTip);
+  }
+  function curvePath(x1,y1,x2,y2){
+    const dx=(x2-x1)/2;  // gentle cubic curve
+    return `M ${x1} ${y1} C ${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}`;
+  }
+  function arrowCurve(x1,y1,x2,y2, shapeTip, scaleNote='', flowOnHover=true){
+    const path = root.append('path').attr('class','edge').attr('d', curvePath(x1,y1,x2,y2))
+      .on('mousemove', (ev)=> showTip(`<b>Tensor:</b> ${shapeTip}${scaleNote ? ' • <span style="font-weight:700;color:#2563EB">'+scaleNote+'</span>' : ''}`, ev))
+      .on('mouseout', hideTip);
+    if(flowOnHover){
+      path.on('mouseenter', function(){ d3.select(this).classed('flow', true); })
+          .on('mouseleave', function(){ d3.select(this).classed('flow', false); });
+    }
+    return path;
+  }
+  function makeFlowOnHover(block, edges){
+    block.g.on('mouseenter',()=> edges.forEach(e=> e.classed('flow', true)))
+           .on('mouseleave',()=> edges.forEach(e=> e.classed('flow', false)));
+  }
+
+  // ---------- Code snippets ----------
+  const code = {
+    model: `class ResNetClassifier(nn.Module):
+    def __init__(self, num_classes=1000):
+        super().__init__()
+        self.backbone = ResNetBackbone()  # conv1 + stages
+        self.avgpool = nn.AdaptiveAvgPool2d((1,1))
+        self.fc = nn.Linear(2048, num_classes)
+
+    def forward(self, x):
+        feats = self.backbone(x)
+        y = self.avgpool(feats).flatten(1)
+        logits = self.fc(y)
+        return F.softmax(logits, dim=1)`,
+    backbone: `class ResNetBackbone(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        self.bn1 = nn.BatchNorm2d(64)
+        self.relu = nn.ReLU(inplace=True)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+        # stages: [3,4,6,3] bottleneck blocks
+        self.layer1 = make_layer(64, 256, blocks=3, stride=1)
+        self.layer2 = make_layer(256, 512, blocks=4, stride=2)
+        self.layer3 = make_layer(512, 1024, blocks=6, stride=2)
+        self.layer4 = make_layer(1024, 2048, blocks=3, stride=2)
+
+    def forward(self, x):
+        x = self.relu(self.bn1(self.conv1(x)))
+        x = self.maxpool(x)
+        x = self.layer1(x); x = self.layer2(x)
+        x = self.layer3(x); x = self.layer4(x)
+        return x`,
+    head: `class ClassificationHead(nn.Module):
+    def __init__(self, in_c=2048, num_classes=1000):
+        super().__init__()
+        self.avgpool = nn.AdaptiveAvgPool2d((1,1))
+        self.fc = nn.Linear(in_c, num_classes)
+
+    def forward(self, x):
+        y = self.avgpool(x).flatten(1)
+        return F.softmax(self.fc(y), dim=1)`,
+    block: `class ResidualBlock(nn.Module):
+    def __init__(self, in_c, out_c, stride=1):
+        super().__init__()
+        mid = out_c // 4
+        self.conv1 = nn.Conv2d(in_c, mid, 1, stride=stride, bias=False)
+        self.bn1 = nn.BatchNorm2d(mid)
+        self.conv2 = nn.Conv2d(mid, mid, 3, stride=1, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(mid)
+        self.conv3 = nn.Conv2d(mid, out_c, 1, bias=False)
+        self.bn3 = nn.BatchNorm2d(out_c)
+        self.relu = nn.ReLU(inplace=True)
+        self.downsample = nn.Sequential(
+            nn.Conv2d(in_c, out_c, 1, stride=stride, bias=False),
+            nn.BatchNorm2d(out_c)
+        ) if (stride != 1 or in_c != out_c) else None
+
+    def forward(self, x):
+        identity = x
+        out = self.relu(self.bn1(self.conv1(x)))
+        out = self.relu(self.bn2(self.conv2(out)))
+        out = self.bn3(self.conv3(out))
+        if self.downsample is not None:
+            identity = self.downsample(x)
+        out += identity
+        return self.relu(out)`,
+    bottleneck: `class Bottleneck(nn.Module):
+    def __init__(self, in_c, mid_c, out_c):
+        super().__init__()
+        self.conv1 = nn.Conv2d(in_c, mid_c, 1, bias=False)
+        self.bn1 = nn.BatchNorm2d(mid_c)
+        self.conv2 = nn.Conv2d(mid_c, mid_c, 3, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(mid_c)
+        self.conv3 = nn.Conv2d(mid_c, out_c, 1, bias=False)
+        self.bn3 = nn.BatchNorm2d(out_c)
+        self.relu = nn.ReLU(inplace=True)
+
+    def forward(self, x):
+        out = self.relu(self.bn1(self.conv1(x)))
+        out = self.relu(self.bn2(self.conv2(out)))
+        out = self.bn3(self.conv3(out))
+        return out`,
+    conv: `class ConvBNReLU(nn.Module):
+    def __init__(self, in_c, out_c, k=3, s=1, p=1):
+        super().__init__()
+        self.conv = nn.Conv2d(in_c, out_c, k, stride=s, padding=p, bias=False)
+        self.bn = nn.BatchNorm2d(out_c)
+        self.relu = nn.ReLU(inplace=True)
+    def forward(self, x):
+        return self.relu(self.bn(self.conv(x)))`
+  };
+
+  // ---------- Renderers (full drill-down) ----------
+  function render(){
+    const frame=top(); if(!frame) return;
+    if(frame.level==='Model') renderModel();
+    else if(frame.level==='Backbone') renderBackbone();
+    else if(frame.level==='Stage') renderStage(frame.payload);
+    else if(frame.level==='Residual') renderResidual(frame.payload);
+    else if(frame.level==='Fx') renderFx(frame.payload);
+    else if(frame.level==='ConvBlock') renderConvBlock(frame.payload);
+    showLevelCode();
+    renderShapeMap();
+    // small async fit for smoothness
+    setTimeout(zoomFit, 0);
+  }
+
+  function renderModel(){
+    root.selectAll('*').remove();
+    const {w,h}=size(); const y=h/2;
+    const xs=[140, 440, 800, 1120];
+    const S=curShapes();
+
+    const input=nodeBlock({x:xs[0],y,w:160,h:70,label:'Input',theme:'io',tip:`Input ${shapeStr(S.input)}`, codeSnippet: code.model});
+    port(input.x+80,y,`<b>Input:</b> ${shapeStr(S.input)}`);
+
+    const backbone=nodeBlock({x:xs[1],y,w:300,h:110,label:'Backbone',sub:'ResNet feature extractor',theme:'backbone',
+      click:()=>push('Backbone',{}), tip:'Click to open stages', codeSnippet: code.backbone});
+    port(backbone.x-150,y,`<b>Input:</b> ${shapeStr(S.input)}`);
+    port(backbone.x+150,y,`<b>Output:</b> ${shapeStr(S.s4)}`);
+
+    const head=nodeBlock({x:xs[2],y,w:280,h:110,label:'Head',sub:'AvgPool + FC/Softmax',theme:'backbone',
+      click:()=>push('Stage',{kind:'Head'}), tip:'AvgPool→Flatten→FC (1000)', codeSnippet: code.head});
+    port(head.x-140,y,`<b>Input:</b> ${shapeStr(S.s4)}`);
+    port(head.x+140,y,`<b>Output:</b> ${shapeStr(S.pred)}`);
+
+    const output=nodeBlock({x:xs[3],y,w:160,h:70,label:'Output',theme:'io',tip:`Output ${shapeStr(S.pred)}`, codeSnippet: code.model});
+    port(output.x-80,y,`<b>Input:</b> ${shapeStr(S.pred)}`);
+
+    const e1=arrowCurve(input.x+80,y, backbone.x-150,y, shapeStr(S.input));
+    const e2=arrowCurve(backbone.x+150,y, head.x-140,y, shapeStr(S.s4));
+    const e3=arrowCurve(head.x+140,y, output.x-80,y, shapeStr(S.pred));
+    makeFlowOnHover(backbone, [e1,e2]); makeFlowOnHover(head, [e2,e3]);
+  }
+
+  function renderBackbone(){
+    root.selectAll('*').remove();
+    const {w,h}=size(); const y=h/2;
+    const stageW=190, stageH=88;
+    const S=curShapes();
+    // airy spacing across wide virtual canvas
+    const xs=[180, 420, 660, 900, 1140, 1380]; // compact spacing: stages closer together
+    const stages=[
+      {label:'Conv1 (7×7, s2)', tip:`out: ${shapeStr(S.conv1)}`, shape:S.conv1, codeSnippet: code.backbone},
+      {label:'MaxPool (s2)', tip:`out: ${shapeStr(S.pool)}`, shape:S.pool, codeSnippet: code.backbone},
+      {label:'Stage 1 (×3)', shape:S.s1, count:3, codeSnippet: code.block},
+      {label:'Stage 2 (×4)', shape:S.s2, count:4, codeSnippet: code.block},
+      {label:'Stage 3 (×6)', shape:S.s3, count:6, codeSnippet: code.block},
+      {label:'Stage 4 (×3)', shape:S.s4, count:3, codeSnippet: code.block}
+    ];
+    let prev=null;
+    stages.forEach((st,i)=>{
+      const x=xs[i];
+      const b=nodeBlock({x,y,w:stageW,h:stageH,label:st.label,theme:'stage',
+        click: i>=2 ? (()=>push('Stage',{kind:'Stage',idx:i-1,count:st.count,shape:st.shape})) : null,
+        tip: st.tip || (st.shape?`out: ${shapeStr(st.shape)}`:''), codeSnippet: st.codeSnippet });
+      const pL=port(b.x-stageW/2,y, `<b>Input:</b> ${i===0?shapeStr(S.input):''}`);
+      const pR=port(b.x+stageW/2,y, `<b>Output:</b> ${st.shape?shapeStr(st.shape):''}`);
+      if(prev){
+        const scale = scaleFromInput(S.input[2], S.input[3], st.shape[2], st.shape[3]);
+        arrowCurve(prev.x+stageW/2, y, b.x-stageW/2, y, shapeStr(st.shape), (i>=2?scale:''));
+      }
+      prev=b;
+    });
+  }
+
+  function renderStage(payload){
+    root.selectAll('*').remove();
+    const {w,h}=size(); const y=h/2;
+    const N=state.input.N;
+    if(payload.kind==='Head'){
+      const S=curShapes(); const xs=[200, 600, 980, 1320];
+      const avg=nodeBlock({x:xs[0],y,w:220,h:80,label:'AvgPool',theme:'stage',tip:`out: ${shapeStr(S.avgpool)}`, codeSnippet: code.head});
+      const flat=nodeBlock({x:xs[1],y,w:220,h:80,label:'Flatten',theme:'stage',tip:`out: ${shapeStr(S.flatten)}`, codeSnippet: code.head});
+      const fc=nodeBlock({x:xs[2],y,w:260,h:90,label:'FC 2048 → 1000',theme:'stage',tip:`out: ${shapeStr(S.fc)}`, codeSnippet: code.head});
+      const soft=nodeBlock({x:xs[3],y,w:220,h:80,label:'Softmax',theme:'stage',tip:`out: ${shapeStr(S.pred)}`, codeSnippet: code.head});
+      const p=[avg,flat,fc,soft].map(b=>({L:port(b.x-b.w/2,y,`<b>Input:</b>`), R:port(b.x+b.w/2,y,`<b>Output:</b>`)}));
+      arrowCurve(+p[0].R.attr('cx'),y, +p[1].L.attr('cx'),y, shapeStr([N,2048,1,1]));
+      arrowCurve(+p[1].R.attr('cx'),y, +p[2].L.attr('cx'),y, shapeStr([N,2048]));
+      arrowCurve(+p[2].R.attr('cx'),y, +p[3].L.attr('cx'),y, shapeStr([N,1000]));
+      return;
+    }
+    const C=payload.shape?payload.shape[1]:256; const H=payload.shape?payload.shape[2]:56; const W=payload.shape?payload.shape[3]:56;
+    const count=payload.count||3;
+    const stageW = 150; // smaller blocks
+    const gap = Math.max((w - 400) / (count + 1), 220); // farther spacing // reduced gap for compact stage view
+    let prevR=null;
+    for(let i=0;i<count;i++){
+      const x=160+gap*(i+1);
+      const b=nodeBlock({x,y,w:stageW,h:80,label:`Block ${i+1}`,theme:'stage',
+        click:()=>push('Residual',{idx:i+1,C,H,W}), tip:`Click → y = x + F(x)`, codeSnippet: code.block});
+      const pL=port(b.x-stageW/2,y,`<b>Input:</b> ${shapeStr([N,C,H,W])}`);
+      const pR=port(b.x+stageW/2,y,`<b>Output:</b> ${shapeStr([N,C,H,W])}`);
+      if(prevR){ arrowCurve(+prevR.attr('cx'),y, +pL.attr('cx'),y, shapeStr([N,C,H,W])); }
+      prevR=pR;
+    }
+  }
+
+  function renderResidual(payload){
+    root.selectAll('*').remove();
+    const {w,h}=size(); const y=h/2; const xs=[200, 600, 980, 1320, 1640];
+    const N=state.input.N;
+    const C=payload.C||256, H=payload.H||56, W=payload.W||56; const sh=[N,C,H,W];
+    const xBlock=nodeBlock({x:xs[0],y,w:180,h:70,label:'x',theme:'io',tip:`x ${shapeStr(sh)}`, codeSnippet: code.block});
+    const xR=port(xBlock.x+90,y,`<b>Output:</b> ${shapeStr(sh)}`);
+    const fx=nodeBlock({x:xs[1],y,w:300,h:110,label:'F(x)',sub:'Click to expand',theme:'backbone',
+      click:()=>push('Fx',{C,H,W}), tip:'Residual transform', codeSnippet: code.bottleneck});
+    const fxL=port(fx.x-150,y,`<b>Input:</b> ${shapeStr(sh)}`);
+    const fxR=port(fx.x+150,y,`<b>Output:</b> ${shapeStr(sh)}`);
+    const add=nodeBlock({x:xs[2],y,w:150,h:80,label:'Add (+)',sub:'y = x + F(x)',theme:'stage',tip:'Element-wise sum', codeSnippet: code.block});
+    const addL=port(add.x-75,y,`<b>Input:</b> ${shapeStr(sh)}`); const addR=port(add.x+75,y,`<b>Output:</b> ${shapeStr(sh)}`);
+    const relu=nodeBlock({x:xs[3],y,w:170,h:80,label:'ReLU',sub:'out = ReLU(y)',theme:'stage', codeSnippet: code.block});
+    const reluL=port(relu.x-85,y,`<b>Input:</b> ${shapeStr(sh)}`); const reluR=port(relu.x+85,y,`<b>Output:</b> ${shapeStr(sh)}`);
+    const out=nodeBlock({x:xs[4],y,w:180,h:70,label:'Output',theme:'io',tip:`shape: ${shapeStr(sh)}`, codeSnippet: code.block});
+    const outL=port(out.x-90,y,`<b>Input:</b> ${shapeStr(sh)}`);
+
+    const e1=arrowCurve(+xR.attr('cx'),y, +fxL.attr('cx'),y, shapeStr(sh));
+    const e2=arrowCurve(+fxR.attr('cx'),y, +addL.attr('cx'),y, shapeStr(sh));
+    const e3=arrowCurve(+addR.attr('cx'),y, +reluL.attr('cx'),y, shapeStr(sh));
+    const e4=arrowCurve(+reluR.attr('cx'),y, +outL.attr('cx'),y, shapeStr(sh));
+
+    const pathSkip = (function(){ const dx=(add.x-75)-(xBlock.x+90); const x1=xBlock.x+90; const x2=add.x-75; return `M ${x1} ${y} C ${x1+dx/2} ${y-160}, ${x2-dx/2} ${y-160}, ${x2} ${y}`; })();
+    root.append('path').attr('class','skip').attr('d', pathSkip)
+      .on('mousemove',(ev)=>showTip(`<b>Tensor (skip):</b> ${shapeStr(sh)}`,ev))
+      .on('mouseout',hideTip);
+    makeFlowOnHover(fx, [e1,e2]); makeFlowOnHover(add, [e2,e3]); makeFlowOnHover(relu, [e3,e4]);
+  }
+
+  function renderFx(p){
+    root.selectAll('*').remove();
+    const {w,h}=size(); const y=h/2; const xs=[260, 820, 1380];
+    const N=state.input.N;
+    const {C,H,W}=p; const {c1,c2,c3}=bottleneckChannels(C);
+    const b1=nodeBlock({x:xs[0],y,w:260,h:90,label:`1×1 → ${c1}`,theme:'stage',
+      click:()=>push('ConvBlock',{kind:'1x1-1',inC:C,outC:c1,H,W}), tip:`inC=${C} → outC=${c1}`, codeSnippet: code.bottleneck});
+    const b2=nodeBlock({x:xs[1],y,w:260,h:90,label:`3×3 → ${c2}`,theme:'stage',
+      click:()=>push('ConvBlock',{kind:'3x3',inC:c1,outC:c2,H,W}), tip:`inC=${c1} → outC=${c2}`, codeSnippet: code.bottleneck});
+    const b3=nodeBlock({x:xs[2],y,w:260,h:90,label:`1×1 → ${c3}`,theme:'stage',
+      click:()=>push('ConvBlock',{kind:'1x1-2',inC:c2,outC:c3,H,W}), tip:`inC=${c2} → outC=${c3}`, codeSnippet: code.bottleneck});
+    const p1R=port(b1.x+b1.w/2,y,`<b>Output:</b> ${shapeStr([N,c1,H,W])}`);
+    const p2L=port(b2.x-b2.w/2,y,`<b>Input:</b> ${shapeStr([N,c1,H,W])}`);
+    const p2R=port(b2.x+b2.w/2,y,`<b>Output:</b> ${shapeStr([N,c2,H,W])}`);
+    const p3L=port(b3.x-b3.w/2,y,`<b>Input:</b> ${shapeStr([N,c2,H,W])}`);
+    arrowCurve(+p1R.attr('cx'),y, +p2L.attr('cx'),y, shapeStr([N,c1,H,W]));
+    arrowCurve(+p2R.attr('cx'),y, +p3L.attr('cx'),y, shapeStr([N,c2,H,W]));
+  }
+
+  function renderConvBlock(p){
+    root.selectAll('*').remove();
+    const {w,h}=size(); const y=h/2; const xs=[320, 860, 1400];
+    const N=state.input.N;
+    const kernel=p.kind==='3x3'?'3×3':'1×1'; const pad=p.kind==='3x3'?1:0;
+    const conv=nodeBlock({x:xs[0],y,w:260,h:80,label:'Conv2d',theme:'stage',
+      tip:`kernel=${kernel}, stride=1, pad=${pad}<br/>inC=${p.inC} → outC=${p.outC}<br/>spatial=${p.H}×${p.W}`, codeSnippet: code.conv});
+    const bn=nodeBlock({x:xs[1],y,w:260,h:80,label:'BatchNorm',theme:'stage', codeSnippet: code.conv});
+    const e1=arrowCurve(conv.x+conv.w/2,y, bn.x-bn.w/2,y, shapeStr([N,p.outC,p.H,p.W]));
+    if(p.kind!=='1x1-2'){
+      const relu=nodeBlock({x:xs[2],y,w:260,h:80,label:'ReLU',theme:'stage', codeSnippet: code.conv});
+      arrowCurve(bn.x+bn.w/2,y, relu.x-relu.w/2,y, shapeStr([N,p.outC,p.H,p.W]));
+    }
+  }
+
+  // ---------- Shape Map (right panel) ----------
+  function renderShapeMap(){
+    const rows = document.getElementById('mapRows'); rows.innerHTML='';
+    const S = curShapes();
+    const H0 = S.input[2], W0 = S.input[3];
+    const items = [
+      ['Input', S.input, '1.0×'],
+      ['Conv1', S.conv1, scaleFromInput(H0,W0, S.conv1[2],S.conv1[3])],
+      ['MaxPool', S.pool, scaleFromInput(H0,W0, S.pool[2],S.pool[3])],
+      ['Stage1', S.s1, scaleFromInput(H0,W0, S.s1[2],S.s1[3])],
+      ['Stage2', S.s2, scaleFromInput(H0,W0, S.s2[2],S.s2[3])],
+      ['Stage3', S.s3, scaleFromInput(H0,W0, S.s3[2],S.s3[3])],
+      ['Stage4', S.s4, scaleFromInput(H0,W0, S.s4[2],S.s4[3])],
+      ['AvgPool', S.avgpool, scaleFromInput(H0,W0, 1,1)],
+      ['FC', S.fc, '–'],
+      ['Pred', S.pred, '–'],
+    ];
+    for(const [name,shape,scale] of items){
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td'); td1.textContent = name;
+      const td2 = document.createElement('td'); td2.textContent = shapeStr(shape);
+      const td3 = document.createElement('td'); td3.textContent = scale;
+      tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+      rows.appendChild(tr);
+    }
+  }
+
+  // ---------- Controls ----------
+  document.getElementById('apply').onclick=()=>{
+    state.input.N=+document.getElementById('N').value;
+    state.input.C=+document.getElementById('C').value;
+    state.input.H=+document.getElementById('H').value;
+    state.input.W=+document.getElementById('W').value;
+    render();
+  };
+  document.getElementById('reset').onclick=reset;
+  document.getElementById('backBtn').onclick=pop;
+  window.addEventListener('resize', render);
+
+  // Zoom controls
+  function zoomFit(){
+    const bbox = root.node().getBBox();
+    const svgEl = svg.node();
+    const width = svgEl.clientWidth, height = svgEl.clientHeight;
+    if(bbox.width===0 || bbox.height===0){ return; }
+    const scale = 0.9 / Math.max(bbox.width / width, bbox.height / height);
+    const tx = width/2 - (bbox.x + bbox.width/2) * scale;
+    const ty = height/2 - (bbox.y + bbox.height/2) * scale;
+    svg.transition().duration(300).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+  }
+  function zoomReset(){ svg.transition().duration(200).call(zoom.transform, d3.zoomIdentity); }
+  function zoomBy(f){
+    const t = d3.zoomTransform(svg.node());
+    const k = t.k * f;
+    svg.transition().duration(150).call(zoom.scaleTo, k);
+  }
+  document.getElementById('zoomIn').onclick = ()=> zoomBy(1.2);
+  document.getElementById('zoomOut').onclick = ()=> zoomBy(0.8333);
+  document.getElementById('zoomFit').onclick = zoomFit;
+  document.getElementById('zoomReset').onclick = zoomReset;
+
+  function init(){ push('Model',{}); }
+  init();
+})();
+</script>
 </body>
 </html>
