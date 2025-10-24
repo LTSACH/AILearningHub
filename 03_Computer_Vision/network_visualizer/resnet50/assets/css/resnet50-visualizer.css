@@ -40,7 +40,7 @@
     transform: none;
 }
 
-/* Minimize Hero Stats */
+/* Minimize Hero Stats - Keep full width and background */
 #ai-hero {
     height: 60px !important;
     min-height: 60px !important;
@@ -48,6 +48,9 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    width: 100% !important;
+    background: var(--bg) !important;
+    border-bottom: 1px solid var(--stroke) !important;
 }
 
 #ai-hero .hero-content {
@@ -57,6 +60,7 @@
     align-items: center !important;
     justify-content: center !important;
     height: 100% !important;
+    width: 100% !important;
 }
 
 #ai-hero .hero-title {
@@ -64,6 +68,7 @@
     margin: 0 !important;
     padding: 0 !important;
     line-height: 1 !important;
+    color: var(--ink) !important;
 }
 
 #ai-hero .hero-subtitle {
