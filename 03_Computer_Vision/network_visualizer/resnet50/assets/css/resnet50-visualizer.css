@@ -593,6 +593,32 @@
     display: block !important;
 }
 
+/* Force tooltip visibility in fullscreen mode with stronger styling */
+.ai-container:fullscreen .tooltip,
+.ai-container:-webkit-full-screen .tooltip,
+.ai-container:-moz-full-screen .tooltip,
+.ai-container:-ms-fullscreen .tooltip,
+:fullscreen .tooltip,
+:-webkit-full-screen .tooltip,
+:-moz-full-screen .tooltip,
+:-ms-fullscreen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+    background: red !important;
+    color: white !important;
+    border: 3px solid yellow !important;
+    padding: 20px !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    pointer-events: none !important;
+    max-width: none !important;
+    width: auto !important;
+    height: auto !important;
+}
+
 /* Webkit Fullscreen Support */
 .ai-container:-webkit-full-screen {
     background: var(--bg);

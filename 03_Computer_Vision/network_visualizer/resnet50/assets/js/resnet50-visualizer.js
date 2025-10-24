@@ -178,6 +178,12 @@ class ResNet50Visualizer {
         
         // Debug tooltip on mouse move
         document.addEventListener('mousemove', (e) => this.debugTooltip(e));
+        
+        // Force tooltip visibility in fullscreen mode
+        document.addEventListener('fullscreenchange', () => this.forceTooltipVisibility());
+        document.addEventListener('webkitfullscreenchange', () => this.forceTooltipVisibility());
+        document.addEventListener('mozfullscreenchange', () => this.forceTooltipVisibility());
+        document.addEventListener('MSFullscreenChange', () => this.forceTooltipVisibility());
     }
 
     /**
@@ -1189,6 +1195,46 @@ class ResNet50Visualizer {
                 .style('padding', '10px')
                 .style('border', '2px solid yellow')
                 .html('DEBUG TOOLTIP AT MOUSE POSITION');
+        }
+    }
+
+    /**
+     * Force tooltip visibility in fullscreen mode
+     */
+    forceTooltipVisibility() {
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
+        if (isFullscreen && this.tooltip) {
+            console.log('Forcing tooltip visibility in fullscreen mode');
+            
+            // Force tooltip to be visible with strong styling
+            this.tooltip
+                .style('position', 'fixed')
+                .style('z-index', '999999')
+                .style('visibility', 'visible')
+                .style('opacity', '1')
+                .style('display', 'block')
+                .style('left', '100px')
+                .style('top', '100px')
+                .style('background', 'red')
+                .style('color', 'white')
+                .style('border', '3px solid yellow')
+                .style('padding', '20px')
+                .style('font-size', '18px')
+                .style('font-weight', 'bold')
+                .style('pointer-events', 'none')
+                .style('max-width', 'none')
+                .style('width', 'auto')
+                .style('height', 'auto')
+                .html('FORCE TOOLTIP VISIBILITY IN FULLSCREEN MODE');
+                
+            // Hide after 5 seconds
+            setTimeout(() => {
+                this.tooltip.style('display', 'none');
+            }, 5000);
         }
     }
 
