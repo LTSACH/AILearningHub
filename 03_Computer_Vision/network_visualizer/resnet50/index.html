@@ -16,13 +16,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=19">
+    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=20">
     
     <!-- Custom scripts -->
 </head>
 <body>
     <!-- Header -->
-    <div id="ai-header"></div>
+    <div id="ai-header">
+        <!-- Theme Selector in Header -->
+        <div id="theme-selector" class="ai-theme-selector"></div>
+    </div>
 
     <!-- Language Switcher (Top-right) -->
     <div id="language-switcher" class="ai-language-switcher fixed"></div>
@@ -115,8 +118,7 @@
 
     </div>
 
-    <!-- Theme Selector -->
-    <div id="theme-selector" class="ai-theme-selector fixed"></div>
+    <!-- Theme Selector moved to header -->
 
     <!-- Load shared components -->
     <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>

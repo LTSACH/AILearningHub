@@ -22,6 +22,24 @@
     max-width: none !important;
 }
 
+/* Theme Selector in Header */
+#ai-header {
+    position: relative;
+}
+
+#ai-header #theme-selector {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+#ai-header #theme-selector .ai-theme-selector {
+    position: static;
+    transform: none;
+}
+
 /* 3. Model Container */
 .model-container {
     width: 100%;
