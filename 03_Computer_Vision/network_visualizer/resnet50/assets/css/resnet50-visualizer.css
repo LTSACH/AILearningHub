@@ -368,7 +368,6 @@
     flex: none;
     min-height: 120px;
     max-height: 60vh;
-    height: 25%;
     background: #2d2d2d;
     border-top: 1px solid var(--stroke);
     display: flex;

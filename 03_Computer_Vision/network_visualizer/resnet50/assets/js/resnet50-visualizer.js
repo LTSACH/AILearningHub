@@ -1074,6 +1074,12 @@ class ResNet50Visualizer {
             return;
         }
 
+        // Set initial height
+        const parentHeight = codePanel.parentElement.getBoundingClientRect().height;
+        const initialHeight = parentHeight * 0.25; // 25% of parent height
+        codePanel.style.setProperty('height', initialHeight + 'px', 'important');
+        console.log('🔧 Set initial height to:', initialHeight + 'px');
+
         resizeHandle.addEventListener('mousedown', (e) => {
             console.log('🖱️ Mouse down on resize handle');
             isResizing = true;
