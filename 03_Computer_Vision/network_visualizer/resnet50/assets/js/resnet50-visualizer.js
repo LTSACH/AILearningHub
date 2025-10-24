@@ -803,7 +803,10 @@ class ResNet50Visualizer {
             this.resize();
             // Auto fit visualization when shape-map panel is expanded
             if (!shapeMapPanel.classList.contains('collapsed')) {
-                this.zoomFit();
+                // Wait a bit more for DOM to fully update
+                setTimeout(() => {
+                    this.zoomFit();
+                }, 200);
             }
         }, 100);
     }
