@@ -159,6 +159,7 @@ class ResNet50Visualizer {
         document.getElementById('fullscreenBtn').addEventListener('click', () => this.toggleFullscreen());
 
         // Code panel resize
+        console.log('🔧 Initializing code panel resize...');
         this.setupCodePanelResize();
 
         // Window resize
@@ -1044,10 +1045,26 @@ class ResNet50Visualizer {
         let startY = 0;
         let startHeight = 0;
 
+        console.log('🔧 Setting up code panel resize...');
+        console.log('🔧 Resize handle:', resizeHandle);
+        console.log('🔧 Code panel:', codePanel);
+
+        if (!resizeHandle) {
+            console.error('❌ Resize handle not found!');
+            return;
+        }
+
+        if (!codePanel) {
+            console.error('❌ Code panel not found!');
+            return;
+        }
+
         resizeHandle.addEventListener('mousedown', (e) => {
+            console.log('🖱️ Mouse down on resize handle');
             isResizing = true;
             startY = e.clientY;
             startHeight = codePanel.getBoundingClientRect().height;
+            console.log('📏 Start height:', startHeight);
             document.body.style.cursor = 'ns-resize';
             e.preventDefault();
         });
@@ -1060,7 +1077,11 @@ class ResNet50Visualizer {
             const minHeight = 120;
             const maxHeight = window.innerHeight * 0.6;
             
+            console.log('🖱️ Mouse move - dy:', dy, 'newHeight:', newHeight);
+            
             newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+            
+            console.log('📏 Setting height to:', newHeight + 'px');
             
             // Use height directly instead of flex
             codePanel.style.height = newHeight + 'px';
@@ -1068,6 +1089,7 @@ class ResNet50Visualizer {
 
         document.addEventListener('mouseup', () => {
             if (isResizing) {
+                console.log('🖱️ Mouse up - stopping resize');
                 isResizing = false;
                 document.body.style.cursor = '';
             }
