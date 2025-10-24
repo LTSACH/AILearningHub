@@ -177,149 +177,353 @@
                     <div id="input-detail-tab" class="pipeline-detail-tab-content active">
                         <div class="pipeline-detail-content">
                             <h3>📸 Input Image Pipeline</h3>
-                            <p class="pipeline-detail-intro">Understanding the first step in CNN classification: preparing and analyzing input images.</p>
+                            <p class="pipeline-detail-intro">Technical aspects of preparing input data for CNN models: tensor formats, data loading, and preprocessing.</p>
                             
-                            <!-- Dataset Overview -->
+                            <!-- Tensor Format & Dimensions -->
                             <div class="detail-group">
-                                <h4>📊 Dataset Overview</h4>
-                                <div class="dataset-stats">
-                                    <div class="stat-card">
-                                        <div class="stat-icon">🖼️</div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">11,018</div>
-                                            <div class="stat-label">Total Images</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">🐱</div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">37</div>
-                                            <div class="stat-label">Breeds (12 cats + 25 dogs)</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">📈</div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">3,680</div>
-                                            <div class="stat-label">Training Images</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">✅</div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">3,669</div>
-                                            <div class="stat-label">Validation Images</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Sample Images Gallery -->
-                            <div class="detail-group">
-                                <h4>🖼️ Sample Images</h4>
-                                <p class="group-description">Representative images from the Oxford Pets dataset showing the variety of breeds and image qualities.</p>
+                                <h4>📐 Input Tensor Format</h4>
+                                <p class="group-description">CNN models require 4D tensors with specific dimension ordering for efficient computation.</p>
                                 
-                                <div class="sample-gallery">
-                                    <div class="gallery-item">
-                                        <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/cats/Abyssinian_101.jpg" alt="Abyssinian Cat" class="sample-image">
-                                        <div class="image-info">
-                                            <div class="breed-name">Abyssinian</div>
-                                            <div class="image-meta">
-                                                <span class="category">Cat</span>
-                                                <span class="split">Train</span>
-                                            </div>
+                                <div class="tensor-format-card">
+                                    <div class="tensor-formula">
+                                        <strong>Shape: (N, C, H, W)</strong>
+                                    </div>
+                                    <div class="dimension-list">
+                                        <div class="dimension-item">
+                                            <span class="dimension-symbol">N</span>
+                                            <span class="dimension-name">Batch Size</span>
+                                            <span class="dimension-desc">Number of images in batch (e.g., 32, 64, 128)</span>
+                                        </div>
+                                        <div class="dimension-item">
+                                            <span class="dimension-symbol">C</span>
+                                            <span class="dimension-name">Channels</span>
+                                            <span class="dimension-desc">Color channels (3 for RGB, 1 for grayscale)</span>
+                                        </div>
+                                        <div class="dimension-item">
+                                            <span class="dimension-symbol">H</span>
+                                            <span class="dimension-name">Height</span>
+                                            <span class="dimension-desc">Image height in pixels (e.g., 224, 256, 512)</span>
+                                        </div>
+                                        <div class="dimension-item">
+                                            <span class="dimension-symbol">W</span>
+                                            <span class="dimension-name">Width</span>
+                                            <span class="dimension-desc">Image width in pixels (e.g., 224, 256, 512)</span>
                                         </div>
                                     </div>
-                                    <div class="gallery-item">
-                                        <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/dogs/beagle_10.jpg" alt="Beagle Dog" class="sample-image">
-                                        <div class="image-info">
-                                            <div class="breed-name">Beagle</div>
-                                            <div class="image-meta">
-                                                <span class="category">Dog</span>
-                                                <span class="split">Val</span>
+                                </div>
+                                
+                                <div class="architecture-examples">
+                                    <h5>Architecture-Specific Dimensions:</h5>
+                                    <div class="example-grid">
+                                        <div class="example-card">
+                                            <h6>VGG16</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">input_shape = (N, 3, 224, 224)
+memory_per_image = 3.2MB</code></pre>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="gallery-item">
-                                        <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/cats/Persian_106.jpg" alt="Persian Cat" class="sample-image">
-                                        <div class="image-info">
-                                            <div class="breed-name">Persian</div>
-                                            <div class="image-meta">
-                                                <span class="category">Cat</span>
-                                                <span class="split">Test</span>
+                                        <div class="example-card">
+                                            <h6>ResNet50</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">input_shape = (N, 3, 224, 224)
+memory_per_image = 3.2MB</code></pre>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="gallery-item">
-                                        <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/dogs/american_bulldog_106.jpg" alt="American Bulldog" class="sample-image">
-                                        <div class="image-info">
-                                            <div class="breed-name">American Bulldog</div>
-                                            <div class="image-meta">
-                                                <span class="category">Dog</span>
-                                                <span class="split">Train</span>
+                                        <div class="example-card">
+                                            <h6>EfficientNet-B3</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">input_shape = (N, 3, 300, 300)
+memory_per_image = 5.4MB</code></pre>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Key Principles -->
+                            <!-- Channel Ordering -->
                             <div class="detail-group">
-                                <h4>💡 Key Principles</h4>
-                                <div class="principles-grid">
-                                    <div class="principle-card">
-                                        <div class="principle-icon">🎯</div>
-                                        <h5>Data Quality</h5>
-                                        <p>High-quality, diverse images are crucial for robust model training. The Oxford Pets dataset provides well-curated images with consistent labeling.</p>
+                                <h4>🔄 Channel Ordering: PyTorch vs TensorFlow</h4>
+                                <p class="group-description">Understanding the difference between channel-first and channel-last memory layouts.</p>
+                                
+                                <div class="channel-comparison">
+                                    <div class="framework-card">
+                                        <h5>🐍 PyTorch (Channel-First)</h5>
+                                        <div class="code-example">
+                                            <pre><code class="language-python"># PyTorch tensor format
+tensor.shape = (N, C, H, W)
+# Example: (32, 3, 224, 224)
+
+# Memory layout: [batch, channels, height, width]
+# More efficient for GPU operations</code></pre>
+                                        </div>
+                                        <div class="framework-features">
+                                            <ul>
+                                                <li>Default for PyTorch models</li>
+                                                <li>More efficient for GPU operations</li>
+                                                <li>Native format for torchvision</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="principle-card">
-                                        <div class="principle-icon">⚖️</div>
-                                        <h5>Class Balance</h5>
-                                        <p>Balanced representation across breeds ensures fair model performance. Each breed has approximately 200 images.</p>
+                                    
+                                    <div class="framework-card">
+                                        <h5>🔧 TensorFlow/Keras (Channel-Last)</h5>
+                                        <div class="code-example">
+                                            <pre><code class="language-python"># TensorFlow tensor format
+tensor.shape = (N, H, W, C)
+# Example: (32, 224, 224, 3)
+
+# Memory layout: [batch, height, width, channels]
+# More intuitive for image processing</code></pre>
+                                        </div>
+                                        <div class="framework-features">
+                                            <ul>
+                                                <li>Default for TensorFlow models</li>
+                                                <li>More intuitive for image processing</li>
+                                                <li>Standard in computer vision</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="principle-card">
-                                        <div class="principle-icon">🔄</div>
-                                        <h5>Data Split</h5>
-                                        <p>Proper train/validation/test splits prevent data leakage and ensure realistic performance evaluation.</p>
-                                    </div>
-                                    <div class="principle-card">
-                                        <div class="principle-icon">📊</div>
-                                        <h5>Annotation Quality</h5>
-                                        <p>Accurate breed labels are essential for supervised learning. Oxford Pets provides expert-verified annotations.</p>
+                                </div>
+                                
+                                <div class="conversion-section">
+                                    <h5>⚠️ Conversion Between Frameworks:</h5>
+                                    <div class="code-example">
+                                        <pre><code class="language-python"># PyTorch to TensorFlow
+tensor_tf = torch.permute(tensor_pt, (0, 2, 3, 1))
+
+# TensorFlow to PyTorch  
+tensor_pt = torch.permute(tensor_tf, (0, 3, 1, 2))
+
+# Using torchvision.transforms
+from torchvision.transforms import ToTensor, ToPILImage
+tensor = ToTensor()(pil_image)  # PIL → PyTorch tensor</code></pre>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Best Practices -->
+                            <!-- Dataset & DataLoader -->
                             <div class="detail-group">
-                                <h4>✅ Best Practices</h4>
-                                <div class="practices-list">
-                                    <div class="practice-item">
-                                        <div class="practice-number">1</div>
-                                        <div class="practice-content">
-                                            <h5>Image Preprocessing</h5>
-                                            <p>Always normalize images using dataset-specific statistics (ImageNet mean/std) for consistent model input.</p>
+                                <h4>📚 PyTorch Dataset & DataLoader</h4>
+                                <p class="group-description">Implementing efficient data loading with PyTorch's Dataset and DataLoader classes.</p>
+                                
+                                <div class="dataset-section">
+                                    <h5>🎯 Custom Dataset Class</h5>
+                                    <div class="code-example">
+                                        <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+from PIL import Image
+import os
+
+class OxfordPetsDataset(Dataset):
+    def __init__(self, image_dir, transform=None):
+        self.image_dir = image_dir
+        self.transform = transform
+        self.samples = self._load_samples()
+    
+    def _load_samples(self):
+        """Load image paths and labels"""
+        samples = []
+        for breed in os.listdir(self.image_dir):
+            breed_dir = os.path.join(self.image_dir, breed)
+            for img_name in os.listdir(breed_dir):
+                img_path = os.path.join(breed_dir, img_name)
+                samples.append((img_path, breed))
+        return samples
+    
+    def __len__(self):
+        return len(self.samples)
+    
+    def __getitem__(self, idx):
+        image_path, label = self.samples[idx]
+        image = Image.open(image_path).convert('RGB')
+        
+        if self.transform:
+            image = self.transform(image)
+            
+        return image, label</code></pre>
+                                    </div>
+                                    
+                                    <div class="principle-card">
+                                        <h6>💡 Key Principles:</h6>
+                                        <ul>
+                                            <li><strong>Lazy Loading:</strong> Images loaded only when needed</li>
+                                            <li><strong>Transform Pipeline:</strong> Preprocessing applied on-the-fly</li>
+                                            <li><strong>Memory Efficient:</strong> No pre-loading of entire dataset</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="dataloader-section">
+                                    <h5>🔄 DataLoader Configuration</h5>
+                                    <div class="code-example">
+                                        <pre><code class="language-python"># Create DataLoader
+dataloader = DataLoader(
+    dataset,
+    batch_size=32,           # Number of samples per batch
+    shuffle=True,            # Randomize order each epoch
+    num_workers=4,           # Parallel loading processes
+    pin_memory=True,         # GPU transfer optimization
+    drop_last=True           # Drop incomplete batches
+)
+
+# Usage in training loop
+for batch_idx, (images, labels) in enumerate(dataloader):
+    # images: (batch_size, 3, 224, 224)
+    # labels: (batch_size,)
+    outputs = model(images)
+    loss = criterion(outputs, labels)</code></pre>
+                                    </div>
+                                    
+                                    <div class="parameter-grid">
+                                        <div class="param-card">
+                                            <h6>batch_size</h6>
+                                            <p>Number of samples per batch. Affects memory usage and training stability.</p>
+                                            <div class="param-example">
+                                                <code>batch_size=32</code> (common choice)
+                                            </div>
+                                        </div>
+                                        <div class="param-card">
+                                            <h6>shuffle</h6>
+                                            <p>Randomize sample order each epoch. Essential for training, not for validation.</p>
+                                            <div class="param-example">
+                                                <code>shuffle=True</code> (training), <code>shuffle=False</code> (validation)
+                                            </div>
+                                        </div>
+                                        <div class="param-card">
+                                            <h6>num_workers</h6>
+                                            <p>Parallel data loading processes. Usually 4-8 for optimal performance.</p>
+                                            <div class="param-example">
+                                                <code>num_workers=4</code> (CPU cores)
+                                            </div>
+                                        </div>
+                                        <div class="param-card">
+                                            <h6>pin_memory</h6>
+                                            <p>Faster GPU transfer. Use True when training on GPU.</p>
+                                            <div class="param-example">
+                                                <code>pin_memory=True</code> (GPU training)
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="practice-item">
-                                        <div class="practice-number">2</div>
-                                        <div class="practice-content">
-                                            <h5>Data Augmentation</h5>
-                                            <p>Use appropriate augmentation techniques (rotation, flip, color jitter) to increase dataset diversity and prevent overfitting.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Preprocessing Pipeline -->
+                            <div class="detail-group">
+                                <h4>🔧 Image Preprocessing Pipeline</h4>
+                                <p class="group-description">Step-by-step preprocessing transforms for CNN input preparation.</p>
+                                
+                                <div class="preprocessing-steps">
+                                    <div class="step-card">
+                                        <div class="step-number">1</div>
+                                        <div class="step-content">
+                                            <h5>Resize</h5>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">transforms.Resize(256)</code></pre>
+                                            </div>
+                                            <p>Resize to 256px (maintains aspect ratio)</p>
                                         </div>
                                     </div>
-                                    <div class="practice-item">
-                                        <div class="practice-number">3</div>
-                                        <div class="practice-content">
-                                            <h5>Quality Control</h5>
-                                            <p>Inspect images for artifacts, mislabeling, or quality issues that could negatively impact model performance.</p>
+                                    
+                                    <div class="step-card">
+                                        <div class="step-number">2</div>
+                                        <div class="step-content">
+                                            <h5>Center Crop</h5>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">transforms.CenterCrop(224)</code></pre>
+                                            </div>
+                                            <p>Crop to 224×224 from center</p>
                                         </div>
                                     </div>
-                                    <div class="practice-item">
-                                        <div class="practice-number">4</div>
-                                        <div class="practice-content">
-                                            <h5>Consistent Format</h5>
-                                            <p>Ensure all images are converted to the same format, size, and color space before feeding into the model.</p>
+                                    
+                                    <div class="step-card">
+                                        <div class="step-number">3</div>
+                                        <div class="step-content">
+                                            <h5>To Tensor</h5>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">transforms.ToTensor()</code></pre>
+                                            </div>
+                                            <p>Convert PIL to tensor, scale [0,255] → [0,1]</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="step-card">
+                                        <div class="step-number">4</div>
+                                        <div class="step-content">
+                                            <h5>Normalize</h5>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">transforms.Normalize(
+    mean=[0.485, 0.456, 0.406], 
+    std=[0.229, 0.224, 0.225]
+)</code></pre>
+                                            </div>
+                                            <p>ImageNet statistics normalization</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="complete-pipeline">
+                                    <h5>Complete Preprocessing Pipeline:</h5>
+                                    <div class="code-example">
+                                        <pre><code class="language-python">from torchvision import transforms
+
+# Training transforms (with augmentation)
+train_transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.RandomResizedCrop(224),
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])
+
+# Validation transforms (no augmentation)
+val_transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Additional Topics -->
+                            <div class="detail-group">
+                                <h4>📖 Additional Topics</h4>
+                                
+                                <div class="additional-topics">
+                                    <div class="topic-card">
+                                        <h5>🎯 Data Augmentation</h5>
+                                        <p>Techniques to increase dataset diversity and prevent overfitting.</p>
+                                        <div class="code-example">
+                                            <pre><code class="language-python"># Common augmentation techniques
+transforms.RandomHorizontalFlip(p=0.5)
+transforms.RandomRotation(degrees=15)
+transforms.ColorJitter(brightness=0.2, contrast=0.2)
+transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="topic-card">
+                                        <h5>⚡ Memory Optimization</h5>
+                                        <p>Best practices for efficient memory usage during training.</p>
+                                        <ul>
+                                            <li>Use appropriate batch sizes (32-64)</li>
+                                            <li>Enable pin_memory for GPU training</li>
+                                            <li>Use DataLoader with num_workers</li>
+                                            <li>Monitor GPU memory usage</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="topic-card">
+                                        <h5>🔗 PyTorch Documentation</h5>
+                                        <p>Official PyTorch resources for deep learning:</p>
+                                        <div class="links">
+                                            <a href="https://pytorch.org/docs/stable/data.html" target="_blank">📚 DataLoader API</a>
+                                            <a href="https://pytorch.org/docs/stable/torchvision/transforms.html" target="_blank">🔧 Transforms API</a>
+                                            <a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html" target="_blank">📖 Data Loading Tutorial</a>
                                         </div>
                                     </div>
                                 </div>
@@ -2490,7 +2694,411 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Code Highlighting Styles */
+.code-example {
+    background: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.code-example pre {
+    margin: 0;
+    padding: 1rem;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.code-example code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+}
+
+/* Tensor Format Styles */
+.tensor-format-card {
+    background: #ffffff;
+    border: 2px solid #4f46e5;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.1);
+}
+
+.tensor-formula {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4f46e5;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dimension-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.dimension-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #4f46e5;
+}
+
+.dimension-symbol {
+    background: #4f46e5;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.dimension-name {
+    font-weight: 600;
+    color: #1f2937;
+    min-width: 80px;
+}
+
+.dimension-desc {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* Architecture Examples */
+.architecture-examples {
+    margin-top: 2rem;
+}
+
+.example-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.example-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.example-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.example-card h6 {
+    color: #4f46e5;
+    margin-bottom: 0.5rem;
+}
+
+/* Channel Comparison */
+.channel-comparison {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.framework-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.framework-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-color: #4f46e5;
+}
+
+.framework-card h5 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.framework-features ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.framework-features li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    color: #6b7280;
+}
+
+.framework-features li:last-child {
+    border-bottom: none;
+}
+
+.framework-features li::before {
+    content: "✓";
+    color: #10b981;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+/* Conversion Section */
+.conversion-section {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.conversion-section h5 {
+    color: #92400e;
+    margin-bottom: 1rem;
+}
+
+/* Dataset Section */
+.dataset-section, .dataloader-section {
+    margin: 2rem 0;
+}
+
+.principle-card {
+    background: #f0f9ff;
+    border: 1px solid #0ea5e9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.principle-card h6 {
+    color: #0c4a6e;
+    margin-bottom: 1rem;
+}
+
+.principle-card ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.principle-card li {
+    color: #0c4a6e;
+    margin-bottom: 0.5rem;
+}
+
+/* Parameter Grid */
+.parameter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.param-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.param-card h6 {
+    color: #4f46e5;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.param-card p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.param-example {
+    background: #f3f4f6;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: #374151;
+}
+
+/* Preprocessing Steps */
+.preprocessing-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.step-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: #4f46e5;
+}
+
+.step-number {
+    background: #4f46e5;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.step-content h5 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* Complete Pipeline */
+.complete-pipeline {
+    background: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.complete-pipeline h5 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+/* Additional Topics */
+.additional-topics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.topic-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.topic-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: #4f46e5;
+}
+
+.topic-card h5 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.topic-card p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.topic-card ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.topic-card li {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.links a {
+    color: #4f46e5;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: #f0f9ff;
+    transition: all 0.3s ease;
+}
+
+.links a:hover {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+@media (max-width: 768px) {
+    .dimension-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .channel-comparison {
+        grid-template-columns: 1fr;
+    }
+    
+    .parameter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .preprocessing-steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .additional-topics {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
+
+<!-- Prism.js for code highlighting -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
 </body>
 </html>
