@@ -105,9 +105,15 @@
 
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
             margin: 4rem 0;
+        }
+
+        @media (min-width: 1200px) {
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .subject-card {
@@ -296,8 +302,20 @@
                             <li>Oxford Pets: Classification</li>
                             <li>Oxford Pets: Detection</li>
                             <li>Oxford Pets: Segmentation</li>
-                            <li>Network Architecture Visualizer</li>
                             <li>Interactive Tutorials</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <a href="03_Computer_Vision/network_visualizer/">
+                    <div class="subject-card">
+                        <h3>🔍 Network Architecture Visualizer</h3>
+                        <p>Interactive visualization of CNN and Vision Transformer architectures.</p>
+                        <ul class="topics">
+                            <li>CNN Architectures (ResNet, VGG, EfficientNet)</li>
+                            <li>Vision Transformers (ViT, Swin, DeiT)</li>
+                            <li>Layer-by-layer Analysis</li>
+                            <li>Parameter Count & FLOPs</li>
                         </ul>
                     </div>
                 </a>
