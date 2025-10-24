@@ -786,6 +786,8 @@ class ResNet50Visualizer {
         // Debug: Log fullscreen status
         if (isFullscreen) {
             console.log('Fullscreen mode detected, showing tooltip at position:', x, y);
+            console.log('Tooltip element exists:', !!this.tooltip);
+            console.log('Tooltip node:', this.tooltip?.node());
         }
         
         // Force tooltip to be visible
@@ -808,14 +810,26 @@ class ResNet50Visualizer {
             .style('box-shadow', '0 6px 16px rgba(0,0,0,.18)')
             .style('max-width', '480px');
             
-        // Force show in fullscreen mode
+        // Force show in fullscreen mode with stronger styling
         if (isFullscreen) {
+            // Create new tooltip if it doesn't exist
+            if (!this.tooltip || !this.tooltip.node()) {
+                console.log('Creating new tooltip for fullscreen mode');
+                this.createTooltip();
+            }
+            
             this.tooltip
                 .style('visibility', 'visible')
                 .style('opacity', '1')
                 .style('display', 'block')
                 .style('position', 'fixed')
-                .style('z-index', '999999');
+                .style('z-index', '999999')
+                .style('background', 'red')
+                .style('color', 'white')
+                .style('border', '3px solid yellow')
+                .style('padding', '20px')
+                .style('font-size', '18px')
+                .style('font-weight', 'bold');
         }
     }
 
@@ -1145,7 +1159,13 @@ class ResNet50Visualizer {
                                document.mozFullScreenElement || 
                                document.msFullscreenElement);
         
-        if (isFullscreen && this.tooltip) {
+        if (isFullscreen) {
+            // Create new tooltip if it doesn't exist
+            if (!this.tooltip || !this.tooltip.node()) {
+                console.log('Creating new debug tooltip for fullscreen mode');
+                this.createTooltip();
+            }
+            
             // Show debug tooltip at mouse position
             this.tooltip
                 .style('position', 'fixed')
