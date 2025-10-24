@@ -100,7 +100,7 @@ class ResNet50Visualizer {
             .style('font-weight', '600')
             .style('box-shadow', '0 6px 16px rgba(0,0,0,.18)')
             .style('display', 'none')
-            .style('z-index', '10')
+            .style('z-index', '999999')
             .style('max-width', '480px');
     }
 
@@ -169,6 +169,12 @@ class ResNet50Visualizer {
         document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('mozfullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('MSFullscreenChange', () => this.handleFullscreenChange());
+        
+        // Test tooltip in fullscreen mode
+        document.addEventListener('fullscreenchange', () => this.testTooltipInFullscreen());
+        document.addEventListener('webkitfullscreenchange', () => this.testTooltipInFullscreen());
+        document.addEventListener('mozfullscreenchange', () => this.testTooltipInFullscreen());
+        document.addEventListener('MSFullscreenChange', () => this.testTooltipInFullscreen());
     }
 
     /**
@@ -774,17 +780,27 @@ class ResNet50Visualizer {
                                document.mozFullScreenElement || 
                                document.msFullscreenElement);
         
+        // Debug: Log fullscreen status
+        if (isFullscreen) {
+            console.log('Fullscreen mode detected, showing tooltip');
+        }
+        
         this.tooltip.html(text)
             .style('left', x + 'px')
             .style('top', y + 'px')
             .style('display', 'block')
             .style('position', 'fixed')
-            .style('z-index', isFullscreen ? '999999' : '99999')
-            .style('pointer-events', 'none');
+            .style('z-index', '999999')
+            .style('pointer-events', 'none')
+            .style('visibility', 'visible')
+            .style('opacity', '1');
             
         // Force show in fullscreen mode
         if (isFullscreen) {
-            this.tooltip.style('visibility', 'visible');
+            this.tooltip
+                .style('visibility', 'visible')
+                .style('opacity', '1')
+                .style('display', 'block');
         }
     }
 
@@ -1069,6 +1085,36 @@ class ResNet50Visualizer {
         
         // Resize visualization after fullscreen change
         setTimeout(() => this.resize(), 100);
+    }
+
+    /**
+     * Test tooltip in fullscreen mode
+     */
+    testTooltipInFullscreen() {
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
+        if (isFullscreen && this.tooltip) {
+            console.log('Testing tooltip in fullscreen mode');
+            
+            // Force tooltip to be visible
+            this.tooltip
+                .style('position', 'fixed')
+                .style('z-index', '999999')
+                .style('visibility', 'visible')
+                .style('opacity', '1')
+                .style('display', 'block')
+                .style('left', '100px')
+                .style('top', '100px')
+                .html('Test tooltip in fullscreen mode');
+                
+            // Hide after 3 seconds
+            setTimeout(() => {
+                this.tooltip.style('display', 'none');
+            }, 3000);
+        }
     }
 
     /**

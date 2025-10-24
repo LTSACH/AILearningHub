@@ -390,7 +390,7 @@
 
 /* Tooltip */
 .tooltip {
-    position: fixed;
+    position: fixed !important;
     pointer-events: none;
     background: rgba(255, 255, 255, 0.95);
     color: var(--ink);
@@ -401,8 +401,10 @@
     font-weight: 600;
     box-shadow: 0 6px 16px rgba(0,0,0,.18);
     display: none;
-    z-index: 9999;
+    z-index: 999999 !important;
     max-width: 480px;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* D3 Visualization Styles */
@@ -527,6 +529,8 @@
     z-index: 999999 !important;
     position: fixed !important;
     visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
 }
 
 /* Webkit fullscreen tooltip support */
@@ -534,6 +538,8 @@
     z-index: 999999 !important;
     position: fixed !important;
     visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
 }
 
 /* Mozilla fullscreen tooltip support */
@@ -541,6 +547,8 @@
     z-index: 999999 !important;
     position: fixed !important;
     visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
 }
 
 /* MS fullscreen tooltip support */
@@ -548,6 +556,41 @@
     z-index: 999999 !important;
     position: fixed !important;
     visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+/* Global tooltip support for fullscreen */
+:fullscreen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+:-webkit-full-screen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+:-moz-full-screen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+:-ms-fullscreen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
 }
 
 /* Webkit Fullscreen Support */
