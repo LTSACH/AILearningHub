@@ -2038,29 +2038,24 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
             if (clickedDetailButton) {
                 clickedDetailButton.classList.add('active');
             }
-            
-            // Auto-collapse navigation after selection
-            const navButtons = document.getElementById('pipeline-nav-buttons');
-            if (navButtons) {
-                navButtons.style.display = 'none';
-                const navIcon = document.querySelector('.nav-icon');
-                if (navIcon) {
-                    navIcon.textContent = '▶';
-                }
-            }
         };
         
         // Function to toggle pipeline navigation
         window.togglePipelineNav = function() {
             const navButtons = document.getElementById('pipeline-nav-buttons');
             const navIcon = document.querySelector('.nav-icon');
+            const pipelineDetailTabs = document.querySelector('.pipeline-detail-tabs');
             
-            if (navButtons && navIcon) {
+            if (navButtons && navIcon && pipelineDetailTabs) {
                 if (navButtons.style.display === 'none' || navButtons.style.display === '') {
+                    // Expand: Show navigation and content
                     navButtons.style.display = 'grid';
+                    pipelineDetailTabs.style.display = 'block';
                     navIcon.textContent = '▼';
                 } else {
+                    // Collapse: Hide navigation and content
                     navButtons.style.display = 'none';
+                    pipelineDetailTabs.style.display = 'none';
                     navIcon.textContent = '▶';
                 }
             }
@@ -3196,6 +3191,10 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
 /* Initialize navigation as collapsed */
 #pipeline-nav-buttons {
     display: none;
+}
+
+.pipeline-detail-tabs {
+    display: block;
 }
 
 /* Responsive Design */
