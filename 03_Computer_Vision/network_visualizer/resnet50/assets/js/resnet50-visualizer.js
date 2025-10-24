@@ -377,8 +377,13 @@ class ResNet50Visualizer {
                 tip: stage.shape ? `out: ${this.shapeStr(stage.shape)}` : ''
             });
 
+            // Create ports for each stage
+            this.createPort(node.x - stageW/2, y, `<b>Input:</b> ${i === 0 ? this.shapeStr(S.input) : ''}`);
+            this.createPort(node.x + stageW/2, y, `<b>Output:</b> ${stage.shape ? this.shapeStr(stage.shape) : ''}`);
+
             if (prev) {
-                this.createEdge(prev.x + stageW/2, y, x - stageW/2, y, this.shapeStr(stage.shape));
+                const scale = this.scaleFromInput(S.input[2], S.input[3], stage.shape[2], stage.shape[3]);
+                this.createCurvedEdge(prev.x + stageW/2, y, x - stageW/2, y, this.shapeStr(stage.shape), i >= 2 ? scale : '');
             }
             prev = node;
         });
@@ -413,8 +418,12 @@ class ResNet50Visualizer {
                 tip: `Click → y = x + F(x)`
             });
 
+            // Create ports for each block
+            this.createPort(node.x - stageW/2, y, `<b>Input:</b> ${this.shapeStr([N, C, H, W])}`);
+            this.createPort(node.x + stageW/2, y, `<b>Output:</b> ${this.shapeStr([N, C, H, W])}`);
+
             if (prev) {
-                this.createEdge(prev.x + stageW/2, y, x - stageW/2, y, this.shapeStr([N, C, H, W]));
+                this.createCurvedEdge(prev.x + stageW/2, y, x - stageW/2, y, this.shapeStr([N, C, H, W]));
             }
             prev = node;
         }
@@ -455,9 +464,20 @@ class ResNet50Visualizer {
             tip: `out: ${this.shapeStr([N, 1000])}`
         });
 
-        this.createEdge(avg.x + 110, y, flat.x - 110, y, this.shapeStr([N, 2048, 1, 1]));
-        this.createEdge(flat.x + 110, y, fc.x - 130, y, this.shapeStr([N, 2048]));
-        this.createEdge(fc.x + 130, y, soft.x - 110, y, this.shapeStr([N, 1000]));
+        // Create ports for head components
+        this.createPort(avg.x - 110, y, `<b>Input:</b> ${this.shapeStr([N, 2048, 7, 7])}`);
+        this.createPort(avg.x + 110, y, `<b>Output:</b> ${this.shapeStr([N, 2048, 1, 1])}`);
+        this.createPort(flat.x - 110, y, `<b>Input:</b> ${this.shapeStr([N, 2048, 1, 1])}`);
+        this.createPort(flat.x + 110, y, `<b>Output:</b> ${this.shapeStr([N, 2048])}`);
+        this.createPort(fc.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, 2048])}`);
+        this.createPort(fc.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, 1000])}`);
+        this.createPort(soft.x - 110, y, `<b>Input:</b> ${this.shapeStr([N, 1000])}`);
+        this.createPort(soft.x + 110, y, `<b>Output:</b> ${this.shapeStr([N, 1000])}`);
+
+        // Create edges with tooltips
+        this.createCurvedEdge(avg.x + 110, y, flat.x - 110, y, this.shapeStr([N, 2048, 1, 1]));
+        this.createCurvedEdge(flat.x + 110, y, fc.x - 130, y, this.shapeStr([N, 2048]));
+        this.createCurvedEdge(fc.x + 130, y, soft.x - 110, y, this.shapeStr([N, 1000]));
     }
 
     /**
@@ -510,14 +530,29 @@ class ResNet50Visualizer {
             tip: `shape: ${this.shapeStr(sh)}`
         });
 
-        // Create edges
-        this.createEdge(xBlock.x + 90, y, fx.x - 150, y, this.shapeStr(sh));
-        this.createEdge(fx.x + 150, y, add.x - 75, y, this.shapeStr(sh));
-        this.createEdge(add.x + 75, y, relu.x - 85, y, this.shapeStr(sh));
-        this.createEdge(relu.x + 85, y, output.x - 90, y, this.shapeStr(sh));
+        // Create ports for residual components
+        this.createPort(xBlock.x + 90, y, `<b>Output:</b> ${this.shapeStr(sh)}`);
+        this.createPort(fx.x - 150, y, `<b>Input:</b> ${this.shapeStr(sh)}`);
+        this.createPort(fx.x + 150, y, `<b>Output:</b> ${this.shapeStr(sh)}`);
+        this.createPort(add.x - 75, y, `<b>Input:</b> ${this.shapeStr(sh)}`);
+        this.createPort(add.x + 75, y, `<b>Output:</b> ${this.shapeStr(sh)}`);
+        this.createPort(relu.x - 85, y, `<b>Input:</b> ${this.shapeStr(sh)}`);
+        this.createPort(relu.x + 85, y, `<b>Output:</b> ${this.shapeStr(sh)}`);
+        this.createPort(output.x - 90, y, `<b>Input:</b> ${this.shapeStr(sh)}`);
+
+        // Create edges with tooltips
+        const e1 = this.createCurvedEdge(xBlock.x + 90, y, fx.x - 150, y, this.shapeStr(sh));
+        const e2 = this.createCurvedEdge(fx.x + 150, y, add.x - 75, y, this.shapeStr(sh));
+        const e3 = this.createCurvedEdge(add.x + 75, y, relu.x - 85, y, this.shapeStr(sh));
+        const e4 = this.createCurvedEdge(relu.x + 85, y, output.x - 90, y, this.shapeStr(sh));
 
         // Create skip connection
         this.createSkipConnection(xBlock.x + 90, y, add.x - 75, y, this.shapeStr(sh));
+
+        // Make flow on hover
+        this.makeFlowOnHover(fx, [e1, e2]);
+        this.makeFlowOnHover(add, [e2, e3]);
+        this.makeFlowOnHover(relu, [e3, e4]);
     }
 
     /**
@@ -551,8 +586,17 @@ class ResNet50Visualizer {
             tip: `inC=${c2} → outC=${c3}`
         });
 
-        this.createEdge(b1.x + 130, y, b2.x - 130, y, this.shapeStr([N, c1, H, W]));
-        this.createEdge(b2.x + 130, y, b3.x - 130, y, this.shapeStr([N, c2, H, W]));
+        // Create ports for F(x) components
+        this.createPort(b1.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, C, H, W])}`);
+        this.createPort(b1.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, c1, H, W])}`);
+        this.createPort(b2.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, c1, H, W])}`);
+        this.createPort(b2.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, c2, H, W])}`);
+        this.createPort(b3.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, c2, H, W])}`);
+        this.createPort(b3.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, C, H, W])}`);
+
+        // Create edges with tooltips
+        this.createCurvedEdge(b1.x + 130, y, b2.x - 130, y, this.shapeStr([N, c1, H, W]));
+        this.createCurvedEdge(b2.x + 130, y, b3.x - 130, y, this.shapeStr([N, c2, H, W]));
     }
 
     /**
@@ -577,14 +621,23 @@ class ResNet50Visualizer {
             label: 'BatchNorm', theme: 'stage'
         });
 
-        this.createEdge(conv.x + 130, y, bn.x - 130, y, this.shapeStr([N, payload.outC, payload.H, payload.W]));
+        // Create ports for conv block
+        this.createPort(conv.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, payload.inC, payload.H, payload.W])}`);
+        this.createPort(conv.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, payload.outC, payload.H, payload.W])}`);
+        this.createPort(bn.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, payload.outC, payload.H, payload.W])}`);
+        this.createPort(bn.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, payload.outC, payload.H, payload.W])}`);
+
+        // Create edges with tooltips
+        this.createCurvedEdge(conv.x + 130, y, bn.x - 130, y, this.shapeStr([N, payload.outC, payload.H, payload.W]));
 
         if (payload.kind !== '1x1-2') {
             const relu = this.createNode({
                 x: xs[2], y, width: 260, height: 80,
                 label: 'ReLU', theme: 'stage'
             });
-            this.createEdge(bn.x + 130, y, relu.x - 130, y, this.shapeStr([N, payload.outC, payload.H, payload.W]));
+            this.createPort(relu.x - 130, y, `<b>Input:</b> ${this.shapeStr([N, payload.outC, payload.H, payload.W])}`);
+            this.createPort(relu.x + 130, y, `<b>Output:</b> ${this.shapeStr([N, payload.outC, payload.H, payload.W])}`);
+            this.createCurvedEdge(bn.x + 130, y, relu.x - 130, y, this.shapeStr([N, payload.outC, payload.H, payload.W]));
         }
     }
 
@@ -626,7 +679,7 @@ class ResNet50Visualizer {
         }
         
         if (tip) {
-            g.on('mousemove', (ev) => this.showTooltip(ev, tip))
+            g.on('mousemove', (ev) => this.showTooltip(tip, ev))
               .on('mouseout', () => this.hideTooltip());
         }
         
@@ -700,7 +753,7 @@ class ResNet50Visualizer {
             .attr('d', path);
         
         if (tip) {
-            skip.on('mousemove', (ev) => this.showTooltip(ev, `Tensor (skip): ${tip}`))
+            skip.on('mousemove', (ev) => this.showTooltip(`Tensor (skip): ${tip}`, ev))
                 .on('mouseout', () => this.hideTooltip());
         }
         
@@ -710,7 +763,7 @@ class ResNet50Visualizer {
     /**
      * Show tooltip
      */
-    showTooltip(event, text) {
+    showTooltip(text, event) {
         this.tooltip.html(text)
             .style('left', (event.clientX + 15) + 'px')
             .style('top', (event.clientY - 20) + 'px')
@@ -796,6 +849,16 @@ class ResNet50Visualizer {
      */
     shapeStr(shape) {
         return '(' + shape.join(', ') + ')';
+    }
+
+    /**
+     * Calculate scale from input
+     */
+    scaleFromInput(Hin, Win, H, W) {
+        const fx = (Hin > 0 && H > 0) ? (Hin / H) : 1;
+        const fy = (Win > 0 && W > 0) ? (Win / W) : 1;
+        const s = Math.max(fx, fy);
+        return s.toFixed(1) + '×';
     }
 
     /**
