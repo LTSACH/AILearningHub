@@ -60,7 +60,79 @@
         <section class="architecture-list ai-section" id="architecture-list">
             <h2 class="ai-heading-2">Available Architectures</h2>
                 <div class="architecture-grid" id="architecture-grid">
-                    <!-- Architectures will be loaded dynamically -->
+                    <!-- CNN Architectures -->
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('resnet50')">
+                        <h4>ResNet-50</h4>
+                        <p>Residual Network with 50 layers, uses skip connections to solve vanishing gradient problem</p>
+                        <div class="architecture-stats">
+                            <span>25.6M params</span>
+                            <span>2015</span>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('vgg16')">
+                        <h4>VGG-16</h4>
+                        <p>Very Deep Convolutional Networks with 16 layers, uses small 3×3 filters</p>
+                        <div class="architecture-stats">
+                            <span>138M params</span>
+                            <span>2014</span>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('efficientnet-b0')">
+                        <h4>EfficientNet-B0</h4>
+                        <p>EfficientNet with compound scaling, balances accuracy and efficiency</p>
+                        <div class="architecture-stats">
+                            <span>5.3M params</span>
+                            <span>2019</span>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('mobilenet-v2')">
+                        <h4>MobileNet-V2</h4>
+                        <p>Mobile-optimized network with inverted residuals and linear bottlenecks</p>
+                        <div class="architecture-stats">
+                            <span>3.5M params</span>
+                            <span>2018</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Vision Transformer Architectures -->
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('vit-base')">
+                        <h4>ViT-Base</h4>
+                        <p>Base Vision Transformer with 12 transformer blocks and 768 embedding dimensions</p>
+                        <div class="architecture-stats">
+                            <span>86.6M params</span>
+                            <span>2020</span>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('vit-large')">
+                        <h4>ViT-Large</h4>
+                        <p>Large Vision Transformer with 24 transformer blocks and 1024 embedding dimensions</p>
+                        <div class="architecture-stats">
+                            <span>304M params</span>
+                            <span>2020</span>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('swin-transformer-base')">
+                        <h4>Swin Transformer</h4>
+                        <p>Swin Transformer with shifted windows for efficient vision modeling</p>
+                        <div class="architecture-stats">
+                            <span>87.8M params</span>
+                            <span>2021</span>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-card" onclick="NetworkVisualizer.handleArchitectureSelect('deit-base')">
+                        <h4>DeiT</h4>
+                        <p>Data-efficient Image Transformer with knowledge distillation</p>
+                        <div class="architecture-stats">
+                            <span>86.6M params</span>
+                            <span>2021</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

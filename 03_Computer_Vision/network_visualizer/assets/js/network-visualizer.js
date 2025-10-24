@@ -403,6 +403,46 @@ class NetworkVisualizer {
         
         document.body.appendChild(errorDiv);
     }
+
+    /**
+     * Static method to handle architecture selection
+     * @param {string} architectureType - Type of architecture selected
+     */
+    static handleArchitectureSelect(architectureType) {
+        // Redirect to specific architecture page
+        switch(architectureType) {
+            case 'resnet50':
+                window.location.href = 'resnet50/index.html';
+                break;
+            case 'vgg16':
+                // TODO: Implement VGG16 page
+                console.log('VGG16 visualization coming soon');
+                break;
+            case 'efficientnet-b0':
+                // TODO: Implement EfficientNet page
+                console.log('EfficientNet visualization coming soon');
+                break;
+            case 'mobilenet-v2':
+                // TODO: Implement MobileNet page
+                console.log('MobileNet visualization coming soon');
+                break;
+            case 'vit-base':
+            case 'vit-large':
+                // TODO: Implement ViT pages
+                console.log('Vision Transformer visualization coming soon');
+                break;
+            case 'swin-transformer-base':
+                // TODO: Implement Swin Transformer page
+                console.log('Swin Transformer visualization coming soon');
+                break;
+            case 'deit-base':
+                // TODO: Implement DeiT page
+                console.log('DeiT visualization coming soon');
+                break;
+            default:
+                console.log('Architecture not implemented yet:', architectureType);
+        }
+    }
 }
 
 // Initialize when DOM is loaded
