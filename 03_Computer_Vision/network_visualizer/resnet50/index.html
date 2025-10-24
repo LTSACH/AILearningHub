@@ -52,6 +52,7 @@
                     <button id="zoomOut" class="btn btn-secondary">－ Zoom Out</button>
                     <button id="zoomFit" class="btn btn-secondary">⤢ Fit</button>
                     <button id="zoomReset" class="btn btn-secondary">⟲ Reset</button>
+                    <button id="fullscreenBtn" class="btn btn-primary">⛶ Fullscreen</button>
                 </div>
             </div>
         </div>
@@ -92,17 +93,19 @@
         </div>
 
         <!-- Code Panel -->
-        <div id="codePanel" class="code-panel">
-            <div id="resizeHandle" class="resize-handle" title="Drag to resize"></div>
-            <div class="code-panel-header">
-                <span class="code-panel-title">PyTorch Implementation</span>
-                <div class="code-panel-controls">
-                    <button id="copyCode" class="btn btn-secondary">Copy</button>
-                    <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
+        <div class="code-panel-container">
+            <div id="codePanel" class="code-panel">
+                <div id="resizeHandle" class="resize-handle" title="Drag to resize"></div>
+                <div class="code-panel-header">
+                    <span class="code-panel-title">Implementation</span>
+                    <div class="code-panel-controls">
+                        <button id="copyCode" class="btn btn-secondary">Copy</button>
+                        <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
+                    </div>
                 </div>
-            </div>
-            <div class="code-panel-content">
-                <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its PyTorch-style implementation</code></pre>
+                <div class="code-panel-content">
+                    <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its implementation</code></pre>
+                </div>
             </div>
         </div>
     </section>

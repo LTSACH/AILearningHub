@@ -152,6 +152,9 @@ class ResNet50Visualizer {
         document.getElementById('codeToggle').addEventListener('click', () => this.toggleCodePanel());
         document.getElementById('copyCode').addEventListener('click', () => this.copyCode());
 
+        // Fullscreen
+        document.getElementById('fullscreenBtn').addEventListener('click', () => this.toggleFullscreen());
+
         // Window resize
         window.addEventListener('resize', () => this.resize());
     }
@@ -160,14 +163,7 @@ class ResNet50Visualizer {
      * Initialize components
      */
     initializeComponents() {
-        this.codePanel = new CodePanel('#codePanel', {
-            theme: 'dark',
-            language: 'python',
-            collapsible: true,
-            resizable: true,
-            copyable: true
-        });
-
+        // Note: CodePanel is already created in HTML, we just need to reference it
         this.shapeMap = new ShapeMap('.shape-map-content', {
             title: 'Shape Map',
             showScale: true,
@@ -687,7 +683,13 @@ class ResNet50Visualizer {
                 code = '# Ready';
         }
         
-        this.codePanel.setCode(code);
+        // Update code directly in the DOM
+        const codeBlock = document.getElementById('codeBlock');
+        if (window.Prism) {
+            codeBlock.innerHTML = Prism.highlight(code, Prism.languages.python, 'python');
+        } else {
+            codeBlock.textContent = code;
+        }
     }
 
     /**
@@ -763,14 +765,57 @@ class ResNet50Visualizer {
      * Toggle code panel
      */
     toggleCodePanel() {
-        this.codePanel.toggle();
+        const codePanel = document.getElementById('codePanel');
+        const toggleBtn = document.getElementById('codeToggle');
+        
+        codePanel.classList.toggle('collapsed');
+        
+        if (codePanel.classList.contains('collapsed')) {
+            toggleBtn.textContent = '▲ Expand';
+        } else {
+            toggleBtn.textContent = '▼ Collapse';
+        }
+    }
+
+    /**
+     * Toggle fullscreen mode
+     */
+    toggleFullscreen() {
+        const container = document.querySelector('.ai-container');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        
+        container.classList.toggle('fullscreen-mode');
+        
+        if (container.classList.contains('fullscreen-mode')) {
+            fullscreenBtn.textContent = '⛶ Exit Fullscreen';
+            document.body.style.overflow = 'hidden';
+        } else {
+            fullscreenBtn.textContent = '⛶ Fullscreen';
+            document.body.style.overflow = '';
+        }
+        
+        // Resize visualization after mode change
+        setTimeout(() => this.resize(), 100);
     }
 
     /**
      * Copy code
      */
     async copyCode() {
-        await this.codePanel.copyCode();
+        const codeBlock = document.getElementById('codeBlock');
+        const text = codeBlock.textContent;
+        
+        try {
+            await navigator.clipboard.writeText(text);
+            const copyBtn = document.getElementById('copyCode');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✓ Copied';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 1200);
+        } catch (err) {
+            console.error('Failed to copy code:', err);
+        }
     }
 
     /**

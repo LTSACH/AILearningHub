@@ -235,20 +235,30 @@
     margin: 6px 0 0 0;
 }
 
-/* Code Panel */
+/* Code Panel Container */
+.code-panel-container {
+    padding: 0 var(--ai-spacing-lg);
+    margin-bottom: var(--ai-spacing-lg);
+}
+
 .code-panel {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-top: 1px solid var(--stroke);
+    border: 1px solid var(--stroke);
+    border-radius: var(--ai-radius-lg);
     background: #2d2d2d;
     display: flex;
     flex-direction: column;
     transition: height .2s ease;
     min-height: 120px;
     height: 25vh;
-    z-index: 10;
+    overflow: hidden;
+}
+
+.code-panel.collapsed {
+    height: 40px;
+}
+
+.code-panel.collapsed .code-panel-content {
+    display: none;
 }
 
 .resize-handle {
@@ -392,6 +402,41 @@
     stroke-width: 2.5px;
     marker-end: url(#arrowSkip);
     opacity: .95;
+}
+
+/* Fullscreen Mode */
+.fullscreen-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: var(--bg);
+}
+
+.fullscreen-mode #ai-header,
+.fullscreen-mode #ai-hero {
+    display: none;
+}
+
+.fullscreen-mode .ai-container {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+}
+
+.fullscreen-mode .visualization-interface {
+    margin: 0;
+    border-radius: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.fullscreen-mode .visualization-main {
+    flex: 1;
+    height: calc(100vh - 80px);
 }
 
 /* Responsive Design */
