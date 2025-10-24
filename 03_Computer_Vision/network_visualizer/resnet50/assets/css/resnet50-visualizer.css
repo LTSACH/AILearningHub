@@ -375,6 +375,7 @@
     position: relative;
     transition: none;
     overflow: hidden;
+    align-self: flex-end;
 }
 
 .code-implementation-panel.collapsed {
