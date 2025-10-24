@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=23">
+    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=24">
     
     <!-- Custom scripts -->
 </head>
@@ -39,7 +39,7 @@
     <section class="model-container">
         <!-- 3.1 Control Panel -->
         <div class="control-panel">
-            <!-- Row 1: Input Controls -->
+            <!-- Single Row: All Controls -->
             <div class="control-row">
                 <div class="input-controls">
                     <span class="input-label">Input (N, C, H, W)</span>
@@ -50,10 +50,6 @@
                     <button id="applyInputs" class="btn btn-primary">Apply</button>
                     <button id="resetInputs" class="btn btn-secondary">Reset</button>
                 </div>
-            </div>
-            
-            <!-- Row 2: Action Controls -->
-            <div class="control-row">
                 <div class="action-controls">
                     <button id="zoomIn" class="btn btn-secondary">＋ Zoom In</button>
                     <button id="zoomOut" class="btn btn-secondary">－ Zoom Out</button>
@@ -66,54 +62,62 @@
 
         <!-- 3.2 Main Visualization Area -->
         <div class="main-visualization-area">
-            <!-- Visualization Canvas -->
-            <div class="viz-container">
-                <div class="viz-navigation">
-                    <button id="backBtn" class="btn btn-secondary" disabled>⬅ Back</button>
-                    <span id="breadcrumb" class="breadcrumb"></span>
+            <!-- Left Side (70%) -->
+            <div class="left-side">
+                <!-- Visualization Canvas (75% height) -->
+                <div class="viz-container">
+                    <div class="viz-navigation">
+                        <button id="backBtn" class="btn btn-secondary" disabled>⬅ Back</button>
+                        <span id="breadcrumb" class="breadcrumb"></span>
+                    </div>
+                    <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
+                    <div id="visualization" class="visualization-canvas"></div>
+                    <div id="tooltip" class="tooltip"></div>
                 </div>
-                <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
-                <div id="visualization" class="visualization-canvas"></div>
-                <div id="tooltip" class="tooltip"></div>
+
+                <!-- Implementation Panel (25% height) -->
+                <div id="codePanel" class="code-implementation-panel">
+                    <div id="codeResizeHandle" class="code-resize-handle" title="Drag to resize"></div>
+                    <div class="code-panel-header">
+                        <span class="code-panel-title">Implementation</span>
+                        <div class="code-panel-controls">
+                            <button id="copyCode" class="btn btn-secondary">Copy</button>
+                            <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
+                        </div>
+                    </div>
+                    <div class="code-panel-content">
+                        <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its implementation</code></pre>
+                    </div>
+                </div>
             </div>
 
-            <!-- Shape Map Panel (Collapsible) -->
-            <div id="shapeMapPanel" class="shape-map-panel">
-                <div class="shape-map-header">
-                    <h3>Shape Map</h3>
-                    <button id="shapeMapToggle" class="shape-map-toggle">◀</button>
-                </div>
-                <div class="shape-map-content">
-                    <table class="shape-table">
-                        <thead>
-                            <tr>
-                                <th>Node</th>
-                                <th>Shape</th>
-                                <th>Scale</th>
-                            </tr>
-                        </thead>
-                        <tbody id="shapeTableBody">
-                        </tbody>
-                    </table>
-                    <p class="shape-map-key">Scale is relative to input spatial size H×W.</p>
+            <!-- Right Side (30%) -->
+            <div class="right-side">
+                <!-- Shape Map Panel (Collapsible) -->
+                <div id="shapeMapPanel" class="shape-map-panel">
+                    <div class="shape-map-header">
+                        <h3>Shape Map</h3>
+                        <button id="shapeMapToggle" class="shape-map-toggle">◀</button>
+                    </div>
+                    <div class="shape-map-content">
+                        <table class="shape-table">
+                            <thead>
+                                <tr>
+                                    <th>Node</th>
+                                    <th>Shape</th>
+                                    <th>Scale</th>
+                                </tr>
+                            </thead>
+                            <tbody id="shapeTableBody">
+                            </tbody>
+                        </table>
+                        <p class="shape-map-key">Scale is relative to input spatial size H×W.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 3.3 Code Implementation Panel -->
-        <div id="codePanel" class="code-implementation-panel">
-            <div id="codeResizeHandle" class="code-resize-handle" title="Drag to resize"></div>
-            <div class="code-panel-header">
-                <span class="code-panel-title">Implementation</span>
-                <div class="code-panel-controls">
-                    <button id="copyCode" class="btn btn-secondary">Copy</button>
-                    <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
-                </div>
-            </div>
-            <div class="code-panel-content">
-                <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its implementation</code></pre>
-            </div>
-        </div>
+        <!-- Code Implementation Panel moved to left side -->
     </section>
 
     </div>

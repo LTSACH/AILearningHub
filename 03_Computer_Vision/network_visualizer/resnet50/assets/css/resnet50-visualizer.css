@@ -148,7 +148,7 @@
     flex-wrap: wrap;
 }
 
-/* 3.2 Main Visualization Area */
+/* 3.2 Main Visualization Area - New Layout */
 .main-visualization-area {
     flex: 1;
     display: flex;
@@ -158,8 +158,22 @@
     justify-content: flex-start;
 }
 
+/* Left Side (70%) */
+.left-side {
+    flex: 0 0 70%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+}
+
+/* Right Side (30%) */
+.right-side {
+    flex: 0 0 30%;
+    background: var(--bg);
+}
+
 .viz-container {
-    flex: 1;
+    flex: 0 0 75%;
     position: relative;
     background: var(--bg);
     border-right: 1px solid var(--stroke);
@@ -202,17 +216,16 @@
     z-index: 2;
 }
 
-/* Shape Map Panel - Collapsible */
+/* Shape Map Panel - Collapsible - Now in right side */
 .shape-map-panel {
-    width: 320px;
-    flex: 0 0 320px;
+    width: 100%;
+    flex: 1;
     background: #fafafa;
     display: flex;
     flex-direction: column;
     border-left: 1px solid var(--stroke);
     transition: width 0.3s ease, flex-basis 0.3s ease;
     overflow: hidden;
-    max-width: 320px !important;
     min-width: 40px;
     box-sizing: border-box;
 }
@@ -319,9 +332,9 @@
     margin: 6px 0 0 0;
 }
 
-/* 3.3 Code Implementation Panel */
+/* 3.3 Code Implementation Panel - Now in left side */
 .code-implementation-panel {
-    height: 25vh;
+    flex: 0 0 25%;
     min-height: 120px;
     max-height: 60vh;
     background: #2d2d2d;
