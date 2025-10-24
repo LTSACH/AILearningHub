@@ -161,6 +161,10 @@ class ResNet50Visualizer {
         // Code panel resize
         console.log('🔧 Initializing code panel resize...');
         this.setupCodePanelResize();
+        
+        // Right side resize
+        console.log('🔧 Initializing right side resize...');
+        this.setupRightSideResize();
 
         // Window resize
         window.addEventListener('resize', () => {
@@ -1043,23 +1047,8 @@ class ResNet50Visualizer {
      * Update panel heights based on current container size
      */
     updatePanelHeights() {
-        const codePanel = document.getElementById('codePanel');
-        const vizContainer = document.querySelector('.viz-container');
-        
-        if (!codePanel || !vizContainer) return;
-        
-        const parentHeight = codePanel.parentElement.getBoundingClientRect().height;
-        const currentCodeHeight = codePanel.getBoundingClientRect().height;
-        
-        // Calculate new heights maintaining the same ratio
-        const totalHeight = parentHeight;
-        const newCodeHeight = Math.max(120, Math.min(totalHeight * 0.6, currentCodeHeight));
-        const newVizHeight = totalHeight - newCodeHeight;
-        
-        console.log('🔧 Updating panel heights - Code:', newCodeHeight + 'px', 'Viz:', newVizHeight + 'px');
-        
-        codePanel.style.setProperty('height', newCodeHeight + 'px', 'important');
-        vizContainer.style.setProperty('height', newVizHeight + 'px', 'important');
+        // No longer needed with new flex layout
+        console.log('🔧 Panel heights now managed by CSS flex layout');
     }
 
     /**
@@ -1101,8 +1090,12 @@ class ResNet50Visualizer {
             return;
         }
 
-        // Set initial heights for both panels
-        this.updatePanelHeights();
+        // Set initial height for code panel
+        const codePanel = document.getElementById('codePanel');
+        if (codePanel) {
+            codePanel.style.setProperty('height', '200px', 'important');
+            console.log('🔧 Set initial code panel height to 200px');
+        }
 
         resizeHandle.addEventListener('mousedown', (e) => {
             console.log('🖱️ Mouse down on resize handle');
@@ -1126,20 +1119,70 @@ class ResNet50Visualizer {
             
             newCodeHeight = Math.max(minHeight, Math.min(maxHeight, newCodeHeight));
             
-            // Calculate new viz height (total height - new code height)
-            const totalHeight = parentHeight;
-            const newVizHeight = totalHeight - newCodeHeight;
+            console.log('📏 Setting code panel height to:', newCodeHeight + 'px');
             
-            console.log('📏 Setting heights - Code:', newCodeHeight + 'px', 'Viz:', newVizHeight + 'px');
-            
-            // Update both panels
+            // Update only code panel - viz-container will auto-resize
             codePanel.style.setProperty('height', newCodeHeight + 'px', 'important');
-            vizContainer.style.setProperty('height', newVizHeight + 'px', 'important');
         });
 
         document.addEventListener('mouseup', () => {
             if (isResizing) {
                 console.log('🖱️ Mouse up - stopping resize');
+                isResizing = false;
+                document.body.style.cursor = '';
+            }
+        });
+    }
+
+    /**
+     * Setup right side resize functionality
+     */
+    setupRightSideResize() {
+        const resizeHandle = document.getElementById('rightSideResizeHandle');
+        const rightSide = document.querySelector('.right-side');
+        let isResizing = false;
+        let startX = 0;
+        let startWidth = 0;
+
+        console.log('🔧 Setting up right side resize...');
+        console.log('🔧 Resize handle:', resizeHandle);
+        console.log('🔧 Right side:', rightSide);
+
+        if (!resizeHandle || !rightSide) {
+            console.error('❌ Right side resize handle or right side not found!');
+            return;
+        }
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            console.log('🖱️ Mouse down on right side resize handle');
+            isResizing = true;
+            startX = e.clientX;
+            startWidth = rightSide.getBoundingClientRect().width;
+            document.body.style.cursor = 'ew-resize';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            
+            const dx = e.clientX - startX;
+            let newWidth = startWidth + dx;
+            const minWidth = 200;
+            const maxWidth = 500;
+            
+            console.log('🖱️ Mouse move - dx:', dx, 'newWidth:', newWidth);
+            
+            newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+            
+            console.log('📏 Setting right side width to:', newWidth + 'px');
+            
+            rightSide.style.setProperty('width', newWidth + 'px', 'important');
+            rightSide.style.setProperty('flex', `0 0 ${newWidth}px`, 'important');
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                console.log('🖱️ Mouse up - stopping right side resize');
                 isResizing = false;
                 document.body.style.cursor = '';
             }
