@@ -15,6 +15,13 @@
     --NODE-hover: #E2E8F0;
 }
 
+/* Override AI container margins for better space utilization */
+.ai-container {
+    margin: 0 16px !important;
+    padding: 0 !important;
+    max-width: none !important;
+}
+
 /* 3. Model Container */
 .model-container {
     width: 100%;
