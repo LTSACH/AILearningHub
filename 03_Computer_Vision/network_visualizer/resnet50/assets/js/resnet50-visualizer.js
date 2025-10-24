@@ -291,8 +291,18 @@ class ResNet50Visualizer {
     renderModel() {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [120, 280, 440, 600];
         const S = this.computeShapes();
+        
+        // Calculate positions based on block widths and spacing
+        const blockWidths = [160, 300, 200]; // Input, Backbone, Output widths
+        const spacing = 80; // Space between blocks
+        let currentX = 120;
+        const xs = [];
+        
+        for (let i = 0; i < blockWidths.length; i++) {
+            xs.push(currentX);
+            currentX += blockWidths[i] + spacing;
+        }
 
         // Input node
         const input = this.createNode({
@@ -338,7 +348,17 @@ class ResNet50Visualizer {
         const y = height / 2;
         const stageW = 190, stageH = 88;
         const S = this.computeShapes();
-        const xs = [120, 280, 440, 600, 760, 920];
+        
+        // Calculate positions based on stage widths and spacing
+        const stageWidths = [stageW, stageW, stageW, stageW, stageW, stageW];
+        const spacing = 60; // Space between stages
+        let currentX = 120;
+        const xs = [];
+        
+        for (let i = 0; i < stageWidths.length; i++) {
+            xs.push(currentX);
+            currentX += stageWidths[i] + spacing;
+        }
 
         const stages = [
             { label: 'Conv1 (7×7, s2)', shape: S.conv1 },
@@ -411,7 +431,17 @@ class ResNet50Visualizer {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
         const N = this.state.input.N;
-        const xs = [120, 280, 440, 600];
+        
+        // Calculate positions based on block widths and spacing
+        const blockWidths = [220, 200, 200, 200]; // AvgPool, Flatten, FC, Output widths
+        const spacing = 60; // Space between blocks
+        let currentX = 120;
+        const xs = [];
+        
+        for (let i = 0; i < blockWidths.length; i++) {
+            xs.push(currentX);
+            currentX += blockWidths[i] + spacing;
+        }
 
         const avg = this.createNode({
             x: xs[0], y, width: 220, height: 80,
@@ -448,7 +478,17 @@ class ResNet50Visualizer {
     renderResidual(payload) {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [120, 280, 440, 600, 760];
+        
+        // Calculate positions based on block widths and spacing
+        const blockWidths = [160, 180, 180, 180, 160]; // Input, Conv1, Conv2, Conv3, Output widths
+        const spacing = 50; // Space between blocks
+        let currentX = 120;
+        const xs = [];
+        
+        for (let i = 0; i < blockWidths.length; i++) {
+            xs.push(currentX);
+            currentX += blockWidths[i] + spacing;
+        }
         const N = this.state.input.N;
         const C = payload.C || 256;
         const H = payload.H || 56;
@@ -506,7 +546,17 @@ class ResNet50Visualizer {
     renderFx(payload) {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [120, 280, 440];
+        
+        // Calculate positions based on block widths and spacing
+        const blockWidths = [260, 260, 260]; // Conv1, Conv2, Conv3 widths
+        const spacing = 40; // Space between blocks
+        let currentX = 120;
+        const xs = [];
+        
+        for (let i = 0; i < blockWidths.length; i++) {
+            xs.push(currentX);
+            currentX += blockWidths[i] + spacing;
+        }
         const N = this.state.input.N;
         const { C, H, W } = payload;
         const { c1, c2, c3 } = this.bottleneckChannels(C);
@@ -539,7 +589,17 @@ class ResNet50Visualizer {
     renderConvBlock(payload) {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [120, 280, 440];
+        
+        // Calculate positions based on block widths and spacing
+        const blockWidths = [260, 260, 260]; // Conv2d, BatchNorm, ReLU widths
+        const spacing = 40; // Space between blocks
+        let currentX = 120;
+        const xs = [];
+        
+        for (let i = 0; i < blockWidths.length; i++) {
+            xs.push(currentX);
+            currentX += blockWidths[i] + spacing;
+        }
         const N = this.state.input.N;
 
         const conv = this.createNode({
