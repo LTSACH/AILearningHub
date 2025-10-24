@@ -168,6 +168,7 @@
     flex-direction: column;
     background: var(--bg);
     transition: flex 0.3s ease;
+    width: 100%;
 }
 
 /* When shape-map is collapsed, left-side expands to take remaining space */
