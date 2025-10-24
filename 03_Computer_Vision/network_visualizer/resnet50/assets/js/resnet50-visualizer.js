@@ -799,7 +799,13 @@ class ResNet50Visualizer {
         }
         
         // Resize visualization after toggle
-        setTimeout(() => this.resize(), 100);
+        setTimeout(() => {
+            this.resize();
+            // Auto fit visualization when shape-map panel is expanded
+            if (!shapeMapPanel.classList.contains('collapsed')) {
+                this.zoomFit();
+            }
+        }, 100);
     }
 
     /**
