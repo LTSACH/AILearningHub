@@ -818,7 +818,10 @@ class ResNet50Visualizer {
                 this.createTooltip();
             }
             
+            // Update position with current mouse position
             this.tooltip
+                .style('left', x + 'px')
+                .style('top', y + 'px')
                 .style('visibility', 'visible')
                 .style('opacity', '1')
                 .style('display', 'block')
@@ -1166,6 +1169,12 @@ class ResNet50Visualizer {
                 this.createTooltip();
             }
             
+            // Get current mouse position
+            const x = event.clientX + 15;
+            const y = event.clientY - 20;
+            
+            console.log('Debug tooltip position:', x, y);
+            
             // Show debug tooltip at mouse position
             this.tooltip
                 .style('position', 'fixed')
@@ -1173,8 +1182,8 @@ class ResNet50Visualizer {
                 .style('visibility', 'visible')
                 .style('opacity', '1')
                 .style('display', 'block')
-                .style('left', (event.clientX + 15) + 'px')
-                .style('top', (event.clientY - 20) + 'px')
+                .style('left', x + 'px')
+                .style('top', y + 'px')
                 .style('background', 'blue')
                 .style('color', 'white')
                 .style('padding', '10px')
