@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResNet50 Architecture Visualizer - AI Learning Hub</title>
+    <title>ResNet50 Interactive Visualizer - AI Learning Hub</title>
     
     <!-- Load shared components from centralized library -->
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/themes/default.css">
@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
     <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
     
-    <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/resnet50.css">
-    
     <!-- Prism.js for code highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css">
 </head>
 <body>
     <!-- Header -->
@@ -29,223 +29,80 @@
         
     <!-- Hero Section -->
     <div id="ai-hero"></div>
-    
-    <!-- Overview Section -->
-    <section class="ai-section">
-        <h2 class="ai-heading-2" data-en="📊 Architecture Overview" data-vi="📊 Tổng Quan Kiến Trúc">📊 Architecture Overview</h2>
-        <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
-           data-en="ResNet50 is a deep residual network with 50 layers, using skip connections to solve the vanishing gradient problem"
-           data-vi="ResNet50 là mạng residual sâu với 50 lớp, sử dụng kết nối skip để giải quyết vấn đề vanishing gradient">
-            ResNet50 is a deep residual network with 50 layers, using skip connections to solve the vanishing gradient problem
-        </p>
-        
-        <div class="architecture-stats">
-            <div class="stat-card">
-                <div class="stat-icon">🏗️</div>
-                <div class="stat-content">
-                    <div class="stat-number">50</div>
-                    <div class="stat-label" data-en="Layers" data-vi="Lớp">Layers</div>
+
+    <!-- Main Visualization Interface -->
+    <section class="visualization-interface ai-section">
+        <!-- Controls Header -->
+        <div class="controls-header">
+            <div class="left-controls">
+                <h2 class="visualization-title">ResNet50 — Interactive Backbone (v8.1)</h2>
+                <div class="input-controls">
+                    <span class="input-label">Input (N, C, H, W)</span>
+                    <label>N <input id="inputN" type="number" value="1" min="1"></label>
+                    <label>C <input id="inputC" type="number" value="3" min="1"></label>
+                    <label>H <input id="inputH" type="number" value="224" min="1"></label>
+                    <label>W <input id="inputW" type="number" value="224" min="1"></label>
+                    <button id="applyInputs" class="btn btn-primary">Apply</button>
+                    <button id="resetInputs" class="btn btn-secondary">Reset</button>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">🔗</div>
-                <div class="stat-content">
-                    <div class="stat-number">25.6M</div>
-                    <div class="stat-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⚡</div>
-                <div class="stat-content">
-                    <div class="stat-number">4.1B</div>
-                    <div class="stat-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📐</div>
-                <div class="stat-content">
-                    <div class="stat-number">224×224</div>
-                    <div class="stat-label" data-en="Input Size" data-vi="Kích Thước Đầu Vào">Input Size</div>
+            <div class="right-controls">
+                <div class="zoom-controls">
+                    <button id="zoomIn" class="btn btn-secondary">＋ Zoom In</button>
+                    <button id="zoomOut" class="btn btn-secondary">－ Zoom Out</button>
+                    <button id="zoomFit" class="btn btn-secondary">⤢ Fit</button>
+                    <button id="zoomReset" class="btn btn-secondary">⟲ Reset</button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="ai-section">
-        <h2 class="ai-heading-2" data-en="🎯 Key Features" data-vi="🎯 Tính Năng Chính">🎯 Key Features</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🔄</div>
-                <h3 data-en="Skip Connections" data-vi="Kết Nối Skip">Skip Connections</h3>
-                <p data-en="Residual blocks with identity shortcuts to solve vanishing gradient problem" data-vi="Khối residual với đường tắt identity để giải quyết vấn đề vanishing gradient">
-                    Residual blocks with identity shortcuts to solve vanishing gradient problem
-                </p>
+        <!-- Main Visualization Area -->
+        <div class="visualization-main">
+            <!-- Visualization Canvas -->
+            <div class="viz-container">
+                <div class="viz-navigation">
+                    <button id="backBtn" class="btn btn-secondary" disabled>⬅ Back</button>
+                    <span id="breadcrumb" class="breadcrumb"></span>
+                </div>
+                <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
+                <div id="visualization" class="visualization-canvas"></div>
+                <div id="tooltip" class="tooltip"></div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏗️</div>
-                <h3 data-en="Bottleneck Design" data-vi="Thiết Kế Bottleneck">Bottleneck Design</h3>
-                <p data-en="1×1 convolutions to reduce parameters while maintaining performance" data-vi="Convolution 1×1 để giảm tham số nhưng vẫn duy trì hiệu suất">
-                    1×1 convolutions to reduce parameters while maintaining performance
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3 data-en="Transfer Learning" data-vi="Transfer Learning">Transfer Learning</h3>
-                <p data-en="Pre-trained on ImageNet, excellent for fine-tuning on custom datasets" data-vi="Được huấn luyện trước trên ImageNet, tuyệt vời cho fine-tuning trên dataset tùy chỉnh">
-                    Pre-trained on ImageNet, excellent for fine-tuning on custom datasets
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3 data-en="State-of-the-art" data-vi="Tiên Tiến Nhất">State-of-the-art</h3>
-                <p data-en="Achieved top-1 accuracy of 76.0% on ImageNet validation set" data-vi="Đạt được độ chính xác top-1 76.0% trên tập validation ImageNet">
-                    Achieved top-1 accuracy of 76.0% on ImageNet validation set
-                </p>
-            </div>
-        </div>
-    </section>
 
-    <!-- Interactive Visualization Section -->
-    <section class="ai-section">
-        <h2 class="ai-heading-2" data-en="🔍 Interactive Visualization" data-vi="🔍 Trực Quan Tương Tác">🔍 Interactive Visualization</h2>
-        <p class="ai-text-light" style="font-size: var(--ai-font-size-lg); margin-bottom: 2rem;" 
-           data-en="Explore ResNet50 architecture with interactive D3.js visualization"
-           data-vi="Khám phá kiến trúc ResNet50 với trực quan tương tác D3.js">
-            Explore ResNet50 architecture with interactive D3.js visualization
-        </p>
-        
-        <div class="visualization-card">
-            <div class="viz-preview">
-                <img src="assets/images/resnet50-preview.png" alt="ResNet50 Architecture Preview" class="preview-image">
-                <div class="viz-overlay">
-                    <h3 data-en="Interactive ResNet50 Visualizer" data-vi="Trực Quan ResNet50 Tương Tác">Interactive ResNet50 Visualizer</h3>
-                    <p data-en="Click to explore the complete architecture with layer-by-layer analysis" data-vi="Nhấp để khám phá kiến trúc hoàn chỉnh với phân tích từng lớp">
-                        Click to explore the complete architecture with layer-by-layer analysis
-                    </p>
-                    <a href="resnet50_backbone_d3_light_v8_1.html" class="btn btn-primary">
-                        <span data-en="Launch Visualizer" data-vi="Khởi Chạy Trực Quan">Launch Visualizer</span>
-                        <span class="btn-icon">→</span>
-                    </a>
+            <!-- Shape Map Panel -->
+            <div class="shape-map-panel">
+                <div class="shape-map-header">
+                    <h3>Shape Map</h3>
+                </div>
+                <div class="shape-map-content">
+                    <table class="shape-table">
+                        <thead>
+                            <tr>
+                                <th>Node</th>
+                                <th>Shape</th>
+                                <th>Scale</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shapeTableBody">
+                        </tbody>
+                    </table>
+                    <p class="shape-map-key">Scale is relative to input spatial size H×W.</p>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Architecture Details Section -->
-    <section class="ai-section">
-        <h2 class="ai-heading-2" data-en="🏗️ Architecture Details" data-vi="🏗️ Chi Tiết Kiến Trúc">🏗️ Architecture Details</h2>
-        <div class="architecture-details">
-            <div class="detail-card">
-                <h3 data-en="Stage Configuration" data-vi="Cấu Hình Stage">Stage Configuration</h3>
-                <div class="stage-list">
-                    <div class="stage-item">
-                        <span class="stage-name">Stage 1</span>
-                        <span class="stage-details">3 blocks, 256 channels</span>
-                    </div>
-                    <div class="stage-item">
-                        <span class="stage-name">Stage 2</span>
-                        <span class="stage-details">4 blocks, 512 channels</span>
-                    </div>
-                    <div class="stage-item">
-                        <span class="stage-name">Stage 3</span>
-                        <span class="stage-details">6 blocks, 1024 channels</span>
-                    </div>
-                    <div class="stage-item">
-                        <span class="stage-name">Stage 4</span>
-                        <span class="stage-details">3 blocks, 2048 channels</span>
-                    </div>
+        <!-- Code Panel -->
+        <div id="codePanel" class="code-panel">
+            <div id="resizeHandle" class="resize-handle" title="Drag to resize"></div>
+            <div class="code-panel-header">
+                <span class="code-panel-title">PyTorch Implementation</span>
+                <div class="code-panel-controls">
+                    <button id="copyCode" class="btn btn-secondary">Copy</button>
+                    <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
                 </div>
             </div>
-            <div class="detail-card">
-                <h3 data-en="Bottleneck Structure" data-vi="Cấu Trúc Bottleneck">Bottleneck Structure</h3>
-                <div class="bottleneck-diagram">
-                    <div class="bottleneck-step">
-                        <span class="step-number">1</span>
-                        <span class="step-text">1×1 Conv (reduce)</span>
-                    </div>
-                    <div class="bottleneck-arrow">→</div>
-                    <div class="bottleneck-step">
-                        <span class="step-number">2</span>
-                        <span class="step-text">3×3 Conv</span>
-                    </div>
-                    <div class="bottleneck-arrow">→</div>
-                    <div class="bottleneck-step">
-                        <span class="step-number">3</span>
-                        <span class="step-text">1×1 Conv (expand)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Code Examples Section -->
-    <section class="ai-section">
-        <h2 class="ai-heading-2" data-en="💻 Code Examples" data-vi="💻 Ví Dụ Code">💻 Code Examples</h2>
-        <div class="code-examples">
-            <div class="code-tabs">
-                <button class="code-tab active" data-tab="pytorch">PyTorch</button>
-                <button class="code-tab" data-tab="tensorflow">TensorFlow</button>
-            </div>
-            <div class="code-content">
-                <div class="code-block active" id="pytorch-code">
-                    <pre><code class="language-python">import torch
-import torch.nn as nn
-import torchvision.models as models
-
-# Load pre-trained ResNet50
-model = models.resnet50(pretrained=True)
-
-# Modify for custom number of classes
-num_classes = 1000
-model.fc = nn.Linear(model.fc.in_features, num_classes)
-
-# Forward pass
-x = torch.randn(1, 3, 224, 224)
-output = model(x)
-print(f"Output shape: {output.shape}")</code></pre>
-                </div>
-                <div class="code-block" id="tensorflow-code">
-                    <pre><code class="language-python">import tensorflow as tf
-from tensorflow.keras.applications import ResNet50
-
-# Load pre-trained ResNet50
-model = ResNet50(
-    weights='imagenet',
-    include_top=False,
-    input_shape=(224, 224, 3)
-)
-
-# Add custom classification head
-x = model.output
-x = tf.keras.layers.GlobalAveragePooling2D()(x)
-x = tf.keras.layers.Dense(1000, activation='softmax')(x)
-
-custom_model = tf.keras.Model(inputs=model.input, outputs=x)</code></pre>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Performance Section -->
-    <section class="ai-section">
-        <h2 class="ai-heading-2" data-en="📈 Performance Metrics" data-vi="📈 Chỉ Số Hiệu Suất">📈 Performance Metrics</h2>
-        <div class="performance-grid">
-            <div class="metric-card">
-                <div class="metric-value">76.0%</div>
-                <div class="metric-label" data-en="Top-1 Accuracy" data-vi="Độ Chính Xác Top-1">Top-1 Accuracy</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">92.9%</div>
-                <div class="metric-label" data-en="Top-5 Accuracy" data-vi="Độ Chính Xác Top-5">Top-5 Accuracy</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">25.6M</div>
-                <div class="metric-label" data-en="Parameters" data-vi="Tham Số">Parameters</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">4.1B</div>
-                <div class="metric-label" data-en="FLOPs" data-vi="FLOPs">FLOPs</div>
+            <div class="code-panel-content">
+                <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its PyTorch-style implementation</code></pre>
             </div>
         </div>
     </section>
@@ -265,17 +122,20 @@ custom_model = tf.keras.Model(inputs=model.input, outputs=x)</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     
+    <!-- D3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    
     <!-- Custom scripts -->
     <script src="components/D3Visualizer.js"></script>
     <script src="components/CodePanel.js"></script>
     <script src="components/ShapeMap.js"></script>
-    <script src="assets/js/resnet50.js"></script>
+    <script src="assets/js/resnet50-visualizer.js"></script>
     <script>
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize header
             const header = new AIHeader('ai-header', {
-                title: 'ResNet50 Architecture',
+                title: 'ResNet50 Interactive Visualizer',
                 breadcrumbs: [
                     { label: 'Home', url: '../../../index.html', active: false },
                     { label: 'Computer Vision', url: '../../index.html', active: false },
@@ -286,15 +146,15 @@ custom_model = tf.keras.Model(inputs=model.input, outputs=x)</code></pre>
             
             // Initialize hero section with stats
             const hero = new AIHero('ai-hero', {
-                title: '🏗️ ResNet50 Architecture',
-                titleVi: '🏗️ Kiến Trúc ResNet50',
-                subtitle: 'Deep residual network with 50 layers using skip connections for better gradient flow',
-                subtitleVi: 'Mạng residual sâu với 50 lớp sử dụng kết nối skip để cải thiện luồng gradient',
+                title: '🏗️ ResNet50 Interactive Visualizer',
+                titleVi: '🏗️ Trực Quan ResNet50 Tương Tác',
+                subtitle: 'Explore ResNet50 architecture with interactive D3.js visualization',
+                subtitleVi: 'Khám phá kiến trúc ResNet50 với trực quan tương tác D3.js',
                 stats: [
                     { value: '50', label: 'Layers', labelVi: 'Lớp' },
                     { value: '25.6M', label: 'Parameters', labelVi: 'Tham Số' },
                     { value: '76.0%', label: 'Top-1 Accuracy', labelVi: 'Độ Chính Xác Top-1' },
-                    { value: '2015', label: 'Year', labelVi: 'Năm' }
+                    { value: 'Interactive', label: 'Visualization', labelVi: 'Trực Quan' }
                 ],
                 gradient: true
             });
@@ -305,8 +165,8 @@ custom_model = tf.keras.Model(inputs=model.input, outputs=x)</code></pre>
             // Initialize language manager
             window.AILanguageManager.createLanguageSwitcher('language-switcher');
             
-            // Initialize ResNet50 page
-            ResNet50Page.init();
+            // Initialize ResNet50 Visualizer
+            ResNet50Visualizer.init();
         });
     </script>
 </body>

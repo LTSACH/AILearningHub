@@ -1,0 +1,460 @@
+/* ResNet50 Visualizer Styles */
+
+/* CSS Variables */
+:root {
+    --bg: #ffffff;
+    --ink: #111827;
+    --muted: #6b7280;
+    --panel: #f3f4f6;
+    --stroke: #d1d5db;
+    --edge: #3B82F6;
+    --edge-hi: #2563EB;
+    --skip: #F59E0B;
+    --node-backbone: #CBD5E1;
+    --node-stage: #F9FAFB;
+    --node-io: #E67E22;
+    --node-hover: #E2E8F0;
+}
+
+/* Visualization Interface */
+.visualization-interface {
+    background: var(--bg);
+    border-radius: var(--ai-radius-lg);
+    border: 1px solid var(--ai-border);
+    overflow: hidden;
+    margin: var(--ai-spacing-xl) 0;
+}
+
+/* Controls Header */
+.controls-header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--stroke);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.visualization-title {
+    margin: 0;
+    font-size: 18px;
+    color: var(--ink);
+}
+
+.left-controls, .right-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.input-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.input-label {
+    padding: 6px 10px;
+    border: 1px dashed var(--stroke);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.input-controls label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--ink);
+}
+
+.input-controls input {
+    width: 80px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--stroke);
+    background: #fff;
+    color: var(--ink);
+    font-size: 12px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: 1px solid var(--stroke);
+    background: #e5e7eb;
+    color: var(--ink);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: var(--ai-transition);
+}
+
+.btn:hover {
+    border-color: var(--edge-hi);
+    background: #f3f4f6;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: var(--ai-primary);
+    color: white;
+    border-color: var(--ai-primary);
+}
+
+.btn-primary:hover {
+    background: var(--ai-primary-dark);
+    border-color: var(--ai-primary-dark);
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: var(--ink);
+}
+
+.zoom-controls {
+    display: flex;
+    gap: 8px;
+}
+
+/* Main Visualization Area */
+.visualization-main {
+    display: flex;
+    height: calc(100vh - 300px);
+    min-height: 500px;
+}
+
+.viz-container {
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 320px;
+    border-right: 1px solid var(--stroke);
+    background: var(--bg);
+}
+
+.visualization-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.viz-navigation {
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 2;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.formula {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12px;
+    font-size: 13px;
+    color: #1f2937;
+    background: #f9fafb;
+    border: 1px solid var(--stroke);
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: none;
+    z-index: 2;
+}
+
+/* Shape Map Panel */
+.shape-map-panel {
+    width: 320px;
+    flex: 0 0 320px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--stroke);
+}
+
+.shape-map-header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--stroke);
+}
+
+.shape-map-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+.shape-map-content {
+    padding: 10px 12px;
+    overflow: auto;
+    flex: 1;
+}
+
+.shape-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.shape-table th,
+.shape-table td {
+    border-bottom: 1px dashed #e5e7eb;
+    padding: 6px 6px;
+    text-align: left;
+}
+
+.shape-table th {
+    color: #374151;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    background: #fafafa;
+}
+
+.shape-table td {
+    color: var(--muted);
+}
+
+.shape-map-key {
+    color: #6b7280;
+    font-size: 12px;
+    margin: 6px 0 0 0;
+}
+
+/* Code Panel */
+.code-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid var(--stroke);
+    background: #2d2d2d;
+    display: flex;
+    flex-direction: column;
+    transition: height .2s ease;
+    min-height: 120px;
+    height: 25vh;
+    z-index: 10;
+}
+
+.resize-handle {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    cursor: ns-resize;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0));
+}
+
+.code-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: #e5e7eb;
+    background: #1f1f1f;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.code-panel-title {
+    font-weight: 600;
+}
+
+.code-panel-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.code-panel-controls .btn {
+    background: #111;
+    color: #e5e7eb;
+    border-color: #3a3a3a;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+.code-panel-controls .btn:hover {
+    background: #333;
+}
+
+.code-panel-content {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 8px 12px;
+}
+
+.code-panel-content pre {
+    margin: 0;
+}
+
+.code-panel-content code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--ink);
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0,0,0,.18);
+    display: none;
+    z-index: 10;
+    max-width: 480px;
+}
+
+/* D3 Visualization Styles */
+.node rect {
+    rx: 14px;
+    ry: 14px;
+    stroke: var(--stroke);
+    stroke-width: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.node rect:hover {
+    stroke: var(--edge);
+    stroke-width: 2px;
+    fill: var(--node-hover);
+}
+
+.title {
+    font-size: 15px;
+    font-weight: 600;
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+.subtitle {
+    font-size: 12px;
+    fill: var(--muted);
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+.port {
+    fill: #fff;
+    stroke: var(--edge);
+    stroke-width: 1.5px;
+    cursor: pointer;
+}
+
+/* Edges & flow animation */
+.edge {
+    fill: none;
+    stroke: var(--edge);
+    stroke-width: 2px;
+    marker-end: url(#arrowHead);
+    opacity: .95;
+}
+
+.edge.flow {
+    stroke: var(--edge-hi);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-dasharray: 14 14;
+    animation: dashflow 1.1s linear infinite;
+}
+
+@keyframes dashflow {
+    to { stroke-dashoffset: -28; }
+}
+
+.skip {
+    fill: none;
+    stroke: var(--skip);
+    stroke-width: 2.5px;
+    marker-end: url(#arrowSkip);
+    opacity: .95;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .controls-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .left-controls, .right-controls {
+        justify-content: center;
+    }
+    
+    .visualization-main {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .shape-map-panel {
+        width: 100%;
+        height: 300px;
+        border-left: none;
+        border-top: 1px solid var(--stroke);
+    }
+    
+    .viz-container {
+        border-right: none;
+        border-bottom: 1px solid var(--stroke);
+        height: 500px;
+    }
+    
+    .input-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .input-controls label {
+        justify-content: space-between;
+    }
+    
+    .input-controls input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .visualization-title {
+        font-size: 16px;
+    }
+    
+    .btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+    
+    .zoom-controls {
+        flex-wrap: wrap;
+    }
+    
+    .viz-navigation {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+}
