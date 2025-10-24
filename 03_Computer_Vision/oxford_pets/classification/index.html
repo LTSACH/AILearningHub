@@ -155,22 +155,42 @@
                 
                 <!-- Pipeline Detail Tabs -->
                 <div class="pipeline-detail-tabs">
-                    <div class="pipeline-detail-tab-buttons">
-                        <button class="pipeline-detail-tab-btn active" onclick="switchPipelineDetailTab('input')">
-                            🖼️ Input Image
-                        </button>
-                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('preprocessing')">
-                            🔧 Preprocessing
-                        </button>
-                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-model')">
-                            🧠 CNN Model
-                        </button>
-                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('classifier-head')">
-                            🎯 Classifier Head
-                        </button>
-                        <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('results')">
-                            ✨ Classification Results
-                        </button>
+                    <!-- Collapsible Navigation -->
+                    <div class="pipeline-navigation">
+                        <div class="nav-header" onclick="togglePipelineNav()">
+                            <h4>📚 CNN Pipeline Tutorials</h4>
+                            <div class="nav-toggle">
+                                <span class="nav-icon">▼</span>
+                                <span class="nav-text">Quick Navigation</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-detail-tab-buttons" id="pipeline-nav-buttons">
+                            <button class="pipeline-detail-tab-btn active" onclick="switchPipelineDetailTab('input')">
+                                <span class="tab-icon">🖼️</span>
+                                <span class="tab-title">Input Image</span>
+                                <span class="tab-desc">Tensor formats & data loading</span>
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('preprocessing')">
+                                <span class="tab-icon">🔧</span>
+                                <span class="tab-title">Preprocessing</span>
+                                <span class="tab-desc">Image transforms & normalization</span>
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-model')">
+                                <span class="tab-icon">🧠</span>
+                                <span class="tab-title">CNN Model</span>
+                                <span class="tab-desc">Architecture & transfer learning</span>
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('classifier-head')">
+                                <span class="tab-icon">🎯</span>
+                                <span class="tab-title">Classifier Head</span>
+                                <span class="tab-desc">Adapting for specific tasks</span>
+                            </button>
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('results')">
+                                <span class="tab-icon">✨</span>
+                                <span class="tab-title">Classification Results</span>
+                                <span class="tab-desc">Evaluation & metrics</span>
+                            </button>
+                        </div>
                     </div>
                     
                     <!-- Input Image Detail Tab -->
@@ -2018,6 +2038,32 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
             if (clickedDetailButton) {
                 clickedDetailButton.classList.add('active');
             }
+            
+            // Auto-collapse navigation after selection
+            const navButtons = document.getElementById('pipeline-nav-buttons');
+            if (navButtons) {
+                navButtons.style.display = 'none';
+                const navIcon = document.querySelector('.nav-icon');
+                if (navIcon) {
+                    navIcon.textContent = '▶';
+                }
+            }
+        };
+        
+        // Function to toggle pipeline navigation
+        window.togglePipelineNav = function() {
+            const navButtons = document.getElementById('pipeline-nav-buttons');
+            const navIcon = document.querySelector('.nav-icon');
+            
+            if (navButtons && navIcon) {
+                if (navButtons.style.display === 'none' || navButtons.style.display === '') {
+                    navButtons.style.display = 'grid';
+                    navIcon.textContent = '▼';
+                } else {
+                    navButtons.style.display = 'none';
+                    navIcon.textContent = '▶';
+                }
+            }
         };
         
         // Function to initialize comparison tables with real data
@@ -2423,34 +2469,109 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
     display: block;
 }
 
-.pipeline-detail-tab-buttons {
+/* Collapsible Navigation */
+.pipeline-navigation {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.nav-header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-header:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+.nav-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.nav-toggle {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0.5rem;
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.pipeline-detail-tab-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e5e7eb;
 }
 
 .pipeline-detail-tab-btn {
-    background: #f8f9fa;
+    background: #ffffff;
     border: 1px solid #e5e7eb;
-    border-radius: 8px 8px 0 0;
-    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    padding: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
     color: #6b7280;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .pipeline-detail-tab-btn:hover {
-    background: #e5e7eb;
-    color: #374151;
+    background: #f0f9ff;
+    color: #1e40af;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .pipeline-detail-tab-btn.active {
     background: #4f46e5;
     color: white;
     border-color: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.tab-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.tab-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.tab-desc {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    line-height: 1.3;
 }
 
 .pipeline-detail-content {
@@ -3072,6 +3193,12 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
     color: #1e40af;
 }
 
+/* Initialize navigation as collapsed */
+#pipeline-nav-buttons {
+    display: none;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .dimension-list {
         grid-template-columns: 1fr;
@@ -3091,6 +3218,26 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
     
     .additional-topics {
         grid-template-columns: 1fr;
+    }
+    
+    .pipeline-detail-tab-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .nav-header h4 {
+        font-size: 1rem;
+    }
+    
+    .tab-title {
+        font-size: 0.9rem;
+    }
+    
+    .tab-desc {
+        font-size: 0.75rem;
     }
 }
 </style>
