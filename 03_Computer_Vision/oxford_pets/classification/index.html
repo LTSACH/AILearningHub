@@ -2044,18 +2044,15 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
         window.togglePipelineNav = function() {
             const navButtons = document.getElementById('pipeline-nav-buttons');
             const navIcon = document.querySelector('.nav-icon');
-            const pipelineDetailTabs = document.querySelector('.pipeline-detail-tabs');
             
-            if (navButtons && navIcon && pipelineDetailTabs) {
+            if (navButtons && navIcon) {
                 if (navButtons.style.display === 'none' || navButtons.style.display === '') {
-                    // Expand: Show navigation and content
+                    // Expand: Show navigation
                     navButtons.style.display = 'grid';
-                    pipelineDetailTabs.style.display = 'block';
                     navIcon.textContent = '▼';
                 } else {
-                    // Collapse: Hide navigation and content
+                    // Collapse: Hide navigation
                     navButtons.style.display = 'none';
-                    pipelineDetailTabs.style.display = 'none';
                     navIcon.textContent = '▶';
                 }
             }
