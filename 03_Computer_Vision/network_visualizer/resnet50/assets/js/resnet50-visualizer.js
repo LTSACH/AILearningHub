@@ -990,6 +990,14 @@ class ResNet50Visualizer {
         } else {
             toggleBtn.textContent = '▼ Collapse';
         }
+        
+        // Resize visualization after toggle
+        setTimeout(() => {
+            this.resize();
+            setTimeout(() => {
+                this.zoomFit();
+            }, 100);
+        }, 300);
     }
 
     /**
@@ -998,13 +1006,19 @@ class ResNet50Visualizer {
     toggleShapeMap() {
         const shapeMapPanel = document.getElementById('shapeMapPanel');
         const toggleBtn = document.getElementById('shapeMapToggle');
+        const rightSide = document.querySelector('.right-side');
+        const leftSide = document.querySelector('.left-side');
         
         shapeMapPanel.classList.toggle('collapsed');
         
         if (shapeMapPanel.classList.contains('collapsed')) {
             toggleBtn.textContent = '▶';
+            rightSide.classList.add('collapsed');
+            leftSide.classList.add('expanded');
         } else {
             toggleBtn.textContent = '◀';
+            rightSide.classList.remove('collapsed');
+            leftSide.classList.remove('expanded');
         }
         
         // Resize visualization after toggle
