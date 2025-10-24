@@ -1268,7 +1268,430 @@ for epoch in range(num_epochs):
                         <div class="pipeline-detail-content">
                             <h3>🎯 Classifier Head</h3>
                             <p class="pipeline-detail-intro">Adapting pre-trained models for specific classification tasks.</p>
-                            <p>Content coming soon...</p>
+                            
+                            <!-- Classifier Head Overview -->
+                            <div class="detail-group">
+                                <h4>🎯 Classifier Head Overview</h4>
+                                <p class="group-description">The final component that converts CNN features into class predictions.</p>
+                                
+                                <div class="classifier-overview">
+                                    <h5>📋 Definition & Purpose</h5>
+                                    <div class="definition-card">
+                                        <h6>What is a Classifier Head?</h6>
+                                        <p>The classifier head is the final component of a CNN that transforms extracted features into class predictions. It takes high-level features from the CNN backbone and outputs probability scores for each class.</p>
+                                        
+                                        <div class="classifier-flow">
+                                            <div class="flow-step">
+                                                <h6>Input: Features from Backbone</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Features from CNN backbone
+features.shape = (N, C, H, W)
+# Example: (32, 2048, 7, 7) from ResNet50</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flow-arrow">→</div>
+                                            
+                                            <div class="flow-step">
+                                                <h6>Processing: Classifier Head</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Global Average Pooling + Linear Layer
+# (N, C, H, W) → (N, C) → (N, num_classes)</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flow-arrow">→</div>
+                                            
+                                            <div class="flow-step">
+                                                <h6>Output: Class Predictions</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Class probabilities
+predictions.shape = (N, num_classes)
+# Example: (32, 37) for Oxford Pets</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Architecture Components -->
+                            <div class="detail-group">
+                                <h4>🔧 Architecture Components</h4>
+                                <p class="group-description">Key components that make up a classifier head.</p>
+                                
+                                <div class="components-section">
+                                    <div class="component-grid">
+                                        <div class="component-card">
+                                            <h6>🌊 Global Average Pooling (GAP)</h6>
+                                            <div class="component-description">
+                                                <p><strong>Purpose:</strong> Reduces spatial dimensions from (N, C, H, W) to (N, C, 1, 1)</p>
+                                                <p><strong>Advantages:</strong> Reduces parameters, prevents overfitting, translation invariant</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Global Average Pooling
+gap = nn.AdaptiveAvgPool2d(1)
+# Input: (32, 2048, 7, 7)
+# Output: (32, 2048, 1, 1)</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="component-card">
+                                            <h6>🔗 Fully Connected Layers</h6>
+                                            <div class="component-description">
+                                                <p><strong>Purpose:</strong> Maps features to class scores</p>
+                                                <p><strong>Input:</strong> Number of features from backbone</p>
+                                                <p><strong>Output:</strong> Number of classes in dataset</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Linear layer for classification
+classifier = nn.Linear(2048, 37)
+# Input: 2048 features (ResNet50)
+# Output: 37 classes (Oxford Pets)</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="component-card">
+                                            <h6>⚡ Activation Functions</h6>
+                                            <div class="component-description">
+                                                <p><strong>Softmax:</strong> Converts scores to probabilities</p>
+                                                <p><strong>Sigmoid:</strong> For multi-label classification</p>
+                                                <p><strong>ReLU:</strong> For hidden layers</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Softmax for single-label classification
+probabilities = F.softmax(logits, dim=1)
+# Sigmoid for multi-label classification
+probabilities = torch.sigmoid(logits)</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Design Strategies -->
+                            <div class="detail-group">
+                                <h4>🎨 Design Strategies</h4>
+                                <p class="group-description">Different approaches to designing classifier heads.</p>
+                                
+                                <div class="strategies-section">
+                                    <div class="strategy-grid">
+                                        <div class="strategy-card">
+                                            <h6>🔧 Simple Classifier</h6>
+                                            <div class="strategy-description">
+                                                <p><strong>Architecture:</strong> GAP → Linear layer</p>
+                                                <p><strong>Use case:</strong> Small datasets, quick prototyping</p>
+                                                <p><strong>Parameters:</strong> Minimal parameters</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Simple classifier head
+class SimpleClassifier(nn.Module):
+    def __init__(self, num_features, num_classes):
+        super().__init__()
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(num_features, num_classes)
+    
+    def forward(self, x):
+        x = self.gap(x).flatten(1)
+        return self.classifier(x)
+
+# Usage
+classifier = SimpleClassifier(2048, 37)</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="strategy-card">
+                                            <h6>🏗️ Multi-layer Classifier</h6>
+                                            <div class="strategy-description">
+                                                <p><strong>Architecture:</strong> GAP → Linear → ReLU → Dropout → Linear</p>
+                                                <p><strong>Use case:</strong> Complex datasets, better performance</p>
+                                                <p><strong>Parameters:</strong> More parameters, more capacity</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Multi-layer classifier head
+class MultiLayerClassifier(nn.Module):
+    def __init__(self, num_features, num_classes, hidden_dim=512):
+        super().__init__()
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Sequential(
+            nn.Linear(num_features, hidden_dim),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(hidden_dim, num_classes)
+        )
+    
+    def forward(self, x):
+        x = self.gap(x).flatten(1)
+        return self.classifier(x)
+
+# Usage
+classifier = MultiLayerClassifier(2048, 37, hidden_dim=512)</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="strategy-card">
+                                            <h6>🎯 Custom Classifier</h6>
+                                            <div class="strategy-description">
+                                                <p><strong>Architecture:</strong> Custom design for specific tasks</p>
+                                                <p><strong>Use case:</strong> Specialized requirements</p>
+                                                <p><strong>Parameters:</strong> Flexible design</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Custom classifier head
+class CustomClassifier(nn.Module):
+    def __init__(self, num_features, num_classes):
+        super().__init__()
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.feature_extractor = nn.Sequential(
+            nn.Linear(num_features, 1024),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(1024, 512),
+            nn.ReLU(),
+            nn.Dropout(0.3)
+        )
+        self.classifier = nn.Linear(512, num_classes)
+    
+    def forward(self, x):
+        x = self.gap(x).flatten(1)
+        features = self.feature_extractor(x)
+        return self.classifier(features)
+
+# Usage
+classifier = CustomClassifier(2048, 37)</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Implementation Examples -->
+                            <div class="detail-group">
+                                <h4>💻 Implementation Examples</h4>
+                                <p class="group-description">Practical code examples for creating classifier heads.</p>
+                                
+                                <div class="implementation-section">
+                                    <div class="example-section">
+                                        <h6>🔧 TorchVision Models</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+# Load pre-trained ResNet50
+backbone = models.resnet50(pretrained=True)
+
+# Replace classifier head
+num_classes = 37  # Oxford Pets classes
+backbone.fc = nn.Linear(backbone.fc.in_features, num_classes)
+
+# Check the new classifier
+print(f"Classifier input features: {backbone.fc.in_features}")
+print(f"Classifier output classes: {backbone.fc.out_features}")
+
+# Usage
+model = backbone
+outputs = model(images)  # Shape: (batch_size, 37)</code></pre>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="example-section">
+                                        <h6>🔧 timm Models</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python">import timm
+import torch.nn as nn
+
+# Create model with custom number of classes
+model = timm.create_model('efficientnet_b0', 
+                         pretrained=True, 
+                         num_classes=37)
+
+# Check model structure
+print(f"Model: {model}")
+print(f"Classifier: {model.classifier}")
+
+# Usage
+outputs = model(images)  # Shape: (batch_size, 37)</code></pre>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="example-section">
+                                        <h6>🔧 Custom Classifier</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python">import torch
+import torch.nn as nn
+
+# Create custom classifier head
+class CustomClassifierHead(nn.Module):
+    def __init__(self, backbone_features, num_classes):
+        super().__init__()
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Sequential(
+            nn.Linear(backbone_features, 512),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(512, num_classes)
+        )
+    
+    def forward(self, x):
+        x = self.gap(x).flatten(1)
+        return self.classifier(x)
+
+# Usage with ResNet50 backbone
+backbone = models.resnet50(pretrained=True)
+# Remove original classifier
+backbone.fc = nn.Identity()
+
+# Add custom classifier
+classifier = CustomClassifierHead(2048, 37)
+
+# Complete model
+class CompleteModel(nn.Module):
+    def __init__(self, backbone, classifier):
+        super().__init__()
+        self.backbone = backbone
+        self.classifier = classifier
+    
+    def forward(self, x):
+        features = self.backbone(x)
+        return self.classifier(features)
+
+model = CompleteModel(backbone, classifier)</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Training Strategies -->
+                            <div class="detail-group">
+                                <h4>🔧 Training Strategies</h4>
+                                <p class="group-description">Different approaches to training classifier heads.</p>
+                                
+                                <div class="training-strategies">
+                                    <div class="strategy-grid">
+                                        <div class="strategy-card">
+                                            <h6>🔒 Freeze Backbone</h6>
+                                            <div class="strategy-description">
+                                                <p><strong>Strategy:</strong> Only train classifier head</p>
+                                                <p><strong>Use case:</strong> Small datasets, quick training</p>
+                                                <p><strong>Advantages:</strong> Fast training, less overfitting</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Freeze backbone parameters
+for param in backbone.parameters():
+    param.requires_grad = False
+
+# Only train classifier
+optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001)
+
+# Training loop
+for epoch in range(num_epochs):
+    for images, labels in dataloader:
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="strategy-card">
+                                            <h6>🔄 Fine-tune Backbone</h6>
+                                            <div class="strategy-description">
+                                                <p><strong>Strategy:</strong> Train entire model</p>
+                                                <p><strong>Use case:</strong> Large datasets, best performance</p>
+                                                <p><strong>Advantages:</strong> Better performance, full model adaptation</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Unfreeze all parameters
+for param in model.parameters():
+    param.requires_grad = True
+
+# Use different learning rates
+optimizer = torch.optim.Adam([
+    {'params': backbone.parameters(), 'lr': 0.0001},
+    {'params': classifier.parameters(), 'lr': 0.001}
+])
+
+# Training loop
+for epoch in range(num_epochs):
+    for images, labels in dataloader:
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="strategy-card">
+                                            <h6>📈 Progressive Unfreezing</h6>
+                                            <div class="strategy-description">
+                                                <p><strong>Strategy:</strong> Unfreeze layers gradually</p>
+                                                <p><strong>Use case:</strong> Balanced approach</p>
+                                                <p><strong>Advantages:</strong> Stable training, good performance</p>
+                                            </div>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Start with frozen backbone
+for param in backbone.parameters():
+    param.requires_grad = False
+
+# Train classifier first
+optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001)
+# ... train for several epochs ...
+
+# Unfreeze later layers
+for param in backbone.layer4.parameters():
+    param.requires_grad = True
+
+# Continue training
+optimizer = torch.optim.Adam([
+    {'params': backbone.layer4.parameters(), 'lr': 0.0001},
+    {'params': classifier.parameters(), 'lr': 0.001}
+])</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Best Practices -->
+                            <div class="detail-group">
+                                <h4>💡 Best Practices</h4>
+                                <p class="group-description">Guidelines for designing and training classifier heads.</p>
+                                
+                                <div class="practices-grid">
+                                    <div class="practice-card">
+                                        <h6>🎯 Design Principles</h6>
+                                        <ul>
+                                            <li><strong>Start Simple:</strong> Begin with basic classifier</li>
+                                            <li><strong>Add Complexity:</strong> Gradually increase capacity</li>
+                                            <li><strong>Monitor Overfitting:</strong> Watch for overfitting signs</li>
+                                            <li><strong>Regularization:</strong> Use dropout, weight decay</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="practice-card">
+                                        <h6>⚡ Implementation Tips</h6>
+                                        <ul>
+                                            <li><strong>Input Size:</strong> Match backbone output</li>
+                                            <li><strong>Output Size:</strong> Match number of classes</li>
+                                            <li><strong>Activation:</strong> Use appropriate functions</li>
+                                            <li><strong>Initialization:</strong> Proper weight initialization</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="practice-card">
+                                        <h6>🔍 Debugging</h6>
+                                        <ul>
+                                            <li><strong>Check Shapes:</strong> Verify input/output shapes</li>
+                                            <li><strong>Monitor Gradients:</strong> Check gradient flow</li>
+                                            <li><strong>Visualize:</strong> Plot training curves</li>
+                                            <li><strong>Test:</strong> Validate on validation set</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
