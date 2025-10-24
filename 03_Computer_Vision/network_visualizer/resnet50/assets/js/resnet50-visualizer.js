@@ -1074,11 +1074,17 @@ class ResNet50Visualizer {
             return;
         }
 
-        // Set initial height
+        // Set initial heights for both panels
         const parentHeight = codePanel.parentElement.getBoundingClientRect().height;
-        const initialHeight = parentHeight * 0.25; // 25% of parent height
-        codePanel.style.setProperty('height', initialHeight + 'px', 'important');
-        console.log('🔧 Set initial height to:', initialHeight + 'px');
+        const vizContainer = document.querySelector('.viz-container');
+        
+        const initialCodeHeight = parentHeight * 0.25; // 25% of parent height
+        const initialVizHeight = parentHeight * 0.75; // 75% of parent height
+        
+        codePanel.style.setProperty('height', initialCodeHeight + 'px', 'important');
+        vizContainer.style.setProperty('height', initialVizHeight + 'px', 'important');
+        
+        console.log('🔧 Set initial heights - Code:', initialCodeHeight + 'px', 'Viz:', initialVizHeight + 'px');
 
         resizeHandle.addEventListener('mousedown', (e) => {
             console.log('🖱️ Mouse down on resize handle');
@@ -1094,18 +1100,23 @@ class ResNet50Visualizer {
             if (!isResizing) return;
             
             const dy = startY - e.clientY;
-            let newHeight = startHeight + dy;
+            let newCodeHeight = startHeight + dy;
             const minHeight = 120;
             const maxHeight = window.innerHeight * 0.6;
             
-            console.log('🖱️ Mouse move - dy:', dy, 'newHeight:', newHeight);
+            console.log('🖱️ Mouse move - dy:', dy, 'newCodeHeight:', newCodeHeight);
             
-            newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+            newCodeHeight = Math.max(minHeight, Math.min(maxHeight, newCodeHeight));
             
-            console.log('📏 Setting height to:', newHeight + 'px');
+            // Calculate new viz height (total height - new code height)
+            const totalHeight = parentHeight;
+            const newVizHeight = totalHeight - newCodeHeight;
             
-            // Use height directly instead of flex
-            codePanel.style.setProperty('height', newHeight + 'px', 'important');
+            console.log('📏 Setting heights - Code:', newCodeHeight + 'px', 'Viz:', newVizHeight + 'px');
+            
+            // Update both panels
+            codePanel.style.setProperty('height', newCodeHeight + 'px', 'important');
+            vizContainer.style.setProperty('height', newVizHeight + 'px', 'important');
         });
 
         document.addEventListener('mouseup', () => {
