@@ -167,9 +167,9 @@
     transition: flex 0.3s ease;
 }
 
-/* When shape-map is collapsed, left-side expands to take full width */
+/* When shape-map is collapsed, left-side expands to take remaining space */
 .left-side.expanded {
-    flex: 0 0 100%;
+    flex: 1;
 }
 
 /* Right Side (30%) */
@@ -179,10 +179,10 @@
     position: relative;
 }
 
-/* When shape-map is collapsed, right-side becomes invisible but maintains space */
+/* When shape-map is collapsed, right-side becomes narrow */
 .right-side.collapsed {
-    flex: 0 0 0;
-    width: 0;
+    flex: 0 0 40px;
+    width: 40px;
     overflow: hidden;
 }
 
@@ -247,10 +247,7 @@
 .shape-map-panel.collapsed {
     width: 40px !important;
     flex: 0 0 40px !important;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    position: relative;
     z-index: 10;
 }
 
@@ -368,6 +365,7 @@
     flex: 0 0 28px !important;
     min-height: 28px !important;
     max-height: 28px !important;
+    margin-top: auto;
 }
 
 .code-resize-handle {
