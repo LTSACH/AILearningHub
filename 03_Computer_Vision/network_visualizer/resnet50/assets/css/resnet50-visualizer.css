@@ -375,7 +375,6 @@
     flex-direction: column;
     position: relative;
     transition: height 0.2s ease;
-    resize: vertical;
     overflow: hidden;
 }
 

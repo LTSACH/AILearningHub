@@ -1061,6 +1061,12 @@ class ResNet50Visualizer {
             const maxHeight = window.innerHeight * 0.6;
             
             newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+            
+            // Calculate percentage based on parent height
+            const parentHeight = codePanel.parentElement.getBoundingClientRect().height;
+            const percentage = (newHeight / parentHeight) * 100;
+            
+            codePanel.style.flex = `0 0 ${percentage}%`;
             codePanel.style.height = newHeight + 'px';
         });
 
