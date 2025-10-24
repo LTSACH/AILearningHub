@@ -160,11 +160,20 @@
     flex-shrink: 0;
 }
 
+.shape-map-panel.collapsed .shape-map-header {
+    justify-content: center;
+    padding: 8px;
+}
+
 .shape-map-header h3 {
     margin: 0;
     font-size: 14px;
     color: var(--ink);
     white-space: nowrap;
+}
+
+.shape-map-panel.collapsed .shape-map-header h3 {
+    display: none;
 }
 
 .shape-map-toggle {
@@ -185,6 +194,9 @@
 
 .shape-map-panel.collapsed .shape-map-toggle {
     transform: rotate(180deg);
+    font-size: 20px;
+    color: var(--ink);
+    padding: 8px;
 }
 
 .shape-map-content {
@@ -242,7 +254,7 @@
 }
 
 .code-implementation-panel.collapsed {
-    height: 40px;
+    height: 32px;
 }
 
 .code-resize-handle {
