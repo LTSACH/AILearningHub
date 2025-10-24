@@ -795,12 +795,7 @@ class ResNet50Visualizer {
                                document.mozFullScreenElement || 
                                document.msFullscreenElement);
         
-        // Debug: Log fullscreen status
-        if (isFullscreen) {
-            console.log('Fullscreen mode detected, showing tooltip at position:', x, y);
-            console.log('Tooltip element exists:', !!this.tooltip);
-            console.log('Tooltip node:', this.tooltip?.node());
-        }
+        // Fullscreen mode detected
         
         // Force tooltip to be visible
         this.tooltip.html(text)
@@ -826,7 +821,6 @@ class ResNet50Visualizer {
         if (isFullscreen) {
             // Create new tooltip if it doesn't exist
             if (!this.tooltip || !this.tooltip.node()) {
-                console.log('Creating new tooltip for fullscreen mode');
                 this.createTooltip();
             }
             
@@ -1141,7 +1135,6 @@ class ResNet50Visualizer {
                                document.msFullscreenElement);
          
         if (isFullscreen && this.tooltip) {
-            console.log('Testing tooltip in fullscreen mode');
             
             // Force tooltip to be visible
             this.tooltip
@@ -1177,15 +1170,12 @@ class ResNet50Visualizer {
         if (isFullscreen) {
             // Create new tooltip if it doesn't exist
             if (!this.tooltip || !this.tooltip.node()) {
-                console.log('Creating new debug tooltip for fullscreen mode');
                 this.createTooltip();
             }
             
             // Get current mouse position
             const x = event.clientX + 15;
             const y = event.clientY - 20;
-            
-            console.log('Debug tooltip position:', x, y);
             
             // Show debug tooltip at mouse position
             this.tooltip
@@ -1217,7 +1207,6 @@ class ResNet50Visualizer {
                                document.msFullscreenElement);
         
         if (isFullscreen && this.tooltip) {
-            console.log('Forcing tooltip visibility in fullscreen mode');
             
             // Force tooltip to be visible with strong styling
             this.tooltip
@@ -1257,7 +1246,6 @@ class ResNet50Visualizer {
                                document.msFullscreenElement);
         
         if (isFullscreen) {
-            console.log('Creating new fullscreen tooltip');
             
             // Remove existing tooltip
             if (this.tooltip) {
