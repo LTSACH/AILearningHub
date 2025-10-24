@@ -291,7 +291,7 @@ class ResNet50Visualizer {
     renderModel() {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [140, 440, 800, 1120];
+        const xs = [120, 280, 440, 600];
         const S = this.computeShapes();
 
         // Input node
@@ -338,7 +338,7 @@ class ResNet50Visualizer {
         const y = height / 2;
         const stageW = 190, stageH = 88;
         const S = this.computeShapes();
-        const xs = [180, 520, 900, 1280, 1680, 2100];
+        const xs = [120, 280, 440, 600, 760, 920];
 
         const stages = [
             { label: 'Conv1 (7×7, s2)', shape: S.conv1 },
@@ -411,7 +411,7 @@ class ResNet50Visualizer {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
         const N = this.state.input.N;
-        const xs = [200, 600, 980, 1320];
+        const xs = [120, 280, 440, 600];
 
         const avg = this.createNode({
             x: xs[0], y, width: 220, height: 80,
@@ -448,7 +448,7 @@ class ResNet50Visualizer {
     renderResidual(payload) {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [200, 600, 980, 1320, 1640];
+        const xs = [120, 280, 440, 600, 760];
         const N = this.state.input.N;
         const C = payload.C || 256;
         const H = payload.H || 56;
@@ -506,7 +506,7 @@ class ResNet50Visualizer {
     renderFx(payload) {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [260, 820, 1380];
+        const xs = [120, 280, 440];
         const N = this.state.input.N;
         const { C, H, W } = payload;
         const { c1, c2, c3 } = this.bottleneckChannels(C);
@@ -539,7 +539,7 @@ class ResNet50Visualizer {
     renderConvBlock(payload) {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
-        const xs = [320, 860, 1400];
+        const xs = [120, 280, 440];
         const N = this.state.input.N;
 
         const conv = this.createNode({
