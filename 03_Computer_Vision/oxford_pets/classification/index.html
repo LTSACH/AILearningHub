@@ -1269,7 +1269,7 @@
                         
                         <div class="sample-gallery">
                             <div class="gallery-item">
-                                <img src="assets/images/sample_abyssinian.jpg" alt="Abyssinian Cat" class="sample-image">
+                                <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/cats/Abyssinian_101.jpg" alt="Abyssinian Cat" class="sample-image">
                                 <div class="image-info">
                                     <div class="breed-name">Abyssinian</div>
                                     <div class="image-meta">
@@ -1279,7 +1279,7 @@
                                 </div>
                             </div>
                             <div class="gallery-item">
-                                <img src="assets/images/sample_beagle.jpg" alt="Beagle Dog" class="sample-image">
+                                <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/dogs/beagle_106.jpg" alt="Beagle Dog" class="sample-image">
                                 <div class="image-info">
                                     <div class="breed-name">Beagle</div>
                                     <div class="image-meta">
@@ -1289,7 +1289,7 @@
                                 </div>
                             </div>
                             <div class="gallery-item">
-                                <img src="assets/images/sample_persian.jpg" alt="Persian Cat" class="sample-image">
+                                <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/cats/Persian_106.jpg" alt="Persian Cat" class="sample-image">
                                 <div class="image-info">
                                     <div class="breed-name">Persian</div>
                                     <div class="image-meta">
@@ -1299,9 +1299,9 @@
                                 </div>
                             </div>
                             <div class="gallery-item">
-                                <img src="assets/images/sample_golden_retriever.jpg" alt="Golden Retriever" class="sample-image">
+                                <img src="https://raw.githubusercontent.com/LTSACH/AILearningHub/main/datasets/oxford-pets/data/sample_images/dogs/american_bulldog_106.jpg" alt="American Bulldog" class="sample-image">
                                 <div class="image-info">
-                                    <div class="breed-name">Golden Retriever</div>
+                                    <div class="breed-name">American Bulldog</div>
                                     <div class="image-meta">
                                         <span class="category">Dog</span>
                                         <span class="split">Train</span>
@@ -2062,6 +2062,29 @@
                         }, 200);
                     }
                 }, 100);
+            }
+        };
+        
+        // Function to switch pipeline detail tabs
+        window.switchPipelineDetailTab = function(tabName) {
+            // Hide all pipeline detail tab contents
+            const detailTabContents = document.querySelectorAll('.pipeline-detail-tab-content');
+            detailTabContents.forEach(content => content.style.display = 'none');
+            
+            // Remove active class from all pipeline detail tab buttons
+            const detailTabButtons = document.querySelectorAll('.pipeline-detail-tab-btn');
+            detailTabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected pipeline detail tab content
+            const selectedDetailTab = document.getElementById(tabName + '-detail-tab');
+            if (selectedDetailTab) {
+                selectedDetailTab.style.display = 'block';
+            }
+            
+            // Add active class to clicked pipeline detail button
+            const clickedDetailButton = document.querySelector(`[onclick="switchPipelineDetailTab('${tabName}')"]`);
+            if (clickedDetailButton) {
+                clickedDetailButton.classList.add('active');
             }
         };
         
