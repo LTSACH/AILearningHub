@@ -206,6 +206,9 @@
             <button class="comparison-tab-btn" onclick="switchComparisonTab('configuration')">
                 ⚙️ Configuration
             </button>
+            <button class="comparison-tab-btn" onclick="switchComparisonTab('input-image')">
+                📸 Input Image
+            </button>
             <button class="comparison-tab-btn" onclick="switchComparisonTab('visualizations')">
                 📊 Visualizations
             </button>
@@ -1211,6 +1214,507 @@
                     .config-label {
                         min-width: auto;
                         margin-bottom: 0.25rem;
+                    }
+                }
+                </style>
+            </div>
+        </div>
+        
+        <!-- Input Image Tab -->
+        <div id="input-image-tab" class="comparison-tab-content">
+            <div class="input-image-content">
+                <div class="input-image-section">
+                    <h3>📸 Input Image Pipeline</h3>
+                    <p class="input-image-intro">Understanding the first step in CNN classification: preparing and analyzing input images.</p>
+                    
+                    <!-- Dataset Overview -->
+                    <div class="input-group">
+                        <h4>📊 Dataset Overview</h4>
+                        <div class="dataset-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">🖼️</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">11,018</div>
+                                    <div class="stat-label">Total Images</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🐱</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">37</div>
+                                    <div class="stat-label">Breeds (12 cats + 25 dogs)</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📈</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">3,680</div>
+                                    <div class="stat-label">Training Images</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">✅</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">3,669</div>
+                                    <div class="stat-label">Validation Images</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sample Images Gallery -->
+                    <div class="input-group">
+                        <h4>🖼️ Sample Images</h4>
+                        <p class="group-description">Representative images from the Oxford Pets dataset showing the variety of breeds and image qualities.</p>
+                        
+                        <div class="sample-gallery">
+                            <div class="gallery-item">
+                                <img src="assets/images/sample_abyssinian.jpg" alt="Abyssinian Cat" class="sample-image">
+                                <div class="image-info">
+                                    <div class="breed-name">Abyssinian</div>
+                                    <div class="image-meta">
+                                        <span class="category">Cat</span>
+                                        <span class="split">Train</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/images/sample_beagle.jpg" alt="Beagle Dog" class="sample-image">
+                                <div class="image-info">
+                                    <div class="breed-name">Beagle</div>
+                                    <div class="image-meta">
+                                        <span class="category">Dog</span>
+                                        <span class="split">Val</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/images/sample_persian.jpg" alt="Persian Cat" class="sample-image">
+                                <div class="image-info">
+                                    <div class="breed-name">Persian</div>
+                                    <div class="image-meta">
+                                        <span class="category">Cat</span>
+                                        <span class="split">Test</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/images/sample_golden_retriever.jpg" alt="Golden Retriever" class="sample-image">
+                                <div class="image-info">
+                                    <div class="breed-name">Golden Retriever</div>
+                                    <div class="image-meta">
+                                        <span class="category">Dog</span>
+                                        <span class="split">Train</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Quality Analysis -->
+                    <div class="input-group">
+                        <h4>🔍 Image Quality Analysis</h4>
+                        <p class="group-description">Understanding the characteristics and quality of input images in the dataset.</p>
+                        
+                        <div class="quality-metrics">
+                            <div class="metric-card">
+                                <h5>📏 Image Dimensions</h5>
+                                <div class="metric-content">
+                                    <div class="metric-item">
+                                        <span class="metric-label">Average Size:</span>
+                                        <span class="metric-value">512×384 pixels</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Aspect Ratio:</span>
+                                        <span class="metric-value">4:3 to 16:9</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Format:</span>
+                                        <span class="metric-value">JPEG, PNG</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <h5>🎨 Visual Characteristics</h5>
+                                <div class="metric-content">
+                                    <div class="metric-item">
+                                        <span class="metric-label">Background:</span>
+                                        <span class="metric-value">Varied (indoor/outdoor)</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Pose:</span>
+                                        <span class="metric-value">Multiple angles</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Lighting:</span>
+                                        <span class="metric-value">Natural conditions</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Key Principles -->
+                    <div class="input-group">
+                        <h4>💡 Key Principles</h4>
+                        <div class="principles-grid">
+                            <div class="principle-card">
+                                <div class="principle-icon">🎯</div>
+                                <h5>Data Quality</h5>
+                                <p>High-quality, diverse images are crucial for robust model training. The Oxford Pets dataset provides well-curated images with consistent labeling.</p>
+                            </div>
+                            <div class="principle-card">
+                                <div class="principle-icon">⚖️</div>
+                                <h5>Class Balance</h5>
+                                <p>Balanced representation across breeds ensures fair model performance. Each breed has approximately 200 images.</p>
+                            </div>
+                            <div class="principle-card">
+                                <div class="principle-icon">🔄</div>
+                                <h5>Data Split</h5>
+                                <p>Proper train/validation/test splits prevent data leakage and ensure realistic performance evaluation.</p>
+                            </div>
+                            <div class="principle-card">
+                                <div class="principle-icon">📊</div>
+                                <h5>Annotation Quality</h5>
+                                <p>Accurate breed labels are essential for supervised learning. Oxford Pets provides expert-verified annotations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Best Practices -->
+                    <div class="input-group">
+                        <h4>✅ Best Practices</h4>
+                        <div class="practices-list">
+                            <div class="practice-item">
+                                <div class="practice-number">1</div>
+                                <div class="practice-content">
+                                    <h5>Image Preprocessing</h5>
+                                    <p>Always normalize images using dataset-specific statistics (ImageNet mean/std) for consistent model input.</p>
+                                </div>
+                            </div>
+                            <div class="practice-item">
+                                <div class="practice-number">2</div>
+                                <div class="practice-content">
+                                    <h5>Data Augmentation</h5>
+                                    <p>Use appropriate augmentation techniques (rotation, flip, color jitter) to increase dataset diversity and prevent overfitting.</p>
+                                </div>
+                            </div>
+                            <div class="practice-item">
+                                <div class="practice-number">3</div>
+                                <div class="practice-content">
+                                    <h5>Quality Control</h5>
+                                    <p>Inspect images for artifacts, mislabeling, or quality issues that could negatively impact model performance.</p>
+                                </div>
+                            </div>
+                            <div class="practice-item">
+                                <div class="practice-number">4</div>
+                                <div class="practice-content">
+                                    <h5>Consistent Format</h5>
+                                    <p>Ensure all images are converted to the same format, size, and color space before feeding into the model.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                .input-image-content {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                }
+                
+                .input-image-section h3 {
+                    color: #1f2937;
+                    font-size: 1.8rem;
+                    margin-bottom: 1rem;
+                    text-align: center;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                
+                .input-image-intro {
+                    text-align: center;
+                    color: #6b7280;
+                    font-size: 1.1rem;
+                    margin-bottom: 3rem;
+                }
+                
+                .input-group {
+                    margin-bottom: 3rem;
+                }
+                
+                .input-group h4 {
+                    color: #4f46e5;
+                    font-size: 1.4rem;
+                    margin-bottom: 1.5rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 3px solid #e5e7eb;
+                }
+                
+                .group-description {
+                    color: #6b7280;
+                    margin-bottom: 1.5rem;
+                    font-style: italic;
+                }
+                
+                .dataset-stats {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .stat-card {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    text-align: center;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
+                    border-color: #4f46e5;
+                    transform: translateY(-2px);
+                }
+                
+                .stat-icon {
+                    font-size: 2rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .stat-number {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #1f2937;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .stat-label {
+                    color: #6b7280;
+                    font-size: 0.9rem;
+                }
+                
+                .sample-gallery {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .gallery-item {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                }
+                
+                .gallery-item:hover {
+                    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
+                    transform: translateY(-2px);
+                }
+                
+                .sample-image {
+                    width: 100%;
+                    height: 200px;
+                    object-fit: cover;
+                }
+                
+                .image-info {
+                    padding: 1rem;
+                }
+                
+                .breed-name {
+                    font-weight: 600;
+                    color: #1f2937;
+                    font-size: 1.1rem;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .image-meta {
+                    display: flex;
+                    gap: 1rem;
+                }
+                
+                .category, .split {
+                    background: #f3f4f6;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                    color: #6b7280;
+                }
+                
+                .category {
+                    background: #dbeafe;
+                    color: #1e40af;
+                }
+                
+                .split {
+                    background: #dcfce7;
+                    color: #166534;
+                }
+                
+                .quality-metrics {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .metric-card {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+                
+                .metric-card h5 {
+                    color: #059669;
+                    font-size: 1.2rem;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 2px solid #d1fae5;
+                }
+                
+                .metric-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.75rem;
+                }
+                
+                .metric-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid #f3f4f6;
+                }
+                
+                .metric-item:last-child {
+                    border-bottom: none;
+                }
+                
+                .metric-label {
+                    font-weight: 600;
+                    color: #374151;
+                }
+                
+                .metric-value {
+                    color: #6b7280;
+                    font-family: 'Monaco', 'Courier New', monospace;
+                    font-size: 0.9rem;
+                }
+                
+                .principles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .principle-card {
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    text-align: center;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                }
+                
+                .principle-card:hover {
+                    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
+                    border-color: #4f46e5;
+                    transform: translateY(-2px);
+                }
+                
+                .principle-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .principle-card h5 {
+                    color: #1f2937;
+                    font-size: 1.1rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .principle-card p {
+                    color: #6b7280;
+                    line-height: 1.5;
+                }
+                
+                .practices-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+                }
+                
+                .practice-item {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 1rem;
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                }
+                
+                .practice-item:hover {
+                    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
+                    border-color: #4f46e5;
+                }
+                
+                .practice-number {
+                    background: #4f46e5;
+                    color: white;
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                    flex-shrink: 0;
+                }
+                
+                .practice-content h5 {
+                    color: #1f2937;
+                    font-size: 1.1rem;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .practice-content p {
+                    color: #6b7280;
+                    line-height: 1.5;
+                }
+                
+                @media (max-width: 768px) {
+                    .dataset-stats {
+                        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                    }
+                    
+                    .sample-gallery {
+                        grid-template-columns: 1fr;
+                    }
+                    
+                    .quality-metrics {
+                        grid-template-columns: 1fr;
+                    }
+                    
+                    .principles-grid {
+                        grid-template-columns: 1fr;
                     }
                 }
                 </style>
