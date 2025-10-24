@@ -191,7 +191,7 @@
 }
 
 .viz-container {
-    flex: 0 0 75%;
+    flex: 1;
     position: relative;
     background: var(--bg);
     border-right: 1px solid var(--stroke);
