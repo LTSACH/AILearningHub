@@ -1699,8 +1699,161 @@ optimizer = torch.optim.Adam([
                     <div id="results-detail-tab" class="pipeline-detail-tab-content">
                         <div class="pipeline-detail-content">
                             <h3>✨ Classification Results</h3>
-                            <p class="pipeline-detail-intro">Understanding model predictions and evaluation metrics.</p>
-                            <p>Content coming soon...</p>
+                            <p class="pipeline-detail-intro">Key findings and insights from the CNN classification experiments.</p>
+                            
+                            <!-- Quick Summary -->
+                            <div class="detail-group">
+                                <h4>📊 Quick Summary</h4>
+                                <p class="group-description">High-level overview of model performance and key findings.</p>
+                                
+                                <div class="summary-cards">
+                                    <div class="summary-card">
+                                        <h6>🏆 Best Performing Model</h6>
+                                        <div class="performance-highlight">
+                                            <div class="model-name">VGG16 (NoAug)</div>
+                                            <div class="accuracy">89.1% Accuracy</div>
+                                            <div class="f1-score">88.5% F1-Score</div>
+                                        </div>
+                                        <p>VGG16 without data augmentation achieved the highest performance on Oxford Pets dataset.</p>
+                                    </div>
+                                    
+                                    <div class="summary-card">
+                                        <h6>📈 Performance Range</h6>
+                                        <div class="performance-range">
+                                            <div class="range-item">
+                                                <span class="metric">Accuracy:</span>
+                                                <span class="value">77.1% - 89.1%</span>
+                                            </div>
+                                            <div class="range-item">
+                                                <span class="metric">F1-Score:</span>
+                                                <span class="value">76.7% - 88.5%</span>
+                                            </div>
+                                            <div class="range-item">
+                                                <span class="metric">Top-5 Accuracy:</span>
+                                                <span class="value">95.7% - 99.3%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="summary-card">
+                                        <h6>⚡ Fastest Model</h6>
+                                        <div class="performance-highlight">
+                                            <div class="model-name">MobileNetV3 Large 100</div>
+                                            <div class="speed">Mobile Optimized</div>
+                                            <div class="accuracy">81.1% Accuracy</div>
+                                        </div>
+                                        <p>MobileNetV3 provides good balance between accuracy and speed for mobile deployment.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Key Insights -->
+                            <div class="detail-group">
+                                <h4>💡 Key Insights</h4>
+                                <p class="group-description">Main findings and lessons learned from the experiments.</p>
+                                
+                                <div class="insights-grid">
+                                    <div class="insight-card">
+                                        <h6>✅ What Worked</h6>
+                                        <ul>
+                                            <li><strong>Transfer Learning:</strong> Pre-trained models significantly outperformed training from scratch</li>
+                                            <li><strong>Data Augmentation:</strong> Mixed results - helped some models, hurt others</li>
+                                            <li><strong>Architecture Choice:</strong> VGG16 and ResNet50 performed consistently well</li>
+                                            <li><strong>Feature Extraction:</strong> CNN backbones learned effective features for pet classification</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="insight-card">
+                                        <h6>❌ What Didn't Work</h6>
+                                        <ul>
+                                            <li><strong>EfficientNet B3:</strong> Underperformed despite modern architecture</li>
+                                            <li><strong>Aggressive Augmentation:</strong> Some models overfitted with heavy augmentation</li>
+                                            <li><strong>Small Models:</strong> MobileNetV3 struggled with complex pet features</li>
+                                            <li><strong>Training from Scratch:</strong> Much slower convergence than transfer learning</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="insight-card">
+                                        <h6>🎯 Key Takeaways</h6>
+                                        <ul>
+                                            <li><strong>Transfer Learning is Essential:</strong> Pre-trained features are crucial for good performance</li>
+                                            <li><strong>Architecture Matters:</strong> VGG16's simplicity worked better than complex modern architectures</li>
+                                            <li><strong>Data Augmentation is Model-Specific:</strong> Not all models benefit equally</li>
+                                            <li><strong>Mobile Deployment:</strong> MobileNetV3 provides good speed/accuracy trade-off</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Detailed Analysis Reference -->
+                            <div class="detail-group">
+                                <h4>🔍 Detailed Analysis</h4>
+                                <p class="group-description">For comprehensive performance analysis, explore the sections below.</p>
+                                
+                                <div class="reference-cards">
+                                    <div class="reference-card">
+                                        <h6>📊 Model Comparison</h6>
+                                        <p>Detailed performance metrics, confusion matrices, and model rankings.</p>
+                                        <div class="reference-link">
+                                            <span class="link-icon">👇</span>
+                                            <span class="link-text">See "Model Comparison" section below</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="reference-card">
+                                        <h6>🎨 Feature Maps Explorer</h6>
+                                        <p>Visualize CNN layer outputs and understand what models learn.</p>
+                                        <div class="reference-link">
+                                            <span class="link-icon">👇</span>
+                                            <span class="link-text">See "Visualizations" tab below</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="reference-card">
+                                        <h6>⚙️ Configuration</h6>
+                                        <p>Model architectures, training parameters, and data configurations.</p>
+                                        <div class="reference-link">
+                                            <span class="link-icon">👇</span>
+                                            <span class="link-text">See "Configuration" tab below</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Recommendations -->
+                            <div class="detail-group">
+                                <h4>🚀 Recommendations</h4>
+                                <p class="group-description">Practical guidance for model selection and deployment.</p>
+                                
+                                <div class="recommendations-grid">
+                                    <div class="recommendation-card">
+                                        <h6>🎯 For Best Accuracy</h6>
+                                        <div class="recommendation-content">
+                                            <div class="model-choice">VGG16 (NoAug)</div>
+                                            <div class="reasoning">Highest accuracy (89.1%) with stable performance</div>
+                                            <div class="use-case">Use for: Research, high-accuracy requirements</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="recommendation-card">
+                                        <h6>⚡ For Mobile Deployment</h6>
+                                        <div class="recommendation-content">
+                                            <div class="model-choice">MobileNetV3 Large 100</div>
+                                            <div class="reasoning">Good accuracy (81.1%) with mobile optimization</div>
+                                            <div class="use-case">Use for: Mobile apps, edge devices</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="recommendation-card">
+                                        <h6>🔄 For Balanced Performance</h6>
+                                        <div class="recommendation-content">
+                                            <div class="model-choice">ResNet50 (NoAug)</div>
+                                            <div class="reasoning">Good accuracy (86.9%) with proven architecture</div>
+                                            <div class="use-case">Use for: General purpose, production systems</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
