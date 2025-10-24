@@ -727,27 +727,56 @@ val_transform = transforms.Compose([
                                         <h6>📋 Model-Specific Statistics:</h6>
                                         <div class="stats-grid">
                                             <div class="stats-card">
-                                                <h6>ImageNet (ResNet, VGG, etc.)</h6>
+                                                <h6>ImageNet Standard (ResNet, VGG, DenseNet)</h6>
                                                 <div class="code-example">
                                                     <pre><code class="language-python">mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]</code></pre>
                                                 </div>
+                                                <p>Most common for ImageNet pre-trained models</p>
                                             </div>
                                             
                                             <div class="stats-card">
-                                                <h6>EfficientNet</h6>
+                                                <h6>EfficientNet (timm)</h6>
                                                 <div class="code-example">
-                                                    <pre><code class="language-python">mean = [0.485, 0.456, 0.406]
-std = [0.229, 0.224, 0.225]</code></pre>
+                                                    <pre><code class="language-python"># EfficientNet-B0 to B7
+mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]
+
+# EfficientNetV2 (different stats)
+mean = [0.5, 0.5, 0.5]
+std = [0.5, 0.5, 0.5]</code></pre>
                                                 </div>
+                                                <p>EfficientNetV2 uses different normalization</p>
                                             </div>
                                             
                                             <div class="stats-card">
-                                                <h6>MobileNet</h6>
+                                                <h6>Vision Transformer (ViT)</h6>
                                                 <div class="code-example">
-                                                    <pre><code class="language-python">mean = [0.485, 0.456, 0.406]
+                                                    <pre><code class="language-python"># ViT models in timm
+mean = [0.5, 0.5, 0.5]
+std = [0.5, 0.5, 0.5]</code></pre>
+                                                </div>
+                                                <p>ViT models use different normalization</p>
+                                            </div>
+                                            
+                                            <div class="stats-card">
+                                                <h6>ConvNeXt (timm)</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># ConvNeXt models
+mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]</code></pre>
                                                 </div>
+                                                <p>ConvNeXt uses ImageNet standard</p>
+                                            </div>
+                                            
+                                            <div class="stats-card">
+                                                <h6>MobileNetV3 (timm)</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># MobileNetV3 models
+mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]</code></pre>
+                                                </div>
+                                                <p>MobileNetV3 uses ImageNet standard</p>
                                             </div>
                                             
                                             <div class="stats-card">
@@ -757,7 +786,34 @@ std = [0.229, 0.224, 0.225]</code></pre>
 mean = [0.5, 0.5, 0.5]  # Example
 std = [0.5, 0.5, 0.5]   # Example</code></pre>
                                                 </div>
+                                                <p>Calculate from your specific dataset</p>
                                             </div>
+                                        </div>
+                                        
+                                        <div class="timm-note">
+                                            <h6>🔧 Using timm Library:</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python">import timm
+
+# Get model with correct transforms
+model = timm.create_model('efficientnet_b0', pretrained=True)
+
+# Get model-specific transforms
+transforms = timm.data.create_transform(
+    input_size=224,
+    is_training=True,
+    mean=[0.485, 0.456, 0.406],
+    std=[0.229, 0.224, 0.225]
+)
+
+# Or use model's default transforms
+transforms = timm.data.create_transform(
+    input_size=224,
+    is_training=True,
+    model=model
+)</code></pre>
+                                            </div>
+                                            <p><strong>Note:</strong> timm automatically handles model-specific normalization when using <code>timm.data.create_transform()</code></p>
                                         </div>
                                     </div>
                                     
