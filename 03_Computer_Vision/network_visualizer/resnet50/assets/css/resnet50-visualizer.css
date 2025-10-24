@@ -343,6 +343,18 @@
     color: var(--muted);
 }
 
+/* Shape column specific styling */
+.shape-table th:nth-child(2),
+.shape-table td:nth-child(2) {
+    width: 120px;
+    text-align: left;
+}
+
+.shape-table td:nth-child(2) {
+    color: #006400;
+    font-weight: 500;
+}
+
 .shape-map-key {
     color: #6b7280;
     font-size: 12px;
