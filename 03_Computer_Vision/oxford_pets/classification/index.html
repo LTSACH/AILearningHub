@@ -2050,24 +2050,12 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
                 if (navButtons.style.display === 'none' || navButtons.style.display === '') {
                     // Expand: Show navigation and content
                     navButtons.style.display = 'grid';
-                    // Show all tab contents
-                    const tabContents = pipelineDetailTabs.querySelectorAll('.pipeline-detail-tab-content');
-                    tabContents.forEach(content => {
-                        if (content.id === 'input-detail-tab') {
-                            content.style.display = 'block';
-                        } else {
-                            content.style.display = 'none';
-                        }
-                    });
+                    pipelineDetailTabs.style.display = 'block';
                     navIcon.textContent = '▼';
                 } else {
-                    // Collapse: Hide navigation but keep content structure
+                    // Collapse: Hide navigation and ALL content
                     navButtons.style.display = 'none';
-                    // Keep the first tab (input) visible when collapsed
-                    const inputTab = document.getElementById('input-detail-tab');
-                    if (inputTab) {
-                        inputTab.style.display = 'block';
-                    }
+                    pipelineDetailTabs.style.display = 'none';
                     navIcon.textContent = '▶';
                 }
             }
