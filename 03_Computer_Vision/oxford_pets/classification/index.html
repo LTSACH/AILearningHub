@@ -555,8 +555,298 @@ transforms.RandomResizedCrop(224, scale=(0.8, 1.0))</code></pre>
                     <div id="preprocessing-detail-tab" class="pipeline-detail-tab-content">
                         <div class="pipeline-detail-content">
                             <h3>🔧 Preprocessing Pipeline</h3>
-                            <p class="pipeline-detail-intro">Image preprocessing steps for CNN input preparation.</p>
-                            <p>Content coming soon...</p>
+                            <p class="pipeline-detail-intro">Essential image preprocessing steps for CNN input preparation: resizing, data augmentation, and normalization.</p>
+                            
+                            <!-- Image Resizing -->
+                            <div class="detail-group">
+                                <h4>📏 Image Resizing & Standardization</h4>
+                                <p class="group-description">Convert images of different sizes to uniform dimensions for batch processing.</p>
+                                
+                                <div class="resizing-section">
+                                    <h5>🎯 Objective</h5>
+                                    <p>Ensure all images have the same dimensions to create consistent tensors with shape <code>(N, C, H, W)</code> for efficient batch processing.</p>
+                                    
+                                    <div class="resizing-steps">
+                                        <div class="step-card">
+                                            <div class="step-number">1</div>
+                                            <div class="step-content">
+                                                <h6>Resize to Standard Size</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Resize to 256px (maintains aspect ratio)
+transforms.Resize(256)</code></pre>
+                                                </div>
+                                                <p>Scale image to 256px while preserving aspect ratio</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="step-card">
+                                            <div class="step-number">2</div>
+                                            <div class="step-content">
+                                                <h6>Center Crop to Target Size</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Crop to exact 224x224 from center
+transforms.CenterCrop(224)</code></pre>
+                                                </div>
+                                                <p>Extract 224×224 region from center of resized image</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="step-card">
+                                            <div class="step-number">3</div>
+                                            <div class="step-content">
+                                                <h6>Convert to Tensor</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Convert PIL to tensor, scale [0,255] → [0,1]
+transforms.ToTensor()</code></pre>
+                                                </div>
+                                                <p>Convert PIL image to PyTorch tensor with normalized values</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tensor-result">
+                                        <h6>📊 Result:</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python"># Input: Various sized images
+# Output: Consistent tensor shape
+tensor.shape = (batch_size, 3, 224, 224)
+# Example: (32, 3, 224, 224) for batch of 32 images</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Data Augmentation -->
+                            <div class="detail-group">
+                                <h4>🎨 Data Augmentation</h4>
+                                <p class="group-description">Techniques to artificially increase dataset diversity and improve model generalization.</p>
+                                
+                                <div class="augmentation-section">
+                                    <h5>🎯 Objective</h5>
+                                    <ul>
+                                        <li><strong>Increase Dataset Size:</strong> Generate more training samples from existing data</li>
+                                        <li><strong>Improve Generalization:</strong> Help model learn robust features that work across variations</li>
+                                        <li><strong>Reduce Overfitting:</strong> Prevent model from memorizing specific image characteristics</li>
+                                        <li><strong>Simulate Real-world Variations:</strong> Account for lighting, rotation, scale differences</li>
+                                    </ul>
+                                    
+                                    <h5>🔧 Implementation Methods</h5>
+                                    <div class="augmentation-grid">
+                                        <div class="aug-card">
+                                            <h6>Geometric Transforms</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Random crop with scale variation
+transforms.RandomResizedCrop(224, scale=(0.8, 1.0))
+
+# Random horizontal flip
+transforms.RandomHorizontalFlip(p=0.5)
+
+# Random rotation
+transforms.RandomRotation(degrees=15)</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="aug-card">
+                                            <h6>Color Transforms</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Color jitter for brightness/contrast
+transforms.ColorJitter(
+    brightness=0.2, 
+    contrast=0.2, 
+    saturation=0.2, 
+    hue=0.1
+)
+
+# Random grayscale conversion
+transforms.RandomGrayscale(p=0.1)</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="augmentation-warning">
+                                        <h6>⚠️ Important Notes:</h6>
+                                        <ul>
+                                            <li><strong>Training Only:</strong> Apply augmentation ONLY to training set</li>
+                                            <li><strong>No Validation/Test:</strong> Keep validation and test sets unchanged</li>
+                                            <li><strong>Consistent Evaluation:</strong> Ensure fair comparison across models</li>
+                                            <li><strong>Realistic Augmentation:</strong> Use transformations that make sense for your domain</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="complete-pipeline">
+                                        <h6>Complete Augmentation Pipeline:</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python"># Training transforms (WITH augmentation)
+train_transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])
+
+# Validation transforms (NO augmentation)
+val_transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Normalization -->
+                            <div class="detail-group">
+                                <h4>📊 Data Normalization</h4>
+                                <p class="group-description">Standardize pixel values to improve training stability and convergence.</p>
+                                
+                                <div class="normalization-section">
+                                    <h5>🎯 Objective</h5>
+                                    <ul>
+                                        <li><strong>Stabilize Training:</strong> Prevent gradient explosion/vanishing</li>
+                                        <li><strong>Faster Convergence:</strong> Help optimizer find optimal solution</li>
+                                        <li><strong>Feature Standardization:</strong> Ensure all features have similar scales</li>
+                                        <li><strong>Transfer Learning Compatibility:</strong> Match pre-trained model expectations</li>
+                                    </ul>
+                                    
+                                    <h5>🔧 Implementation</h5>
+                                    <div class="normalization-formula">
+                                        <h6>Normalization Formula:</h6>
+                                        <div class="formula-box">
+                                            <code>normalized_pixel = (pixel - mean) / std</code>
+                                        </div>
+                                        <p>Where pixel values are in range [0, 1] after ToTensor()</p>
+                                    </div>
+                                    
+                                    <div class="model-specific-stats">
+                                        <h6>📋 Model-Specific Statistics:</h6>
+                                        <div class="stats-grid">
+                                            <div class="stats-card">
+                                                <h6>ImageNet (ResNet, VGG, etc.)</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python">mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="stats-card">
+                                                <h6>EfficientNet</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python">mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="stats-card">
+                                                <h6>MobileNet</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python">mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="stats-card">
+                                                <h6>Custom Dataset</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Calculate from your training set
+mean = [0.5, 0.5, 0.5]  # Example
+std = [0.5, 0.5, 0.5]   # Example</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="statistics-calculation">
+                                        <h6>📊 How to Calculate Mean & Std:</h6>
+                                        <div class="calculation-steps">
+                                            <div class="calc-step">
+                                                <h6>1. From Training Set Only</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Calculate statistics from training set
+def calculate_dataset_stats(dataset):
+    loader = DataLoader(dataset, batch_size=1, shuffle=False)
+    mean = torch.zeros(3)
+    std = torch.zeros(3)
+    
+    for images, _ in loader:
+        mean += images.mean(dim=(2, 3))
+        std += images.std(dim=(2, 3))
+    
+    mean /= len(loader)
+    std /= len(loader)
+    
+    return mean, std</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="calc-step">
+                                                <h6>2. Not from Entire Dataset</h6>
+                                                <ul>
+                                                    <li><strong>Training Set Only:</strong> Calculate from training images</li>
+                                                    <li><strong>Sample Size:</strong> Use subset if dataset is too large</li>
+                                                    <li><strong>Consistency:</strong> Use same stats for all splits</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="normalization-example">
+                                        <h6>🔧 Complete Normalization Example:</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python"># ImageNet normalization (most common)
+normalize = transforms.Normalize(
+    mean=[0.485, 0.456, 0.406], 
+    std=[0.229, 0.224, 0.225]
+)
+
+# Apply to tensor
+normalized_tensor = normalize(tensor)
+
+# Result: pixel values roughly in range [-2, 2]
+# Mean ≈ 0, Std ≈ 1 for each channel</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Best Practices -->
+                            <div class="detail-group">
+                                <h4>💡 Best Practices</h4>
+                                
+                                <div class="practices-grid">
+                                    <div class="practice-card">
+                                        <h5>🎯 Training vs Validation</h5>
+                                        <ul>
+                                            <li>Use augmentation for training only</li>
+                                            <li>Keep validation set unchanged</li>
+                                            <li>Apply same normalization to both</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="practice-card">
+                                        <h5>⚡ Performance</h5>
+                                        <ul>
+                                            <li>Use appropriate batch sizes</li>
+                                            <li>Enable pin_memory for GPU</li>
+                                            <li>Use num_workers for parallel loading</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="practice-card">
+                                        <h5>🔧 Implementation</h5>
+                                        <ul>
+                                            <li>Use transforms.Compose() for chaining</li>
+                                            <li>Test transforms on sample images</li>
+                                            <li>Monitor memory usage during training</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
