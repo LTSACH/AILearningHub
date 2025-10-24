@@ -453,6 +453,13 @@
     opacity: .95;
 }
 
+/* Ports (small circles) */
+.port {
+    fill: #fff;
+    stroke: var(--edge);
+    stroke-width: 1.5px;
+}
+
 .edge.flow {
     stroke: var(--edge-hi);
     stroke-width: 3px;

@@ -293,22 +293,19 @@ class ResNet50Visualizer {
         const y = height / 2;
         const S = this.computeShapes();
         
-        // Let D3.js calculate positions automatically
-        const containerWidth = width - 240; // Leave margins
-        const xs = d3.scaleLinear()
-            .domain([0, 2]) // 3 blocks: 0, 1, 2
-            .range([120, containerWidth]);
+        // Use original positioning from reference file
+        const xs = [140, 440, 800, 1120];
 
         // Input node
         const input = this.createNode({
-            x: xs(0), y, width: 160, height: 70,
+            x: xs[0], y, width: 160, height: 70,
             label: 'Input', theme: 'io',
             tip: `Input ${this.shapeStr(S.input)}`
         });
 
         // Backbone node
         const backbone = this.createNode({
-            x: xs(1), y, width: 300, height: 110,
+            x: xs[1], y, width: 300, height: 110,
             label: 'Backbone', subtitle: 'ResNet feature extractor', theme: 'backbone',
             click: () => this.push('Backbone', {}),
             tip: 'Click to open stages'
@@ -316,7 +313,7 @@ class ResNet50Visualizer {
 
         // Head node
         const head = this.createNode({
-            x: xs(2), y, width: 280, height: 110,
+            x: xs[2], y, width: 280, height: 110,
             label: 'Head', subtitle: 'AvgPool + FC/Softmax', theme: 'backbone',
             click: () => this.push('Stage', { kind: 'Head' }),
             tip: 'AvgPool→Flatten→FC (1000)'
@@ -329,10 +326,22 @@ class ResNet50Visualizer {
             tip: `Output ${this.shapeStr(S.pred)}`
         });
 
-        // Create edges
-        this.createEdge(input.x + 80, y, backbone.x - 150, y, this.shapeStr(S.input));
-        this.createEdge(backbone.x + 150, y, head.x - 140, y, this.shapeStr(S.s4));
-        this.createEdge(head.x + 140, y, output.x - 80, y, this.shapeStr(S.pred));
+        // Create ports
+        this.createPort(input.x + 80, y, `<b>Input:</b> ${this.shapeStr(S.input)}`);
+        this.createPort(backbone.x - 150, y, `<b>Input:</b> ${this.shapeStr(S.input)}`);
+        this.createPort(backbone.x + 150, y, `<b>Output:</b> ${this.shapeStr(S.s4)}`);
+        this.createPort(head.x - 140, y, `<b>Input:</b> ${this.shapeStr(S.s4)}`);
+        this.createPort(head.x + 140, y, `<b>Output:</b> ${this.shapeStr(S.pred)}`);
+        this.createPort(output.x - 80, y, `<b>Input:</b> ${this.shapeStr(S.pred)}`);
+
+        // Create edges with tooltips
+        const e1 = this.createCurvedEdge(input.x + 80, y, backbone.x - 150, y, this.shapeStr(S.input));
+        const e2 = this.createCurvedEdge(backbone.x + 150, y, head.x - 140, y, this.shapeStr(S.s4));
+        const e3 = this.createCurvedEdge(head.x + 140, y, output.x - 80, y, this.shapeStr(S.pred));
+        
+        // Make flow on hover
+        this.makeFlowOnHover(backbone, [e1, e2]);
+        this.makeFlowOnHover(head, [e2, e3]);
     }
 
     /**
@@ -344,11 +353,8 @@ class ResNet50Visualizer {
         const stageW = 190, stageH = 88;
         const S = this.computeShapes();
         
-        // Let D3.js calculate positions automatically
-        const containerWidth = width - 240; // Leave margins
-        const xs = d3.scaleLinear()
-            .domain([0, 5]) // 6 stages: 0, 1, 2, 3, 4, 5
-            .range([120, containerWidth]);
+        // Use original positioning from reference file
+        const xs = [180, 520, 900, 1280, 1680, 2100];
 
         const stages = [
             { label: 'Conv1 (7×7, s2)', shape: S.conv1 },
@@ -361,7 +367,7 @@ class ResNet50Visualizer {
 
         let prev = null;
         stages.forEach((stage, i) => {
-            const x = xs(i);
+            const x = xs[i];
             const node = this.createNode({
                 x, y, width: stageW, height: stageH,
                 label: stage.label, theme: 'stage',
@@ -422,32 +428,29 @@ class ResNet50Visualizer {
         const y = height / 2;
         const N = this.state.input.N;
         
-        // Let D3.js calculate positions automatically
-        const containerWidth = width - 240; // Leave margins
-        const xs = d3.scaleLinear()
-            .domain([0, 3]) // 4 blocks: 0, 1, 2, 3
-            .range([120, containerWidth]);
+        // Use original positioning from reference file
+        const xs = [200, 600, 980, 1320];
 
         const avg = this.createNode({
-            x: xs(0), y, width: 220, height: 80,
+            x: xs[0], y, width: 220, height: 80,
             label: 'AvgPool', theme: 'stage',
             tip: `out: ${this.shapeStr([N, 2048, 1, 1])}`
         });
 
         const flat = this.createNode({
-            x: xs(1), y, width: 220, height: 80,
+            x: xs[1], y, width: 220, height: 80,
             label: 'Flatten', theme: 'stage',
             tip: `out: ${this.shapeStr([N, 2048])}`
         });
 
         const fc = this.createNode({
-            x: xs(2), y, width: 260, height: 90,
+            x: xs[2], y, width: 260, height: 90,
             label: 'FC 2048 → 1000', theme: 'stage',
             tip: `out: ${this.shapeStr([N, 1000])}`
         });
 
         const soft = this.createNode({
-            x: xs(3), y, width: 220, height: 80,
+            x: xs[3], y, width: 220, height: 80,
             label: 'Softmax', theme: 'stage',
             tip: `out: ${this.shapeStr([N, 1000])}`
         });
@@ -464,11 +467,8 @@ class ResNet50Visualizer {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
         
-        // Let D3.js calculate positions automatically
-        const containerWidth = width - 240; // Leave margins
-        const xs = d3.scaleLinear()
-            .domain([0, 4]) // 5 blocks: 0, 1, 2, 3, 4
-            .range([120, containerWidth]);
+        // Use original positioning from reference file
+        const xs = [200, 600, 980, 1320, 1640];
         const N = this.state.input.N;
         const C = payload.C || 256;
         const H = payload.H || 56;
@@ -477,14 +477,14 @@ class ResNet50Visualizer {
 
         // Input x
         const xBlock = this.createNode({
-            x: xs(0), y, width: 180, height: 70,
+            x: xs[0], y, width: 180, height: 70,
             label: 'x', theme: 'io',
             tip: `x ${this.shapeStr(sh)}`
         });
 
         // F(x) function
         const fx = this.createNode({
-            x: xs(1), y, width: 300, height: 110,
+            x: xs[1], y, width: 300, height: 110,
             label: 'F(x)', subtitle: 'Click to expand', theme: 'backbone',
             click: () => this.push('Fx', { C, H, W }),
             tip: 'Residual transform'
@@ -492,20 +492,20 @@ class ResNet50Visualizer {
 
         // Add operation
         const add = this.createNode({
-            x: xs(2), y, width: 150, height: 80,
+            x: xs[2], y, width: 150, height: 80,
             label: 'Add (+)', subtitle: 'y = x + F(x)', theme: 'stage',
             tip: 'Element-wise sum'
         });
 
         // ReLU activation
         const relu = this.createNode({
-            x: xs(3), y, width: 170, height: 80,
+            x: xs[3], y, width: 170, height: 80,
             label: 'ReLU', subtitle: 'out = ReLU(y)', theme: 'stage'
         });
 
         // Output
         const output = this.createNode({
-            x: xs(4), y, width: 180, height: 70,
+            x: xs[4], y, width: 180, height: 70,
             label: 'Output', theme: 'io',
             tip: `shape: ${this.shapeStr(sh)}`
         });
@@ -527,29 +527,26 @@ class ResNet50Visualizer {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
         
-        // Let D3.js calculate positions automatically
-        const containerWidth = width - 240; // Leave margins
-        const xs = d3.scaleLinear()
-            .domain([0, 2]) // 3 blocks: 0, 1, 2
-            .range([120, containerWidth]);
+        // Use original positioning from reference file
+        const xs = [260, 820, 1380];
         const N = this.state.input.N;
         const { C, H, W } = payload;
         const { c1, c2, c3 } = this.bottleneckChannels(C);
 
         const b1 = this.createNode({
-            x: xs(0), y, width: 260, height: 90,
+            x: xs[0], y, width: 260, height: 90,
             label: `1×1 → ${c1}`, theme: 'stage',
             tip: `inC=${C} → outC=${c1}`
         });
 
         const b2 = this.createNode({
-            x: xs(1), y, width: 260, height: 90,
+            x: xs[1], y, width: 260, height: 90,
             label: `3×3 → ${c2}`, theme: 'stage',
             tip: `inC=${c1} → outC=${c2}`
         });
 
         const b3 = this.createNode({
-            x: xs(2), y, width: 260, height: 90,
+            x: xs[2], y, width: 260, height: 90,
             label: `1×1 → ${c3}`, theme: 'stage',
             tip: `inC=${c2} → outC=${c3}`
         });
@@ -565,21 +562,18 @@ class ResNet50Visualizer {
         const { width, height } = this.getContainerSize();
         const y = height / 2;
         
-        // Let D3.js calculate positions automatically
-        const containerWidth = width - 240; // Leave margins
-        const xs = d3.scaleLinear()
-            .domain([0, 2]) // 3 blocks: 0, 1, 2
-            .range([120, containerWidth]);
+        // Use original positioning from reference file
+        const xs = [320, 860, 1400];
         const N = this.state.input.N;
 
         const conv = this.createNode({
-            x: xs(0), y, width: 260, height: 80,
+            x: xs[0], y, width: 260, height: 80,
             label: 'Conv2d', theme: 'stage',
             tip: `kernel=${payload.kind === '3x3' ? '3×3' : '1×1'}, stride=1`
         });
 
         const bn = this.createNode({
-            x: xs(1), y, width: 260, height: 80,
+            x: xs[1], y, width: 260, height: 80,
             label: 'BatchNorm', theme: 'stage'
         });
 
@@ -642,16 +636,52 @@ class ResNet50Visualizer {
     /**
      * Create an edge
      */
+    /**
+     * Create port (small circle) at node input/output
+     */
+    createPort(x, y, tip) {
+        return this.root.append('circle')
+            .attr('class', 'port')
+            .attr('cx', x)
+            .attr('cy', y)
+            .attr('r', 8)
+            .on('mousemove', (ev) => this.showTooltip(tip, ev))
+            .on('mouseout', () => this.hideTooltip());
+    }
+
+    /**
+     * Create curved edge between two points with tooltip
+     */
+    createCurvedEdge(x1, y1, x2, y2, shapeTip, scaleNote = '', flowOnHover = true) {
+        const dx = (x2 - x1) / 2; // gentle cubic curve
+        const pathData = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+        
+        const path = this.root.append('path')
+            .attr('class', 'edge')
+            .attr('d', pathData)
+            .attr('marker-end', 'url(#arrowHead)')
+            .on('mousemove', (ev) => this.showTooltip(`<b>Tensor:</b> ${shapeTip}${scaleNote ? ' • <span style="font-weight:700;color:#2563EB">' + scaleNote + '</span>' : ''}`, ev))
+            .on('mouseout', () => this.hideTooltip());
+
+        if (flowOnHover) {
+            path.on('mouseenter', function() { d3.select(this).classed('flow', true); })
+                .on('mouseleave', function() { d3.select(this).classed('flow', false); });
+        }
+
+        return path;
+    }
+
     createEdge(x1, y1, x2, y2, tip) {
         const dx = (x2 - x1) / 2;
         const path = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
         
         const edge = this.root.append('path')
             .attr('class', 'edge')
-            .attr('d', path);
+            .attr('d', path)
+            .attr('marker-end', 'url(#arrowHead)');
         
         if (tip) {
-            edge.on('mousemove', (ev) => this.showTooltip(ev, tip))
+            edge.on('mousemove', (ev) => this.showTooltip(tip, ev))
                 .on('mouseout', () => this.hideTooltip());
         }
         
@@ -692,6 +722,14 @@ class ResNet50Visualizer {
      */
     hideTooltip() {
         this.tooltip.style('display', 'none');
+    }
+
+    /**
+     * Make flow animation on hover for edges
+     */
+    makeFlowOnHover(block, edges) {
+        block.g.on('mouseenter', () => edges.forEach(e => e.classed('flow', true)))
+              .on('mouseleave', () => edges.forEach(e => e.classed('flow', false)));
     }
 
     /**
