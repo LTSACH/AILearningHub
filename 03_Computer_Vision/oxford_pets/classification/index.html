@@ -128,9 +128,9 @@
                     
                     <div class="arrow">→</div>
                     
-                    <div class="step step-interactive" onclick="switchPipelineDetailTab('cnn-model')">
+                    <div class="step step-interactive" onclick="switchPipelineDetailTab('cnn-backbone')">
                         <div class="step-icon">🧠</div>
-                        <div class="step-title" data-en="CNN Model" data-vi="Mô Hình CNN">CNN Model</div>
+                        <div class="step-title" data-en="CNN Backbone" data-vi="Backbone CNN">CNN Backbone</div>
                         <div class="step-badge" data-en="Choose Below" data-vi="Chọn Bên Dưới">Choose Below</div>
                         <div class="step-detail" data-en="ResNet50, EfficientNet, MobileNet..." data-vi="ResNet50, EfficientNet, MobileNet...">ResNet50, EfficientNet, MobileNet...</div>
                     </div>
@@ -175,10 +175,10 @@
                                 <span class="tab-title">Preprocessing</span>
                                 <span class="tab-desc">Image transforms & normalization</span>
                             </button>
-                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-model')">
+                            <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('cnn-backbone')">
                                 <span class="tab-icon">🧠</span>
-                                <span class="tab-title">CNN Model</span>
-                                <span class="tab-desc">Architecture & transfer learning</span>
+                                <span class="tab-title">CNN Backbone</span>
+                                <span class="tab-desc">Feature extraction & transfer learning</span>
                             </button>
                             <button class="pipeline-detail-tab-btn" onclick="switchPipelineDetailTab('classifier-head')">
                                 <span class="tab-icon">🎯</span>
@@ -906,12 +906,360 @@ normalized_tensor = normalize(tensor)
                         </div>
                     </div>
                     
-                    <!-- CNN Model Detail Tab -->
-                    <div id="cnn-model-detail-tab" class="pipeline-detail-tab-content">
+                    <!-- CNN Backbone Detail Tab -->
+                    <div id="cnn-backbone-detail-tab" class="pipeline-detail-tab-content">
                         <div class="pipeline-detail-content">
-                            <h3>🧠 CNN Model Architecture</h3>
-                            <p class="pipeline-detail-intro">Understanding CNN architectures and transfer learning.</p>
-                            <p>Content coming soon...</p>
+                            <h3>🧠 CNN Backbone Architecture</h3>
+                            <p class="pipeline-detail-intro">Feature extraction backbones and transfer learning strategies for CNN classification.</p>
+                            
+                            <!-- Feature Extraction -->
+                            <div class="detail-group">
+                                <h4>🔍 Feature Extraction and Transformation</h4>
+                                <p class="group-description">CNN backbones transform input images into high-level features suitable for classification.</p>
+                                
+                                <div class="feature-extraction-section">
+                                    <h5>📥 Input Processing</h5>
+                                    <div class="input-output-flow">
+                                        <div class="flow-step">
+                                            <h6>Input Tensor</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Input: Batch of normalized images
+input_tensor.shape = (N, C, H, W)
+# Example: (32, 3, 224, 224)
+# N = batch_size, C = 3 (RGB), H = W = 224</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flow-arrow">→</div>
+                                        
+                                        <div class="flow-step">
+                                            <h6>CNN Backbone Processing</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Convolutional layers + Non-linear activations
+# Linear transformations (convolutions) + Non-linear functions (ReLU, etc.)
+# Extract hierarchical features from images</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flow-arrow">→</div>
+                                        
+                                        <div class="flow-step">
+                                            <h6>Output Features</h6>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Output: Feature maps for each image
+output_tensor.shape = (N, C_o, H_o, W_o)
+# Example: (32, 2048, 7, 7) for ResNet50
+# Each image has C_o × H_o × W_o features
+# 2048 × 7 × 7 = 100,352 features per image</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="convolution-details">
+                                        <h6>🔧 Convolutional Layer Details</h6>
+                                        <div class="conv-examples">
+                                            <div class="conv-card">
+                                                <h6>ResNet50 Example</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># First convolutional layer
+conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3)
+# Parameters: 3 × 64 × 7 × 7 = 9,408 parameters
+
+# Bottleneck block
+conv2 = nn.Conv2d(64, 64, kernel_size=3, padding=1)
+# Parameters: 64 × 64 × 3 × 3 = 36,864 parameters
+
+# Total ResNet50 parameters: ~25.6M
+# Most parameters in convolutional layers</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="conv-card">
+                                                <h6>EfficientNet-B0 Example</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Depthwise separable convolution
+depthwise = nn.Conv2d(32, 32, kernel_size=3, groups=32)
+# Parameters: 32 × 3 × 3 = 288 parameters
+
+pointwise = nn.Conv2d(32, 64, kernel_size=1)
+# Parameters: 32 × 64 × 1 × 1 = 2,048 parameters
+
+# Total EfficientNet-B0 parameters: ~5.3M
+# More efficient than standard convolutions</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="parameter-note">
+                                            <h6>📊 Key Points:</h6>
+                                            <ul>
+                                                <li><strong>Learnable Parameters:</strong> Mostly in convolutional layers</li>
+                                                <li><strong>Feature Maps:</strong> Each layer extracts different level features</li>
+                                                <li><strong>Hierarchical Features:</strong> Low-level → High-level features</li>
+                                                <li><strong>Translation Invariance:</strong> Convolutions are translation invariant</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Popular Models -->
+                            <div class="detail-group">
+                                <h4>🏆 Popular Classification Models</h4>
+                                <p class="group-description">Well-known CNN architectures for image classification tasks.</p>
+                                
+                                <div class="models-grid">
+                                    <div class="model-card">
+                                        <h6>ResNet Family</h6>
+                                        <div class="model-links">
+                                            <a href="https://arxiv.org/abs/1512.03385" target="_blank">📄 ResNet Paper</a>
+                                            <a href="https://pytorch.org/vision/stable/models.html#torchvision.models.resnet" target="_blank">🔗 TorchVision</a>
+                                            <a href="https://timm.fast.ai/models#resnet" target="_blank">🔗 timm</a>
+                                        </div>
+                                        <ul>
+                                            <li>ResNet18, ResNet34, ResNet50, ResNet101, ResNet152</li>
+                                            <li>Residual connections for deep networks</li>
+                                            <li>Parameters: 11.7M (ResNet18) to 60.2M (ResNet152)</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="model-card">
+                                        <h6>EfficientNet Family</h6>
+                                        <div class="model-links">
+                                            <a href="https://arxiv.org/abs/1905.11946" target="_blank">📄 EfficientNet Paper</a>
+                                            <a href="https://pytorch.org/vision/stable/models.html#efficientnet" target="_blank">🔗 TorchVision</a>
+                                            <a href="https://timm.fast.ai/models#efficientnet" target="_blank">🔗 timm</a>
+                                        </div>
+                                        <ul>
+                                            <li>EfficientNet-B0 to B7, EfficientNetV2</li>
+                                            <li>Compound scaling for efficiency</li>
+                                            <li>Parameters: 5.3M (B0) to 66M (B7)</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="model-card">
+                                        <h6>MobileNet Family</h6>
+                                        <div class="model-links">
+                                            <a href="https://arxiv.org/abs/1704.04861" target="_blank">📄 MobileNet Paper</a>
+                                            <a href="https://pytorch.org/vision/stable/models.html#mobilenet" target="_blank">🔗 TorchVision</a>
+                                            <a href="https://timm.fast.ai/models#mobilenet" target="_blank">🔗 timm</a>
+                                        </div>
+                                        <ul>
+                                            <li>MobileNetV2, MobileNetV3, EfficientNet-Lite</li>
+                                            <li>Mobile-optimized architectures</li>
+                                            <li>Parameters: 3.4M (MobileNetV2) to 5.5M (MobileNetV3)</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="model-card">
+                                        <h6>Vision Transformers</h6>
+                                        <div class="model-links">
+                                            <a href="https://arxiv.org/abs/2010.11929" target="_blank">📄 ViT Paper</a>
+                                            <a href="https://pytorch.org/vision/stable/models.html#vision-transformer" target="_blank">🔗 TorchVision</a>
+                                            <a href="https://timm.fast.ai/models#vision-transformer" target="_blank">🔗 timm</a>
+                                        </div>
+                                        <ul>
+                                            <li>ViT-Base, ViT-Large, Swin Transformer</li>
+                                            <li>Transformer-based architectures</li>
+                                            <li>Parameters: 86M (ViT-Base) to 307M (ViT-Large)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Transfer Learning -->
+                            <div class="detail-group">
+                                <h4>🔄 Transfer Learning</h4>
+                                <p class="group-description">Leveraging pre-trained models for specific classification tasks.</p>
+                                
+                                <div class="transfer-learning-section">
+                                    <h5>🎯 Design Principles</h5>
+                                    <div class="principles-grid">
+                                        <div class="principle-card">
+                                            <h6>a) Reuse Pre-trained Features</h6>
+                                            <p>Leverage feature extractors pre-trained on large datasets (ImageNet)</p>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Load pre-trained backbone
+backbone = timm.create_model('resnet50', pretrained=True)
+# Features learned from 1.2M ImageNet images</code></pre>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="principle-card">
+                                            <h6>b) Replace Classifier Head</h6>
+                                            <p>Adapt output layer to match target number of classes</p>
+                                            <div class="code-example">
+                                                <pre><code class="language-python"># Original: 1000 ImageNet classes
+# Target: 37 Oxford Pets classes
+classifier = nn.Linear(2048, 37)  # ResNet50 features</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="transfer-advantages">
+                                        <h6>✅ Advantages of Transfer Learning:</h6>
+                                        <ul>
+                                            <li><strong>Faster Training:</strong> Pre-trained features accelerate convergence</li>
+                                            <li><strong>Better Performance:</strong> Leverage knowledge from large datasets</li>
+                                            <li><strong>Less Data Required:</strong> Work well with smaller datasets</li>
+                                            <li><strong>Computational Efficiency:</strong> Avoid training from scratch</li>
+                                            <li><strong>Proven Features:</strong> Use battle-tested feature extractors</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="training-strategies">
+                                        <h6>🔧 Training Strategy Selection:</h6>
+                                        <div class="strategy-grid">
+                                            <div class="strategy-card">
+                                                <h6>c.1 Freeze Backbone</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Freeze CNN backbone
+for param in backbone.parameters():
+    param.requires_grad = False
+
+# Only train classifier head
+optimizer = torch.optim.Adam(classifier.parameters(), lr=0.001)</code></pre>
+                                                </div>
+                                                <p><strong>Use case:</strong> Small datasets, quick prototyping</p>
+                                            </div>
+                                            
+                                            <div class="strategy-card">
+                                                <h6>c.2 Partial Freezing</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Freeze early layers, unfreeze later layers
+for param in backbone.layer1.parameters():
+    param.requires_grad = False
+for param in backbone.layer4.parameters():
+    param.requires_grad = True</code></pre>
+                                                </div>
+                                                <p><strong>Use case:</strong> Balanced approach</p>
+                                            </div>
+                                            
+                                            <div class="strategy-card">
+                                                <h6>c.3 Full Fine-tuning</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># Train entire model with pre-trained weights
+for param in backbone.parameters():
+    param.requires_grad = True
+
+# Use lower learning rate for backbone
+optimizer = torch.optim.Adam([
+    {'params': backbone.parameters(), 'lr': 0.0001},
+    {'params': classifier.parameters(), 'lr': 0.001}
+])</code></pre>
+                                                </div>
+                                                <p><strong>Use case:</strong> Large datasets, best performance</p>
+                                            </div>
+                                            
+                                            <div class="strategy-card">
+                                                <h6>c.4 Train from Scratch</h6>
+                                                <div class="code-example">
+                                                    <pre><code class="language-python"># No pre-trained weights (rare)
+model = timm.create_model('resnet50', pretrained=False)
+# Train everything from scratch</code></pre>
+                                                </div>
+                                                <p><strong>Use case:</strong> Very large datasets, research</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Implementation Examples -->
+                            <div class="detail-group">
+                                <h4>💻 Transfer Learning Implementation</h4>
+                                <p class="group-description">Practical code examples for creating transfer learning models.</p>
+                                
+                                <div class="implementation-examples">
+                                    <div class="example-section">
+                                        <h6>🔧 Strategy c.1: Freeze Backbone (TorchVision)</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+# Load pre-trained ResNet50
+backbone = models.resnet50(pretrained=True)
+
+# Freeze backbone parameters
+for param in backbone.parameters():
+    param.requires_grad = False
+
+# Replace classifier head
+num_classes = 37  # Oxford Pets classes
+backbone.fc = nn.Linear(backbone.fc.in_features, num_classes)
+
+# Only train classifier
+optimizer = torch.optim.Adam(backbone.fc.parameters(), lr=0.001)
+
+# Training loop
+for epoch in range(num_epochs):
+    for images, labels in dataloader:
+        optimizer.zero_grad()
+        outputs = backbone(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()</code></pre>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="example-section">
+                                        <h6>🔧 Strategy c.1: Freeze Backbone (timm)</h6>
+                                        <div class="code-example">
+                                            <pre><code class="language-python">import timm
+import torch.nn as nn
+
+# Load pre-trained EfficientNet
+backbone = timm.create_model('efficientnet_b0', pretrained=True)
+
+# Freeze backbone parameters
+for param in backbone.parameters():
+    param.requires_grad = False
+
+# Replace classifier head
+num_classes = 37
+backbone.classifier = nn.Linear(backbone.classifier.in_features, num_classes)
+
+# Only train classifier
+optimizer = torch.optim.Adam(backbone.classifier.parameters(), lr=0.001)
+
+# Training loop
+for epoch in range(num_epochs):
+    for images, labels in dataloader:
+        optimizer.zero_grad()
+        outputs = backbone(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()</code></pre>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="comparison-note">
+                                        <h6>📊 TorchVision vs timm:</h6>
+                                        <div class="comparison-grid">
+                                            <div class="comparison-card">
+                                                <h6>TorchVision</h6>
+                                                <ul>
+                                                    <li>Official PyTorch models</li>
+                                                    <li>Standard architectures</li>
+                                                    <li>Good documentation</li>
+                                                    <li>Limited model variety</li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <div class="comparison-card">
+                                                <h6>timm</h6>
+                                                <ul>
+                                                    <li>Extensive model zoo</li>
+                                                    <li>Latest architectures</li>
+                                                    <li>Flexible configuration</li>
+                                                    <li>Research-focused</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
