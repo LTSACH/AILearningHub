@@ -89,7 +89,7 @@ class ResNet50Visualizer {
         this.tooltip = d3.select('body')
             .append('div')
             .attr('class', 'tooltip')
-            .style('position', 'absolute')
+            .style('position', 'fixed')
             .style('pointer-events', 'none')
             .style('background', 'rgba(255, 255, 255, 0.95)')
             .style('color', '#111827')
@@ -768,12 +768,24 @@ class ResNet50Visualizer {
         const x = event.clientX + 15;
         const y = event.clientY - 20;
         
+        // Ensure tooltip is visible in fullscreen mode
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
         this.tooltip.html(text)
             .style('left', x + 'px')
             .style('top', y + 'px')
             .style('display', 'block')
             .style('position', 'fixed')
-            .style('z-index', '99999');
+            .style('z-index', isFullscreen ? '999999' : '99999')
+            .style('pointer-events', 'none');
+            
+        // Force show in fullscreen mode
+        if (isFullscreen) {
+            this.tooltip.style('visibility', 'visible');
+        }
     }
 
     /**
@@ -1042,6 +1054,14 @@ class ResNet50Visualizer {
         if (isFullscreen) {
             fullscreenBtn.textContent = '⛶ Exit Fullscreen';
             document.body.style.overflow = 'hidden';
+            
+            // Ensure tooltip is properly positioned for fullscreen
+            if (this.tooltip) {
+                this.tooltip
+                    .style('position', 'fixed')
+                    .style('z-index', '999999')
+                    .style('visibility', 'visible');
+            }
         } else {
             fullscreenBtn.textContent = '⛶ Fullscreen';
             document.body.style.overflow = '';

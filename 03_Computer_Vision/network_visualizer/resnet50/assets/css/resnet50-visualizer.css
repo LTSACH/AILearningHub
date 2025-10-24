@@ -524,7 +524,30 @@
 
 /* Ensure tooltip is visible in fullscreen mode */
 .ai-container:fullscreen .tooltip {
-    z-index: 99999 !important;
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+}
+
+/* Webkit fullscreen tooltip support */
+.ai-container:-webkit-full-screen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+}
+
+/* Mozilla fullscreen tooltip support */
+.ai-container:-moz-full-screen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
+}
+
+/* MS fullscreen tooltip support */
+.ai-container:-ms-fullscreen .tooltip {
+    z-index: 999999 !important;
+    position: fixed !important;
+    visibility: visible !important;
 }
 
 /* Webkit Fullscreen Support */
