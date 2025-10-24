@@ -144,7 +144,8 @@
     border-left: 1px solid var(--stroke);
     transition: width 0.3s ease;
     overflow: hidden;
-    max-width: 320px;
+    max-width: 320px !important;
+    min-width: 0;
 }
 
 .shape-map-panel.collapsed {
@@ -262,7 +263,9 @@
 }
 
 .code-implementation-panel.collapsed {
-    height: 28px;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
 }
 
 .code-resize-handle {
