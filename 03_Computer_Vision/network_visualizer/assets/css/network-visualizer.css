@@ -1,61 +1,21 @@
 /* Network Visualizer Styles */
 
+/* Use AI Report Components variables */
 :root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
-    --accent-color: #ff6b6b;
-    --text-color: #333;
-    --text-light: #666;
-    --bg-light: #f8f9fa;
-    --border-color: #e9ecef;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
-    --border-radius: 8px;
-    --transition: all 0.3s ease;
+    --primary-color: var(--ai-primary);
+    --secondary-color: var(--ai-primary-dark);
+    --accent-color: var(--ai-accent);
+    --text-color: var(--ai-text);
+    --text-light: var(--ai-text-light);
+    --bg-light: var(--ai-bg-light);
+    --border-color: var(--ai-border);
+    --shadow: var(--ai-shadow);
+    --shadow-lg: var(--ai-shadow-lg);
+    --border-radius: var(--ai-radius);
+    --transition: var(--ai-transition);
 }
 
-/* Hero Section */
-.hero {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
-    padding: 4rem 0;
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-}
-
-.hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.stat {
-    text-align: center;
-}
-
-.stat-number {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
+/* Hero Section - Now handled by AIHero component */
 
 /* Architecture Selector */
 .architecture-selector {

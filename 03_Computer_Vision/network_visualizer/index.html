@@ -4,49 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Network Architecture Visualizer - AI Learning Hub</title>
-    <link rel="stylesheet" href="assets/css/common.css">
+    <!-- Load shared components from centralized library -->
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/themes/default.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/header.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/hero.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/theme-selector.css">
+    <link rel="stylesheet" href="https://ltsach.github.io/AILearningHub/ai-report-components/css/components/language-switcher.css">
+    
+    <!-- Custom styles -->
     <link rel="stylesheet" href="assets/css/network-visualizer.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <a href="../../index.html">🤖 AI Learning Hub</a>
-            </div>
-            <div class="nav-links">
-                <a href="../index.html">Computer Vision</a>
-                <a href="../../index.html">Home</a>
-            </div>
-        </nav>
-    </header>
+    <!-- Header -->
+    <div id="ai-header"></div>
 
-    <main class="main">
-        <section class="hero">
-            <div class="container">
-                <h1>🔍 Network Architecture Visualizer</h1>
-                <p>Interactive visualization of CNN and Vision Transformer architectures</p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">10+</span>
-                        <span class="stat-label">Architectures</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">2</span>
-                        <span class="stat-label">Categories</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">Interactive</span>
-                        <span class="stat-label">Visualization</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Language Switcher (Top-right) -->
+    <div id="language-switcher" class="ai-language-switcher fixed"></div>
 
-        <section class="architecture-selector">
-            <div class="container">
-                <h2>Choose Architecture Type</h2>
+    <div class="ai-container">
+        
+    <!-- Hero Section -->
+    <div id="ai-hero"></div>
+
+        <section class="architecture-selector ai-section">
+            <h2 class="ai-heading-2">Choose Architecture Type</h2>
                 <div class="selector-grid">
                     <div class="selector-card" data-type="cnn">
                         <div class="card-icon">🧠</div>
@@ -74,19 +57,17 @@
             </div>
         </section>
 
-        <section class="architecture-list" id="architecture-list">
-            <div class="container">
-                <h2>Available Architectures</h2>
+        <section class="architecture-list ai-section" id="architecture-list">
+            <h2 class="ai-heading-2">Available Architectures</h2>
                 <div class="architecture-grid" id="architecture-grid">
                     <!-- Architectures will be loaded dynamically -->
                 </div>
             </div>
         </section>
 
-        <section class="visualization-area" id="visualization-area" style="display: none;">
-            <div class="container">
-                <div class="visualization-header">
-                    <h2 id="current-architecture">Select an Architecture</h2>
+        <section class="visualization-area ai-section" id="visualization-area" style="display: none;">
+            <div class="visualization-header">
+                <h2 class="ai-heading-2" id="current-architecture">Select an Architecture</h2>
                     <div class="visualization-controls">
                         <button id="reset-view" class="btn btn-secondary">Reset View</button>
                         <button id="export-image" class="btn btn-primary">Export Image</button>
@@ -103,9 +84,8 @@
             </div>
         </section>
 
-        <section class="comparison-section" id="comparison-section" style="display: none;">
-            <div class="container">
-                <h2>Architecture Comparison</h2>
+        <section class="comparison-section ai-section" id="comparison-section" style="display: none;">
+            <h2 class="ai-heading-2">Architecture Comparison</h2>
                 <div class="comparison-controls">
                     <select id="compare-architecture-1" class="compare-select">
                         <option value="">Select Architecture 1</option>
@@ -122,12 +102,17 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 AI Learning Hub. Interactive Network Architecture Visualizer.</p>
-        </div>
-    </footer>
+    </div>
 
+    <!-- Theme Selector -->
+    <div id="theme-selector" class="ai-theme-selector fixed"></div>
+
+    <!-- Load shared components -->
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Header.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/components/Hero.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/ThemeManager.js"></script>
+    <script src="https://ltsach.github.io/AILearningHub/ai-report-components/js/utils/LanguageManager.js"></script>
+    
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/network-visualizer.js"></script>
     <script src="assets/js/cnn-visualizer.js"></script>
@@ -135,6 +120,38 @@
     <script>
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize header
+            const header = new AIHeader('ai-header', {
+                title: 'Network Architecture Visualizer',
+                breadcrumbs: [
+                    { label: 'Home', url: '../../index.html', active: false },
+                    { label: 'Computer Vision', url: '../index.html', active: false },
+                    { label: 'Network Visualizer', url: 'index.html', active: true }
+                ]
+            });
+            
+            // Initialize hero section with stats
+            const hero = new AIHero('ai-hero', {
+                title: '🔍 Network Architecture Visualizer',
+                titleVi: '🔍 Trực Quan Hóa Kiến Trúc Mạng',
+                subtitle: 'Interactive visualization of CNN and Vision Transformer architectures',
+                subtitleVi: 'Trực quan hóa tương tác các kiến trúc CNN và Vision Transformer',
+                stats: [
+                    { value: '8', label: 'Architectures', labelVi: 'Kiến Trúc' },
+                    { value: '2', label: 'Categories', labelVi: 'Danh Mục' },
+                    { value: 'Interactive', label: 'Visualization', labelVi: 'Trực Quan' },
+                    { value: 'Real-time', label: 'Analysis', labelVi: 'Phân Tích' }
+                ],
+                gradient: true
+            });
+            
+            // Initialize theme selector
+            window.AIThemeManager.createThemeSelector('theme-selector');
+            
+            // Initialize language manager
+            window.AILanguageManager.createLanguageSwitcher('language-switcher');
+            
+            // Initialize Network Visualizer
             NetworkVisualizer.init();
         });
     </script>
