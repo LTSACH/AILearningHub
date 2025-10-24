@@ -1,0 +1,663 @@
+{
+  "architectures": [
+    {
+      "id": "resnet50",
+      "name": "ResNet-50",
+      "type": "cnn",
+      "year": 2015,
+      "parameters": 25557032,
+      "flops": 4110944256,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "description": "Residual Network with 50 layers, uses skip connections to solve vanishing gradient problem",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "Conv1",
+          "type": "conv",
+          "filters": 64,
+          "kernelSize": 7,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "112×112×64",
+          "parameters": 9408,
+          "description": "Initial convolution layer"
+        },
+        {
+          "name": "MaxPool1",
+          "type": "pool",
+          "poolSize": 3,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "56×56×64",
+          "parameters": 0,
+          "description": "Max pooling layer"
+        },
+        {
+          "name": "Conv2_1",
+          "type": "conv",
+          "filters": 64,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "56×56×64",
+          "parameters": 36864,
+          "description": "First residual block"
+        },
+        {
+          "name": "Conv2_2",
+          "type": "conv",
+          "filters": 64,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "56×56×64",
+          "parameters": 36864,
+          "description": "Second residual block"
+        },
+        {
+          "name": "Conv3_1",
+          "type": "conv",
+          "filters": 128,
+          "kernelSize": 3,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "28×28×128",
+          "parameters": 147456,
+          "description": "Third residual block with stride 2"
+        },
+        {
+          "name": "Conv3_2",
+          "type": "conv",
+          "filters": 128,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "28×28×128",
+          "parameters": 147456,
+          "description": "Fourth residual block"
+        },
+        {
+          "name": "Conv4_1",
+          "type": "conv",
+          "filters": 256,
+          "kernelSize": 3,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "14×14×256",
+          "parameters": 589824,
+          "description": "Fifth residual block with stride 2"
+        },
+        {
+          "name": "Conv4_2",
+          "type": "conv",
+          "filters": 256,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "14×14×256",
+          "parameters": 589824,
+          "description": "Sixth residual block"
+        },
+        {
+          "name": "Conv5_1",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "7×7×512",
+          "parameters": 2359296,
+          "description": "Seventh residual block with stride 2"
+        },
+        {
+          "name": "Conv5_2",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "7×7×512",
+          "parameters": 2359296,
+          "description": "Eighth residual block"
+        },
+        {
+          "name": "GlobalAvgPool",
+          "type": "pool",
+          "poolSize": 7,
+          "stride": 1,
+          "padding": "valid",
+          "outputShape": "1×1×512",
+          "parameters": 0,
+          "description": "Global average pooling"
+        },
+        {
+          "name": "Dense",
+          "type": "fc",
+          "units": 1000,
+          "outputShape": "1000",
+          "parameters": 513000,
+          "description": "Final classification layer"
+        }
+      ]
+    },
+    {
+      "id": "vgg16",
+      "name": "VGG-16",
+      "type": "cnn",
+      "year": 2014,
+      "parameters": 138357544,
+      "flops": 1547048448,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "description": "Very Deep Convolutional Networks with 16 layers, uses small 3×3 filters",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "Conv1_1",
+          "type": "conv",
+          "filters": 64,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "224×224×64",
+          "parameters": 1792,
+          "description": "First convolution layer"
+        },
+        {
+          "name": "Conv1_2",
+          "type": "conv",
+          "filters": 64,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "224×224×64",
+          "parameters": 36864,
+          "description": "Second convolution layer"
+        },
+        {
+          "name": "MaxPool1",
+          "type": "pool",
+          "poolSize": 2,
+          "stride": 2,
+          "padding": "valid",
+          "outputShape": "112×112×64",
+          "parameters": 0,
+          "description": "First max pooling layer"
+        },
+        {
+          "name": "Conv2_1",
+          "type": "conv",
+          "filters": 128,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "112×112×128",
+          "parameters": 73728,
+          "description": "Third convolution layer"
+        },
+        {
+          "name": "Conv2_2",
+          "type": "conv",
+          "filters": 128,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "112×112×128",
+          "parameters": 147456,
+          "description": "Fourth convolution layer"
+        },
+        {
+          "name": "MaxPool2",
+          "type": "pool",
+          "poolSize": 2,
+          "stride": 2,
+          "padding": "valid",
+          "outputShape": "56×56×128",
+          "parameters": 0,
+          "description": "Second max pooling layer"
+        },
+        {
+          "name": "Conv3_1",
+          "type": "conv",
+          "filters": 256,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "56×56×256",
+          "parameters": 294912,
+          "description": "Fifth convolution layer"
+        },
+        {
+          "name": "Conv3_2",
+          "type": "conv",
+          "filters": 256,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "56×56×256",
+          "parameters": 589824,
+          "description": "Sixth convolution layer"
+        },
+        {
+          "name": "Conv3_3",
+          "type": "conv",
+          "filters": 256,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "56×56×256",
+          "parameters": 589824,
+          "description": "Seventh convolution layer"
+        },
+        {
+          "name": "MaxPool3",
+          "type": "pool",
+          "poolSize": 2,
+          "stride": 2,
+          "padding": "valid",
+          "outputShape": "28×28×256",
+          "parameters": 0,
+          "description": "Third max pooling layer"
+        },
+        {
+          "name": "Conv4_1",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "28×28×512",
+          "parameters": 1179648,
+          "description": "Eighth convolution layer"
+        },
+        {
+          "name": "Conv4_2",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "28×28×512",
+          "parameters": 2359296,
+          "description": "Ninth convolution layer"
+        },
+        {
+          "name": "Conv4_3",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "28×28×512",
+          "parameters": 2359296,
+          "description": "Tenth convolution layer"
+        },
+        {
+          "name": "MaxPool4",
+          "type": "pool",
+          "poolSize": 2,
+          "stride": 2,
+          "padding": "valid",
+          "outputShape": "14×14×512",
+          "parameters": 0,
+          "description": "Fourth max pooling layer"
+        },
+        {
+          "name": "Conv5_1",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "14×14×512",
+          "parameters": 2359296,
+          "description": "Eleventh convolution layer"
+        },
+        {
+          "name": "Conv5_2",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "14×14×512",
+          "parameters": 2359296,
+          "description": "Twelfth convolution layer"
+        },
+        {
+          "name": "Conv5_3",
+          "type": "conv",
+          "filters": 512,
+          "kernelSize": 3,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "14×14×512",
+          "parameters": 2359296,
+          "description": "Thirteenth convolution layer"
+        },
+        {
+          "name": "MaxPool5",
+          "type": "pool",
+          "poolSize": 2,
+          "stride": 2,
+          "padding": "valid",
+          "outputShape": "7×7×512",
+          "parameters": 0,
+          "description": "Fifth max pooling layer"
+        },
+        {
+          "name": "Flatten",
+          "type": "flatten",
+          "outputShape": "25088",
+          "parameters": 0,
+          "description": "Flatten layer"
+        },
+        {
+          "name": "FC1",
+          "type": "fc",
+          "units": 4096,
+          "outputShape": "4096",
+          "parameters": 102764544,
+          "description": "First fully connected layer"
+        },
+        {
+          "name": "FC2",
+          "type": "fc",
+          "units": 4096,
+          "outputShape": "4096",
+          "parameters": 16777216,
+          "description": "Second fully connected layer"
+        },
+        {
+          "name": "FC3",
+          "type": "fc",
+          "units": 1000,
+          "outputShape": "1000",
+          "parameters": 4096000,
+          "description": "Output layer"
+        }
+      ]
+    },
+    {
+      "id": "efficientnet-b0",
+      "name": "EfficientNet-B0",
+      "type": "cnn",
+      "year": 2019,
+      "parameters": 5288548,
+      "flops": 390688512,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "description": "EfficientNet with compound scaling, balances accuracy and efficiency",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "Stem",
+          "type": "conv",
+          "filters": 32,
+          "kernelSize": 3,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "112×112×32",
+          "parameters": 864,
+          "description": "Stem convolution"
+        },
+        {
+          "name": "Block1",
+          "type": "mbconv",
+          "filters": 16,
+          "kernelSize": 3,
+          "stride": 1,
+          "outputShape": "112×112×16",
+          "parameters": 1312,
+          "description": "First MBConv block"
+        },
+        {
+          "name": "Block2",
+          "type": "mbconv",
+          "filters": 24,
+          "kernelSize": 3,
+          "stride": 2,
+          "outputShape": "56×56×24",
+          "parameters": 3456,
+          "description": "Second MBConv block"
+        },
+        {
+          "name": "Block3",
+          "type": "mbconv",
+          "filters": 40,
+          "kernelSize": 5,
+          "stride": 2,
+          "outputShape": "28×28×40",
+          "parameters": 15360,
+          "description": "Third MBConv block"
+        },
+        {
+          "name": "Block4",
+          "type": "mbconv",
+          "filters": 80,
+          "kernelSize": 3,
+          "stride": 2,
+          "outputShape": "14×14×80",
+          "parameters": 30720,
+          "description": "Fourth MBConv block"
+        },
+        {
+          "name": "Block5",
+          "type": "mbconv",
+          "filters": 112,
+          "kernelSize": 5,
+          "stride": 1,
+          "outputShape": "14×14×112",
+          "parameters": 53760,
+          "description": "Fifth MBConv block"
+        },
+        {
+          "name": "Block6",
+          "type": "mbconv",
+          "filters": 192,
+          "kernelSize": 5,
+          "stride": 2,
+          "outputShape": "7×7×192",
+          "parameters": 92160,
+          "description": "Sixth MBConv block"
+        },
+        {
+          "name": "Block7",
+          "type": "mbconv",
+          "filters": 320,
+          "kernelSize": 3,
+          "stride": 1,
+          "outputShape": "7×7×320",
+          "parameters": 153600,
+          "description": "Seventh MBConv block"
+        },
+        {
+          "name": "Head",
+          "type": "conv",
+          "filters": 1280,
+          "kernelSize": 1,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "7×7×1280",
+          "parameters": 409600,
+          "description": "Head convolution"
+        },
+        {
+          "name": "GlobalAvgPool",
+          "type": "pool",
+          "poolSize": 7,
+          "stride": 1,
+          "padding": "valid",
+          "outputShape": "1×1×1280",
+          "parameters": 0,
+          "description": "Global average pooling"
+        },
+        {
+          "name": "Dropout",
+          "type": "dropout",
+          "rate": 0.2,
+          "outputShape": "1×1×1280",
+          "parameters": 0,
+          "description": "Dropout layer"
+        },
+        {
+          "name": "Dense",
+          "type": "fc",
+          "units": 1000,
+          "outputShape": "1000",
+          "parameters": 1281000,
+          "description": "Final classification layer"
+        }
+      ]
+    },
+    {
+      "id": "mobilenet-v2",
+      "name": "MobileNet-V2",
+      "type": "cnn",
+      "year": 2018,
+      "parameters": 3504872,
+      "flops": 300659712,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "description": "Mobile-optimized network with inverted residuals and linear bottlenecks",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "Conv1",
+          "type": "conv",
+          "filters": 32,
+          "kernelSize": 3,
+          "stride": 2,
+          "padding": "same",
+          "outputShape": "112×112×32",
+          "parameters": 864,
+          "description": "First convolution layer"
+        },
+        {
+          "name": "Block1",
+          "type": "inverted_residual",
+          "filters": 16,
+          "kernelSize": 3,
+          "stride": 1,
+          "outputShape": "112×112×16",
+          "parameters": 1312,
+          "description": "First inverted residual block"
+        },
+        {
+          "name": "Block2",
+          "type": "inverted_residual",
+          "filters": 24,
+          "kernelSize": 3,
+          "stride": 2,
+          "outputShape": "56×56×24",
+          "parameters": 3456,
+          "description": "Second inverted residual block"
+        },
+        {
+          "name": "Block3",
+          "type": "inverted_residual",
+          "filters": 32,
+          "kernelSize": 3,
+          "stride": 2,
+          "outputShape": "28×28×32",
+          "parameters": 6144,
+          "description": "Third inverted residual block"
+        },
+        {
+          "name": "Block4",
+          "type": "inverted_residual",
+          "filters": 64,
+          "kernelSize": 3,
+          "stride": 2,
+          "outputShape": "14×14×64",
+          "parameters": 12288,
+          "description": "Fourth inverted residual block"
+        },
+        {
+          "name": "Block5",
+          "type": "inverted_residual",
+          "filters": 96,
+          "kernelSize": 3,
+          "stride": 1,
+          "outputShape": "14×14×96",
+          "parameters": 18432,
+          "description": "Fifth inverted residual block"
+        },
+        {
+          "name": "Block6",
+          "type": "inverted_residual",
+          "filters": 160,
+          "kernelSize": 3,
+          "stride": 2,
+          "outputShape": "7×7×160",
+          "parameters": 30720,
+          "description": "Sixth inverted residual block"
+        },
+        {
+          "name": "Block7",
+          "type": "inverted_residual",
+          "filters": 320,
+          "kernelSize": 3,
+          "stride": 1,
+          "outputShape": "7×7×320",
+          "parameters": 61440,
+          "description": "Seventh inverted residual block"
+        },
+        {
+          "name": "Conv2",
+          "type": "conv",
+          "filters": 1280,
+          "kernelSize": 1,
+          "stride": 1,
+          "padding": "same",
+          "outputShape": "7×7×1280",
+          "parameters": 409600,
+          "description": "Second convolution layer"
+        },
+        {
+          "name": "GlobalAvgPool",
+          "type": "pool",
+          "poolSize": 7,
+          "stride": 1,
+          "padding": "valid",
+          "outputShape": "1×1×1280",
+          "parameters": 0,
+          "description": "Global average pooling"
+        },
+        {
+          "name": "Dense",
+          "type": "fc",
+          "units": 1000,
+          "outputShape": "1000",
+          "parameters": 1281000,
+          "description": "Final classification layer"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,944 @@
+{
+  "architectures": [
+    {
+      "id": "vit-base",
+      "name": "Vision Transformer (ViT-Base)",
+      "type": "vit",
+      "year": 2020,
+      "parameters": 86567656,
+      "flops": 1726133760,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "numBlocks": 12,
+      "embedDim": 768,
+      "numHeads": 12,
+      "mlpDim": 3072,
+      "patchSize": 16,
+      "description": "Base Vision Transformer with 12 transformer blocks and 768 embedding dimensions",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "PatchEmbedding",
+          "type": "patch_embedding",
+          "patchSize": 16,
+          "embedDim": 768,
+          "outputShape": "196×768",
+          "parameters": 590592,
+          "description": "Patch embedding layer"
+        },
+        {
+          "name": "PositionalEncoding",
+          "type": "positional_encoding",
+          "seqLen": 197,
+          "embedDim": 768,
+          "outputShape": "197×768",
+          "parameters": 151296,
+          "description": "Positional encoding"
+        },
+        {
+          "name": "TransformerBlock1",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "First transformer block"
+        },
+        {
+          "name": "TransformerBlock2",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Second transformer block"
+        },
+        {
+          "name": "TransformerBlock3",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Third transformer block"
+        },
+        {
+          "name": "TransformerBlock4",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Fourth transformer block"
+        },
+        {
+          "name": "TransformerBlock5",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Fifth transformer block"
+        },
+        {
+          "name": "TransformerBlock6",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Sixth transformer block"
+        },
+        {
+          "name": "TransformerBlock7",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Seventh transformer block"
+        },
+        {
+          "name": "TransformerBlock8",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Eighth transformer block"
+        },
+        {
+          "name": "TransformerBlock9",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Ninth transformer block"
+        },
+        {
+          "name": "TransformerBlock10",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Tenth transformer block"
+        },
+        {
+          "name": "TransformerBlock11",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Eleventh transformer block"
+        },
+        {
+          "name": "TransformerBlock12",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Twelfth transformer block"
+        },
+        {
+          "name": "LayerNorm",
+          "type": "layer_norm",
+          "embedDim": 768,
+          "outputShape": "197×768",
+          "parameters": 1536,
+          "description": "Layer normalization"
+        },
+        {
+          "name": "ClassificationHead",
+          "type": "classification_head",
+          "embedDim": 768,
+          "outputClasses": 1000,
+          "outputShape": "1000",
+          "parameters": 769000,
+          "description": "Classification head"
+        }
+      ]
+    },
+    {
+      "id": "vit-large",
+      "name": "Vision Transformer (ViT-Large)",
+      "type": "vit",
+      "year": 2020,
+      "parameters": 304326632,
+      "flops": 6069081600,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "numBlocks": 24,
+      "embedDim": 1024,
+      "numHeads": 16,
+      "mlpDim": 4096,
+      "patchSize": 16,
+      "description": "Large Vision Transformer with 24 transformer blocks and 1024 embedding dimensions",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "PatchEmbedding",
+          "type": "patch_embedding",
+          "patchSize": 16,
+          "embedDim": 1024,
+          "outputShape": "196×1024",
+          "parameters": 786432,
+          "description": "Patch embedding layer"
+        },
+        {
+          "name": "PositionalEncoding",
+          "type": "positional_encoding",
+          "seqLen": 197,
+          "embedDim": 1024,
+          "outputShape": "197×1024",
+          "parameters": 201728,
+          "description": "Positional encoding"
+        },
+        {
+          "name": "TransformerBlock1",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "First transformer block"
+        },
+        {
+          "name": "TransformerBlock2",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Second transformer block"
+        },
+        {
+          "name": "TransformerBlock3",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Third transformer block"
+        },
+        {
+          "name": "TransformerBlock4",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Fourth transformer block"
+        },
+        {
+          "name": "TransformerBlock5",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Fifth transformer block"
+        },
+        {
+          "name": "TransformerBlock6",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Sixth transformer block"
+        },
+        {
+          "name": "TransformerBlock7",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Seventh transformer block"
+        },
+        {
+          "name": "TransformerBlock8",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Eighth transformer block"
+        },
+        {
+          "name": "TransformerBlock9",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Ninth transformer block"
+        },
+        {
+          "name": "TransformerBlock10",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Tenth transformer block"
+        },
+        {
+          "name": "TransformerBlock11",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Eleventh transformer block"
+        },
+        {
+          "name": "TransformerBlock12",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Twelfth transformer block"
+        },
+        {
+          "name": "TransformerBlock13",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Thirteenth transformer block"
+        },
+        {
+          "name": "TransformerBlock14",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Fourteenth transformer block"
+        },
+        {
+          "name": "TransformerBlock15",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024compiled successfully!"
+        },
+        {
+          "name": "TransformerBlock16",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Sixteenth transformer block"
+        },
+        {
+          "name": "TransformerBlock17",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Seventeenth transformer block"
+        },
+        {
+          "name": "TransformerBlock18",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Eighteenth transformer block"
+        },
+        {
+          "name": "TransformerBlock19",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Nineteenth transformer block"
+        },
+        {
+          "name": "TransformerBlock20",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Twentieth transformer block"
+        },
+        {
+          "name": "TransformerBlock21",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Twenty-first transformer block"
+        },
+        {
+          "name": "TransformerBlock22",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Twenty-second transformer block"
+        },
+        {
+          "name": "TransformerBlock23",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Twenty-third transformer block"
+        },
+        {
+          "name": "TransformerBlock24",
+          "type": "transformer_block",
+          "embedDim": 1024,
+          "numHeads": 16,
+          "mlpDim": 4096,
+          "outputShape": "197×1024",
+          "parameters": 12615680,
+          "description": "Twenty-fourth transformer block"
+        },
+        {
+          "name": "LayerNorm",
+          "type": "layer_norm",
+          "embedDim": 1024,
+          "outputShape": "197×1024",
+          "parameters": 2048,
+          "description": "Layer normalization"
+        },
+        {
+          "name": "ClassificationHead",
+          "type": "classification_head",
+          "embedDim": 1024,
+          "outputClasses": 1000,
+          "outputShape": "1000",
+          "parameters": 1025000,
+          "description": "Classification head"
+        }
+      ]
+    },
+    {
+      "id": "swin-transformer-base",
+      "name": "Swin Transformer (Swin-Base)",
+      "type": "vit",
+      "year": 2021,
+      "parameters": 87768000,
+      "flops": 1520000000,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "numBlocks": 24,
+      "embedDim": 1024,
+      "numHeads": 16,
+      "mlpDim": 4096,
+      "patchSize": 4,
+      "description": "Swin Transformer with shifted windows for efficient vision modeling",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "PatchEmbedding",
+          "type": "patch_embedding",
+          "patchSize": 4,
+          "embedDim": 128,
+          "outputShape": "3136×128",
+          "parameters": 49152,
+          "description": "Patch embedding layer"
+        },
+        {
+          "name": "Stage1_Block1",
+          "type": "swin_block",
+          "embedDim": 128,
+          "numHeads": 4,
+          "mlpDim": 512,
+          "outputShape": "3136×128",
+          "parameters": 131584,
+          "description": "First Swin block in stage 1"
+        },
+        {
+          "name": "Stage1_Block2",
+          "type": "swin_block",
+          "embedDim": 128,
+          "numHeads": 4,
+          "mlpDim": 512,
+          "outputShape": "3136×128",
+          "parameters": 131584,
+          "description": "Second Swin block in stage 1"
+        },
+        {
+          "name": "PatchMerging1",
+          "type": "patch_merging",
+          "embedDim": 128,
+          "outputShape": "784×256",
+          "parameters": 65536,
+          "description": "First patch merging layer"
+        },
+        {
+          "name": "Stage2_Block1",
+          "type": "swin_block",
+          "embedDim": 256,
+          "numHeads": 8,
+          "mlpDim": 1024,
+          "outputShape": "784×256",
+          "parameters": 525312,
+          "description": "First Swin block in stage 2"
+        },
+        {
+          "name": "Stage2_Block2",
+          "type": "swin_block",
+          "embedDim": 256,
+          "numHeads": 8,
+          "mlpDim": 1024,
+          "outputShape": "784×256",
+          "parameters": 525312,
+          "description": "Second Swin block in stage 2"
+        },
+        {
+          "name": "PatchMerging2",
+          "type": "patch_merging",
+          "embedDim": 256,
+          "outputShape": "196×512",
+          "parameters": 262144,
+          "description": "Second patch merging layer"
+        },
+        {
+          "name": "Stage3_Block1",
+          "type": "swin_block",
+          "embedDim": 512,
+          "numHeads": 16,
+          "mlpDim": 2048,
+          "outputShape": "196×512",
+          "parameters": 2097152,
+          "description": "First Swin block in stage 3"
+        },
+        {
+          "name": "Stage3_Block2",
+          "type": "swin_block",
+          "embedDim": 512,
+          "numHeads": 16,
+          "mlpDim": 2048,
+          "outputShape": "196×512",
+          "parameters": 2097152,
+          "description": "Second Swin block in stage 3"
+        },
+        {
+          "name": "Stage3_Block3",
+          "type": "swin_block",
+          "embedDim": 512,
+          "numHeads": 16,
+          "mlpDim": 2048,
+          "outputShape": "196×512",
+          "parameters": 2097152,
+          "description": "Third Swin block in stage 3"
+        },
+        {
+          "name": "Stage3_Block4",
+          "type": "swin_block",
+          "embedDim": 512,
+          "numHeads": 16,
+          "mlpDim": 2048,
+          "outputShape": "196×512",
+          "parameters": 2097152,
+          "description": "Fourth Swin block in stage 3"
+        },
+        {
+          "name": "Stage3_Block5",
+          "type": "swin_block",
+          "embedDim": 512,
+          "numHeads": 16,
+          "mlpDim": 2048,
+          "outputShape": "196×512",
+          "parameters": 2097152,
+          "description": "Fifth Swin block in stage 3"
+        },
+        {
+          "name": "Stage3_Block6",
+          "type": "swin_block",
+          "embedDim": 512,
+          "numHeads": 16,
+          "mlpDim": 2048,
+          "outputShape": "196×512",
+          "parameters": 2097152,
+          "description": "Sixth Swin block in stage 3"
+        },
+        {
+          "name": "PatchMerging3",
+          "type": "patch_merging",
+          "embedDim": 512,
+          "outputShape": "49×1024",
+          "parameters": 1048576,
+          "description": "Third patch merging layer"
+        },
+        {
+          "name": "Stage4_Block1",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "First Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block2",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Second Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block3",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Third Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block4",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Fourth Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block5",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Fifth Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block6",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Sixth Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block7",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Seventh Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block8",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Eighth Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block9",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Ninth Swin block in stage 4"
+        },
+        {
+          "name": "Stage4_Block10",
+          "type": "swin_block",
+          "embedDim": 1024,
+          "numHeads": 32,
+          "mlpDim": 4096,
+          "outputShape": "49×1024",
+          "parameters": 8388608,
+          "description": "Tenth Swin block in stage 4"
+        },
+        {
+          "name": "LayerNorm",
+          "type": "layer_norm",
+          "embedDim": 1024,
+          "outputShape": "49×1024",
+          "parameters": 2048,
+          "description": "Layer normalization"
+        },
+        {
+          "name": "GlobalAvgPool",
+          "type": "global_avg_pool",
+          "outputShape": "1024",
+          "parameters": 0,
+          "description": "Global average pooling"
+        },
+        {
+          "name": "ClassificationHead",
+          "type": "classification_head",
+          "embedDim": 1024,
+          "outputClasses": 1000,
+          "outputShape": "1000",
+          "parameters": 1025000,
+          "description": "Classification head"
+        }
+      ]
+    },
+    {
+      "id": "deit-base",
+      "name": "DeiT (Data-efficient Image Transformer)",
+      "type": "vit",
+      "year": 2021,
+      "parameters": 86567656,
+      "flops": 1726133760,
+      "inputSize": "224×224×3",
+      "outputClasses": 1000,
+      "numBlocks": 12,
+      "embedDim": 768,
+      "numHeads": 12,
+      "mlpDim": 3072,
+      "patchSize": 16,
+      "description": "Data-efficient Image Transformer with knowledge distillation",
+      "layers": [
+        {
+          "name": "Input",
+          "type": "input",
+          "outputShape": "224×224×3",
+          "parameters": 0,
+          "description": "Input image"
+        },
+        {
+          "name": "PatchEmbedding",
+          "type": "patch_embedding",
+          "patchSize": 16,
+          "embedDim": 768,
+          "outputShape": "196×768",
+          "parameters": 590592,
+          "description": "Patch embedding layer"
+        },
+        {
+          "name": "PositionalEncoding",
+          "type": "positional_encoding",
+          "seqLen": 197,
+          "embedDim": 768,
+          "outputShape": "197×768",
+          "parameters": 151296,
+          "description": "Positional encoding"
+        },
+        {
+          "name": "TransformerBlock1",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "First transformer block"
+        },
+        {
+          "name": "TransformerBlock2",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Second transformer block"
+        },
+        {
+          "name": "TransformerBlock3",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Third transformer block"
+        },
+        {
+          "name": "TransformerBlock4",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Fourth transformer block"
+        },
+        {
+          "name": "TransformerBlock5",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Fifth transformer block"
+        },
+        {
+          "name": "TransformerBlock6",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Sixth transformer block"
+        },
+        {
+          "name": "TransformerBlock7",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Seventh transformer block"
+        },
+        {
+          "name": "TransformerBlock8",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Eighth transformer block"
+        },
+        {
+          "name": "TransformerBlock9",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Ninth transformer block"
+        },
+        {
+          "name": "TransformerBlock10",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Tenth transformer block"
+        },
+        {
+          "name": "TransformerBlock11",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Eleventh transformer block"
+        },
+        {
+          "name": "TransformerBlock12",
+          "type": "transformer_block",
+          "embedDim": 768,
+          "numHeads": 12,
+          "mlpDim": 3072,
+          "outputShape": "197×768",
+          "parameters": 7086336,
+          "description": "Twelfth transformer block"
+        },
+        {
+          "name": "LayerNorm",
+          "type": "layer_norm",
+          "embedDim": 768,
+          "outputShape": "197×768",
+          "parameters": 1536,
+          "description": "Layer normalization"
+        },
+        {
+          "name": "ClassificationHead",
+          "type": "classification_head",
+          "embedDim": 768,
+          "outputClasses": 1000,
+          "outputShape": "1000",
+          "parameters": 769000,
+          "description": "Classification head"
+        }
+      ]
+    }
+  ]
+}

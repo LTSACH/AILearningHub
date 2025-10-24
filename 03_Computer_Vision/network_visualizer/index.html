@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Architecture Visualizer - AI Learning Hub</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/network-visualizer.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <a href="../../index.html">🤖 AI Learning Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">Computer Vision</a>
+                <a href="../../index.html">Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="container">
+                <h1>🔍 Network Architecture Visualizer</h1>
+                <p>Interactive visualization of CNN and Vision Transformer architectures</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Architectures</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">Interactive</span>
+                        <span class="stat-label">Visualization</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture-selector">
+            <div class="container">
+                <h2>Choose Architecture Type</h2>
+                <div class="selector-grid">
+                    <div class="selector-card" data-type="cnn">
+                        <div class="card-icon">🧠</div>
+                        <h3>CNN Architectures</h3>
+                        <p>Convolutional Neural Networks for image processing</p>
+                        <div class="card-features">
+                            <span class="feature-tag">ResNet</span>
+                            <span class="feature-tag">VGG</span>
+                            <span class="feature-tag">EfficientNet</span>
+                            <span class="feature-tag">MobileNet</span>
+                        </div>
+                    </div>
+                    <div class="selector-card" data-type="vit">
+                        <div class="card-icon">👁️</div>
+                        <h3>Vision Transformers</h3>
+                        <p>Transformer-based architectures for computer vision</p>
+                        <div class="card-features">
+                            <span class="feature-tag">ViT</span>
+                            <span class="feature-tag">Swin</span>
+                            <span class="feature-tag">DeiT</span>
+                            <span class="feature-tag">CLIP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture-list" id="architecture-list">
+            <div class="container">
+                <h2>Available Architectures</h2>
+                <div class="architecture-grid" id="architecture-grid">
+                    <!-- Architectures will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <section class="visualization-area" id="visualization-area" style="display: none;">
+            <div class="container">
+                <div class="visualization-header">
+                    <h2 id="current-architecture">Select an Architecture</h2>
+                    <div class="visualization-controls">
+                        <button id="reset-view" class="btn btn-secondary">Reset View</button>
+                        <button id="export-image" class="btn btn-primary">Export Image</button>
+                    </div>
+                </div>
+                <div class="visualization-container">
+                    <div class="architecture-info" id="architecture-info">
+                        <!-- Architecture details will be loaded here -->
+                    </div>
+                    <div class="visualization-canvas" id="visualization-canvas">
+                        <!-- D3.js visualization will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison-section" id="comparison-section" style="display: none;">
+            <div class="container">
+                <h2>Architecture Comparison</h2>
+                <div class="comparison-controls">
+                    <select id="compare-architecture-1" class="compare-select">
+                        <option value="">Select Architecture 1</option>
+                    </select>
+                    <select id="compare-architecture-2" class="compare-select">
+                        <option value="">Select Architecture 2</option>
+                    </select>
+                    <button id="compare-btn" class="btn btn-primary">Compare</button>
+                </div>
+                <div class="comparison-results" id="comparison-results">
+                    <!-- Comparison results will be displayed here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AI Learning Hub. Interactive Network Architecture Visualizer.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/network-visualizer.js"></script>
+    <script src="assets/js/cnn-visualizer.js"></script>
+    <script src="assets/js/vit-visualizer.js"></script>
+    <script>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            NetworkVisualizer.init();
+        });
+    </script>
+</body>
+</html>
