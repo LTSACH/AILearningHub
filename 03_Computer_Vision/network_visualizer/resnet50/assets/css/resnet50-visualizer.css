@@ -1,4 +1,4 @@
-/* ResNet50 Visualizer Styles */
+/* ResNet50 Visualizer Styles - New Architecture */
 
 /* CSS Variables */
 :root {
@@ -9,45 +9,38 @@
     --stroke: #d1d5db;
     --edge: #3B82F6;
     --edge-hi: #2563EB;
-    --skip: #F59E0B;
-    --node-backbone: #CBD5E1;
-    --node-stage: #F9FAFB;
-    --node-io: #E67E22;
-    --node-hover: #E2E8F0;
+    --NODE-backbone: #CBD5E1;
+    --NODE-stage: #F9FAFB;
+    --NODE-io: #E67E22;
+    --NODE-hover: #E2E8F0;
 }
 
-/* Visualization Interface */
-.visualization-interface {
+/* 3. Model Container */
+.model-container {
+    width: 100%;
+    height: calc(100vh - 200px); /* Subtract header and hero height */
+    display: flex;
+    flex-direction: column;
     background: var(--bg);
-    border-radius: var(--ai-radius-lg);
-    border: 1px solid var(--ai-border);
-    overflow: hidden;
-    margin: var(--ai-spacing-xl) 0;
 }
 
-/* Controls Header */
-.controls-header {
-    padding: 12px 16px;
+/* 3.1 Control Panel */
+.control-panel {
     background: var(--panel);
     border-bottom: 1px solid var(--stroke);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    padding: 12px 16px;
+    flex-shrink: 0;
 }
 
-.visualization-title {
-    margin: 0;
-    font-size: 18px;
-    color: var(--ink);
-}
-
-.left-controls, .right-controls {
+.control-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.control-row:last-child {
+    margin-bottom: 0;
 }
 
 .input-controls {
@@ -63,6 +56,7 @@
     border-radius: 999px;
     font-size: 12px;
     color: var(--muted);
+    margin-right: 8px;
 }
 
 .input-controls label {
@@ -83,6 +77,226 @@
     font-size: 12px;
 }
 
+.action-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* 3.2 Main Visualization Area */
+.main-visualization-area {
+    flex: 1;
+    display: flex;
+    position: relative;
+    min-height: 0;
+}
+
+.viz-container {
+    flex: 1;
+    position: relative;
+    background: var(--bg);
+    border-right: 1px solid var(--stroke);
+}
+
+.visualization-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.viz-navigation {
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 2;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.formula {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12px;
+    font-size: 13px;
+    color: #1f2937;
+    background: #f9fafb;
+    border: 1px solid var(--stroke);
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: none;
+    z-index: 2;
+}
+
+/* Shape Map Panel - Collapsible */
+.shape-map-panel {
+    width: 320px;
+    flex-shrink: 0;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--stroke);
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.shape-map-panel.collapsed {
+    width: 40px;
+}
+
+.shape-map-header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--stroke);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.shape-map-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.shape-map-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted);
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.shape-map-toggle:hover {
+    background: var(--NODE-hover);
+    color: var(--ink);
+}
+
+.shape-map-panel.collapsed .shape-map-toggle {
+    transform: rotate(180deg);
+}
+
+.shape-map-content {
+    padding: 10px 12px;
+    overflow: auto;
+    flex: 1;
+}
+
+.shape-map-panel.collapsed .shape-map-content {
+    display: none;
+}
+
+.shape-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.shape-table th,
+.shape-table td {
+    border-bottom: 1px dashed #e5e7eb;
+    padding: 6px 6px;
+    text-align: left;
+}
+
+.shape-table th {
+    color: #374151;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    background: #fafafa;
+}
+
+.shape-table td {
+    color: var(--muted);
+}
+
+.shape-map-key {
+    color: #6b7280;
+    font-size: 12px;
+    margin: 6px 0 0 0;
+}
+
+/* 3.3 Code Implementation Panel */
+.code-implementation-panel {
+    height: 25vh;
+    min-height: 120px;
+    max-height: 60vh;
+    background: #2d2d2d;
+    border-top: 1px solid var(--stroke);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: height 0.2s ease;
+}
+
+.code-implementation-panel.collapsed {
+    height: 40px;
+}
+
+.code-resize-handle {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    cursor: ns-resize;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0));
+}
+
+.code-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: #e5e7eb;
+    background: #1f1f1f;
+    border-bottom: 1px solid #3a3a3a;
+    flex-shrink: 0;
+}
+
+.code-panel-title {
+    font-weight: 600;
+}
+
+.code-panel-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.code-panel-content {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 8px 12px;
+}
+
+.code-implementation-panel.collapsed .code-panel-content {
+    display: none;
+}
+
+.code-panel-content pre {
+    margin: 0;
+}
+
+.code-panel-content code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Buttons */
 .btn {
     padding: 8px 12px;
     border: 1px solid var(--stroke);
@@ -121,176 +335,6 @@
     color: var(--ink);
 }
 
-.zoom-controls {
-    display: flex;
-    gap: 8px;
-}
-
-/* Main Visualization Area */
-.visualization-main {
-    display: flex;
-    height: calc(100vh - 300px);
-    min-height: 500px;
-}
-
-.viz-container {
-    flex: 1 1 auto;
-    position: relative;
-    min-height: 320px;
-    border-right: 1px solid var(--stroke);
-    background: var(--bg);
-}
-
-.visualization-canvas {
-    width: 100%;
-    height: 100%;
-}
-
-.viz-navigation {
-    position: absolute;
-    left: 14px;
-    top: 12px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    z-index: 2;
-}
-
-.breadcrumb {
-    font-size: 12px;
-    color: var(--muted);
-}
-
-.formula {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 12px;
-    font-size: 13px;
-    color: #1f2937;
-    background: #f9fafb;
-    border: 1px solid var(--stroke);
-    border-radius: 999px;
-    padding: 6px 10px;
-    display: none;
-    z-index: 2;
-}
-
-/* Shape Map Panel */
-.shape-map-panel {
-    width: 320px;
-    flex: 0 0 320px;
-    background: #fafafa;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid var(--stroke);
-}
-
-.shape-map-header {
-    padding: 12px 16px;
-    background: var(--panel);
-    border-bottom: 1px solid var(--stroke);
-}
-
-.shape-map-header h3 {
-    margin: 0;
-    font-size: 14px;
-    color: var(--ink);
-}
-
-.shape-map-content {
-    padding: 10px 12px;
-    overflow: auto;
-    flex: 1;
-}
-
-.shape-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.shape-table th,
-.shape-table td {
-    border-bottom: 1px dashed #e5e7eb;
-    padding: 6px 6px;
-    text-align: left;
-}
-
-.shape-table th {
-    color: #374151;
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-    background: #fafafa;
-}
-
-.shape-table td {
-    color: var(--muted);
-}
-
-.shape-map-key {
-    color: #6b7280;
-    font-size: 12px;
-    margin: 6px 0 0 0;
-}
-
-/* Code Panel Container */
-.code-panel-container {
-    padding: 0 var(--ai-spacing-lg);
-    margin-bottom: var(--ai-spacing-lg);
-}
-
-.code-panel {
-    border: 1px solid var(--stroke);
-    border-radius: var(--ai-radius-lg);
-    background: #2d2d2d;
-    display: flex;
-    flex-direction: column;
-    transition: height .2s ease;
-    min-height: 120px;
-    height: 25vh;
-    overflow: hidden;
-}
-
-.code-panel.collapsed {
-    height: 40px;
-}
-
-.code-panel.collapsed .code-panel-content {
-    display: none;
-}
-
-.resize-handle {
-    position: absolute;
-    top: -6px;
-    left: 0;
-    right: 0;
-    height: 6px;
-    cursor: ns-resize;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0));
-}
-
-.code-panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 10px;
-    font-size: 13px;
-    color: #e5e7eb;
-    background: #1f1f1f;
-    border-bottom: 1px solid #3a3a3a;
-}
-
-.code-panel-title {
-    font-weight: 600;
-}
-
-.code-panel-controls {
-    display: flex;
-    gap: 8px;
-}
-
 .code-panel-controls .btn {
     background: #111;
     color: #e5e7eb;
@@ -301,22 +345,6 @@
 
 .code-panel-controls .btn:hover {
     background: #333;
-}
-
-.code-panel-content {
-    flex: 1 1 auto;
-    overflow: auto;
-    padding: 8px 12px;
-}
-
-.code-panel-content pre {
-    margin: 0;
-}
-
-.code-panel-content code {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: 14px;
-    line-height: 1.5;
 }
 
 /* Tooltip */
@@ -349,7 +377,7 @@
 .node rect:hover {
     stroke: var(--edge);
     stroke-width: 2px;
-    fill: var(--node-hover);
+    fill: var(--NODE-hover);
 }
 
 .title {
@@ -398,7 +426,7 @@
 
 .skip {
     fill: none;
-    stroke: var(--skip);
+    stroke: #F59E0B;
     stroke-width: 2.5px;
     marker-end: url(#arrowSkip);
     opacity: .95;
@@ -426,52 +454,49 @@
     height: 100vh;
 }
 
-.fullscreen-mode .visualization-interface {
-    margin: 0;
-    border-radius: 0;
+.fullscreen-mode .model-container {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.fullscreen-mode .visualization-main {
-    flex: 1;
-    height: calc(100vh - 80px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .controls-header {
+    .control-panel {
+        padding: 8px 12px;
+    }
+    
+    .control-row {
         flex-direction: column;
+        gap: 8px;
         align-items: stretch;
-        gap: 12px;
     }
     
-    .left-controls, .right-controls {
+    .input-controls,
+    .action-controls {
         justify-content: center;
+        flex-wrap: wrap;
     }
     
-    .visualization-main {
+    .main-visualization-area {
         flex-direction: column;
-        height: auto;
     }
     
     .shape-map-panel {
         width: 100%;
-        height: 300px;
+        height: 200px;
         border-left: none;
         border-top: 1px solid var(--stroke);
+    }
+    
+    .shape-map-panel.collapsed {
+        height: 40px;
+        width: 100%;
     }
     
     .viz-container {
         border-right: none;
         border-bottom: 1px solid var(--stroke);
-        height: 500px;
-    }
-    
-    .input-controls {
-        flex-direction: column;
-        align-items: stretch;
+        flex: 1;
+        min-height: 300px;
     }
     
     .input-controls label {
@@ -484,8 +509,8 @@
 }
 
 @media (max-width: 480px) {
-    .visualization-title {
-        font-size: 16px;
+    .model-container {
+        height: calc(100vh - 150px);
     }
     
     .btn {
@@ -493,13 +518,13 @@
         font-size: 11px;
     }
     
-    .zoom-controls {
-        flex-wrap: wrap;
-    }
-    
     .viz-navigation {
         flex-direction: column;
         align-items: stretch;
         gap: 4px;
+    }
+    
+    .code-implementation-panel {
+        height: 30vh;
     }
 }

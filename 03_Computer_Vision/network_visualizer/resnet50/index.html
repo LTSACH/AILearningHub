@@ -30,12 +30,12 @@
     <!-- Hero Section -->
     <div id="ai-hero"></div>
 
-    <!-- Main Visualization Interface -->
-    <section class="visualization-interface ai-section">
-        <!-- Controls Header -->
-        <div class="controls-header">
-            <div class="left-controls">
-                <h2 class="visualization-title">ResNet50 — Interactive Backbone (v8.1)</h2>
+    <!-- Model Container -->
+    <section class="model-container">
+        <!-- 3.1 Control Panel -->
+        <div class="control-panel">
+            <!-- Row 1: Input Controls -->
+            <div class="control-row">
                 <div class="input-controls">
                     <span class="input-label">Input (N, C, H, W)</span>
                     <label>N <input id="inputN" type="number" value="1" min="1"></label>
@@ -46,8 +46,10 @@
                     <button id="resetInputs" class="btn btn-secondary">Reset</button>
                 </div>
             </div>
-            <div class="right-controls">
-                <div class="zoom-controls">
+            
+            <!-- Row 2: Action Controls -->
+            <div class="control-row">
+                <div class="action-controls">
                     <button id="zoomIn" class="btn btn-secondary">＋ Zoom In</button>
                     <button id="zoomOut" class="btn btn-secondary">－ Zoom Out</button>
                     <button id="zoomFit" class="btn btn-secondary">⤢ Fit</button>
@@ -57,8 +59,8 @@
             </div>
         </div>
 
-        <!-- Main Visualization Area -->
-        <div class="visualization-main">
+        <!-- 3.2 Main Visualization Area -->
+        <div class="main-visualization-area">
             <!-- Visualization Canvas -->
             <div class="viz-container">
                 <div class="viz-navigation">
@@ -70,10 +72,11 @@
                 <div id="tooltip" class="tooltip"></div>
             </div>
 
-            <!-- Shape Map Panel -->
-            <div class="shape-map-panel">
+            <!-- Shape Map Panel (Collapsible) -->
+            <div id="shapeMapPanel" class="shape-map-panel">
                 <div class="shape-map-header">
                     <h3>Shape Map</h3>
+                    <button id="shapeMapToggle" class="shape-map-toggle">◀</button>
                 </div>
                 <div class="shape-map-content">
                     <table class="shape-table">
@@ -92,20 +95,18 @@
             </div>
         </div>
 
-        <!-- Code Panel -->
-        <div class="code-panel-container">
-            <div id="codePanel" class="code-panel">
-                <div id="resizeHandle" class="resize-handle" title="Drag to resize"></div>
-                <div class="code-panel-header">
-                    <span class="code-panel-title">Implementation</span>
-                    <div class="code-panel-controls">
-                        <button id="copyCode" class="btn btn-secondary">Copy</button>
-                        <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
-                    </div>
+        <!-- 3.3 Code Implementation Panel -->
+        <div id="codePanel" class="code-implementation-panel">
+            <div id="codeResizeHandle" class="code-resize-handle" title="Drag to resize"></div>
+            <div class="code-panel-header">
+                <span class="code-panel-title">Implementation</span>
+                <div class="code-panel-controls">
+                    <button id="copyCode" class="btn btn-secondary">Copy</button>
+                    <button id="codeToggle" class="btn btn-secondary">▼ Collapse</button>
                 </div>
-                <div class="code-panel-content">
-                    <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its implementation</code></pre>
-                </div>
+            </div>
+            <div class="code-panel-content">
+                <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its implementation</code></pre>
             </div>
         </div>
     </section>

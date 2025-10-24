@@ -152,8 +152,14 @@ class ResNet50Visualizer {
         document.getElementById('codeToggle').addEventListener('click', () => this.toggleCodePanel());
         document.getElementById('copyCode').addEventListener('click', () => this.copyCode());
 
+        // Shape map panel
+        document.getElementById('shapeMapToggle').addEventListener('click', () => this.toggleShapeMap());
+
         // Fullscreen
         document.getElementById('fullscreenBtn').addEventListener('click', () => this.toggleFullscreen());
+
+        // Code panel resize
+        this.setupCodePanelResize();
 
         // Window resize
         window.addEventListener('resize', () => this.resize());
@@ -775,6 +781,63 @@ class ResNet50Visualizer {
         } else {
             toggleBtn.textContent = '▼ Collapse';
         }
+    }
+
+    /**
+     * Toggle shape map panel
+     */
+    toggleShapeMap() {
+        const shapeMapPanel = document.getElementById('shapeMapPanel');
+        const toggleBtn = document.getElementById('shapeMapToggle');
+        
+        shapeMapPanel.classList.toggle('collapsed');
+        
+        if (shapeMapPanel.classList.contains('collapsed')) {
+            toggleBtn.textContent = '▶';
+        } else {
+            toggleBtn.textContent = '◀';
+        }
+        
+        // Resize visualization after toggle
+        setTimeout(() => this.resize(), 100);
+    }
+
+    /**
+     * Setup code panel resize functionality
+     */
+    setupCodePanelResize() {
+        const resizeHandle = document.getElementById('codeResizeHandle');
+        const codePanel = document.getElementById('codePanel');
+        let isResizing = false;
+        let startY = 0;
+        let startHeight = 0;
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startY = e.clientY;
+            startHeight = codePanel.getBoundingClientRect().height;
+            document.body.style.cursor = 'ns-resize';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            
+            const dy = startY - e.clientY;
+            let newHeight = startHeight + dy;
+            const minHeight = 120;
+            const maxHeight = window.innerHeight * 0.6;
+            
+            newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+            codePanel.style.height = newHeight + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = '';
+            }
+        });
     }
 
     /**
