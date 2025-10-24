@@ -90,6 +90,8 @@
     display: flex;
     position: relative;
     min-height: 0;
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
 .viz-container {
@@ -138,6 +140,8 @@
 .shape-map-panel {
     width: 320px;
     flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: 320px;
     background: #fafafa;
     display: flex;
     flex-direction: column;
@@ -145,11 +149,15 @@
     transition: width 0.3s ease;
     overflow: hidden;
     max-width: 320px !important;
-    min-width: 0;
+    min-width: 40px;
+    box-sizing: border-box;
 }
 
 .shape-map-panel.collapsed {
-    width: 40px;
+    width: 40px !important;
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: 40px;
 }
 
 .shape-map-header {
