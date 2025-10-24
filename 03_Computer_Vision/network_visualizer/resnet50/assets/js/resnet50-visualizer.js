@@ -163,7 +163,10 @@ class ResNet50Visualizer {
         this.setupCodePanelResize();
 
         // Window resize
-        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('resize', () => {
+            this.resize();
+            this.updatePanelHeights(); // Update panel heights when window resizes
+        });
         
         // Fullscreen change events
         document.addEventListener('fullscreenchange', () => this.handleFullscreenChange());
@@ -1025,6 +1028,7 @@ class ResNet50Visualizer {
         // Resize visualization after toggle
         setTimeout(() => {
             this.resize();
+            this.updatePanelHeights(); // Update panel heights when right-side changes
             // Auto fit visualization when shape-map panel is expanded
             if (!shapeMapPanel.classList.contains('collapsed')) {
                 // Wait a bit more for DOM to fully update
@@ -1033,6 +1037,29 @@ class ResNet50Visualizer {
                 }, 200);
             }
         }, 100);
+    }
+
+    /**
+     * Update panel heights based on current container size
+     */
+    updatePanelHeights() {
+        const codePanel = document.getElementById('codePanel');
+        const vizContainer = document.querySelector('.viz-container');
+        
+        if (!codePanel || !vizContainer) return;
+        
+        const parentHeight = codePanel.parentElement.getBoundingClientRect().height;
+        const currentCodeHeight = codePanel.getBoundingClientRect().height;
+        
+        // Calculate new heights maintaining the same ratio
+        const totalHeight = parentHeight;
+        const newCodeHeight = Math.max(120, Math.min(totalHeight * 0.6, currentCodeHeight));
+        const newVizHeight = totalHeight - newCodeHeight;
+        
+        console.log('🔧 Updating panel heights - Code:', newCodeHeight + 'px', 'Viz:', newVizHeight + 'px');
+        
+        codePanel.style.setProperty('height', newCodeHeight + 'px', 'important');
+        vizContainer.style.setProperty('height', newVizHeight + 'px', 'important');
     }
 
     /**
@@ -1075,16 +1102,7 @@ class ResNet50Visualizer {
         }
 
         // Set initial heights for both panels
-        const parentHeight = codePanel.parentElement.getBoundingClientRect().height;
-        const vizContainer = document.querySelector('.viz-container');
-        
-        const initialCodeHeight = parentHeight * 0.25; // 25% of parent height
-        const initialVizHeight = parentHeight * 0.75; // 75% of parent height
-        
-        codePanel.style.setProperty('height', initialCodeHeight + 'px', 'important');
-        vizContainer.style.setProperty('height', initialVizHeight + 'px', 'important');
-        
-        console.log('🔧 Set initial heights - Code:', initialCodeHeight + 'px', 'Viz:', initialVizHeight + 'px');
+        this.updatePanelHeights();
 
         resizeHandle.addEventListener('mousedown', (e) => {
             console.log('🖱️ Mouse down on resize handle');
