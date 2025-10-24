@@ -1048,6 +1048,21 @@ class ResNet50Visualizer {
         console.log('🔧 Setting up code panel resize...');
         console.log('🔧 Resize handle:', resizeHandle);
         console.log('🔧 Code panel:', codePanel);
+        
+        // Check if elements exist
+        if (resizeHandle) {
+            console.log('✅ Resize handle found!');
+            console.log('🔧 Resize handle position:', resizeHandle.getBoundingClientRect());
+        } else {
+            console.error('❌ Resize handle NOT found!');
+        }
+        
+        if (codePanel) {
+            console.log('✅ Code panel found!');
+            console.log('🔧 Code panel position:', codePanel.getBoundingClientRect());
+        } else {
+            console.error('❌ Code panel NOT found!');
+        }
 
         if (!resizeHandle) {
             console.error('❌ Resize handle not found!');
@@ -1084,7 +1099,7 @@ class ResNet50Visualizer {
             console.log('📏 Setting height to:', newHeight + 'px');
             
             // Use height directly instead of flex
-            codePanel.style.height = newHeight + 'px';
+            codePanel.style.setProperty('height', newHeight + 'px', 'important');
         });
 
         document.addEventListener('mouseup', () => {
