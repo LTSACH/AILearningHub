@@ -44,17 +44,26 @@
 #ai-hero {
     height: 60px !important;
     min-height: 60px !important;
-    padding: 10px 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 #ai-hero .hero-content {
-    padding: 5px 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
 }
 
 #ai-hero .hero-title {
     font-size: 24px !important;
     margin: 0 !important;
     padding: 0 !important;
+    line-height: 1 !important;
 }
 
 #ai-hero .hero-subtitle {
