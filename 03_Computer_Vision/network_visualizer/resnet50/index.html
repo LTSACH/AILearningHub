@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=20">
+    <link rel="stylesheet" href="assets/css/resnet50-visualizer.css?v=21">
     
     <!-- Custom scripts -->
 </head>
@@ -152,19 +152,14 @@
                 ]
             });
             
-            // Initialize hero section with stats
+            // Initialize hero section with minimal content
             const hero = new AIHero('ai-hero', {
                 title: '🏗️ ResNet50 Interactive Visualizer',
                 titleVi: '🏗️ Trực Quan ResNet50 Tương Tác',
-                subtitle: 'Explore ResNet50 architecture with interactive D3.js visualization',
-                subtitleVi: 'Khám phá kiến trúc ResNet50 với trực quan tương tác D3.js',
-                stats: [
-                    { value: '50', label: 'Layers', labelVi: 'Lớp' },
-                    { value: '25.6M', label: 'Parameters', labelVi: 'Tham Số' },
-                    { value: '76.0%', label: 'Top-1 Accuracy', labelVi: 'Độ Chính Xác Top-1' },
-                    { value: 'Interactive', label: 'Visualization', labelVi: 'Trực Quan' }
-                ],
-                gradient: true
+                subtitle: '',
+                subtitleVi: '',
+                stats: [],
+                gradient: false
             });
             
             // Initialize theme selector

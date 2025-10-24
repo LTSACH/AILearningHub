@@ -40,10 +40,35 @@
     transform: none;
 }
 
+/* Minimize Hero Stats */
+#ai-hero {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 10px 0 !important;
+}
+
+#ai-hero .hero-content {
+    padding: 5px 0 !important;
+}
+
+#ai-hero .hero-title {
+    font-size: 24px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#ai-hero .hero-subtitle {
+    display: none !important;
+}
+
+#ai-hero .hero-stats {
+    display: none !important;
+}
+
 /* 3. Model Container */
 .model-container {
     width: 100%;
-    height: calc(100vh - 200px); /* Subtract header and hero height */
+    height: calc(100vh - 140px); /* Subtract header and minimized hero height */
     display: flex;
     flex-direction: column;
     background: var(--bg);
