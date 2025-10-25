@@ -26,219 +26,6 @@
   * { box-sizing: border-box; }
   html, body { height:100%; margin:0; background:var(--bg); color:var(--ink);
     font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans",sans-serif; }
-
-  /* Tab Container */
-  .tab-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Tab Header - Thin */
-  .tab-header {
-    height: 40px;
-    display: flex;
-    background: var(--panel);
-    border-bottom: 1px solid var(--stroke);
-    padding: 0 8px; /* Minimal side padding */
-  }
-
-  .tab-btn {
-    padding: 8px 16px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted);
-    transition: all 0.2s ease;
-    white-space: nowrap;
-  }
-
-  .tab-btn:hover {
-    color: var(--ink);
-    background: rgba(0,0,0,0.05);
-  }
-
-  .tab-btn.active {
-    color: var(--edge);
-    border-bottom-color: var(--edge);
-    background: var(--bg);
-  }
-
-  /* Tab Content */
-  .tab-content {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tab-panel {
-    height: 100%;
-    display: none;
-    flex-direction: column;
-  }
-
-  .tab-panel.active {
-    display: flex;
-  }
-
-  /* Architecture Tab - Original GUI */
-  #architecture-tab {
-    /* Original styles for the visualization */
-  }
-
-  /* Example Tab Styles */
-  .example-tabs {
-    display: flex;
-    background: var(--panel);
-    border-bottom: 1px solid var(--stroke);
-    padding: 0 8px;
-  }
-
-  .example-tab-btn {
-    padding: 6px 12px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    font-size: 13px;
-    color: var(--muted);
-    transition: all 0.2s ease;
-  }
-
-  .example-tab-btn.active {
-    color: var(--edge);
-    border-bottom-color: var(--edge);
-    background: var(--bg);
-  }
-
-  .example-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg);
-  }
-
-  .coming-soon {
-    text-align: center;
-    color: var(--muted);
-    font-size: 18px;
-    font-weight: 500;
-  }
-
-  /* Tutorial Tab */
-  .tutorial-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg);
-  }
-
-  /* About Tab - Based on about.html */
-  .about-content {
-    flex: 1;
-    overflow-y: auto;
-    background: var(--bg);
-    padding: 20px 16px; /* Minimal side padding */
-  }
-
-  .about-section {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  }
-
-  .about-section h2 {
-    color: var(--edge);
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .about-section p {
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  .about-section ul {
-    list-style: none;
-    padding: 0;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .about-section li {
-    padding: 10px 0;
-    font-size: 1rem;
-    line-height: 1.7;
-    border-bottom: 1px solid #e9ecef;
-  }
-
-  .about-section li:last-child {
-    border-bottom: none;
-  }
-
-  .contact-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .contact-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .contact-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  }
-
-  .contact-card .card-icon {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .contact-card h3 {
-    font-size: 1.3rem;
-    color: var(--edge);
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  .contact-card p {
-    line-height: 1.7;
-    text-align: center;
-    font-size: 0.95rem;
-  }
-
-  .contact-card a {
-    color: var(--edge);
-    text-decoration: none;
-    font-weight: 600;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.3s ease;
-  }
-
-  .contact-card a:hover {
-    border-bottom-color: var(--edge);
-  }
-
-  /* Original Architecture Tab Styles */
   header { padding:12px 16px; background:var(--panel); border-bottom:1px solid var(--stroke);
     display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:space-between; }
   header h1 { margin:0; font-size:18px; }
@@ -301,197 +88,66 @@
     position: absolute; top: -6px; left: 0; right: 0; height: 6px; cursor: ns-resize;
     background: linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0));
   }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .tab-header {
-      flex-wrap: wrap;
-      height: auto;
-      min-height: 40px;
-    }
-    
-    .tab-btn {
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-    
-    .about-content {
-      padding: 10px 8px;
-    }
-    
-    .about-section {
-      padding: 1.5rem;
-    }
-    
-    .contact-cards {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
 </head>
 <body>
-<div class="tab-container">
-  <!-- Tab Header -->
-  <div class="tab-header">
-    <button class="tab-btn active" data-tab="architecture">ResNet50 Architecture</button>
-    <button class="tab-btn" data-tab="example">Example</button>
-    <button class="tab-btn" data-tab="tutorial">Tutorial</button>
-    <button class="tab-btn" data-tab="about">About</button>
+<header>
+  <div class="leftControls">
+    <h1>ResNet50 — Interactive Backbone (v8.1)</h1>
+    <span class="pill">Input (N, C, H, W)</span>
+    <label>N <input id="N" type="number" value="1" min="1"></label>
+    <label>C <input id="C" type="number" value="3" min="1"></label>
+    <label>H <input id="H" type="number" value="224" min="1"></label>
+    <label>W <input id="W" type="number" value="224" min="1"></label>
+    <button id="apply" class="btn">Apply</button>
+    <button id="reset" class="btn">Reset</button>
   </div>
-
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <!-- Architecture Tab -->
-    <div id="architecture-tab" class="tab-panel active">
-      <header>
-        <div class="leftControls">
-          <h1>ResNet50 — Interactive Backbone (v8.1)</h1>
-          <span class="pill">Input (N, C, H, W)</span>
-          <label>N <input id="N" type="number" value="1" min="1"></label>
-          <label>C <input id="C" type="number" value="3" min="1"></label>
-          <label>H <input id="H" type="number" value="224" min="1"></label>
-          <label>W <input id="W" type="number" value="224" min="1"></label>
-          <button id="apply" class="btn">Apply</button>
-          <button id="reset" class="btn">Reset</button>
-        </div>
-        <div class="rightControls">
-          <div class="zoomBar">
-            <button id="zoomIn" class="btn">＋ Zoom In</button>
-            <button id="zoomOut" class="btn">－ Zoom Out</button>
-            <button id="zoomFit" class="btn">⤢ Fit</button>
-            <button id="zoomReset" class="btn">⟲ Reset</button>
-          </div>
-        </div>
-      </header>
-
-      <div id="app">
-        <div id="vizWrap">
-          <div class="backbar">
-            <button id="backBtn" class="btn" disabled>⬅ Back</button>
-            <span id="crumb" class="breadcrumb"></span>
-          </div>
-          <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
-          <div id="viz"></div>
-          <div id="tooltip" class="tooltip"></div>
-
-          <!-- Code Panel -->
-          <div id="codePanel">
-            <div id="resizeHandle" title="Drag to resize"></div>
-            <div id="codeHeader">
-              <span>PyTorch Implementation</span>
-              <div>
-                <button id="copyCode" class="btn">Copy</button>
-                <button id="codeToggle" class="btn">▼ Collapse</button>
-              </div>
-            </div>
-            <div id="codeContent">
-              <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its PyTorch-style implementation</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <aside id="shapeMap">
-          <header><h3 style="margin:0;font-size:14px;">Shape Map</h3></header>
-          <div class="mapBody">
-            <table class="mapTable">
-              <thead><tr><th>Node</th><th>Shape</th><th>Scale</th></tr></thead>
-              <tbody id="mapRows"></tbody>
-            </table>
-            <p class="mapKey">Scale is relative to input spatial size H×W.</p>
-          </div>
-        </aside>
-      </div>
+  <div class="rightControls">
+    <div class="zoomBar">
+      <button id="zoomIn" class="btn">＋ Zoom In</button>
+      <button id="zoomOut" class="btn">－ Zoom Out</button>
+      <button id="zoomFit" class="btn">⤢ Fit</button>
+      <button id="zoomReset" class="btn">⟲ Reset</button>
     </div>
+  </div>
+</header>
 
-    <!-- Example Tab -->
-    <div id="example-tab" class="tab-panel">
-      <div class="example-tabs">
-        <button class="example-tab-btn active" data-example="torchvision">ResNet50 with torchvision</button>
-        <button class="example-tab-btn" data-example="timm">ResNet50 with timm</button>
-      </div>
-      <div class="example-content">
-        <div class="coming-soon">🚧 Coming Soon</div>
-      </div>
+<div id="app">
+  <div id="vizWrap">
+    <div class="backbar">
+      <button id="backBtn" class="btn" disabled>⬅ Back</button>
+      <span id="crumb" class="breadcrumb"></span>
     </div>
+    <div id="formula" class="formula">y = x + F(x) • out = ReLU(y)</div>
+    <div id="viz"></div>
+    <div id="tooltip" class="tooltip"></div>
 
-    <!-- Tutorial Tab -->
-    <div id="tutorial-tab" class="tab-panel">
-      <div class="tutorial-content">
-        <div class="coming-soon">🚧 Coming Soon</div>
+    <!-- Code Panel -->
+    <div id="codePanel">
+      <div id="resizeHandle" title="Drag to resize"></div>
+      <div id="codeHeader">
+        <span>PyTorch Implementation</span>
+        <div>
+          <button id="copyCode" class="btn">Copy</button>
+          <button id="codeToggle" class="btn">▼ Collapse</button>
+        </div>
       </div>
-    </div>
-
-    <!-- About Tab -->
-    <div id="about-tab" class="tab-panel">
-      <div class="about-content">
-        <!-- Developer Info -->
-        <div class="about-section">
-          <p style="font-size: 1.1rem;">
-            This project is developed by <strong>Thanh-Sach LE</strong> with AI assistance 
-            as part of research and teaching activities at the Data Science Laboratory, HCMUT.
-          </p>
-        </div>
-
-        <!-- Purpose Section -->
-        <div class="about-section">
-          <h2>🎯 Purpose</h2>
-          <p>
-            This project serves as a <strong>learning companion</strong> and 
-            <strong>interactive tutorial</strong> for students and practitioners exploring:
-          </p>
-          <ul>
-            <li>📊 Interactive Network Visualization</li>
-            <li>🤖 Deep Learning Architecture Understanding</li>
-            <li>🔬 ResNet50 Implementation Details</li>
-            <li>🧠 Computer Vision Concepts</li>
-            <li>📝 PyTorch Code Examples</li>
-          </ul>
-        </div>
-
-        <!-- Contact Information -->
-        <div class="about-section">
-          <h2>📞 Contact Information</h2>
-          <div class="contact-cards">
-            <!-- Affiliation Card -->
-            <div class="contact-card">
-              <div class="card-icon">🏛️</div>
-              <h3>Affiliation</h3>
-              <p>
-                <strong>Data Science Laboratory</strong><br>
-                Faculty of Computer Science and Engineering<br>
-                Ho Chi Minh City University of Technology (HCMUT)<br>
-                Vietnam National University Ho Chi Minh City
-              </p>
-            </div>
-
-            <!-- Contact Card -->
-            <div class="contact-card">
-              <div class="card-icon">📧</div>
-              <h3>Get in Touch</h3>
-              <p>
-                <strong>Email:</strong><br>
-                <a href="mailto:ltsach@hcmut.edu.vn">ltsach@hcmut.edu.vn</a>
-              </p>
-            </div>
-
-            <!-- Office Card -->
-            <div class="contact-card">
-              <div class="card-icon">📍</div>
-              <h3>Visit Us</h3>
-              <p>
-                <strong>Data Science Lab</strong><br>
-                6th Floor, Block C6<br>
-                HCMUT Campus 1<br>
-                268 Ly Thuong Kiet Street<br>
-                Dien Hong Ward<br>
-                Ho Chi Minh City, Vietnam
-              </p>
-            </div>
-          </div>
-        </div>
+      <div id="codeContent">
+        <pre class="language-python"><code id="codeBlock" class="language-python"># Hover a block to see its PyTorch-style implementation</code></pre>
       </div>
     </div>
   </div>
+
+  <aside id="shapeMap">
+    <header><h3 style="margin:0;font-size:14px;">Shape Map</h3></header>
+    <div class="mapBody">
+      <table class="mapTable">
+        <thead><tr><th>Node</th><th>Shape</th><th>Scale</th></tr></thead>
+        <tbody id="mapRows"></tbody>
+      </table>
+      <p class="mapKey">Scale is relative to input spatial size H×W.</p>
+    </div>
+  </aside>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
@@ -501,52 +157,7 @@
 
 <script>
 (function(){
-  // ---------- Tab Management ----------
-  class TabManager {
-    constructor() {
-      this.currentTab = 'architecture';
-      this.init();
-    }
-    
-    init() {
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          this.switchTab(e.target.dataset.tab);
-        });
-      });
-    }
-    
-    switchTab(tabName) {
-      // Hide all panels
-      document.querySelectorAll('.tab-panel').forEach(panel => {
-        panel.classList.remove('active');
-      });
-      
-      // Show selected panel
-      document.getElementById(`${tabName}-tab`).classList.add('active');
-      
-      // Update tab buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-      
-      this.currentTab = tabName;
-      
-      // Trigger resize for visualization if switching to architecture
-      if (tabName === 'architecture') {
-        setTimeout(() => {
-          if (window.render) window.render();
-        }, 100);
-      }
-    }
-  }
-
-  // Initialize tab manager
-  const tabManager = new TabManager();
-
-  // ---------- Original ResNet50 Code ----------
-  // Helpers
+  // ---------- Helpers ----------
   function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v); }
   function shapeStr(a){ return '(' + a.join(', ') + ')'; }
   function clampInt(v){ return Math.max(1, Math.floor(v)); }
@@ -570,7 +181,7 @@
     return s.toFixed(1) + '×';
   }
 
-  // State
+  // ---------- State ----------
   const state={ input:{N:1,C:3,H:224,W:224}, stack:[] };
   function curShapes(){ const s=state.input; return computeShapes(s.N,s.C,s.H,s.W); }
   function push(level,payload){ state.stack.push({level,payload}); syncUI(); render(); }
@@ -579,7 +190,7 @@
   function reset(){ state.stack=[]; init(); }
   function top(){ return state.stack[state.stack.length-1]; }
 
-  // D3 Scene
+  // ---------- D3 Scene ----------
   const svg=d3.select('#viz').append('svg').attr('width','100%').attr('height','100%');
   const root=svg.append('g');
   const defs=svg.append('defs');
@@ -609,7 +220,7 @@
     document.getElementById('formula').style.display = (top().level==='Residual') ? 'block' : 'none';
   }
 
-  // Code Panel control
+  // ---------- Code Panel control (Prism) ----------
   const codePanel = document.getElementById('codePanel');
   const codeToggle = document.getElementById('codeToggle');
   const codeBlock = document.getElementById('codeBlock');
@@ -626,7 +237,6 @@
       codeToggle.textContent = '▼ Collapse';
     }
   });
-  
   // Resize by dragging top border
   (function(){
     let dragging=false; let startY=0; let startH=0;
@@ -643,12 +253,10 @@
     });
     window.addEventListener('mouseup', ()=>{ if(dragging){ dragging=false; document.body.style.cursor=''; } });
   })();
-  
   copyCodeBtn.addEventListener('click', async ()=>{
     const text = codeBlock.textContent;
     try{ await navigator.clipboard.writeText(text); copyCodeBtn.textContent='✓ Copied'; setTimeout(()=>copyCodeBtn.textContent='Copy',1200);}catch{}
   });
-  
   function setCode(py){ codeBlock.innerHTML = Prism.highlight(py, Prism.languages.python, 'python'); }
   function levelDefaultCode(){
     const f = top();
@@ -665,7 +273,7 @@
   }
   function showLevelCode(){ setCode(levelDefaultCode()); }
 
-  // Drawing helpers
+  // ---------- Drawing helpers ----------
   function nodeBlock({x,y,w,h,label,sub,theme,click,tip,codeSnippet}){
     const g=root.append('g').attr('class','node').attr('transform',`translate(${x-w/2},${y-h/2})`);
     const fill = theme==='backbone'? css('--node-backbone') :
@@ -675,6 +283,7 @@
     if(sub){ g.append('text').attr('class','subtitle').attr('x',w/2).attr('y',20).attr('text-anchor','middle').text(sub); }
     if(click){ rect.style('cursor','pointer').on('click',click); }
     if(tip){ g.on('mousemove',(ev)=>showTip(tip,ev)).on('mouseout',hideTip); }
+    // Hover code behavior
     g.on('mouseenter',()=>{ rect.transition().duration(120).attr('fill', css('--node-hover')); if(codeSnippet) setCode(codeSnippet); })
      .on('mouseleave',()=>{ rect.transition().duration(120).attr('fill', fill); showLevelCode(); });
     return {g,rect,x,y,w,h};
@@ -684,7 +293,7 @@
       .on('mousemove',(ev)=>showTip(tip,ev)).on('mouseout',hideTip);
   }
   function curvePath(x1,y1,x2,y2){
-    const dx=(x2-x1)/2;
+    const dx=(x2-x1)/2;  // gentle cubic curve
     return `M ${x1} ${y1} C ${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}`;
   }
   function arrowCurve(x1,y1,x2,y2, shapeTip, scaleNote='', flowOnHover=true){
@@ -702,12 +311,12 @@
            .on('mouseleave',()=> edges.forEach(e=> e.classed('flow', false)));
   }
 
-  // Code snippets
+  // ---------- Code snippets ----------
   const code = {
     model: `class ResNetClassifier(nn.Module):
     def __init__(self, num_classes=1000):
         super().__init__()
-        self.backbone = ResNetBackbone()
+        self.backbone = ResNetBackbone()  # conv1 + stages
         self.avgpool = nn.AdaptiveAvgPool2d((1,1))
         self.fc = nn.Linear(2048, num_classes)
 
@@ -723,6 +332,7 @@
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+        # stages: [3,4,6,3] bottleneck blocks
         self.layer1 = make_layer(64, 256, blocks=3, stride=1)
         self.layer2 = make_layer(256, 512, blocks=4, stride=2)
         self.layer3 = make_layer(512, 1024, blocks=6, stride=2)
@@ -794,7 +404,7 @@
         return self.relu(self.bn(self.conv(x)))`
   };
 
-  // Renderers
+  // ---------- Renderers (full drill-down) ----------
   function render(){
     const frame=top(); if(!frame) return;
     if(frame.level==='Model') renderModel();
@@ -805,6 +415,7 @@
     else if(frame.level==='ConvBlock') renderConvBlock(frame.payload);
     showLevelCode();
     renderShapeMap();
+    // small async fit for smoothness
     setTimeout(zoomFit, 0);
   }
 
@@ -841,7 +452,8 @@
     const {w,h}=size(); const y=h/2;
     const stageW=190, stageH=88;
     const S=curShapes();
-    const xs=[180, 420, 660, 900, 1140, 1380];
+    // airy spacing across wide virtual canvas
+    const xs=[180, 420, 660, 900, 1140, 1380]; // compact spacing: stages closer together
     const stages=[
       {label:'Conv1 (7×7, s2)', tip:`out: ${shapeStr(S.conv1)}`, shape:S.conv1, codeSnippet: code.backbone},
       {label:'MaxPool (s2)', tip:`out: ${shapeStr(S.pool)}`, shape:S.pool, codeSnippet: code.backbone},
@@ -884,8 +496,8 @@
     }
     const C=payload.shape?payload.shape[1]:256; const H=payload.shape?payload.shape[2]:56; const W=payload.shape?payload.shape[3]:56;
     const count=payload.count||3;
-    const stageW = 150;
-    const gap = Math.max((w - 400) / (count + 1), 220);
+    const stageW = 150; // smaller blocks
+    const gap = Math.max((w - 400) / (count + 1), 220); // farther spacing // reduced gap for compact stage view
     let prevR=null;
     for(let i=0;i<count;i++){
       const x=160+gap*(i+1);
@@ -962,7 +574,7 @@
     }
   }
 
-  // Shape Map
+  // ---------- Shape Map (right panel) ----------
   function renderShapeMap(){
     const rows = document.getElementById('mapRows'); rows.innerHTML='';
     const S = curShapes();
@@ -989,7 +601,7 @@
     }
   }
 
-  // Controls
+  // ---------- Controls ----------
   document.getElementById('apply').onclick=()=>{
     state.input.N=+document.getElementById('N').value;
     state.input.C=+document.getElementById('C').value;
@@ -1022,9 +634,6 @@
   document.getElementById('zoomOut').onclick = ()=> zoomBy(0.8333);
   document.getElementById('zoomFit').onclick = zoomFit;
   document.getElementById('zoomReset').onclick = zoomReset;
-
-  // Make render function global for tab switching
-  window.render = render;
 
   function init(){ push('Model',{}); }
   init();
