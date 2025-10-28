@@ -548,6 +548,123 @@ footer {
     margin-top: 4rem;
 }
 
+/* BBC News Tab Styles */
+.bbc-overview-section,
+.bbc-code-section {
+    width: 100%;
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.bbc-network-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#bbc-naive-bayes-network {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.feature-explorer {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.explorer-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.explorer-controls label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.explorer-controls select {
+    padding: 8px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.explorer-controls select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.refresh-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: translateY(-1px);
+}
+
+#top-features-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.feature-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-left: 4px solid #667eea;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.feature-word {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.feature-score {
+    color: #6c757d;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.feature-category {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #667eea;
+    color: white;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 6px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero h1 {
@@ -1058,5 +1175,19 @@ footer {
     .code-block-full pre {
         font-size: 12px;
         padding: 15px;
+    }
+    
+    .explorer-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .explorer-controls select,
+    .refresh-btn {
+        width: 100%;
+    }
+    
+    #top-features-list {
+        grid-template-columns: 1fr;
     }
 }

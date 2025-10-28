@@ -360,56 +360,68 @@
                             <p>Multinomial Naive Bayes for text classification</p>
                         </div>
                         
-                        <div class="content-grid">
-                            <!-- Left: Text Analysis -->
-                            <div class="text-analysis-section">
-                                <h3>Text Analysis</h3>
-                                <div class="dataset-info">
-                                    <p><strong>BBC News Dataset:</strong> 2,225 articles, 5 categories</p>
-                                    <ul>
-                                        <li><strong>Categories:</strong> business, entertainment, politics, sport, tech</li>
-                                        <li><strong>Data Type:</strong> Text (suitable for Multinomial NB)</li>
-                                        <li><strong>Preprocessing:</strong> TF-IDF vectorization, stop words removal</li>
-                                    </ul>
-                                </div>
-                                
-                                <h4>Word Frequency Analysis</h4>
-                                <div id="word-frequency-chart"></div>
-                                
-                                <h4>Category Distribution</h4>
-                                <div id="category-distribution"></div>
+                        <!-- Section 1: Overview -->
+                        <div class="bbc-overview-section">
+                            <h3>Overview</h3>
+                            <div class="dataset-info">
+                                <p><strong>BBC News Dataset:</strong> 2,225 articles, 5 categories</p>
+                                <ul>
+                                    <li><strong>Categories:</strong> business, entertainment, politics, sport, tech</li>
+                                    <li><strong>Data Type:</strong> Text (suitable for Multinomial NB)</li>
+                                    <li><strong>Preprocessing:</strong> TF-IDF vectorization, stop words removal</li>
+                                    <li><strong>Feature Space:</strong> 10,000+ word dimensions</li>
+                                </ul>
                             </div>
-
-                            <!-- Right: Code Examples -->
-                            <div class="code-section">
-                                <h3>Implementation</h3>
+                            
+                            <!-- Naive Bayes Network for BBC News -->
+                            <div class="bbc-network-section">
+                                <h4>Naive Bayes Network for BBC News</h4>
+                                <div id="bbc-naive-bayes-network"></div>
                                 
-                                <div class="code-block">
-                                    <h4>1. Data Loading</h4>
-                                    <div id="bbc-preprocessing"></div>
-                                </div>
-                                
-                                <div class="code-block">
-                                    <h4>2. Text Vectorization</h4>
-                                    <div id="bbc-vectorization"></div>
-                                </div>
-                                
-                                <div class="code-block">
-                                    <h4>3. Model Training</h4>
-                                    <div id="bbc-training"></div>
-                                </div>
-                                
-                                <div class="code-block">
-                                    <h4>4. Prediction</h4>
-                                    <div id="bbc-prediction"></div>
+                                <!-- Feature Explorer -->
+                                <div class="feature-explorer">
+                                    <h5>Interactive Feature Explorer</h5>
+                                    <div class="explorer-controls">
+                                        <label for="feature-count">Show top features:</label>
+                                        <select id="feature-count">
+                                            <option value="10">Top 10</option>
+                                            <option value="15" selected>Top 15</option>
+                                            <option value="20">Top 20</option>
+                                            <option value="25">Top 25</option>
+                                        </select>
+                                        <button id="refresh-features" class="refresh-btn">🔄 Refresh</button>
+                                    </div>
+                                    <div id="top-features-list"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Word Heatmap -->
-                        <div class="word-analysis">
-                            <h3>Word Frequency Heatmap</h3>
-                            <div id="word-heatmap"></div>
+                        <!-- Section 2: Code Implementation -->
+                        <div class="bbc-code-section">
+                            <h3>Code Implementation</h3>
+                            <p class="code-description">
+                                Complete implementation of Multinomial Naive Bayes on BBC News dataset. 
+                                This code demonstrates text preprocessing, TF-IDF vectorization, and classification.
+                            </p>
+                            
+                            <div class="code-block-full">
+                                <div class="code-header">
+                                    <h4>Complete Implementation</h4>
+                                    <div class="code-actions">
+                                        <button id="copy-bbc-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                            📋 Copy
+                                        </button>
+                                        <button id="download-bbc-code-btn" class="action-btn download-btn" title="Download code as file">
+                                            💾 Download
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="bbc-code-content">
+                                    <div class="loading-code">
+                                        <p>Loading code from bbc_naivebayes.py...</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
