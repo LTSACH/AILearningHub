@@ -118,8 +118,8 @@ function updateBayesDiagram() {
     const container = d3.select('#bayes-diagram');
     container.selectAll('*').remove();
 
-    const width = 520;
-    const height = 360;
+    const width = 600;
+    const height = 400;
     const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 
     const svg = container
@@ -127,8 +127,10 @@ function updateBayesDiagram() {
         .attr('width', width)
         .attr('height', height);
 
-    // Positions
-    const cx = width/2; const cyTop = 90; const cyBottom = 240;
+    // Positions - better spacing
+    const cx = width/2; 
+    const cyTop = 100; 
+    const cyBottom = 280;
 
     // Create nodes data: C on top, X below
     const nodes = [
@@ -228,9 +230,9 @@ function updateBayesDiagram() {
         .style('font-weight', 'bold')
         .text('P(X|C)');
 
-    // Prior table next to C
+    // Prior table next to C (right side)
     const priorTable = svg.append('g').attr('class', 'bn-table')
-        .attr('transform', `translate(${cx - 200}, ${cyTop - 40})`);
+        .attr('transform', `translate(${cx + 120}, ${cyTop - 60})`);
 
     drawTable(priorTable, {
         title: 'P(C)',
@@ -238,9 +240,9 @@ function updateBayesDiagram() {
         rows: [['c₁', '0.33'], ['c₂', '0.33'], ['c₃', '0.34']]
     });
 
-    // Conditional table next to X
+    // Conditional table next to X (left side)
     const condTable = svg.append('g').attr('class', 'bn-table')
-        .attr('transform', `translate(${cx - 240}, ${cyBottom - 40})`);
+        .attr('transform', `translate(${cx - 280}, ${cyBottom - 60})`);
 
     drawTable(condTable, {
         title: 'P(X|C)',
@@ -265,26 +267,29 @@ function drawTable(group, config) {
     const { title, headers, rows, thickCol } = config;
 
     const fo = group.append('foreignObject')
-        .attr('width', 220)
-        .attr('height', 120);
+        .attr('width', 200)
+        .attr('height', 140);
 
     const div = fo.append('xhtml:div')
         .attr('class', 'bn-table')
-        .style('padding', '6px 8px');
+        .style('padding', '8px 10px');
 
     div.append('div')
         .style('font-weight', 'bold')
         .style('color', '#667eea')
-        .style('margin-bottom', '4px')
+        .style('margin-bottom', '6px')
+        .style('font-size', '13px')
         .text(title || '');
 
     const table = div.append('table')
-        .style('width', '100%');
+        .style('width', '100%')
+        .style('font-size', '12px');
 
     const thead = table.append('thead').append('tr');
     headers.forEach((h, idx) => {
         thead.append('th')
             .attr('class', idx === thickCol ? 'thick' : null)
+            .style('padding', '4px 6px')
             .text(h);
     });
 
@@ -294,6 +299,7 @@ function drawTable(group, config) {
         r.forEach((cell, idx) => {
             tr.append('td')
                 .attr('class', idx === thickCol ? 'thick' : null)
+                .style('padding', '4px 6px')
                 .text(cell);
         });
     });

@@ -343,12 +343,13 @@ body {
 }
 
 #bayes-diagram {
-    height: 360px;
+    height: 400px;
     background: #f8f9fa;
     border-radius: 10px;
     border: 2px dashed #ddd;
     padding: 8px;
     color: #666;
+    overflow: visible;
 }
 
 /* Small tables next to nodes */
