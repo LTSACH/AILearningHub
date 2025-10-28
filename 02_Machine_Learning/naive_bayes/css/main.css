@@ -225,6 +225,104 @@ body {
 
 /* Removed interactive math terms styling */
 
+/* Naive Bayes Network Section */
+.network-section h3 {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+#naive-bayes-network {
+    height: 400px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px dashed #ddd;
+    padding: 8px;
+    color: #666;
+    overflow: visible;
+    margin-bottom: 1rem;
+}
+
+.network-caption {
+    background: #e8f4fd;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    font-size: 14px;
+    color: #333;
+}
+
+.explanation-section h3 {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.assumption-box {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.assumption-text {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #4ecdc4;
+}
+
+.assumption-text p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.pros, .cons {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pros h4 {
+    color: #4ecdc4;
+    margin-bottom: 1rem;
+}
+
+.cons h4 {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+}
+
+.pros ul, .cons ul {
+    list-style: none;
+    padding: 0;
+}
+
+.pros li, .cons li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.pros li:last-child, .cons li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .pros-cons {
+        grid-template-columns: 1fr;
+    }
+}
+
 .fraction {
     display: inline-block;
     vertical-align: middle;

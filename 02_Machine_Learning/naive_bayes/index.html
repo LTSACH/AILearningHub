@@ -160,9 +160,51 @@
                             <h2>🎯 Naive Bayes Classification</h2>
                             <p>Applying Bayes' theorem to classification with independence assumption</p>
                         </div>
-                        <div class="coming-soon">
-                            <h3>🚧 Coming Soon</h3>
-                            <p>Interactive network diagram and detailed explanation of the "naive" assumption</p>
+                        
+                        <div class="content-grid">
+                            <!-- Left: Network Diagram -->
+                            <div class="network-section">
+                                <h3>Naive Bayes Network</h3>
+                                <div id="naive-bayes-network"></div>
+                                <div class="network-caption">
+                                    <p><strong>Note:</strong> To complete the model description, we need to estimate P(C) and P(Xᵢ|C) for all features.</p>
+                                </div>
+                            </div>
+
+                            <!-- Right: Explanation -->
+                            <div class="explanation-section">
+                                <h3>Independence Assumption</h3>
+                                <div class="assumption-box">
+                                    <div class="formula-main">
+                                        $$P(X_1, X_2, \ldots, X_n | C) = \prod_{i=1}^{n} P(X_i | C)$$
+                                    </div>
+                                </div>
+                                
+                                <div class="assumption-text">
+                                    <p><strong>The "Naive" Assumption:</strong> Features are conditionally independent given the class.</p>
+                                    <p>This means: If we know the class, knowing one feature doesn't tell us anything about another feature.</p>
+                                </div>
+
+                                <div class="pros-cons">
+                                    <div class="pros">
+                                        <h4>✅ Advantages</h4>
+                                        <ul>
+                                            <li>Simple and fast</li>
+                                            <li>Works well with small datasets</li>
+                                            <li>No parameter tuning needed</li>
+                                            <li>Handles missing values well</li>
+                                        </ul>
+                                    </div>
+                                    <div class="cons">
+                                        <h4>❌ Limitations</h4>
+                                        <ul>
+                                            <li>Independence assumption often violated</li>
+                                            <li>May not work well with correlated features</li>
+                                            <li>Can be outperformed by more complex models</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

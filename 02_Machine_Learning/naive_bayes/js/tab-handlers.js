@@ -37,92 +37,163 @@ class TabHandlers {
     }
 
     renderNaiveBayesNetwork() {
-        const container = document.getElementById('naive-bayes');
-        if (!container) return;
-
-        // Create network diagram container
-        const networkContainer = document.createElement('div');
-        networkContainer.id = 'naive-bayes-network';
-        networkContainer.style.height = '500px';
-        networkContainer.style.border = '2px dashed #ddd';
-        networkContainer.style.borderRadius = '10px';
-        networkContainer.style.display = 'flex';
-        networkContainer.style.alignItems = 'center';
-        networkContainer.style.justifyContent = 'center';
-        networkContainer.style.color = '#666';
-        networkContainer.innerHTML = 'Naive Bayes Network Diagram - Coming Soon';
-
-        // Replace coming soon content
-        const comingSoon = container.querySelector('.coming-soon');
-        if (comingSoon) {
-            comingSoon.innerHTML = `
-                <div class="network-section">
-                    <h3>🎯 Naive Bayes Network</h3>
-                    <p>Interactive visualization of the "naive" independence assumption</p>
-                    <div id="naive-bayes-network"></div>
-                </div>
-                <div class="assumption-section">
-                    <h3>🔑 Independence Assumption</h3>
-                    <div class="assumption-content">
-                        <div class="assumption-text">
-                            <p><strong>The "Naive" Assumption:</strong> Features are conditionally independent given the class.</p>
-                            <div class="formula-box">
-                                P(X₁, X₂, ..., Xₙ | C) = P(X₁ | C) × P(X₂ | C) × ... × P(Xₙ | C)
-                            </div>
-                            <p>This means: If we know the class, knowing one feature doesn't tell us anything about another feature.</p>
-                        </div>
-                        <div class="assumption-visual">
-                            <div class="pros-cons">
-                                <div class="pros">
-                                    <h4>✅ Advantages</h4>
-                                    <ul>
-                                        <li>Simple and fast</li>
-                                        <li>Works well with small datasets</li>
-                                        <li>No parameter tuning needed</li>
-                                        <li>Handles missing values well</li>
-                                    </ul>
-                                </div>
-                                <div class="cons">
-                                    <h4>❌ Limitations</h4>
-                                    <ul>
-                                        <li>Independence assumption often violated</li>
-                                        <li>May not work well with correlated features</li>
-                                        <li>Can be outperformed by more complex models</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
         // Initialize network visualization
         this.initializeNaiveBayesNetwork();
     }
 
     initializeNaiveBayesNetwork() {
-        const networkData = {
-            nodes: [
-                { id: 'C', label: 'Class', type: 'class', probability: 0.33, description: 'Target class variable' },
-                { id: 'X1', label: 'X₁', type: 'feature', probability: 0.5, description: 'Feature 1' },
-                { id: 'X2', label: 'X₂', type: 'feature', probability: 0.5, description: 'Feature 2' },
-                { id: 'X3', label: 'X₃', type: 'feature', probability: 0.5, description: 'Feature 3' },
-                { id: 'Xn', label: 'Xₙ', type: 'feature', probability: 0.5, description: 'Feature n' }
-            ],
-            links: [
-                { source: 'C', target: 'X1', label: 'P(X₁|C)', type: 'likelihood' },
-                { source: 'C', target: 'X2', label: 'P(X₂|C)', type: 'likelihood' },
-                { source: 'C', target: 'X3', label: 'P(X₃|C)', type: 'likelihood' },
-                { source: 'C', target: 'Xn', label: 'P(Xₙ|C)', type: 'likelihood' }
-            ]
-        };
+        const container = d3.select('#naive-bayes-network');
+        container.selectAll('*').remove();
 
-        const visualizer = new BayesNetworkVisualizer('naive-bayes-network', {
-            width: 600,
-            height: 400
+        const width = 600;
+        const height = 400;
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+        const svg = container
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        // Positions
+        const cx = width/2;
+        const cyTop = 80;
+        const cyBottom = 280;
+        const featureSpacing = 120;
+        const numFeatures = 4;
+
+        // Create nodes: Class on top, features below
+        const classNode = { id: 'C', x: cx, y: cyTop, label: 'Class' };
+        const featureNodes = [];
+        const links = [];
+
+        for (let i = 0; i < numFeatures; i++) {
+            const x = cx - (numFeatures - 1) * featureSpacing / 2 + i * featureSpacing;
+            const featureId = i === numFeatures - 1 ? 'X_n' : `X_${i + 1}`;
+            const featureLabel = i === numFeatures - 1 ? 'Xₙ' : `X${i + 1}`.replace(/(\d+)/, '₁');
+            
+            featureNodes.push({ 
+                id: featureId, 
+                x: x, 
+                y: cyBottom, 
+                label: featureLabel 
+            });
+            
+            links.push({ 
+                source: 'C', 
+                target: featureId, 
+                label: `P(${featureLabel}|C)` 
+            });
+        }
+
+        // Arrow marker
+        svg.append('defs')
+            .append('marker')
+            .attr('id', 'arrow-naive')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 10)
+            .attr('refY', 0)
+            .attr('markerWidth', 8)
+            .attr('markerHeight', 8)
+            .attr('markerUnits', 'userSpaceOnUse')
+            .attr('orient', 'auto')
+            .append('path')
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', '#667eea')
+            .attr('stroke', '#667eea')
+            .attr('stroke-width', 1);
+
+        // Draw links
+        svg.selectAll('.link')
+            .data(links)
+            .enter()
+            .append('line')
+            .attr('class', 'link')
+            .attr('x1', d => classNode.x)
+            .attr('y1', d => classNode.y + 32)
+            .attr('x2', d => {
+                const targetNode = featureNodes.find(n => n.id === d.target);
+                return targetNode ? targetNode.x : 0;
+            })
+            .attr('y2', d => {
+                const targetNode = featureNodes.find(n => n.id === d.target);
+                return targetNode ? targetNode.y - 32 - 10 : 0;
+            })
+            .style('stroke', '#667eea')
+            .style('stroke-width', 2)
+            .style('opacity', 0.8)
+            .attr('marker-end', 'url(#arrow-naive)');
+
+        // Draw class node
+        const classGroup = svg.append('g')
+            .attr('class', 'node')
+            .attr('transform', `translate(${classNode.x}, ${classNode.y})`);
+
+        classGroup.append('circle')
+            .attr('r', 35)
+            .style('fill', '#667eea')
+            .style('stroke', '#fff')
+            .style('stroke-width', 3);
+
+        classGroup.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .style('fill', 'white')
+            .style('font-weight', 'bold')
+            .style('font-size', '16px')
+            .text(classNode.label);
+
+        // Add P(C) label next to class node
+        svg.append('text')
+            .attr('x', classNode.x + 50)
+            .attr('y', classNode.y)
+            .style('fill', '#667eea')
+            .style('font-weight', 'bold')
+            .style('font-size', '14px')
+            .text('P(C)');
+
+        // Draw feature nodes
+        const featureGroups = svg.selectAll('.feature-node')
+            .data(featureNodes)
+            .enter()
+            .append('g')
+            .attr('class', 'feature-node')
+            .attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+        featureGroups.append('circle')
+            .attr('r', 30)
+            .style('fill', '#4ecdc4')
+            .style('stroke', '#fff')
+            .style('stroke-width', 3);
+
+        featureGroups.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .style('fill', 'white')
+            .style('font-weight', 'bold')
+            .style('font-size', '14px')
+            .text(d => d.label);
+
+        // Add P(X_i|C) labels below feature nodes
+        featureGroups.each(function(d) {
+            const group = d3.select(this);
+            group.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '2.5em')
+                .style('fill', '#4ecdc4')
+                .style('font-weight', 'bold')
+                .style('font-size', '12px')
+                .text(`P(${d.label}|C)`);
         });
-        visualizer.init(networkData);
+
+        // Add title
+        svg.append('text')
+            .attr('x', width/2)
+            .attr('y', 30)
+            .attr('text-anchor', 'middle')
+            .style('fill', '#667eea')
+            .style('font-size', '18px')
+            .style('font-weight', 'bold')
+            .text('Naive Bayes Network Structure');
     }
 
     // Tab 3: Iris Dataset handlers
