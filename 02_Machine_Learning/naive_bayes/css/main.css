@@ -619,3 +619,157 @@ footer {
     stroke: #667eea;
     stroke-width: 3px;
 }
+
+/* Dataset Section */
+.dataset-section, .text-analysis-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.dataset-info {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.dataset-info ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.dataset-info li {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Code Section */
+.code-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.code-block {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #6f42c1;
+}
+
+.code-block h4 {
+    margin: 0 0 10px 0;
+    color: #6f42c1;
+    font-size: 16px;
+}
+
+.code-block pre {
+    margin: 0;
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Feature Distributions */
+.feature-distributions {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.dist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Word Analysis */
+.word-analysis {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Variants Section */
+.variants-comparison {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.variants-demos {
+    margin-top: 30px;
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.demo-item {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #17a2b8;
+}
+
+.demo-item h4 {
+    margin: 0 0 10px 0;
+    color: #17a2b8;
+    font-size: 18px;
+}
+
+.demo-item p {
+    margin: 0 0 15px 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.code-example {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.code-example h5 {
+    margin: 0 0 10px 0;
+    color: #495057;
+    font-size: 14px;
+}
+
+.code-example pre {
+    margin: 0;
+    background: #f8f9fa;
+    color: #495057;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* Mobile Responsive Updates */
+@media (max-width: 768px) {
+    .demo-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dist-grid {
+        grid-template-columns: 1fr;
+    }
+}

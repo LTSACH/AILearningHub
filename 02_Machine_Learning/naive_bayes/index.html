@@ -214,9 +214,54 @@
                             <h2>🌸 Iris Dataset Analysis</h2>
                             <p>Gaussian Naive Bayes on the famous Iris flower dataset</p>
                         </div>
-                        <div class="coming-soon">
-                            <h3>🚧 Coming Soon</h3>
-                            <p>Interactive visualizations with Plotly.js and sklearn implementation</p>
+                        
+                        <div class="content-grid">
+                            <!-- Left: Dataset Overview -->
+                            <div class="dataset-section">
+                                <h3>Dataset Overview</h3>
+                                <div class="dataset-info">
+                                    <p><strong>Iris Dataset:</strong> 150 samples, 4 features, 3 classes</p>
+                                    <ul>
+                                        <li><strong>Features:</strong> sepal_length, sepal_width, petal_length, petal_width</li>
+                                        <li><strong>Classes:</strong> setosa, versicolor, virginica</li>
+                                        <li><strong>Data Type:</strong> Continuous (suitable for Gaussian NB)</li>
+                                    </ul>
+                                </div>
+                                
+                                <h4>Scatter Plot</h4>
+                                <div id="iris-scatter-plot"></div>
+                            </div>
+
+                            <!-- Right: Code Examples -->
+                            <div class="code-section">
+                                <h3>Implementation</h3>
+                                
+                                <div class="code-block">
+                                    <h4>1. Loading Data</h4>
+                                    <div id="iris-loading"></div>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <h4>2. Training Model</h4>
+                                    <div id="iris-training"></div>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <h4>3. Making Predictions</h4>
+                                    <div id="iris-prediction"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature Distributions -->
+                        <div class="feature-distributions">
+                            <h3>Feature Distributions by Class</h3>
+                            <div class="dist-grid">
+                                <div id="feature-dist-1"></div>
+                                <div id="feature-dist-2"></div>
+                                <div id="feature-dist-3"></div>
+                                <div id="feature-dist-4"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -226,9 +271,57 @@
                             <h2>📰 BBC News Classification</h2>
                             <p>Multinomial Naive Bayes for text classification</p>
                         </div>
-                        <div class="coming-soon">
-                            <h3>🚧 Coming Soon</h3>
-                            <p>Text preprocessing pipeline and classification results</p>
+                        
+                        <div class="content-grid">
+                            <!-- Left: Text Analysis -->
+                            <div class="text-analysis-section">
+                                <h3>Text Analysis</h3>
+                                <div class="dataset-info">
+                                    <p><strong>BBC News Dataset:</strong> 2,225 articles, 5 categories</p>
+                                    <ul>
+                                        <li><strong>Categories:</strong> business, entertainment, politics, sport, tech</li>
+                                        <li><strong>Data Type:</strong> Text (suitable for Multinomial NB)</li>
+                                        <li><strong>Preprocessing:</strong> TF-IDF vectorization, stop words removal</li>
+                                    </ul>
+                                </div>
+                                
+                                <h4>Word Frequency Analysis</h4>
+                                <div id="word-frequency-chart"></div>
+                                
+                                <h4>Category Distribution</h4>
+                                <div id="category-distribution"></div>
+                            </div>
+
+                            <!-- Right: Code Examples -->
+                            <div class="code-section">
+                                <h3>Implementation</h3>
+                                
+                                <div class="code-block">
+                                    <h4>1. Data Loading</h4>
+                                    <div id="bbc-preprocessing"></div>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <h4>2. Text Vectorization</h4>
+                                    <div id="bbc-vectorization"></div>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <h4>3. Model Training</h4>
+                                    <div id="bbc-training"></div>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <h4>4. Prediction</h4>
+                                    <div id="bbc-prediction"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Word Heatmap -->
+                        <div class="word-analysis">
+                            <h3>Word Frequency Heatmap</h3>
+                            <div id="word-heatmap"></div>
                         </div>
                     </div>
 
@@ -238,9 +331,44 @@
                             <h2>🔄 Naive Bayes Variants</h2>
                             <p>Different types of Naive Bayes for different data types</p>
                         </div>
-                        <div class="coming-soon">
-                            <h3>🚧 Coming Soon</h3>
-                            <p>Gaussian, Multinomial, and Bernoulli Naive Bayes comparison</p>
+                        
+                        <div class="variants-comparison">
+                            <h3>Variants Comparison</h3>
+                            <div id="variants-comparison"></div>
+                        </div>
+
+                        <div class="variants-demos">
+                            <div class="demo-grid">
+                                <div class="demo-item">
+                                    <h4>Gaussian Naive Bayes</h4>
+                                    <p>For continuous data (e.g., measurements)</p>
+                                    <div id="gaussian-demo"></div>
+                                    <div class="code-example">
+                                        <h5>Code Example:</h5>
+                                        <div id="gaussian-example"></div>
+                                    </div>
+                                </div>
+
+                                <div class="demo-item">
+                                    <h4>Multinomial Naive Bayes</h4>
+                                    <p>For discrete counts (e.g., word frequencies)</p>
+                                    <div id="multinomial-demo"></div>
+                                    <div class="code-example">
+                                        <h5>Code Example:</h5>
+                                        <div id="multinomial-example"></div>
+                                    </div>
+                                </div>
+
+                                <div class="demo-item">
+                                    <h4>Bernoulli Naive Bayes</h4>
+                                    <p>For binary features (e.g., word presence)</p>
+                                    <div id="bernoulli-demo"></div>
+                                    <div class="code-example">
+                                        <h5>Code Example:</h5>
+                                        <div id="bernoulli-example"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -256,9 +384,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/d3-bayes-network.js"></script>
-    <script src="js/plotly-charts.js"></script>
-    <script src="js/tab-handlers.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
