@@ -99,7 +99,14 @@ export class TabManager {
         const activeTab = document.querySelector('.tab-pane.active');
         if (activeTab) {
             const tabId = activeTab.id;
-            await this.switchTab(tabId);
+            this.currentTab = tabId;
+            if (this.tabs[tabId]) {
+                try {
+                    await this.tabs[tabId].init();
+                } catch (error) {
+                    console.error(`Error initializing tab ${tabId}:`, error);
+                }
+            }
         }
     }
 
