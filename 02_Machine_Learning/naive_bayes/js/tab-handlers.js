@@ -69,7 +69,10 @@ class TabHandlers {
         for (let i = 0; i < numFeatures; i++) {
             const x = cx - (numFeatures - 1) * featureSpacing / 2 + i * featureSpacing;
             const featureId = i === numFeatures - 1 ? 'X_n' : `X_${i + 1}`;
-            const featureLabel = i === numFeatures - 1 ? 'Xₙ' : `X${i + 1}`.replace(/(\d+)/, '₁');
+            const featureLabel = i === numFeatures - 1 ? 'Xₙ' : `X${i + 1}`.replace(/(\d+)/, (match, num) => {
+                const subscripts = ['₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+                return subscripts[parseInt(num) - 1] || num;
+            });
             
             featureNodes.push({ 
                 id: featureId, 
@@ -173,12 +176,12 @@ class TabHandlers {
             .style('font-size', '14px')
             .text(d => d.label);
 
-        // Add P(X_i|C) labels below feature nodes
+        // Add P(X_i|C) labels below feature nodes (further down to avoid overlap)
         featureGroups.each(function(d) {
             const group = d3.select(this);
             group.append('text')
                 .attr('text-anchor', 'middle')
-                .attr('dy', '2.5em')
+                .attr('dy', '3.5em')
                 .style('fill', '#4ecdc4')
                 .style('font-weight', 'bold')
                 .style('font-size', '12px')
