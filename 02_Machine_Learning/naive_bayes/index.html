@@ -35,15 +35,6 @@
             <section class="hero">
                 <h1>🎯 Naive Bayes Tutorial</h1>
                 <p>Interactive tutorial on probabilistic classification using Bayes' theorem with independence assumption</p>
-                <div class="learning-objectives">
-                    <h3>Learning Objectives:</h3>
-                    <ul>
-                        <li>Understand Bayes' theorem and its components</li>
-                        <li>Learn the "naive" independence assumption</li>
-                        <li>Apply Naive Bayes to real datasets (Iris, BBC News)</li>
-                        <li>Compare different Naive Bayes variants</li>
-                    </ul>
-                </div>
             </section>
 
             <!-- Tabs Navigation -->
@@ -70,30 +61,30 @@
                             <div class="formula-section">
                                 <h3>Mathematical Foundation</h3>
                                 <div class="formula-box">
-                                    <div class="formula-main">
-                                        P(A|B) = <span class="fraction">
-                                            <span class="numerator">P(B|A) × P(A)</span>
-                                            <span class="denominator">P(B)</span>
+                                    <div class="formula-main formula-compact">
+                                        P(C\u007CX) = <span class="fraction">
+                                            <span class="numerator">P(X\u007CC) \u00D7 P(C)</span>
+                                            <span class="denominator">P(X)</span>
                                         </span>
                                     </div>
                                 </div>
                                 
                                 <div class="formula-components">
                                     <div class="component">
-                                        <h4>P(A|B) - Posterior</h4>
-                                        <p>Probability of A given B (what we want to find)</p>
+                                        <h4>P(C|X) - Posterior</h4>
+                                        <p>Probability of class C given sample X</p>
                                     </div>
                                     <div class="component">
-                                        <h4>P(B|A) - Likelihood</h4>
-                                        <p>Probability of B given A (how likely B is if A is true)</p>
+                                        <h4>P(X|C) - Likelihood</h4>
+                                        <p>Probability of observing X when class is C</p>
                                     </div>
                                     <div class="component">
-                                        <h4>P(A) - Prior</h4>
-                                        <p>Prior probability of A (our initial belief about A)</p>
+                                        <h4>P(C) - Prior</h4>
+                                        <p>Prior probability of class C</p>
                                     </div>
                                     <div class="component">
-                                        <h4>P(B) - Evidence</h4>
-                                        <p>Probability of B (normalizing constant, often ignored in classification)</p>
+                                        <h4>P(X) - Evidence</h4>
+                                        <p>Probability of the sample X (normalizing constant)</p>
                                     </div>
                                 </div>
                             </div>

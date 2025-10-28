@@ -118,8 +118,8 @@ function updateBayesDiagram() {
     const container = d3.select('#bayes-diagram');
     container.selectAll('*').remove();
 
-    const width = 400;
-    const height = 300;
+    const width = 520;
+    const height = 360;
     const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 
     const svg = container
@@ -127,19 +127,33 @@ function updateBayesDiagram() {
         .attr('width', width)
         .attr('height', height);
 
-    // Create nodes data
+    // Positions
+    const cx = width/2; const cyTop = 90; const cyBottom = 240;
+
+    // Create nodes data: C on top, X below
     const nodes = [
-        { id: 'A', x: width/2 - 100, y: height/2 - 50, label: 'A', value: bayesData.prior },
-        { id: 'B', x: width/2 + 100, y: height/2 - 50, label: 'B', value: bayesData.evidence },
-        { id: 'A|B', x: width/2, y: height/2 + 50, label: 'A|B', value: bayesData.posterior }
+        { id: 'C', x: cx, y: cyTop, label: 'C', value: bayesData.prior },
+        { id: 'X', x: cx, y: cyBottom, label: 'X', value: 0 }
     ];
 
-    // Create links
+    // Link C -> X
     const links = [
-        { source: 'A', target: 'A|B', label: 'P(A)', value: bayesData.prior },
-        { source: 'B', target: 'A|B', label: 'P(B|A)', value: bayesData.likelihood },
-        { source: 'B', target: 'A|B', label: 'P(B)', value: bayesData.evidence, isEvidence: true }
+        { source: 'C', target: 'X', label: 'P(X|C)', value: bayesData.likelihood }
     ];
+
+    // Arrow marker
+    svg.append('defs')
+        .append('marker')
+        .attr('id', 'arrow')
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 18)
+        .attr('refY', 0)
+        .attr('markerWidth', 6)
+        .attr('markerHeight', 6)
+        .attr('orient', 'auto')
+        .append('path')
+        .attr('d', 'M0,-5L10,0L0,5')
+        .attr('fill', '#667eea');
 
     // Draw links
     svg.selectAll('.link')
@@ -163,9 +177,10 @@ function updateBayesDiagram() {
             const targetNode = nodes.find(n => n.id === d.target);
             return targetNode ? targetNode.y : 0;
         })
-        .style('stroke', d => d.isEvidence ? '#ff6b6b' : '#667eea')
+        .style('stroke', '#667eea')
         .style('stroke-width', 3)
-        .style('opacity', 0.7);
+        .style('opacity', 0.9)
+        .attr('marker-end', 'url(#arrow)');
 
     // Draw nodes
     const nodeGroups = svg.selectAll('.node')
@@ -177,8 +192,8 @@ function updateBayesDiagram() {
 
     // Add circles
     nodeGroups.append('circle')
-        .attr('r', 30)
-        .style('fill', d => d.id === 'A|B' ? '#4ecdc4' : '#667eea')
+        .attr('r', 32)
+        .style('fill', d => d.id === 'C' ? '#667eea' : '#4ecdc4')
         .style('stroke', '#fff')
         .style('stroke-width', 3);
 
@@ -197,7 +212,7 @@ function updateBayesDiagram() {
         .attr('dy', '1.5em')
         .style('fill', '#333')
         .style('font-size', '12px')
-        .text(d => d.value.toFixed(3));
+        .text(d => (d.id === 'C' ? `P(C)=${bayesData.prior.toFixed(2)}` : ''));
 
     // Add link labels
     svg.selectAll('.link-label')
@@ -205,31 +220,34 @@ function updateBayesDiagram() {
         .enter()
         .append('text')
         .attr('class', 'link-label')
-        .attr('x', d => {
-            const sourceNode = nodes.find(n => n.id === d.source);
-            const targetNode = nodes.find(n => n.id === d.target);
-            return ((sourceNode ? sourceNode.x : 0) + (targetNode ? targetNode.x : 0)) / 2;
-        })
-        .attr('y', d => {
-            const sourceNode = nodes.find(n => n.id === d.source);
-            const targetNode = nodes.find(n => n.id === d.target);
-            return ((sourceNode ? sourceNode.y : 0) + (targetNode ? targetNode.y : 0)) / 2;
-        })
+        .attr('x', cx)
+        .attr('y', (cyTop + cyBottom) / 2 - 10)
         .attr('text-anchor', 'middle')
         .style('fill', '#333')
         .style('font-size', '11px')
         .style('font-weight', 'bold')
-        .text(d => d.label);
+        .text('P(X|C)');
 
-    // Add title
-    svg.append('text')
-        .attr('x', width/2)
-        .attr('y', 15)
-        .attr('text-anchor', 'middle')
-        .style('fill', '#667eea')
-        .style('font-size', '16px')
-        .style('font-weight', 'bold')
-        .text('Bayes\' Theorem Visualization');
+    // Prior table next to C
+    const priorTable = svg.append('g').attr('class', 'bn-table')
+        .attr('transform', `translate(${cx - 200}, ${cyTop - 40})`);
+
+    drawTable(priorTable, {
+        title: 'P(C)',
+        headers: ['C', 'P(C)'],
+        rows: [['c₁', '0.33'], ['c₂', '0.33'], ['c₃', '0.34']]
+    });
+
+    // Conditional table next to X
+    const condTable = svg.append('g').attr('class', 'bn-table')
+        .attr('transform', `translate(${cx - 240}, ${cyBottom - 40})`);
+
+    drawTable(condTable, {
+        title: 'P(X|C)',
+        headers: ['C', 'X=+', 'X=-'],
+        thickCol: 0,
+        rows: [['c₁', '0.9', '0.1'], ['c₂', '0.5', '0.5'], ['c₃', '0.2', '0.8']]
+    });
 }
 
 // Utility functions
@@ -240,6 +258,45 @@ function formatNumber(num, decimals = 3) {
 function calculateBayes(prior, likelihood, evidence) {
     if (evidence === 0) return 0;
     return (likelihood * prior) / evidence;
+}
+
+// Helper: draw small HTML-like table inside SVG using foreignObject
+function drawTable(group, config) {
+    const { title, headers, rows, thickCol } = config;
+
+    const fo = group.append('foreignObject')
+        .attr('width', 220)
+        .attr('height', 120);
+
+    const div = fo.append('xhtml:div')
+        .attr('class', 'bn-table')
+        .style('padding', '6px 8px');
+
+    div.append('div')
+        .style('font-weight', 'bold')
+        .style('color', '#667eea')
+        .style('margin-bottom', '4px')
+        .text(title || '');
+
+    const table = div.append('table')
+        .style('width', '100%');
+
+    const thead = table.append('thead').append('tr');
+    headers.forEach((h, idx) => {
+        thead.append('th')
+            .attr('class', idx === thickCol ? 'thick' : null)
+            .text(h);
+    });
+
+    const tbody = table.append('tbody');
+    rows.forEach(r => {
+        const tr = tbody.append('tr');
+        r.forEach((cell, idx) => {
+            tr.append('td')
+                .attr('class', idx === thickCol ? 'thick' : null)
+                .text(cell);
+        });
+    });
 }
 
 // Export functions for use in other modules

@@ -83,15 +83,8 @@ body {
     opacity: 0.9;
 }
 
-.learning-objectives {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 800px;
-    text-align: left;
-}
+/* learning-objectives hidden to preserve space for tabs */
+.learning-objectives { display: none; }
 
 .learning-objectives h3 {
     color: #fff;
@@ -215,10 +208,13 @@ body {
 }
 
 .formula-main {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1rem;
+    white-space: nowrap;
 }
+
+.formula-compact { font-size: 1.8rem; }
 
 .fraction {
     display: inline-block;
@@ -338,15 +334,30 @@ body {
 }
 
 #bayes-diagram {
-    height: 300px;
+    height: 360px;
     background: #f8f9fa;
     border-radius: 10px;
     border: 2px dashed #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 8px;
     color: #666;
 }
+
+/* Small tables next to nodes */
+.bn-table {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    font-size: 12px;
+}
+.bn-table table { border-collapse: collapse; }
+.bn-table th, .bn-table td {
+    border: 1px solid #e6e6e6;
+    padding: 4px 6px;
+    text-align: center;
+}
+.bn-table th { background: #f3f4f6; color: #333; }
+.bn-table .thick { border-right: 2px solid #999; }
 
 /* Example Section */
 .example-section {
