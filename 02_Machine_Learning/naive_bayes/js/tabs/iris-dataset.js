@@ -19,6 +19,7 @@ export class IrisDatasetTab {
         await this.loadIrisData();
         this.createIrisNetwork();
         await this.loadCodeFromFile();
+        this.setupCodeActions();
         this.isInitialized = true;
     }
 
@@ -225,6 +226,91 @@ export class IrisDatasetTab {
                     <p>Please ensure iris_naivebayes.py exists in the code/ directory.</p>
                 </div>
             `;
+        }
+    }
+
+    /**
+     * Setup copy and download functionality for code actions
+     */
+    setupCodeActions() {
+        const copyBtn = document.getElementById('copy-code-btn');
+        const downloadBtn = document.getElementById('download-code-btn');
+        
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => this.copyCodeToClipboard());
+        }
+        
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => this.downloadCodeAsFile());
+        }
+    }
+
+    /**
+     * Copy code to clipboard
+     */
+    async copyCodeToClipboard() {
+        try {
+            const codeElement = document.querySelector('#iris-code-content pre code');
+            if (!codeElement) {
+                throw new Error('Code not found');
+            }
+            
+            const code = codeElement.textContent;
+            await navigator.clipboard.writeText(code);
+            
+            // Show success feedback
+            const copyBtn = document.getElementById('copy-code-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✅ Copied!';
+            copyBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Failed to copy code:', error);
+            alert('Failed to copy code to clipboard. Please try again.');
+        }
+    }
+
+    /**
+     * Download code as file
+     */
+    downloadCodeAsFile() {
+        try {
+            const codeElement = document.querySelector('#iris-code-content pre code');
+            if (!codeElement) {
+                throw new Error('Code not found');
+            }
+            
+            const code = codeElement.textContent;
+            const blob = new Blob([code], { type: 'text/python' });
+            const url = URL.createObjectURL(blob);
+            
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = 'iris_naivebayes.py';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(url);
+            
+            // Show success feedback
+            const downloadBtn = document.getElementById('download-code-btn');
+            const originalText = downloadBtn.textContent;
+            downloadBtn.textContent = '✅ Downloaded!';
+            downloadBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            
+            setTimeout(() => {
+                downloadBtn.textContent = originalText;
+                downloadBtn.style.background = 'linear-gradient(135deg, #2196F3, #1976D2)';
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Failed to download code:', error);
+            alert('Failed to download code file. Please try again.');
         }
     }
 

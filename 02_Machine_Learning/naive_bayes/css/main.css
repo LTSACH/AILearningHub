@@ -928,14 +928,68 @@ footer {
     margin: 25px 0;
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 20px;
+    padding: 0;
     border-left: 5px solid #28a745;
+    overflow: hidden;
 }
 
-.code-block-full h4 {
-    margin: 0 0 15px 0;
-    color: #28a745;
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #28a745;
+    padding: 15px 20px;
+    margin: 0;
+}
+
+.code-header h4 {
+    margin: 0;
+    color: white;
     font-size: 18px;
+}
+
+.code-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.copy-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+}
+
+.download-btn:hover {
+    background: linear-gradient(135deg, #1976D2, #1565C0);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+.action-btn:active {
+    transform: translateY(0);
 }
 
 .code-block-full pre {
@@ -943,11 +997,15 @@ footer {
     background: #2d3748;
     color: #e2e8f0;
     padding: 20px;
-    border-radius: 6px;
+    border-radius: 0 0 6px 6px;
     overflow-x: auto;
     font-size: 14px;
     line-height: 1.5;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#iris-code-content {
+    padding: 20px;
 }
 
 .code-block-full code {
