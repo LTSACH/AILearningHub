@@ -68,8 +68,8 @@ class TabHandlers {
 
         for (let i = 0; i < numFeatures; i++) {
             const x = cx - (numFeatures - 1) * featureSpacing / 2 + i * featureSpacing;
-            const featureId = i === numFeatures - 1 ? 'X_n' : `X_${i + 1}`;
-            const featureLabel = i === numFeatures - 1 ? 'Xₙ' : `X${i + 1}`.replace(/(\d+)/, (match, num) => {
+            const featureId = i === numFeatures - 1 ? 'X_d' : `X_${i + 1}`;
+            const featureLabel = i === numFeatures - 1 ? 'X_d' : `X${i + 1}`.replace(/(\d+)/, (match, num) => {
                 const subscripts = ['₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
                 return subscripts[parseInt(num) - 1] || num;
             });
