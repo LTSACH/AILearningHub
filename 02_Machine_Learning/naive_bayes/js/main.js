@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTabs();
     initializeBayesCalculator();
     initializeBayesDiagram();
+    initializeMathTooltips();
     updatePosterior();
 });
 
@@ -299,11 +300,41 @@ function drawTable(group, config) {
     });
 }
 
+// Math Tooltips
+function initializeMathTooltips() {
+    const mathTerms = document.querySelectorAll('.math-term');
+    
+    mathTerms.forEach(term => {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = term.getAttribute('data-tooltip');
+        document.body.appendChild(tooltip);
+        
+        term.addEventListener('mouseenter', function(e) {
+            const rect = this.getBoundingClientRect();
+            tooltip.style.left = rect.left + rect.width / 2 + 'px';
+            tooltip.style.top = rect.top - 10 + 'px';
+            tooltip.classList.add('show');
+        });
+        
+        term.addEventListener('mouseleave', function() {
+            tooltip.classList.remove('show');
+        });
+        
+        term.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            tooltip.style.left = rect.left + rect.width / 2 + 'px';
+            tooltip.style.top = rect.top - 10 + 'px';
+        });
+    });
+}
+
 // Export functions for use in other modules
 window.NaiveBayesTutorial = {
     switchTab,
     updatePosterior,
     updateBayesDiagram,
     calculateBayes,
-    formatNumber
+    formatNumber,
+    initializeMathTooltips
 };

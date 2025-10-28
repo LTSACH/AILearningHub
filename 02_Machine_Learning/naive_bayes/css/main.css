@@ -223,6 +223,76 @@ body {
     margin: 1em 0 !important;
 }
 
+/* Interactive math terms */
+.math-term {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
+    position: relative;
+    display: inline-block;
+}
+
+.math-term:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip.show {
+    opacity: 1;
+    transform: translateY(-8px);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Highlight effects for different terms */
+.math-term[data-term="posterior"]:hover {
+    background: rgba(78, 205, 196, 0.2);
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+}
+
+.math-term[data-term="likelihood"]:hover {
+    background: rgba(255, 107, 107, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.math-term[data-term="prior"]:hover {
+    background: rgba(243, 156, 18, 0.2);
+    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+}
+
+.math-term[data-term="evidence"]:hover {
+    background: rgba(155, 89, 182, 0.2);
+    box-shadow: 0 2px 8px rgba(155, 89, 182, 0.3);
+}
+
 .fraction {
     display: inline-block;
     vertical-align: middle;
