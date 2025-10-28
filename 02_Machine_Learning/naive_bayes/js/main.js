@@ -148,7 +148,7 @@ function updateBayesDiagram() {
         .append('marker')
         .attr('id', 'arrow')
         .attr('viewBox', '0 -5 10 10')
-        .attr('refX', 25)
+        .attr('refX', 8)
         .attr('refY', 0)
         .attr('markerWidth', 8)
         .attr('markerHeight', 8)
