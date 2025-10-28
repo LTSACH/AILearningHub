@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naive Bayes Tutorial - AI Learning Hub</title>
+    
+    <!-- External Libraries -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="page-header">
+        <nav class="container">
+            <a href="/AILearningHub/" class="logo">🤖 AI Learning Hub</a>
+            <div class="breadcrumb">
+                <a href="/AILearningHub/">Home</a> / 
+                <a href="/AILearningHub/02_Machine_Learning/">Machine Learning</a> / 
+                <span>Naive Bayes</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1>🎯 Naive Bayes Tutorial</h1>
+                <p>Interactive tutorial on probabilistic classification using Bayes' theorem with independence assumption</p>
+                <div class="learning-objectives">
+                    <h3>Learning Objectives:</h3>
+                    <ul>
+                        <li>Understand Bayes' theorem and its components</li>
+                        <li>Learn the "naive" independence assumption</li>
+                        <li>Apply Naive Bayes to real datasets (Iris, BBC News)</li>
+                        <li>Compare different Naive Bayes variants</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tabs Navigation -->
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-button active" data-tab="bayes-formula">Bayes Formula</button>
+                    <button class="tab-button" data-tab="naive-bayes">Naive Bayes</button>
+                    <button class="tab-button" data-tab="iris-dataset">Iris Dataset</button>
+                    <button class="tab-button" data-tab="bbc-news">BBC News</button>
+                    <button class="tab-button" data-tab="variants">Variants</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Tab 1: Bayes Formula -->
+                    <div id="bayes-formula" class="tab-pane active">
+                        <div class="tab-header">
+                            <h2>📊 Bayes' Theorem</h2>
+                            <p>Understanding the fundamental formula behind Naive Bayes</p>
+                        </div>
+                        
+                        <div class="content-grid">
+                            <!-- Left: Formula Explanation -->
+                            <div class="formula-section">
+                                <h3>Mathematical Foundation</h3>
+                                <div class="formula-box">
+                                    <div class="formula-main">
+                                        P(A|B) = <span class="fraction">
+                                            <span class="numerator">P(B|A) × P(A)</span>
+                                            <span class="denominator">P(B)</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="formula-components">
+                                    <div class="component">
+                                        <h4>P(A|B) - Posterior</h4>
+                                        <p>Probability of A given B (what we want to find)</p>
+                                    </div>
+                                    <div class="component">
+                                        <h4>P(B|A) - Likelihood</h4>
+                                        <p>Probability of B given A (how likely B is if A is true)</p>
+                                    </div>
+                                    <div class="component">
+                                        <h4>P(A) - Prior</h4>
+                                        <p>Prior probability of A (our initial belief about A)</p>
+                                    </div>
+                                    <div class="component">
+                                        <h4>P(B) - Evidence</h4>
+                                        <p>Probability of B (normalizing constant, often ignored in classification)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Interactive Visualization -->
+                            <div class="visualization-section">
+                                <h3>Interactive Bayes Calculator</h3>
+                                <div class="calculator">
+                                    <div class="input-group">
+                                        <label for="prior">Prior P(A):</label>
+                                        <input type="range" id="prior" min="0" max="1" step="0.01" value="0.5">
+                                        <span id="prior-value">0.50</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="likelihood">Likelihood P(B|A):</label>
+                                        <input type="range" id="likelihood" min="0" max="1" step="0.01" value="0.7">
+                                        <span id="likelihood-value">0.70</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="evidence">Evidence P(B):</label>
+                                        <input type="range" id="evidence" min="0" max="1" step="0.01" value="0.6">
+                                        <span id="evidence-value">0.60</span>
+                                    </div>
+                                    
+                                    <div class="result-box">
+                                        <h4>Posterior P(A|B) = <span id="posterior-result">0.58</span></h4>
+                                    </div>
+                                </div>
+
+                                <!-- D3.js Visualization -->
+                                <div id="bayes-diagram"></div>
+                            </div>
+                        </div>
+
+                        <!-- Example Section -->
+                        <div class="example-section">
+                            <h3>Real-world Example: Medical Diagnosis</h3>
+                            <div class="example-content">
+                                <div class="example-text">
+                                    <p><strong>Scenario:</strong> A patient tests positive for a disease. What's the probability they actually have the disease?</p>
+                                    <ul>
+                                        <li><strong>Prior P(Disease):</strong> 1% of population has this disease</li>
+                                        <li><strong>Likelihood P(Positive|Disease):</strong> 95% accuracy when disease is present</li>
+                                        <li><strong>Evidence P(Positive):</strong> 5.94% of all tests are positive</li>
+                                    </ul>
+                                </div>
+                                <div class="example-calculation">
+                                    <div class="calculation-step">
+                                        P(Disease|Positive) = <span class="fraction">
+                                            <span class="numerator">0.95 × 0.01</span>
+                                            <span class="denominator">0.0594</span>
+                                        </span> = <strong>0.16</strong>
+                                    </div>
+                                    <p class="interpretation">Only 16% chance the patient actually has the disease!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Naive Bayes -->
+                    <div id="naive-bayes" class="tab-pane">
+                        <div class="tab-header">
+                            <h2>🎯 Naive Bayes Classification</h2>
+                            <p>Applying Bayes' theorem to classification with independence assumption</p>
+                        </div>
+                        <div class="coming-soon">
+                            <h3>🚧 Coming Soon</h3>
+                            <p>Interactive network diagram and detailed explanation of the "naive" assumption</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Iris Dataset -->
+                    <div id="iris-dataset" class="tab-pane">
+                        <div class="tab-header">
+                            <h2>🌸 Iris Dataset Analysis</h2>
+                            <p>Gaussian Naive Bayes on the famous Iris flower dataset</p>
+                        </div>
+                        <div class="coming-soon">
+                            <h3>🚧 Coming Soon</h3>
+                            <p>Interactive visualizations with Plotly.js and sklearn implementation</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: BBC News -->
+                    <div id="bbc-news" class="tab-pane">
+                        <div class="tab-header">
+                            <h2>📰 BBC News Classification</h2>
+                            <p>Multinomial Naive Bayes for text classification</p>
+                        </div>
+                        <div class="coming-soon">
+                            <h3>🚧 Coming Soon</h3>
+                            <p>Text preprocessing pipeline and classification results</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 5: Variants -->
+                    <div id="variants" class="tab-pane">
+                        <div class="tab-header">
+                            <h2>🔄 Naive Bayes Variants</h2>
+                            <p>Different types of Naive Bayes for different data types</p>
+                        </div>
+                        <div class="coming-soon">
+                            <h3>🚧 Coming Soon</h3>
+                            <p>Gaussian, Multinomial, and Bernoulli Naive Bayes comparison</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AI Learning Hub. Interactive Naive Bayes Tutorial</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/d3-bayes-network.js"></script>
+    <script src="js/plotly-charts.js"></script>
+    <script src="js/tab-handlers.js"></script>
+</body>
+</html>
