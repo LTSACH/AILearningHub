@@ -148,14 +148,16 @@ function updateBayesDiagram() {
         .append('marker')
         .attr('id', 'arrow')
         .attr('viewBox', '0 -5 10 10')
-        .attr('refX', 18)
+        .attr('refX', 25)
         .attr('refY', 0)
-        .attr('markerWidth', 6)
-        .attr('markerHeight', 6)
+        .attr('markerWidth', 8)
+        .attr('markerHeight', 8)
         .attr('orient', 'auto')
         .append('path')
         .attr('d', 'M0,-5L10,0L0,5')
-        .attr('fill', '#667eea');
+        .attr('fill', '#667eea')
+        .attr('stroke', '#667eea')
+        .attr('stroke-width', 1);
 
     // Draw links
     svg.selectAll('.link')
@@ -177,7 +179,7 @@ function updateBayesDiagram() {
         })
         .attr('y2', d => {
             const targetNode = nodes.find(n => n.id === d.target);
-            return targetNode ? targetNode.y : 0;
+            return targetNode ? targetNode.y - 32 : 0; // Stop at edge of circle
         })
         .style('stroke', '#667eea')
         .style('stroke-width', 3)
