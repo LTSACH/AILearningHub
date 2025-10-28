@@ -202,7 +202,8 @@ function updateBayesDiagram() {
         .attr('r', 32)
         .style('fill', d => d.id === 'C' ? '#667eea' : '#4ecdc4')
         .style('stroke', '#fff')
-        .style('stroke-width', 3);
+        .style('stroke-width', 3)
+        .style('cursor', 'pointer');
 
     // Add labels
     nodeGroups.append('text')
@@ -214,6 +215,14 @@ function updateBayesDiagram() {
         .text(d => d.label);
 
     // No value labels on nodes for cleaner look
+
+    // Add hover tooltips for nodes
+    nodeGroups.on('mouseenter', function(event, d) {
+        showNodeTooltip(event, d);
+    })
+    .on('mouseleave', function() {
+        hideNodeTooltip();
+    });
 
     // Prior table next to C (right side)
     const priorTable = svg.append('g').attr('class', 'bn-table')
@@ -288,6 +297,74 @@ function drawTable(group, config) {
                 .text(cell);
         });
     });
+}
+
+// Node tooltip functions
+function showNodeTooltip(event, d) {
+    const tooltip = d3.select('body').selectAll('.node-tooltip')
+        .data([d])
+        .join('div')
+        .attr('class', 'node-tooltip')
+        .style('position', 'absolute')
+        .style('background', 'rgba(0, 0, 0, 0.9)')
+        .style('color', 'white')
+        .style('padding', '12px 16px')
+        .style('border-radius', '8px')
+        .style('font-size', '13px')
+        .style('font-family', 'monospace')
+        .style('pointer-events', 'none')
+        .style('z-index', '1000')
+        .style('box-shadow', '0 4px 12px rgba(0, 0, 0, 0.3)')
+        .style('max-width', '300px')
+        .style('line-height', '1.4');
+
+    if (d.id === 'X') {
+        // P(X=+) and P(X=-) calculations
+        const pXPlus = 0.9 * 0.33 + 0.5 * 0.33 + 0.2 * 0.34; // P(X=+|C₁)*P(C₁) + P(X=+|C₂)*P(C₂) + P(X=+|C₃)*P(C₃)
+        const pXMinus = 0.1 * 0.33 + 0.5 * 0.33 + 0.8 * 0.34; // P(X=-|C₁)*P(C₁) + P(X=-|C₂)*P(C₂) + P(X=-|C₃)*P(C₃)
+        
+        tooltip.html(`
+            <div style="font-weight: bold; color: #4ecdc4; margin-bottom: 8px;">P(X) Calculations</div>
+            <div>P(X=+) = 0.9×0.33 + 0.5×0.33 + 0.2×0.34 = ${pXPlus.toFixed(3)}</div>
+            <div>P(X=-) = 0.1×0.33 + 0.5×0.33 + 0.8×0.34 = ${pXMinus.toFixed(3)}</div>
+        `);
+    } else if (d.id === 'C') {
+        // P(C|X=+) and P(C|X=-) calculations using Bayes' theorem
+        const pXPlus = 0.9 * 0.33 + 0.5 * 0.33 + 0.2 * 0.34;
+        const pXMinus = 0.1 * 0.33 + 0.5 * 0.33 + 0.8 * 0.34;
+        
+        // P(C₁|X=+), P(C₂|X=+), P(C₃|X=+)
+        const pC1GivenXPlus = (0.9 * 0.33) / pXPlus;
+        const pC2GivenXPlus = (0.5 * 0.33) / pXPlus;
+        const pC3GivenXPlus = (0.2 * 0.34) / pXPlus;
+        
+        // P(C₁|X=-), P(C₂|X=-), P(C₃|X=-)
+        const pC1GivenXMinus = (0.1 * 0.33) / pXMinus;
+        const pC2GivenXMinus = (0.5 * 0.33) / pXMinus;
+        const pC3GivenXMinus = (0.8 * 0.34) / pXMinus;
+        
+        tooltip.html(`
+            <div style="font-weight: bold; color: #667eea; margin-bottom: 8px;">P(C|X) Calculations</div>
+            <div style="margin-bottom: 6px;"><strong>Given X=+:</strong></div>
+            <div>P(C₁|X=+) = (0.9×0.33)/${pXPlus.toFixed(3)} = ${pC1GivenXPlus.toFixed(3)}</div>
+            <div>P(C₂|X=+) = (0.5×0.33)/${pXPlus.toFixed(3)} = ${pC2GivenXPlus.toFixed(3)}</div>
+            <div>P(C₃|X=+) = (0.2×0.34)/${pXPlus.toFixed(3)} = ${pC3GivenXPlus.toFixed(3)}</div>
+            <div style="margin: 8px 0 6px 0;"><strong>Given X=-:</strong></div>
+            <div>P(C₁|X=-) = (0.1×0.33)/${pXMinus.toFixed(3)} = ${pC1GivenXMinus.toFixed(3)}</div>
+            <div>P(C₂|X=-) = (0.5×0.33)/${pXMinus.toFixed(3)} = ${pC2GivenXMinus.toFixed(3)}</div>
+            <div>P(C₃|X=-) = (0.8×0.34)/${pXMinus.toFixed(3)} = ${pC3GivenXMinus.toFixed(3)}</div>
+        `);
+    }
+
+    const rect = event.target.getBoundingClientRect();
+    tooltip
+        .style('left', (rect.left + rect.width / 2) + 'px')
+        .style('top', (rect.top - 10) + 'px')
+        .style('transform', 'translateX(-50%)');
+}
+
+function hideNodeTooltip() {
+    d3.selectAll('.node-tooltip').remove();
 }
 
 // Export functions for use in other modules
