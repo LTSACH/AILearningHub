@@ -189,38 +189,70 @@
                                     <p><strong>The "Naive" Assumption:</strong> Features are conditionally independent given the class.</p>
                                     <p>This means: If we know the class, knowing one feature doesn't tell us anything about another feature.</p>
                                 </div>
+                            </div>
+                        </div>
 
-                                <!-- Mathematical Formulation -->
-                                <div class="formula-derivation">
-                                    <h4>Mathematical Formulation</h4>
-                                    <div class="derivation-step">
-                                        <div class="formula-box">
-                                            $$P(C|\mathbf{x}) = \frac{P(C) \times \prod_{i=1}^{d} P(x_i|C)}{P(\mathbf{x})}$$
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="derivation-arrow">
-                                        <span>↓</span>
-                                        <span class="arrow-note">$P(\mathbf{x})$ không phụ thuộc $C$</span>
-                                    </div>
-                                    
-                                    <div class="derivation-step">
-                                        <div class="formula-box">
-                                            $$P(C|\mathbf{x}) \propto P(C) \times \prod_{i=1}^{d} P(x_i|C)$$
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="derivation-arrow">
-                                        <span>↓</span>
-                                    </div>
-                                    
-                                    <div class="derivation-step">
-                                        <p><strong>Xác định nhãn cho $\mathbf{x}$:</strong></p>
-                                        <div class="formula-box">
-                                            $$c = \arg\max_{C} P(C|\mathbf{x}) = \arg\max_{C} \left[P(C) \times \prod_{i=1}^{d} P(x_i|C)\right]$$
-                                        </div>
-                                    </div>
+                        <!-- Mathematical Formulation - Full Width -->
+                        <div class="formula-derivation">
+                            <h4>Mathematical Formulation</h4>
+                            
+                            <div class="derivation-step">
+                                <h5>Step 1: Apply Bayes' Theorem</h5>
+                                <div class="formula-box">
+                                    $$P(C|\mathbf{x}) = \frac{P(C) \times P(\mathbf{x}|C)}{P(\mathbf{x})}$$
                                 </div>
+                                <p class="step-explanation">For classification, we need to find the most probable class given the feature vector.</p>
+                            </div>
+                            
+                            <div class="derivation-arrow">
+                                <span>↓</span>
+                                <span class="arrow-note">Apply Naive Independence Assumption</span>
+                            </div>
+                            
+                            <div class="derivation-step">
+                                <h5>Step 2: Apply Naive Independence</h5>
+                                <div class="formula-box">
+                                    $$P(\mathbf{x}|C) = \prod_{i=1}^{d} P(x_i|C)$$
+                                </div>
+                                <p class="step-explanation">Features are conditionally independent given the class, so joint probability becomes product of individual probabilities.</p>
+                            </div>
+                            
+                            <div class="derivation-arrow">
+                                <span>↓</span>
+                                <span class="arrow-note">Substitute into Bayes' theorem</span>
+                            </div>
+                            
+                            <div class="derivation-step">
+                                <h5>Step 3: Combine and Simplify</h5>
+                                <div class="formula-box">
+                                    $$P(C|\mathbf{x}) = \frac{P(C) \times \prod_{i=1}^{d} P(x_i|C)}{P(\mathbf{x})}$$
+                                </div>
+                                <p class="step-explanation">Since P(x) is constant for all classes, we can ignore it for classification.</p>
+                            </div>
+                            
+                            <div class="derivation-arrow">
+                                <span>↓</span>
+                                <span class="arrow-note">P(x) is independent of C</span>
+                            </div>
+                            
+                            <div class="derivation-step">
+                                <h5>Step 4: Final Classification Rule</h5>
+                                <div class="formula-box">
+                                    $$P(C|\mathbf{x}) \propto P(C) \times \prod_{i=1}^{d} P(x_i|C)$$
+                                </div>
+                                <p class="step-explanation">We only need the proportional relationship for finding the maximum.</p>
+                            </div>
+                            
+                            <div class="derivation-arrow">
+                                <span>↓</span>
+                            </div>
+                            
+                            <div class="derivation-step">
+                                <h5>Step 5: Prediction Rule</h5>
+                                <div class="formula-box">
+                                    $$\hat{c} = \arg\max_{C} P(C|\mathbf{x}) = \arg\max_{C} \left[P(C) \times \prod_{i=1}^{d} P(x_i|C)\right]$$
+                                </div>
+                                <p class="step-explanation">Choose the class that maximizes the posterior probability.</p>
                             </div>
                         </div>
                     </div>

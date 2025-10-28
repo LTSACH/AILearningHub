@@ -766,54 +766,82 @@ footer {
 /* Formula Derivation */
 .formula-derivation {
     margin-top: 30px;
-    padding: 20px;
+    padding: 30px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .formula-derivation h4 {
-    margin: 0 0 20px 0;
+    margin: 0 0 25px 0;
     color: #2c3e50;
-    font-size: 18px;
+    font-size: 20px;
+    text-align: center;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
 }
 
 .derivation-step {
-    margin: 15px 0;
+    margin: 25px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 5px solid #667eea;
+}
+
+.derivation-step h5 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .formula-box {
-    background: #f8f9fa;
-    padding: 20px;
+    background: white;
+    padding: 25px;
     border-radius: 6px;
-    border-left: 4px solid #667eea;
+    border: 2px solid #e9ecef;
     text-align: center;
+    margin: 15px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.formula-box .MathJax {
+    color: #2c3e50 !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+}
+
+.step-explanation {
+    margin: 10px 0 0 0;
+    color: #495057;
+    font-size: 14px;
+    line-height: 1.5;
+    font-style: italic;
 }
 
 .derivation-arrow {
     text-align: center;
-    margin: 10px 0;
+    margin: 20px 0;
     color: #667eea;
 }
 
 .derivation-arrow span:first-child {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: bold;
     display: block;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .arrow-note {
     display: block;
-    margin-top: 5px;
+    margin-top: 8px;
     font-size: 14px;
-    color: #2c3e50;
+    color: #495057;
     font-style: italic;
-}
-
-.derivation-step > p {
-    margin-bottom: 10px;
-    color: #2c3e50;
-    font-size: 16px;
+    font-weight: 500;
 }
 
 /* Mobile Responsive Updates */
