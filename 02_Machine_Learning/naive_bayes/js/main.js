@@ -208,27 +208,7 @@ function updateBayesDiagram() {
         .style('font-size', '14px')
         .text(d => d.label);
 
-    // Add value labels
-    nodeGroups.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '1.5em')
-        .style('fill', '#333')
-        .style('font-size', '12px')
-        .text(d => (d.id === 'C' ? `P(C)=${bayesData.prior.toFixed(2)}` : ''));
-
-    // Add link labels
-    svg.selectAll('.link-label')
-        .data(links)
-        .enter()
-        .append('text')
-        .attr('class', 'link-label')
-        .attr('x', cx)
-        .attr('y', (cyTop + cyBottom) / 2 - 10)
-        .attr('text-anchor', 'middle')
-        .style('fill', '#333')
-        .style('font-size', '11px')
-        .style('font-weight', 'bold')
-        .text('P(X|C)');
+    // No value labels on nodes for cleaner look
 
     // Prior table next to C (right side)
     const priorTable = svg.append('g').attr('class', 'bn-table')
