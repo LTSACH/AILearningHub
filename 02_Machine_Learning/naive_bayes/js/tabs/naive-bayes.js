@@ -50,7 +50,7 @@ export class NaiveBayesTab {
             const featureId = i === numFeatures - 1 ? 'X_d' : `X_${i + 1}`;
             let featureLabel;
             if (i === numFeatures - 1) {
-                featureLabel = 'X_d';
+                featureLabel = 'Xd';  // d as subscript
             } else {
                 featureLabel = `X${i + 1}`.replace(/(\d+)/, (match, num) => {
                     const subscripts = ['₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];

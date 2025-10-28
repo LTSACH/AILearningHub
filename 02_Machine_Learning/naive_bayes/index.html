@@ -190,23 +190,35 @@
                                     <p>This means: If we know the class, knowing one feature doesn't tell us anything about another feature.</p>
                                 </div>
 
-                                <div class="pros-cons">
-                                    <div class="pros">
-                                        <h4>✅ Advantages</h4>
-                                        <ul>
-                                            <li>Simple and fast</li>
-                                            <li>Works well with small datasets</li>
-                                            <li>No parameter tuning needed</li>
-                                            <li>Handles missing values well</li>
-                                        </ul>
+                                <!-- Mathematical Formulation -->
+                                <div class="formula-derivation">
+                                    <h4>Mathematical Formulation</h4>
+                                    <div class="derivation-step">
+                                        <div class="formula-box">
+                                            $$P(C|\mathbf{x}) = \frac{P(C) \times \prod_{i=1}^{d} P(x_i|C)}{P(\mathbf{x})}$$
+                                        </div>
                                     </div>
-                                    <div class="cons">
-                                        <h4>❌ Limitations</h4>
-                                        <ul>
-                                            <li>Independence assumption often violated</li>
-                                            <li>May not work well with correlated features</li>
-                                            <li>Can be outperformed by more complex models</li>
-                                        </ul>
+                                    
+                                    <div class="derivation-arrow">
+                                        <span>↓</span>
+                                        <span class="arrow-note">$P(\mathbf{x})$ không phụ thuộc $C$</span>
+                                    </div>
+                                    
+                                    <div class="derivation-step">
+                                        <div class="formula-box">
+                                            $$P(C|\mathbf{x}) \propto P(C) \times \prod_{i=1}^{d} P(x_i|C)$$
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="derivation-arrow">
+                                        <span>↓</span>
+                                    </div>
+                                    
+                                    <div class="derivation-step">
+                                        <p><strong>Xác định nhãn cho $\mathbf{x}$:</strong></p>
+                                        <div class="formula-box">
+                                            $$c = \arg\max_{C} P(C|\mathbf{x}) = \arg\max_{C} \left[P(C) \times \prod_{i=1}^{d} P(x_i|C)\right]$$
+                                        </div>
                                     </div>
                                 </div>
                             </div>
