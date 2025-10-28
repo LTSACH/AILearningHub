@@ -844,6 +844,116 @@ footer {
     font-weight: 500;
 }
 
+/* Iris Dataset Sections */
+.iris-overview-section, .iris-code-section {
+    margin: 30px 0;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.iris-overview-section h3, .iris-code-section h3 {
+    margin: 0 0 25px 0;
+    color: #2c3e50;
+    font-size: 24px;
+    text-align: center;
+    border-bottom: 3px solid #e74c3c;
+    padding-bottom: 10px;
+}
+
+.iris-network-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.iris-network-section h4 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+#iris-naive-bayes-network {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.feature-mapping-table {
+    margin-top: 30px;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.feature-mapping-table h5 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 16px;
+    text-align: center;
+}
+
+.feature-mapping-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.feature-mapping-table th,
+.feature-mapping-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.feature-mapping-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.feature-mapping-table td:first-child {
+    font-weight: bold;
+    color: #e74c3c;
+    text-align: center;
+}
+
+.code-block-full {
+    margin: 25px 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 5px solid #28a745;
+}
+
+.code-block-full h4 {
+    margin: 0 0 15px 0;
+    color: #28a745;
+    font-size: 18px;
+}
+
+.code-block-full pre {
+    margin: 0;
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.code-block-full code {
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
+
 /* Mobile Responsive Updates */
 @media (max-width: 768px) {
     .demo-grid {
@@ -852,5 +962,18 @@ footer {
     
     .dist-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .iris-overview-section, .iris-code-section {
+        padding: 20px;
+    }
+    
+    .feature-mapping-table {
+        overflow-x: auto;
+    }
+    
+    .code-block-full pre {
+        font-size: 12px;
+        padding: 15px;
     }
 }

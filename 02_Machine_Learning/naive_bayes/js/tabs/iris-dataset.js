@@ -17,8 +17,7 @@ export class IrisDatasetTab {
         if (this.isInitialized) return;
         
         await this.loadIrisData();
-        this.createVisualizations();
-        this.setupCodeExamples();
+        this.createIrisNetwork();
         this.isInitialized = true;
     }
 
@@ -43,134 +42,155 @@ export class IrisDatasetTab {
     }
 
     /**
-     * Create visualizations using Plotly
+     * Create Naive Bayes network for Iris dataset
      */
-    createVisualizations() {
-        this.createScatterPlot();
-        this.createFeatureDistribution();
-    }
+    createIrisNetwork() {
+        const container = d3.select('#iris-naive-bayes-network');
+        container.selectAll('*').remove();
 
-    /**
-     * Create scatter plot of Iris data
-     */
-    createScatterPlot() {
-        const traces = this.irisData.classes.map(className => {
-            const classData = this.irisData.samples.filter(s => s.class === className);
-            return {
-                x: classData.map(d => d.features[0]), // sepal_length
-                y: classData.map(d => d.features[1]), // sepal_width
-                mode: 'markers',
-                type: 'scatter',
-                name: className,
-                marker: {
-                    size: 8,
-                    opacity: 0.7
-                }
-            };
-        });
+        const width = 600;
+        const height = 400;
+        const svg = container.append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .style('background', '#f8f9fa')
+            .style('border-radius', '8px');
 
-        const layout = {
-            title: 'Iris Dataset: Sepal Length vs Sepal Width',
-            xaxis: { title: 'Sepal Length (cm)' },
-            yaxis: { title: 'Sepal Width (cm)' },
-            showlegend: true,
-            width: 600,
-            height: 400
-        };
+        // Positions
+        const cx = width/2;
+        const cyTop = 80;
+        const cyBottom = 280;
+        const featureSpacing = 120;
+        const numFeatures = 4;
 
-        Plotly.newPlot('iris-scatter-plot', traces, layout, {responsive: true});
-    }
+        // Create nodes: Class on top, features below
+        const classNode = { id: 'C', x: cx, y: cyTop, label: 'Species' };
+        const featureNodes = [];
+        const links = [];
 
-    /**
-     * Create feature distribution plots
-     */
-    createFeatureDistribution() {
-        const features = this.irisData.features;
-        const classes = this.irisData.classes;
-        
-        const plots = ['feature-dist-1', 'feature-dist-2', 'feature-dist-3', 'feature-dist-4'];
-        
-        features.forEach((feature, index) => {
-            const traces = classes.map(className => {
-                const classData = this.irisData.samples
-                    .filter(s => s.class === className)
-                    .map(d => d.features[index]);
-                
-                return {
-                    x: classData,
-                    type: 'histogram',
-                    name: className,
-                    opacity: 0.7,
-                    nbinsx: 10
-                };
+        // Iris feature names
+        const irisFeatures = ['X₁', 'X₂', 'X₃', 'X₄'];
+        const irisFeatureNames = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width'];
+
+        for (let i = 0; i < numFeatures; i++) {
+            const x = cx - (numFeatures - 1) * featureSpacing / 2 + i * featureSpacing;
+            const featureId = `X_${i + 1}`;
+            const featureLabel = irisFeatures[i];
+            
+            featureNodes.push({ 
+                id: featureId, 
+                x: x, 
+                y: cyBottom, 
+                label: featureLabel,
+                featureName: irisFeatureNames[i]
             });
+            
+            links.push({ 
+                source: 'C', 
+                target: featureId, 
+                label: `P(${featureLabel}|Species)` 
+            });
+        }
 
-            const layout = {
-                title: `Distribution of ${feature.replace('_', ' ').toUpperCase()}`,
-                xaxis: { title: feature.replace('_', ' ').toUpperCase() },
-                yaxis: { title: 'Frequency' },
-                barmode: 'overlay',
-                showlegend: true,
-                width: 600,
-                height: 300
-            };
+        // Create arrow marker
+        svg.append('defs').append('marker')
+            .attr('id', 'arrow-iris')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 10)
+            .attr('refY', 0)
+            .attr('markerWidth', 8)
+            .attr('markerHeight', 8)
+            .attr('orient', 'auto')
+            .attr('markerUnits', 'userSpaceOnUse')
+            .append('path')
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', '#2c3e50')
+            .attr('stroke', '#2c3e50')
+            .attr('stroke-width', 1);
 
-            Plotly.newPlot(plots[index], traces, layout, {responsive: true});
-        });
-    }
+        // Draw links
+        const linkGroups = svg.selectAll('.link')
+            .data(links)
+            .enter()
+            .append('g')
+            .attr('class', 'link');
 
-    /**
-     * Setup code examples
-     */
-    setupCodeExamples() {
-        const codeExamples = {
-            'iris-loading': `from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score, classification_report
+        linkGroups.append('line')
+            .attr('x1', classNode.x)
+            .attr('y1', classNode.y + 32)
+            .attr('x2', d => {
+                const targetNode = featureNodes.find(n => n.id === d.target);
+                return targetNode ? targetNode.x : classNode.x;
+            })
+            .attr('y2', d => {
+                const targetNode = featureNodes.find(n => n.id === d.target);
+                return targetNode ? targetNode.y - 32 - 10 : classNode.y;
+            })
+            .attr('stroke', '#2c3e50')
+            .attr('stroke-width', 2)
+            .attr('marker-end', 'url(#arrow-iris)');
 
-# Load Iris dataset
-iris = load_iris()
-X, y = iris.data, iris.target
-feature_names = iris.feature_names
-target_names = iris.target_names
+        // Draw Class node
+        const classGroup = svg.append('g')
+            .attr('class', 'class-node')
+            .attr('transform', `translate(${classNode.x}, ${classNode.y})`);
 
-print(f"Dataset shape: {X.shape}")
-print(f"Features: {feature_names}")
-print(f"Classes: {target_names}")`,
+        classGroup.append('circle')
+            .attr('r', 32)
+            .attr('fill', '#e74c3c')
+            .attr('stroke', '#2c3e50')
+            .attr('stroke-width', 2);
 
-            'iris-training': `# Split data
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42, stratify=y
-)
+        classGroup.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .style('fill', 'white')
+            .style('font-weight', 'bold')
+            .style('font-size', '14px')
+            .text(classNode.label);
 
-# Train Gaussian Naive Bayes
-gnb = GaussianNB()
-gnb.fit(X_train, y_train)
+        // Add P(Species) label next to Class node
+        svg.append('text')
+            .attr('x', classNode.x + 50)
+            .attr('y', classNode.y)
+            .attr('text-anchor', 'start')
+            .style('fill', '#2c3e50')
+            .style('font-weight', 'bold')
+            .style('font-size', '14px')
+            .text('P(Species)');
 
-# Make predictions
-y_pred = gnb.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
+        // Draw feature nodes
+        const featureGroups = svg.selectAll('.feature-node')
+            .data(featureNodes)
+            .enter()
+            .append('g')
+            .attr('class', 'feature-node')
+            .attr('transform', d => `translate(${d.x}, ${d.y})`);
 
-print(f"Accuracy: {accuracy:.3f}")
-print("\\nClassification Report:")
-print(classification_report(y_test, y_pred, target_names=target_names))`,
+        featureGroups.append('circle')
+            .attr('r', 28)
+            .attr('fill', '#3498db')
+            .attr('stroke', '#2c3e50')
+            .attr('stroke-width', 2);
 
-            'iris-prediction': `# Predict new sample
-new_sample = [[5.1, 3.5, 1.4, 0.2]]  # [sepal_length, sepal_width, petal_length, petal_width]
-prediction = gnb.predict(new_sample)
-probability = gnb.predict_proba(new_sample)
+        featureGroups.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .style('fill', 'white')
+            .style('font-weight', 'bold')
+            .style('font-size', '12px')
+            .text(d => d.label);
 
-print(f"Predicted class: {target_names[prediction[0]]}")
-print(f"Class probabilities: {dict(zip(target_names, probability[0]))}")`
-        };
-
-        // Add code examples to the page
-        Object.entries(codeExamples).forEach(([id, code]) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.innerHTML = `<pre><code class="language-python">${code}</code></pre>`;
-            }
+        // Add P(Xi|Species) labels below feature nodes
+        featureGroups.each(function(d) {
+            const group = d3.select(this);
+            group.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '3.5em')
+                .style('fill', '#4ecdc4')
+                .style('font-weight', 'bold')
+                .style('font-size', '12px')
+                .text(`P(${d.label}|Species)`);
         });
     }
 

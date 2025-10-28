@@ -264,52 +264,159 @@
                             <p>Gaussian Naive Bayes on the famous Iris flower dataset</p>
                         </div>
                         
-                        <div class="content-grid">
-                            <!-- Left: Dataset Overview -->
-                            <div class="dataset-section">
-                                <h3>Dataset Overview</h3>
-                                <div class="dataset-info">
-                                    <p><strong>Iris Dataset:</strong> 150 samples, 4 features, 3 classes</p>
-                                    <ul>
-                                        <li><strong>Features:</strong> sepal_length, sepal_width, petal_length, petal_width</li>
-                                        <li><strong>Classes:</strong> setosa, versicolor, virginica</li>
-                                        <li><strong>Data Type:</strong> Continuous (suitable for Gaussian NB)</li>
-                                    </ul>
-                                </div>
-                                
-                                <h4>Scatter Plot</h4>
-                                <div id="iris-scatter-plot"></div>
+                        <!-- Section 1: Overview -->
+                        <div class="iris-overview-section">
+                            <h3>Overview</h3>
+                            <div class="dataset-info">
+                                <p><strong>Iris Dataset:</strong> 150 samples, 4 features, 3 classes</p>
+                                <ul>
+                                    <li><strong>Features:</strong> sepal_length, sepal_width, petal_length, petal_width</li>
+                                    <li><strong>Classes:</strong> setosa, versicolor, virginica</li>
+                                    <li><strong>Data Type:</strong> Continuous (suitable for Gaussian NB)</li>
+                                </ul>
                             </div>
-
-                            <!-- Right: Code Examples -->
-                            <div class="code-section">
-                                <h3>Implementation</h3>
+                            
+                            <!-- Naive Bayes Network for Iris -->
+                            <div class="iris-network-section">
+                                <h4>Naive Bayes Network for Iris Dataset</h4>
+                                <div id="iris-naive-bayes-network"></div>
                                 
-                                <div class="code-block">
-                                    <h4>1. Loading Data</h4>
-                                    <div id="iris-loading"></div>
-                                </div>
-                                
-                                <div class="code-block">
-                                    <h4>2. Training Model</h4>
-                                    <div id="iris-training"></div>
-                                </div>
-                                
-                                <div class="code-block">
-                                    <h4>3. Making Predictions</h4>
-                                    <div id="iris-prediction"></div>
+                                <!-- Feature Mapping Table -->
+                                <div class="feature-mapping-table">
+                                    <h5>Feature Mapping</h5>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Variable</th>
+                                                <th>Column Name</th>
+                                                <th>Description</th>
+                                                <th>Unit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>X₁</strong></td>
+                                                <td>sepal_length</td>
+                                                <td>Length of sepal</td>
+                                                <td>cm</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₂</strong></td>
+                                                <td>sepal_width</td>
+                                                <td>Width of sepal</td>
+                                                <td>cm</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₃</strong></td>
+                                                <td>petal_length</td>
+                                                <td>Length of petal</td>
+                                                <td>cm</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₄</strong></td>
+                                                <td>petal_width</td>
+                                                <td>Width of petal</td>
+                                                <td>cm</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Feature Distributions -->
-                        <div class="feature-distributions">
-                            <h3>Feature Distributions by Class</h3>
-                            <div class="dist-grid">
-                                <div id="feature-dist-1"></div>
-                                <div id="feature-dist-2"></div>
-                                <div id="feature-dist-3"></div>
-                                <div id="feature-dist-4"></div>
+                        <!-- Section 2: Code Implementation -->
+                        <div class="iris-code-section">
+                            <h3>Code Implementation</h3>
+                            
+                            <div class="code-block-full">
+                                <h4>1. Loading and Exploring Data</h4>
+                                <pre><code class="language-python">from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, classification_report
+import pandas as pd
+import numpy as np
+
+# Load Iris dataset
+iris = load_iris()
+X, y = iris.data, iris.target
+feature_names = iris.feature_names
+target_names = iris.target_names
+
+print(f"Dataset shape: {X.shape}")
+print(f"Features: {feature_names}")
+print(f"Classes: {target_names}")
+
+# Create DataFrame for better visualization
+df = pd.DataFrame(X, columns=feature_names)
+df['species'] = [target_names[i] for i in y]
+print("\nFirst 5 rows:")
+print(df.head())</code></pre>
+                            </div>
+                            
+                            <div class="code-block-full">
+                                <h4>2. Data Preprocessing and Splitting</h4>
+                                <pre><code class="language-python"># Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+print(f"Training set size: {X_train.shape[0]}")
+print(f"Test set size: {X_test.shape[0]}")
+
+# Check class distribution
+print("\nClass distribution in training set:")
+unique, counts = np.unique(y_train, return_counts=True)
+for i, (cls, count) in enumerate(zip(target_names, counts)):
+    print(f"{cls}: {count} samples")</code></pre>
+                            </div>
+                            
+                            <div class="code-block-full">
+                                <h4>3. Training Gaussian Naive Bayes</h4>
+                                <pre><code class="language-python"># Initialize and train Gaussian Naive Bayes
+gnb = GaussianNB()
+
+# Fit the model
+gnb.fit(X_train, y_train)
+
+# Print model parameters
+print("Model Parameters:")
+print(f"Class priors: {gnb.class_prior_}")
+print(f"Number of classes: {gnb.n_classes_}")
+print(f"Number of features: {gnb.n_features_in_}")
+
+# Show mean and variance for each class and feature
+print("\nClass means:")
+for i, class_name in enumerate(target_names):
+    print(f"{class_name}: {gnb.theta_[i]}")
+    
+print("\nClass variances:")
+for i, class_name in enumerate(target_names):
+    print(f"{class_name}: {gnb.sigma_[i]}")</code></pre>
+                            </div>
+                            
+                            <div class="code-block-full">
+                                <h4>4. Making Predictions and Evaluation</h4>
+                                <pre><code class="language-python"># Make predictions
+y_pred = gnb.predict(X_test)
+y_pred_proba = gnb.predict_proba(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.3f}")
+
+# Detailed classification report
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, target_names=target_names))
+
+# Example prediction for new sample
+new_sample = [[5.1, 3.5, 1.4, 0.2]]  # [sepal_length, sepal_width, petal_length, petal_width]
+prediction = gnb.predict(new_sample)
+probability = gnb.predict_proba(new_sample)
+
+print(f"\nNew sample prediction:")
+print(f"Predicted class: {target_names[prediction[0]]}")
+print(f"Class probabilities: {dict(zip(target_names, probability[0]))}")</code></pre>
                             </div>
                         </div>
                     </div>
