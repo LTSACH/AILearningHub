@@ -165,7 +165,7 @@ export class BayesFormulaTab {
         svg.append('text')
             .attr('class', 'px-formula')
             .attr('x', width/2)
-            .attr('y', height - 40)
+            .attr('y', height - 20)
             .attr('text-anchor', 'middle')
             .style('fill', '#e74c3c')
             .style('font-weight', 'bold')
