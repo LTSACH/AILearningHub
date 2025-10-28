@@ -136,6 +136,7 @@ export class BayesFormulaTab {
 
         // Add P(C) label above C node
         svg.append('text')
+            .attr('class', 'pc-label')
             .attr('x', nodes[0].x)
             .attr('y', nodes[0].y - 50)
             .attr('text-anchor', 'middle')
@@ -146,6 +147,7 @@ export class BayesFormulaTab {
 
         // Add P(X|C) label below X node
         svg.append('text')
+            .attr('class', 'pxc-label')
             .attr('x', nodes[1].x)
             .attr('y', nodes[1].y + 60)
             .attr('text-anchor', 'middle')
