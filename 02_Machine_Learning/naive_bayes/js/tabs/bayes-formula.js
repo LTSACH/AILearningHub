@@ -94,13 +94,13 @@ export class BayesFormulaTab {
         const cyTop = 100;
         const cyBottom = 300;
 
-        // Create nodes
+        // Create nodes - aligned vertically
         const nodes = [
-            { id: 'C', x: width/2 - 100, y: cyTop, label: 'Class (C)', color: '#e74c3c' },
-            { id: 'X', x: width/2 + 100, y: cyBottom, label: 'Feature (X)', color: '#3498db' }
+            { id: 'C', x: width/2, y: cyTop, label: 'C', color: '#e74c3c' },
+            { id: 'X', x: width/2, y: cyBottom, label: 'X', color: '#3498db' }
         ];
 
-        // Draw links
+        // Draw vertical link
         const link = svg.append('line')
             .attr('x1', nodes[0].x)
             .attr('y1', nodes[0].y + 32)
@@ -134,58 +134,25 @@ export class BayesFormulaTab {
             .style('font-size', '14px')
             .text(d => d.label);
 
-        // Add probability tables
-        const cTable = svg.append('g')
-            .attr('class', 'bn-table')
-            .attr('transform', `translate(${nodes[0].x - 120}, ${nodes[0].y - 60})`);
-
-        cTable.append('rect')
-            .attr('width', 100)
-            .attr('height', 50)
-            .attr('fill', '#ecf0f1')
-            .attr('stroke', '#bdc3c7')
-            .attr('rx', 4);
-
-        cTable.append('text')
-            .attr('x', 50)
-            .attr('y', 20)
+        // Add P(C) label above C node
+        svg.append('text')
+            .attr('x', nodes[0].x)
+            .attr('y', nodes[0].y - 50)
             .attr('text-anchor', 'middle')
+            .style('fill', '#2c3e50')
             .style('font-weight', 'bold')
-            .style('font-size', '12px')
-            .text('P(C)');
+            .style('font-size', '16px')
+            .text(`P(C) = ${prior.toFixed(2)}`);
 
-        cTable.append('text')
-            .attr('x', 50)
-            .attr('y', 35)
+        // Add P(X|C) label below X node
+        svg.append('text')
+            .attr('x', nodes[1].x)
+            .attr('y', nodes[1].y + 60)
             .attr('text-anchor', 'middle')
-            .style('font-size', '11px')
-            .text(prior.toFixed(2));
-
-        const xTable = svg.append('g')
-            .attr('class', 'bn-table')
-            .attr('transform', `translate(${nodes[1].x - 120}, ${nodes[1].y + 80})`);
-
-        xTable.append('rect')
-            .attr('width', 100)
-            .attr('height', 50)
-            .attr('fill', '#ecf0f1')
-            .attr('stroke', '#bdc3c7')
-            .attr('rx', 4);
-
-        xTable.append('text')
-            .attr('x', 50)
-            .attr('y', 20)
-            .attr('text-anchor', 'middle')
+            .style('fill', '#2c3e50')
             .style('font-weight', 'bold')
-            .style('font-size', '12px')
-            .text('P(X|C)');
-
-        xTable.append('text')
-            .attr('x', 50)
-            .attr('y', 35)
-            .attr('text-anchor', 'middle')
-            .style('font-size', '11px')
-            .text(likelihood.toFixed(2));
+            .style('font-size', '16px')
+            .text(`P(X|C) = ${likelihood.toFixed(2)}`);
 
         // Add tooltips
         this.addNodeTooltips(nodeGroups, prior, likelihood, evidence, posterior);
