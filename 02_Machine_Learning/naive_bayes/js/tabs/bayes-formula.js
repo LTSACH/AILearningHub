@@ -25,10 +25,11 @@ export class BayesFormulaTab {
     setupCalculator() {
         const priorSlider = document.getElementById('prior');
         const likelihoodSlider = document.getElementById('likelihood');
-        const evidenceSlider = document.getElementById('evidence');
+        const likelihoodNotSlider = document.getElementById('likelihood-not');
         
         const priorValue = document.getElementById('prior-value');
         const likelihoodValue = document.getElementById('likelihood-value');
+        const likelihoodNotValue = document.getElementById('likelihood-not-value');
         const evidenceValue = document.getElementById('evidence-value');
         const posteriorResult = document.getElementById('posterior-result');
 
@@ -36,10 +37,14 @@ export class BayesFormulaTab {
         const updateValues = () => {
             const prior = parseFloat(priorSlider.value);
             const likelihood = parseFloat(likelihoodSlider.value);
-            const evidence = parseFloat(evidenceSlider.value);
+            const likelihoodNot = parseFloat(likelihoodNotSlider.value);
+            
+            // Calculate evidence using Law of Total Probability
+            const evidence = likelihood * prior + likelihoodNot * (1 - prior);
             
             priorValue.textContent = prior.toFixed(2);
             likelihoodValue.textContent = likelihood.toFixed(2);
+            likelihoodNotValue.textContent = likelihoodNot.toFixed(2);
             evidenceValue.textContent = evidence.toFixed(2);
             
             // Calculate posterior
@@ -47,11 +52,11 @@ export class BayesFormulaTab {
             posteriorResult.textContent = posterior.toFixed(2);
             
             // Update diagram
-            this.updateBayesDiagram(prior, likelihood, evidence, posterior);
+            this.updateBayesDiagram(prior, likelihood, likelihoodNot, evidence, posterior);
         };
 
         // Add event listeners
-        [priorSlider, likelihoodSlider, evidenceSlider].forEach(slider => {
+        [priorSlider, likelihoodSlider, likelihoodNotSlider].forEach(slider => {
             slider.addEventListener('input', updateValues);
         });
 
@@ -62,7 +67,7 @@ export class BayesFormulaTab {
     /**
      * Update the Bayes diagram with current values
      */
-    updateBayesDiagram(prior = 0.5, likelihood = 0.7, evidence = 0.6, posterior = 0.58) {
+    updateBayesDiagram(prior = 0.5, likelihood = 0.7, likelihoodNot = 0.3, evidence = 0.5, posterior = 0.7) {
         const container = d3.select('#bayes-diagram');
         container.selectAll('*').remove();
 
@@ -156,14 +161,25 @@ export class BayesFormulaTab {
             .style('font-size', '16px')
             .text(`P(X|C) = ${likelihood.toFixed(2)}`);
 
+        // Add P(X) calculation formula
+        svg.append('text')
+            .attr('class', 'px-formula')
+            .attr('x', width/2)
+            .attr('y', height - 40)
+            .attr('text-anchor', 'middle')
+            .style('fill', '#e74c3c')
+            .style('font-weight', 'bold')
+            .style('font-size', '14px')
+            .text(`P(X) = P(X|C)×P(C) + P(X|¬C)×P(¬C) = ${likelihood.toFixed(2)}×${prior.toFixed(2)} + ${likelihoodNot.toFixed(2)}×${(1-prior).toFixed(2)} = ${evidence.toFixed(2)}`);
+
         // Add tooltips
-        this.addNodeTooltips(nodeGroups, prior, likelihood, evidence, posterior);
+        this.addNodeTooltips(nodeGroups, prior, likelihood, likelihoodNot, evidence, posterior);
     }
 
     /**
      * Add interactive tooltips to nodes
      */
-    addNodeTooltips(nodeGroups, prior, likelihood, evidence, posterior) {
+    addNodeTooltips(nodeGroups, prior, likelihood, likelihoodNot, evidence, posterior) {
         const tooltip = d3.select('body').append('div')
             .attr('class', 'bayes-tooltip')
             .style('position', 'absolute')
@@ -186,18 +202,31 @@ export class BayesFormulaTab {
             node.on('mouseover', function(event) {
                 let content = '';
                 if (d.id === 'C') {
+                    // P(C|X) calculation using Bayes' theorem
+                    const pX = likelihood * prior + likelihoodNot * (1 - prior);
+                    const pCGivenX = (likelihood * prior) / pX;
+                    const pNotCGivenX = (likelihoodNot * (1 - prior)) / pX;
+                    
                     content = `
                         <strong>Class Node (C)</strong><br/>
-                        P(C) = ${prior.toFixed(3)}<br/>
-                        P(C|X=+) = ${posterior.toFixed(3)}<br/>
-                        P(C|X=-) = ${(1-posterior).toFixed(3)}
+                        <strong>Bayes' Theorem:</strong><br/>
+                        P(C|X) = P(X|C) × P(C) / P(X)<br/>
+                        P(C|X) = ${likelihood.toFixed(3)} × ${prior.toFixed(3)} / ${pX.toFixed(3)}<br/>
+                        P(C|X) = ${(likelihood * prior).toFixed(3)} / ${pX.toFixed(3)}<br/>
+                        <strong style="color: #ffeb3b;">P(C|X) = ${pCGivenX.toFixed(3)}</strong><br/>
+                        <strong>P(¬C|X) = ${pNotCGivenX.toFixed(3)}</strong>
                     `;
                 } else if (d.id === 'X') {
+                    // P(X) calculation using Law of Total Probability
+                    const pX = likelihood * prior + likelihoodNot * (1 - prior);
+                    
                     content = `
                         <strong>Feature Node (X)</strong><br/>
-                        P(X=+) = ${evidence.toFixed(3)}<br/>
-                        P(X=-) = ${(1-evidence).toFixed(3)}<br/>
-                        P(X|C) = ${likelihood.toFixed(3)}
+                        <strong>Law of Total Probability:</strong><br/>
+                        P(X) = P(X|C) × P(C) + P(X|¬C) × P(¬C)<br/>
+                        P(X) = ${likelihood.toFixed(3)} × ${prior.toFixed(3)} + ${likelihoodNot.toFixed(3)} × ${(1-prior).toFixed(3)}<br/>
+                        P(X) = ${(likelihood * prior).toFixed(3)} + ${(likelihoodNot * (1-prior)).toFixed(3)}<br/>
+                        <strong style="color: #ffeb3b;">P(X) = ${pX.toFixed(3)}</strong>
                     `;
                 }
                 
