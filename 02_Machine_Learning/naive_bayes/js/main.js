@@ -143,15 +143,16 @@ function updateBayesDiagram() {
         { source: 'C', target: 'X', label: 'P(X|C)', value: bayesData.likelihood }
     ];
 
-    // Arrow marker
+    // Arrow marker (constant size, place tip at line end)
     svg.append('defs')
         .append('marker')
         .attr('id', 'arrow')
         .attr('viewBox', '0 -5 10 10')
-        .attr('refX', 8)
+        .attr('refX', 10) // tip at x=10 in viewBox
         .attr('refY', 0)
-        .attr('markerWidth', 8)
-        .attr('markerHeight', 8)
+        .attr('markerWidth', 12)
+        .attr('markerHeight', 12)
+        .attr('markerUnits', 'userSpaceOnUse')
         .attr('orient', 'auto')
         .append('path')
         .attr('d', 'M0,-5L10,0L0,5')
@@ -179,7 +180,9 @@ function updateBayesDiagram() {
         })
         .attr('y2', d => {
             const targetNode = nodes.find(n => n.id === d.target);
-            return targetNode ? targetNode.y - 32 : 0; // Stop at edge of circle
+            const radius = 32; // circle radius
+            const arrowTip = 10; // marker tip length in user space
+            return targetNode ? targetNode.y - radius - arrowTip : 0; // stop before circle edge
         })
         .style('stroke', '#667eea')
         .style('stroke-width', 3)
