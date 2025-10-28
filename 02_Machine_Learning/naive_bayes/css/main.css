@@ -208,13 +208,20 @@ body {
 }
 
 .formula-main {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    white-space: nowrap;
+    text-align: center;
 }
 
-.formula-compact { font-size: 1.8rem; }
+/* MathJax styling */
+.MathJax {
+    font-size: 1.1em !important;
+}
+
+.MathJax_Display {
+    margin: 1em 0 !important;
+}
 
 .fraction {
     display: inline-block;
