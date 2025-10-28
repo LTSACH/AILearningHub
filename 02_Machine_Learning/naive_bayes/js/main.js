@@ -220,6 +220,9 @@ function updateBayesDiagram() {
     nodeGroups.on('mouseenter', function(event, d) {
         showNodeTooltip(event, d);
     })
+    .on('mousemove', function(event, d) {
+        updateNodeTooltip(event, d);
+    })
     .on('mouseleave', function() {
         hideNodeTooltip();
     });
@@ -306,17 +309,19 @@ function showNodeTooltip(event, d) {
         .join('div')
         .attr('class', 'node-tooltip')
         .style('position', 'absolute')
-        .style('background', 'rgba(0, 0, 0, 0.9)')
+        .style('background', 'rgba(0, 0, 0, 0.95)')
         .style('color', 'white')
-        .style('padding', '12px 16px')
-        .style('border-radius', '8px')
-        .style('font-size', '13px')
+        .style('padding', '16px 20px')
+        .style('border-radius', '10px')
+        .style('font-size', '14px')
         .style('font-family', 'monospace')
         .style('pointer-events', 'none')
         .style('z-index', '1000')
-        .style('box-shadow', '0 4px 12px rgba(0, 0, 0, 0.3)')
-        .style('max-width', '300px')
-        .style('line-height', '1.4');
+        .style('box-shadow', '0 6px 20px rgba(0, 0, 0, 0.4)')
+        .style('min-width', '400px')
+        .style('max-width', '500px')
+        .style('line-height', '1.5')
+        .style('white-space', 'nowrap');
 
     if (d.id === 'X') {
         // P(X=+) and P(X=-) calculations
@@ -324,8 +329,8 @@ function showNodeTooltip(event, d) {
         const pXMinus = 0.1 * 0.33 + 0.5 * 0.33 + 0.8 * 0.34; // P(X=-|C₁)*P(C₁) + P(X=-|C₂)*P(C₂) + P(X=-|C₃)*P(C₃)
         
         tooltip.html(`
-            <div style="font-weight: bold; color: #4ecdc4; margin-bottom: 8px;">P(X) Calculations</div>
-            <div>P(X=+) = 0.9×0.33 + 0.5×0.33 + 0.2×0.34 = ${pXPlus.toFixed(3)}</div>
+            <div style="font-weight: bold; color: #4ecdc4; margin-bottom: 12px; font-size: 16px;">P(X) Calculations</div>
+            <div style="margin-bottom: 8px;">P(X=+) = 0.9×0.33 + 0.5×0.33 + 0.2×0.34 = ${pXPlus.toFixed(3)}</div>
             <div>P(X=-) = 0.1×0.33 + 0.5×0.33 + 0.8×0.34 = ${pXMinus.toFixed(3)}</div>
         `);
     } else if (d.id === 'C') {
@@ -344,23 +349,32 @@ function showNodeTooltip(event, d) {
         const pC3GivenXMinus = (0.8 * 0.34) / pXMinus;
         
         tooltip.html(`
-            <div style="font-weight: bold; color: #667eea; margin-bottom: 8px;">P(C|X) Calculations</div>
-            <div style="margin-bottom: 6px;"><strong>Given X=+:</strong></div>
-            <div>P(C₁|X=+) = (0.9×0.33)/${pXPlus.toFixed(3)} = ${pC1GivenXPlus.toFixed(3)}</div>
-            <div>P(C₂|X=+) = (0.5×0.33)/${pXPlus.toFixed(3)} = ${pC2GivenXPlus.toFixed(3)}</div>
-            <div>P(C₃|X=+) = (0.2×0.34)/${pXPlus.toFixed(3)} = ${pC3GivenXPlus.toFixed(3)}</div>
-            <div style="margin: 8px 0 6px 0;"><strong>Given X=-:</strong></div>
-            <div>P(C₁|X=-) = (0.1×0.33)/${pXMinus.toFixed(3)} = ${pC1GivenXMinus.toFixed(3)}</div>
-            <div>P(C₂|X=-) = (0.5×0.33)/${pXMinus.toFixed(3)} = ${pC2GivenXMinus.toFixed(3)}</div>
+            <div style="font-weight: bold; color: #667eea; margin-bottom: 12px; font-size: 16px;">P(C|X) Calculations</div>
+            <div style="margin-bottom: 8px;"><strong>Given X=+:</strong></div>
+            <div style="margin-bottom: 4px;">P(C₁|X=+) = (0.9×0.33)/${pXPlus.toFixed(3)} = ${pC1GivenXPlus.toFixed(3)}</div>
+            <div style="margin-bottom: 4px;">P(C₂|X=+) = (0.5×0.33)/${pXPlus.toFixed(3)} = ${pC2GivenXPlus.toFixed(3)}</div>
+            <div style="margin-bottom: 12px;">P(C₃|X=+) = (0.2×0.34)/${pXPlus.toFixed(3)} = ${pC3GivenXPlus.toFixed(3)}</div>
+            <div style="margin-bottom: 8px;"><strong>Given X=-:</strong></div>
+            <div style="margin-bottom: 4px;">P(C₁|X=-) = (0.1×0.33)/${pXMinus.toFixed(3)} = ${pC1GivenXMinus.toFixed(3)}</div>
+            <div style="margin-bottom: 4px;">P(C₂|X=-) = (0.5×0.33)/${pXMinus.toFixed(3)} = ${pC2GivenXMinus.toFixed(3)}</div>
             <div>P(C₃|X=-) = (0.8×0.34)/${pXMinus.toFixed(3)} = ${pC3GivenXMinus.toFixed(3)}</div>
         `);
     }
 
-    const rect = event.target.getBoundingClientRect();
+    // Position at mouse cursor
     tooltip
-        .style('left', (rect.left + rect.width / 2) + 'px')
-        .style('top', (rect.top - 10) + 'px')
-        .style('transform', 'translateX(-50%)');
+        .style('left', (event.pageX + 15) + 'px')
+        .style('top', (event.pageY - 10) + 'px')
+        .style('transform', 'none');
+}
+
+function updateNodeTooltip(event, d) {
+    const tooltip = d3.select('.node-tooltip');
+    if (!tooltip.empty()) {
+        tooltip
+            .style('left', (event.pageX + 15) + 'px')
+            .style('top', (event.pageY - 10) + 'px');
+    }
 }
 
 function hideNodeTooltip() {
