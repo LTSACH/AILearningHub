@@ -18,6 +18,7 @@ export class IrisDatasetTab {
         
         await this.loadIrisData();
         this.createIrisNetwork();
+        await this.loadCodeFromFile();
         this.isInitialized = true;
     }
 
@@ -192,6 +193,39 @@ export class IrisDatasetTab {
                 .style('font-size', '12px')
                 .text(`P(${d.label}|Species)`);
         });
+    }
+
+    /**
+     * Load code from iris_naivebayes.py file
+     */
+    async loadCodeFromFile() {
+        try {
+            const response = await fetch('code/iris_naivebayes.py');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const code = await response.text();
+            
+            // Display the code with syntax highlighting
+            const codeContainer = document.getElementById('iris-code-content');
+            codeContainer.innerHTML = `
+                <pre><code class="language-python">${code}</code></pre>
+            `;
+            
+            // Trigger Prism.js syntax highlighting
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+        } catch (error) {
+            console.error('Error loading code file:', error);
+            const codeContainer = document.getElementById('iris-code-content');
+            codeContainer.innerHTML = `
+                <div class="error-loading">
+                    <p>Error loading code file: ${error.message}</p>
+                    <p>Please ensure iris_naivebayes.py exists in the code/ directory.</p>
+                </div>
+            `;
+        }
     }
 
     /**

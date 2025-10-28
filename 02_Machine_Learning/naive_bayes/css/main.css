@@ -954,6 +954,31 @@ footer {
     font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
 }
 
+.code-description {
+    margin: 0 0 20px 0;
+    color: #495057;
+    font-size: 16px;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.loading-code {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.error-loading {
+    text-align: center;
+    padding: 40px;
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
 /* Mobile Responsive Updates */
 @media (max-width: 768px) {
     .demo-grid {
