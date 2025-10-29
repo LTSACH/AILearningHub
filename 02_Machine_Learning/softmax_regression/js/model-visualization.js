@@ -306,24 +306,30 @@ class ModelVisualization {
         // Update model when sliders change
         d3.select('#input-features').on('input', function() {
             const value = d3.select(this).property('value');
-            d3.select('#input-features-value').text(value);
+            console.log('Input features slider value:', value, 'type:', typeof value);
+            const intValue = parseInt(value) || 4; // Default to 4 if NaN
+            console.log('Parsed int value:', intValue);
+            d3.select('#input-features-value').text(intValue);
             
             // Update config immediately for tooltip
-            this.config.inputFeatures = parseInt(value);
+            this.config.inputFeatures = intValue;
         }.bind(this));
         
         d3.select('#output-classes').on('input', function() {
             const value = d3.select(this).property('value');
-            d3.select('#output-classes-value').text(value);
+            console.log('Output classes slider value:', value, 'type:', typeof value);
+            const intValue = parseInt(value) || 3; // Default to 3 if NaN
+            console.log('Parsed int value:', intValue);
+            d3.select('#output-classes-value').text(intValue);
             
             // Update config immediately for tooltip
-            this.config.outputClasses = parseInt(value);
+            this.config.outputClasses = intValue;
         }.bind(this));
         
         // Update model when button is clicked
         d3.select('#update-model').on('click', () => {
-            const inputFeatures = parseInt(d3.select('#input-features').property('value'));
-            const outputClasses = parseInt(d3.select('#output-classes').property('value'));
+            const inputFeatures = parseInt(d3.select('#input-features').property('value')) || 4;
+            const outputClasses = parseInt(d3.select('#output-classes').property('value')) || 3;
             this.updateModel(inputFeatures, outputClasses);
         });
     }
