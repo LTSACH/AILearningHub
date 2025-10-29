@@ -222,9 +222,9 @@ class ModelVisualization {
             const fromPos = this.nodePositions[arrow.from];
             const toPos = this.nodePositions[arrow.to];
             
-            // Calculate arrow path - arrows stop before touching boxes
+            // Calculate arrow path - arrows touch the boxes
             const startX = fromPos.x + (fromPos === this.nodePositions.input ? 40 : 50);
-            const endX = toPos.x - (toPos === this.nodePositions.output ? 40 : 50) - 20; // Stop 20px before box
+            const endX = toPos.x - (toPos === this.nodePositions.output ? 40 : 50); // Touch the box
             const y = fromPos.y;
             
             // Draw arrow line
@@ -296,6 +296,10 @@ class ModelVisualization {
         this.config.inputFeatures = inputFeatures;
         this.config.outputClasses = outputClasses;
         this.render();
+        
+        // Update slider value displays
+        d3.select('#input-features-value').text(inputFeatures);
+        d3.select('#output-classes-value').text(outputClasses);
     }
     
     setupEventListeners() {
@@ -303,12 +307,18 @@ class ModelVisualization {
         d3.select('#input-features').on('input', function() {
             const value = d3.select(this).property('value');
             d3.select('#input-features-value').text(value);
-        });
+            
+            // Update config immediately for tooltip
+            this.config.inputFeatures = parseInt(value);
+        }.bind(this));
         
         d3.select('#output-classes').on('input', function() {
             const value = d3.select(this).property('value');
             d3.select('#output-classes-value').text(value);
-        });
+            
+            // Update config immediately for tooltip
+            this.config.outputClasses = parseInt(value);
+        }.bind(this));
         
         // Update model when button is clicked
         d3.select('#update-model').on('click', () => {
