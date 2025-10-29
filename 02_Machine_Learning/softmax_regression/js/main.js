@@ -57,10 +57,6 @@ class SoftmaxTutorial {
                 this.initIrisVisualization();
                 this.loadCodeFile('iris_softmax.py', 'iris-code-content');
                 break;
-            case 'mnist-dataset':
-                this.initMNISTVisualization();
-                this.loadCodeFile('mnist_softmax.py', 'mnist-code-content');
-                break;
             case 'bbc-news':
                 this.initBBCVisualization();
                 this.loadCodeFile('bbc_softmax.py', 'bbc-code-content');
@@ -68,10 +64,6 @@ class SoftmaxTutorial {
             case 'mushroom':
                 this.initMushroomVisualization();
                 this.loadCodeFile('mushroom_softmax.py', 'mushroom-code-content');
-                break;
-            case 'wine-dataset':
-                this.initWineVisualization();
-                this.loadCodeFile('wine_softmax.py', 'wine-code-content');
                 break;
             case 'comparison':
                 this.initComparisonChart();
@@ -303,7 +295,26 @@ class SoftmaxTutorial {
     }
 
     copyCode(button) {
-        const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+        // Find the code block - it could be in different locations
+        let codeBlock = null;
+        
+        // Try to find code in the same container
+        const container = button.closest('.code-block-full') || button.closest('.code-impl-tab-content');
+        if (container) {
+            codeBlock = container.querySelector('code');
+        }
+        
+        // If not found, try the next sibling
+        if (!codeBlock) {
+            codeBlock = button.parentElement.nextElementSibling?.querySelector('code');
+        }
+        
+        if (!codeBlock) {
+            console.error('Code block not found');
+            button.textContent = 'Error';
+            return;
+        }
+        
         const text = codeBlock.textContent;
         
         navigator.clipboard.writeText(text).then(() => {
@@ -322,9 +333,37 @@ class SoftmaxTutorial {
     }
 
     downloadCode(button) {
-        const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+        // Find the code block - it could be in different locations
+        let codeBlock = null;
+        
+        // Try to find code in the same container
+        const container = button.closest('.code-block-full') || button.closest('.code-impl-tab-content');
+        if (container) {
+            codeBlock = container.querySelector('code');
+        }
+        
+        // If not found, try the next sibling
+        if (!codeBlock) {
+            codeBlock = button.parentElement.nextElementSibling?.querySelector('code');
+        }
+        
+        if (!codeBlock) {
+            console.error('Code block not found');
+            button.textContent = 'Error';
+            return;
+        }
+        
         const text = codeBlock.textContent;
-        const filename = button.parentElement.querySelector('span').textContent || 'code.py';
+        
+        // Determine filename based on button ID or context
+        let filename = 'code.py';
+        if (button.id.includes('iris')) {
+            filename = 'iris_softmax.py';
+        } else if (button.id.includes('bbc')) {
+            filename = 'bbc_softmax.py';
+        } else if (button.id.includes('mushroom')) {
+            filename = 'mushroom_softmax.py';
+        }
         
         const blob = new Blob([text], { type: 'text/plain' });
         const url = window.URL.createObjectURL(blob);
