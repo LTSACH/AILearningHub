@@ -860,32 +860,157 @@ print(f"Samples: {df.shape[0]}")</code></pre>
                         <div class="variants-demos">
                             <div class="demo-grid">
                                 <div class="demo-item">
-                                    <h4>Gaussian Naive Bayes</h4>
-                                    <p>For continuous data (e.g., measurements)</p>
-                                    <div id="gaussian-demo"></div>
+                                    <h4>🌺 Gaussian Naive Bayes</h4>
+                                    <p>For continuous data (e.g., measurements, Iris dataset)</p>
+                                    <div class="variant-info">
+                                        <div class="info-item">
+                                            <strong>Data Type:</strong> Continuous/Numerical
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Example:</strong> Iris flower measurements
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Distribution:</strong> Normal (Gaussian)
+                                        </div>
+                                    </div>
                                     <div class="code-example">
                                         <h5>Code Example:</h5>
-                                        <div id="gaussian-example"></div>
+                                        <pre><code class="language-python">from sklearn.naive_bayes import GaussianNB
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load Iris dataset
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+# Train Gaussian Naive Bayes
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+
+# Make predictions
+y_pred = gnb.predict(X_test)
+accuracy = gnb.score(X_test, y_test)
+print(f"Accuracy: {accuracy:.4f}")</code></pre>
                                     </div>
                                 </div>
 
                                 <div class="demo-item">
-                                    <h4>Multinomial Naive Bayes</h4>
-                                    <p>For discrete counts (e.g., word frequencies)</p>
-                                    <div id="multinomial-demo"></div>
+                                    <h4>📰 Multinomial Naive Bayes</h4>
+                                    <p>For discrete counts (e.g., word frequencies, text classification)</p>
+                                    <div class="variant-info">
+                                        <div class="info-item">
+                                            <strong>Data Type:</strong> Discrete Counts
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Example:</strong> BBC News text classification
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Distribution:</strong> Multinomial
+                                        </div>
+                                    </div>
                                     <div class="code-example">
                                         <h5>Code Example:</h5>
-                                        <div id="multinomial-example"></div>
+                                        <pre><code class="language-python">from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Text data
+texts = ["This is a business article", "Sports news here"]
+labels = ["business", "sports"]
+
+# Vectorize text
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(texts)
+
+# Train Multinomial Naive Bayes
+mnb = MultinomialNB()
+mnb.fit(X, labels)
+
+# Predict new text
+new_text = ["Economic growth continues"]
+X_new = vectorizer.transform([new_text])
+prediction = mnb.predict(X_new)[0]
+print(f"Prediction: {prediction}")</code></pre>
                                     </div>
                                 </div>
 
                                 <div class="demo-item">
-                                    <h4>Bernoulli Naive Bayes</h4>
-                                    <p>For binary features (e.g., word presence)</p>
-                                    <div id="bernoulli-demo"></div>
+                                    <h4>🍄 Categorical Naive Bayes</h4>
+                                    <p>For categorical data (e.g., mushroom features, survey responses)</p>
+                                    <div class="variant-info">
+                                        <div class="info-item">
+                                            <strong>Data Type:</strong> Categorical
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Example:</strong> Mushroom safety classification
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Distribution:</strong> Categorical
+                                        </div>
+                                    </div>
                                     <div class="code-example">
                                         <h5>Code Example:</h5>
-                                        <div id="bernoulli-example"></div>
+                                        <pre><code class="language-python">from sklearn.naive_bayes import CategoricalNB
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd
+
+# Categorical data
+df = pd.DataFrame({
+    'cap_shape': ['convex', 'flat', 'convex'],
+    'odor': ['none', 'foul', 'none'],
+    'class': ['edible', 'poisonous', 'edible']
+})
+
+# Encode categorical features
+le = LabelEncoder()
+X = df[['cap_shape', 'odor']].apply(le.fit_transform)
+y = le.fit_transform(df['class'])
+
+# Train Categorical Naive Bayes
+cnb = CategoricalNB()
+cnb.fit(X, y)
+
+# Make predictions
+predictions = cnb.predict(X)
+print(f"Predictions: {predictions}")</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="demo-item">
+                                    <h4>🔢 Bernoulli Naive Bayes</h4>
+                                    <p>For binary features (e.g., word presence, yes/no responses)</p>
+                                    <div class="variant-info">
+                                        <div class="info-item">
+                                            <strong>Data Type:</strong> Binary (0/1)
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Example:</strong> Spam email detection
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Distribution:</strong> Bernoulli
+                                        </div>
+                                    </div>
+                                    <div class="code-example">
+                                        <h5>Code Example:</h5>
+                                        <pre><code class="language-python">from sklearn.naive_bayes import BernoulliNB
+from sklearn.feature_extraction.text import CountVectorizer
+
+# Binary text features
+texts = ["free money now", "meeting tomorrow"]
+labels = ["spam", "ham"]
+
+# Create binary features
+vectorizer = CountVectorizer(binary=True)
+X = vectorizer.fit_transform(texts)
+
+# Train Bernoulli Naive Bayes
+bnb = BernoulliNB()
+bnb.fit(X, labels)
+
+# Predict new text
+new_text = ["urgent free offer"]
+X_new = vectorizer.transform([new_text])
+prediction = bnb.predict(X_new)[0]
+print(f"Prediction: {prediction}")</code></pre>
                                     </div>
                                 </div>
                             </div>

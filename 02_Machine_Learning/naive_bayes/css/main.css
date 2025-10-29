@@ -963,32 +963,66 @@ footer {
 .demo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
+    gap: 25px;
     margin-top: 20px;
 }
 
 .demo-item {
     background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-left: 4px solid #17a2b8;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.demo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
 }
 
 .demo-item h4 {
     margin: 0 0 10px 0;
-    color: #17a2b8;
-    font-size: 18px;
+    color: #2c3e50;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .demo-item p {
     margin: 0 0 15px 0;
     color: #6c757d;
     font-size: 14px;
+    line-height: 1.6;
+}
+
+.variant-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+}
+
+.info-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item strong {
+    color: #2c3e50;
+    font-weight: 600;
 }
 
 .code-example {
-    margin-top: 15px;
+    margin-top: 20px;
     padding-top: 15px;
     border-top: 1px solid #e9ecef;
 }
@@ -996,19 +1030,31 @@ footer {
 .code-example h5 {
     margin: 0 0 10px 0;
     color: #495057;
-    font-size: 14px;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .code-example pre {
-    margin: 0;
-    background: #f8f9fa;
-    color: #495057;
-    padding: 10px;
-    border-radius: 4px;
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 15px;
+    border-radius: 8px;
     overflow-x: auto;
-    font-size: 12px;
-    line-height: 1.3;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    border: 1px solid #4a5568;
 }
+
+.code-example code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    border-radius: 0;
+}
+
 
 /* Formula Derivation */
 .formula-derivation {
@@ -1576,6 +1622,23 @@ footer {
     }
     
     .cell-content pre {
+        font-size: 12px;
+        padding: 12px;
+    }
+    
+    .demo-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .demo-item {
+        padding: 20px;
+    }
+    
+    .variant-info {
+        padding: 12px;
+    }
+    
+    .code-example pre {
         font-size: 12px;
         padding: 12px;
     }
