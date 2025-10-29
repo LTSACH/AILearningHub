@@ -1,0 +1,1096 @@
+/* Softmax Regression Tutorial Styles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.page-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.page-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    text-decoration: none;
+}
+
+.breadcrumb {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem 0;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Tabs Container */
+.tabs-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+/* Tabs Navigation */
+.tabs-nav {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    overflow-x: auto;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    padding: 15px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.tab-button.active {
+    background: white;
+    color: #667eea;
+    border-bottom-color: #667eea;
+    box-shadow: 0 -2px 8px rgba(102, 126, 234, 0.1);
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    padding: 2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.tab-header h2 {
+    color: #667eea;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.tab-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Formula Section */
+.formula-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.formula-section h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.formula-box {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.formula-main {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.formula-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.component {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.component h4 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.component p {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Visualization Section */
+.visualization-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.visualization-section h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.calculator {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.input-group {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.input-group label {
+    font-weight: 500;
+    color: #495057;
+    min-width: 150px;
+}
+
+.input-group input[type="range"] {
+    flex: 1;
+    margin: 0 0.5rem;
+}
+
+.input-group span {
+    font-weight: bold;
+    color: #667eea;
+    min-width: 50px;
+    text-align: center;
+}
+
+.result-box {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.result-box h4 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+/* D3.js Visualization */
+#bayes-diagram, #naive-bayes-network, #iris-naive-bayes-network, #bbc-naive-bayes-network, #mushroom-naive-bayes-network {
+    width: 100%;
+    height: 300px;
+    background: white;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Example Section */
+.example-section {
+    background: #e8f4fd;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-left: 4px solid #667eea;
+}
+
+.example-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.example-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .example-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.example-text {
+    color: #495057;
+}
+
+.example-text p {
+    margin-bottom: 1rem;
+}
+
+.example-text ul {
+    margin-left: 1.5rem;
+}
+
+.example-text li {
+    margin-bottom: 0.5rem;
+}
+
+.example-calculation {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.calculation-step {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.interpretation {
+    color: #28a745;
+    font-weight: bold;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Network Section */
+.network-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.network-section h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.network-caption {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #e8f4fd;
+    border-radius: 6px;
+    border-left: 4px solid #667eea;
+}
+
+.network-caption p {
+    color: #495057;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Explanation Section */
+.explanation-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.explanation-section h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.assumption-box {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.assumption-text {
+    margin-top: 1rem;
+}
+
+.assumption-text p {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* Mathematical Formulation */
+.formula-derivation {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.formula-derivation h4 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.derivation-step {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.derivation-step h5 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.step-explanation {
+    color: #6c757d;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.derivation-arrow {
+    text-align: center;
+    margin: 1rem 0;
+    color: #667eea;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.arrow-note {
+    display: block;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+}
+
+/* Dataset Overview Sections */
+.iris-overview-section, .bbc-overview-section, .mushroom-overview-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.dataset-info {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dataset-info p {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.dataset-info ul {
+    margin-left: 1.5rem;
+}
+
+.dataset-info li {
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+/* Feature Mapping Table */
+.feature-mapping-table {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.feature-mapping-table h5 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.feature-mapping-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.feature-mapping-table th,
+.feature-mapping-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.feature-mapping-table th {
+    background: #667eea;
+    color: white;
+    font-weight: 600;
+}
+
+.feature-mapping-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* Code Implementation Sections */
+.iris-code-section, .bbc-code-section, .mushroom-code-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.code-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.code-block-full {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.code-header {
+    background: #667eea;
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.code-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.code-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.action-btn.copied {
+    background: #28a745;
+    border-color: #28a745;
+}
+
+.code-content {
+    padding: 1.5rem;
+    background: #2d3748;
+    color: #e2e8f0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.loading-code {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+}
+
+/* Code Implementation Container */
+.code-implementation-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.code-impl-tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.code-impl-tab-btn {
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    padding: 15px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 3px solid transparent;
+    flex: 1;
+    justify-content: center;
+}
+
+.code-impl-tab-btn:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.code-impl-tab-btn.active {
+    background: white;
+    color: #667eea;
+    border-bottom-color: #667eea;
+    box-shadow: 0 -2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.code-impl-tab-content {
+    display: none;
+    padding: 0;
+}
+
+.code-impl-tab-content.active {
+    display: block;
+}
+
+/* Colab Content */
+.colab-content {
+    padding: 2rem;
+}
+
+.colab-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.colab-header h5 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.colab-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.colab-notebook {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid #e9ecef;
+}
+
+.notebook-preview {
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.notebook-cell {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.notebook-cell:last-child {
+    border-bottom: none;
+}
+
+.cell-header {
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.cell-type {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.cell-title {
+    color: #495057;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.cell-content {
+    padding: 1rem;
+}
+
+.cell-content p {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.cell-content ul {
+    margin-left: 1.5rem;
+    color: #6c757d;
+}
+
+.cell-content li {
+    margin-bottom: 0.25rem;
+}
+
+.cell-content pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0.5rem 0;
+}
+
+.output-text {
+    background: #e8f4fd;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+}
+
+.colab-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.colab-btn, .github-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.colab-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+}
+
+.colab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.github-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.github-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.colab-features {
+    background: #e8f4fd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.colab-features h6 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.colab-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.colab-features li {
+    color: #495057;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.colab-features li::before {
+    content: "✨";
+    position: absolute;
+    left: 0;
+}
+
+/* Safety Checker */
+.safety-checker {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 1.5rem 0;
+}
+
+.safety-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.checker-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.control-group select {
+    padding: 0.75rem;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    background: white;
+    color: #495057;
+    font-size: 14px;
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.safety-check-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    margin-top: 1rem;
+}
+
+.safety-check-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.safety-result {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Variants Section */
+.variants-comparison {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.variants-demos {
+    margin-top: 2rem;
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.demo-item {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.demo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.demo-item h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.demo-item p {
+    margin: 0 0 15px 0;
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.variant-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+}
+
+.info-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.code-example {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.code-example h5 {
+    margin: 0 0 10px 0;
+    color: #495057;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.code-example pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    border: 1px solid #4a5568;
+}
+
+.code-example code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    border-radius: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .tabs-nav {
+        flex-direction: column;
+    }
+    
+    .tab-button {
+        border-bottom: 1px solid #e9ecef;
+        border-right: 3px solid transparent;
+    }
+    
+    .tab-button.active {
+        border-right-color: #667eea;
+        border-bottom-color: #e9ecef;
+    }
+    
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .example-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .formula-components {
+        grid-template-columns: 1fr;
+    }
+    
+    .checker-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .colab-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .demo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .formula-main {
+        font-size: 1.2rem;
+    }
+    
+    .demo-item {
+        padding: 20px;
+    }
+}
