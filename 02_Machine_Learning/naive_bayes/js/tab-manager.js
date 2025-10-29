@@ -7,6 +7,7 @@ import { BayesFormulaTab } from './tabs/bayes-formula.js';
 import { NaiveBayesTab } from './tabs/naive-bayes.js';
 import { IrisDatasetTab } from './tabs/iris-dataset.js';
 import { BBCNewsTab } from './tabs/bbc-news.js';
+import { MushroomTab } from './tabs/mushroom.js';
 import { VariantsTab } from './tabs/variants.js';
 
 export class TabManager {
@@ -16,6 +17,7 @@ export class TabManager {
             'naive-bayes': new NaiveBayesTab(),
             'iris-dataset': new IrisDatasetTab(),
             'bbc-news': new BBCNewsTab(),
+            'mushroom': new MushroomTab(),
             'variants': new VariantsTab()
         };
         

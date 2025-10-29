@@ -60,6 +60,7 @@
                     <button class="tab-button" data-tab="naive-bayes">Naive Bayes</button>
                     <button class="tab-button" data-tab="iris-dataset">Iris Dataset</button>
                     <button class="tab-button" data-tab="bbc-news">BBC News</button>
+                    <button class="tab-button" data-tab="mushroom">Mushroom</button>
                     <button class="tab-button" data-tab="variants">Variants</button>
                 </div>
 
@@ -425,7 +426,188 @@
                         </div>
                     </div>
 
-                    <!-- Tab 5: Variants -->
+                    <!-- Tab 5: Mushroom Classification -->
+                    <div id="mushroom" class="tab-pane">
+                        <div class="tab-header">
+                            <h2>🍄 Mushroom Classification</h2>
+                            <p>Categorical Naive Bayes for mushroom safety classification</p>
+                        </div>
+                        
+                        <!-- Section 1: Overview -->
+                        <div class="mushroom-overview-section">
+                            <h3>Overview</h3>
+                            <div class="dataset-info">
+                                <p><strong>Mushroom Dataset:</strong> 8,124 samples, 22 categorical features</p>
+                                <ul>
+                                    <li><strong>Features:</strong> cap-shape, cap-surface, cap-color, bruises, odor, etc.</li>
+                                    <li><strong>Target:</strong> edible (e) or poisonous (p)</li>
+                                    <li><strong>Data Type:</strong> Categorical (suitable for Categorical NB)</li>
+                                    <li><strong>Application:</strong> Food safety classification</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Naive Bayes Network for Mushroom -->
+                            <div class="mushroom-network-section">
+                                <h4>Naive Bayes Network for Mushroom Dataset</h4>
+                                <div id="mushroom-naive-bayes-network"></div>
+                                
+                                <!-- Feature Mapping Table -->
+                                <div class="feature-mapping-table">
+                                    <h5>Feature Mapping</h5>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Variable</th>
+                                                <th>Feature Name</th>
+                                                <th>Possible Values</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>X₁</strong></td>
+                                                <td>cap-shape</td>
+                                                <td>bell, conical, flat, knobbed, sunken, convex</td>
+                                                <td>Shape of the mushroom cap</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₂</strong></td>
+                                                <td>cap-surface</td>
+                                                <td>fibrous, grooves, scaly, smooth</td>
+                                                <td>Surface texture of the cap</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₃</strong></td>
+                                                <td>cap-color</td>
+                                                <td>brown, buff, cinnamon, gray, green, pink, purple, red, white, yellow</td>
+                                                <td>Color of the mushroom cap</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₄</strong></td>
+                                                <td>bruises</td>
+                                                <td>bruises, no</td>
+                                                <td>Whether the mushroom bruises</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>X₅</strong></td>
+                                                <td>odor</td>
+                                                <td>almond, anise, creosote, fishy, foul, musty, none, pungent, spicy</td>
+                                                <td>Odor of the mushroom</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Safety Checker -->
+                        <div class="mushroom-safety-section">
+                            <h3>🍄 Interactive Mushroom Safety Checker</h3>
+                            <p class="safety-description">
+                                Select mushroom characteristics to predict if it's safe to eat. 
+                                <strong>⚠️ This is for educational purposes only - never rely on this for real mushroom identification!</strong>
+                            </p>
+                            
+                            <div class="safety-checker">
+                                <div class="checker-controls">
+                                    <div class="control-group">
+                                        <label for="cap-shape">Cap Shape:</label>
+                                        <select id="cap-shape">
+                                            <option value="bell">Bell</option>
+                                            <option value="conical">Conical</option>
+                                            <option value="flat">Flat</option>
+                                            <option value="knobbed">Knobbed</option>
+                                            <option value="sunken">Sunken</option>
+                                            <option value="convex">Convex</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="control-group">
+                                        <label for="cap-surface">Cap Surface:</label>
+                                        <select id="cap-surface">
+                                            <option value="fibrous">Fibrous</option>
+                                            <option value="grooves">Grooves</option>
+                                            <option value="scaly">Scaly</option>
+                                            <option value="smooth">Smooth</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="control-group">
+                                        <label for="cap-color">Cap Color:</label>
+                                        <select id="cap-color">
+                                            <option value="brown">Brown</option>
+                                            <option value="buff">Buff</option>
+                                            <option value="cinnamon">Cinnamon</option>
+                                            <option value="gray">Gray</option>
+                                            <option value="green">Green</option>
+                                            <option value="pink">Pink</option>
+                                            <option value="purple">Purple</option>
+                                            <option value="red">Red</option>
+                                            <option value="white">White</option>
+                                            <option value="yellow">Yellow</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="control-group">
+                                        <label for="bruises">Bruises:</label>
+                                        <select id="bruises">
+                                            <option value="bruises">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="control-group">
+                                        <label for="odor">Odor:</label>
+                                        <select id="odor">
+                                            <option value="almond">Almond</option>
+                                            <option value="anise">Anise</option>
+                                            <option value="creosote">Creosote</option>
+                                            <option value="fishy">Fishy</option>
+                                            <option value="foul">Foul</option>
+                                            <option value="musty">Musty</option>
+                                            <option value="none">None</option>
+                                            <option value="pungent">Pungent</option>
+                                            <option value="spicy">Spicy</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <button id="check-safety" class="safety-check-btn">🔍 Check Safety</button>
+                                </div>
+                                
+                                <div id="safety-result" class="safety-result"></div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Code Implementation -->
+                        <div class="mushroom-code-section">
+                            <h3>Code Implementation</h3>
+                            <p class="code-description">
+                                Complete implementation of Categorical Naive Bayes on Mushroom dataset. 
+                                This code demonstrates categorical encoding, CategoricalNB training, and safety prediction.
+                            </p>
+                            
+                            <div class="code-block-full">
+                                <div class="code-header">
+                                    <h4>Complete Implementation</h4>
+                                    <div class="code-actions">
+                                        <button id="copy-mushroom-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                            📋 Copy
+                                        </button>
+                                        <button id="download-mushroom-code-btn" class="action-btn download-btn" title="Download code as file">
+                                            💾 Download
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="mushroom-code-content">
+                                    <div class="loading-code">
+                                        <p>Loading code from mushroom_naivebayes.py...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 6: Variants -->
                     <div id="variants" class="tab-pane">
                         <div class="tab-header">
                             <h2>🔄 Naive Bayes Variants</h2>
