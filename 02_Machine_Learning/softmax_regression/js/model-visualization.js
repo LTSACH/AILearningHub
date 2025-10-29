@@ -304,8 +304,8 @@ class ModelVisualization {
     
     setupEventListeners() {
         // Update model when sliders change
-        d3.select('#input-features').on('input', function() {
-            const value = d3.select(this).property('value');
+        d3.select('#input-features').on('input', function(event) {
+            const value = event.target.value;
             console.log('Input features slider value:', value, 'type:', typeof value);
             const intValue = parseInt(value) || 4; // Default to 4 if NaN
             console.log('Parsed int value:', intValue);
@@ -315,8 +315,8 @@ class ModelVisualization {
             this.config.inputFeatures = intValue;
         }.bind(this));
         
-        d3.select('#output-classes').on('input', function() {
-            const value = d3.select(this).property('value');
+        d3.select('#output-classes').on('input', function(event) {
+            const value = event.target.value;
             console.log('Output classes slider value:', value, 'type:', typeof value);
             const intValue = parseInt(value) || 3; // Default to 3 if NaN
             console.log('Parsed int value:', intValue);
@@ -328,8 +328,8 @@ class ModelVisualization {
         
         // Update model when button is clicked
         d3.select('#update-model').on('click', () => {
-            const inputFeatures = parseInt(d3.select('#input-features').property('value')) || 4;
-            const outputClasses = parseInt(d3.select('#output-classes').property('value')) || 3;
+            const inputFeatures = parseInt(document.getElementById('input-features').value) || 4;
+            const outputClasses = parseInt(document.getElementById('output-classes').value) || 3;
             this.updateModel(inputFeatures, outputClasses);
         });
     }
