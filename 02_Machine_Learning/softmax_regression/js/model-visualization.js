@@ -182,20 +182,21 @@ class ModelVisualization {
                 .text(d.label);
             
             // Add hover effects - no movement, just tooltip
+            const self = this; // Store reference to this
             group.on('mouseover', function(event, d) {
                 d3.select(this).select('.model-node')
                     .attr('stroke-width', 4)
                     .attr('filter', 'brightness(1.1)');
                 
-                this.showTooltip(event, d);
-            }.bind(this))
+                self.showTooltip(event, d);
+            })
             .on('mouseout', function(event, d) {
                 d3.select(this).select('.model-node')
                     .attr('stroke-width', 3)
                     .attr('filter', 'none');
                 
-                this.hideTooltip();
-            }.bind(this));
+                self.hideTooltip();
+            });
         });
     }
     
