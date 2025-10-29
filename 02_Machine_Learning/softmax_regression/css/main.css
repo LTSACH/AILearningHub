@@ -620,6 +620,51 @@ td.center {
     left: 0;
 }
 
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.feature-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.feature-word {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.feature-score {
+    color: #667eea;
+    font-family: monospace;
+    font-size: 0.8rem;
+}
+
+.feature-category {
+    color: #6c757d;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+    background: #f8f9fa;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    align-self: flex-start;
+}
+
 /* Hero Section */
 .hero {
     text-align: center;

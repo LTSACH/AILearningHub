@@ -55,12 +55,23 @@ class SoftmaxTutorial {
                 break;
             case 'iris-dataset':
                 this.initIrisVisualization();
+                this.loadCodeFile('iris_softmax.py', 'iris-code-content');
                 break;
             case 'mnist-dataset':
                 this.initMNISTVisualization();
+                this.loadCodeFile('mnist_softmax.py', 'mnist-code-content');
+                break;
+            case 'bbc-news':
+                this.initBBCVisualization();
+                this.loadCodeFile('bbc_softmax.py', 'bbc-code-content');
+                break;
+            case 'mushroom':
+                this.initMushroomVisualization();
+                this.loadCodeFile('mushroom_softmax.py', 'mushroom-code-content');
                 break;
             case 'wine-dataset':
                 this.initWineVisualization();
+                this.loadCodeFile('wine_softmax.py', 'wine-code-content');
                 break;
             case 'comparison':
                 this.initComparisonChart();
@@ -172,6 +183,17 @@ class SoftmaxTutorial {
         console.log('Initializing MNIST visualizations...');
     }
 
+    initBBCVisualization() {
+        // Initialize BBC News-specific visualizations
+        console.log('Initializing BBC News visualizations...');
+        this.setupFeatureExplorer();
+    }
+
+    initMushroomVisualization() {
+        // Initialize Mushroom-specific visualizations
+        console.log('Initializing Mushroom visualizations...');
+    }
+
     initWineVisualization() {
         // Initialize Wine-specific visualizations
         console.log('Initializing Wine visualizations...');
@@ -180,6 +202,56 @@ class SoftmaxTutorial {
     initComparisonChart() {
         // Initialize comparison chart
         console.log('Initializing comparison chart...');
+    }
+
+    setupFeatureExplorer() {
+        const refreshBtn = document.getElementById('refresh-features');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                this.loadTopFeatures();
+            });
+        }
+        // Load initial features
+        this.loadTopFeatures();
+    }
+
+    loadTopFeatures() {
+        const featureCount = document.getElementById('feature-count')?.value || 15;
+        const featuresList = document.getElementById('top-features-list');
+        if (!featuresList) return;
+
+        // Mock feature data (replace with actual data)
+        const mockFeatures = [
+            { word: 'said', score: -6.69, category: 'business' },
+            { word: 'growth', score: -6.95, category: 'business' },
+            { word: 'economy', score: -7.02, category: 'business' },
+            { word: 'bank', score: -7.02, category: 'business' },
+            { word: 'year', score: -7.11, category: 'business' },
+            { word: 'oil', score: -7.12, category: 'business' },
+            { word: 'sales', score: -7.15, category: 'business' },
+            { word: 'market', score: -7.20, category: 'business' },
+            { word: 'company', score: -7.25, category: 'business' },
+            { word: 'government', score: -7.30, category: 'politics' },
+            { word: 'minister', score: -7.35, category: 'politics' },
+            { word: 'election', score: -7.40, category: 'politics' },
+            { word: 'party', score: -7.45, category: 'politics' },
+            { word: 'vote', score: -7.50, category: 'politics' },
+            { word: 'parliament', score: -7.55, category: 'politics' }
+        ];
+
+        const topFeatures = mockFeatures.slice(0, parseInt(featureCount));
+        
+        featuresList.innerHTML = `
+            <div class="features-grid">
+                ${topFeatures.map(feature => `
+                    <div class="feature-item">
+                        <span class="feature-word">${feature.word}</span>
+                        <span class="feature-score">${feature.score.toFixed(2)}</span>
+                        <span class="feature-category">${feature.category}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
     }
 
     setupCodeActions() {
@@ -194,6 +266,38 @@ class SoftmaxTutorial {
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('download-btn')) {
                 this.downloadCode(e.target);
+            }
+        });
+
+        // Code/Colab tab functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('code-impl-tab-btn')) {
+                this.switchCodeTab(e.target);
+            }
+        });
+    }
+
+    switchCodeTab(button) {
+        const tabId = button.getAttribute('data-tab');
+        const container = button.closest('.code-implementation-container');
+        
+        if (!container) return;
+
+        // Update button states
+        const tabButtons = container.querySelectorAll('.code-impl-tab-btn');
+        tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn === button) {
+                btn.classList.add('active');
+            }
+        });
+
+        // Update content visibility
+        const tabContents = container.querySelectorAll('.code-impl-tab-content');
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+            if (content.id === tabId + '-tab') {
+                content.classList.add('active');
             }
         });
     }
@@ -319,18 +423,6 @@ class SoftmaxTutorial {
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     new SoftmaxTutorial();
-    
-    // Load external code files
-    const tutorial = new SoftmaxTutorial();
-    
-    // Load Iris code
-    tutorial.loadCodeFile('iris_softmax.py', 'iris-code-content');
-    
-    // Load MNIST code
-    tutorial.loadCodeFile('mnist_softmax.py', 'mnist-code-content');
-    
-    // Load Wine code
-    tutorial.loadCodeFile('wine_softmax.py', 'wine-code-content');
 });
 
 // Smooth scrolling for internal links
