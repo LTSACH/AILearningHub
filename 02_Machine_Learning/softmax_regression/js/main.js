@@ -50,6 +50,9 @@ class SoftmaxTutorial {
 
     initTabContent(tabId) {
         switch (tabId) {
+            case 'model':
+                this.initModelVisualization();
+                break;
             case 'theory':
                 this.initSoftmaxChart();
                 break;
@@ -69,6 +72,12 @@ class SoftmaxTutorial {
                 this.initComparisonChart();
                 break;
         }
+    }
+
+    initModelVisualization() {
+        // Model visualization is handled by model-visualization.js
+        // This method is called when the model tab is activated
+        console.log('Model visualization initialized');
     }
 
     setupCharts() {

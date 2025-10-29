@@ -6,6 +6,7 @@
     <title>Softmax Regression Tutorial - AI Learning Hub</title>
     
     <!-- External Libraries -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
@@ -55,7 +56,8 @@
             <!-- Tabs Navigation -->
             <div class="tabs-container">
                 <div class="tabs-nav">
-                    <button class="tab-button active" data-tab="theory">Theory & Math</button>
+                    <button class="tab-button active" data-tab="model">Model</button>
+                    <button class="tab-button" data-tab="theory">Theory & Math</button>
                     <button class="tab-button" data-tab="iris-dataset">Iris Dataset</button>
                     <button class="tab-button" data-tab="bbc-news">BBC News</button>
                     <button class="tab-button" data-tab="mushroom">Mushroom</button>
@@ -63,8 +65,44 @@
                 </div>
 
                 <!-- Tab Content -->
-                <!-- Tab 1: Theory & Math (Original Content) -->
-                <div id="theory" class="tab-pane active">
+                <!-- Tab 1: Model Architecture -->
+                <div id="model" class="tab-pane active">
+                    <div class="tab-header">
+                        <h2>🏗️ Softmax Regression Model Architecture</h2>
+                        <p>Interactive visualization of the neural network structure</p>
+                    </div>
+                    
+                    <div class="model-section">
+                        <div class="content-card">
+                            <h3>🎛️ Model Configuration</h3>
+                            <div class="control-panel">
+                                <div class="control-group">
+                                    <label for="input-features">Input Features:</label>
+                                    <input type="range" id="input-features" min="2" max="20" value="4" class="slider">
+                                    <span id="input-features-value">4</span>
+                                </div>
+                                <div class="control-group">
+                                    <label for="output-classes">Output Classes:</label>
+                                    <input type="range" id="output-classes" min="2" max="10" value="3" class="slider">
+                                    <span id="output-classes-value">3</span>
+                                </div>
+                                <div class="control-group">
+                                    <button id="update-model" class="update-btn">Update Model</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>🔗 Model Architecture</h3>
+                            <div id="model-visualization" class="model-diagram">
+                                <!-- D3.js visualization will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Theory & Math (Original Content) -->
+                <div id="theory" class="tab-pane">
                     <div class="tab-header">
                         <h2>📊 Softmax Regression Theory</h2>
                         <p>Mathematical foundation and theoretical concepts</p>
@@ -995,6 +1033,7 @@ print(f"Samples: {df.shape[0]}")</code></pre>
     </footer>
 
     <!-- JavaScript -->
+    <script src="js/model-visualization.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
