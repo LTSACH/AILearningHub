@@ -251,6 +251,375 @@ td.center {
     color: #667eea;
 }
 
+/* Code Description */
+.code-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+/* Feature Mapping Table */
+.feature-mapping-table {
+    margin: 2rem 0;
+}
+
+.feature-mapping-table h5 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Feature Explorer */
+.feature-explorer {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.feature-explorer h5 {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.explorer-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.explorer-controls label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.explorer-controls select {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: white;
+}
+
+.refresh-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: #5a6fd8;
+}
+
+/* Safety Checker */
+.mushroom-safety-section {
+    margin: 2rem 0;
+}
+
+.safety-description {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    color: #856404;
+}
+
+.safety-checker {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.checker-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.control-group select {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: white;
+    font-size: 0.9rem;
+}
+
+.safety-check-btn {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 1rem;
+}
+
+.safety-check-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.safety-result {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Network Sections */
+.iris-network-section,
+.bbc-network-section,
+.mushroom-network-section {
+    margin: 2rem 0;
+}
+
+.iris-network-section h4,
+.bbc-network-section h4,
+.mushroom-network-section h4 {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+/* Code Implementation Tabs */
+.code-implementation-container {
+    margin: 2rem 0;
+}
+
+.code-impl-tabs {
+    display: flex;
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 1rem;
+}
+
+.code-impl-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #6c757d;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.code-impl-tab-btn:hover {
+    color: #495057;
+    background: #f8f9fa;
+}
+
+.code-impl-tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+    background: white;
+}
+
+.code-impl-tab-content {
+    display: none;
+}
+
+.code-impl-tab-content.active {
+    display: block;
+}
+
+/* Colab Content */
+.colab-content {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.colab-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.colab-header h5 {
+    color: #667eea;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.colab-notebook {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid #e9ecef;
+}
+
+.notebook-preview {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.notebook-cell {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.notebook-cell:last-child {
+    border-bottom: none;
+}
+
+.cell-header {
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cell-type {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.cell-title {
+    font-weight: 600;
+    color: #495057;
+}
+
+.cell-content {
+    padding: 1rem;
+}
+
+.cell-content p {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.cell-content ul {
+    margin-left: 1.5rem;
+    color: #6c757d;
+}
+
+.cell-content li {
+    margin-bottom: 0.25rem;
+}
+
+.cell-content pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+
+.output-text {
+    background: #e8f5e8;
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid #28a745;
+}
+
+.output-text p {
+    margin: 0.25rem 0;
+    color: #155724;
+    font-family: monospace;
+}
+
+.colab-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.colab-btn,
+.github-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.colab-btn {
+    background: linear-gradient(45deg, #f9ab00, #ff6d01);
+    color: white;
+}
+
+.github-btn {
+    background: linear-gradient(45deg, #24292e, #586069);
+    color: white;
+}
+
+.colab-btn:hover,
+.github-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.colab-features {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.colab-features h6 {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.colab-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.colab-features li {
+    padding: 0.25rem 0;
+    color: #495057;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.colab-features li::before {
+    content: "✨";
+    position: absolute;
+    left: 0;
+}
+
 /* Hero Section */
 .hero {
     text-align: center;

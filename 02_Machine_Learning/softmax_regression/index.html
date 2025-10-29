@@ -58,6 +58,8 @@
                     <button class="tab-button active" data-tab="theory">Theory & Math</button>
                     <button class="tab-button" data-tab="iris-dataset">Iris Dataset</button>
                     <button class="tab-button" data-tab="mnist-dataset">MNIST Digits</button>
+                    <button class="tab-button" data-tab="bbc-news">BBC News</button>
+                    <button class="tab-button" data-tab="mushroom">Mushroom</button>
                     <button class="tab-button" data-tab="wine-dataset">Wine Quality</button>
                     <button class="tab-button" data-tab="comparison">Comparison</button>
                 </div>
@@ -358,38 +360,93 @@
                 <!-- Tab 2: Iris Dataset -->
                 <div id="iris-dataset" class="tab-pane">
                     <div class="tab-header">
-                        <h2>🌸 Iris Dataset Classification</h2>
+                        <h2>🌸 Iris Dataset Analysis</h2>
                         <p>Softmax Regression on the famous Iris flower dataset</p>
                     </div>
                     
-                    <div class="overview-section">
-                        <div class="content-card">
-                            <h3>📊 Dataset Overview</h3>
-                            <div class="dataset-info">
-                                <p><strong>Dataset:</strong> Iris Flower Dataset</p>
-                                <p><strong>Samples:</strong> 150 flowers</p>
-                                <p><strong>Features:</strong> 4 (sepal length, sepal width, petal length, petal width)</p>
-                                <p><strong>Classes:</strong> 3 (Setosa, Versicolor, Virginica)</p>
-                                <p><strong>Task:</strong> Multiclass classification using Softmax Regression</p>
+                    <!-- Section 1: Overview -->
+                    <div class="iris-overview-section">
+                        <h3>Overview</h3>
+                        <div class="dataset-info">
+                            <p><strong>Iris Dataset:</strong> 150 samples, 4 features, 3 classes</p>
+                            <ul>
+                                <li><strong>Features:</strong> sepal_length, sepal_width, petal_length, petal_width</li>
+                                <li><strong>Classes:</strong> setosa, versicolor, virginica</li>
+                                <li><strong>Data Type:</strong> Continuous (suitable for Softmax Regression)</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Softmax Regression Network for Iris -->
+                        <div class="iris-network-section">
+                            <h4>Softmax Regression Network for Iris Dataset</h4>
+                            <div id="iris-softmax-network"></div>
+                            
+                            <!-- Feature Mapping Table -->
+                            <div class="feature-mapping-table">
+                                <h5>Feature Mapping</h5>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Column Name</th>
+                                            <th>Description</th>
+                                            <th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>X₁</strong></td>
+                                            <td>sepal_length</td>
+                                            <td>Length of sepal</td>
+                                            <td>cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₂</strong></td>
+                                            <td>sepal_width</td>
+                                            <td>Width of sepal</td>
+                                            <td>cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₃</strong></td>
+                                            <td>petal_length</td>
+                                            <td>Length of petal</td>
+                                            <td>cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₄</strong></td>
+                                            <td>petal_width</td>
+                                            <td>Width of petal</td>
+                                            <td>cm</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
 
-                    <div class="code-section">
-                        <div class="content-card">
-                            <h3>💻 Code Implementation</h3>
-                            <div class="code-block-full">
-                                <div class="code-header">
-                                    <span>Complete Implementation</span>
-                                    <div class="code-actions">
-                                        <button class="action-btn copy-btn" onclick="copyCode(this)">Copy</button>
-                                        <button class="action-btn download-btn" onclick="downloadCode(this)">Download</button>
-                                    </div>
+                    <!-- Section 2: Code Implementation -->
+                    <div class="iris-code-section">
+                        <h3>Code Implementation</h3>
+                        <p class="code-description">
+                            Complete implementation of Softmax Regression on Iris dataset. 
+                            This code demonstrates the full pipeline from data loading to model evaluation.
+                        </p>
+                        
+                        <div class="code-block-full">
+                            <div class="code-header">
+                                <h4>Complete Implementation</h4>
+                                <div class="code-actions">
+                                    <button id="copy-iris-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                        📋 Copy
+                                    </button>
+                                    <button id="download-iris-code-btn" class="action-btn download-btn" title="Download code as file">
+                                        💾 Download
+                                    </button>
                                 </div>
-                                <div class="code-content">
-                                    <div class="loading-code">
-                                        <p>Loading code from iris_softmax.py...</p>
-                                    </div>
+                            </div>
+                            <div id="iris-code-content">
+                                <div class="loading-code">
+                                    <p>Loading code from iris_softmax.py...</p>
                                 </div>
                             </div>
                         </div>
@@ -437,7 +494,498 @@
                     </div>
                 </div>
 
-                <!-- Tab 4: Wine Quality Dataset -->
+                <!-- Tab 4: BBC News -->
+                <div id="bbc-news" class="tab-pane">
+                    <div class="tab-header">
+                        <h2>📰 BBC News Classification</h2>
+                        <p>Softmax Regression for text classification</p>
+                    </div>
+                    
+                    <!-- Section 1: Overview -->
+                    <div class="bbc-overview-section">
+                        <h3>Overview</h3>
+                        <div class="dataset-info">
+                            <p><strong>BBC News Dataset:</strong> 2,225 articles, 5 categories</p>
+                            <ul>
+                                <li><strong>Categories:</strong> business, entertainment, politics, sport, tech</li>
+                                <li><strong>Data Type:</strong> Text (suitable for Softmax Regression with TF-IDF)</li>
+                                <li><strong>Preprocessing:</strong> TF-IDF vectorization, stop words removal</li>
+                                <li><strong>Feature Space:</strong> 10,000+ word dimensions</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Softmax Regression Network for BBC News -->
+                        <div class="bbc-network-section">
+                            <h4>Softmax Regression Network for BBC News</h4>
+                            <div id="bbc-softmax-network"></div>
+                            
+                            <!-- Feature Explorer -->
+                            <div class="feature-explorer">
+                                <h5>Interactive Feature Explorer</h5>
+                                <div class="explorer-controls">
+                                    <label for="feature-count">Show top features:</label>
+                                    <select id="feature-count">
+                                        <option value="10">Top 10</option>
+                                        <option value="15" selected>Top 15</option>
+                                        <option value="20">Top 20</option>
+                                        <option value="25">Top 25</option>
+                                    </select>
+                                    <button id="refresh-features" class="refresh-btn">🔄 Refresh</button>
+                                </div>
+                                <div id="top-features-list"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Code Implementation -->
+                    <div class="bbc-code-section">
+                        <h3>Code Implementation</h3>
+                        <p class="code-description">
+                            Complete implementation of Softmax Regression on BBC News dataset. 
+                            This code demonstrates text preprocessing, TF-IDF vectorization, and classification.
+                        </p>
+                        
+                        <!-- Code Implementation Tabs Container -->
+                        <div class="code-implementation-container">
+                            <div class="code-impl-tabs">
+                                <button class="code-impl-tab-btn active" data-tab="bbc-code-impl">📝 Code</button>
+                                <button class="code-impl-tab-btn" data-tab="bbc-colab-impl">🚀 Colab</button>
+                            </div>
+                            
+                            <!-- Code Tab Content -->
+                            <div id="bbc-code-impl-tab" class="code-impl-tab-content active">
+                                <div class="code-block-full">
+                                    <div class="code-header">
+                                        <h4>Complete Implementation</h4>
+                                        <div class="code-actions">
+                                            <button id="copy-bbc-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                                📋 Copy
+                                            </button>
+                                            <button id="download-bbc-code-btn" class="action-btn download-btn" title="Download code as file">
+                                                💾 Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="bbc-code-content">
+                                        <div class="loading-code">
+                                            <p>Loading code from bbc_softmax.py...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Colab Tab Content -->
+                            <div id="bbc-colab-impl-tab" class="code-impl-tab-content">
+                                <div class="colab-content">
+                                    <div class="colab-header">
+                                        <h5>🚀 Google Colab Notebook</h5>
+                                        <p>Run this BBC News classification example in Google Colab with free GPU/TPU access</p>
+                                    </div>
+                                    
+                                    <div class="colab-notebook">
+                                        <div class="notebook-preview">
+                                            <div class="notebook-cell">
+                                                <div class="cell-header">
+                                                    <span class="cell-type">📝 Text</span>
+                                                    <span class="cell-title">BBC News Classification with Softmax Regression</span>
+                                                </div>
+                                                <div class="cell-content">
+                                                    <p>This notebook demonstrates text classification using Softmax Regression on the BBC News dataset. We'll cover:</p>
+                                                    <ul>
+                                                        <li>Text preprocessing and TF-IDF vectorization</li>
+                                                        <li>Softmax Regression model training</li>
+                                                        <li>Model evaluation with confusion matrix</li>
+                                                        <li>Feature importance analysis</li>
+                                                        <li>Interactive visualizations with Plotly</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="notebook-cell">
+                                                <div class="cell-header">
+                                                    <span class="cell-type">🐍 Code</span>
+                                                    <span class="cell-title">Dataset Loading</span>
+                                                </div>
+                                                <div class="cell-content">
+                                                    <pre><code># Load BBC News dataset from GitHub Pages
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+import plotly.graph_objects as go
+import plotly.express as px
+
+# Load data
+train_url = "https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/train.csv"
+val_url = "https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/val.csv"
+test_url = "https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/test.csv"
+
+train_df = pd.read_csv(train_url)
+val_df = pd.read_csv(val_url)
+test_df = pd.read_csv(test_url)
+
+print(f"Training samples: {len(train_df)}")
+print(f"Validation samples: {len(val_df)}")
+print(f"Test samples: {len(test_df)}")</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="notebook-cell">
+                                                <div class="cell-header">
+                                                    <span class="cell-type">📊 Output</span>
+                                                    <span class="cell-title">Results</span>
+                                                </div>
+                                                <div class="cell-content">
+                                                    <div class="output-text">
+                                                        <p>Training samples: 1557</p>
+                                                        <p>Validation samples: 334</p>
+                                                        <p>Test samples: 334</p>
+                                                        <p>Model Accuracy: 98.2%</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="colab-actions">
+                                        <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/02_Machine_Learning/softmax_regression/notebooks/bbc_news_classification.ipynb" 
+                                           target="_blank" 
+                                           class="colab-btn">
+                                            <span class="colab-icon">🚀</span>
+                                            Open in Google Colab
+                                        </a>
+                                        <a href="https://github.com/LTSACH/AILearningHub/blob/main/02_Machine_Learning/softmax_regression/notebooks/bbc_news_classification.ipynb" 
+                                           target="_blank" 
+                                           class="github-btn">
+                                            <span class="github-icon">📁</span>
+                                            View on GitHub
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="colab-features">
+                                        <h6>✨ Colab Features:</h6>
+                                        <ul>
+                                            <li>🆓 Free GPU/TPU access</li>
+                                            <li>📊 Interactive Plotly visualizations</li>
+                                            <li>💾 Save and share your results</li>
+                                            <li>🔄 Real-time collaboration</li>
+                                            <li>📱 Mobile-friendly interface</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 5: Mushroom Classification -->
+                <div id="mushroom" class="tab-pane">
+                    <div class="tab-header">
+                        <h2>🍄 Mushroom Classification</h2>
+                        <p>Softmax Regression for mushroom safety classification</p>
+                    </div>
+                    
+                    <!-- Section 1: Overview -->
+                    <div class="mushroom-overview-section">
+                        <h3>Overview</h3>
+                        <div class="dataset-info">
+                            <p><strong>Mushroom Dataset:</strong> 8,124 samples, 22 categorical features</p>
+                            <ul>
+                                <li><strong>Features:</strong> cap-shape, cap-surface, cap-color, bruises, odor, etc.</li>
+                                <li><strong>Target:</strong> edible (e) or poisonous (p)</li>
+                                <li><strong>Data Type:</strong> Categorical (suitable for Softmax Regression with encoding)</li>
+                                <li><strong>Application:</strong> Food safety classification</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Softmax Regression Network for Mushroom -->
+                        <div class="mushroom-network-section">
+                            <h4>Softmax Regression Network for Mushroom Dataset</h4>
+                            <div id="mushroom-softmax-network"></div>
+                            
+                            <!-- Feature Mapping Table -->
+                            <div class="feature-mapping-table">
+                                <h5>Feature Mapping</h5>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Feature Name</th>
+                                            <th>Possible Values</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>X₁</strong></td>
+                                            <td>cap-shape</td>
+                                            <td>bell, conical, flat, knobbed, sunken, convex</td>
+                                            <td>Shape of the mushroom cap</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₂</strong></td>
+                                            <td>cap-surface</td>
+                                            <td>fibrous, grooves, scaly, smooth</td>
+                                            <td>Surface texture of the cap</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₃</strong></td>
+                                            <td>cap-color</td>
+                                            <td>brown, buff, cinnamon, gray, green, pink, purple, red, white, yellow</td>
+                                            <td>Color of the mushroom cap</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₄</strong></td>
+                                            <td>bruises</td>
+                                            <td>bruises, no</td>
+                                            <td>Whether the mushroom bruises</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>X₅</strong></td>
+                                            <td>odor</td>
+                                            <td>almond, anise, creosote, fishy, foul, musty, none, pungent, spicy</td>
+                                            <td>Odor of the mushroom</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Safety Checker -->
+                    <div class="mushroom-safety-section">
+                        <h3>🍄 Interactive Mushroom Safety Checker</h3>
+                        <p class="safety-description">
+                            Select mushroom characteristics to predict if it's safe to eat. 
+                            <strong>⚠️ This is for educational purposes only - never rely on this for real mushroom identification!</strong>
+                        </p>
+                        
+                        <div class="safety-checker">
+                            <div class="checker-controls">
+                                <div class="control-group">
+                                    <label for="cap-shape">Cap Shape:</label>
+                                    <select id="cap-shape">
+                                        <option value="bell">Bell</option>
+                                        <option value="conical">Conical</option>
+                                        <option value="flat">Flat</option>
+                                        <option value="knobbed">Knobbed</option>
+                                        <option value="sunken">Sunken</option>
+                                        <option value="convex">Convex</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label for="cap-surface">Cap Surface:</label>
+                                    <select id="cap-surface">
+                                        <option value="fibrous">Fibrous</option>
+                                        <option value="grooves">Grooves</option>
+                                        <option value="scaly">Scaly</option>
+                                        <option value="smooth">Smooth</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label for="cap-color">Cap Color:</label>
+                                    <select id="cap-color">
+                                        <option value="brown">Brown</option>
+                                        <option value="buff">Buff</option>
+                                        <option value="cinnamon">Cinnamon</option>
+                                        <option value="gray">Gray</option>
+                                        <option value="green">Green</option>
+                                        <option value="pink">Pink</option>
+                                        <option value="purple">Purple</option>
+                                        <option value="red">Red</option>
+                                        <option value="white">White</option>
+                                        <option value="yellow">Yellow</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label for="bruises">Bruises:</label>
+                                    <select id="bruises">
+                                        <option value="bruises">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label for="odor">Odor:</label>
+                                    <select id="odor">
+                                        <option value="almond">Almond</option>
+                                        <option value="anise">Anise</option>
+                                        <option value="creosote">Creosote</option>
+                                        <option value="fishy">Fishy</option>
+                                        <option value="foul">Foul</option>
+                                        <option value="musty">Musty</option>
+                                        <option value="none">None</option>
+                                        <option value="pungent">Pungent</option>
+                                        <option value="spicy">Spicy</option>
+                                    </select>
+                                </div>
+                                
+                                <button id="check-safety" class="safety-check-btn">🔍 Check Safety</button>
+                            </div>
+                            
+                            <div id="safety-result" class="safety-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Code Implementation -->
+                    <div class="mushroom-code-section">
+                        <h3>Code Implementation</h3>
+                        <p class="code-description">
+                            Complete implementation of Softmax Regression on Mushroom dataset. 
+                            This code demonstrates categorical encoding, Softmax Regression training, and safety prediction.
+                        </p>
+                        
+                        <!-- Code Implementation Tabs Container -->
+                        <div class="code-implementation-container">
+                            <div class="code-impl-tabs">
+                                <button class="code-impl-tab-btn active" data-tab="mushroom-code-impl">📝 Code</button>
+                                <button class="code-impl-tab-btn" data-tab="mushroom-colab-impl">🚀 Colab</button>
+                            </div>
+                            
+                            <!-- Code Tab Content -->
+                            <div id="mushroom-code-impl-tab" class="code-impl-tab-content active">
+                                <div class="code-block-full">
+                                    <div class="code-header">
+                                        <h4>Complete Implementation</h4>
+                                        <div class="code-actions">
+                                            <button id="copy-mushroom-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                                📋 Copy
+                                            </button>
+                                            <button id="download-mushroom-code-btn" class="action-btn download-btn" title="Download code as file">
+                                                💾 Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="mushroom-code-content">
+                                        <div class="loading-code">
+                                            <p>Loading code from mushroom_softmax.py...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Colab Tab Content -->
+                            <div id="mushroom-colab-impl-tab" class="code-impl-tab-content">
+                                <div class="colab-content">
+                                    <div class="colab-header">
+                                        <h5>🚀 Google Colab Notebook</h5>
+                                        <p>Run this Mushroom classification example in Google Colab with free GPU/TPU access</p>
+                                    </div>
+                                    
+                                    <div class="colab-notebook">
+                                        <div class="notebook-preview">
+                                            <div class="notebook-cell">
+                                                <div class="cell-header">
+                                                    <span class="cell-type">📝 Text</span>
+                                                    <span class="cell-title">Mushroom Classification with Softmax Regression</span>
+                                                </div>
+                                                <div class="cell-content">
+                                                    <p>This notebook demonstrates categorical classification using Softmax Regression on the Mushroom dataset. We'll cover:</p>
+                                                    <ul>
+                                                        <li>UCI Mushroom dataset download and preprocessing</li>
+                                                        <li>Categorical feature encoding with LabelEncoder</li>
+                                                        <li>Softmax Regression model training and evaluation</li>
+                                                        <li>Feature importance analysis for safety prediction</li>
+                                                        <li>Interactive safety checker demo</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="notebook-cell">
+                                                <div class="cell-header">
+                                                    <span class="cell-type">🐍 Code</span>
+                                                    <span class="cell-title">Dataset Loading</span>
+                                                </div>
+                                                <div class="cell-content">
+                                                    <pre><code># Load UCI Mushroom dataset
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+import urllib.request
+import os
+
+# Download dataset from UCI ML Repository
+def download_mushroom_dataset():
+    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data"
+    filename = "mushroom_dataset.csv"
+    
+    if not os.path.exists(filename):
+        print("Downloading UCI Mushroom dataset...")
+        urllib.request.urlretrieve(url, filename)
+        print("Download completed!")
+    else:
+        print("Dataset already exists locally")
+    
+    return filename
+
+# Load and preprocess data
+filename = download_mushroom_dataset()
+df = pd.read_csv(filename, header=None)
+
+print(f"Dataset shape: {df.shape}")
+print(f"Features: {df.shape[1] - 1}")
+print(f"Samples: {df.shape[0]}")</code></pre>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="notebook-cell">
+                                                <div class="cell-header">
+                                                    <span class="cell-type">📊 Output</span>
+                                                    <span class="cell-title">Results</span>
+                                                </div>
+                                                <div class="cell-content">
+                                                    <div class="output-text">
+                                                        <p>Dataset shape: (8124, 23)</p>
+                                                        <p>Features: 22</p>
+                                                        <p>Samples: 8124</p>
+                                                        <p>Model Accuracy: 94.0%</p>
+                                                        <p>Safety Checker: Ready!</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="colab-actions">
+                                        <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/02_Machine_Learning/softmax_regression/notebooks/mushroom_classification.ipynb" 
+                                           target="_blank" 
+                                           class="colab-btn">
+                                            <span class="colab-icon">🚀</span>
+                                            Open in Google Colab
+                                        </a>
+                                        <a href="https://github.com/LTSACH/AILearningHub/blob/main/02_Machine_Learning/softmax_regression/notebooks/mushroom_classification.ipynb" 
+                                           target="_blank" 
+                                           class="github-btn">
+                                            <span class="github-icon">📁</span>
+                                            View on GitHub
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="colab-features">
+                                        <h6>✨ Colab Features:</h6>
+                                        <ul>
+                                            <li>🆓 Free GPU/TPU access</li>
+                                            <li>🍄 Interactive safety checker</li>
+                                            <li>📊 Feature importance analysis</li>
+                                            <li>💾 Save and share your results</li>
+                                            <li>🔄 Real-time collaboration</li>
+                                            <li>📱 Mobile-friendly interface</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 6: Wine Quality Dataset -->
                 <div id="wine-dataset" class="tab-pane">
                     <div class="tab-header">
                         <h2>🍷 Wine Quality Classification</h2>
