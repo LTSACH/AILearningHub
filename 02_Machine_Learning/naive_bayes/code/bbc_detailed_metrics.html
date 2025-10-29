@@ -1,0 +1,88 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>BBC News Classification - Detailed Metrics</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            h1 { color: #2c3e50; text-align: center; }
+            h2 { color: #34495e; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+            th { background-color: #3498db; color: white; }
+            tr:nth-child(even) { background-color: #f2f2f2; }
+            .accuracy { font-size: 24px; color: #27ae60; font-weight: bold; }
+            .summary { background-color: #ecf0f1; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        </style>
+    </head>
+    <body>
+        <h1>🍄 BBC News Classification Results</h1>
+        
+        <div class="summary">
+            <h2>Summary</h2>
+            <p class="accuracy">Overall Accuracy: 0.9820 (98.20%)</p>
+            <p><strong>Dataset:</strong> BBC News Articles</p>
+            <p><strong>Algorithm:</strong> Multinomial Naive Bayes</p>
+            <p><strong>Vectorization:</strong> TF-IDF</p>
+        </div>
+        
+        <h2>Detailed Metrics by Category</h2>
+        <table border="1" class="dataframe metrics-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Category</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1-Score</th>
+      <th>Support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>business</td>
+      <td>0.9610</td>
+      <td>0.9737</td>
+      <td>0.9673</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <td>entertainment</td>
+      <td>1.0000</td>
+      <td>0.9828</td>
+      <td>0.9913</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <td>politics</td>
+      <td>1.0000</td>
+      <td>0.9841</td>
+      <td>0.9920</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <td>sport</td>
+      <td>1.0000</td>
+      <td>1.0000</td>
+      <td>1.0000</td>
+      <td>77</td>
+    </tr>
+    <tr>
+      <td>tech</td>
+      <td>0.9508</td>
+      <td>0.9667</td>
+      <td>0.9587</td>
+      <td>60</td>
+    </tr>
+  </tbody>
+</table>
+        
+        <h2>Interpretation</h2>
+        <ul>
+            <li><strong>Precision:</strong> Of all articles predicted as a category, how many were actually that category?</li>
+            <li><strong>Recall:</strong> Of all articles in a category, how many were correctly identified?</li>
+            <li><strong>F1-Score:</strong> Harmonic mean of precision and recall (balanced metric)</li>
+            <li><strong>Support:</strong> Number of actual occurrences of each category in the test set</li>
+        </ul>
+    </body>
+    </html>
+    

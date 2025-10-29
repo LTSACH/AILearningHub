@@ -64,7 +64,7 @@ def main():
     # Print model parameters
     print("Model Parameters:")
     print(f"Class priors: {gnb.class_prior_}")
-    print(f"Number of classes: {gnb.n_classes_}")
+    print(f"Number of classes: {len(gnb.classes_)}")
     print(f"Number of features: {gnb.n_features_in_}")
     
     # Show mean and variance for each class and feature
@@ -74,7 +74,7 @@ def main():
         
     print("\nClass variances (sigma):")
     for i, class_name in enumerate(target_names):
-        print(f"{class_name}: {gnb.sigma_[i]}")
+        print(f"{class_name}: {gnb.var_[i]}")
     
     # 4. Making predictions and evaluation
     print("\n" + "=" * 50)
@@ -139,7 +139,7 @@ def main():
     feature_importance = []
     for i in range(len(feature_names)):
         # Calculate average variance across all classes for this feature
-        avg_variance = np.mean(gnb.sigma_[:, i])
+        avg_variance = np.mean(gnb.var_[:, i])
         feature_importance.append(avg_variance)
     
     # Normalize importance scores
