@@ -17,12 +17,12 @@ class ModelVisualization {
             outputClasses: 3
         };
         
-        // Node positions
+        // Node positions - better spacing
         this.nodePositions = {
-            input: { x: 100, y: 200 },
-            dense: { x: 300, y: 200 },
-            softmax: { x: 500, y: 200 },
-            output: { x: 700, y: 200 }
+            input: { x: 120, y: 200 },
+            dense: { x: 280, y: 200 },
+            softmax: { x: 440, y: 200 },
+            output: { x: 600, y: 200 }
         };
         
         this.init();
@@ -52,16 +52,19 @@ class ModelVisualization {
     createArrowMarker() {
         const defs = this.svg.append('defs');
         
+        // Create arrow marker with both line and head
         defs.append('marker')
             .attr('id', 'arrowhead')
-            .attr('markerWidth', 10)
-            .attr('markerHeight', 7)
-            .attr('refX', 9)
-            .attr('refY', 3.5)
+            .attr('markerWidth', 15)
+            .attr('markerHeight', 10)
+            .attr('refX', 12)
+            .attr('refY', 5)
             .attr('orient', 'auto')
-            .append('polygon')
-            .attr('points', '0 0, 10 3.5, 0 7')
-            .attr('fill', '#667eea');
+            .append('path')
+            .attr('d', 'M 0,0 L 0,10 L 15,5 z')
+            .attr('fill', '#667eea')
+            .attr('stroke', '#667eea')
+            .attr('stroke-width', 1);
     }
     
     createTooltip() {
@@ -166,13 +169,16 @@ class ModelVisualization {
                     .attr('stroke-width', 3);
             }
             
-            // Add labels
+            // Add labels - perfectly centered
             group.append('text')
                 .attr('class', 'model-label')
                 .attr('x', d.x)
                 .attr('y', d.y)
                 .attr('fill', '#333')
-                .attr('font-size', '14px')
+                .attr('font-size', '16px')
+                .attr('font-weight', 'bold')
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
                 .text(d.label);
             
             // Add hover effects
@@ -201,18 +207,15 @@ class ModelVisualization {
         const arrows = [
             {
                 from: 'input',
-                to: 'dense',
-                label: 'Linear Transformation'
+                to: 'dense'
             },
             {
                 from: 'dense',
-                to: 'softmax',
-                label: 'Activation'
+                to: 'softmax'
             },
             {
                 from: 'softmax',
-                to: 'output',
-                label: 'Probabilities'
+                to: 'output'
             }
         ];
         
@@ -220,7 +223,7 @@ class ModelVisualization {
             const fromPos = this.nodePositions[arrow.from];
             const toPos = this.nodePositions[arrow.to];
             
-            // Calculate arrow path
+            // Calculate arrow path - longer arrows
             const startX = fromPos.x + (fromPos === this.nodePositions.input ? 40 : 50);
             const endX = toPos.x - (toPos === this.nodePositions.output ? 40 : 50);
             const y = fromPos.y;
@@ -233,16 +236,6 @@ class ModelVisualization {
                 .attr('x2', endX)
                 .attr('y2', y)
                 .attr('marker-end', 'url(#arrowhead)');
-            
-            // Add arrow label
-            this.svg.append('text')
-                .attr('class', 'model-label')
-                .attr('x', (startX + endX) / 2)
-                .attr('y', y - 15)
-                .attr('fill', '#666')
-                .attr('font-size', '12px')
-                .attr('text-anchor', 'middle')
-                .text(arrow.label);
         });
     }
     
