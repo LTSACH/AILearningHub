@@ -408,6 +408,10 @@
                             <div class="code-block-full">
                                 <div class="code-header">
                                     <h4>Complete Implementation</h4>
+                                    <div class="implementation-tabs">
+                                        <button class="impl-tab-btn active" data-tab="code">📝 Code</button>
+                                        <button class="impl-tab-btn" data-tab="colab">🚀 Colab</button>
+                                    </div>
                                     <div class="code-actions">
                                         <button id="copy-bbc-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
                                             📋 Copy
@@ -417,9 +421,115 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div id="bbc-code-content">
-                                    <div class="loading-code">
-                                        <p>Loading code from bbc_naivebayes.py...</p>
+                                
+                                <!-- Code Tab -->
+                                <div id="bbc-code-tab" class="impl-tab-content active">
+                                    <div id="bbc-code-content">
+                                        <div class="loading-code">
+                                            <p>Loading code from bbc_naivebayes.py...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Colab Tab -->
+                                <div id="bbc-colab-tab" class="impl-tab-content">
+                                    <div class="colab-content">
+                                        <div class="colab-header">
+                                            <h5>🚀 Google Colab Notebook</h5>
+                                            <p>Run this BBC News classification example in Google Colab with free GPU/TPU access</p>
+                                        </div>
+                                        
+                                        <div class="colab-notebook">
+                                            <div class="notebook-preview">
+                                                <div class="notebook-cell">
+                                                    <div class="cell-header">
+                                                        <span class="cell-type">📝 Text</span>
+                                                        <span class="cell-title">BBC News Classification with Multinomial Naive Bayes</span>
+                                                    </div>
+                                                    <div class="cell-content">
+                                                        <p>This notebook demonstrates text classification using Multinomial Naive Bayes on the BBC News dataset. We'll cover:</p>
+                                                        <ul>
+                                                            <li>Text preprocessing and TF-IDF vectorization</li>
+                                                            <li>Multinomial Naive Bayes model training</li>
+                                                            <li>Model evaluation with confusion matrix</li>
+                                                            <li>Feature importance analysis</li>
+                                                            <li>Interactive visualizations with Plotly</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="notebook-cell">
+                                                    <div class="cell-header">
+                                                        <span class="cell-type">🐍 Code</span>
+                                                        <span class="cell-title">Dataset Loading</span>
+                                                    </div>
+                                                    <div class="cell-content">
+                                                        <pre><code># Load BBC News dataset from GitHub Pages
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, classification_report
+import plotly.graph_objects as go
+import plotly.express as px
+
+# Load data
+train_url = "https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/train.csv"
+val_url = "https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/val.csv"
+test_url = "https://ltsach.github.io/AILearningHub/datasets/bbcnews/data/test.csv"
+
+train_df = pd.read_csv(train_url)
+val_df = pd.read_csv(val_url)
+test_df = pd.read_csv(test_url)
+
+print(f"Training samples: {len(train_df)}")
+print(f"Validation samples: {len(val_df)}")
+print(f"Test samples: {len(test_df)}")</code></pre>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="notebook-cell">
+                                                    <div class="cell-header">
+                                                        <span class="cell-type">📊 Output</span>
+                                                        <span class="cell-title">Results</span>
+                                                    </div>
+                                                    <div class="cell-content">
+                                                        <div class="output-text">
+                                                            <p>Training samples: 1557</p>
+                                                            <p>Validation samples: 334</p>
+                                                            <p>Test samples: 334</p>
+                                                            <p>Model Accuracy: 98.2%</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="colab-actions">
+                                            <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/02_Machine_Learning/naive_bayes/notebooks/bbc_news_classification.ipynb" 
+                                               target="_blank" 
+                                               class="colab-btn">
+                                                <span class="colab-icon">🚀</span>
+                                                Open in Google Colab
+                                            </a>
+                                            <a href="https://github.com/LTSACH/AILearningHub/blob/main/02_Machine_Learning/naive_bayes/notebooks/bbc_news_classification.ipynb" 
+                                               target="_blank" 
+                                               class="github-btn">
+                                                <span class="github-icon">📁</span>
+                                                View on GitHub
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="colab-features">
+                                            <h6>✨ Colab Features:</h6>
+                                            <ul>
+                                                <li>🆓 Free GPU/TPU access</li>
+                                                <li>📊 Interactive Plotly visualizations</li>
+                                                <li>💾 Save and share your results</li>
+                                                <li>🔄 Real-time collaboration</li>
+                                                <li>📱 Mobile-friendly interface</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

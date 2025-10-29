@@ -32,6 +32,7 @@ export class TabManager {
         if (this.isInitialized) return;
         
         this.setupTabNavigation();
+        this.setupImplementationTabs();
         this.initializeActiveTab();
         this.isInitialized = true;
     }
@@ -124,6 +125,52 @@ export class TabManager {
      */
     getAllTabs() {
         return this.tabs;
+    }
+
+    /**
+     * Setup implementation tabs (Code/Colab)
+     */
+    setupImplementationTabs() {
+        const implTabButtons = document.querySelectorAll('.impl-tab-btn');
+        
+        implTabButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const tabType = event.target.getAttribute('data-tab');
+                const container = event.target.closest('.code-block-full');
+                
+                if (container) {
+                    this.switchImplementationTab(container, tabType);
+                }
+            });
+        });
+    }
+
+    /**
+     * Switch implementation tab (Code/Colab)
+     */
+    switchImplementationTab(container, tabType) {
+        // Update button states
+        const buttons = container.querySelectorAll('.impl-tab-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-tab') === tabType) {
+                btn.classList.add('active');
+            }
+        });
+
+        // Update content visibility
+        const codeTab = container.querySelector('#bbc-code-tab');
+        const colabTab = container.querySelector('#bbc-colab-tab');
+        
+        if (codeTab && colabTab) {
+            if (tabType === 'code') {
+                codeTab.classList.add('active');
+                colabTab.classList.remove('active');
+            } else if (tabType === 'colab') {
+                codeTab.classList.remove('active');
+                colabTab.classList.add('active');
+            }
+        }
     }
 
     /**

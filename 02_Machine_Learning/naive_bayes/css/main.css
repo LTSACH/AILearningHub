@@ -1329,3 +1329,243 @@ footer {
         grid-column: 1;
     }
 }
+
+/* Implementation Tabs Styles */
+.implementation-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.impl-tab-btn {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    color: #6c757d;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.impl-tab-btn:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+    color: #495057;
+}
+
+.impl-tab-btn.active {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.impl-tab-content {
+    display: none;
+}
+
+.impl-tab-content.active {
+    display: block;
+}
+
+/* Colab Content Styles */
+.colab-content {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.colab-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.colab-header h5 {
+    color: #2c3e50;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+.colab-header p {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.colab-notebook {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notebook-cell {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.notebook-cell:last-child {
+    border-bottom: none;
+}
+
+.cell-header {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cell-type {
+    background: #667eea;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.cell-title {
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.cell-content {
+    padding: 16px;
+}
+
+.cell-content pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.cell-content code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+}
+
+.output-text {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.output-text p {
+    margin: 4px 0;
+    color: #28a745;
+}
+
+.colab-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.colab-btn, .github-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.colab-btn {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.colab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(240, 147, 251, 0.4);
+    color: white;
+}
+
+.github-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.github-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+.colab-features {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.colab-features h6 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.colab-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.colab-features li {
+    padding: 6px 0;
+    color: #6c757d;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Responsive Design for Implementation Tabs */
+@media (max-width: 768px) {
+    .implementation-tabs {
+        flex-direction: column;
+    }
+    
+    .impl-tab-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .colab-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .colab-btn, .github-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+    
+    .cell-content pre {
+        font-size: 12px;
+        padding: 12px;
+    }
+}
