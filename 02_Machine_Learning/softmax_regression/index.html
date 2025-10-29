@@ -65,528 +65,459 @@
                 <!-- Tab Content -->
                 <!-- Tab 1: Theory & Math (Original Content) -->
                 <div id="theory" class="tab-pane active">
-                        <div class="tab-header">
-                            <h2>📊 Softmax Regression Theory</h2>
-                            <p>Mathematical foundation and theoretical concepts</p>
+                    <div class="tab-header">
+                        <h2>📊 Softmax Regression Theory</h2>
+                        <p>Mathematical foundation and theoretical concepts</p>
+                    </div>
+
+                    <div class="content-card">
+                        <h1>Softmax Regression</h1>
+
+                        <div class="overview">
+                            <h3>📋 Overview</h3>
+                            <p>Softmax Regression (also called Multinomial Logistic Regression) extends logistic regression to multiclass classification problems. It uses the softmax function to convert raw scores (logits) into probability distributions over multiple classes.</p>
                         </div>
 
-                        <div class="content-card">
-                            <h1>Softmax Regression</h1>
-
-                            <div class="overview">
-                                <h3>📋 Overview</h3>
-                                <p>Softmax Regression (also called Multinomial Logistic Regression) extends logistic regression to multiclass classification problems. It uses the softmax function to convert raw scores (logits) into probability distributions over multiple classes.</p>
-                            </div>
-
-                            <div class="learning-objectives">
-                                <h3>🎯 Learning Objectives</h3>
-                                <ul>
-                                    <li>Understand the mathematical foundation of softmax regression</li>
-                                    <li>Derive the softmax function and its properties</li>
-                                    <li>Implement softmax regression from MLE perspective</li>
-                                    <li>Apply softmax regression to multiclass problems</li>
-                                    <li>Compare with binary logistic regression</li>
-                                </ul>
-                            </div>
-
-                            <div class="estimated-time">
-                                <strong>⏱️ Estimated Time:</strong> 30–35 minutes reading + 60 minutes practice
-                            </div>
-
-                            <h2>Mathematical Foundation</h2>
-                            
-                            <div class="info-box">
-                                <strong>ℹ️ Note:</strong> Softmax Regression is the natural extension of Logistic Regression to handle <strong>more than two classes</strong> (K > 2).
-                            </div>
-
-                            <h3>The Softmax Function</h3>
-                            <p>The softmax function converts a vector of K real numbers into a probability distribution over K classes:</p>
-
-                            <div class="math-display">
-                                <strong>Softmax Function:</strong><br><br>
-                                $$\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}} \quad \text{for } i = 1, 2, ..., K$$
-                            </div>
-
-                            <p>Key properties of the softmax function:</p>
+                        <div class="learning-objectives">
+                            <h3>🎯 Learning Objectives</h3>
                             <ul>
-                                <li><strong>Normalization:</strong> Σ(i=1 to K) σ(z_i) = 1</li>
-                                <li><strong>Range:</strong> σ(z_i) ∈ (0, 1) for all i</li>
-                                <li><strong>Argmax Property:</strong> argmax(z) = argmax(σ(z))</li>
-                                <li><strong>Differentiable:</strong> Smooth everywhere</li>
+                                <li>Understand the mathematical foundation of softmax regression</li>
+                                <li>Derive the softmax function and its properties</li>
+                                <li>Implement softmax regression from MLE perspective</li>
+                                <li>Apply softmax regression to multiclass problems</li>
+                                <li>Compare with binary logistic regression</li>
                             </ul>
+                        </div>
 
-                            <h3>Softmax Regression Model</h3>
-                            <p>For multiclass classification with K classes, we model the probability of each class:</p>
+                        <div class="estimated-time">
+                            <strong>⏱️ Estimated Time:</strong> 30–35 minutes reading + 60 minutes practice
+                        </div>
 
-                            <div class="math-display">
-                                <strong>Model:</strong><br><br>
-                                $$P(y=k|\boldsymbol{x}) = \frac{e^{\boldsymbol{w}_k^T \boldsymbol{x} + b_k}}{\sum_{j=1}^{K} e^{\boldsymbol{w}_j^T \boldsymbol{x} + b_j}}$$
-                            </div>
+                        <h2>Mathematical Foundation</h2>
+                        
+                        <div class="info-box">
+                            <strong>ℹ️ Note:</strong> Softmax Regression is the natural extension of Logistic Regression to handle <strong>more than two classes</strong> (K > 2).
+                        </div>
 
-                            <p>Where:
-                                <ul>
-                                    <li><span class="math-inline">$\boldsymbol{x}$</span> is the feature vector</li>
-                                    <li><span class="math-inline">$\boldsymbol{w}_k$</span> is the weight vector for class k</li>
-                                    <li><span class="math-inline">$b_k$</span> is the bias term for class k</li>
-                                    <li><span class="math-inline">$P(y=k|\boldsymbol{x})$</span> is the probability of class k</li>
-                                </ul>
-                            </p>
+                        <h3>The Softmax Function</h3>
+                        <p>The softmax function converts a vector of K real numbers into a probability distribution over K classes:</p>
 
-                            <h3>Matrix Form</h3>
-                            <p>We can write this more compactly using matrix notation:</p>
+                        <div class="math-display">
+                            <strong>Softmax Function:</strong><br><br>
+                            $$\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}} \quad \text{for } i = 1, 2, ..., K$$
+                        </div>
 
-                            <div class="math-display">
-                                <strong>Logits:</strong><br><br>
-                                $$\boldsymbol{z} = \boldsymbol{W}^T \boldsymbol{x} + \boldsymbol{b}$$
-                            </div>
+                        <p>Key properties of the softmax function:</p>
+                        <ul>
+                            <li><strong>Normalization:</strong> Σ(i=1 to K) σ(z_i) = 1</li>
+                            <li><strong>Range:</strong> σ(z_i) ∈ (0, 1) for all i</li>
+                            <li><strong>Argmax Property:</strong> argmax(z) = argmax(σ(z))</li>
+                            <li><strong>Differentiable:</strong> Smooth everywhere</li>
+                        </ul>
 
-                            <div class="math-display">
-                                <strong>Probabilities:</strong><br><br>
-                                $$\boldsymbol{p} = \text{softmax}(\boldsymbol{z})$$
-                            </div>
+                        <h3>Softmax Regression Model</h3>
+                        <p>For multiclass classification with K classes, we model the probability of each class:</p>
 
-                            <p>Where:
-                                <ul>
-                                    <li><span class="math-inline">$\boldsymbol{W} \in \mathbb{R}^{d \times K}$</span> is the weight matrix</li>
-                                    <li><span class="math-inline">$\boldsymbol{b} \in \mathbb{R}^K$</span> is the bias vector</li>
-                                    <li><span class="math-inline">$\boldsymbol{z} \in \mathbb{R}^K$</span> is the logits vector</li>
-                                    <li><span class="math-inline">$\boldsymbol{p} \in \mathbb{R}^K$</span> is the probability vector</li>
-                                </ul>
-                            </p>
+                        <div class="math-display">
+                            <strong>Model:</strong><br><br>
+                            $$P(y=k|\boldsymbol{x}) = \frac{e^{\boldsymbol{w}_k^T \boldsymbol{x} + b_k}}{\sum_{j=1}^{K} e^{\boldsymbol{w}_j^T \boldsymbol{x} + b_j}}$$
+                        </div>
 
-                            <h2>Theoretical Foundation: Maximum Likelihood Estimation</h2>
-                            
-                            <h3>Assumption</h3>
-                            <p>We assume that <span class="math-inline">$y_i$</span> follows a categorical distribution:</p>
-
-                            <div class="math-display">
-                                $$y_i | \boldsymbol{x}_i \sim \text{Categorical}(\boldsymbol{p}_i)$$
-                            </div>
-
-                            <p>Where <span class="math-inline">$\boldsymbol{p}_i = \text{softmax}(\boldsymbol{W}^T \boldsymbol{x}_i + \boldsymbol{b})$</span>.</p>
-
-                            <h3>Likelihood Function</h3>
-                            <p>For one-hot encoded labels, the probability mass function is:</p>
-
-                            <div class="math-display">
-                                $$P(y_i = k | \boldsymbol{x}_i, \boldsymbol{W}, \boldsymbol{b}) = p_{i,k} = \frac{e^{\boldsymbol{w}_k^T \boldsymbol{x}_i + b_k}}{\sum_{j=1}^{K} e^{\boldsymbol{w}_j^T \boldsymbol{x}_i + b_j}}$$
-                            </div>
-
-                            <p>For all <span class="math-inline">$n$</span> observations, the likelihood function is:</p>
-
-                            <div class="math-display">
-                                $$L(\boldsymbol{W}, \boldsymbol{b}) = \prod_{i=1}^{n} \prod_{k=1}^{K} p_{i,k}^{y_{i,k}}$$
-                            </div>
-
-                            <p>Where <span class="math-inline">$y_{i,k}$</span> is 1 if sample i belongs to class k, 0 otherwise (one-hot encoding).</p>
-
-                            <h3>Log-Likelihood</h3>
-                            <p>Taking the natural logarithm:</p>
-
-                            <div class="math-display">
-                                $$\ell(\boldsymbol{W}, \boldsymbol{b}) = \sum_{i=1}^{n} \sum_{k=1}^{K} y_{i,k} \log(p_{i,k})$$
-                            </div>
-
-                            <h3>Cross-Entropy Loss</h3>
-                            <p>To minimize (instead of maximize), we use the negative log-likelihood:</p>
-
-                            <div class="math-display">
-                                $$J(\boldsymbol{W}, \boldsymbol{b}) = -\frac{1}{n}\sum_{i=1}^{n} \sum_{k=1}^{K} y_{i,k} \log(p_{i,k})$$
-                            </div>
-
-                            <p>This is exactly the <strong>categorical cross-entropy loss function</strong>!</p>
-
-                            <h3>Gradient Derivation</h3>
-                            <p>The gradient of the loss with respect to <span class="math-inline">$\boldsymbol{w}_k$</span> is:</p>
-
-                            <div class="math-display">
-                                $$\frac{\partial J}{\partial \boldsymbol{w}_k} = \frac{1}{n}\sum_{i=1}^{n} (p_{i,k} - y_{i,k})\boldsymbol{x}_i$$
-                            </div>
-
-                            <p>And with respect to <span class="math-inline">$b_k$</span>:</p>
-
-                            <div class="math-display">
-                                $$\frac{\partial J}{\partial b_k} = \frac{1}{n}\sum_{i=1}^{n} (p_{i,k} - y_{i,k})$$
-                            </div>
-
-                            <h2>Key Properties</h2>
-                            <div class="comparison-grid">
-                                <div class="comparison-card">
-                                    <h4>📊 Probability Distribution</h4>
-                                    <p>Outputs valid probability distributions over all classes.</p>
-                                </div>
-
-                                <div class="comparison-card">
-                                    <h4>🎯 Multiclass Support</h4>
-                                    <p>Handles any number of classes K ≥ 2 naturally.</p>
-                                </div>
-
-                                <div class="comparison-card">
-                                    <h4>📈 Smooth Function</h4>
-                                    <p>Softmax function is smooth and differentiable everywhere.</p>
-                                </div>
-
-                                <div class="comparison-card">
-                                    <h4>🔍 Interpretable</h4>
-                                    <p>Probabilities can be directly interpreted as confidence scores.</p>
-                                </div>
-
-                                <div class="comparison-card">
-                                    <h4>⚡ Fast Training</h4>
-                                    <p>Convex optimization problem with unique global minimum.</p>
-                                </div>
-
-                                <div class="comparison-card">
-                                    <h4>🚫 No Assumptions</h4>
-                                    <p>No assumptions about feature distributions.</p>
-                                </div>
-                            </div>
-
-                            <h2>Applications</h2>
+                        <p>Where:
                             <ul>
-                                <li><strong>Computer Vision:</strong> Image classification (CIFAR-10, ImageNet), object detection</li>
-                                <li><strong>NLP:</strong> Text classification, sentiment analysis, language detection, topic modeling</li>
-                                <li><strong>Healthcare:</strong> Disease classification, medical image analysis, drug discovery</li>
-                                <li><strong>Finance:</strong> Risk rating, customer segmentation, fraud detection</li>
-                                <li><strong>Engineering:</strong> Quality classification, fault diagnosis, system monitoring</li>
+                                <li><span class="math-inline">$\boldsymbol{x}$</span> is the feature vector</li>
+                                <li><span class="math-inline">$\boldsymbol{w}_k$</span> is the weight vector for class k</li>
+                                <li><span class="math-inline">$b_k$</span> is the bias term for class k</li>
+                                <li><span class="math-inline">$P(y=k|\boldsymbol{x})$</span> is the probability of class k</li>
                             </ul>
+                        </p>
 
-                            <h2>Interactive Visualization</h2>
-                            <p>Explore the softmax function with different logit values:</p>
-                            
-                            <div class="chart-container">
-                                <canvas id="softmaxChart"></canvas>
-                            </div>
+                        <h3>Matrix Form</h3>
+                        <p>We can write this more compactly using matrix notation:</p>
 
-                            <h2>Comparison: Binary vs Multiclass</h2>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Aspect</th>
-                                        <th class="center">Logistic Regression (Binary)</th>
-                                        <th class="center">Softmax Regression (Multiclass)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Number of Classes</strong></td>
-                                        <td class="center">2 (K = 2)</td>
-                                        <td class="center">Multiple (K > 2)</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Activation Function</strong></td>
-                                        <td class="center">Sigmoid σ(z)</td>
-                                        <td class="center">Softmax σ(z)</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Output Range</strong></td>
-                                        <td class="center">P(y=1) ∈ (0, 1)</td>
-                                        <td class="center">Σ P(y=k) = 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Parameters</strong></td>
-                                        <td class="center">w ∈ ℝᵈ, b ∈ ℝ</td>
-                                        <td class="center">W ∈ ℝᵈˣᴷ, b ∈ ℝᴷ</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Loss Function</strong></td>
-                                        <td class="center">Binary Cross-Entropy</td>
-                                        <td class="center">Categorical Cross-Entropy</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Decision Rule</strong></td>
-                                        <td class="center">P(y=1) > 0.5</td>
-                                        <td class="center">argmax P(y=k)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="math-display">
+                            <strong>Logits:</strong><br><br>
+                            $$\boldsymbol{z} = \boldsymbol{W}^T \boldsymbol{x} + \boldsymbol{b}$$
                         </div>
 
-                        <div class="content-card">
-                            <h2>Detailed Example: Handwritten Digit Classification</h2>
-                            <p>Let's work through a practical example of classifying handwritten digits (0-9) using softmax regression.</p>
-
-                            <h3>Problem Setup</h3>
-                            <p>We have 10 classes (digits 0-9) and want to predict the probability of each digit given pixel features.</p>
-
-                            <div class="math-display">
-                                $$P(\text{digit}=k|\boldsymbol{x}) = \frac{e^{\boldsymbol{w}_k^T \boldsymbol{x} + b_k}}{\sum_{j=0}^{9} e^{\boldsymbol{w}_j^T \boldsymbol{x} + b_j}}$$
-                            </div>
-
-                            <h3>Sample Prediction</h3>
-                            <p>For an input image <span class="math-inline">$\boldsymbol{x}$</span>, we compute logits for all 10 classes:</p>
-
-                            <div class="math-display">
-                                $$\boldsymbol{z} = \begin{bmatrix} z_0 \\ z_1 \\ z_2 \\ \vdots \\ z_9 \end{bmatrix} = \boldsymbol{W}^T \boldsymbol{x} + \boldsymbol{b}$$
-                            </div>
-
-                            <p>Suppose we get logits: <span class="math-inline">$\boldsymbol{z} = [2.1, -0.5, 0.8, 1.2, -1.1, 3.0, 0.3, -0.2, 1.5, 0.1]^T$</span></p>
-
-                            <h3>Softmax Calculation</h3>
-                            <p>First, compute the exponential of each logit:</p>
-
-                            <div class="math-display">
-                                $$e^{\boldsymbol{z}} = \begin{bmatrix} e^{2.1} \\ e^{-0.5} \\ e^{0.8} \\ \vdots \\ e^{0.1} \end{bmatrix} = \begin{bmatrix} 8.17 \\ 0.61 \\ 2.23 \\ \vdots \\ 1.11 \end{bmatrix}$$
-                            </div>
-
-                            <p>Sum of exponentials: <span class="math-inline">$\sum_{k=0}^{9} e^{z_k} = 8.17 + 0.61 + 2.23 + ... + 1.11 = 28.45$</span></p>
-
-                            <p>Final probabilities:</p>
-
-                            <div class="math-display">
-                                $$\boldsymbol{p} = \begin{bmatrix} P(0) \\ P(1) \\ P(2) \\ \vdots \\ P(9) \end{bmatrix} = \begin{bmatrix} 0.287 \\ 0.021 \\ 0.078 \\ \vdots \\ 0.039 \end{bmatrix}$$
-                            </div>
-
-                            <h3>Prediction</h3>
-                            <p>The predicted class is the one with the highest probability:</p>
-
-                            <div class="math-display">
-                                $$\hat{y} = \arg\max_{k} P(\text{digit}=k|\boldsymbol{x}) = \arg\max_{k} p_k = 0$$
-                            </div>
-
-                            <p>So the model predicts this is digit "0" with 28.7% confidence.</p>
-
-                            <h3>Training Process</h3>
-                            <p>During training, we minimize the categorical cross-entropy loss:</p>
-
-                            <div class="math-display">
-                                $$J(\boldsymbol{W}, \boldsymbol{b}) = -\frac{1}{n}\sum_{i=1}^{n} \sum_{k=0}^{9} y_{i,k} \log(p_{i,k})$$
-                            </div>
-
-                            <p>Where <span class="math-inline">$y_{i,k}$</span> is 1 if sample i is digit k, 0 otherwise.</p>
+                        <div class="math-display">
+                            <strong>Probabilities:</strong><br><br>
+                            $$\boldsymbol{p} = \text{softmax}(\boldsymbol{z})$$
                         </div>
+
+                        <p>Where:
+                            <ul>
+                                <li><span class="math-inline">$\boldsymbol{W} \in \mathbb{R}^{d \times K}$</span> is the weight matrix</li>
+                                <li><span class="math-inline">$\boldsymbol{b} \in \mathbb{R}^K$</span> is the bias vector</li>
+                                <li><span class="math-inline">$\boldsymbol{z} \in \mathbb{R}^K$</span> is the logits vector</li>
+                                <li><span class="math-inline">$\boldsymbol{p} \in \mathbb{R}^K$</span> is the probability vector</li>
+                            </ul>
+                        </p>
+
+                        <h2>Theoretical Foundation: Maximum Likelihood Estimation</h2>
+                        
+                        <h3>Assumption</h3>
+                        <p>We assume that <span class="math-inline">$y_i$</span> follows a categorical distribution:</p>
+
+                        <div class="math-display">
+                            $$y_i | \boldsymbol{x}_i \sim \text{Categorical}(\boldsymbol{p}_i)$$
+                        </div>
+
+                        <p>Where <span class="math-inline">$\boldsymbol{p}_i = \text{softmax}(\boldsymbol{W}^T \boldsymbol{x}_i + \boldsymbol{b})$</span>.</p>
+
+                        <h3>Likelihood Function</h3>
+                        <p>For one-hot encoded labels, the probability mass function is:</p>
+
+                        <div class="math-display">
+                            $$P(y_i = k | \boldsymbol{x}_i, \boldsymbol{W}, \boldsymbol{b}) = p_{i,k} = \frac{e^{\boldsymbol{w}_k^T \boldsymbol{x}_i + b_k}}{\sum_{j=1}^{K} e^{\boldsymbol{w}_j^T \boldsymbol{x}_i + b_j}}$$
+                        </div>
+
+                        <p>For all <span class="math-inline">$n$</span> observations, the likelihood function is:</p>
+
+                        <div class="math-display">
+                            $$L(\boldsymbol{W}, \boldsymbol{b}) = \prod_{i=1}^{n} \prod_{k=1}^{K} p_{i,k}^{y_{i,k}}$$
+                        </div>
+
+                        <p>Where <span class="math-inline">$y_{i,k}$</span> is 1 if sample i belongs to class k, 0 otherwise (one-hot encoding).</p>
+
+                        <h3>Log-Likelihood</h3>
+                        <p>Taking the natural logarithm:</p>
+
+                        <div class="math-display">
+                            $$\ell(\boldsymbol{W}, \boldsymbol{b}) = \sum_{i=1}^{n} \sum_{k=1}^{K} y_{i,k} \log(p_{i,k})$$
+                        </div>
+
+                        <h3>Cross-Entropy Loss</h3>
+                        <p>To minimize (instead of maximize), we use the negative log-likelihood:</p>
+
+                        <div class="math-display">
+                            $$J(\boldsymbol{W}, \boldsymbol{b}) = -\frac{1}{n}\sum_{i=1}^{n} \sum_{k=1}^{K} y_{i,k} \log(p_{i,k})$$
+                        </div>
+
+                        <p>This is exactly the <strong>categorical cross-entropy loss function</strong>!</p>
+
+                        <h3>Gradient Derivation</h3>
+                        <p>The gradient of the loss with respect to <span class="math-inline">$\boldsymbol{w}_k$</span> is:</p>
+
+                        <div class="math-display">
+                            $$\frac{\partial J}{\partial \boldsymbol{w}_k} = \frac{1}{n}\sum_{i=1}^{n} (p_{i,k} - y_{i,k})\boldsymbol{x}_i$$
+                        </div>
+
+                        <p>And with respect to <span class="math-inline">$b_k$</span>:</p>
+
+                        <div class="math-display">
+                            $$\frac{\partial J}{\partial b_k} = \frac{1}{n}\sum_{i=1}^{n} (p_{i,k} - y_{i,k})$$
+                        </div>
+
+                        <h2>Key Properties</h2>
+                        <div class="comparison-grid">
+                            <div class="comparison-card">
+                                <h4>📊 Probability Distribution</h4>
+                                <p>Outputs valid probability distributions over all classes.</p>
+                            </div>
+
+                            <div class="comparison-card">
+                                <h4>🎯 Multiclass Support</h4>
+                                <p>Handles any number of classes K ≥ 2 naturally.</p>
+                            </div>
+
+                            <div class="comparison-card">
+                                <h4>📈 Smooth Function</h4>
+                                <p>Softmax function is smooth and differentiable everywhere.</p>
+                            </div>
+
+                            <div class="comparison-card">
+                                <h4>🔍 Interpretable</h4>
+                                <p>Probabilities can be directly interpreted as confidence scores.</p>
+                            </div>
+
+                            <div class="comparison-card">
+                                <h4>⚡ Fast Training</h4>
+                                <p>Convex optimization problem with unique global minimum.</p>
+                            </div>
+
+                            <div class="comparison-card">
+                                <h4>🚫 No Assumptions</h4>
+                                <p>No assumptions about feature distributions.</p>
+                            </div>
+                        </div>
+
+                        <h2>Applications</h2>
+                        <ul>
+                            <li><strong>Computer Vision:</strong> Image classification (CIFAR-10, ImageNet), object detection</li>
+                            <li><strong>NLP:</strong> Text classification, sentiment analysis, language detection, topic modeling</li>
+                            <li><strong>Healthcare:</strong> Disease classification, medical image analysis, drug discovery</li>
+                            <li><strong>Finance:</strong> Risk rating, customer segmentation, fraud detection</li>
+                            <li><strong>Engineering:</strong> Quality classification, fault diagnosis, system monitoring</li>
+                        </ul>
+
+                        <h2>Interactive Visualization</h2>
+                        <p>Explore the softmax function with different logit values:</p>
+                        
+                        <div class="chart-container">
+                            <canvas id="softmaxChart"></canvas>
+                        </div>
+
+                        <h2>Comparison: Binary vs Multiclass</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Aspect</th>
+                                    <th class="center">Logistic Regression (Binary)</th>
+                                    <th class="center">Softmax Regression (Multiclass)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Number of Classes</strong></td>
+                                    <td class="center">2 (K = 2)</td>
+                                    <td class="center">Multiple (K > 2)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Activation Function</strong></td>
+                                    <td class="center">Sigmoid σ(z)</td>
+                                    <td class="center">Softmax σ(z)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Output Range</strong></td>
+                                    <td class="center">P(y=1) ∈ (0, 1)</td>
+                                    <td class="center">Σ P(y=k) = 1</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Parameters</strong></td>
+                                    <td class="center">w ∈ ℝᵈ, b ∈ ℝ</td>
+                                    <td class="center">W ∈ ℝᵈˣᴷ, b ∈ ℝᴷ</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Loss Function</strong></td>
+                                    <td class="center">Binary Cross-Entropy</td>
+                                    <td class="center">Categorical Cross-Entropy</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Decision Rule</strong></td>
+                                    <td class="center">P(y=1) > 0.5</td>
+                                    <td class="center">argmax P(y=k)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h2>Detailed Example: Handwritten Digit Classification</h2>
+                        <p>Let's work through a practical example of classifying handwritten digits (0-9) using softmax regression.</p>
+
+                        <h3>Problem Setup</h3>
+                        <p>We have 10 classes (digits 0-9) and want to predict the probability of each digit given pixel features.</p>
+
+                        <div class="math-display">
+                            $$P(\text{digit}=k|\boldsymbol{x}) = \frac{e^{\boldsymbol{w}_k^T \boldsymbol{x} + b_k}}{\sum_{j=0}^{9} e^{\boldsymbol{w}_j^T \boldsymbol{x} + b_j}}$$
+                        </div>
+
+                        <h3>Sample Prediction</h3>
+                        <p>For an input image <span class="math-inline">$\boldsymbol{x}$</span>, we compute logits for all 10 classes:</p>
+
+                        <div class="math-display">
+                            $$\boldsymbol{z} = \begin{bmatrix} z_0 \\ z_1 \\ z_2 \\ \vdots \\ z_9 \end{bmatrix} = \boldsymbol{W}^T \boldsymbol{x} + \boldsymbol{b}$$
+                        </div>
+
+                        <p>Suppose we get logits: <span class="math-inline">$\boldsymbol{z} = [2.1, -0.5, 0.8, 1.2, -1.1, 3.0, 0.3, -0.2, 1.5, 0.1]^T$</span></p>
+
+                        <h3>Softmax Calculation</h3>
+                        <p>First, compute the exponential of each logit:</p>
+
+                        <div class="math-display">
+                            $$e^{\boldsymbol{z}} = \begin{bmatrix} e^{2.1} \\ e^{-0.5} \\ e^{0.8} \\ \vdots \\ e^{0.1} \end{bmatrix} = \begin{bmatrix} 8.17 \\ 0.61 \\ 2.23 \\ \vdots \\ 1.11 \end{bmatrix}$$
+                        </div>
+
+                        <p>Sum of exponentials: <span class="math-inline">$\sum_{k=0}^{9} e^{z_k} = 8.17 + 0.61 + 2.23 + ... + 1.11 = 28.45$</span></p>
+
+                        <p>Final probabilities:</p>
+
+                        <div class="math-display">
+                            $$\boldsymbol{p} = \begin{bmatrix} P(0) \\ P(1) \\ P(2) \\ \vdots \\ P(9) \end{bmatrix} = \begin{bmatrix} 0.287 \\ 0.021 \\ 0.078 \\ \vdots \\ 0.039 \end{bmatrix}$$
+                        </div>
+
+                        <h3>Prediction</h3>
+                        <p>The predicted class is the one with the highest probability:</p>
+
+                        <div class="math-display">
+                            $$\hat{y} = \arg\max_{k} P(\text{digit}=k|\boldsymbol{x}) = \arg\max_{k} p_k = 0$$
+                        </div>
+
+                        <p>So the model predicts this is digit "0" with 28.7% confidence.</p>
+
+                        <h3>Training Process</h3>
+                        <p>During training, we minimize the categorical cross-entropy loss:</p>
+
+                        <div class="math-display">
+                            $$J(\boldsymbol{W}, \boldsymbol{b}) = -\frac{1}{n}\sum_{i=1}^{n} \sum_{k=0}^{9} y_{i,k} \log(p_{i,k})$$
+                        </div>
+
+                        <p>Where <span class="math-inline">$y_{i,k}$</span> is 1 if sample i is digit k, 0 otherwise.</p>
+                    </div>
                 </div>
 
                 <!-- Tab 2: Iris Dataset -->
                 <div id="iris-dataset" class="tab-pane">
-                        <div class="tab-header">
-                            <h2>🌸 Iris Dataset Classification</h2>
-                            <p>Softmax Regression on the famous Iris flower dataset</p>
-                        </div>
-                        
-                        <!-- Section 1: Overview -->
-                        <div class="iris-overview-section">
-                            <h3>Overview</h3>
+                    <div class="tab-header">
+                        <h2>🌸 Iris Dataset Classification</h2>
+                        <p>Softmax Regression on the famous Iris flower dataset</p>
+                    </div>
+                    
+                    <div class="overview-section">
+                        <div class="content-card">
+                            <h3>📊 Dataset Overview</h3>
                             <div class="dataset-info">
-                                <p><strong>Iris Dataset:</strong> 150 samples, 4 features, 3 classes</p>
-                                <ul>
-                                    <li><strong>Features:</strong> sepal_length, sepal_width, petal_length, petal_width</li>
-                                    <li><strong>Classes:</strong> setosa, versicolor, virginica</li>
-                                    <li><strong>Data Type:</strong> Continuous (suitable for Softmax Regression)</li>
-                                </ul>
+                                <p><strong>Dataset:</strong> Iris Flower Dataset</p>
+                                <p><strong>Samples:</strong> 150 flowers</p>
+                                <p><strong>Features:</strong> 4 (sepal length, sepal width, petal length, petal width)</p>
+                                <p><strong>Classes:</strong> 3 (Setosa, Versicolor, Virginica)</p>
+                                <p><strong>Task:</strong> Multiclass classification using Softmax Regression</p>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Section 2: Code Implementation -->
-                        <div class="iris-code-section">
-                            <h3>Code Implementation</h3>
-                            <p class="code-description">
-                                Complete implementation of Softmax Regression on Iris dataset. 
-                                This code demonstrates the full pipeline from data loading to model evaluation.
-                            </p>
-                            
+                    <div class="code-section">
+                        <div class="content-card">
+                            <h3>💻 Code Implementation</h3>
                             <div class="code-block-full">
                                 <div class="code-header">
-                                    <h4>Complete Implementation</h4>
+                                    <span>Complete Implementation</span>
                                     <div class="code-actions">
-                                        <button class="action-btn copy-btn" title="Copy code to clipboard">
-                                            📋 Copy
-                                        </button>
-                                        <button class="action-btn download-btn" title="Download code as file">
-                                            💾 Download
-                                        </button>
+                                        <button class="action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                                        <button class="action-btn download-btn" onclick="downloadCode(this)">Download</button>
                                     </div>
                                 </div>
-                                <div id="iris-code-content" class="code-content">
+                                <div class="code-content">
                                     <div class="loading-code">
                                         <p>Loading code from iris_softmax.py...</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
 
                 <!-- Tab 3: MNIST Dataset -->
                 <div id="mnist-dataset" class="tab-pane">
-                        <div class="tab-header">
-                            <h2>🔢 MNIST Digit Classification</h2>
-                            <p>Softmax Regression for handwritten digit recognition</p>
-                        </div>
-                        
-                        <!-- Section 1: Overview -->
-                        <div class="iris-overview-section">
-                            <h3>Overview</h3>
+                    <div class="tab-header">
+                        <h2>🔢 MNIST Digit Classification</h2>
+                        <p>Softmax Regression for handwritten digit recognition</p>
+                    </div>
+                    
+                    <div class="overview-section">
+                        <div class="content-card">
+                            <h3>📊 Dataset Overview</h3>
                             <div class="dataset-info">
-                                <p><strong>MNIST Dataset:</strong> 70,000 samples, 784 features, 10 classes</p>
-                                <ul>
-                                    <li><strong>Features:</strong> 28×28 pixel values (flattened to 784)</li>
-                                    <li><strong>Classes:</strong> Digits 0-9</li>
-                                    <li><strong>Data Type:</strong> Grayscale pixel values (0-255)</li>
-                                    <li><strong>Challenge:</strong> High-dimensional feature space</li>
-                                </ul>
+                                <p><strong>Dataset:</strong> MNIST Handwritten Digits</p>
+                                <p><strong>Samples:</strong> 70,000 images</p>
+                                <p><strong>Features:</strong> 784 (28×28 pixel values)</p>
+                                <p><strong>Classes:</strong> 10 (digits 0-9)</p>
+                                <p><strong>Task:</strong> High-dimensional multiclass classification</p>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Section 2: Code Implementation -->
-                        <div class="iris-code-section">
-                            <h3>Code Implementation</h3>
-                            <p class="code-description">
-                                Complete implementation of Softmax Regression on MNIST dataset. 
-                                This code demonstrates handling high-dimensional data and image classification.
-                            </p>
-                            
+                    <div class="code-section">
+                        <div class="content-card">
+                            <h3>💻 Code Implementation</h3>
                             <div class="code-block-full">
                                 <div class="code-header">
-                                    <h4>Complete Implementation</h4>
+                                    <span>Complete Implementation</span>
                                     <div class="code-actions">
-                                        <button class="action-btn copy-btn" title="Copy code to clipboard">
-                                            📋 Copy
-                                        </button>
-                                        <button class="action-btn download-btn" title="Download code as file">
-                                            💾 Download
-                                        </button>
+                                        <button class="action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                                        <button class="action-btn download-btn" onclick="downloadCode(this)">Download</button>
                                     </div>
                                 </div>
-                                <div id="mnist-code-content" class="code-content">
+                                <div class="code-content">
                                     <div class="loading-code">
                                         <p>Loading code from mnist_softmax.py...</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
 
                 <!-- Tab 4: Wine Quality Dataset -->
                 <div id="wine-dataset" class="tab-pane">
-                        <div class="tab-header">
-                            <h2>🍷 Wine Quality Classification</h2>
-                            <p>Softmax Regression for wine quality assessment</p>
-                        </div>
-                        
-                        <!-- Section 1: Overview -->
-                        <div class="iris-overview-section">
-                            <h3>Overview</h3>
+                    <div class="tab-header">
+                        <h2>🍷 Wine Quality Classification</h2>
+                        <p>Softmax Regression for wine quality assessment</p>
+                    </div>
+                    
+                    <div class="overview-section">
+                        <div class="content-card">
+                            <h3>📊 Dataset Overview</h3>
                             <div class="dataset-info">
-                                <p><strong>Wine Quality Dataset:</strong> 4,898 samples, 11 features, 7 quality classes</p>
-                                <ul>
-                                    <li><strong>Features:</strong> fixed acidity, volatile acidity, citric acid, etc.</li>
-                                    <li><strong>Classes:</strong> Quality ratings 3-9</li>
-                                    <li><strong>Data Type:</strong> Continuous chemical measurements</li>
-                                    <li><strong>Application:</strong> Quality control in wine production</li>
-                                </ul>
+                                <p><strong>Dataset:</strong> Wine Quality Dataset</p>
+                                <p><strong>Samples:</strong> 1,599 wines</p>
+                                <p><strong>Features:</strong> 11 (alcohol, acidity, sugar, etc.)</p>
+                                <p><strong>Classes:</strong> 6 (quality scores 3-8)</p>
+                                <p><strong>Task:</strong> Imbalanced multiclass classification</p>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Section 2: Code Implementation -->
-                        <div class="iris-code-section">
-                            <h3>Code Implementation</h3>
-                            <p class="code-description">
-                                Complete implementation of Softmax Regression on Wine Quality dataset. 
-                                This code demonstrates multiclass classification with imbalanced data.
-                            </p>
-                            
+                    <div class="code-section">
+                        <div class="content-card">
+                            <h3>💻 Code Implementation</h3>
                             <div class="code-block-full">
                                 <div class="code-header">
-                                    <h4>Complete Implementation</h4>
+                                    <span>Complete Implementation</span>
                                     <div class="code-actions">
-                                        <button class="action-btn copy-btn" title="Copy code to clipboard">
-                                            📋 Copy
-                                        </button>
-                                        <button class="action-btn download-btn" title="Download code as file">
-                                            💾 Download
-                                        </button>
+                                        <button class="action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                                        <button class="action-btn download-btn" onclick="downloadCode(this)">Download</button>
                                     </div>
                                 </div>
-                                <div id="wine-code-content" class="code-content">
+                                <div class="code-content">
                                     <div class="loading-code">
                                         <p>Loading code from wine_softmax.py...</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
 
                 <!-- Tab 5: Comparison -->
                 <div id="comparison" class="tab-pane">
-                        <div class="tab-header">
-                            <h2>📊 Algorithm Comparison</h2>
-                            <p>Comparing Softmax Regression with other classification algorithms</p>
-                        </div>
-                        
-                        <div class="variants-comparison">
-                            <h3>Performance Comparison</h3>
-                            <div class="chart-container">
-                                <canvas id="comparisonChart"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="variants-demos">
-                            <div class="demo-grid">
-                                <div class="demo-item">
+                    <div class="tab-header">
+                        <h2>📊 Algorithm Comparison</h2>
+                        <p>Comparing Softmax Regression with other classification algorithms</p>
+                    </div>
+                    
+                    <div class="comparison-section">
+                        <div class="content-card">
+                            <h3>🔍 Algorithm Comparison</h3>
+                            <div class="comparison-grid">
+                                <div class="comparison-card">
                                     <h4>🎯 Softmax Regression</h4>
-                                    <p>Multiclass logistic regression with softmax activation</p>
-                                    <div class="variant-info">
-                                        <div class="info-item">
-                                            <strong>Best for:</strong> Multiclass problems with linear decision boundaries
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Pros:</strong> Fast training, interpretable, probabilistic outputs
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Cons:</strong> Linear decision boundaries only
-                                        </div>
+                                    <div class="comparison-details">
+                                        <p><strong>Pros:</strong> Fast, interpretable, no assumptions</p>
+                                        <p><strong>Cons:</strong> Linear decision boundary, sensitive to outliers</p>
+                                        <p><strong>Best for:</strong> Linear separable data, baseline models</p>
                                     </div>
                                 </div>
 
-                                <div class="demo-item">
+                                <div class="comparison-card">
                                     <h4>🌳 Random Forest</h4>
-                                    <p>Ensemble of decision trees for robust classification</p>
-                                    <div class="variant-info">
-                                        <div class="info-item">
-                                            <strong>Best for:</strong> Non-linear patterns, feature importance
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Pros:</strong> Handles non-linearity, feature importance, robust
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Cons:</strong> Less interpretable, can overfit
-                                        </div>
+                                    <div class="comparison-details">
+                                        <p><strong>Pros:</strong> Handles non-linear data, feature importance</p>
+                                        <p><strong>Cons:</strong> Less interpretable, can overfit</p>
+                                        <p><strong>Best for:</strong> Mixed data types, feature selection</p>
                                     </div>
                                 </div>
 
-                                <div class="demo-item">
-                                    <h4>🤖 SVM</h4>
-                                    <p>Support Vector Machine with kernel methods</p>
-                                    <div class="variant-info">
-                                        <div class="info-item">
-                                            <strong>Best for:</strong> High-dimensional data, clear margin separation
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Pros:</strong> Effective in high dimensions, memory efficient
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Cons:</strong> Slow on large datasets, sensitive to scaling
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="demo-item">
-                                    <h4>🧠 Neural Networks</h4>
-                                    <p>Deep learning with multiple hidden layers</p>
-                                    <div class="variant-info">
-                                        <div class="info-item">
-                                            <strong>Best for:</strong> Complex patterns, large datasets
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Pros:</strong> Can learn complex patterns, very flexible
-                                        </div>
-                                        <div class="info-item">
-                                            <strong>Cons:</strong> Requires lots of data, black box, slow training
-                                        </div>
+                                <div class="comparison-card">
+                                    <h4>🤖 Neural Networks</h4>
+                                    <div class="comparison-details">
+                                        <p><strong>Pros:</strong> Complex patterns, high accuracy</p>
+                                        <p><strong>Cons:</strong> Requires lots of data, black box</p>
+                                        <p><strong>Best for:</strong> Large datasets, complex patterns</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -599,7 +530,7 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script type="module" src="js/main.js"></script>
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
 </body>
 </html>
