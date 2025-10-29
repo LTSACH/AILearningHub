@@ -52,19 +52,19 @@ class ModelVisualization {
     createArrowMarker() {
         const defs = this.svg.append('defs');
         
-        // Create arrow marker with smaller triangle head
+        // Create arrow marker with very small triangle head (1/10 size)
         defs.append('marker')
             .attr('id', 'arrowhead')
-            .attr('markerWidth', 12)
-            .attr('markerHeight', 8)
-            .attr('refX', 10)
-            .attr('refY', 4)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 2)
+            .attr('refX', 2.5)
+            .attr('refY', 1)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M 0,0 L 0,8 L 12,4 z')
+            .attr('d', 'M 0,0 L 0,2 L 3,1 z')
             .attr('fill', '#667eea')
             .attr('stroke', '#667eea')
-            .attr('stroke-width', 1);
+            .attr('stroke-width', 0.5);
     }
     
     createTooltip() {
@@ -140,6 +140,9 @@ class ModelVisualization {
             .append('g')
             .attr('class', 'node-group');
         
+        // Store reference to this outside the loop
+        const self = this;
+        
         // Draw node shapes
         nodeGroup.each(function(d) {
             const group = d3.select(this);
@@ -182,7 +185,6 @@ class ModelVisualization {
                 .text(d.label);
             
             // Add hover effects - no movement, just tooltip
-            const self = this; // Store reference to this
             group.on('mouseover', function(event, d) {
                 d3.select(this).select('.model-node')
                     .attr('stroke-width', 4)
