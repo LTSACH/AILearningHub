@@ -52,16 +52,16 @@ class ModelVisualization {
     createArrowMarker() {
         const defs = this.svg.append('defs');
         
-        // Create arrow marker with both line and head
+        // Create arrow marker with larger triangle head
         defs.append('marker')
             .attr('id', 'arrowhead')
-            .attr('markerWidth', 15)
-            .attr('markerHeight', 10)
-            .attr('refX', 12)
-            .attr('refY', 5)
+            .attr('markerWidth', 20)
+            .attr('markerHeight', 15)
+            .attr('refX', 18)
+            .attr('refY', 7.5)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M 0,0 L 0,10 L 15,5 z')
+            .attr('d', 'M 0,0 L 0,15 L 20,7.5 z')
             .attr('fill', '#667eea')
             .attr('stroke', '#667eea')
             .attr('stroke-width', 1);
@@ -181,11 +181,9 @@ class ModelVisualization {
                 .attr('dominant-baseline', 'middle')
                 .text(d.label);
             
-            // Add hover effects
+            // Add hover effects - no movement, just tooltip
             group.on('mouseover', function(event, d) {
                 d3.select(this).select('.model-node')
-                    .transition()
-                    .duration(200)
                     .attr('stroke-width', 4)
                     .attr('filter', 'brightness(1.1)');
                 
@@ -193,8 +191,6 @@ class ModelVisualization {
             }.bind(this))
             .on('mouseout', function(event, d) {
                 d3.select(this).select('.model-node')
-                    .transition()
-                    .duration(200)
                     .attr('stroke-width', 3)
                     .attr('filter', 'none');
                 
@@ -223,9 +219,9 @@ class ModelVisualization {
             const fromPos = this.nodePositions[arrow.from];
             const toPos = this.nodePositions[arrow.to];
             
-            // Calculate arrow path - longer arrows
+            // Calculate arrow path - arrows stop before touching boxes
             const startX = fromPos.x + (fromPos === this.nodePositions.input ? 40 : 50);
-            const endX = toPos.x - (toPos === this.nodePositions.output ? 40 : 50);
+            const endX = toPos.x - (toPos === this.nodePositions.output ? 40 : 50) - 20; // Stop 20px before box
             const y = fromPos.y;
             
             // Draw arrow line
@@ -258,7 +254,7 @@ class ModelVisualization {
             case 'input':
                 return `
                     <h4>Input Layer</h4>
-                    <p><strong>Shape:</strong> (batch_size, ${this.config.inputFeatures})</p>
+                    <p><strong>Data Shape:</strong> (batch_size, ${this.config.inputFeatures})</p>
                     <p><strong>Features:</strong> ${this.config.inputFeatures} input features</p>
                     <p><strong>Type:</strong> Raw input data</p>
                 `;
@@ -266,25 +262,26 @@ class ModelVisualization {
                 const denseParams = this.config.inputFeatures * this.config.outputClasses + this.config.outputClasses;
                 return `
                     <h4>Dense Layer (Linear)</h4>
-                    <p><strong>Weights:</strong> (${this.config.inputFeatures}, ${this.config.outputClasses})</p>
-                    <p><strong>Bias:</strong> (${this.config.outputClasses},)</p>
+                    <p><strong>Weight Matrix W:</strong> (${this.config.inputFeatures}, ${this.config.outputClasses})</p>
+                    <p><strong>Bias Vector b:</strong> (${this.config.outputClasses},)</p>
                     <p><strong>Parameters:</strong> ${denseParams} total</p>
                     <p><strong>Operation:</strong> z = Wx + b</p>
+                    <p><strong>Data Flow:</strong> (batch_size, ${this.config.inputFeatures}) → (batch_size, ${this.config.outputClasses})</p>
                 `;
             case 'softmax':
                 return `
                     <h4>Softmax Activation</h4>
-                    <p><strong>Input:</strong> (batch_size, ${this.config.outputClasses})</p>
-                    <p><strong>Output:</strong> (batch_size, ${this.config.outputClasses})</p>
+                    <p><strong>Input Shape:</strong> (batch_size, ${this.config.outputClasses})</p>
+                    <p><strong>Output Shape:</strong> (batch_size, ${this.config.outputClasses})</p>
                     <p><strong>Function:</strong> σ(z_i) = e^(z_i) / Σe^(z_j)</p>
-                    <p><strong>Properties:</strong> Probabilities sum to 1</p>
+                    <p><strong>Data Flow:</strong> Logits → Probabilities</p>
                 `;
             case 'output':
                 return `
                     <h4>Output Layer</h4>
-                    <p><strong>Shape:</strong> (batch_size, ${this.config.outputClasses})</p>
+                    <p><strong>Probability Distribution:</strong> (batch_size, ${this.config.outputClasses})</p>
                     <p><strong>Classes:</strong> ${this.config.outputClasses} output classes</p>
-                    <p><strong>Type:</strong> Probability distribution</p>
+                    <p><strong>Properties:</strong> Σp_i = 1, p_i ≥ 0</p>
                     <p><strong>Prediction:</strong> argmax(probabilities)</p>
                 `;
             default:
