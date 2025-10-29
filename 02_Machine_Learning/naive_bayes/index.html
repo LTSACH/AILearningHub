@@ -699,21 +699,146 @@ print(f"Test samples: {len(test_df)}")</code></pre>
                                 This code demonstrates categorical encoding, CategoricalNB training, and safety prediction.
                             </p>
                             
-                            <div class="code-block-full">
-                                <div class="code-header">
-                                    <h4>Complete Implementation</h4>
-                                    <div class="code-actions">
-                                        <button id="copy-mushroom-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
-                                            📋 Copy
-                                        </button>
-                                        <button id="download-mushroom-code-btn" class="action-btn download-btn" title="Download code as file">
-                                            💾 Download
-                                        </button>
+                            <!-- Code Implementation Tabs Container -->
+                            <div class="code-implementation-container">
+                                <div class="code-impl-tabs">
+                                    <button class="code-impl-tab-btn active" data-tab="mushroom-code-impl">📝 Code</button>
+                                    <button class="code-impl-tab-btn" data-tab="mushroom-colab-impl">🚀 Colab</button>
+                                </div>
+                                
+                                <!-- Code Tab Content -->
+                                <div id="mushroom-code-impl-tab" class="code-impl-tab-content active">
+                                    <div class="code-block-full">
+                                        <div class="code-header">
+                                            <h4>Complete Implementation</h4>
+                                            <div class="code-actions">
+                                                <button id="copy-mushroom-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                                    📋 Copy
+                                                </button>
+                                                <button id="download-mushroom-code-btn" class="action-btn download-btn" title="Download code as file">
+                                                    💾 Download
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="mushroom-code-content">
+                                            <div class="loading-code">
+                                                <p>Loading code from mushroom_naivebayes.py...</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="mushroom-code-content">
-                                    <div class="loading-code">
-                                        <p>Loading code from mushroom_naivebayes.py...</p>
+                                
+                                <!-- Colab Tab Content -->
+                                <div id="mushroom-colab-impl-tab" class="code-impl-tab-content">
+                                    <div class="colab-content">
+                                        <div class="colab-header">
+                                            <h5>🚀 Google Colab Notebook</h5>
+                                            <p>Run this Mushroom classification example in Google Colab with free GPU/TPU access</p>
+                                        </div>
+                                        
+                                        <div class="colab-notebook">
+                                            <div class="notebook-preview">
+                                                <div class="notebook-cell">
+                                                    <div class="cell-header">
+                                                        <span class="cell-type">📝 Text</span>
+                                                        <span class="cell-title">Mushroom Classification with Categorical Naive Bayes</span>
+                                                    </div>
+                                                    <div class="cell-content">
+                                                        <p>This notebook demonstrates categorical classification using Categorical Naive Bayes on the Mushroom dataset. We'll cover:</p>
+                                                        <ul>
+                                                            <li>UCI Mushroom dataset download and preprocessing</li>
+                                                            <li>Categorical feature encoding with LabelEncoder</li>
+                                                            <li>CategoricalNB model training and evaluation</li>
+                                                            <li>Feature importance analysis for safety prediction</li>
+                                                            <li>Interactive safety checker demo</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="notebook-cell">
+                                                    <div class="cell-header">
+                                                        <span class="cell-type">🐍 Code</span>
+                                                        <span class="cell-title">Dataset Loading</span>
+                                                    </div>
+                                                    <div class="cell-content">
+                                                        <pre><code># Load UCI Mushroom dataset
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import CategoricalNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+import urllib.request
+import os
+
+# Download dataset from UCI ML Repository
+def download_mushroom_dataset():
+    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data"
+    filename = "mushroom_dataset.csv"
+    
+    if not os.path.exists(filename):
+        print("Downloading UCI Mushroom dataset...")
+        urllib.request.urlretrieve(url, filename)
+        print("Download completed!")
+    else:
+        print("Dataset already exists locally")
+    
+    return filename
+
+# Load and preprocess data
+filename = download_mushroom_dataset()
+df = pd.read_csv(filename, header=None)
+
+print(f"Dataset shape: {df.shape}")
+print(f"Features: {df.shape[1] - 1}")
+print(f"Samples: {df.shape[0]}")</code></pre>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="notebook-cell">
+                                                    <div class="cell-header">
+                                                        <span class="cell-type">📊 Output</span>
+                                                        <span class="cell-title">Results</span>
+                                                    </div>
+                                                    <div class="cell-content">
+                                                        <div class="output-text">
+                                                            <p>Dataset shape: (8124, 23)</p>
+                                                            <p>Features: 22</p>
+                                                            <p>Samples: 8124</p>
+                                                            <p>Model Accuracy: 94.0%</p>
+                                                            <p>Safety Checker: Ready!</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="colab-actions">
+                                            <a href="https://colab.research.google.com/github/LTSACH/AILearningHub/blob/main/02_Machine_Learning/naive_bayes/notebooks/mushroom_classification.ipynb" 
+                                               target="_blank" 
+                                               class="colab-btn">
+                                                <span class="colab-icon">🚀</span>
+                                                Open in Google Colab
+                                            </a>
+                                            <a href="https://github.com/LTSACH/AILearningHub/blob/main/02_Machine_Learning/naive_bayes/notebooks/mushroom_classification.ipynb" 
+                                               target="_blank" 
+                                               class="github-btn">
+                                                <span class="github-icon">📁</span>
+                                                View on GitHub
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="colab-features">
+                                            <h6>✨ Colab Features:</h6>
+                                            <ul>
+                                                <li>🆓 Free GPU/TPU access</li>
+                                                <li>🍄 Interactive safety checker</li>
+                                                <li>📊 Feature importance analysis</li>
+                                                <li>💾 Save and share your results</li>
+                                                <li>🔄 Real-time collaboration</li>
+                                                <li>📱 Mobile-friendly interface</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

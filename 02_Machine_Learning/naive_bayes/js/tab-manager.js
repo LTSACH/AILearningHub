@@ -158,15 +158,32 @@ export class TabManager {
             }
         });
 
-        // Update content visibility
-        const codeTab = container.querySelector('#code-impl-tab');
-        const colabTab = container.querySelector('#colab-impl-tab');
-        
-        if (codeTab && colabTab) {
-            if (tabType === 'code-impl') {
+        // Update content visibility - handle both BBC and Mushroom tabs
+        if (tabType === 'code-impl') {
+            const codeTab = container.querySelector('#code-impl-tab');
+            const colabTab = container.querySelector('#colab-impl-tab');
+            if (codeTab && colabTab) {
                 codeTab.classList.add('active');
                 colabTab.classList.remove('active');
-            } else if (tabType === 'colab-impl') {
+            }
+        } else if (tabType === 'colab-impl') {
+            const codeTab = container.querySelector('#code-impl-tab');
+            const colabTab = container.querySelector('#colab-impl-tab');
+            if (codeTab && colabTab) {
+                codeTab.classList.remove('active');
+                colabTab.classList.add('active');
+            }
+        } else if (tabType === 'mushroom-code-impl') {
+            const codeTab = container.querySelector('#mushroom-code-impl-tab');
+            const colabTab = container.querySelector('#mushroom-colab-impl-tab');
+            if (codeTab && colabTab) {
+                codeTab.classList.add('active');
+                colabTab.classList.remove('active');
+            }
+        } else if (tabType === 'mushroom-colab-impl') {
+            const codeTab = container.querySelector('#mushroom-code-impl-tab');
+            const colabTab = container.querySelector('#mushroom-colab-impl-tab');
+            if (codeTab && colabTab) {
                 codeTab.classList.remove('active');
                 colabTab.classList.add('active');
             }
