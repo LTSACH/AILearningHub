@@ -197,10 +197,14 @@ def evaluate_model(model, X_test, y_test, target_names, output_dir="output"):
         font=dict(size=12)
     )
     
-    # Save confusion matrix
-    cm_path = os.path.join(output_dir, "bbc_confusion_matrix.png")
-    fig_cm.write_image(cm_path)
-    print(f"Confusion matrix saved to {cm_path}")
+    # Save confusion matrix (skip if kaleido not available)
+    try:
+        cm_path = os.path.join(output_dir, "bbc_confusion_matrix.png")
+        fig_cm.write_image(cm_path)
+        print(f"Confusion matrix saved to {cm_path}")
+    except Exception as e:
+        print(f"⚠️ Could not save confusion matrix image: {e}")
+        print("Continuing without image export...")
     
     # Generate HTML report
     html_report = generate_html_report(accuracy, report, cm, target_names)
@@ -308,7 +312,10 @@ def predict_new_text(model, vectorizer, text, target_names):
     probabilities = model.predict_proba(X_new)[0]
     
     # Get predicted class name
-    predicted_class = target_names[prediction]
+    if isinstance(prediction, str):
+        predicted_class = prediction
+    else:
+        predicted_class = target_names[prediction]
     
     print(f"Predicted category: {predicted_class}")
     print("Probability distribution:")

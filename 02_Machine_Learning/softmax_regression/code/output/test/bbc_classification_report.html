@@ -1,0 +1,66 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>BBC News Classification Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            .header { background: #667eea; color: white; padding: 20px; border-radius: 8px; }
+            .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+            .accuracy { font-size: 24px; font-weight: bold; color: #28a745; }
+            pre { background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+            th { background: #f8f9fa; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>📰 BBC News Classification Report</h1>
+            <p>Softmax Regression Model Performance Analysis</p>
+        </div>
+        
+        <div class="section">
+            <h2>Overall Performance</h2>
+            <div class="accuracy">Accuracy: 0.9820 (98.20%)</div>
+        </div>
+        
+        <div class="section">
+            <h2>Classification Report</h2>
+            <pre>               precision    recall  f1-score   support
+
+     business       0.97      0.96      0.97        77
+entertainment       1.00      0.97      0.98        58
+     politics       0.95      0.98      0.97        62
+        sport       1.00      1.00      1.00        77
+         tech       0.98      1.00      0.99        60
+
+     accuracy                           0.98       334
+    macro avg       0.98      0.98      0.98       334
+ weighted avg       0.98      0.98      0.98       334
+</pre>
+        </div>
+        
+        <div class="section">
+            <h2>Confusion Matrix</h2>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>business</th><th>entertainment</th><th>politics</th><th>sport</th><th>tech</th>
+                </tr>
+                <tr><th>business</th><td>74</td><td>0</td><td>2</td><td>0</td><td>1</td></tr><tr><th>entertainment</th><td>1</td><td>56</td><td>1</td><td>0</td><td>0</td></tr><tr><th>politics</th><td>1</td><td>0</td><td>61</td><td>0</td><td>0</td></tr><tr><th>sport</th><td>0</td><td>0</td><td>0</td><td>77</td><td>0</td></tr><tr><th>tech</th><td>0</td><td>0</td><td>0</td><td>0</td><td>60</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>Model Information</h2>
+            <ul>
+                <li><strong>Algorithm:</strong> Softmax Regression (LogisticRegression with multinomial)</li>
+                <li><strong>Vectorization:</strong> TF-IDF with unigrams and bigrams</li>
+                <li><strong>Max Features:</strong> 10,000</li>
+                <li><strong>Regularization:</strong> L2 (C=1.0)</li>
+            </ul>
+        </div>
+    </body>
+    </html>
+    

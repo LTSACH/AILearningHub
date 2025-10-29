@@ -1,0 +1,81 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Mushroom Safety Classification Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            .header { background: #28a745; color: white; padding: 20px; border-radius: 8px; }
+            .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+            .accuracy { font-size: 24px; font-weight: bold; color: #28a745; }
+            pre { background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+            th { background: #f8f9fa; }
+            .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 4px; margin: 20px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>🍄 Mushroom Safety Classification Report</h1>
+            <p>Softmax Regression Model Performance Analysis</p>
+        </div>
+        
+        <div class="warning">
+            <strong>⚠️ IMPORTANT DISCLAIMER:</strong> This model is for educational purposes only. 
+            Never rely on this model for real mushroom identification. Always consult with expert mycologists 
+            or use proper field guides when foraging for mushrooms.
+        </div>
+        
+        <div class="section">
+            <h2>Overall Performance</h2>
+            <div class="accuracy">Accuracy: 0.9606 (96.06%)</div>
+        </div>
+        
+        <div class="section">
+            <h2>Classification Report</h2>
+            <pre>              precision    recall  f1-score   support
+
+           e       0.96      0.96      0.96       842
+           p       0.96      0.96      0.96       783
+
+    accuracy                           0.96      1625
+   macro avg       0.96      0.96      0.96      1625
+weighted avg       0.96      0.96      0.96      1625
+</pre>
+        </div>
+        
+        <div class="section">
+            <h2>Confusion Matrix</h2>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>e</th><th>p</th>
+                </tr>
+                <tr><th>e</th><td>811</td><td>31</td></tr><tr><th>p</th><td>33</td><td>750</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>Model Information</h2>
+            <ul>
+                <li><strong>Algorithm:</strong> Softmax Regression (LogisticRegression with multinomial)</li>
+                <li><strong>Features:</strong> Categorical mushroom characteristics</li>
+                <li><strong>Encoding:</strong> LabelEncoder for categorical variables</li>
+                <li><strong>Regularization:</strong> L2 (C=1.0)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Safety Guidelines</h2>
+            <ul>
+                <li>🍄 Always consult multiple reliable sources for mushroom identification</li>
+                <li>🔍 Use proper field guides and expert knowledge</li>
+                <li>⚠️ When in doubt, don't eat the mushroom</li>
+                <li>📚 Learn from experienced foragers and mycologists</li>
+                <li>🧪 Consider spore prints and other detailed characteristics</li>
+            </ul>
+        </div>
+    </body>
+    </html>
+    

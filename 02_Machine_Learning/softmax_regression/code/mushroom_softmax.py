@@ -225,10 +225,14 @@ def evaluate_model(model, X_test, y_test, target_names, output_dir="output"):
         font=dict(size=12)
     )
     
-    # Save confusion matrix
-    cm_path = os.path.join(output_dir, "mushroom_confusion_matrix.png")
-    fig_cm.write_image(cm_path)
-    print(f"Confusion matrix saved to {cm_path}")
+    # Save confusion matrix (skip if kaleido not available)
+    try:
+        cm_path = os.path.join(output_dir, "mushroom_confusion_matrix.png")
+        fig_cm.write_image(cm_path)
+        print(f"Confusion matrix saved to {cm_path}")
+    except Exception as e:
+        print(f"⚠️ Could not save confusion matrix image: {e}")
+        print("Continuing without image export...")
     
     # Generate HTML report
     html_report = generate_html_report(accuracy, report, cm, target_names)
@@ -324,20 +328,38 @@ def get_feature_importance(model, encoders, top_n=10):
     feature_names = list(encoders.keys())
     classes = model.classes_
     
+    
     feature_importance = {}
     
-    for i, class_name in enumerate(classes):
-        # Get coefficients for this class
-        coef = model.coef_[i]
+    # Check if this is binary or multiclass classification
+    if model.coef_.shape[0] == 1:
+        # Binary classification - only one coefficient vector
+        coef = model.coef_[0]
         
         # Get top features (most negative coefficients for multinomial)
         top_indices = coef.argsort()[:top_n]
         top_features = [(feature_names[idx], coef[idx]) for idx in top_indices]
         
-        feature_importance[class_name] = top_features
-        print(f"\nTop {top_n} features for class '{class_name}':")
+        # For binary classification, show features for both classes
+        feature_importance[classes[0]] = top_features
+        feature_importance[classes[1]] = top_features  # Same features, different interpretation
+        
+        print(f"\nTop {top_n} features (applies to both classes):")
         for feature, score in top_features:
             print(f"  {feature}: {score:.4f}")
+    else:
+        # Multiclass - get coefficients for each class
+        for i, class_name in enumerate(classes):
+            coef = model.coef_[i]
+            
+            # Get top features (most negative coefficients for multinomial)
+            top_indices = coef.argsort()[:top_n]
+            top_features = [(feature_names[idx], coef[idx]) for idx in top_indices]
+            
+            feature_importance[class_name] = top_features
+            print(f"\nTop {top_n} features for class '{class_name}':")
+            for feature, score in top_features:
+                print(f"  {feature}: {score:.4f}")
     
     return feature_importance
 
@@ -345,10 +367,11 @@ def predict_mushroom_safety(model, encoders, target_encoder, mushroom_features):
     """Predict safety for mushroom with given features."""
     print(f"\nPredicting safety for mushroom with features: {mushroom_features}")
     
-    # Encode the features
+    # Encode the features - need to encode ALL features that the model expects
     encoded_features = []
-    for feature_name, value in mushroom_features.items():
-        if feature_name in encoders:
+    for feature_name in encoders.keys():
+        if feature_name in mushroom_features:
+            value = mushroom_features[feature_name]
             try:
                 encoded_value = encoders[feature_name].transform([value])[0]
                 encoded_features.append(encoded_value)
@@ -360,7 +383,12 @@ def predict_mushroom_safety(model, encoders, target_encoder, mushroom_features):
                 encoded_features.append(encoded_value)
                 print(f"  Using fallback value: {most_common}")
         else:
-            print(f"⚠️ Unknown feature: {feature_name}")
+            print(f"⚠️ Missing feature '{feature_name}', using most common value")
+            # Use the most common value for missing features
+            most_common = encoders[feature_name].classes_[0]
+            encoded_value = encoders[feature_name].transform([most_common])[0]
+            encoded_features.append(encoded_value)
+            print(f"  Using fallback value: {most_common}")
     
     # Make prediction
     X_new = np.array(encoded_features).reshape(1, -1)
