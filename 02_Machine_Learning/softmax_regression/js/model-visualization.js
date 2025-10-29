@@ -52,16 +52,16 @@ class ModelVisualization {
     createArrowMarker() {
         const defs = this.svg.append('defs');
         
-        // Create arrow marker with larger triangle head
+        // Create arrow marker with smaller triangle head
         defs.append('marker')
             .attr('id', 'arrowhead')
-            .attr('markerWidth', 20)
-            .attr('markerHeight', 15)
-            .attr('refX', 18)
-            .attr('refY', 7.5)
+            .attr('markerWidth', 12)
+            .attr('markerHeight', 8)
+            .attr('refX', 10)
+            .attr('refY', 4)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M 0,0 L 0,15 L 20,7.5 z')
+            .attr('d', 'M 0,0 L 0,8 L 12,4 z')
             .attr('fill', '#667eea')
             .attr('stroke', '#667eea')
             .attr('stroke-width', 1);
