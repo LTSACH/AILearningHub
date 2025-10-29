@@ -405,34 +405,37 @@
                                 This code demonstrates text preprocessing, TF-IDF vectorization, and classification.
                             </p>
                             
-                            <div class="code-block-full">
-                                <div class="code-header">
-                                    <h4>Complete Implementation</h4>
-                                    <div class="implementation-tabs">
-                                        <button class="impl-tab-btn active" data-tab="code">📝 Code</button>
-                                        <button class="impl-tab-btn" data-tab="colab">🚀 Colab</button>
-                                    </div>
-                                    <div class="code-actions">
-                                        <button id="copy-bbc-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
-                                            📋 Copy
-                                        </button>
-                                        <button id="download-bbc-code-btn" class="action-btn download-btn" title="Download code as file">
-                                            💾 Download
-                                        </button>
-                                    </div>
+                            <!-- Code Implementation Tabs Container -->
+                            <div class="code-implementation-container">
+                                <div class="code-impl-tabs">
+                                    <button class="code-impl-tab-btn active" data-tab="code-impl">📝 Code</button>
+                                    <button class="code-impl-tab-btn" data-tab="colab-impl">🚀 Colab</button>
                                 </div>
                                 
-                                <!-- Code Tab -->
-                                <div id="bbc-code-tab" class="impl-tab-content active">
-                                    <div id="bbc-code-content">
-                                        <div class="loading-code">
-                                            <p>Loading code from bbc_naivebayes.py...</p>
+                                <!-- Code Tab Content -->
+                                <div id="code-impl-tab" class="code-impl-tab-content active">
+                                    <div class="code-block-full">
+                                        <div class="code-header">
+                                            <h4>Complete Implementation</h4>
+                                            <div class="code-actions">
+                                                <button id="copy-bbc-code-btn" class="action-btn copy-btn" title="Copy code to clipboard">
+                                                    📋 Copy
+                                                </button>
+                                                <button id="download-bbc-code-btn" class="action-btn download-btn" title="Download code as file">
+                                                    💾 Download
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="bbc-code-content">
+                                            <div class="loading-code">
+                                                <p>Loading code from bbc_naivebayes.py...</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Colab Tab -->
-                                <div id="bbc-colab-tab" class="impl-tab-content">
+                                <!-- Colab Tab Content -->
+                                <div id="colab-impl-tab" class="code-impl-tab-content">
                                     <div class="colab-content">
                                         <div class="colab-header">
                                             <h5>🚀 Google Colab Notebook</h5>

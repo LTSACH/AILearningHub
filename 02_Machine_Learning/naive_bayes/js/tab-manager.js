@@ -131,12 +131,12 @@ export class TabManager {
      * Setup implementation tabs (Code/Colab)
      */
     setupImplementationTabs() {
-        const implTabButtons = document.querySelectorAll('.impl-tab-btn');
+        const implTabButtons = document.querySelectorAll('.code-impl-tab-btn');
         
         implTabButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 const tabType = event.target.getAttribute('data-tab');
-                const container = event.target.closest('.code-block-full');
+                const container = event.target.closest('.code-implementation-container');
                 
                 if (container) {
                     this.switchImplementationTab(container, tabType);
@@ -150,7 +150,7 @@ export class TabManager {
      */
     switchImplementationTab(container, tabType) {
         // Update button states
-        const buttons = container.querySelectorAll('.impl-tab-btn');
+        const buttons = container.querySelectorAll('.code-impl-tab-btn');
         buttons.forEach(btn => {
             btn.classList.remove('active');
             if (btn.getAttribute('data-tab') === tabType) {
@@ -159,14 +159,14 @@ export class TabManager {
         });
 
         // Update content visibility
-        const codeTab = container.querySelector('#bbc-code-tab');
-        const colabTab = container.querySelector('#bbc-colab-tab');
+        const codeTab = container.querySelector('#code-impl-tab');
+        const colabTab = container.querySelector('#colab-impl-tab');
         
         if (codeTab && colabTab) {
-            if (tabType === 'code') {
+            if (tabType === 'code-impl') {
                 codeTab.classList.add('active');
                 colabTab.classList.remove('active');
-            } else if (tabType === 'colab') {
+            } else if (tabType === 'colab-impl') {
                 codeTab.classList.remove('active');
                 colabTab.classList.add('active');
             }

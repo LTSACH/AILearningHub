@@ -1330,46 +1330,56 @@ footer {
     }
 }
 
-/* Implementation Tabs Styles */
-.implementation-tabs {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 15px;
+/* Code Implementation Container Styles */
+.code-implementation-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.impl-tab-btn {
+.code-impl-tabs {
+    display: flex;
     background: #f8f9fa;
-    border: 2px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.code-impl-tab-btn {
+    background: transparent;
+    border: none;
     color: #6c757d;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 15px 25px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    border-bottom: 3px solid transparent;
+    flex: 1;
+    justify-content: center;
 }
 
-.impl-tab-btn:hover {
+.code-impl-tab-btn:hover {
     background: #e9ecef;
-    border-color: #dee2e6;
     color: #495057;
 }
 
-.impl-tab-btn.active {
-    background: #667eea;
-    border-color: #667eea;
-    color: white;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+.code-impl-tab-btn.active {
+    background: white;
+    color: #667eea;
+    border-bottom-color: #667eea;
+    box-shadow: 0 -2px 8px rgba(102, 126, 234, 0.1);
 }
 
-.impl-tab-content {
+.code-impl-tab-content {
     display: none;
+    padding: 0;
 }
 
-.impl-tab-content.active {
+.code-impl-tab-content.active {
     display: block;
 }
 
@@ -1542,15 +1552,16 @@ footer {
     gap: 8px;
 }
 
-/* Responsive Design for Implementation Tabs */
+/* Responsive Design for Code Implementation Tabs */
 @media (max-width: 768px) {
-    .implementation-tabs {
+    .code-impl-tabs {
         flex-direction: column;
     }
     
-    .impl-tab-btn {
+    .code-impl-tab-btn {
         width: 100%;
         justify-content: center;
+        padding: 12px 20px;
     }
     
     .colab-actions {
