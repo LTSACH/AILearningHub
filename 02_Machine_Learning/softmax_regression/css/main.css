@@ -125,12 +125,12 @@ body {
 }
 
 /* Tab Content */
-.tab-content {
+.tab-pane {
     display: none;
     padding: 2rem;
 }
 
-.tab-content.active {
+.tab-pane.active {
     display: block;
 }
 
