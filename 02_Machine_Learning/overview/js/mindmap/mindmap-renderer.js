@@ -19,6 +19,7 @@ export class MindmapRenderer {
         this.searchQuery = '';
         this.searchResults = [];
         this.isInitialized = false;
+        this.zoom = null; // Will store zoom behavior
         
         // D3 tree configuration
         this.COL_SPACE = 240; // Horizontal spacing between levels
@@ -115,46 +116,31 @@ export class MindmapRenderer {
      * Setup zoom behavior
      */
     setupZoom() {
-        const zoom = d3.zoom()
+        this.zoom = d3.zoom()
             .scaleExtent([0.35, 2.75])
             .on('zoom', (e) => {
                 this.g.attr('transform', e.transform);
             });
         
-        this.svg.call(zoom);
+        this.svg.call(this.zoom);
     }
 
     /**
-     * Apply beginner mode (collapse advanced algorithms)
+     * Apply beginner mode (show only up to level 3, e.g., "NaiveBayes", "Linear Model")
      */
     applyBeginnerMode() {
         if (this.currentMode !== 'beginner') return;
         
-        // First, expand everything to scan for beginner algorithms
-        this.expandAll();
-        
-        // Collect all beginner algorithm nodes
-        const beginnerNodes = [];
+        // Collapse all nodes at depth > 3 (hide individual algorithms at level 4+)
+        // Keep nodes up to depth 3 visible (like "NaiveBayes", "Linear Model")
         this.root.each(d => {
-            // Check if this is a leaf node (algorithm) at depth 3 or deeper
-            if (!d.children && !d._children && d.depth >= 3) {
-                if (this.isBeginnerAlgorithm(d)) {
-                    beginnerNodes.push(d);
-                }
-            }
-        });
-        
-        // Collapse all nodes at depth > 1
-        this.root.each(d => {
-            if (d.depth > 1 && d.children) {
+            // Simply collapse everything at depth 4 and deeper
+            // This means level 3 nodes (NaiveBayes, Linear Model, etc.) will be visible
+            // but their children (individual algorithms) will be hidden
+            if (d.depth > 3 && d.children) {
                 d._children = d._children || d.children;
                 d.children = null;
             }
-        });
-        
-        // Expand paths to all beginner algorithms
-        beginnerNodes.forEach(node => {
-            this.expandPathToNode(node);
         });
     }
 
@@ -497,7 +483,62 @@ export class MindmapRenderer {
             .classed('search-match', d => this.searchResults.includes(d));
 
         this.update();
+        
+        // Pan to first search result
+        if (this.searchResults.length > 0) {
+            setTimeout(() => {
+                this.panToNode(this.searchResults[0]);
+            }, 350); // Wait for transition to complete
+        }
+        
         return this.searchResults;
+    }
+    
+    /**
+     * Pan/zoom to bring a specific node into view
+     */
+    panToNode(targetNode) {
+        if (!targetNode || !this.svg || !this.g || !this.zoom) return;
+        
+        try {
+            // Get node's current position (in tree coordinate system)
+            const nodeX = targetNode.y; // In tree layout, y is horizontal
+            const nodeY = targetNode.x; // In tree layout, x is vertical
+            
+            // Get SVG dimensions
+            const svgNode = this.svg.node();
+            const svgRect = svgNode.getBoundingClientRect();
+            const svgWidth = svgRect.width || 1200;
+            const svgHeight = svgRect.height || 600;
+            
+            // Get current transform
+            const currentTransform = d3.zoomTransform(svgNode);
+            const currentScale = currentTransform.k || 1;
+            
+            // Calculate desired transform to center the node
+            const centerX = svgWidth / 2;
+            const centerY = svgHeight / 2;
+            
+            // Calculate new translate values
+            // We want: centerX = translateX + nodeX * scale
+            // So: translateX = centerX - nodeX * scale
+            const translateX = centerX - nodeX * currentScale;
+            const translateY = centerY - nodeY * currentScale;
+            
+            // Create new transform
+            const newTransform = d3.zoomIdentity
+                .translate(translateX, translateY)
+                .scale(currentScale);
+            
+            // Animate to the new position
+            this.svg.transition()
+                .duration(600)
+                .ease(d3.easeCubicOut)
+                .call(this.zoom.transform, newTransform);
+                
+        } catch (error) {
+            console.warn('Could not pan to node:', error);
+        }
     }
 
     /**
