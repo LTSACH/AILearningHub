@@ -205,12 +205,17 @@
                                 
                                 <div class="concept-card">
                                     <h4>Training Set</h4>
-                                    <p>Data used to teach the model (usually 60-80% of total data)</p>
+                                    <p>Data used to teach the model (usually 60-80% of total data). Samples should be IID (Independent and Identically Distributed).</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h4>Validation Set</h4>
+                                    <p>Data used to tune hyperparameters and select models during development (usually 10-20% of total data). Should follow IID assumption.</p>
                                 </div>
                                 
                                 <div class="concept-card">
                                     <h4>Test Set</h4>
-                                    <p>Data used to evaluate model performance (usually 20% of total data)</p>
+                                    <p>Data used to evaluate final model performance (usually 10-20% of total data). Must be IID and kept completely separate during training.</p>
                                 </div>
                                 
                                 <div class="concept-card">
@@ -232,6 +237,24 @@
                                     <h4>Metrics</h4>
                                     <p>Measures to evaluate model performance (accuracy, precision, recall, MSE, etc.)</p>
                                 </div>
+                            </div>
+                            
+                            <!-- IID Principle Info Box -->
+                            <div class="iid-info-box">
+                                <h4>📊 IID Principle for Data Splitting</h4>
+                                <p><strong>IID (Independent and Identically Distributed)</strong> is a fundamental assumption when splitting data:</p>
+                                <ul>
+                                    <li><strong>Independent:</strong> Each sample is independent of others (no data leakage between train/val/test)</li>
+                                    <li><strong>Identically Distributed:</strong> All samples come from the same underlying distribution</li>
+                                </ul>
+                                <p><strong>Why it matters:</strong></p>
+                                <ul>
+                                    <li>Ensures test set truly represents unseen data</li>
+                                    <li>Prevents overfitting to specific data patterns</li>
+                                    <li>Provides unbiased performance estimates</li>
+                                    <li>Essential for valid statistical inference</li>
+                                </ul>
+                                <p><strong>Common split ratios:</strong> 70% train / 15% validation / 15% test (or 80/10/10). Always use stratified splitting for classification to maintain class distribution.</p>
                             </div>
                         </div>
 
