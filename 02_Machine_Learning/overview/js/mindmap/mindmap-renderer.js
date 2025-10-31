@@ -130,24 +130,31 @@ export class MindmapRenderer {
     applyBeginnerMode() {
         if (this.currentMode !== 'beginner') return;
         
-        // First, collapse all nodes at depth > 1 (keep level 1 expanded)
+        // First, expand everything to scan for beginner algorithms
+        this.expandAll();
+        
+        // Collect all beginner algorithm nodes
+        const beginnerNodes = [];
+        this.root.each(d => {
+            // Check if this is a leaf node (algorithm) at depth 3 or deeper
+            if (!d.children && !d._children && d.depth >= 3) {
+                if (this.isBeginnerAlgorithm(d)) {
+                    beginnerNodes.push(d);
+                }
+            }
+        });
+        
+        // Collapse all nodes at depth > 1
         this.root.each(d => {
             if (d.depth > 1 && d.children) {
                 d._children = d._children || d.children;
-                d._children.forEach(child => this.collapseRecursive(child));
                 d.children = null;
             }
         });
         
-        // Then, expand paths to all beginner algorithms
-        this.root.each(d => {
-            // Check if this is a leaf node (algorithm)
-            if (!d.children && !d._children && d.depth >= 3) {
-                if (this.isBeginnerAlgorithm(d)) {
-                    // Expand path from root to this node
-                    this.expandPathToNode(d);
-                }
-            }
+        // Expand paths to all beginner algorithms
+        beginnerNodes.forEach(node => {
+            this.expandPathToNode(node);
         });
     }
 
