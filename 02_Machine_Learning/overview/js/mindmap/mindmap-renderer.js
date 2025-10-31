@@ -126,19 +126,26 @@ export class MindmapRenderer {
     }
 
     /**
-     * Apply beginner mode (show only up to level 3, e.g., "NaiveBayes", "Linear Model")
+     * Apply beginner mode: show only up to level 3 (0,1,2,3 visible)
+     * - Ensure all ancestors up to depth 2 are expanded
+     * - Ensure depth 3 nodes are visible as leaves
+     * - Collapse children of nodes with depth >= 3
      */
     applyBeginnerMode() {
         if (this.currentMode !== 'beginner') return;
         
-        // Collapse all nodes at depth > 3 (hide individual algorithms at level 4+)
-        // Keep nodes up to depth 3 visible (like "NaiveBayes", "Linear Model")
+        // 1) Expand all nodes up to depth 2 so level 3 is reachable
         this.root.each(d => {
-            // Simply collapse everything at depth 4 and deeper
-            // This means level 3 nodes (NaiveBayes, Linear Model, etc.) will be visible
-            // but their children (individual algorithms) will be hidden
-            if (d.depth > 3 && d.children) {
-                d._children = d._children || d.children;
+            if (d.depth <= 2 && d._children) {
+                d.children = d._children;
+                d._children = null;
+            }
+        });
+        
+        // 2) Collapse children of nodes at depth >= 3 so level >3 is hidden
+        this.root.each(d => {
+            if (d.depth >= 3 && d.children) {
+                d._children = d.children;
                 d.children = null;
             }
         });
