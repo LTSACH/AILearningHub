@@ -802,3 +802,299 @@ footer {
     }
 }
 
+/* Mindmap Styles */
+.mindmap-container {
+    width: 100%;
+    margin: 2rem 0;
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mindmap-controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.mode-switcher {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.mode-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.mode-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.mode-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+}
+
+.search-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 250px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.clear-search-btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    background: #f8f9fa;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.clear-search-btn:hover {
+    background: #e9ecef;
+    border-color: #cbd5e1;
+}
+
+.search-count {
+    font-size: 0.85rem;
+    color: #667eea;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    background: white;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.mindmap-svg-container {
+    width: 100%;
+    min-height: 600px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    overflow: visible;
+    position: relative;
+}
+
+.mindmap-svg-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* D3.js Node and Link Styles */
+.node {
+    cursor: pointer;
+}
+
+.node circle {
+    fill: #667eea;
+    stroke: #fff;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.node rect {
+    fill: #667eea;
+    stroke: #fff;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.node text {
+    font-size: 12px;
+    fill: #333;
+    dominant-baseline: middle;
+    transition: all 0.3s ease;
+}
+
+.link {
+    fill: none;
+    stroke: #cbd5e1;
+    stroke-width: 1.3px;
+    transition: all 0.3s ease;
+}
+
+/* Highlight styles - Bold font and brighter colors */
+.node.highlight-node circle,
+.node.highlight-node rect {
+    fill: #f97316 !important;
+    stroke: #fff;
+    stroke-width: 3px;
+    filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.5));
+    transform: scale(1.3);
+}
+
+.node.highlight-node text {
+    fill: #f97316 !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    stroke: rgba(249, 115, 22, 0.2);
+    stroke-width: 0.5px;
+}
+
+.link.highlight-link {
+    stroke: #f97316 !important;
+    stroke-width: 2.6px !important;
+    opacity: 1;
+}
+
+/* Search match highlight */
+.node.search-match circle,
+.node.search-match rect {
+    fill: #ffd700 !important;
+    stroke: #ffa500;
+    stroke-width: 2.5px;
+}
+
+.node.search-match text {
+    fill: #ff8c00 !important;
+    font-weight: bold;
+}
+
+/* Group colors */
+.group-center circle, .group-center rect {
+    fill: #2563eb;
+}
+
+.group-supervised circle, .group-supervised rect {
+    fill: #10b981;
+}
+
+.group-unsupervised circle, .group-unsupervised rect {
+    fill: #7c3aed;
+}
+
+.group-rl circle, .group-rl rect {
+    fill: #f59e0b;
+}
+
+.group-semi circle, .group-semi rect {
+    fill: #ec4899;
+}
+
+.group-meta circle, .group-meta rect {
+    fill: #14b8a6;
+}
+
+/* Module indicator */
+.module-indicator {
+    fill: #28a745;
+    font-size: 10px;
+    pointer-events: none;
+}
+
+.node.highlight-node .module-indicator {
+    fill: #f97316;
+    font-size: 12px;
+}
+
+/* Tooltip */
+.mindmap-tooltip {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    font-size: 0.9rem;
+    color: #555;
+    min-height: 50px;
+    transition: all 0.3s ease;
+}
+
+.mindmap-tooltip b {
+    color: #667eea;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.mindmap-tooltip em {
+    color: #28a745;
+    font-style: normal;
+    font-weight: 500;
+}
+
+/* Responsive for mindmap */
+@media (max-width: 768px) {
+    .mindmap-controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .mode-switcher,
+    .search-section,
+    .action-buttons {
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .mindmap-svg-container {
+        min-height: 400px;
+        overflow-x: auto;
+    }
+    
+    .node text {
+        font-size: 10px;
+    }
+    
+    .node.highlight-node text {
+        font-size: 12px !important;
+    }
+}
+

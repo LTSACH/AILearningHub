@@ -447,21 +447,43 @@
                     <div id="techniques" class="tab-pane">
                         <div class="tab-header">
                             <h2>🔧 Machine Learning Techniques</h2>
-                            <p>Overview of different ML algorithms and when to use them</p>
+                            <p>Interactive mindmap of ML algorithms organized by learning type</p>
                         </div>
                         
-                        <div class="content-placeholder">
-                            <div class="placeholder-box">
-                                <h3>📝 Content Placeholder</h3>
-                                <p>This section will contain:</p>
-                                <ul>
-                                    <li>Supervised Learning Algorithms</li>
-                                    <li>Unsupervised Learning Algorithms</li>
-                                    <li>Reinforcement Learning</li>
-                                    <li>Algorithm Selection Guide</li>
-                                    <li>Performance Comparison</li>
-                                </ul>
-                                <p class="note">✨ Content will be added here later</p>
+                        <!-- Mindmap Container -->
+                        <div class="mindmap-container">
+                            <!-- Controls Bar -->
+                            <div class="mindmap-controls-bar">
+                                <div class="mode-switcher">
+                                    <button class="mode-btn active" data-mode="beginner" id="beginner-mode">
+                                        🎯 Beginner Mode
+                                    </button>
+                                    <button class="mode-btn" data-mode="advanced" id="advanced-mode">
+                                        🚀 Advanced Mode
+                                    </button>
+                                </div>
+                                
+                                <div class="search-section">
+                                    <input type="search" 
+                                           id="algorithm-search" 
+                                           placeholder="Search algorithms (e.g., RandomForest, SVM, PCA)..."
+                                           class="search-input">
+                                    <button id="clear-search" class="clear-search-btn" style="display: none;">✕</button>
+                                    <span id="search-results-count" class="search-count"></span>
+                                </div>
+                                
+                                <div class="action-buttons">
+                                    <button id="expand-all" class="action-btn">Expand All</button>
+                                    <button id="collapse-all" class="action-btn">Collapse All</button>
+                                </div>
+                            </div>
+                            
+                            <!-- SVG Container (auto height) -->
+                            <div class="mindmap-svg-container" id="ml-mindmap-container"></div>
+                            
+                            <!-- Tooltip -->
+                            <div id="mindmap-tooltip" class="mindmap-tooltip">
+                                Hover over a node to see description
                             </div>
                         </div>
                     </div>

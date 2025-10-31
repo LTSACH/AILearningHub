@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mindmap: Machine Learning (v9 • Full • Grouped • Centered)</title>
+<style>
+  body { margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:#fff; }
+  header { padding:8px 14px; display:flex; gap:8px; align-items:center; border-bottom:1px solid #e5e7eb }
+  .btn { border:1px solid #e5e7eb; border-radius:10px; padding:6px 10px; background:#fff; cursor:pointer; font-size:13px }
+  .btn:hover { border-color:#cbd5e1 }
+  svg { width:100%; height:calc(100vh - 110px); display:block }
+  .link { fill:none; stroke:#cbd5e1; stroke-width:1.3px }
+  .node text { font-size:12px; fill:#111827; dominant-baseline:middle }
+  .node circle { r:5; cursor:pointer; stroke:#555; stroke-width:0.6px; transition:fill .15s }
+  .node rect { width:10px; height:10px; x:-5; y:-5; cursor:pointer; stroke:#555; stroke-width:0.6px; transition:fill .15s }
+  .highlight-link { stroke:#f97316; stroke-width:2.6px }
+  .highlight-node circle, .highlight-node rect { fill:#f97316 !important; }
+  .group-center { fill:#2563eb; }
+  .group-supervised { fill:#10b981; }
+  .group-unsupervised { fill:#7c3aed; }
+  .group-rl { fill:#f59e0b; }
+  .group-semi { fill:#ec4899; }
+  .group-meta { fill:#14b8a6; }
+  #tooltip { position:fixed; bottom:0; left:0; right:0; background:#f9fafb; border-top:1px solid #e5e7eb; padding:12px 20px; font-size:13px; color:#1e293b; height:100px; overflow:auto }
+  #tooltip b { color:#111827 }
+</style>
+</head>
+<body>
+<header>
+  <button id="expandAll" class="btn">Mở tất cả</button>
+  <button id="collapseAll" class="btn">Thu tất cả (chừa cấp 1)</button>
+</header>
+<svg id="chart"></svg>
+<div id="tooltip">Hover một node để xem giải thích (English)</div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+/* =============================== DATA (FULL, GROUPED) =============================== */
+const data = {
+  name: "Machine Learning", group: "center",
+  description: "Field of AI that enables systems to learn patterns from data.",
+  children: [
+    {
+      name: "Supervised", group: "supervised",
+      description: "Learning from labeled data: classification & regression.",
+      children: [
+        /* -------- Classification -------- */
+        {
+          name: "Classification",
+          description: "Predicting discrete class labels.",
+          children: [
+            { name: "Naive Bayes", description: "Probabilistic classifiers with naive independence.",
+              children: [
+                { name: "GaussianNB" }, { name: "MultinomialNB" }, { name: "BernoulliNB" },
+                { name: "ComplementNB" }, { name: "CategoricalNB" }
+              ]
+            },
+            { name: "Linear Models", description: "Linear decision functions.",
+              children: [
+                { name: "LogisticRegression" }, { name: "SGDClassifier" },
+                { name: "Perceptron" }, { name: "PassiveAggressiveClassifier" }
+              ]
+            },
+            { name: "SVM", description: "Margin-based classifiers.",
+              children: [
+                { name: "SVC" }, { name: "LinearSVC" }, { name: "NuSVC" }
+              ]
+            },
+            { name: "Neural Net", description: "Feed-forward neural networks.",
+              children: [ { name: "MLPClassifier" } ]
+            },
+            { name: "Trees & Ensembles", description: "Tree-based models and ensembles.",
+              children: [
+                { name: "DecisionTreeClassifier" }, { name: "ExtraTreeClassifier" },
+                { name: "RandomForestClassifier" }, { name: "ExtraTreesClassifier" },
+                { name: "GradientBoostingClassifier" }, { name: "HistGradientBoostingClassifier" },
+                { name: "BaggingClassifier (meta)" }, { name: "AdaBoostClassifier (meta)" },
+                { name: "StackingClassifier (meta)" }, { name: "VotingClassifier (meta)" }
+              ]
+            },
+            { name: "Neighbors", description: "Instance-based methods.",
+              children: [
+                { name: "KNeighborsClassifier" }, { name: "RadiusNeighborsClassifier" },
+                { name: "NearestCentroid" }
+              ]
+            },
+            { name: "Discriminant Analysis", description: "Class-conditional Gaussians.",
+              children: [
+                { name: "LinearDiscriminantAnalysis" }, { name: "QuadraticDiscriminantAnalysis" }
+              ]
+            },
+            { name: "Multi-Output & Strategies", description: "Wrappers and strategies.",
+              children: [
+                { name: "OneVsRestClassifier (meta)" }, { name: "OneVsOneClassifier (meta)" },
+                { name: "OutputCodeClassifier (meta)" }, { name: "ClassifierChain (meta)" },
+                { name: "MultiOutputClassifier (meta)" }, { name: "CalibratedClassifierCV (meta)" }
+              ]
+            }
+          ]
+        },
+        /* -------- Regression -------- */
+        {
+          name: "Regression",
+          description: "Predicting continuous numeric values.",
+          children: [
+            { name: "Linear Models", description: "Linear regression family.",
+              children: [
+                { name: "LinearRegression" }, { name: "Ridge / RidgeCV" }, { name: "Lasso / LassoCV" },
+                { name: "ElasticNet / ElasticNetCV" }, { name: "Lars / LassoLars" },
+                { name: "OrthogonalMatchingPursuit" }, { name: "BayesianRidge" },
+                { name: "HuberRegressor" }, { name: "RANSACRegressor" }, { name: "TheilSenRegressor" }
+              ]
+            },
+            { name: "GLM", description: "Generalized linear models.",
+              children: [
+                { name: "PoissonRegressor" }, { name: "GammaRegressor" }, { name: "TweedieRegressor" }
+              ]
+            },
+            { name: "SVM", description: "Support Vector Regression.",
+              children: [ { name: "SVR" }, { name: "LinearSVR" }, { name: "NuSVR" } ]
+            },
+            { name: "Neural Net", description: "Feed-forward neural networks.",
+              children: [ { name: "MLPRegressor" } ]
+            },
+            { name: "Trees & Ensembles", description: "Tree-based models and ensembles.",
+              children: [
+                { name: "DecisionTreeRegressor" }, { name: "ExtraTreeRegressor" },
+                { name: "RandomForestRegressor" }, { name: "ExtraTreesRegressor" },
+                { name: "GradientBoostingRegressor" }, { name: "HistGradientBoostingRegressor" },
+                { name: "BaggingRegressor (meta)" }, { name: "AdaBoostRegressor (meta)" },
+                { name: "StackingRegressor (meta)" }, { name: "VotingRegressor (meta)" }
+              ]
+            },
+            { name: "Neighbors", description: "Instance-based methods.",
+              children: [ { name: "KNeighborsRegressor" }, { name: "RadiusNeighborsRegressor" } ]
+            },
+            { name: "Multi-Output & Strategies", description: "Wrappers and strategies.",
+              children: [ { name: "MultiOutputRegressor (meta)" }, { name: "RegressorChain (meta)" } ]
+            }
+          ]
+        }
+      ]
+    },
+    /* -------- Unsupervised -------- */
+    {
+      name: "Unsupervised", group: "unsupervised",
+      description: "Learning from unlabeled data.",
+      children: [
+        {
+          name: "Clustering",
+          description: "Grouping similar samples.",
+          children: [
+            { name: "KMeans / MiniBatchKMeans" }, { name: "DBSCAN" }, { name: "OPTICS" },
+            { name: "AgglomerativeClustering" }, { name: "SpectralClustering" },
+            { name: "GaussianMixture (mixture)" }, { name: "BayesianGaussianMixture" },
+            { name: "Birch" }, { name: "AffinityPropagation" }, { name: "MeanShift" }
+          ]
+        },
+        {
+          name: "Dimensionality Reduction",
+          description: "Reducing feature dimensionality.",
+          children: [
+            { name: "PCA" }, { name: "IncrementalPCA" }, { name: "KernelPCA" },
+            { name: "TruncatedSVD" }, { name: "NMF" },
+            { name: "DictionaryLearning" }, { name: "MiniBatchDictionaryLearning" },
+            { name: "SparsePCA" }, { name: "MiniBatchSparsePCA" },
+            { name: "FactorAnalysis" }, { name: "FastICA" },
+            { name: "LatentDirichletAllocation" }, { name: "t-SNE" }
+          ]
+        },
+        {
+          name: "Manifold Learning",
+          description: "Nonlinear embeddings preserving geometry.",
+          children: [
+            { name: "Isomap" }, { name: "MDS" }, { name: "SpectralEmbedding" }, { name: "LocallyLinearEmbedding" }
+          ]
+        },
+        {
+          name: "Density & Anomaly",
+          description: "Density estimation / outlier detection.",
+          children: [
+            { name: "KernelDensity" }, { name: "IsolationForest" }, { name: "OneClassSVM" },
+            { name: "LocalOutlierFactor" }, { name: "EllipticEnvelope" }
+          ]
+        }
+      ]
+    },
+    /* -------- Reinforcement Learning (informational) -------- */
+    {
+      name: "Reinforcement Learning", group: "rl",
+      description: "Learning by reward-based interaction (not in sklearn core).",
+      children: [ { name: "Q-Learning" }, { name: "DQN" } ]
+    },
+    /* -------- Semi-supervised -------- */
+    {
+      name: "Semi-supervised", group: "semi",
+      description: "Using few labels + many unlabeled.",
+      children: [ { name: "LabelPropagation" }, { name: "LabelSpreading" }, { name: "SelfTrainingClassifier" } ]
+    },
+    /* -------- Meta / Model selection -------- */
+    {
+      name: "Meta / Model selection", group: "meta",
+      description: "Composition and model selection utilities.",
+      children: [
+        { name: "Pipeline" }, { name: "ColumnTransformer" }, { name: "FeatureUnion" },
+        { name: "TransformedTargetRegressor" },
+        { name: "GridSearchCV" }, { name: "RandomizedSearchCV" },
+        { name: "HalvingGridSearchCV" }, { name: "HalvingRandomSearchCV" },
+        { name: "CrossValidate / cross_val_score" },
+        /* wrappers duplicated here for completeness / quick access */
+        { name: "StackingClassifier" }, { name: "StackingRegressor" },
+        { name: "VotingClassifier" }, { name: "VotingRegressor" },
+        { name: "OneVsRestClassifier" }, { name: "OneVsOneClassifier" },
+        { name: "ClassifierChain" }, { name: "RegressorChain" },
+        { name: "MultiOutputClassifier" }, { name: "MultiOutputRegressor" },
+        { name: "CalibratedClassifierCV" }
+      ]
+    }
+  ]
+};
+
+/* =============================== SETUP =============================== */
+const svg = d3.select('#chart')
+  .attr('viewBox', [0, 0, window.innerWidth, window.innerHeight])
+  .attr('preserveAspectRatio', 'xMidYMid meet');
+
+const g = svg.append('g');
+const linkLayer = g.append('g').attr('class', 'links');
+const nodeLayer = g.append('g').attr('class', 'nodes');
+
+const zoom = d3.zoom().scaleExtent([0.35, 2.75]).on('zoom', e => g.attr('transform', e.transform));
+svg.call(zoom);
+
+const COL_SPACE = 240;           // khoảng cách cột
+const tree = d3.tree().nodeSize([32, COL_SPACE]);
+
+const root = d3.hierarchy(data);
+root.x0 = 0; root.y0 = 0;
+let idCounter = 0; root.each(d => d.id = ++idCounter);
+
+// Thu gọn sâu cho gọn màn hình ban đầu
+if (root.children) root.children.forEach(collapseAll);
+
+update(root);   // vẽ lần đầu
+centerTree();   // auto-center lần đầu
+window.addEventListener('resize', centerTree); // resize cũng center
+
+/* =============================== FUNCTIONS =============================== */
+function collapseAll(d){
+  if (d.children){
+    d._children = d.children;
+    d._children.forEach(collapseAll);
+    d.children = null;
+  }
+}
+
+function update(source){
+  tree(root);
+  root.each(d => d.y = d.depth * COL_SPACE);
+
+  const nodesData = root.descendants();
+  const linksData = root.links();
+
+  // LINKS
+  const link = linkLayer.selectAll('path.link').data(linksData, d => d.target.id);
+  link.enter().append('path')
+      .attr('class','link')
+      .attr('d', d => elbow(source, source))
+    .merge(link)
+      .transition().duration(300)
+      .attr('d', d => elbow(d.source, d.target));
+  link.exit().transition().remove();
+
+  // NODES
+  const node = nodeLayer.selectAll('g.node').data(nodesData, d => d.id);
+  const nodeEnter = node.enter().append('g')
+    .attr('class','node')
+    .attr('transform', d => `translate(${source.y0 ?? 0},${source.x0 ?? 0})`)
+    .on('click', (e,d) => { toggle(d); });
+
+  // SHAPE: luôn circle cho root + group (kể cả khi _children), square cho lá kỹ thuật
+  nodeEnter.each(function(d){
+    const cls = 'group-' + (d.data.group || d.parent?.data.group || 'center');
+    const isGroup = (!!d.children || !!d._children || d.depth <= 1);
+    if (isGroup) d3.select(this).append('circle').attr('class', cls);
+    else d3.select(this).append('rect').attr('class', cls);
+  });
+
+  nodeEnter.append('text').attr('x', 12).attr('dy', '0.35em').text(d => d.data.name);
+
+  const nodeMerge = nodeEnter.merge(node);
+  nodeMerge.transition().duration(300).attr('transform', d => `translate(${d.y},${d.x})`);
+
+  node.exit().transition().remove();
+
+  // Hover: highlight path + tooltip
+  nodeMerge.on('mouseover', (e,d) => showTooltip(d)).on('mouseout', hideTooltip);
+
+  // Lưu vị trí cũ
+  nodesData.forEach(d => { d.x0 = d.x; d.y0 = d.y; });
+
+  // Auto-center SAU MỖI LẦN update (không cần kéo chuột)
+  centerTree();
+}
+
+function toggle(d){
+  if (d.children){ d._children = d.children; d.children = null; }
+  else { d.children = d._children; d._children = null; }
+  update(d);
+}
+
+function elbow(s, t){
+  const mx = (s.y + t.y) / 2;
+  return `M${s.y},${s.x}C${mx},${s.x} ${mx},${t.x} ${t.y},${t.x}`;
+}
+
+function showTooltip(d){
+  const ancestors = d.ancestors();
+  nodeLayer.selectAll('circle,rect').classed('highlight-node', n => ancestors.includes(n));
+  linkLayer.selectAll('path.link').classed('highlight-link', l => ancestors.includes(l.target));
+  document.getElementById('tooltip').innerHTML =
+    `<b>${d.data.name}</b><br>${d.data.description || 'No description available.'}`;
+}
+
+function hideTooltip(){
+  nodeLayer.selectAll('circle,rect').classed('highlight-node', false);
+  linkLayer.selectAll('path.link').classed('highlight-link', false);
+  document.getElementById('tooltip').innerHTML = 'Hover một node để xem giải thích (English)';
+}
+
+function centerTree(){
+  // Căn giữa toàn bộ sơ đồ vào viewport
+  const bbox = g.node().getBBox();
+  const cx = (window.innerWidth - bbox.width) / 2 - bbox.x;
+  const cy = (window.innerHeight - bbox.height) / 2 - bbox.y;
+  g.attr('transform', `translate(${cx},${cy})`);
+}
+
+/* =============================== CONTROLS =============================== */
+document.getElementById('expandAll').onclick = () => {
+  root.each(d => { if (d._children){ d.children = d._children; d._children = null; }});
+  update(root);
+};
+document.getElementById('collapseAll').onclick = () => {
+  if (root.children) root.children.forEach(collapseAll);
+  update(root);
+};
+</script>
+</body>
+</html>
