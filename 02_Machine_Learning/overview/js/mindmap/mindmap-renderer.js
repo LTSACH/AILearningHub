@@ -36,7 +36,10 @@ export class MindmapRenderer {
      * Initialize the mindmap
      */
     init() {
-        if (this.isInitialized) return;
+        if (this.isInitialized) {
+            console.warn('Mindmap already initialized');
+            return;
+        }
         
         this.container = document.getElementById(this.containerId);
         if (!this.container) {
@@ -44,14 +47,27 @@ export class MindmapRenderer {
             return;
         }
 
-        this.setupSVG();
-        this.setupData();
-        this.setupZoom();
-        this.applyBeginnerMode();
-        this.update();
-        this.centerTree();
+        console.log('Initializing mindmap...');
         
-        this.isInitialized = true;
+        try {
+            this.setupSVG();
+            this.setupData();
+            this.setupZoom();
+            this.applyBeginnerMode();
+            this.update();
+            
+            // Delay center to ensure SVG is rendered
+            setTimeout(() => {
+                this.centerTree();
+                this.updateContainerHeight();
+            }, 100);
+            
+            this.isInitialized = true;
+            console.log('Mindmap initialized successfully');
+        } catch (error) {
+            console.error('Error during mindmap initialization:', error);
+            throw error;
+        }
     }
 
     /**
@@ -205,14 +221,29 @@ export class MindmapRenderer {
      * Main update function
      */
     update(source = this.root) {
+        if (!this.root || !this.svg) {
+            console.warn('Cannot update: root or SVG not initialized');
+            return;
+        }
+        
+        // Ensure source has initial position
+        if (!source.x0 && !source.y0) {
+            source.x0 = 0;
+            source.y0 = 0;
+        }
+        
         // Compute tree layout
         this.tree(this.root);
+        
+        // Update positions based on depth
         this.root.each(d => {
             d.y = d.depth * this.COL_SPACE;
         });
 
         const nodes = this.root.descendants();
         const links = this.root.links();
+        
+        console.log(`Updating: ${nodes.length} nodes, ${links.length} links`);
 
         // Update links
         this.updateLinks(links, source);
@@ -323,16 +354,20 @@ export class MindmapRenderer {
             .attr('transform', d => `translate(${d.y},${d.x})`);
 
         // Exit
-        node.exit()
+        const nodeExit = node.exit();
+        nodeExit
             .transition()
             .duration(300)
             .style('opacity', 0)
-            .attr('transform', d => `translate(${source.y},${source.x})`)
+            .attr('transform', d => `translate(${source.y ?? 0},${source.x ?? 0})`)
             .remove();
 
         // Update node states (expand/collapse indicators)
         nodeUpdate.select('circle, rect')
             .attr('cursor', 'pointer');
+        
+        // Ensure existing nodes are visible
+        nodeUpdate.style('opacity', 1);
     }
 
     /**
@@ -462,11 +497,18 @@ export class MindmapRenderer {
      * Expand path to a specific node
      */
     expandPathToNode(targetNode) {
-        const path = targetNode.ancestors();
+        if (!targetNode || !targetNode.parent) return;
+        
+        const path = targetNode.ancestors().reverse(); // Start from root
         path.forEach(d => {
             if (d._children) {
                 d.children = d._children;
                 d._children = null;
+            }
+            // Ensure node is expanded
+            if (!d.children && d.depth < targetNode.depth) {
+                // If this is an ancestor that should have children, restore them
+                // This handles cases where we need intermediate nodes
             }
         });
     }

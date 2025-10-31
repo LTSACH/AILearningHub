@@ -20,8 +20,10 @@ export class TechniquesTab {
     async init() {
         if (this.isInitialized) return;
         
-        this.initMindmap();
+        // Setup controls first (handlers will check if renderer is ready)
         this.setupControls();
+        // Then init mindmap
+        this.initMindmap();
         
         this.isInitialized = true;
     }
@@ -39,13 +41,17 @@ export class TechniquesTab {
         
         // Small delay to ensure container has dimensions
         setTimeout(() => {
-            this.renderer = new MindmapRenderer('ml-mindmap-container');
-            this.renderer.init();
-            
-            // Initialize search
-            this.search = new MindmapSearch(this.renderer);
-            this.search.init();
-        }, 100);
+            try {
+                this.renderer = new MindmapRenderer('ml-mindmap-container');
+                this.renderer.init();
+                
+                // Initialize search
+                this.search = new MindmapSearch(this.renderer);
+                this.search.init();
+            } catch (error) {
+                console.error('Error initializing mindmap:', error);
+            }
+        }, 200);
     }
 
     /**
@@ -58,8 +64,12 @@ export class TechniquesTab {
         
         if (beginnerBtn) {
             const handler = () => {
+                if (!this.renderer) {
+                    console.warn('Renderer not ready yet');
+                    return;
+                }
                 beginnerBtn.classList.add('active');
-                advancedBtn.classList.remove('active');
+                advancedBtn?.classList.remove('active');
                 this.renderer.switchMode('beginner');
             };
             beginnerBtn.addEventListener('click', handler);
@@ -68,8 +78,12 @@ export class TechniquesTab {
         
         if (advancedBtn) {
             const handler = () => {
+                if (!this.renderer) {
+                    console.warn('Renderer not ready yet');
+                    return;
+                }
                 advancedBtn.classList.add('active');
-                beginnerBtn.classList.remove('active');
+                beginnerBtn?.classList.remove('active');
                 this.renderer.switchMode('advanced');
             };
             advancedBtn.addEventListener('click', handler);
@@ -82,6 +96,10 @@ export class TechniquesTab {
         
         if (expandAllBtn) {
             const handler = () => {
+                if (!this.renderer) {
+                    console.warn('Renderer not ready yet');
+                    return;
+                }
                 this.renderer.expandAll();
                 this.renderer.update();
             };
@@ -91,6 +109,10 @@ export class TechniquesTab {
         
         if (collapseAllBtn) {
             const handler = () => {
+                if (!this.renderer) {
+                    console.warn('Renderer not ready yet');
+                    return;
+                }
                 this.renderer.collapseAll();
                 this.renderer.update();
             };
